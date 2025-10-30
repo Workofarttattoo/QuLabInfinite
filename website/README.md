@@ -197,7 +197,7 @@ Regular updates:
 ## Support
 
 For website-related issues:
-- Email: joshua@corporationoflight.com
+- Email: inventor@aios.is
 - GitHub: https://github.com/Workofarttattoo/QuLabInfinite
 
 ---
