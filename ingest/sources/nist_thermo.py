@@ -24,8 +24,12 @@ def load_live(substance_cas_id: str = "7732-18-5", substance_name: str = "H2O") 
     response.raise_for_status()
     soup = BeautifulSoup(response.text, 'html.parser')
     
-    # Find the h2 tag with the specified text
+    # --- Parse Gas phase thermochemistry data ---
     h2_tag = soup.find('h2', text='Gas phase thermochemistry data')
+    if not h2_tag:
+        # Fallback for slightly different heading text
+        h2_tag = soup.find('h2', id='Thermo-Gas')
+    
     if not h2_tag:
         raise ValueError("Could not find the 'Gas phase thermochemistry data' section.")
 
@@ -76,3 +80,28 @@ def load_live(substance_cas_id: str = "7732-18-5", substance_name: str = "H2O") 
 
         except (ValueError, IndexError):
             continue
+
+    # --- Parse Shomate Equation Coefficients ---
+    h3_tag = soup.find('h3', text='Gas Phase Heat Capacity (Shomate Equation)')
+    if h3_tag:
+        shomate_table = h3_tag.find_next_sibling('table')
+        if shomate_table:
+            shomate_coeffs = {}
+            rows = shomate_table.find_all('tr')
+            if len(rows) > 1:
+                # header contains temperature ranges
+                temp_ranges = [th.text.strip() for th in rows[0].find_all('td')]
+                
+                for i, temp_range in enumerate(temp_ranges):
+                    shomate_coeffs[temp_range] = {}
+                    for row in rows[1:]:
+                        cols = row.find_all(['th', 'td'])
+                        if len(cols) > i + 1:
+                            coeff_name = cols[0].text.strip()
+                            try:
+                                coeff_value = float(cols[i+1].text.strip())
+                                shomate_coeffs[temp_range][coeff_name] = coeff_value
+                            except (ValueError, IndexError):
+                                continue
+            if shomate_coeffs:
+                prov.extra['shomate_coeffs'] = shomate_coeffs

@@ -1,23 +1,36 @@
 from __future__ import annotations
 from .schemas import RecordChem, Provenance
-from typing import Iterable, Dict, Any, Callable, Type
+from typing import Iterable, Dict, Any, Callable, Type, List
 import pathlib, json, csv, hashlib
 from pydantic import ValidationError, BaseModel
+
+class PydanticValidator:
+    """A processor that validates records against a Pydantic schema."""
+    def __init__(self, schema: Type[BaseModel]):
+        self.schema = schema
+
+    def __call__(self, record: Dict) -> Dict | None:
+        try:
+            # Pydantic models are dictionaries, so we can validate them directly
+            if isinstance(record, BaseModel):
+                return self.schema.model_validate(record.model_dump())
+            return self.schema.model_validate(record)
+        except ValidationError as e:
+            print(f"Validation error for record: {e}")
+            return None
 
 class IngestionPipeline:
     """
     A pipeline for ingesting and processing data records.
     """
-    def __init__(self, schema: Type[BaseModel], validator: Callable = None, transformer: Callable = None):
-        self.schema = schema
-        self.validator = validator or self.default_validator
-        self.transformer = transformer or self.default_transformer
+    def __init__(self, processors: List[Callable]):
+        self.processors = processors
 
     def run(self, records: Iterable[Dict], out_path: str) -> str:
         """
         Run the ingestion pipeline.
         """
-        processed_records = (self.transformer(rec) for rec in records if self.validator(rec))
+        processed_records = self.process_records(records)
         
         if out_path.endswith(".jsonl"):
             return write_ndjson(processed_records, out_path)
@@ -26,24 +39,17 @@ class IngestionPipeline:
         else:
             raise ValueError(f"Unsupported output format: {out_path}")
 
-    def default_validator(self, record: Dict) -> bool:
-        """
-        Default validator: checks if a record conforms to the RecordChem schema.
-        """
-        try:
-            self.schema.model_validate(record)
-            return True
-        except ValidationError as e:
-            print(f"Validation error for record {record.get('experiment_id', '')}: {e}")
-            return False
-
-    @staticmethod
-    def default_transformer(record: BaseModel) -> BaseModel:
-        """
-        Default transformer: returns the record unchanged.
-        """
-        # In a real pipeline, this could perform unit conversions, data cleaning, etc.
-        return record
+    def process_records(self, records: Iterable[Dict]) -> Iterable[BaseModel]:
+        """Process records through all processors."""
+        for record in records:
+            processed_record = record
+            for processor in self.processors:
+                if processed_record is None:
+                    break
+                processed_record = processor(processed_record)
+            
+            if processed_record is not None:
+                yield processed_record
 
 def write_ndjson(records: Iterable[BaseModel], out_path: str) -> str:
     p = pathlib.Path(out_path)

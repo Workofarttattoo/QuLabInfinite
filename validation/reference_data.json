@@ -86,5 +86,21 @@
         "units": "degrees",
         "conditions": {"method": "experimental"},
         "metadata": {"molecule": "H2O", "property": "bond_angle"}
+    },
+    "silicon_band_gap": {
+        "source": "Sze 2007",
+        "value": 1.12,
+        "uncertainty": 0.01,
+        "units": "eV",
+        "conditions": {"temperature": 300},
+        "metadata": {"material": "Silicon (mp-149)", "property": "band_gap"}
+    },
+    "h2o_enthalpy_of_formation": {
+        "source": "NIST Chemistry WebBook",
+        "value": -241826.0,
+        "uncertainty": 40.0,
+        "units": "J/mol",
+        "conditions": {"temperature": 298.15, "phase": "gas"},
+        "metadata": {"molecule": "H2O", "property": "enthalpy_of_formation"}
     }
 }

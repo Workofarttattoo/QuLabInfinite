@@ -1,12 +1,13 @@
 from __future__ import annotations
 from typing import Iterable
 from ..schemas import RecordChem, Provenance
-from astroquery.hitran import Hitran
-from astropy import units as u
+import hapi as hapi
+# from astroquery.hitran import Hitran
+# from astropy import units as u
 
 def load_live(molecule_name: str, min_wavenumber: float, max_wavenumber: float) -> Iterable[RecordChem]:
     """
-    Load spectroscopic data for a molecule from the HITRAN database using astroquery.
+    Load spectroscopic data for a molecule from the HITRAN database using the HAPI library.
     """
     prov = Provenance(
         source="HITRAN",
@@ -23,32 +24,38 @@ def load_live(molecule_name: str, min_wavenumber: float, max_wavenumber: float) 
     if not molecule_number:
         raise ValueError(f"Unknown molecule: {molecule_name}")
 
-    table = Hitran.query_lines(
-        molecule_number=molecule_number,
-        isotopologue_number=1,
-        min_frequency=min_wavenumber * u.cm**-1,
-        max_frequency=max_wavenumber * u.cm**-1,
-    )
+    # Define table name for fetching data
+    table_name = f"{molecule_name}_{min_wavenumber}-{max_wavenumber}"
+    
+    # Fetch data from HITRAN
+    hapi.fetch(table_name, molecule_number, 1, min_wavenumber, max_wavenumber)
 
-    if not table:
-        return
+    # Get column data
+    nu = hapi.getColumn(table_name, 'nu') # cm-1
+    sw = hapi.getColumn(table_name, 'sw') # cm-1/(molecule.cm-2)
+    a = hapi.getColumn(table_name, 'a') # s-1
+    gamma_air = hapi.getColumn(table_name, 'gamma_air') # cm-1/atm
+    gamma_self = hapi.getColumn(table_name, 'gamma_self') # cm-1/atm
+    elower = hapi.getColumn(table_name, 'elower') # cm-1
+    n_air = hapi.getColumn(table_name, 'n_air') # dimensionless
+    delta_air = hapi.getColumn(table_name, 'delta_air') # cm-1/atm
 
-    # Convert the astroquery table to RecordChem objects
-    for row in table:
+    # Convert the HAPI table to RecordChem objects
+    for i in range(len(nu)):
         yield RecordChem(
             substance=molecule_name,
             phase="gas",
             pressure_pa=101325.0,  # Standard pressure for HITRAN
             temperature_k=296.0,  # Standard temperature for HITRAN
             tags=[
-                f"spectral_line:{row['nu']}",
-                f"intensity:{row['sw']}",
-                f"einstein_A:{row['a']}",
-                f"gamma_air:{row['gamma_air']}",
-                f"gamma_self:{row['gamma_self']}",
-                f"elower:{row['elower']}",
-                f"n_air:{row['n_air']}",
-                f"delta_air:{row['delta_air']}",
+                f"spectral_line:{nu[i]}",
+                f"intensity:{sw[i]}",
+                f"einstein_A:{a[i]}",
+                f"gamma_air:{gamma_air[i]}",
+                f"gamma_self:{gamma_self[i]}",
+                f"elower:{elower[i]}",
+                f"n_air:{n_air[i]}",
+                f"delta_air:{delta_air[i]}",
             ],
             provenance=prov,
         )
