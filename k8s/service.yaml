@@ -1,0 +1,66 @@
+---
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# QuLab AI Service - Load Balancing
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: qulab-api-service
+  namespace: qulab
+  labels:
+    app: qulab-api
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"  # For AWS
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+spec:
+  type: LoadBalancer
+  selector:
+    app: qulab-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8000
+  sessionAffinity: ClientIP  # Sticky sessions
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800  # 3 hours
+
+---
+# Internal ClusterIP Service (for pod-to-pod communication)
+apiVersion: v1
+kind: Service
+metadata:
+  name: qulab-api-internal
+  namespace: qulab
+  labels:
+    app: qulab-api
+spec:
+  type: ClusterIP
+  selector:
+    app: qulab-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8000
+    targetPort: 8000
+
+---
+# Headless Service (for StatefulSet if needed)
+apiVersion: v1
+kind: Service
+metadata:
+  name: qulab-api-headless
+  namespace: qulab
+  labels:
+    app: qulab-api
+spec:
+  clusterIP: None
+  selector:
+    app: qulab-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8000
+    targetPort: 8000

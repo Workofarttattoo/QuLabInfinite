@@ -42,11 +42,14 @@ import time
 from validation.results_validator import ResultsValidator, ValidationResult
 try:
     from .validation_map import MATERIAL_PROPERTY_REFERENCE_MAP
+    from core.base_lab import BaseLab
 except ImportError:  # pragma: no cover - allow script-style execution
     from validation_map import MATERIAL_PROPERTY_REFERENCE_MAP  # type: ignore
+    # This path might need adjustment depending on execution context
+    from core.base_lab import BaseLab
 
 
-class MaterialsLab:
+class MaterialsLab(BaseLab):
     """
     Main Materials Science Laboratory API
 
@@ -57,12 +60,12 @@ class MaterialsLab:
     - Property prediction with ML
     """
 
-    def __init__(self):
+    def __init__(self, config: Dict[str, Any] = None):
         """Initialize Materials Lab"""
-        print("[info] Initializing Materials Laboratory...")
+        super().__init__(config)
         start = time.time()
 
-        self.db = MaterialsDatabase()
+        self.db = MaterialsDatabase(index_on_load=self.config.get("index_on_load", True))
         self.predictor = MaterialPropertyPredictor(self.db)
         self.profile_generator = MaterialProfileGenerator(self.db)
         self.calibration_manager = CalibrationManager()
@@ -72,6 +75,63 @@ class MaterialsLab:
         print(f"[info] Materials Lab ready in {(end-start)*1000:.1f} ms")
         print(f"[info] Database: {self.db.get_count()} materials")
 
+    def run_experiment(self, experiment_spec: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Run a materials science experiment.
+
+        Args:
+            experiment_spec: Dictionary specifying the experiment.
+                Required keys:
+                - 'experiment_type': str (e.g., 'tensile', 'compression', 'hardness')
+                - 'material_name': str
+                Other keys are passed as kwargs to the respective test method.
+
+        Returns:
+            A dictionary containing the experiment results.
+        """
+        exp_type = experiment_spec.get("experiment_type")
+        material_name = experiment_spec.get("material_name")
+
+        if not exp_type or not material_name:
+            raise ValueError("'experiment_type' and 'material_name' are required in the experiment spec.")
+
+        # Map experiment type to method
+        experiment_map = {
+            "tensile": self.tensile_test,
+            "compression": self.compression_test,
+            "fatigue": self.fatigue_test,
+            "impact": self.impact_test,
+            "hardness": self.hardness_test,
+            "thermal": self.thermal_test,
+            "corrosion": self.corrosion_test,
+            "environmental": self.environmental_test,
+            "ice_growth": self.simulate_ice_growth,
+        }
+
+        experiment_method = experiment_map.get(exp_type)
+        if not experiment_method:
+            raise ValueError(f"Unknown experiment type: {exp_type}")
+
+        # Prepare arguments
+        kwargs = experiment_spec.copy()
+        kwargs.pop("experiment_type")
+        kwargs.pop("material_name")
+        
+        # Some methods have different signatures
+        if exp_type == "ice_growth":
+             # simulate_ice_growth(self, material_name: str, temperature_k: float, relative_humidity: float, duration_hours: float = 1.0)
+            result = experiment_method(material_name, **kwargs)
+            return {"status": "completed", "data": result}
+        else:
+            result = experiment_method(material_name, **kwargs)
+            return result.to_dict()
+
+    def get_status(self) -> Dict[str, Any]:
+        """
+        Get the current status of the Materials Lab.
+        For MaterialsLab, this returns the database statistics.
+        """
+        return self.get_statistics()
     # ===== VALIDATION =====
 
     def validate_material_properties(

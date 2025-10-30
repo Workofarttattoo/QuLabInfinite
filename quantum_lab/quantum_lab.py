@@ -10,9 +10,19 @@ Wraps and extends existing quantum simulators with unified API
 import numpy as np
 import sys
 import os
-from typing import Dict, List, Tuple, Optional, Union, Callable
+from typing import Dict, List, Tuple, Optional, Union, Callable, Any
 from dataclasses import dataclass
 from enum import Enum
+
+try:
+    from core.base_lab import BaseLab
+except ImportError:
+    # This is a fallback for script execution
+    import sys
+    import os
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+    from core.base_lab import BaseLab
+
 
 # Import existing quantum simulators
 sys.path.append('/Users/noone/repos/consciousness/ech0_modules')
@@ -45,7 +55,7 @@ class SimulationConfig:
     noise_model: Optional[Dict] = None
 
 
-class QuantumLabSimulator:
+class QuantumLabSimulator(BaseLab):
     """
     Unified quantum laboratory simulator.
 
@@ -86,21 +96,26 @@ class QuantumLabSimulator:
     def __init__(
         self,
         num_qubits: int = 5,
-        backend: SimulationBackend = SimulationBackend.STATEVECTOR_EXACT,
+        backend: Union[str, SimulationBackend] = SimulationBackend.STATEVECTOR_EXACT,
         optimize_for_m4: bool = True,
-        verbose: bool = True
+        verbose: bool = True,
+        config: Dict[str, Any] = None
     ):
         """
         Initialize quantum laboratory.
 
         Args:
             num_qubits: Number of qubits (1-30 exact, 30-50 approximate)
-            backend: Simulation backend to use
+            backend: Simulation backend to use (string or enum)
             optimize_for_m4: Use M4 Mac optimizations
             verbose: Print initialization info
         """
+        super().__init__(config)
         self.num_qubits = num_qubits
-        self.backend = backend
+        if isinstance(backend, str):
+            self.backend = SimulationBackend(backend)
+        else:
+            self.backend = backend
         self.optimize_for_m4 = optimize_for_m4
         self.verbose = verbose
 
@@ -115,6 +130,68 @@ class QuantumLabSimulator:
 
         if verbose:
             self._print_initialization_summary()
+
+    def run_experiment(self, experiment_spec: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Run a quantum experiment.
+
+        Example spec:
+        {
+            "experiment_type": "bell_pair",
+        }
+        {
+            "experiment_type": "ghz_state",
+            "num_qubits": 4
+        }
+        {
+            "experiment_type": "custom_circuit",
+            "operations": [
+                {"gate": "h", "qubit": 0},
+                {"gate": "cnot", "control": 0, "target": 1}
+            ]
+        }
+        """
+        exp_type = experiment_spec.get("experiment_type")
+        if not exp_type:
+            raise ValueError("'experiment_type' is required.")
+
+        if exp_type == "bell_pair":
+            self.reset()
+            self.h(0).cnot(0, 1)
+            return {"status": "completed", "probabilities": self.get_probabilities()}
+
+        elif exp_type == "ghz_state":
+            num_qubits = experiment_spec.get("num_qubits", self.num_qubits)
+            if num_qubits != self.num_qubits:
+                # Re-initialize if necessary, though not ideal
+                self.__init__(num_qubits=num_qubits, backend=self.backend, optimize_for_m4=self.optimize_for_m4)
+            self.reset()
+            self.h(0)
+            for i in range(num_qubits - 1):
+                self.cnot(i, i + 1)
+            return {"status": "completed", "probabilities": self.get_probabilities()}
+
+        elif exp_type == "custom_circuit":
+            self.reset()
+            operations = experiment_spec.get("operations", [])
+            for op in operations:
+                gate = op.get("gate")
+                if gate == "h":
+                    self.h(op["qubit"])
+                elif gate == "x":
+                    self.x(op["qubit"])
+                elif gate == "cnot":
+                    self.cnot(op["control"], op["target"])
+                # ... add other gates as needed
+            return {"status": "completed", "probabilities": self.get_probabilities()}
+        else:
+            raise ValueError(f"Unknown experiment type: {exp_type}")
+
+    def get_status(self) -> Dict[str, Any]:
+        """Get information about current backend and state."""
+        status = self.get_backend_info()
+        status["probabilities"] = self.get_probabilities()
+        return status
 
     def _initialize_backend(self):
         """Initialize simulation backend"""
@@ -360,19 +437,76 @@ class QuantumLabSimulator:
         new_tensor = np.einsum('ij,jkl->ikl', gate, tensor)
         self.mps_tensors[qubit] = new_tensor
 
-    def _apply_mps_two_qubit_gate(self, gate_name: str, control: int, target: int):
-        """Apply two-qubit gate to MPS (simplified)"""
-        # For MPS, two-qubit gates require SVD decomposition
-        # Simplified implementation: apply as sequence of single-qubit gates
-        # (Full implementation would contract tensors, apply gate, SVD decompose)
+    def _apply_mps_two_qubit_gate(self, gate_name: str, q1: int, q2: int):
+        """
+        Apply a two-qubit gate to adjacent qubits in an MPS.
+        This implementation uses tensor contraction followed by SVD.
+        """
+        # Ensure qubits are adjacent for simplicity
+        if abs(q1 - q2) != 1:
+            raise NotImplementedError("Two-qubit gates are only supported for adjacent qubits in this MPS implementation.")
+        
+        # Ensure q1 is the lower index
+        if q1 > q2:
+            q1, q2 = q2, q1
 
+        # Get the gate matrix
         if gate_name == 'CNOT':
-            # Approximate CNOT with equivalent circuit
-            # This is simplified; full MPS CNOT requires tensor contraction
-            print(f"[WARN] MPS two-qubit gates use approximation")
+            gate = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]], dtype=np.complex128).reshape(2, 2, 2, 2)
         elif gate_name == 'CZ':
-            # Similar approximation
-            pass
+            gate = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, -1]], dtype=np.complex128).reshape(2, 2, 2, 2)
+        else:
+            raise ValueError(f"Unknown two-qubit gate: {gate_name}")
+
+        # 1. Contract the two tensors
+        tensor1 = self.mps_tensors[q1]
+        tensor2 = self.mps_tensors[q2]
+        # Shapes: (phys1, left1, right1), (phys2, left2, right2)
+        # Contract right bond of tensor1 with left bond of tensor2
+        combined_tensor = np.einsum('pli,qij->pqlj', tensor1, tensor2)
+        # New shape: (phys1, phys2, left1, right2)
+
+        # 2. Apply the gate
+        # Gate shape: (out1, out2, in1, in2)
+        # Combined tensor shape: (in1, in2, left1, right2)
+        # np.einsum notation for clarity:
+        # ijkl: gate indices, klmn: combined_tensor indices
+        # We contract gate indices kl with tensor indices kl (phys1, phys2)
+        # Resulting tensor has shape (i, j, m, n) -> (out1, out2, left1, right2)
+        result_tensor = np.einsum('ijkl,klmn->ijmn', gate, combined_tensor)
+
+        # 3. Reshape for SVD
+        # Combine (out1, left1) and (out2, right2) to form a matrix
+        # Shape: (out1*left1, out2*right2)
+        left_dim = result_tensor.shape[0] * result_tensor.shape[2]
+        right_dim = result_tensor.shape[1] * result_tensor.shape[3]
+        reshaped_tensor = result_tensor.transpose(0, 2, 1, 3).reshape(left_dim, right_dim)
+
+        # 4. SVD and truncate
+        U, S, Vh = np.linalg.svd(reshaped_tensor, full_matrices=False)
+        
+        # Truncate to the original bond dimension
+        new_bond_dim = min(len(S), self.bond_dimension)
+        
+        U = U[:, :new_bond_dim]
+        S = np.diag(S[:new_bond_dim])
+        Vh = Vh[:new_bond_dim, :]
+
+        # 5. Reshape back into two tensors
+        # New tensor for q1
+        new_tensor1 = U.reshape(tensor1.shape[0], tensor1.shape[1], new_bond_dim)
+        
+        # New tensor for q2 (needs to absorb S and Vh)
+        # First, combine S and Vh
+        svh = S @ Vh
+        # Reshape into tensor form
+        new_tensor2 = svh.reshape(new_bond_dim, tensor2.shape[0], tensor2.shape[2])
+        # Transpose to match our (phys, left, right) convention
+        new_tensor2 = new_tensor2.transpose(1, 0, 2)
+
+        # Update the MPS chain
+        self.mps_tensors[q1] = new_tensor1
+        self.mps_tensors[q2] = new_tensor2
 
     def _apply_statevector_gate(self, gate: np.ndarray, qubit: int):
         """Apply a single-qubit gate directly to the fallback statevector."""
@@ -469,8 +603,33 @@ class QuantumLabSimulator:
                     probs[bitstring] = prob
             return probs
         else:
-            # MPS: approximate
-            return {"000": 1.0}  # Placeholder
+            # MPS: approximate for the first few qubits to verify entanglement
+            # Contract first two tensors to check Bell state
+            if self.num_qubits >= 2:
+                t0 = self.mps_tensors[0]
+                t1 = self.mps_tensors[1]
+                # Contract the shared bond dimension
+                combined = np.einsum('pli,qij->pqlj', t0, t1) # p,q = physical; l,j = outer bonds
+                # Trace out the outer bond dimensions to get the reduced density matrix for first 2 qubits
+                density_matrix = np.einsum('pqlj,rslj->pqrs', combined, combined.conj())
+                
+                probs = {}
+                for i in range(2):
+                    for j in range(2):
+                        prob = np.abs(density_matrix[i,j,i,j])
+                        if prob > 1e-9:
+                           # This only gives diagonal elements, which is what we need for probabilities
+                           bitstring = f"{i}{j}"
+                           probs[bitstring] = prob
+                
+                # Normalize because we traced out the rest of the chain
+                total_prob = sum(probs.values())
+                if total_prob > 0:
+                    for k in probs:
+                        probs[k] /= total_prob
+                return probs
+
+            return {"0" * self.num_qubits: 1.0}  # Placeholder for < 2 qubits
 
     # ========== ADVANCED FEATURES ==========
 
@@ -621,11 +780,16 @@ if __name__ == "__main__":
     print("\n\n2️⃣  TENSOR NETWORK SIMULATION (35 qubits)")
     lab35 = QuantumLabSimulator(
         num_qubits=35,
-        backend=SimulationBackend.TENSOR_NETWORK
+        backend=SimulationBackend.TENSOR_NETWORK,
+        verbose=False
     )
     lab35.h(0).cnot(0, 1)
     print(f"   ✅ 35-qubit circuit operational with MPS")
     print(f"   Memory usage: ~{lab35._estimate_mps_memory():.2f} GB")
+    # Verify entanglement
+    probs = lab35.get_probabilities()
+    print(f"   Probabilities after CNOT(0,1): {probs}")
+
 
     # Demo 3: Bell state
     print("\n\n3️⃣  BELL STATE GENERATION")

@@ -1,0 +1,12 @@
+chemistry_lab:
+  default_force_field: AMBER
+  default_qm_method: DFT
+  enable_md: true
+  enable_reactions: true
+materials_lab:
+  default_test_strain: 0.15
+  index_on_load: true
+quantum_lab:
+  default_backend: statevector
+  default_qubits: 5
+  optimize_for_m4: true

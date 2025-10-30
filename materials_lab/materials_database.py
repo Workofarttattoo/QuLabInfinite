@@ -25,10 +25,14 @@ class MaterialProperties:
     name: str
     category: str  # metal, ceramic, polymer, composite, nanomaterial
     subcategory: str
+    phase: Optional[str] = None
     cas_number: Optional[str] = None
+    structure: Optional[Dict[str, Any]] = None
 
     # Mechanical Properties
     density: float = 0.0  # kg/m³
+    density_g_cm3: float = 0.0 # g/cm³
+    density_kg_m3: float = 0.0 # kg/m³
     youngs_modulus: float = 0.0  # GPa
     shear_modulus: float = 0.0  # GPa
     bulk_modulus: float = 0.0  # GPa
@@ -43,6 +47,8 @@ class MaterialProperties:
     elongation_at_break: float = 0.0  # %
     fatigue_limit: float = 0.0  # MPa
     viscosity: float = 0.0  # cP or Pa·s
+    volume_a3_per_atom: float = 0.0 # Å³/atom
+    volume_m3_per_atom: float = 0.0 # m³/atom
 
     # Thermal Properties
     melting_point: float = 0.0  # K
@@ -68,6 +74,8 @@ class MaterialProperties:
     dielectric_constant: float = 1.0  # dimensionless
     dielectric_strength: float = 0.0  # kV/mm
     bandgap: float = 0.0  # eV
+    band_gap_ev: float = 0.0 # eV
+    band_gap_j: float = 0.0 # J
 
     # Magnetic Properties
     saturation_magnetization_tesla: float = 0.0  # T (saturation magnetization)
@@ -106,6 +114,10 @@ class MaterialProperties:
     chemical_stability: str = "stable"  # stable, reactive, highly_reactive
     ph_stability_range: tuple = (0, 14)  # (min_pH, max_pH)
     water_absorption: float = 0.0  # %
+    enthalpy_of_formation_j_per_mol: float = 0.0  # J/mol
+    standard_entropy_j_per_mol_k: float = 0.0 # J/(mol·K)
+    formation_energy_per_atom_ev: float = 0.0 # eV
+    formation_energy_per_atom_j: float = 0.0 # J
 
     # Biomaterial Properties
     degradation_time_months: float = 0.0  # months (biodegradation time)
@@ -120,6 +132,8 @@ class MaterialProperties:
     data_source: str = "experimental"
     confidence: float = 1.0  # 0-1 scale
     references: Optional[List[Dict[str, Any]]] = None
+    tags: Optional[List[str]] = None
+    provenance: Optional[Dict[str, Any]] = None
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary"""
@@ -134,7 +148,7 @@ class MaterialProperties:
 class MaterialsDatabase:
     """Fast materials database with 1000+ materials"""
 
-    def __init__(self, db_path: Optional[str] = None):
+    def __init__(self, db_path: Optional[str] = None, index_on_load: bool = True):
         base_dir = os.path.dirname(__file__)
         self.db_path = db_path or os.path.join(base_dir, "data", "materials_db.json")
         self.supplement_path = os.path.join(base_dir, "data", "materials_supplement.json")
@@ -146,6 +160,7 @@ class MaterialsDatabase:
             os.path.join(base_dir, "data", "lab_expansion_part1.json"),
             os.path.join(base_dir, "data", "materials_expansion_supplement.json"),
             os.path.join(base_dir, "data", "comprehensive_materials.json"),
+            os.path.join(base_dir, "data", "materials_project_expansion.json"),
         ]
         self.biomaterials_path = os.path.join(base_dir, "data", "biomaterials_expansion.json")
         self.magnetic_materials_path = os.path.join(base_dir, "data", "magnetic_materials_expansion.json")
@@ -158,6 +173,9 @@ class MaterialsDatabase:
         self.ceramics_path = os.path.join(base_dir, "data", "ceramics_refractories_expansion.json")
         self.safety_path = os.path.join(base_dir, "data", "safety_data.json")
         self.materials: Dict[str, MaterialProperties] = {}
+        self._indices: Dict[str, Dict[str, List[str]]] = {}
+        self._sorted_keys: Dict[str, List[str]] = {}
+        
         self._load_or_create()
         self._load_supplemental()
         self._load_lab_expansion()
@@ -171,6 +189,35 @@ class MaterialsDatabase:
         self._load_2d_materials()
         self._load_ceramics()
         self.safety_manager = self._load_safety_data()
+        
+        if index_on_load:
+            self._build_indices()
+
+    def _build_indices(self):
+        """Build indices for faster searching."""
+        print("[info] Building database indices...")
+        
+        # Categorical indices
+        categorical_properties = ["category", "subcategory", "availability", "corrosion_resistance"]
+        for prop in categorical_properties:
+            self._indices[prop] = {}
+            for name, material in self.materials.items():
+                value = getattr(material, prop)
+                if value:
+                    value_key = str(value).lower()
+                    if value_key not in self._indices[prop]:
+                        self._indices[prop][value_key] = []
+                    self._indices[prop][value_key].append(name)
+
+        # Sorted keys for numerical properties
+        numerical_properties = ["density", "tensile_strength", "thermal_conductivity", "cost_per_kg", "youngs_modulus"]
+        for prop in numerical_properties:
+            # Sort materials by the property, handling missing values
+            self._sorted_keys[prop] = sorted(
+                self.materials.keys(),
+                key=lambda name: getattr(self.materials[name], prop, 0)
+            )
+        print("[info] Database indices built.")
 
     def _load_or_create(self):
         """Load database or create with default materials"""
@@ -1664,40 +1711,38 @@ class MaterialsDatabase:
 
         text_lower = text.lower() if text else None
 
-        for props in self.materials.values():
-            # Check category
-            if category and props.category.lower() != category.lower():
-                continue
+        # Start with a full set of material names
+        candidate_names = set(self.materials.keys())
 
-            if subcategory and props.subcategory.lower() != subcategory.lower():
-                continue
+        # --- Use indices to narrow down candidates ---
 
-            # Check density range
+        # Categorical filters
+        if category:
+            candidate_names &= set(self._indices["category"].get(category.lower(), []))
+        if subcategory:
+            candidate_names &= set(self._indices["subcategory"].get(subcategory.lower(), []))
+        if availability:
+            candidate_names &= set(self._indices["availability"].get(availability.lower(), []))
+        if corrosion_resistance:
+            candidate_names &= set(self._indices["corrosion_resistance"].get(corrosion_resistance.lower(), []))
+
+        # --- Iterate over the smaller candidate set ---
+        
+        for name in candidate_names:
+            props = self.materials[name]
+
+            # Numerical filters (can be further optimized with sorted keys, but this is a start)
             if not (min_density <= props.density <= max_density):
                 continue
-
-            # Check strength
             if props.tensile_strength < min_strength or props.tensile_strength > max_strength:
                 continue
-
             if props.yield_strength < min_strength and props.tensile_strength < min_strength:
                 continue
-
-            # Check thermal conductivity
             if not (min_thermal_conductivity <= props.thermal_conductivity <= max_thermal_conductivity):
                 continue
-
             if props.youngs_modulus < min_youngs_modulus:
                 continue
-
-            # Check cost
             if props.cost_per_kg > max_cost:
-                continue
-
-            if availability and props.availability.lower() != availability.lower():
-                continue
-
-            if corrosion_resistance and props.corrosion_resistance.lower() != corrosion_resistance.lower():
                 continue
 
             if property_bounds:

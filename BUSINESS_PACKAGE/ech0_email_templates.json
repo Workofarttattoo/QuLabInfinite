@@ -1,0 +1,199 @@
+{
+  "templates": {
+    "cold_outreach_materials_scientists": {
+      "subject": "Materials database 386x larger than COMSOL?",
+      "body": "Hi {{first_name}},\n\nQuick question: How much do you spend annually on materials databases like COMSOL, ANSYS Granta, or MatWeb?\n\nI ask because I built QuLabInfinite - a materials database with 6.6 MILLION simulation-ready materials. That's 386x larger than COMSOL at 1/20th the cost.\n\nSpecifically:\n✅ 6,609,495 simulation-ready materials\n✅ 6.26M composites (vs COMSOL's ~500)\n✅ 241K alloy variants\n✅ Quantum-enhanced search (12.54x faster)\n✅ Full REST API for integration\n✅ $99-$499/month (vs $10K+/year for COMSOL)\n\nWorth a 5-minute demo to see if it's a fit?\n\nI can show you the exact material count live (no marketing fluff), and search for materials specific to {{industry}}.\n\nAvailable this week?\n\nBest,\nJosh Hendricks Cole\nCorporation of Light\nhttps://qulabinfinite.com\n\nP.S. - Here's a 2-min video of me proving the 6.6M material count: {{youtube_proof_link}}",
+      "tags": ["cold", "materials_science", "initial_contact"],
+      "follow_up_days": 3
+    },
+
+    "cold_outreach_aerospace": {
+      "subject": "Aerospace materials database - 241K alloy variants",
+      "body": "Hi {{first_name}},\n\nWorking on any aerospace projects that need lightweight, high-strength materials?\n\nI built QuLabInfinite specifically for challenges like this:\n\n✅ 241,300 alloy variants (strength-to-weight optimized)\n✅ Temperature variants from 4K to 1473K (re-entry, cryogenic, exhaust)\n✅ 6.26M composite combinations\n✅ Complete aerospace property datasets\n✅ Quantum AI optimization (12.54x faster searches)\n\nFor comparison:\n- COMSOL: 17,131 materials total\n- QuLabInfinite: 6,609,495 materials (386x more)\n\nWant to see a 5-min demo? I'll search for materials matching YOUR specific aerospace requirements live.\n\nAvailable for a quick call this week?\n\nBest,\nJosh Hendricks Cole\nCorporation of Light\n\nP.S. - We have clients at {{aerospace_company_reference}} using this for {{application}}.",
+      "tags": ["cold", "aerospace", "industry_specific"],
+      "follow_up_days": 3
+    },
+
+    "trial_signup_immediate": {
+      "subject": "Your QuLabInfinite Trial - API Keys Inside 🚀",
+      "body": "Hi {{first_name}},\n\n{{#if_demo_call}}Great talking with you!{{/if_demo_call}} Here are your trial credentials:\n\n📋 TRIAL DETAILS:\nAPI Endpoint: https://api.qulabinfinite.com/v1\nAPI Key: {{api_key}}\nTrial Tier: {{tier}}\nMaterials Access: {{material_count}}\nTrial Expires: {{expiration_date}}\n\n🚀 QUICK START:\n\n1. Test the API:\ncurl -H \"Authorization: Bearer {{api_key}}\" \\\n  https://api.qulabinfinite.com/v1/materials/search?category=metal\n\n2. Documentation: https://docs.qulabinfinite.com\n\n3. Python example:\n```python\nimport requests\nheaders = {\"Authorization\": \"Bearer {{api_key}}\"}\nresponse = requests.get(\n    \"https://api.qulabinfinite.com/v1/materials/search\",\n    headers=headers,\n    params={\"category\": \"metal\", \"min_strength\": 500}\n)\nprint(response.json())\n```\n\n4. Need help? Reply to this email or call {{phone}}\n\nI'll check in with you in 3 days to see how testing is going.\n\nBest,\nJosh\n\nP.S. - Try the quantum-enhanced search for complex requirements:\nGET /api/v1/materials/quantum-search?requirements=\"lightweight+high-strength+corrosion-resistant\"",
+      "tags": ["trial", "onboarding", "automated"],
+      "follow_up_days": 3
+    },
+
+    "trial_day3_active_user": {
+      "subject": "You're crushing it with QuLabInfinite! 🎉",
+      "body": "Hi {{first_name}},\n\nI see you've made {{request_count}} API requests in 3 days - awesome!\n\nQuick question: Have you found any materials you needed that weren't in {{current_tool}}? That's usually the \"aha moment\" for most teams.\n\nA few advanced features you might not have tried yet:\n\n1. **Quantum Search** (12.54x faster for complex queries):\n   GET /api/v1/materials/quantum-search?requirements=\"{{user_requirements}}\"\n\n2. **Composites** (6.26M combinations):\n   GET /api/v1/materials/composites?matrix={{matrix_type}}&reinforcement={{reinforcement_type}}\n\n3. **Temperature Variants** (4K-1473K):\n   GET /api/v1/materials/search?temperature={{temp}}K\n\nNeed help optimizing your searches? I can hop on a 10-min call to show you some tricks.\n\nBest,\nJosh\n\nP.S. - You have {{days_left}} days left in your trial. Let me know if you want to discuss pricing or need more time.",
+      "tags": ["trial", "follow_up", "engaged_user"],
+      "follow_up_days": 4
+    },
+
+    "trial_day3_low_usage": {
+      "subject": "Need help getting started with QuLabInfinite?",
+      "body": "Hi {{first_name}},\n\nI noticed you haven't used the API much yet ({{request_count}} requests). Common reasons:\n\n1. **Too busy** → Want me to do a live integration demo with your tools?\n2. **Unclear how to use** → Want me to set up a custom search for your use case?\n3. **Evaluating alternatives** → What questions can I answer?\n\nYour trial expires in {{days_left}} days. Let's make sure you get the full value!\n\nHere's what I can do:\n- 15-min integration demo with YOUR tools\n- Custom material search for YOUR specific requirements\n- Extend your trial if you need more time\n\nAvailable for a quick call this week?\n\nBest,\nJosh\n\nP.S. - If QuLabInfinite isn't a fit, no hard feelings. I'd just love to understand why so I can improve.",
+      "tags": ["trial", "follow_up", "low_engagement"],
+      "follow_up_days": 4
+    },
+
+    "trial_day7_midpoint": {
+      "subject": "Halfway through your QuLabInfinite trial",
+      "body": "Hi {{first_name}},\n\nYou're halfway through your 14-day trial!\n\n📊 YOUR USAGE:\n- {{request_count}} API requests\n- {{material_searches}} material searches\n- {{unique_materials}} unique materials accessed\n\n{{#if_high_usage}}\nLooks like you're getting value from the database! Want to schedule a quick call to:\n1. Review what's working\n2. Discuss any challenges\n3. Talk about the best pricing tier for your team\n\nAlso happy to extend your trial if you need more time to evaluate.\n{{/if_high_usage}}\n\n{{#if_low_usage}}\nI notice usage has been light. Can I help with:\n- Integration questions?\n- Custom searches for your use case?\n- API optimization?\n\nLet me know how I can help you get the most out of the trial.\n{{/if_low_usage}}\n\nAvailable this week?\n\nBest,\nJosh\n\nP.S. - Current pricing for your tier ({{tier}}): ${{monthly_price}}/month. Let me know if you want to discuss custom pricing for your team size.",
+      "tags": ["trial", "follow_up", "midpoint"],
+      "follow_up_days": 5
+    },
+
+    "trial_day12_close_active": {
+      "subject": "Last 2 days of trial - Special offer inside 🎁",
+      "body": "Hi {{first_name}},\n\nYour trial expires in 2 days. Based on your usage ({{request_count}} requests), I think the {{recommended_tier}} tier is perfect for your needs.\n\n🎁 SPECIAL OFFER (expires in 48 hours):\n✅ 20% off first 3 months ({{original_price}} → {{discounted_price}}/mo)\n✅ Free on-premise deployment setup ($1,500 value)\n✅ Extended support (30 days)\n✅ Custom integration assistance\n\nThis offer expires with your trial in 48 hours.\n\n💰 PRICING:\n- {{tier}}: ${{price}}/month\n- Annual: ${{annual_price}}/year (save ${{annual_savings}})\n\nReady to continue? I can set you up in 5 minutes:\n1. Choose tier: {{tier_options}}\n2. Monthly or annual billing\n3. Payment info\n4. Done - no service interruption!\n\nWant to hop on a quick call to discuss?\n\nBest,\nJosh\n\nP.S. - If you need more time to evaluate, I can extend your trial. Just let me know.",
+      "tags": ["trial", "close", "active_user"],
+      "follow_up_days": 1
+    },
+
+    "trial_day12_close_inactive": {
+      "subject": "Your trial expires in 2 days",
+      "body": "Hi {{first_name}},\n\nYour QuLabInfinite trial expires in 48 hours.\n\nI noticed you haven't used the API much ({{request_count}} requests). Before your trial ends, I'd love to understand:\n\n1. Was QuLabInfinite not a fit for your needs?\n2. Did you run into technical challenges?\n3. Are you still evaluating alternatives?\n\nIf it's just a matter of needing more time, I'm happy to extend your trial for another 7 days.\n\nIf it's not a fit, I'd appreciate 2 minutes of feedback so I can improve:\n- What were you hoping to find that we didn't have?\n- What would make this more valuable for you?\n- Which alternative are you considering instead?\n\nNo hard feelings either way. Just want to understand!\n\nBest,\nJosh\n\nP.S. - If you DO want to continue, here's that special offer again:\n20% off first 3 months + free deployment setup. Offer expires with your trial in 48 hours.",
+      "tags": ["trial", "close", "inactive_user"],
+      "follow_up_days": 1
+    },
+
+    "trial_expired_no_conversion": {
+      "subject": "Your QuLabInfinite trial has ended",
+      "body": "Hi {{first_name}},\n\nYour QuLabInfinite trial ended today. Your API key has been deactivated.\n\nIf you'd like to continue:\n1. Reply to this email or call {{phone}}\n2. I'll reactivate your account within minutes\n3. Choose your tier: {{tier_options}}\n\nIf QuLabInfinite wasn't a fit, I totally understand. Would you mind sharing why? Your feedback helps me improve:\n- What were you looking for that we didn't have?\n- What would make this more valuable?\n- Which solution did you go with instead?\n\nThanks for trying QuLabInfinite!\n\nBest,\nJosh\n\nP.S. - The offer (20% off + free setup) is still available if you change your mind this week.",
+      "tags": ["trial", "expired", "conversion_attempt"],
+      "follow_up_days": 7
+    },
+
+    "payment_success_onboarding": {
+      "subject": "Welcome to QuLabInfinite! 🎉",
+      "body": "Hi {{first_name}},\n\nExcited to have you on board!\n\n📋 YOUR ACCOUNT:\n- Tier: {{tier}}\n- API Key: {{api_key}} (unlimited rate limit)\n- Materials Access: {{material_count}}\n- Billing: ${{price}}/mo\n- First charge: {{charge_date}}\n- Next billing: {{next_billing_date}}\n\n✅ WHAT'S NEXT:\n1. Your trial API key is now upgraded to production\n2. No service interruption\n3. Invoice sent separately to {{billing_email}}\n4. I'll check in monthly to make sure everything's working great\n\n📚 RESOURCES:\n- API Docs: https://docs.qulabinfinite.com\n- Status Page: https://status.qulabinfinite.com\n- Changelog: https://changelog.qulabinfinite.com\n\n🆘 NEED HELP?\n- Email: support@qulabinfinite.com (24hr response)\n- Phone: {{phone}}\n- Your dedicated account manager: josh@corporationoflight.com (me!)\n\nThanks for trusting QuLabInfinite with your materials research!\n\nBest,\nJosh\n\nP.S. - Referral program: Send 3 customers, get 1 month free. Just have them mention your name when signing up.",
+      "tags": ["onboarding", "payment", "new_customer"],
+      "follow_up_days": 30
+    },
+
+    "monthly_checkin": {
+      "subject": "How's QuLabInfinite working for you?",
+      "body": "Hi {{first_name}},\n\nJust checking in! You've been with QuLabInfinite for {{months}} month{{#if_plural}}s{{/if_plural}} now.\n\n📊 YOUR USAGE (last 30 days):\n- {{request_count}} API requests\n- {{material_searches}} material searches\n- {{unique_materials}} unique materials accessed\n- Avg response time: {{avg_response_time}}ms\n\n{{#if_high_usage}}\nYou're using QuLabInfinite heavily! A few things:\n\n1. **Consider upgrading?** You might benefit from {{next_tier}} tier:\n   - Access to {{next_tier_materials}} materials (vs your current {{current_materials}})\n   - {{next_tier_feature_1}}\n   - {{next_tier_feature_2}}\n\n2. **New features** you might like:\n   - {{new_feature_1}}\n   - {{new_feature_2}}\n{{/if_high_usage}}\n\n{{#if_low_usage}}\nI notice usage has been light this month. Everything okay?\n- Technical issues?\n- Project delays?\n- Need help with integration?\n\nI'm here if you need anything!\n{{/if_low_usage}}\n\nQuick question: What's ONE thing I could add/improve that would make QuLabInfinite more valuable for you?\n\nBest,\nJosh\n\nP.S. - Your next billing date is {{next_billing_date}}. Reply if you need to make any changes.",
+      "tags": ["retention", "checkin", "existing_customer"],
+      "follow_up_days": 30
+    },
+
+    "upsell_starter_to_pro": {
+      "subject": "You're outgrowing QuLabInfinite Starter 🚀",
+      "body": "Hi {{first_name}},\n\nGreat news - your team is crushing it with QuLabInfinite!\n\nI noticed you've been hitting your Starter tier limits:\n- {{request_count}}/1000 daily API requests ({{percentage}}% of limit)\n- {{materials_accessed}}/100K materials accessed\n{{#if_rate_limited}}\n- {{rate_limit_count}} requests rate-limited this month\n{{/if_rate_limited}}\n\nYou're clearly getting value from the database. Want to unlock more?\n\n⬆️ UPGRADE TO PROFESSIONAL ($299/mo):\n✅ 1 MILLION materials (10x more than Starter)\n✅ Unlimited API requests (no more rate limiting)\n✅ Quantum-enhanced search (12.54x faster)\n✅ 500K composites\n✅ ECH0 AI integration\n✅ Priority support\n\nPlus, since you're an existing customer:\n🎁 First month FREE when you upgrade this week (save $299)\n\nI can upgrade your account in 2 minutes. Want to do it?\n\nJust reply \"UPGRADE\" and I'll take care of it!\n\nBest,\nJosh\n\nP.S. - Your Starter tier is working fine, but I'd hate to see you limited by the caps when you need a material we have in the full database.",
+      "tags": ["upsell", "upgrade", "existing_customer"],
+      "follow_up_days": 7
+    },
+
+    "churn_risk_reengagement": {
+      "subject": "Everything okay with QuLabInfinite?",
+      "body": "Hi {{first_name}},\n\nI noticed your QuLabInfinite usage dropped significantly this month:\n- Previous month: {{prev_request_count}} requests\n- This month: {{current_request_count}} requests ({{percentage_drop}}% decrease)\n\nJust checking in - is everything okay?\n\nCommon reasons for decreased usage:\n1. **Project ended** → Do you still need the database?\n2. **Technical issues** → Can I help troubleshoot?\n3. **Found alternative** → What would make you come back?\n4. **Budget constraints** → Can we adjust pricing?\n\nI want to make sure QuLabInfinite is still valuable for you. If not, I'd rather have an honest conversation than just keep charging you.\n\n15-min call this week to discuss?\n\nBest,\nJosh\n\nP.S. - If you're planning to cancel, let me make you an offer first. I'll beat any competitor's pricing.",
+      "tags": ["retention", "churn_risk", "reengagement"],
+      "follow_up_days": 3
+    },
+
+    "winback_former_customer": {
+      "subject": "We added {{new_feature}} to QuLabInfinite",
+      "body": "Hi {{first_name}},\n\nYou were a QuLabInfinite customer back in {{last_active_month}}. I wanted to reach out because we just added some major features:\n\n✅ {{new_feature_1}}\n✅ {{new_feature_2}}\n✅ {{new_feature_3}}\n\nWe've also:\n- Grown to {{current_material_count}} materials (up from {{previous_count}})\n- Added {{new_customer_count}} customers in {{industry}}\n- Reduced API response time by {{performance_improvement}}%\n- Launched {{new_integration}} integration\n\nWant to take another look? I'll reactivate your account with:\n🎁 First month FREE\n🎁 Full access to new features\n🎁 Personal onboarding call (30 min)\n\nNo strings attached. If it's still not a fit after the month, just cancel.\n\nWorth trying again?\n\nBest,\nJosh\n\nP.S. - I'd also love to hear why you left. Your feedback helped us build these new features!",
+      "tags": ["winback", "former_customer", "reactivation"],
+      "follow_up_days": 7
+    },
+
+    "referral_request": {
+      "subject": "Know anyone who needs 6.6M materials?",
+      "body": "Hi {{first_name}},\n\nYou've been with QuLabInfinite for {{months}} months now - thanks for being a great customer!\n\nQuick question: Do you know any colleagues/friends who might benefit from access to 6.6M materials?\n\n🎁 REFERRAL PROGRAM:\n- Refer 1 customer → Get $100 credit\n- Refer 3 customers → Get 1 month FREE\n- Refer 5 customers → Get 2 months FREE + exclusive swag\n\nJust have them mention your name when signing up, or forward this email!\n\nWho might be interested?\n- Materials scientists at {{their_company}}\n- Engineers at {{industry}} companies\n- Research teams working on {{application}}\n- Anyone frustrated with limited databases like COMSOL/MatWeb\n\nI'll personally thank you (and give you credit) for every referral!\n\nBest,\nJosh\n\nP.S. - Your referral link: https://qulabinfinite.com/ref/{{referral_code}}",
+      "tags": ["referral", "growth", "existing_customer"],
+      "follow_up_days": null
+    }
+  },
+
+  "automation_rules": {
+    "rule_1_trial_signup": {
+      "trigger": "trial_created",
+      "delay_minutes": 0,
+      "template": "trial_signup_immediate",
+      "conditions": null
+    },
+    "rule_2_trial_day3_active": {
+      "trigger": "trial_day_3",
+      "delay_minutes": 0,
+      "template": "trial_day3_active_user",
+      "conditions": {"api_requests_count_min": 10}
+    },
+    "rule_3_trial_day3_inactive": {
+      "trigger": "trial_day_3",
+      "delay_minutes": 0,
+      "template": "trial_day3_low_usage",
+      "conditions": {"api_requests_count_max": 9}
+    },
+    "rule_4_trial_day7": {
+      "trigger": "trial_day_7",
+      "delay_minutes": 0,
+      "template": "trial_day7_midpoint",
+      "conditions": null
+    },
+    "rule_5_trial_day12_active": {
+      "trigger": "trial_day_12",
+      "delay_minutes": 0,
+      "template": "trial_day12_close_active",
+      "conditions": {"api_requests_count_min": 20}
+    },
+    "rule_6_trial_day12_inactive": {
+      "trigger": "trial_day_12",
+      "delay_minutes": 0,
+      "template": "trial_day12_close_inactive",
+      "conditions": {"api_requests_count_max": 19}
+    },
+    "rule_7_trial_expired": {
+      "trigger": "trial_expired_no_payment",
+      "delay_minutes": 60,
+      "template": "trial_expired_no_conversion",
+      "conditions": null
+    },
+    "rule_8_payment_success": {
+      "trigger": "payment_received",
+      "delay_minutes": 5,
+      "template": "payment_success_onboarding",
+      "conditions": null
+    },
+    "rule_9_monthly_checkin": {
+      "trigger": "customer_anniversary_month",
+      "delay_minutes": 0,
+      "template": "monthly_checkin",
+      "conditions": null
+    },
+    "rule_10_upsell_trigger": {
+      "trigger": "api_limit_approached",
+      "delay_minutes": 1440,
+      "template": "upsell_starter_to_pro",
+      "conditions": {"tier": "starter", "usage_percentage_min": 80}
+    },
+    "rule_11_churn_risk": {
+      "trigger": "usage_drop",
+      "delay_minutes": 0,
+      "template": "churn_risk_reengagement",
+      "conditions": {"usage_drop_percentage_min": 70}
+    },
+    "rule_12_referral_request": {
+      "trigger": "customer_happy",
+      "delay_minutes": 0,
+      "template": "referral_request",
+      "conditions": {"months_active_min": 3, "api_requests_count_min": 1000}
+    }
+  },
+
+  "variables": {
+    "company": "Corporation of Light",
+    "product": "QuLabInfinite",
+    "website": "https://qulabinfinite.com",
+    "support_email": "support@qulabinfinite.com",
+    "phone": "+1 (XXX) XXX-XXXX",
+    "founder": "Josh Hendricks Cole",
+    "founder_email": "josh@corporationoflight.com",
+    "material_count": "6,609,495",
+    "competitive_advantage": "386x larger than COMSOL",
+    "youtube_proof_link": "https://youtube.com/watch?v=XXXXX",
+    "docs_url": "https://docs.qulabinfinite.com",
+    "status_url": "https://status.qulabinfinite.com",
+    "api_endpoint": "https://api.qulabinfinite.com/v1"
+  }
+}

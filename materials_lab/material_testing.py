@@ -7,7 +7,7 @@ Material Testing - All standard material tests with real-world accuracy
 
 import numpy as np
 from typing import Dict, List, Optional, Tuple, Any
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from materials_database import MaterialProperties
 
 try:  # pragma: no cover
@@ -26,6 +26,10 @@ class TestResult:
     success: bool
     data: Dict[str, Any]
     notes: str = ""
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert the TestResult to a dictionary."""
+        return asdict(self)
 
 
 class TensileTest:

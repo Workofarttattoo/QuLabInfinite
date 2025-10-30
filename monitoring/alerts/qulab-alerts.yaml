@@ -1,0 +1,237 @@
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# Prometheus Alert Rules for QuLab AI
+
+groups:
+  - name: qulab_api_alerts
+    interval: 30s
+    rules:
+      # High error rate
+      - alert: HighErrorRate
+        expr: |
+          (
+            sum(rate(http_requests_total{job="qulab-api",status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total{job="qulab-api"}[5m]))
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+          component: api
+        annotations:
+          summary: "High error rate detected ({{ $value | humanizePercentage }})"
+          description: "QuLab API error rate is above 5% for the last 5 minutes"
+
+      # High latency (p99)
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(http_request_duration_seconds_bucket{job="qulab-api"}[5m])) by (le)
+          ) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High API latency (p99: {{ $value }}s)"
+          description: "QuLab API p99 latency is above 500ms"
+
+      # API down
+      - alert: APIDown
+        expr: up{job="qulab-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: api
+        annotations:
+          summary: "QuLab API is down"
+          description: "QuLab API has been down for more than 1 minute"
+
+      # Low throughput
+      - alert: LowThroughput
+        expr: |
+          sum(rate(http_requests_total{job="qulab-api"}[5m])) < 10
+        for: 10m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "Low API throughput ({{ $value }} req/s)"
+          description: "QuLab API throughput is below 10 req/s"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: |
+          (
+            container_memory_working_set_bytes{pod=~"qulab-api-.*"}
+            /
+            container_spec_memory_limit_bytes{pod=~"qulab-api-.*"}
+          ) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High memory usage ({{ $value | humanizePercentage }})"
+          description: "Pod {{ $labels.pod }} memory usage is above 85%"
+
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: |
+          (
+            rate(container_cpu_usage_seconds_total{pod=~"qulab-api-.*"}[5m])
+            /
+            container_spec_cpu_quota{pod=~"qulab-api-.*"} * 100000
+          ) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High CPU usage ({{ $value | humanizePercentage }})"
+          description: "Pod {{ $labels.pod }} CPU usage is above 85%"
+
+      # Pod restart loop
+      - alert: PodRestartLoop
+        expr: |
+          rate(kube_pod_container_status_restarts_total{pod=~"qulab-api-.*"}[15m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "Pod restart loop detected"
+          description: "Pod {{ $labels.pod }} is restarting frequently"
+
+      # Disk space low
+      - alert: LowDiskSpace
+        expr: |
+          (
+            node_filesystem_avail_bytes{mountpoint="/"}
+            /
+            node_filesystem_size_bytes{mountpoint="/"}
+          ) < 0.15
+        for: 5m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "Low disk space ({{ $value | humanizePercentage }} remaining)"
+          description: "Node {{ $labels.instance }} has less than 15% disk space remaining"
+
+  - name: qulab_authentication_alerts
+    interval: 30s
+    rules:
+      # High authentication failure rate
+      - alert: HighAuthFailureRate
+        expr: |
+          (
+            sum(rate(http_requests_total{job="qulab-api",endpoint="/auth/token",status="401"}[5m]))
+            /
+            sum(rate(http_requests_total{job="qulab-api",endpoint="/auth/token"}[5m]))
+          ) > 0.30
+        for: 5m
+        labels:
+          severity: warning
+          component: authentication
+        annotations:
+          summary: "High authentication failure rate ({{ $value | humanizePercentage }})"
+          description: "More than 30% of authentication attempts are failing - possible attack?"
+
+      # Rate limit triggered frequently
+      - alert: FrequentRateLimiting
+        expr: |
+          sum(rate(http_requests_total{job="qulab-api",status="429"}[5m])) > 10
+        for: 5m
+        labels:
+          severity: info
+          component: rate_limiting
+        annotations:
+          summary: "Frequent rate limiting ({{ $value }} req/s)"
+          description: "Rate limiting is being triggered frequently"
+
+  - name: qulab_database_alerts
+    interval: 30s
+    rules:
+      # Database connection pool exhausted
+      - alert: DatabaseConnectionPoolExhausted
+        expr: |
+          db_connection_pool_active / db_connection_pool_size > 0.90
+        for: 2m
+        labels:
+          severity: critical
+          component: database
+        annotations:
+          summary: "Database connection pool nearly exhausted"
+          description: "Database connection pool is {{ $value | humanizePercentage }} full"
+
+  - name: qulab_hpa_alerts
+    interval: 30s
+    rules:
+      # HPA at max capacity
+      - alert: HPAMaxCapacity
+        expr: |
+          kube_horizontalpodautoscaler_status_current_replicas{horizontalpodautoscaler="qulab-api-hpa"}
+          >=
+          kube_horizontalpodautoscaler_spec_max_replicas{horizontalpodautoscaler="qulab-api-hpa"}
+        for: 10m
+        labels:
+          severity: warning
+          component: autoscaling
+        annotations:
+          summary: "HPA at maximum capacity"
+          description: "QuLab API HPA has reached maximum replicas - consider increasing limit"
+
+      # HPA unable to scale
+      - alert: HPAUnableToScale
+        expr: |
+          kube_horizontalpodautoscaler_status_condition{condition="ScalingLimited",status="true",horizontalpodautoscaler="qulab-api-hpa"} == 1
+        for: 5m
+        labels:
+          severity: warning
+          component: autoscaling
+        annotations:
+          summary: "HPA unable to scale"
+          description: "HPA is unable to scale QuLab API deployment"
+
+  - name: qulab_certificate_alerts
+    interval: 1h
+    rules:
+      # Certificate expiring soon
+      - alert: CertificateExpiringSoon
+        expr: |
+          certmanager_certificate_expiration_timestamp_seconds{name="qulab-tls-cert"} - time() < 604800
+        for: 1h
+        labels:
+          severity: warning
+          component: tls
+        annotations:
+          summary: "TLS certificate expiring in less than 7 days"
+          description: "Certificate {{ $labels.name }} expires in {{ $value | humanizeDuration }}"
+
+  - name: qulab_backup_alerts
+    interval: 1h
+    rules:
+      # Backup job failed
+      - alert: BackupJobFailed
+        expr: |
+          kube_job_status_failed{job_name=~"qulab-data-backup-.*"} > 0
+        for: 1h
+        labels:
+          severity: warning
+          component: backup
+        annotations:
+          summary: "Backup job failed"
+          description: "Backup job {{ $labels.job_name }} has failed"
+
+      # No recent backup
+      - alert: NoRecentBackup
+        expr: |
+          time() - max(kube_job_status_completion_time{job_name=~"qulab-data-backup-.*"}) > 172800
+        for: 1h
+        labels:
+          severity: warning
+          component: backup
+        annotations:
+          summary: "No successful backup in 48 hours"
+          description: "Last successful backup was {{ $value | humanizeDuration }} ago"

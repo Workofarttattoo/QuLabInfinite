@@ -33,6 +33,16 @@ from .quantum_chemistry_interface import (
     Molecule as QMMolecule, QMResult
 )
 
+try:
+    from core.base_lab import BaseLab
+except ImportError:
+    # This is a fallback for script execution
+    import sys
+    import os
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+    from core.base_lab import BaseLab
+
+
 if TYPE_CHECKING:
     from materials_lab.materials_lab import MaterialsLab
     from environmental_sim.environmental_sim import EnvironmentalSimulator
@@ -56,7 +66,7 @@ class ChemistryLabConfig:
     pressure: float = 1.0  # bar
 
 
-class ChemistryLaboratory:
+class ChemistryLaboratory(BaseLab):
     """
     Unified chemistry laboratory interface.
 
@@ -72,7 +82,15 @@ class ChemistryLaboratory:
     """
 
     def __init__(self, config: Optional[ChemistryLabConfig] = None):
-        self.config = config or ChemistryLabConfig()
+        if isinstance(config, dict):
+            # If a dict is passed, create a config object from it
+            config_obj = ChemistryLabConfig(**config)
+            super().__init__(config)
+            self.config = config_obj
+        else:
+            config_obj = config or ChemistryLabConfig()
+            super().__init__(vars(config_obj))
+            self.config = config_obj
 
         # Initialize sub-systems
         self.md_engine = None
@@ -84,6 +102,59 @@ class ChemistryLaboratory:
 
         print("[ChemLab] Chemistry Laboratory initialized")
         self._print_capabilities()
+
+    def run_experiment(self, experiment_spec: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Run a chemistry experiment.
+        """
+        exp_type = experiment_spec.get("experiment_type")
+        if not exp_type:
+            raise ValueError("'experiment_type' is required.")
+
+        if exp_type == "md_simulation":
+            # Simplified example - a real implementation would deserialize atoms etc.
+            atoms, _, _ = create_water_box(experiment_spec.get("num_atoms", 100), box_size=15.0)
+            self.create_md_simulation(atoms, np.array([15.0, 15.0, 15.0]))
+            trajectory = self.run_md_simulation(n_steps=experiment_spec.get("n_steps", 100))
+            return {"status": "completed", "frames": len(trajectory)}
+        
+        elif exp_type == "reaction_simulation":
+            # This requires complex reactant/product molecule objects
+            # For now, we'll just indicate it's a valid experiment type
+             raise NotImplementedError("Reaction simulation via run_experiment is not fully implemented yet.")
+
+        elif exp_type == "spectroscopy":
+            molecule = experiment_spec.get("molecule")
+            if not molecule:
+                raise ValueError("'molecule' is required for spectroscopy.")
+            spectrum_type = experiment_spec.get("spectrum_type", "nmr_1h")
+            if spectrum_type == "nmr_1h":
+                result = self.predict_nmr(molecule, "1H")
+            elif spectrum_type == "ir":
+                result = self.predict_ir(molecule)
+            else:
+                raise ValueError(f"Unsupported spectrum type: {spectrum_type}")
+            return result.to_dict()
+            
+        else:
+            raise ValueError(f"Unknown experiment type: {exp_type}")
+
+    def get_status(self) -> Dict[str, Any]:
+        """Returns a summary of the lab's configuration and capabilities."""
+        caps = {}
+        if self.config.enable_md: caps["molecular_dynamics"] = True
+        if self.config.enable_reactions: caps["reaction_simulation"] = True
+        if self.config.enable_synthesis: caps["synthesis_planning"] = True
+        if self.config.enable_spectroscopy: caps["spectroscopy_prediction"] = True
+        if self.config.enable_solvation: caps["solvation_models"] = True
+        if self.config.enable_quantum: caps["quantum_chemistry"] = True
+        
+        return {
+            "lab_name": self.__class__.__name__,
+            "capabilities": caps,
+            "default_force_field": self.config.default_force_field.value,
+            "default_qm_method": self.config.default_qm_method.value,
+        }
 
     def _print_capabilities(self):
         """Print available capabilities."""

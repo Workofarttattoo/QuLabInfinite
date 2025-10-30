@@ -1,0 +1,218 @@
+---
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# QuLab AI Production Deployment - Kubernetes Manifest
+# Phase 3: Load Balancing & Orchestration
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qulab-api
+  namespace: qulab
+  labels:
+    app: qulab-api
+    version: v2.0.0
+    component: api
+spec:
+  replicas: 3  # Start with 3 replicas for high availability
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0  # Zero downtime deployments
+  selector:
+    matchLabels:
+      app: qulab-api
+  template:
+    metadata:
+      labels:
+        app: qulab-api
+        version: v2.0.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    spec:
+      # Service account for RBAC
+      serviceAccountName: qulab-api
+
+      # Pod security context
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+
+      # Init containers for migrations/setup
+      initContainers:
+      - name: check-dependencies
+        image: qulab-ai:latest
+        command: ['sh', '-c', 'python -c "import rdkit; import pint; print(\"Dependencies OK\")"']
+
+      containers:
+      - name: qulab-api
+        image: qulab-ai:latest
+        imagePullPolicy: IfNotPresent
+
+        ports:
+        - name: http
+          containerPort: 8000
+          protocol: TCP
+
+        # Environment variables
+        env:
+        - name: QULAB_ENV
+          value: "production"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: WORKERS
+          value: "4"
+
+        # Secrets from ConfigMap/Secret
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: qulab-secrets
+              key: jwt-secret-key
+        - name: API_KEY_SALT
+          valueFrom:
+            secretKeyRef:
+              name: qulab-secrets
+              key: api-key-salt
+
+        # Resource limits
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 2000m
+            memory: 4Gi
+
+        # Liveness probe
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        # Readiness probe
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+
+        # Startup probe (for slower cold starts)
+        startupProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 12  # 60 seconds max startup time
+
+        # Volume mounts
+        volumeMounts:
+        - name: logs
+          mountPath: /app/logs
+        - name: data
+          mountPath: /app/data
+        - name: config
+          mountPath: /app/config
+          readOnly: true
+
+        # Security context
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+            - ALL
+
+      # Volumes
+      volumes:
+      - name: logs
+        emptyDir: {}
+      - name: data
+        persistentVolumeClaim:
+          claimName: qulab-data-pvc
+      - name: config
+        configMap:
+          name: qulab-config
+
+      # Node affinity (prefer nodes with SSD)
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+              - key: disk-type
+                operator: In
+                values:
+                - ssd
+
+        # Pod anti-affinity (spread across nodes)
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: qulab-api
+              topologyKey: kubernetes.io/hostname
+
+      # Tolerations for dedicated nodes
+      tolerations:
+      - key: "workload"
+        operator: "Equal"
+        value: "api"
+        effect: "NoSchedule"
+
+---
+# Service Account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: qulab-api
+  namespace: qulab
+  labels:
+    app: qulab-api
+
+---
+# Role for API access
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: qulab-api-role
+  namespace: qulab
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+
+---
+# Role Binding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: qulab-api-rolebinding
+  namespace: qulab
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: qulab-api-role
+subjects:
+- kind: ServiceAccount
+  name: qulab-api
+  namespace: qulab

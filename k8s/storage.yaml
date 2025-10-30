@@ -1,0 +1,154 @@
+---
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# QuLab AI Storage - Persistent Volumes
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qulab-data-pvc
+  namespace: qulab
+  labels:
+    app: qulab-api
+spec:
+  accessModes:
+  - ReadWriteMany  # Multiple pods can read/write (requires NFS/EFS/etc)
+  storageClassName: fast-ssd  # Use fast storage class
+  resources:
+    requests:
+      storage: 50Gi
+
+---
+# Storage Class for AWS EBS (SSD)
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast-ssd
+  labels:
+    app: qulab-api
+provisioner: ebs.csi.aws.com
+parameters:
+  type: gp3  # General Purpose SSD v3
+  iops: "3000"
+  throughput: "125"
+  encrypted: "true"
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+
+---
+# Storage Class for AWS EFS (shared filesystem)
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-shared
+  labels:
+    app: qulab-api
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: fs-XXXXXXXX  # Replace with actual EFS ID
+  directoryPerms: "700"
+volumeBindingMode: Immediate
+reclaimPolicy: Retain
+
+---
+# PVC for logs (ephemeral, faster storage)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qulab-logs-pvc
+  namespace: qulab
+  labels:
+    app: qulab-api
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: fast-ssd
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+# StatefulSet Example (if stateful storage per pod is needed)
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: qulab-api-stateful
+#   namespace: qulab
+# spec:
+#   serviceName: qulab-api-headless
+#   replicas: 3
+#   selector:
+#     matchLabels:
+#       app: qulab-api
+#   template:
+#     # ... (same as Deployment template)
+#   volumeClaimTemplates:
+#   - metadata:
+#       name: data
+#     spec:
+#       accessModes: ["ReadWriteOnce"]
+#       storageClassName: fast-ssd
+#       resources:
+#         requests:
+#           storage: 10Gi
+
+---
+# Backup CronJob for PVC snapshots
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: qulab-data-backup
+  namespace: qulab
+  labels:
+    app: qulab-api
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: qulab-api
+          containers:
+          - name: backup
+            image: bitnami/kubectl:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              # Create VolumeSnapshot
+              kubectl apply -f - <<EOF
+              apiVersion: snapshot.storage.k8s.io/v1
+              kind: VolumeSnapshot
+              metadata:
+                name: qulab-data-snapshot-$(date +%Y%m%d-%H%M%S)
+                namespace: qulab
+              spec:
+                volumeSnapshotClassName: csi-snapclass
+                source:
+                  persistentVolumeClaimName: qulab-data-pvc
+              EOF
+
+              # Delete old snapshots (keep last 7 days)
+              kubectl get volumesnapshot -n qulab -o json | \
+              jq -r ".items[] | select(.metadata.name | startswith(\"qulab-data-snapshot-\")) | \
+              select(.metadata.creationTimestamp | fromdateiso8601 < (now - 604800)) | \
+              .metadata.name" | \
+              xargs -r kubectl delete volumesnapshot -n qulab
+
+          restartPolicy: OnFailure
+
+---
+# VolumeSnapshotClass (for backups)
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-snapclass
+  labels:
+    app: qulab-api
+driver: ebs.csi.aws.com
+deletionPolicy: Retain
