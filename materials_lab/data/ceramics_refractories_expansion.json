@@ -1,0 +1,583 @@
+{
+  "_metadata": {
+    "description": "Ceramics & Refractories Expansion - 40 materials for high-temp applications, armor, cutting tools",
+    "date": "2025-10-30",
+    "version": "1.0",
+    "categories": ["carbide", "nitride", "oxide_ceramic", "boride", "ultra_high_temp"]
+  },
+
+  "SiC_3C": {
+    "name": "Silicon Carbide 3C (Cubic)",
+    "category": "ceramic",
+    "subcategory": "carbide",
+    "cas_number": "409-21-2",
+    "density": 3210.0,
+    "melting_point": 3103.0,
+    "youngs_modulus": 466.0,
+    "hardness_vickers": 2800.0,
+    "thermal_conductivity": 490.0,
+    "bandgap": 2.36,
+    "notes": "β-SiC, high thermal conductivity, power electronics, LEDs",
+    "cost_per_kg": 85.0,
+    "confidence": 0.97
+  },
+
+  "SiC_6H": {
+    "name": "Silicon Carbide 6H (Hexagonal)",
+    "category": "ceramic",
+    "subcategory": "carbide",
+    "cas_number": "409-21-2",
+    "density": 3210.0,
+    "melting_point": 3103.0,
+    "youngs_modulus": 466.0,
+    "hardness_vickers": 2800.0,
+    "thermal_conductivity": 490.0,
+    "bandgap": 3.03,
+    "notes": "α-SiC polytype, most common, high-temp semiconductors",
+    "cost_per_kg": 65.0,
+    "confidence": 0.98
+  },
+
+  "B4C": {
+    "name": "Boron Carbide",
+    "category": "ceramic",
+    "subcategory": "carbide",
+    "cas_number": "12069-32-8",
+    "density": 2520.0,
+    "melting_point": 2718.0,
+    "youngs_modulus": 450.0,
+    "hardness_vickers": 3500.0,
+    "thermal_conductivity": 30.0,
+    "notes": "Third hardest material, armor, neutron absorber, abrasives",
+    "cost_per_kg": 120.0,
+    "confidence": 0.96
+  },
+
+  "WC_Cemented": {
+    "name": "Tungsten Carbide (Cemented with Co)",
+    "category": "ceramic",
+    "subcategory": "carbide",
+    "cas_number": "12070-12-1",
+    "density": 15630.0,
+    "melting_point": 3143.0,
+    "youngs_modulus": 700.0,
+    "hardness_vickers": 2400.0,
+    "thermal_conductivity": 110.0,
+    "notes": "WC-Co, cutting tools, mining bits, wear parts",
+    "cost_per_kg": 85.0,
+    "confidence": 0.98
+  },
+
+  "TiC": {
+    "name": "Titanium Carbide",
+    "category": "ceramic",
+    "subcategory": "carbide",
+    "cas_number": "12070-08-5",
+    "density": 4930.0,
+    "melting_point": 3433.0,
+    "youngs_modulus": 460.0,
+    "hardness_vickers": 3200.0,
+    "thermal_conductivity": 29.0,
+    "notes": "Golden color, cermets, coatings, wear-resistant",
+    "cost_per_kg": 65.0,
+    "confidence": 0.95
+  },
+
+  "TaC": {
+    "name": "Tantalum Carbide",
+    "category": "ceramic",
+    "subcategory": "ultra_high_temp",
+    "cas_number": "12070-06-3",
+    "density": 14500.0,
+    "melting_point": 4153.0,
+    "youngs_modulus": 560.0,
+    "hardness_vickers": 1800.0,
+    "thermal_conductivity": 22.0,
+    "notes": "Highest melting point elemental carbide, aerospace, nuclear",
+    "cost_per_kg": 850.0,
+    "confidence": 0.94
+  },
+
+  "HfC": {
+    "name": "Hafnium Carbide",
+    "category": "ceramic",
+    "subcategory": "ultra_high_temp",
+    "cas_number": "12069-85-1",
+    "density": 12200.0,
+    "melting_point": 4163.0,
+    "youngs_modulus": 510.0,
+    "hardness_vickers": 2100.0,
+    "thermal_conductivity": 22.0,
+    "notes": "Highest known melting point material, hypersonic vehicles",
+    "cost_per_kg": 2800.0,
+    "confidence": 0.93
+  },
+
+  "ZrC": {
+    "name": "Zirconium Carbide",
+    "category": "ceramic",
+    "subcategory": "ultra_high_temp",
+    "cas_number": "12070-14-3",
+    "density": 6560.0,
+    "melting_point": 3813.0,
+    "youngs_modulus": 440.0,
+    "hardness_vickers": 2600.0,
+    "thermal_conductivity": 21.0,
+    "notes": "UHTC, nuclear fuel cladding, hypersonics",
+    "cost_per_kg": 450.0,
+    "confidence": 0.94
+  },
+
+  "NbC": {
+    "name": "Niobium Carbide",
+    "category": "ceramic",
+    "subcategory": "carbide",
+    "cas_number": "12069-94-2",
+    "density": 7780.0,
+    "melting_point": 3883.0,
+    "youngs_modulus": 580.0,
+    "hardness_vickers": 2400.0,
+    "thermal_conductivity": 14.0,
+    "notes": "High hardness, cutting tool additive, superconducting Tc=12K",
+    "cost_per_kg": 650.0,
+    "confidence": 0.92
+  },
+
+  "Cr3C2": {
+    "name": "Chromium Carbide",
+    "category": "ceramic",
+    "subcategory": "carbide",
+    "cas_number": "12012-35-0",
+    "density": 6680.0,
+    "melting_point": 2168.0,
+    "youngs_modulus": 373.0,
+    "hardness_vickers": 1800.0,
+    "thermal_conductivity": 19.0,
+    "notes": "Corrosion-resistant coatings, thermal spray, cermet binder",
+    "cost_per_kg": 85.0,
+    "confidence": 0.93
+  },
+
+  "Si3N4": {
+    "name": "Silicon Nitride",
+    "category": "ceramic",
+    "subcategory": "nitride",
+    "cas_number": "12033-89-5",
+    "density": 3200.0,
+    "melting_point": 2173.0,
+    "youngs_modulus": 310.0,
+    "hardness_vickers": 1600.0,
+    "thermal_conductivity": 30.0,
+    "notes": "High fracture toughness, bearings, cutting tools, engine parts",
+    "cost_per_kg": 45.0,
+    "confidence": 0.97
+  },
+
+  "AlN_Ceramic": {
+    "name": "Aluminum Nitride (Ceramic)",
+    "category": "ceramic",
+    "subcategory": "nitride",
+    "cas_number": "24304-00-5",
+    "density": 3260.0,
+    "melting_point": 2473.0,
+    "youngs_modulus": 330.0,
+    "hardness_vickers": 1200.0,
+    "thermal_conductivity": 170.0,
+    "bandgap": 6.20,
+    "notes": "High thermal conductivity, electrical insulator, power electronics substrates",
+    "cost_per_kg": 150.0,
+    "confidence": 0.96
+  },
+
+  "TiN_Coating": {
+    "name": "Titanium Nitride (Coating)",
+    "category": "ceramic",
+    "subcategory": "nitride",
+    "cas_number": "25583-20-4",
+    "density": 5220.0,
+    "melting_point": 2930.0,
+    "youngs_modulus": 600.0,
+    "hardness_vickers": 2000.0,
+    "thermal_conductivity": 19.0,
+    "notes": "Golden color, hard coatings, drill bits, decorative",
+    "cost_per_kg": 85.0,
+    "confidence": 0.97
+  },
+
+  "BN_Cubic": {
+    "name": "Cubic Boron Nitride",
+    "category": "ceramic",
+    "subcategory": "nitride",
+    "cas_number": "10043-11-5",
+    "density": 3480.0,
+    "melting_point": 3273.0,
+    "youngs_modulus": 680.0,
+    "hardness_vickers": 4500.0,
+    "thermal_conductivity": 1300.0,
+    "notes": "cBN, second hardest material, machining hardened steel, abrasives",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.95
+  },
+
+  "CrN": {
+    "name": "Chromium Nitride",
+    "category": "ceramic",
+    "subcategory": "nitride",
+    "cas_number": "24094-93-7",
+    "density": 6140.0,
+    "melting_point": 2043.0,
+    "hardness_vickers": 1100.0,
+    "thermal_conductivity": 12.0,
+    "notes": "Corrosion-resistant coatings, molds, wear parts",
+    "cost_per_kg": 120.0,
+    "confidence": 0.92
+  },
+
+  "ZrN": {
+    "name": "Zirconium Nitride",
+    "category": "ceramic",
+    "subcategory": "nitride",
+    "cas_number": "25658-42-8",
+    "density": 7090.0,
+    "melting_point": 3253.0,
+    "hardness_vickers": 1500.0,
+    "thermal_conductivity": 20.5,
+    "notes": "Golden color, diffusion barriers, hard coatings",
+    "cost_per_kg": 250.0,
+    "confidence": 0.90
+  },
+
+  "MgO_Ceramic": {
+    "name": "Magnesium Oxide (Ceramic)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "1309-48-4",
+    "density": 3580.0,
+    "melting_point": 3125.0,
+    "youngs_modulus": 248.0,
+    "thermal_conductivity": 45.0,
+    "dielectric_constant": 9.7,
+    "notes": "Periclase, refractory, crucibles, electrical insulator",
+    "cost_per_kg": 12.0,
+    "confidence": 0.97
+  },
+
+  "ZrO2_YSZ": {
+    "name": "Yttria-Stabilized Zirconia",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "1314-23-4",
+    "density": 6050.0,
+    "melting_point": 2715.0,
+    "youngs_modulus": 210.0,
+    "hardness_vickers": 1200.0,
+    "thermal_conductivity": 2.5,
+    "ionic_conductivity": 0.02,
+    "notes": "YSZ, 8% Y2O3, oxygen sensor, SOFC electrolyte, dental crowns",
+    "cost_per_kg": 85.0,
+    "confidence": 0.97
+  },
+
+  "ZrO2_TZP": {
+    "name": "Tetragonal Zirconia Polycrystal",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "density": 6100.0,
+    "melting_point": 2715.0,
+    "youngs_modulus": 210.0,
+    "hardness_vickers": 1200.0,
+    "fracture_toughness": 10.0,
+    "notes": "3Y-TZP, highest toughness ceramic, medical implants, knives",
+    "cost_per_kg": 120.0,
+    "confidence": 0.96
+  },
+
+  "Al2O3_99": {
+    "name": "Alumina 99% (Ceramic)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "1344-28-1",
+    "density": 3950.0,
+    "melting_point": 2345.0,
+    "youngs_modulus": 380.0,
+    "hardness_vickers": 1600.0,
+    "thermal_conductivity": 30.0,
+    "dielectric_constant": 9.9,
+    "notes": "99% Al2O3, wear parts, electrical insulators, substrates",
+    "cost_per_kg": 15.0,
+    "confidence": 0.98
+  },
+
+  "Mullite": {
+    "name": "Mullite (3Al2O3·2SiO2)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "1302-93-8",
+    "density": 3160.0,
+    "melting_point": 2123.0,
+    "youngs_modulus": 145.0,
+    "thermal_conductivity": 6.0,
+    "thermal_expansion": 0.000005,
+    "notes": "Low thermal expansion, refractories, kiln furniture",
+    "cost_per_kg": 18.0,
+    "confidence": 0.95
+  },
+
+  "Cordierite": {
+    "name": "Cordierite (2MgO·2Al2O3·5SiO2)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "1302-88-1",
+    "density": 2510.0,
+    "melting_point": 1743.0,
+    "youngs_modulus": 145.0,
+    "thermal_conductivity": 2.0,
+    "thermal_expansion": 0.000002,
+    "notes": "Ultra-low thermal expansion, catalytic converter substrates",
+    "cost_per_kg": 25.0,
+    "confidence": 0.96
+  },
+
+  "Spinel_MgAl2O4": {
+    "name": "Magnesium Aluminate Spinel",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "1309-48-4",
+    "density": 3580.0,
+    "melting_point": 2408.0,
+    "youngs_modulus": 277.0,
+    "hardness_vickers": 1400.0,
+    "thermal_conductivity": 15.0,
+    "notes": "MgAl2O4, transparent armor, scratch-resistant windows",
+    "cost_per_kg": 120.0,
+    "confidence": 0.94
+  },
+
+  "Forsterite": {
+    "name": "Forsterite (2MgO·SiO2)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "15118-03-3",
+    "density": 3210.0,
+    "melting_point": 2163.0,
+    "youngs_modulus": 200.0,
+    "dielectric_constant": 6.2,
+    "notes": "Mg2SiO4, low dielectric loss, high-frequency insulators",
+    "cost_per_kg": 35.0,
+    "confidence": 0.93
+  },
+
+  "Steatite": {
+    "name": "Steatite (Magnesium Silicate)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "14807-96-6",
+    "density": 2700.0,
+    "melting_point": 1873.0,
+    "youngs_modulus": 90.0,
+    "thermal_conductivity": 2.5,
+    "dielectric_constant": 6.0,
+    "notes": "Machinable ceramic, electrical insulators, low cost",
+    "cost_per_kg": 12.0,
+    "confidence": 0.95
+  },
+
+  "Sialon": {
+    "name": "Sialon (Si-Al-O-N)",
+    "category": "ceramic",
+    "subcategory": "nitride",
+    "density": 3250.0,
+    "melting_point": 2073.0,
+    "youngs_modulus": 300.0,
+    "hardness_vickers": 1700.0,
+    "thermal_conductivity": 20.0,
+    "notes": "Si3N4-Al2O3 solid solution, cutting tools, high thermal shock resistance",
+    "cost_per_kg": 85.0,
+    "confidence": 0.92
+  },
+
+  "ZrB2": {
+    "name": "Zirconium Diboride",
+    "category": "ceramic",
+    "subcategory": "ultra_high_temp",
+    "cas_number": "12045-64-6",
+    "density": 6090.0,
+    "melting_point": 3518.0,
+    "youngs_modulus": 489.0,
+    "hardness_vickers": 2300.0,
+    "thermal_conductivity": 60.0,
+    "notes": "UHTC, hypersonic leading edges, electrodes",
+    "cost_per_kg": 450.0,
+    "confidence": 0.93
+  },
+
+  "HfB2": {
+    "name": "Hafnium Diboride",
+    "category": "ceramic",
+    "subcategory": "ultra_high_temp",
+    "cas_number": "12007-23-7",
+    "density": 11200.0,
+    "melting_point": 3523.0,
+    "youngs_modulus": 480.0,
+    "hardness_vickers": 2800.0,
+    "thermal_conductivity": 104.0,
+    "notes": "UHTC, highest density boride, hypersonics",
+    "cost_per_kg": 1800.0,
+    "confidence": 0.91
+  },
+
+  "TiB2": {
+    "name": "Titanium Diboride",
+    "category": "ceramic",
+    "subcategory": "boride",
+    "cas_number": "12045-63-5",
+    "density": 4520.0,
+    "melting_point": 3498.0,
+    "youngs_modulus": 565.0,
+    "hardness_vickers": 3400.0,
+    "thermal_conductivity": 96.0,
+    "electrical_conductivity": 9000000.0,
+    "notes": "Conductive, armor, cathodes, evaporation boats",
+    "cost_per_kg": 120.0,
+    "confidence": 0.95
+  },
+
+  "LaB6": {
+    "name": "Lanthanum Hexaboride",
+    "category": "ceramic",
+    "subcategory": "boride",
+    "cas_number": "12008-21-8",
+    "density": 4720.0,
+    "melting_point": 2773.0,
+    "hardness_vickers": 2000.0,
+    "electrical_conductivity": 2000000.0,
+    "notes": "Electron emitter, cathodes, thermionic sources",
+    "cost_per_kg": 850.0,
+    "confidence": 0.93
+  },
+
+  "CeB6": {
+    "name": "Cerium Hexaboride",
+    "category": "ceramic",
+    "subcategory": "boride",
+    "density": 4840.0,
+    "melting_point": 2690.0,
+    "electrical_conductivity": 1500000.0,
+    "notes": "Electron emitter, cathodes, lower work function than LaB6",
+    "cost_per_kg": 650.0,
+    "confidence": 0.91
+  },
+
+  "SiAlON": {
+    "name": "SiAlON (Beta Phase)",
+    "category": "ceramic",
+    "subcategory": "nitride",
+    "density": 3200.0,
+    "melting_point": 2073.0,
+    "youngs_modulus": 290.0,
+    "hardness_vickers": 1650.0,
+    "thermal_conductivity": 18.0,
+    "notes": "β-SiAlON, machining cast iron, thermal shock resistant",
+    "cost_per_kg": 95.0,
+    "confidence": 0.91
+  },
+
+  "AlON": {
+    "name": "Aluminum Oxynitride",
+    "category": "ceramic",
+    "subcategory": "nitride",
+    "density": 3680.0,
+    "melting_point": 2423.0,
+    "youngs_modulus": 317.0,
+    "hardness_vickers": 1850.0,
+    "thermal_conductivity": 13.0,
+    "notes": "ALON, transparent armor, IR windows, scratch-resistant",
+    "cost_per_kg": 850.0,
+    "confidence": 0.92
+  },
+
+  "SiC_Reaction_Bonded": {
+    "name": "Reaction-Bonded Silicon Carbide",
+    "category": "ceramic",
+    "subcategory": "carbide",
+    "density": 3000.0,
+    "melting_point": 3103.0,
+    "youngs_modulus": 380.0,
+    "thermal_conductivity": 150.0,
+    "notes": "RBSC, near-net-shape, mirrors, pump seals",
+    "cost_per_kg": 45.0,
+    "confidence": 0.94
+  },
+
+  "SiC_CVD": {
+    "name": "CVD Silicon Carbide",
+    "category": "ceramic",
+    "subcategory": "carbide",
+    "density": 3210.0,
+    "melting_point": 3103.0,
+    "youngs_modulus": 466.0,
+    "hardness_vickers": 2800.0,
+    "thermal_conductivity": 490.0,
+    "notes": "Ultra-pure, semiconductor equipment, mirrors",
+    "cost_per_kg": 450.0,
+    "confidence": 0.96
+  },
+
+  "Pyrex_Glass_Ceramic": {
+    "name": "Pyrex (Borosilicate Glass)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "65997-17-3",
+    "density": 2230.0,
+    "glass_transition_temp": 820.0,
+    "youngs_modulus": 64.0,
+    "thermal_expansion": 0.0000033,
+    "thermal_conductivity": 1.14,
+    "notes": "Low thermal expansion, lab glassware, cookware",
+    "cost_per_kg": 12.0,
+    "confidence": 0.97
+  },
+
+  "Macor": {
+    "name": "Macor (Machinable Glass-Ceramic)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "density": 2520.0,
+    "melting_point": 1273.0,
+    "youngs_modulus": 67.0,
+    "thermal_conductivity": 1.46,
+    "dielectric_constant": 6.0,
+    "notes": "Fluorophlogopite mica, CNC machinable, vacuum components",
+    "cost_per_kg": 350.0,
+    "confidence": 0.94
+  },
+
+  "BeO_Ceramic": {
+    "name": "Beryllium Oxide (Ceramic)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "1304-56-9",
+    "density": 3010.0,
+    "melting_point": 2843.0,
+    "youngs_modulus": 345.0,
+    "thermal_conductivity": 260.0,
+    "dielectric_constant": 6.7,
+    "notes": "Highest thermal conductivity oxide, power electronics, toxic dust",
+    "cost_per_kg": 850.0,
+    "confidence": 0.95
+  },
+
+  "Mica_Ceramic": {
+    "name": "Mica (Phlogopite)",
+    "category": "ceramic",
+    "subcategory": "oxide_ceramic",
+    "cas_number": "12001-26-2",
+    "density": 2830.0,
+    "melting_point": 1573.0,
+    "dielectric_constant": 6.5,
+    "dielectric_strength": 20.0,
+    "notes": "KMg3AlSi3O10(OH)2, high voltage insulation, capacitors",
+    "cost_per_kg": 35.0,
+    "confidence": 0.94
+  }
+}

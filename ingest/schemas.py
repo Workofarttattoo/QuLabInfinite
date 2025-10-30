@@ -35,6 +35,7 @@ class RecordChem(BaseModel):
     experiment_id: Optional[str] = None
     tags: List[str] = []
     provenance: Provenance
+    spectrum_hdf5_ref: Optional[str] = None
 
     def content_hash(self) -> str:
         payload = self.model_dump()
@@ -57,6 +58,12 @@ class RecordMaterial(BaseModel):
     band_gap_ev: Optional[float] = None
     density_g_cm3: Optional[float] = None
     volume_a3_per_atom: Optional[float] = None
+
+    # SI unit versions of properties, may be added by processors
+    formation_energy_per_atom_j: Optional[float] = None
+    band_gap_j: Optional[float] = None
+    density_kg_m3: Optional[float] = None
+    volume_m3_per_atom: Optional[float] = None
 
     tags: List[str] = []
     provenance: Provenance

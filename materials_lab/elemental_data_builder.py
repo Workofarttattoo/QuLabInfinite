@@ -24,29 +24,26 @@ def create_elemental_database():
         props = MaterialProperties(
             name=el.name,
             category="element",
-            subcategory=el.block + "-block",
+            subcategory=el.block + "-block" if el.block else "unknown",
             cas_number=el.cas,
 
             # Mechanical Properties
-            density=el.density * 1000,  # g/cm³ to kg/m³
-            youngs_modulus=el.modulus_young / 1000 if el.modulus_young else 0.0, # MPa to GPa
-            shear_modulus=el.modulus_shear / 1000 if el.modulus_shear else 0.0, # MPa to GPa
-            bulk_modulus=el.modulus_bulk / 1000 if el.modulus_bulk else 0.0, # MPa to GPa
-            poissons_ratio=el.poisson_ratio if el.poisson_ratio else 0.0,
-            hardness_vickers=el.hardness_vickers if el.hardness_vickers else 0.0,
+            density=el.density * 1000 if el.density else 0.0,  # g/cm³ to kg/m³
+            # Note: mendeleev doesn't have modulus data, these would need external sources
 
             # Thermal Properties
             melting_point=el.melting_point if el.melting_point else 0.0,
             boiling_point=el.boiling_point if el.boiling_point else 0.0,
-            thermal_conductivity=el.thermal_conductivity if el.thermal_conductivity else 0.0,
-            specific_heat=el.specific_heat if el.specific_heat else 0.0,
+            thermal_conductivity=getattr(el, 'thermal_conductivity', 0.0) or 0.0,
+            specific_heat=getattr(el, 'specific_heat', 0.0) or 0.0,
+            thermal_expansion=getattr(el, 'thermal_expansion', 0.0) or 0.0,
 
             # Electrical Properties
-            electrical_resistivity=el.resistivity if el.resistivity else 0.0,
-            
+            electrical_conductivity=1.0/getattr(el, 'electrical_resistivity', float('inf')) if hasattr(el, 'electrical_resistivity') and getattr(el, 'electrical_resistivity', 0) else 0.0,
+
             # Additional metadata
-            notes=f"Chemical element, atomic number {el.atomic_number}, symbol {el.symbol}.",
-            data_source="mendeleev Python library",
+            notes=f"Chemical element, atomic number {el.atomic_number}, symbol {el.symbol}. {el.description if hasattr(el, 'description') else ''}",
+            data_source="mendeleev Python library v1.1.0",
             confidence=0.95
         )
         elements_data[el.name] = props.to_dict()

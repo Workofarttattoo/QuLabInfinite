@@ -1,0 +1,1059 @@
+{
+  "manifest_version": "1.0",
+  "test_date": "2025-10-30 05:05:01",
+  "iterations": 1,
+  "total_materials": 45,
+  "tested": 45,
+  "failed": 0,
+  "results": {
+    "304 Stainless Steel": {
+      "material": "304 Stainless Steel",
+      "category": "metal",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 205.0,
+          "ultimate_strength": 501.86776440878975,
+          "elongation": 40.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 246.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 171.66666666666666,
+          "rockwell_c": 25.461152777777777
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 16.2
+        }
+      }
+    },
+    "Al 6061-T6": {
+      "material": "Al 6061-T6",
+      "category": "metal",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 276.0,
+          "ultimate_strength": 309.99907728742926,
+          "elongation": 17.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 276.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 107,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 167.0
+        }
+      }
+    },
+    "Ti-6Al-4V": {
+      "material": "Ti-6Al-4V",
+      "category": "metal",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 1050.0,
+          "ultimate_strength": 1099.9965548132147,
+          "elongation": 14.000000000000002
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 1050.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 349,
+          "rockwell_c": 53.152935
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 6.7
+        }
+      }
+    },
+    "Carbon Fiber Epoxy": {
+      "material": "Carbon Fiber Epoxy",
+      "category": "composite",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 1500.0,
+          "ultimate_strength": 1500.0,
+          "elongation": 1.2
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 800.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 500.0,
+          "rockwell_c": 73.51
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 5.0
+        }
+      }
+    },
+    "Al 7075-T6": {
+      "material": "Al 7075-T6",
+      "category": "metal",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 503.0,
+          "ultimate_strength": 571.9909425413396,
+          "elongation": 11.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 503.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 175,
+          "rockwell_c": 26.019374999999997
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 130.0
+        }
+      }
+    },
+    "Airloy X103 Strong Aerogel": {
+      "material": "Airloy X103 Strong Aerogel",
+      "category": "nanomaterial",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.25,
+          "ultimate_strength": 0.3098670098670099,
+          "elongation": 2.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 1.65
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.5,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.014
+        },
+        "extreme_cold": {
+          "success": true,
+          "status": "PASS - Within service range",
+          "performance_factor": 1.0
+        }
+      }
+    },
+    "Silica Aerogel": {
+      "material": "Silica Aerogel",
+      "category": "nanomaterial",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 0.0,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.01
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.013
+        },
+        "extreme_cold": {
+          "success": true,
+          "status": "PASS - Within service range",
+          "performance_factor": 1.0
+        }
+      }
+    },
+    "Graphene Aerogel": {
+      "material": "Graphene Aerogel",
+      "category": "nanomaterial",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.02,
+          "ultimate_strength": 0.024997180182859853,
+          "elongation": 5.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.12
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.1,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.008
+        },
+        "extreme_cold": {
+          "success": true,
+          "status": "PASS - Within service range",
+          "performance_factor": 1.0
+        }
+      }
+    },
+    "NMC_111": {
+      "material": "NMC_111",
+      "category": "energy_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "NMC_622": {
+      "material": "NMC_622",
+      "category": "energy_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "NMC_811": {
+      "material": "NMC_811",
+      "category": "energy_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "NMC811 Cathode Powder": {
+      "material": "NMC811 Cathode Powder",
+      "category": "composite",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 35.0,
+          "ultimate_strength": 59.9565082323703,
+          "elongation": 1.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 120.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 120,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 2.2
+        }
+      }
+    },
+    "Graphite_Anode": {
+      "material": "Graphite_Anode",
+      "category": "energy_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 150.0
+        }
+      }
+    },
+    "Silicon_Anode": {
+      "material": "Silicon_Anode",
+      "category": "energy_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "BBO": {
+      "material": "BBO",
+      "category": "optical_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "LBO": {
+      "material": "LBO",
+      "category": "optical_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "KTP": {
+      "material": "KTP",
+      "category": "optical_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "ZnSe_Window": {
+      "material": "ZnSe_Window",
+      "category": "optical_material",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 0.0,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 18.0
+        }
+      }
+    },
+    "Sapphire substrate": {
+      "material": "Sapphire substrate",
+      "category": "quantum_material",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 0.0,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 46.0
+        }
+      }
+    },
+    "YBCO": {
+      "material": "YBCO",
+      "category": "superconductor",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "Nb3Sn": {
+      "material": "Nb3Sn",
+      "category": "superconductor",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "NbN": {
+      "material": "NbN",
+      "category": "superconductor",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "BSCCO_2223": {
+      "material": "BSCCO_2223",
+      "category": "superconductor",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "MoSe2": {
+      "material": "MoSe2",
+      "category": "2D_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 52.0
+        }
+      }
+    },
+    "Ti3C2Tx": {
+      "material": "Ti3C2Tx",
+      "category": "2D_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 50.0
+        }
+      }
+    },
+    "Bi2Te3": {
+      "material": "Bi2Te3",
+      "category": "2D_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 1.5
+        }
+      }
+    },
+    "WTe2": {
+      "material": "WTe2",
+      "category": "2D_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 3.0
+        }
+      }
+    },
+    "Phosphorene": {
+      "material": "Phosphorene",
+      "category": "2D_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 35.0
+        }
+      }
+    },
+    "Graphene": {
+      "material": "Graphene",
+      "category": "nanomaterial",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 129988.28529770463,
+          "elongation": 25.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 43333.333333333336,
+          "rockwell_c": -113827.46222222221
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 5000.0
+        }
+      }
+    },
+    "Silicon Carbide": {
+      "material": "Silicon Carbide",
+      "category": "ceramic",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 249.74974974974975,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 3900.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 2800,
+          "rockwell_c": 17.160000000000025
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 120.0
+        }
+      }
+    },
+    "Tungsten Carbide (WC-Co)": {
+      "material": "Tungsten Carbide (WC-Co)",
+      "category": "ceramic",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 0.0,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 6000.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 1800.0,
+          "rockwell_c": 126.16
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 110.0
+        }
+      }
+    },
+    "Silicon Nitride Si3N4": {
+      "material": "Silicon Nitride Si3N4",
+      "category": "quantum_material",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 599.3993993993994,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 200.0,
+          "rockwell_c": 30.159999999999997
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 28.0
+        }
+      }
+    },
+    "HfC": {
+      "material": "HfC",
+      "category": "ceramic",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 0.0,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 2100.0,
+          "rockwell_c": 107.11000000000001
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 22.0
+        }
+      }
+    },
+    "TaC": {
+      "material": "TaC",
+      "category": "ceramic",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 0.0,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 1800.0,
+          "rockwell_c": 126.16
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 22.0
+        }
+      }
+    },
+    "Neodymium": {
+      "material": "Neodymium",
+      "category": "element",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "Permalloy_80": {
+      "material": "Permalloy_80",
+      "category": "magnetic_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "Supermalloy": {
+      "material": "Supermalloy",
+      "category": "magnetic_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "Gallium Arsenide": {
+      "material": "Gallium Arsenide",
+      "category": "semiconductor",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 0.0,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 55.0
+        }
+      }
+    },
+    "Graphene CVD": {
+      "material": "Graphene CVD",
+      "category": "2D_material",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 129869.86986986987,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 43333.333333333336,
+          "rockwell_c": -113827.46222222221
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 5000.0
+        }
+      }
+    },
+    "PZT_4": {
+      "material": "PZT_4",
+      "category": "piezoelectric_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "PZT_5A": {
+      "material": "PZT_5A",
+      "category": "piezoelectric_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "PZT_5H": {
+      "material": "PZT_5H",
+      "category": "piezoelectric_material",
+      "tests": {
+        "tensile": {
+          "error": "float division by zero"
+        },
+        "compression": {
+          "error": "float division by zero"
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "Hydroxyapatite": {
+      "material": "Hydroxyapatite",
+      "category": "biomaterial",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 0.0,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 500.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 0.0,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "PEEK": {
+      "material": "PEEK",
+      "category": "biomaterial",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 99.8998998998999,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 33.333333333333336,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    },
+    "PCL": {
+      "material": "PCL",
+      "category": "biomaterial",
+      "tests": {
+        "tensile": {
+          "success": true,
+          "yield_strength": 0.0,
+          "ultimate_strength": 22.976976976976978,
+          "elongation": 0.0
+        },
+        "compression": {
+          "success": true,
+          "compressive_strength": 0.0
+        },
+        "hardness": {
+          "success": true,
+          "vickers": 7.666666666666667,
+          "rockwell_c": 0
+        },
+        "thermal": {
+          "success": true,
+          "thermal_conductivity": 0.0
+        }
+      }
+    }
+  },
+  "errors": {}
+}

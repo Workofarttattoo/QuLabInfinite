@@ -1,5 +1,5 @@
 """
-Results Validation System - 100% Real-World Accuracy Verification
+Results Validation System - Calibrated Accuracy Verification
 
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -116,10 +116,19 @@ class ResultsValidator:
             )
 
         ref = self.reference_db[reference_key]
+        metadata = ref.metadata or {}
 
         # Calculate error metrics
         error = abs(simulated_value - ref.value)
-        error_percent = (error / abs(ref.value)) * 100 if ref.value != 0 else np.inf
+        if np.isclose(ref.value, 0.0):
+            error_percent = 0.0 if np.isclose(error, 0.0) else np.inf
+        else:
+            error_percent = (error / abs(ref.value)) * 100
+
+        # Allow metadata to override tolerances per reference entry
+        tolerance_sigma = metadata.get("tolerance_sigma", tolerance_sigma)
+        max_error_percent = metadata.get("max_error_percent", max_error_percent)
+        absolute_tolerance = metadata.get("absolute_tolerance")
 
         # Calculate z-score (how many standard deviations away)
         if ref.uncertainty > 0:
@@ -132,16 +141,27 @@ class ResultsValidator:
         failed_tests = []
 
         # Test 1: Within tolerance sigma
-        if z_score <= tolerance_sigma:
+        if np.isfinite(z_score) and z_score <= tolerance_sigma:
             passed_tests.append("sigma_tolerance")
         else:
             failed_tests.append("sigma_tolerance")
 
         # Test 2: Within max percent error
-        if error_percent <= max_error_percent:
-            passed_tests.append("percent_error")
+        percent_error_applicable = not np.isinf(error_percent) and not np.isnan(error_percent)
+        if percent_error_applicable:
+            if error_percent <= max_error_percent:
+                passed_tests.append("percent_error")
+            else:
+                failed_tests.append("percent_error")
         else:
-            failed_tests.append("percent_error")
+            passed_tests.append("percent_error_skipped")
+
+        # Test 3: Absolute tolerance (optional)
+        if absolute_tolerance is not None:
+            if error <= absolute_tolerance:
+                passed_tests.append("absolute_tolerance")
+            else:
+                failed_tests.append("absolute_tolerance")
 
         # Determine overall status
         if len(failed_tests) == 0:

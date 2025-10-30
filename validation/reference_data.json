@@ -21,7 +21,11 @@
         "uncertainty": 15.0,
         "units": "MPa",
         "conditions": {"temperature": 293.15, "strain_rate": 0.001},
-        "metadata": {"material": "AISI 304 Stainless Steel", "property": "yield_strength"}
+        "metadata": {
+            "material": "AISI 304 Stainless Steel",
+            "property": "yield_strength",
+            "max_error_percent": 5.0
+        }
     },
     "steel_304_youngs_modulus": {
         "source": "ASM Handbook Vol. 1",
@@ -29,7 +33,35 @@
         "uncertainty": 5.0,
         "units": "GPa",
         "conditions": {"temperature": 293.15},
-        "metadata": {"material": "AISI 304 Stainless Steel", "property": "youngs_modulus"}
+        "metadata": {
+            "material": "AISI 304 Stainless Steel",
+            "property": "youngs_modulus",
+            "max_error_percent": 2.0
+        }
+    },
+    "steel_304_density": {
+        "source": "ASM Handbook Vol. 1",
+        "value": 8000.0,
+        "uncertainty": 80.0,
+        "units": "kg/m³",
+        "conditions": {"temperature": 293.15},
+        "metadata": {
+            "material": "AISI 304 Stainless Steel",
+            "property": "density",
+            "max_error_percent": 1.0
+        }
+    },
+    "steel_304_thermal_conductivity": {
+        "source": "ASM Handbook Vol. 1",
+        "value": 16.2,
+        "uncertainty": 0.3,
+        "units": "W/(m⋅K)",
+        "conditions": {"temperature": 293.15},
+        "metadata": {
+            "material": "AISI 304 Stainless Steel",
+            "property": "thermal_conductivity",
+            "max_error_percent": 2.0
+        }
     },
     "aluminum_6061_yield_strength": {
         "source": "ASM Handbook Vol. 2",
@@ -37,7 +69,95 @@
         "uncertainty": 10.0,
         "units": "MPa",
         "conditions": {"temperature": 293.15, "temper": "T6"},
-        "metadata": {"material": "Aluminum 6061-T6", "property": "yield_strength"}
+        "metadata": {
+            "material": "Aluminum 6061-T6",
+            "property": "yield_strength",
+            "max_error_percent": 5.0
+        }
+    },
+    "aluminum_6061_density": {
+        "source": "ASM Handbook Vol. 2",
+        "value": 2700.0,
+        "uncertainty": 27.0,
+        "units": "kg/m³",
+        "conditions": {"temperature": 293.15, "temper": "T6"},
+        "metadata": {
+            "material": "Aluminum 6061-T6",
+            "property": "density",
+            "max_error_percent": 1.0
+        }
+    },
+    "aluminum_6061_youngs_modulus": {
+        "source": "ASM Handbook Vol. 2",
+        "value": 68.9,
+        "uncertainty": 1.4,
+        "units": "GPa",
+        "conditions": {"temperature": 293.15, "temper": "T6"},
+        "metadata": {
+            "material": "Aluminum 6061-T6",
+            "property": "youngs_modulus",
+            "max_error_percent": 2.0
+        }
+    },
+    "aluminum_6061_thermal_conductivity": {
+        "source": "ASM Handbook Vol. 2",
+        "value": 167.0,
+        "uncertainty": 3.0,
+        "units": "W/(m⋅K)",
+        "conditions": {"temperature": 293.15, "temper": "T6"},
+        "metadata": {
+            "material": "Aluminum 6061-T6",
+            "property": "thermal_conductivity",
+            "max_error_percent": 2.5
+        }
+    },
+    "ti_6al4v_density": {
+        "source": "MIL-HDBK-5J",
+        "value": 4430.0,
+        "uncertainty": 44.0,
+        "units": "kg/m³",
+        "conditions": {"temperature": 293.15},
+        "metadata": {
+            "material": "Ti-6Al-4V",
+            "property": "density",
+            "max_error_percent": 1.5
+        }
+    },
+    "ti_6al4v_youngs_modulus": {
+        "source": "MIL-HDBK-5J",
+        "value": 113.8,
+        "uncertainty": 2.0,
+        "units": "GPa",
+        "conditions": {"temperature": 293.15},
+        "metadata": {
+            "material": "Ti-6Al-4V",
+            "property": "youngs_modulus",
+            "max_error_percent": 2.5
+        }
+    },
+    "ti_6al4v_yield_strength": {
+        "source": "MIL-HDBK-5J",
+        "value": 1050.0,
+        "uncertainty": 60.0,
+        "units": "MPa",
+        "conditions": {"temperature": 293.15},
+        "metadata": {
+            "material": "Ti-6Al-4V",
+            "property": "yield_strength",
+            "max_error_percent": 6.0
+        }
+    },
+    "ti_6al4v_thermal_conductivity": {
+        "source": "MIL-HDBK-5J",
+        "value": 6.7,
+        "uncertainty": 0.2,
+        "units": "W/(m⋅K)",
+        "conditions": {"temperature": 293.15},
+        "metadata": {
+            "material": "Ti-6Al-4V",
+            "property": "thermal_conductivity",
+            "max_error_percent": 3.0
+        }
     },
     "copper_thermal_conductivity": {
         "source": "Materials Project mp-30",

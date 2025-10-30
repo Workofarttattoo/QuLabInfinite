@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Iterable
 import json
-from .schemas import RecordChem, Provenance, RecordMaterial, TeleportationSchema
+from ..schemas import RecordChem, Provenance, RecordMaterial, TeleportationSchema
 
 
 def load_result(file_path: str) -> RecordChem:

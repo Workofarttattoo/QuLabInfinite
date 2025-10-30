@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import unittest
 import time
 from materials_lab import MaterialsLab
+from validation.results_validator import ValidationStatus
 
 
 class TestMaterialsDatabase(unittest.TestCase):
@@ -493,56 +494,50 @@ class TestAccuracy(unittest.TestCase):
     def setUpClass(cls):
         cls.lab = MaterialsLab()
 
+    def _assert_material_accuracy(self, material_name, properties):
+        results = self.lab.validate_material_properties(material_name, properties)
+        for prop in properties:
+            self.assertIn(prop, results, f"{material_name} missing validation result for '{prop}'")
+            result = results[prop]
+            self.assertEqual(
+                result.status,
+                ValidationStatus.PASS,
+                f"{material_name} {prop} failed validation: {result.message}",
+            )
+
     def test_steel_304_accuracy(self):
         """Test SS 304 properties against known values"""
-        mat = self.lab.get_material("SS 304")
-
-        # NIST reference values for 304 stainless
-        # Note: Real-world materials have 2-5% variation due to different standards/batches
-        known_values = {
-            "density": (8000, 0.01),  # kg/m³, ±1%
-            "youngs_modulus": (193, 0.02),  # GPa, ±2%
-            "yield_strength": (290, 0.05),  # MPa, ±5% (varies most)
-            "thermal_conductivity": (16.2, 0.02)  # W/(m·K), ±2%
-        }
-
-        for prop, (expected, tolerance) in known_values.items():
-            actual = getattr(mat, prop)
-            error = abs(actual - expected) / expected
-            self.assertLess(error, tolerance,
-                          f"{prop} error should be <{tolerance*100:.0f}%, got {error*100:.2f}%")
+        self._assert_material_accuracy(
+            "SS 304",
+            ["density", "youngs_modulus", "yield_strength", "thermal_conductivity"],
+        )
 
     def test_aluminum_6061_accuracy(self):
         """Test Al 6061-T6 properties"""
-        mat = self.lab.get_material("Al 6061-T6")
-
-        known_values = {
-            "density": (2700, 0.01),
-            "youngs_modulus": (68.9, 0.02),
-            "yield_strength": (276, 0.05),
-            "thermal_conductivity": (167, 0.02)
-        }
-
-        for prop, (expected, tolerance) in known_values.items():
-            actual = getattr(mat, prop)
-            error = abs(actual - expected) / expected
-            self.assertLess(error, tolerance, f"{prop} error should be <{tolerance*100:.0f}%")
+        self._assert_material_accuracy(
+            "Al 6061-T6",
+            ["density", "youngs_modulus", "yield_strength", "thermal_conductivity"],
+        )
 
     def test_titanium_6al4v_accuracy(self):
         """Test Ti-6Al-4V properties"""
-        mat = self.lab.get_material("Ti-6Al-4V")
+        self._assert_material_accuracy(
+            "Ti-6Al-4V",
+            ["density", "youngs_modulus", "yield_strength", "thermal_conductivity"],
+        )
 
-        known_values = {
-            "density": (4430, 0.01),
-            "youngs_modulus": (113.8, 0.02),
-            "yield_strength": (1050, 0.05),
-            "thermal_conductivity": (6.7, 0.02)
-        }
+    def test_accuracy_suite_report(self):
+        """Validate aggregated accuracy suite across mapped materials."""
+        report = self.lab.validate_accuracy_suite()
+        self.assertGreaterEqual(len(report), 3, "Expected at least three materials in accuracy suite")
 
-        for prop, (expected, tolerance) in known_values.items():
-            actual = getattr(mat, prop)
-            error = abs(actual - expected) / expected
-            self.assertLess(error, tolerance, f"{prop} error should be <{tolerance*100:.0f}%")
+        for material, results in report.items():
+            for prop, result in results.items():
+                self.assertEqual(
+                    result.status,
+                    ValidationStatus.PASS,
+                    f"{material} {prop} failed validation: {result.message}",
+                )
 
 
 if __name__ == "__main__":

@@ -1,55 +1,66 @@
 from __future__ import annotations
-from typing import Iterable
+from typing import Iterable, cast
 import requests
-from ..schemas import RecordMaterial, Provenance
-from pymatgen.core import Structure, Lattice
+from ..schemas import RecordChem, Provenance, RecordMaterial
 
-BASE_URL = "http://oqmd.org/optimade/structures"
+BASE_URL = "http://oqmd.org/oqmdapi"
 
-def load_material_by_filter(oqmd_filter: str) -> Iterable[RecordMaterial]:
+def search_oqmd(query_params: dict) -> Iterable[RecordMaterial]:
     """
-    Load material data from the OQMD for a given filter.
-    See https://static.oqmd.org/static/docs/restful.html for filter syntax.
+    Search the OQMD database with given query parameters.
+    Example: `search_oqmd({'element_set': '(Fe,O)', 'stability': '>0'})`
     """
-    
-    response = requests.get(BASE_URL, params={"filter": oqmd_filter})
+    response = requests.get(f"{BASE_URL}/calculation", params=query_params)
     response.raise_for_status()
     data = response.json()
 
-    if not data or not data.get("data"):
+    if data['meta']['results_returned'] == 0:
         return
 
-    for entry in data["data"]:
-        attributes = entry.get("attributes", {})
-        formula = attributes.get("chemical_formula_descriptive", "unknown")
-        
-        provenance = Provenance(
-            source="OQMD (optimade)",
-            url=f"http://oqmd.org/materials/entry/{entry['id']}",
-            license="ODbL-1.0",
-            notes=f"Data for {formula} (OQMD ID: {entry['id']}).",
-        )
+    for entry in data['data']:
+        yield _parse_oqmd_entry(entry)
 
-        # Construct pymatgen structure
-        try:
-            lattice = Lattice(attributes['lattice_vectors'])
-            species = [s['name'] for s in attributes['species']]
-            sites = attributes['cartesian_site_positions']
-            structure = Structure(lattice, species, sites)
-        except (KeyError, TypeError):
-            # some entries might be missing structural info
-            continue
+def get_material_by_id(oqmd_id: int) -> RecordMaterial:
+    """
+    Retrieve a specific material from OQMD by its ID.
+    """
+    response = requests.get(f"{BASE_URL}/formation_energy/{oqmd_id}")
+    response.raise_for_status()
+    data = response.json()
+    
+    if not data or not data.get('data'):
+        raise ValueError(f"Material with OQMD ID {oqmd_id} not found.")
 
-        record = RecordMaterial(
-            substance=formula,
-            material_id=str(entry["id"]),
-            structure=structure.as_dict(),
-            formation_energy_per_atom_ev=attributes.get("formation_energy_per_atom"),
-            tags=[
-                f"nelements:{attributes.get('nelements')}",
-                f"nsites:{attributes.get('nsites')}",
-            ],
-            provenance=provenance,
-        )
+    return _parse_oqmd_entry(data['data'])
 
-        yield record
+
+def _parse_oqmd_entry(entry_data: dict) -> RecordMaterial:
+    """
+    Parses a single entry from an OQMD API response into a RecordMaterial object.
+    """
+    provenance = Provenance(
+        source="OQMD",
+        url=f"http://oqmd.org/materials/entry/{entry_data['id']}",
+        license="CC-BY-4.0",
+        notes=f"OQMD Entry ID: {entry_data['id']}",
+    )
+
+    # Some OQMD entries may not have all fields. We'll provide defaults.
+    tags = []
+    if entry_data.get('spacegroup'):
+        tags.append(f"space_group:{entry_data['spacegroup']}")
+    if entry_data.get('prototype'):
+        tags.append(f"prototype:{entry_data['prototype']}")
+
+    record = RecordMaterial(
+        substance=entry_data.get('composition_generic', 'Unknown'),
+        material_id=f"oqmd:{entry_data['id']}",
+        structure=None, # OQMD API for calculations does not directly provide structure.
+                      # Fetching structure requires another endpoint or parsing from POSCAR if available.
+        formation_energy_per_atom_ev=entry_data.get('delta_e'),
+        band_gap_ev=entry_data.get('band_gap'),
+        volume_a3_per_atom=entry_data.get('volume_pa'),
+        tags=tags,
+        provenance=provenance,
+    )
+    return record

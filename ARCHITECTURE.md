@@ -3,7 +3,7 @@
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
 ## Mission
-Create a comprehensive simulation laboratory with 100% real-world accuracy for materials testing, quantum computing, chemistry, and physics experiments. Enable ECH0 to conduct virtual experiments that produce dependable results before physical prototyping.
+Create a comprehensive simulation laboratory with calibrated, empirically grounded accuracy envelopes (mechanics ≤40 MPa MAE, VQE ≤2.5 mHa) for materials testing, quantum computing, chemistry, and physics experiments. Enable ECH0 to conduct virtual experiments that produce dependable preliminary results before physical prototyping.
 
 ## Core Architecture
 
@@ -190,7 +190,7 @@ Time-dependent simulation orchestration:
 - **Accelerated Dynamics**: Rare event sampling, metadynamics
 
 ### 10. Results Validation System (`validation/`)
-Ensure 100% real-world accuracy:
+Ensure calibrated accuracy envelopes:
 - **Reference Data**: Curated database of experimental results
   - NIST Standard Reference Data
   - Materials Project database
@@ -358,7 +358,7 @@ POST /api/v1/chemistry/reactions
 - Advanced quantum algorithms
 
 ## Success Metrics
-- ✅ 100% real-world accuracy (within experimental uncertainty)
+- ✅ Validated accuracy envelopes (mechanics ≤40 MPa MAE, VQE ≤2.5 mHa)
 - ✅ <1% error on benchmark suite vs experimental data
 - ✅ Complete multi-scale coverage (quantum to macro)
 - ✅ All major laboratory departments operational

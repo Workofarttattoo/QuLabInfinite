@@ -39,6 +39,12 @@ except ImportError:  # pragma: no cover
 from typing import Dict, List, Optional, Any, Sequence
 import time
 
+from validation.results_validator import ResultsValidator, ValidationResult
+try:
+    from .validation_map import MATERIAL_PROPERTY_REFERENCE_MAP
+except ImportError:  # pragma: no cover - allow script-style execution
+    from validation_map import MATERIAL_PROPERTY_REFERENCE_MAP  # type: ignore
+
 
 class MaterialsLab:
     """
@@ -60,10 +66,95 @@ class MaterialsLab:
         self.predictor = MaterialPropertyPredictor(self.db)
         self.profile_generator = MaterialProfileGenerator(self.db)
         self.calibration_manager = CalibrationManager()
+        self._validator = ResultsValidator()
 
         end = time.time()
         print(f"[info] Materials Lab ready in {(end-start)*1000:.1f} ms")
         print(f"[info] Database: {self.db.get_count()} materials")
+
+    # ===== VALIDATION =====
+
+    def validate_material_properties(
+        self,
+        material_name: str,
+        properties: Optional[Sequence[str]] = None,
+        *,
+        raise_on_missing: bool = True,
+    ) -> Dict[str, ValidationResult]:
+        """
+        Validate a material's tabulated properties against reference data.
+
+        Args:
+            material_name: Name used in the materials database.
+            properties: Optional iterable of property names to validate. If
+                omitted, all mapped properties for the material are checked.
+            raise_on_missing: When True, raise a ValueError if the material or
+                requested property does not have a configured reference datum.
+
+        Returns:
+            Mapping of property name to ValidationResult.
+        """
+        material = self.get_material(material_name)
+        if material is None:
+            raise ValueError(f"Material not found: {material_name}")
+
+        material_map = MATERIAL_PROPERTY_REFERENCE_MAP.get(material_name)
+        if not material_map:
+            if raise_on_missing:
+                raise ValueError(f"No validation mapping configured for '{material_name}'")
+            return {}
+
+        selected = set(properties) if properties else set(material_map)
+        results: Dict[str, ValidationResult] = {}
+
+        for prop_name in selected:
+            config = material_map.get(prop_name)
+            if config is None:
+                if raise_on_missing:
+                    raise ValueError(
+                        f"No validation reference configured for '{material_name}' property '{prop_name}'"
+                    )
+                continue
+
+            attr = config.get("attribute", prop_name)
+            if not hasattr(material, attr):
+                if raise_on_missing:
+                    raise AttributeError(
+                        f"Material '{material_name}' does not expose attribute '{attr}' for validation"
+                    )
+                continue
+
+            reference_key = config["reference_key"]
+            simulated_value = getattr(material, attr)
+
+            validate_kwargs: Dict[str, Any] = {}
+            if "tolerance_sigma" in config:
+                validate_kwargs["tolerance_sigma"] = config["tolerance_sigma"]
+            if "max_error_percent" in config:
+                validate_kwargs["max_error_percent"] = config["max_error_percent"]
+
+            results[prop_name] = self._validator.validate(
+                simulated_value,
+                reference_key,
+                **validate_kwargs,
+            )
+
+        return results
+
+    def validate_accuracy_suite(self) -> Dict[str, Dict[str, ValidationResult]]:
+        """
+        Run the configured accuracy suite for all mapped materials.
+
+        Returns:
+            Nested mapping of material -> property -> ValidationResult.
+        """
+        report: Dict[str, Dict[str, ValidationResult]] = {}
+        for material_name in MATERIAL_PROPERTY_REFERENCE_MAP:
+            report[material_name] = self.validate_material_properties(
+                material_name,
+                raise_on_missing=False,
+            )
+        return report
 
     # ===== DATABASE ACCESS =====
 

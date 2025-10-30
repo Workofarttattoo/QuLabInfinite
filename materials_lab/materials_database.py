@@ -39,8 +39,10 @@ class MaterialProperties:
     fracture_toughness: float = 0.0  # MPa·m^0.5
     hardness_vickers: float = 0.0  # HV
     hardness_rockwell: Optional[str] = None  # e.g., "HRC 40"
+    hardness_shore_00: float = 0.0  # Shore 00 (for soft materials)
     elongation_at_break: float = 0.0  # %
     fatigue_limit: float = 0.0  # MPa
+    viscosity: float = 0.0  # cP or Pa·s
 
     # Thermal Properties
     melting_point: float = 0.0  # K
@@ -49,16 +51,47 @@ class MaterialProperties:
     thermal_conductivity: float = 0.0  # W/(m·K)
     specific_heat: float = 0.0  # J/(kg·K)
     thermal_expansion: float = 0.0  # 1/K (linear)
+    thermal_expansion_coeff: float = 0.0  # 1/K (alias for thermal_expansion)
     thermal_diffusivity: float = 0.0  # m²/s
     max_service_temp: float = 0.0  # K
     min_service_temp: float = 0.0  # K
+    operating_temp_min: float = 0.0  # K (operating temperature range)
+    operating_temp_max: float = 0.0  # K
+    phase_change_temp: float = 0.0  # K (for PCMs)
+    latent_heat_kJ_kg: float = 0.0  # kJ/kg (for PCMs)
+    curie_temperature: float = 0.0  # K (magnetic transition)
 
     # Electrical Properties
     electrical_resistivity: float = 0.0  # Ω·m
     electrical_conductivity: float = 0.0  # S/m
+    resistivity_ohm_m: float = 0.0  # Ω·m (alias for electrical_resistivity)
     dielectric_constant: float = 1.0  # dimensionless
     dielectric_strength: float = 0.0  # kV/mm
     bandgap: float = 0.0  # eV
+
+    # Magnetic Properties
+    saturation_magnetization_tesla: float = 0.0  # T (saturation magnetization)
+    remanence_tesla: float = 0.0  # T (remanent magnetization)
+    coercivity_kA_m: float = 0.0  # kA/m (coercive field)
+    max_energy_product_MGOe: float = 0.0  # MGOe (BH_max for permanent magnets)
+    permeability_initial: float = 0.0  # dimensionless (initial permeability)
+    permeability_max: float = 0.0  # dimensionless (maximum permeability)
+    core_loss_W_kg: float = 0.0  # W/kg (core loss at specified frequency)
+
+    # Superconductor Properties
+    critical_temperature: float = 0.0  # K (superconducting Tc)
+    critical_field_tesla: float = 0.0  # T (upper critical field Hc2)
+    critical_current_density_A_cm2: float = 0.0  # A/cm² (Jc)
+    pressure_GPa: float = 0.0  # GPa (for high-pressure superconductors)
+
+    # Piezoelectric Properties
+    piezo_d33_pC_N: float = 0.0  # pC/N (charge coefficient d33)
+    piezo_d11_pC_N: float = 0.0  # pC/N (charge coefficient d11, for crystals)
+    piezo_g33_mV_m_N: float = 0.0  # mV·m/N (voltage coefficient g33)
+
+    # Energy Material Properties
+    ionic_conductivity: float = 0.0  # S/cm (for electrolytes)
+    efficiency_percent: float = 0.0  # % (for solar cells)
 
     # Optical Properties
     refractive_index: float = 1.0  # dimensionless
@@ -73,6 +106,10 @@ class MaterialProperties:
     chemical_stability: str = "stable"  # stable, reactive, highly_reactive
     ph_stability_range: tuple = (0, 14)  # (min_pH, max_pH)
     water_absorption: float = 0.0  # %
+
+    # Biomaterial Properties
+    degradation_time_months: float = 0.0  # months (biodegradation time)
+    water_content_percent: float = 0.0  # % (for hydrogels)
 
     # Cost and Availability
     cost_per_kg: float = 0.0  # USD/kg
@@ -101,10 +138,38 @@ class MaterialsDatabase:
         base_dir = os.path.dirname(__file__)
         self.db_path = db_path or os.path.join(base_dir, "data", "materials_db.json")
         self.supplement_path = os.path.join(base_dir, "data", "materials_supplement.json")
+        self.lab_expansion_paths = [
+            os.path.join(base_dir, "data", "materials_lab_expansion.json"),
+            os.path.join(base_dir, "data", "lab_materials_expansion_900.json"),
+            os.path.join(base_dir, "data", "lab_materials_expansion_full.json"),
+            os.path.join(base_dir, "data", "lab_materials_expansion_final.json"),
+            os.path.join(base_dir, "data", "lab_expansion_part1.json"),
+            os.path.join(base_dir, "data", "materials_expansion_supplement.json"),
+            os.path.join(base_dir, "data", "comprehensive_materials.json"),
+        ]
+        self.biomaterials_path = os.path.join(base_dir, "data", "biomaterials_expansion.json")
+        self.magnetic_materials_path = os.path.join(base_dir, "data", "magnetic_materials_expansion.json")
+        self.thermal_materials_path = os.path.join(base_dir, "data", "thermal_materials_expansion.json")
+        self.superconductors_path = os.path.join(base_dir, "data", "superconductors_expansion.json")
+        self.optical_materials_path = os.path.join(base_dir, "data", "optical_materials_expansion.json")
+        self.energy_materials_path = os.path.join(base_dir, "data", "energy_materials_expansion.json")
+        self.piezo_materials_path = os.path.join(base_dir, "data", "piezoelectric_materials_expansion.json")
+        self.twod_materials_path = os.path.join(base_dir, "data", "2d_materials_expansion.json")
+        self.ceramics_path = os.path.join(base_dir, "data", "ceramics_refractories_expansion.json")
         self.safety_path = os.path.join(base_dir, "data", "safety_data.json")
         self.materials: Dict[str, MaterialProperties] = {}
         self._load_or_create()
         self._load_supplemental()
+        self._load_lab_expansion()
+        self._load_biomaterials()
+        self._load_magnetic_materials()
+        self._load_thermal_materials()
+        self._load_superconductors()
+        self._load_optical_materials()
+        self._load_energy_materials()
+        self._load_piezoelectric_materials()
+        self._load_2d_materials()
+        self._load_ceramics()
         self.safety_manager = self._load_safety_data()
 
     def _load_or_create(self):
@@ -142,6 +207,275 @@ class MaterialsDatabase:
 
         if loaded:
             print(f"[info] Loaded {loaded} supplemental materials")
+
+    def _load_lab_expansion(self) -> None:
+        """Load lab materials expansion for R&D (quantum, AI, chemistry, etc.)."""
+        total_added = 0
+        total_updated = 0
+
+        for path in self.lab_expansion_paths:
+            if not os.path.exists(path):
+                continue
+
+            try:
+                with open(path, "r") as f:
+                    expansion_data = json.load(f)
+            except Exception as exc:
+                print(f"[warn] Failed to load lab expansion materials from {os.path.basename(path)}: {exc}")
+                continue
+
+            added = 0
+            updated = 0
+            for name, props in expansion_data.items():
+                if name.startswith("_") or name.startswith("comment_"):
+                    continue
+                try:
+                    material = MaterialProperties.from_dict(props)
+                except (TypeError, KeyError) as err:
+                    print(f"[warn] Skipping lab expansion material '{name}' from {os.path.basename(path)}: {err}")
+                    continue
+
+                if name in self.materials:
+                    updated += 1
+                else:
+                    added += 1
+                self.materials[name] = material
+
+            if added or updated:
+                print(
+                    f"[info] Loaded {added} lab expansion materials "
+                    f"(updated {updated}) from {os.path.basename(path)}"
+                )
+                total_added += added
+                total_updated += updated
+
+        if total_added or total_updated:
+            print(f"[info] Total lab expansion materials processed: added {total_added}, updated {total_updated}")
+
+    def _load_biomaterials(self) -> None:
+        """Load biomaterials for medical research and tissue engineering."""
+        if not os.path.exists(self.biomaterials_path):
+            return
+
+        try:
+            with open(self.biomaterials_path, "r") as f:
+                expansion_data = json.load(f)
+        except Exception as exc:
+            print(f"[warn] Failed to load biomaterials: {exc}")
+            return
+
+        loaded = 0
+        for name, props in expansion_data.items():
+            if name.startswith("_") or name.startswith("comment_"):
+                continue
+            try:
+                self.materials[name] = MaterialProperties.from_dict(props)
+                loaded += 1
+            except (TypeError, KeyError) as err:
+                print(f"[warn] Skipping biomaterial '{name}': {err}")
+
+        if loaded:
+            print(f"[info] Loaded {loaded} biomaterials")
+
+    def _load_magnetic_materials(self) -> None:
+        """Load magnetic materials for motors, sensors, and data storage."""
+        if not os.path.exists(self.magnetic_materials_path):
+            return
+
+        try:
+            with open(self.magnetic_materials_path, "r") as f:
+                expansion_data = json.load(f)
+        except Exception as exc:
+            print(f"[warn] Failed to load magnetic materials: {exc}")
+            return
+
+        loaded = 0
+        for name, props in expansion_data.items():
+            if name.startswith("_") or name.startswith("comment_"):
+                continue
+            try:
+                self.materials[name] = MaterialProperties.from_dict(props)
+                loaded += 1
+            except (TypeError, KeyError) as err:
+                print(f"[warn] Skipping magnetic material '{name}': {err}")
+
+        if loaded:
+            print(f"[info] Loaded {loaded} magnetic materials")
+
+    def _load_thermal_materials(self) -> None:
+        """Load thermal interface materials for electronics cooling."""
+        if not os.path.exists(self.thermal_materials_path):
+            return
+
+        try:
+            with open(self.thermal_materials_path, "r") as f:
+                expansion_data = json.load(f)
+        except Exception as exc:
+            print(f"[warn] Failed to load thermal materials: {exc}")
+            return
+
+        loaded = 0
+        for name, props in expansion_data.items():
+            if name.startswith("_") or name.startswith("comment_"):
+                continue
+            try:
+                self.materials[name] = MaterialProperties.from_dict(props)
+                loaded += 1
+            except (TypeError, KeyError) as err:
+                print(f"[warn] Skipping thermal material '{name}': {err}")
+
+        if loaded:
+            print(f"[info] Loaded {loaded} thermal materials")
+
+    def _load_superconductors(self) -> None:
+        """Load superconducting materials for quantum computing and MRI."""
+        if not os.path.exists(self.superconductors_path):
+            return
+
+        try:
+            with open(self.superconductors_path, "r") as f:
+                expansion_data = json.load(f)
+        except Exception as exc:
+            print(f"[warn] Failed to load superconductors: {exc}")
+            return
+
+        loaded = 0
+        for name, props in expansion_data.items():
+            if name.startswith("_") or name.startswith("comment_"):
+                continue
+            try:
+                self.materials[name] = MaterialProperties.from_dict(props)
+                loaded += 1
+            except (TypeError, KeyError) as err:
+                print(f"[warn] Skipping superconductor '{name}': {err}")
+
+        if loaded:
+            print(f"[info] Loaded {loaded} superconductors")
+
+    def _load_optical_materials(self) -> None:
+        """Load optical materials for lasers, nonlinear optics, and photonics."""
+        if not os.path.exists(self.optical_materials_path):
+            return
+
+        try:
+            with open(self.optical_materials_path, "r") as f:
+                expansion_data = json.load(f)
+        except Exception as exc:
+            print(f"[warn] Failed to load optical materials: {exc}")
+            return
+
+        loaded = 0
+        for name, props in expansion_data.items():
+            if name.startswith("_") or name.startswith("comment_"):
+                continue
+            try:
+                self.materials[name] = MaterialProperties.from_dict(props)
+                loaded += 1
+            except (TypeError, KeyError) as err:
+                print(f"[warn] Skipping optical material '{name}': {err}")
+
+        if loaded:
+            print(f"[info] Loaded {loaded} optical materials")
+
+    def _load_energy_materials(self) -> None:
+        """Load energy materials for batteries, solar cells, and fuel cells."""
+        if not os.path.exists(self.energy_materials_path):
+            return
+
+        try:
+            with open(self.energy_materials_path, "r") as f:
+                expansion_data = json.load(f)
+        except Exception as exc:
+            print(f"[warn] Failed to load energy materials: {exc}")
+            return
+
+        loaded = 0
+        for name, props in expansion_data.items():
+            if name.startswith("_") or name.startswith("comment_"):
+                continue
+            try:
+                self.materials[name] = MaterialProperties.from_dict(props)
+                loaded += 1
+            except (TypeError, KeyError) as err:
+                print(f"[warn] Skipping energy material '{name}': {err}")
+
+        if loaded:
+            print(f"[info] Loaded {loaded} energy materials")
+
+    def _load_piezoelectric_materials(self) -> None:
+        """Load piezoelectric materials for sensors, actuators, and energy harvesting."""
+        if not os.path.exists(self.piezo_materials_path):
+            return
+
+        try:
+            with open(self.piezo_materials_path, "r") as f:
+                expansion_data = json.load(f)
+        except Exception as exc:
+            print(f"[warn] Failed to load piezoelectric materials: {exc}")
+            return
+
+        loaded = 0
+        for name, props in expansion_data.items():
+            if name.startswith("_") or name.startswith("comment_"):
+                continue
+            try:
+                self.materials[name] = MaterialProperties.from_dict(props)
+                loaded += 1
+            except (TypeError, KeyError) as err:
+                print(f"[warn] Skipping piezoelectric material '{name}': {err}")
+
+        if loaded:
+            print(f"[info] Loaded {loaded} piezoelectric materials")
+
+    def _load_2d_materials(self) -> None:
+        """Load 2D materials for electronics and photonics."""
+        if not os.path.exists(self.twod_materials_path):
+            return
+
+        try:
+            with open(self.twod_materials_path, "r") as f:
+                expansion_data = json.load(f)
+        except Exception as exc:
+            print(f"[warn] Failed to load 2D materials: {exc}")
+            return
+
+        loaded = 0
+        for name, props in expansion_data.items():
+            if name.startswith("_") or name.startswith("comment_"):
+                continue
+            try:
+                self.materials[name] = MaterialProperties.from_dict(props)
+                loaded += 1
+            except (TypeError, KeyError) as err:
+                print(f"[warn] Skipping 2D material '{name}': {err}")
+
+        if loaded:
+            print(f"[info] Loaded {loaded} 2D materials")
+
+    def _load_ceramics(self) -> None:
+        """Load ceramics and refractories for high-temp applications."""
+        if not os.path.exists(self.ceramics_path):
+            return
+
+        try:
+            with open(self.ceramics_path, "r") as f:
+                expansion_data = json.load(f)
+        except Exception as exc:
+            print(f"[warn] Failed to load ceramics: {exc}")
+            return
+
+        loaded = 0
+        for name, props in expansion_data.items():
+            if name.startswith("_") or name.startswith("comment_"):
+                continue
+            try:
+                self.materials[name] = MaterialProperties.from_dict(props)
+                loaded += 1
+            except (TypeError, KeyError) as err:
+                print(f"[warn] Skipping ceramic '{name}': {err}")
+
+        if loaded:
+            print(f"[info] Loaded {loaded} ceramics")
 
     def _load_safety_data(self) -> SafetyManager:
         """Load MSDS-style safety data."""

@@ -1,0 +1,634 @@
+{
+  "_metadata": {
+    "description": "Energy Materials Expansion - 60 materials for batteries, solar cells, fuel cells, energy storage",
+    "date": "2025-10-30",
+    "version": "1.0",
+    "categories": ["battery_cathode", "battery_anode", "electrolyte", "fuel_cell", "photovoltaic"]
+  },
+
+  "LCO": {
+    "name": "Lithium Cobalt Oxide",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "cas_number": "12190-79-3",
+    "density": 5050.0,
+    "melting_point": 1363.0,
+    "electrical_conductivity": 0.001,
+    "notes": "LiCoO2, consumer electronics, 140 mAh/g practical, 4.2V vs Li, thermal instability",
+    "cost_per_kg": 85.0,
+    "confidence": 0.98
+  },
+
+  "NMC_111": {
+    "name": "Lithium Nickel Manganese Cobalt Oxide 111",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "density": 4700.0,
+    "electrical_conductivity": 0.0001,
+    "notes": "LiNi1/3Mn1/3Co1/3O2, balanced performance, 160 mAh/g, EVs, 3.7V vs Li",
+    "cost_per_kg": 45.0,
+    "confidence": 0.97
+  },
+
+  "NMC_622": {
+    "name": "Lithium Nickel Manganese Cobalt Oxide 622",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "density": 4750.0,
+    "notes": "LiNi0.6Mn0.2Co0.2O2, high energy, 180 mAh/g, EVs, cost reduction",
+    "cost_per_kg": 38.0,
+    "confidence": 0.96
+  },
+
+  "NMC_811": {
+    "name": "Lithium Nickel Manganese Cobalt Oxide 811",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "density": 4800.0,
+    "notes": "LiNi0.8Mn0.1Co0.1O2, highest energy NMC, 200 mAh/g, EVs, less stable",
+    "cost_per_kg": 32.0,
+    "confidence": 0.95
+  },
+
+  "NCA": {
+    "name": "Lithium Nickel Cobalt Aluminum Oxide",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "density": 4750.0,
+    "notes": "LiNi0.8Co0.15Al0.05O2, Tesla cells, 200 mAh/g, high power, less stable",
+    "cost_per_kg": 40.0,
+    "confidence": 0.96
+  },
+
+  "LFP": {
+    "name": "Lithium Iron Phosphate",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "cas_number": "15365-14-7",
+    "density": 3600.0,
+    "electrical_conductivity": 1e-09,
+    "notes": "LiFePO4, ultra-safe, 160 mAh/g, 3.2V vs Li, long cycle life, EVs/storage",
+    "cost_per_kg": 18.0,
+    "confidence": 0.98
+  },
+
+  "LMO": {
+    "name": "Lithium Manganese Oxide",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "cas_number": "12032-97-6",
+    "density": 4280.0,
+    "notes": "LiMn2O4, spinel, 120 mAh/g, 4.0V vs Li, safe, power tools, Mn dissolution",
+    "cost_per_kg": 22.0,
+    "confidence": 0.97
+  },
+
+  "LMFP": {
+    "name": "Lithium Manganese Iron Phosphate",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "density": 3550.0,
+    "notes": "LiMn0.5Fe0.5PO4, higher voltage than LFP, 160 mAh/g, 3.5V vs Li",
+    "cost_per_kg": 20.0,
+    "confidence": 0.94
+  },
+
+  "LNO": {
+    "name": "Lithium Nickel Oxide",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "cas_number": "12031-65-1",
+    "density": 4900.0,
+    "notes": "LiNiO2, high capacity 200 mAh/g, unstable, precursor to NMC/NCA",
+    "cost_per_kg": 35.0,
+    "confidence": 0.92
+  },
+
+  "LRLO": {
+    "name": "Lithium-Rich Layered Oxide",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "density": 4650.0,
+    "notes": "Li1.2Mn0.54Ni0.13Co0.13O2, >250 mAh/g, voltage fade, next-gen cathode",
+    "cost_per_kg": 42.0,
+    "confidence": 0.90
+  },
+
+  "Graphite_Anode": {
+    "name": "Graphite (Battery Grade)",
+    "category": "energy_material",
+    "subcategory": "battery_anode",
+    "cas_number": "7782-42-5",
+    "density": 2260.0,
+    "electrical_conductivity": 100000.0,
+    "thermal_conductivity": 150.0,
+    "notes": "LiC6, 372 mAh/g theoretical, 350 practical, SEI formation, dominant anode",
+    "cost_per_kg": 8.5,
+    "confidence": 0.98
+  },
+
+  "Hard_Carbon": {
+    "name": "Hard Carbon",
+    "category": "energy_material",
+    "subcategory": "battery_anode",
+    "density": 1600.0,
+    "electrical_conductivity": 10000.0,
+    "notes": "Non-graphitizable carbon, Na-ion batteries, 300 mAh/g, disordered",
+    "cost_per_kg": 12.0,
+    "confidence": 0.95
+  },
+
+  "Silicon_Anode": {
+    "name": "Silicon (Battery Anode)",
+    "category": "energy_material",
+    "subcategory": "battery_anode",
+    "cas_number": "7440-21-3",
+    "density": 2329.0,
+    "electrical_conductivity": 156.0,
+    "notes": "Li15Si4, 3579 mAh/g theoretical, 300% expansion, next-gen anode",
+    "cost_per_kg": 25.0,
+    "confidence": 0.94
+  },
+
+  "SiO_Anode": {
+    "name": "Silicon Monoxide (Battery Anode)",
+    "category": "energy_material",
+    "subcategory": "battery_anode",
+    "density": 2130.0,
+    "notes": "SiO, 1500-2000 mAh/g, reduced swelling vs pure Si, commercial (Tesla)",
+    "cost_per_kg": 35.0,
+    "confidence": 0.93
+  },
+
+  "Lithium_Metal": {
+    "name": "Lithium Metal (Anode)",
+    "category": "energy_material",
+    "subcategory": "battery_anode",
+    "cas_number": "7439-93-2",
+    "density": 534.0,
+    "melting_point": 453.7,
+    "electrical_conductivity": 10800000.0,
+    "notes": "3860 mAh/g, ultimate anode, dendrite formation, solid-state batteries",
+    "cost_per_kg": 85.0,
+    "confidence": 0.96
+  },
+
+  "Li4Ti5O12": {
+    "name": "Lithium Titanate",
+    "category": "energy_material",
+    "subcategory": "battery_anode",
+    "cas_number": "12031-82-2",
+    "density": 3500.0,
+    "notes": "LTO, 175 mAh/g, zero-strain, ultra-long cycle, fast charge, 1.55V vs Li",
+    "cost_per_kg": 45.0,
+    "confidence": 0.96
+  },
+
+  "TiO2_Anode": {
+    "name": "Titanium Dioxide (Battery Anode)",
+    "category": "energy_material",
+    "subcategory": "battery_anode",
+    "cas_number": "13463-67-7",
+    "density": 4230.0,
+    "notes": "Anatase TiO2, 335 mAh/g theoretical, safe, fast Li+ transport",
+    "cost_per_kg": 15.0,
+    "confidence": 0.94
+  },
+
+  "Sodium_Metal": {
+    "name": "Sodium Metal (Anode)",
+    "category": "energy_material",
+    "subcategory": "battery_anode",
+    "cas_number": "7440-23-5",
+    "density": 968.0,
+    "melting_point": 371.0,
+    "electrical_conductivity": 21000000.0,
+    "notes": "1166 mAh/g, Na-ion batteries, abundant, dendrite issues",
+    "cost_per_kg": 12.0,
+    "confidence": 0.93
+  },
+
+  "LiPF6_Electrolyte": {
+    "name": "Lithium Hexafluorophosphate",
+    "category": "energy_material",
+    "subcategory": "liquid_electrolyte",
+    "cas_number": "21324-40-3",
+    "density": 1500.0,
+    "notes": "1M in EC/DMC, standard Li-ion electrolyte salt, conductivity 10 mS/cm",
+    "cost_per_kg": 45.0,
+    "confidence": 0.98
+  },
+
+  "LiTFSI": {
+    "name": "Lithium Bis(trifluoromethanesulfonyl)imide",
+    "category": "energy_material",
+    "subcategory": "liquid_electrolyte",
+    "cas_number": "90076-65-6",
+    "density": 1330.0,
+    "notes": "High voltage electrolyte salt, Al corrosion, ionic liquids, thermal stability",
+    "cost_per_kg": 125.0,
+    "confidence": 0.96
+  },
+
+  "EC_DMC": {
+    "name": "Ethylene Carbonate / Dimethyl Carbonate",
+    "category": "energy_material",
+    "subcategory": "liquid_electrolyte",
+    "density": 1320.0,
+    "notes": "EC/DMC 1:1, standard Li-ion solvent, SEI formation, wide voltage window",
+    "cost_per_kg": 12.0,
+    "confidence": 0.97
+  },
+
+  "LLZO": {
+    "name": "Lithium Lanthanum Zirconium Oxide",
+    "category": "energy_material",
+    "subcategory": "solid_electrolyte",
+    "density": 5100.0,
+    "ionic_conductivity": 0.001,
+    "notes": "Li7La3Zr2O12, garnet, 1 mS/cm, Li metal compatible, solid-state batteries",
+    "cost_per_kg": 850.0,
+    "confidence": 0.94
+  },
+
+  "LGPS": {
+    "name": "Lithium Germanium Phosphorus Sulfide",
+    "category": "energy_material",
+    "subcategory": "solid_electrolyte",
+    "density": 2900.0,
+    "ionic_conductivity": 0.012,
+    "notes": "Li10GeP2S12, sulfide, 12 mS/cm, highest conductivity, air sensitive",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.92
+  },
+
+  "Argyrodite": {
+    "name": "Lithium Argyrodite",
+    "category": "energy_material",
+    "subcategory": "solid_electrolyte",
+    "density": 1770.0,
+    "ionic_conductivity": 0.003,
+    "notes": "Li6PS5Cl, sulfide, 3 mS/cm, processable, solid-state batteries",
+    "cost_per_kg": 950.0,
+    "confidence": 0.91
+  },
+
+  "LISICON": {
+    "name": "LISICON (Li2+2xZn1-xGeO4)",
+    "category": "energy_material",
+    "subcategory": "solid_electrolyte",
+    "density": 3600.0,
+    "ionic_conductivity": 0.0001,
+    "notes": "Lithium Super Ionic Conductor, 0.1 mS/cm, first solid electrolyte",
+    "cost_per_kg": 650.0,
+    "confidence": 0.93
+  },
+
+  "PEO_Electrolyte": {
+    "name": "Polyethylene Oxide (Solid Polymer Electrolyte)",
+    "category": "energy_material",
+    "subcategory": "solid_electrolyte",
+    "cas_number": "25322-68-3",
+    "density": 1210.0,
+    "glass_transition_temp": 206.0,
+    "ionic_conductivity": 0.00001,
+    "notes": "PEO+LiTFSI, 0.01 mS/cm at 60°C, flexible, solid-state batteries",
+    "cost_per_kg": 85.0,
+    "confidence": 0.95
+  },
+
+  "LLTO": {
+    "name": "Lithium Lanthanum Titanate",
+    "category": "energy_material",
+    "subcategory": "solid_electrolyte",
+    "density": 5400.0,
+    "ionic_conductivity": 0.001,
+    "notes": "Li0.33La0.56TiO3, perovskite, 1 mS/cm, electronic conductivity issue",
+    "cost_per_kg": 550.0,
+    "confidence": 0.92
+  },
+
+  "Pt_C_Catalyst": {
+    "name": "Platinum on Carbon (Fuel Cell Catalyst)",
+    "category": "energy_material",
+    "subcategory": "fuel_cell_catalyst",
+    "density": 2100.0,
+    "notes": "40-60 wt% Pt/C, ORR/HER catalyst, PEMFC, 0.4 mg Pt/cm²",
+    "cost_per_kg": 35000.0,
+    "confidence": 0.97
+  },
+
+  "PtRu_Catalyst": {
+    "name": "Platinum-Ruthenium Catalyst",
+    "category": "energy_material",
+    "subcategory": "fuel_cell_catalyst",
+    "density": 11000.0,
+    "notes": "Pt1Ru1, methanol oxidation, DMFC, CO tolerance",
+    "cost_per_kg": 42000.0,
+    "confidence": 0.95
+  },
+
+  "IrO2_Catalyst": {
+    "name": "Iridium Oxide (OER Catalyst)",
+    "category": "energy_material",
+    "subcategory": "fuel_cell_catalyst",
+    "cas_number": "12030-49-8",
+    "density": 11700.0,
+    "notes": "Oxygen evolution reaction, PEM electrolysis, acidic environment",
+    "cost_per_kg": 95000.0,
+    "confidence": 0.96
+  },
+
+  "NiFe_OER": {
+    "name": "Nickel-Iron Hydroxide (OER Catalyst)",
+    "category": "energy_material",
+    "subcategory": "fuel_cell_catalyst",
+    "density": 3600.0,
+    "notes": "NiFe-LDH, alkaline OER, low cost, 1.5-1.6V vs RHE",
+    "cost_per_kg": 85.0,
+    "confidence": 0.94
+  },
+
+  "Nafion": {
+    "name": "Nafion 117",
+    "category": "energy_material",
+    "subcategory": "fuel_cell_membrane",
+    "density": 2000.0,
+    "glass_transition_temp": 383.0,
+    "ionic_conductivity": 0.1,
+    "notes": "Perfluorosulfonic acid, PEMFC, 100 mS/cm hydrated, 183 μm thick",
+    "cost_per_kg": 850.0,
+    "confidence": 0.98
+  },
+
+  "Nafion_212": {
+    "name": "Nafion 212",
+    "category": "energy_material",
+    "subcategory": "fuel_cell_membrane",
+    "density": 2000.0,
+    "ionic_conductivity": 0.1,
+    "notes": "PFSA, 50 μm thick, thinner for higher power density",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.97
+  },
+
+  "Aquivion": {
+    "name": "Aquivion (Short-Side-Chain PFSA)",
+    "category": "energy_material",
+    "subcategory": "fuel_cell_membrane",
+    "density": 1980.0,
+    "ionic_conductivity": 0.12,
+    "notes": "Higher conductivity than Nafion, 120 mS/cm, better durability",
+    "cost_per_kg": 950.0,
+    "confidence": 0.95
+  },
+
+  "PBI_Membrane": {
+    "name": "Polybenzimidazole (HT-PEMFC Membrane)",
+    "category": "energy_material",
+    "subcategory": "fuel_cell_membrane",
+    "density": 1300.0,
+    "glass_transition_temp": 700.0,
+    "notes": "High-temp PEMFC (120-200°C), H3PO4-doped, no humidification",
+    "cost_per_kg": 450.0,
+    "confidence": 0.93
+  },
+
+  "Silicon_Solar": {
+    "name": "Crystalline Silicon (Solar Grade)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "7440-21-3",
+    "density": 2329.0,
+    "bandgap": 1.12,
+    "efficiency_percent": 26.7,
+    "notes": "c-Si, mono/poly, 26.7% record efficiency, 90% market share",
+    "cost_per_kg": 28.0,
+    "confidence": 0.98
+  },
+
+  "GaAs_Solar": {
+    "name": "Gallium Arsenide (Solar Cell)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "1303-00-0",
+    "density": 5316.0,
+    "bandgap": 1.42,
+    "efficiency_percent": 29.1,
+    "notes": "GaAs, 29.1% record, space applications, III-V multijunction",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.97
+  },
+
+  "CIGS": {
+    "name": "Copper Indium Gallium Selenide",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "density": 5700.0,
+    "bandgap": 1.15,
+    "efficiency_percent": 23.4,
+    "notes": "Cu(In,Ga)Se2, thin-film, 23.4% record, flexible, low light performance",
+    "cost_per_kg": 850.0,
+    "confidence": 0.95
+  },
+
+  "CdTe_Solar": {
+    "name": "Cadmium Telluride (Solar Cell)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "1306-25-8",
+    "density": 5850.0,
+    "bandgap": 1.45,
+    "efficiency_percent": 22.1,
+    "notes": "CdTe, thin-film, 22.1% record, low cost, First Solar",
+    "cost_per_kg": 450.0,
+    "confidence": 0.96
+  },
+
+  "Perovskite_MAPbI3": {
+    "name": "Methylammonium Lead Iodide (Perovskite)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "69113-72-8",
+    "density": 4290.0,
+    "bandgap": 1.55,
+    "efficiency_percent": 26.1,
+    "notes": "CH3NH3PbI3, 26.1% record, solution-processed, stability issues",
+    "cost_per_kg": 250.0,
+    "confidence": 0.92
+  },
+
+  "Perovskite_FAPbI3": {
+    "name": "Formamidinium Lead Iodide (Perovskite)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "density": 4350.0,
+    "bandgap": 1.48,
+    "notes": "HC(NH2)2PbI3, more stable than MAPbI3, bandgap tunable",
+    "cost_per_kg": 280.0,
+    "confidence": 0.90
+  },
+
+  "PCBM": {
+    "name": "Phenyl-C61-Butyric Acid Methyl Ester",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "160848-22-6",
+    "density": 1500.0,
+    "notes": "Fullerene acceptor, organic solar cells, 11-13% efficiency",
+    "cost_per_kg": 850.0,
+    "confidence": 0.93
+  },
+
+  "P3HT": {
+    "name": "Poly(3-hexylthiophene)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "104934-50-1",
+    "density": 1100.0,
+    "glass_transition_temp": 285.0,
+    "bandgap": 2.0,
+    "notes": "Conjugated polymer donor, organic solar cells, 5% efficiency with PCBM",
+    "cost_per_kg": 450.0,
+    "confidence": 0.94
+  },
+
+  "Spiro_OMeTAD": {
+    "name": "Spiro-OMeTAD",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "207739-72-8",
+    "density": 1070.0,
+    "glass_transition_temp": 398.0,
+    "notes": "Hole transport material, perovskite solar cells, hygroscopic",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.92
+  },
+
+  "FTO_Glass": {
+    "name": "Fluorine-doped Tin Oxide (Transparent Electrode)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "density": 6950.0,
+    "electrical_resistivity": 0.0001,
+    "transmittance": 85.0,
+    "notes": "SnO2:F, TCO, solar cells, 10 Ω/sq, high temp stability",
+    "cost_per_kg": 85.0,
+    "confidence": 0.96
+  },
+
+  "ITO_Solar": {
+    "name": "Indium Tin Oxide (Transparent Electrode)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "density": 7120.0,
+    "electrical_resistivity": 0.0001,
+    "transmittance": 90.0,
+    "notes": "In2O3:Sn, TCO, OLEDs/solar cells, 10 Ω/sq, low temp deposition",
+    "cost_per_kg": 650.0,
+    "confidence": 0.97
+  },
+
+  "TiO2_ETL": {
+    "name": "Titanium Dioxide (Electron Transport Layer)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "13463-67-7",
+    "density": 4230.0,
+    "bandgap": 3.2,
+    "notes": "Anatase TiO2, perovskite solar cells, mesoporous or compact layer",
+    "cost_per_kg": 15.0,
+    "confidence": 0.96
+  },
+
+  "SnO2_ETL": {
+    "name": "Tin Dioxide (Electron Transport Layer)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "18282-10-5",
+    "density": 6950.0,
+    "bandgap": 3.6,
+    "notes": "Low-temp processable ETL, perovskite solar cells, higher conductivity",
+    "cost_per_kg": 28.0,
+    "confidence": 0.94
+  },
+
+  "NiOx_HTL": {
+    "name": "Nickel Oxide (Hole Transport Layer)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "1313-99-1",
+    "density": 6720.0,
+    "bandgap": 3.7,
+    "notes": "NiOx, inverted perovskite solar cells, inorganic HTL",
+    "cost_per_kg": 85.0,
+    "confidence": 0.93
+  },
+
+  "EVA_Encapsulant": {
+    "name": "Ethylene Vinyl Acetate (Solar Encapsulant)",
+    "category": "energy_material",
+    "subcategory": "photovoltaic",
+    "cas_number": "24937-78-8",
+    "density": 950.0,
+    "glass_transition_temp": 243.0,
+    "transmittance": 92.0,
+    "notes": "EVA, solar module encapsulation, UV stable, 25-year lifetime",
+    "cost_per_kg": 12.0,
+    "confidence": 0.97
+  },
+
+  "LiNixCoyAlzO2": {
+    "name": "Lithium Nickel Cobalt Aluminum Oxide (Generic NCA)",
+    "category": "energy_material",
+    "subcategory": "battery_cathode",
+    "density": 4750.0,
+    "notes": "NCA family, high energy density, thermal stability concerns",
+    "cost_per_kg": 38.0,
+    "confidence": 0.94
+  },
+
+  "LiFSI": {
+    "name": "Lithium Bis(fluorosulfonyl)imide",
+    "category": "energy_material",
+    "subcategory": "liquid_electrolyte",
+    "cas_number": "171611-11-3",
+    "density": 1500.0,
+    "notes": "Higher conductivity than LiPF6, lower viscosity, Al compatible",
+    "cost_per_kg": 180.0,
+    "confidence": 0.93
+  },
+
+  "LiBOB": {
+    "name": "Lithium Bis(oxalato)borate",
+    "category": "energy_material",
+    "subcategory": "liquid_electrolyte",
+    "cas_number": "244774-32-5",
+    "density": 1450.0,
+    "notes": "Electrolyte additive, SEI stabilization, Al corrosion protection",
+    "cost_per_kg": 250.0,
+    "confidence": 0.91
+  },
+
+  "Graphene_Battery": {
+    "name": "Graphene (Battery Additive)",
+    "category": "energy_material",
+    "subcategory": "battery_anode",
+    "density": 2267.0,
+    "electrical_conductivity": 1000000.0,
+    "thermal_conductivity": 5000.0,
+    "notes": "Conductive additive, improves rate capability, Li-S batteries",
+    "cost_per_kg": 850.0,
+    "confidence": 0.92
+  },
+
+  "Vanadium_Redox": {
+    "name": "Vanadium Electrolyte (Redox Flow Battery)",
+    "category": "energy_material",
+    "subcategory": "liquid_electrolyte",
+    "density": 1350.0,
+    "notes": "V2+/V3+ and VO2+/VO2+, flow batteries, grid storage, unlimited cycles",
+    "cost_per_kg": 45.0,
+    "confidence": 0.94
+  }
+}

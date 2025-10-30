@@ -1,0 +1,185 @@
+{
+  "manifest_version": "1.0",
+  "description": "QuLabInfinite materials test list",
+  "total_materials": 45,
+  "categories": {
+    "structural": {
+      "count": 5,
+      "materials": [
+        "304 Stainless Steel",
+        "Al 6061-T6",
+        "Ti-6Al-4V",
+        "Carbon Fiber Epoxy",
+        "Al 7075-T6"
+      ],
+      "available": [
+        "304 Stainless Steel",
+        "Al 6061-T6",
+        "Ti-6Al-4V",
+        "Carbon Fiber Epoxy",
+        "Al 7075-T6"
+      ],
+      "missing": []
+    },
+    "aerogels": {
+      "count": 3,
+      "materials": [
+        "Airloy X103 Strong Aerogel",
+        "Silica Aerogel",
+        "Graphene Aerogel"
+      ],
+      "available": [
+        "Airloy X103 Strong Aerogel",
+        "Silica Aerogel",
+        "Graphene Aerogel"
+      ],
+      "missing": []
+    },
+    "energy": {
+      "count": 6,
+      "materials": [
+        "NMC_111",
+        "NMC_622",
+        "NMC_811",
+        "NMC811 Cathode Powder",
+        "Graphite_Anode",
+        "Silicon_Anode"
+      ],
+      "available": [
+        "NMC_111",
+        "NMC_622",
+        "NMC_811",
+        "NMC811 Cathode Powder",
+        "Graphite_Anode",
+        "Silicon_Anode"
+      ],
+      "missing": []
+    },
+    "optical": {
+      "count": 5,
+      "materials": [
+        "BBO",
+        "LBO",
+        "KTP",
+        "ZnSe_Window",
+        "Sapphire substrate"
+      ],
+      "available": [
+        "BBO",
+        "LBO",
+        "KTP",
+        "ZnSe_Window",
+        "Sapphire substrate"
+      ],
+      "missing": []
+    },
+    "superconductors": {
+      "count": 4,
+      "materials": [
+        "YBCO",
+        "Nb3Sn",
+        "NbN",
+        "BSCCO_2223"
+      ],
+      "available": [
+        "YBCO",
+        "Nb3Sn",
+        "NbN",
+        "BSCCO_2223"
+      ],
+      "missing": []
+    },
+    "2d_materials": {
+      "count": 6,
+      "materials": [
+        "MoSe2",
+        "Ti3C2Tx",
+        "Bi2Te3",
+        "WTe2",
+        "Phosphorene",
+        "Graphene"
+      ],
+      "available": [
+        "MoSe2",
+        "Ti3C2Tx",
+        "Bi2Te3",
+        "WTe2",
+        "Phosphorene",
+        "Graphene"
+      ],
+      "missing": []
+    },
+    "ceramics": {
+      "count": 5,
+      "materials": [
+        "Silicon Carbide",
+        "Tungsten Carbide (WC-Co)",
+        "Silicon Nitride Si3N4",
+        "HfC",
+        "TaC"
+      ],
+      "available": [
+        "Silicon Carbide",
+        "Tungsten Carbide (WC-Co)",
+        "Silicon Nitride Si3N4",
+        "HfC",
+        "TaC"
+      ],
+      "missing": []
+    },
+    "magnetic": {
+      "count": 3,
+      "materials": [
+        "Neodymium",
+        "Permalloy_80",
+        "Supermalloy"
+      ],
+      "available": [
+        "Neodymium",
+        "Permalloy_80",
+        "Supermalloy"
+      ],
+      "missing": []
+    },
+    "thermal": {
+      "count": 2,
+      "materials": [
+        "Gallium Arsenide",
+        "Graphene CVD"
+      ],
+      "available": [
+        "Gallium Arsenide",
+        "Graphene CVD"
+      ],
+      "missing": []
+    },
+    "piezoelectric": {
+      "count": 3,
+      "materials": [
+        "PZT_4",
+        "PZT_5A",
+        "PZT_5H"
+      ],
+      "available": [
+        "PZT_4",
+        "PZT_5A",
+        "PZT_5H"
+      ],
+      "missing": []
+    },
+    "biomaterials": {
+      "count": 3,
+      "materials": [
+        "Hydroxyapatite",
+        "PEEK",
+        "PCL"
+      ],
+      "available": [
+        "Hydroxyapatite",
+        "PEEK",
+        "PCL"
+      ],
+      "missing": []
+    }
+  }
+}

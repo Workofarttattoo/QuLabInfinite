@@ -1,0 +1,422 @@
+{
+  "_metadata": {
+    "description": "Thermal Interface Materials Expansion - 30 materials for AI chip cooling, data centers, electronics thermal management",
+    "date": "2025-10-30",
+    "version": "1.0",
+    "categories": ["thermal_paste", "thermal_pad", "phase_change_material", "liquid_metal", "thermal_adhesive"]
+  },
+
+  "Arctic_MX6": {
+    "name": "Arctic MX-6 Thermal Paste",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 2500.0,
+    "thermal_conductivity": 8.5,
+    "viscosity": 870.0,
+    "operating_temp_min": -50.0,
+    "operating_temp_max": 180.0,
+    "notes": "Carbon microparticles, non-conductive, CPU/GPU, 8 years shelf life",
+    "cost_per_kg": 850.0,
+    "confidence": 0.96
+  },
+
+  "Noctua_NT_H2": {
+    "name": "Noctua NT-H2",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 2490.0,
+    "thermal_conductivity": 8.9,
+    "viscosity": 750.0,
+    "operating_temp_min": -50.0,
+    "operating_temp_max": 200.0,
+    "notes": "Low viscosity, easy application, non-conductive, 3 years shelf life",
+    "cost_per_kg": 920.0,
+    "confidence": 0.95
+  },
+
+  "Thermal_Grizzly_Kryonaut": {
+    "name": "Thermal Grizzly Kryonaut",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 3750.0,
+    "thermal_conductivity": 12.5,
+    "viscosity": 130.0,
+    "operating_temp_min": -250.0,
+    "operating_temp_max": 350.0,
+    "notes": "Aluminum oxide particles, overclocking, LN2 capable, best non-metal paste",
+    "cost_per_kg": 2200.0,
+    "confidence": 0.97
+  },
+
+  "Gelid_GC_Extreme": {
+    "name": "Gelid GC-Extreme",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 3170.0,
+    "thermal_conductivity": 8.5,
+    "viscosity": 200.0,
+    "operating_temp_min": -45.0,
+    "operating_temp_max": 180.0,
+    "notes": "Silver compound, non-curing, easy removal, 5 years shelf life",
+    "cost_per_kg": 1100.0,
+    "confidence": 0.94
+  },
+
+  "Cooler_Master_MasterGel_Maker": {
+    "name": "Cooler Master MasterGel Maker",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 2650.0,
+    "thermal_conductivity": 11.0,
+    "viscosity": 90.0,
+    "operating_temp_min": -50.0,
+    "operating_temp_max": 150.0,
+    "notes": "Nano-diamond particles, high-end CPUs, low viscosity spreads",
+    "cost_per_kg": 1500.0,
+    "confidence": 0.93
+  },
+
+  "Liquid_Metal_Conductonaut": {
+    "name": "Thermal Grizzly Conductonaut",
+    "category": "thermal_material",
+    "subcategory": "liquid_metal",
+    "density": 6240.0,
+    "thermal_conductivity": 73.0,
+    "viscosity": 1.2,
+    "melting_point": -19.0,
+    "operating_temp_max": 150.0,
+    "notes": "Ga-In-Sn eutectic, highest conductivity, conductive (not for Al), delidding",
+    "cost_per_kg": 18500.0,
+    "confidence": 0.96
+  },
+
+  "Liquid_Metal_Galinstan": {
+    "name": "Galinstan",
+    "category": "thermal_material",
+    "subcategory": "liquid_metal",
+    "cas_number": "12024-10-1",
+    "density": 6440.0,
+    "thermal_conductivity": 16.5,
+    "viscosity": 2.4,
+    "melting_point": -19.0,
+    "boiling_point": 1300.0,
+    "notes": "68.5% Ga, 21.5% In, 10% Sn, liquid at room temp, non-toxic Hg replacement",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.97
+  },
+
+  "Liquid_Metal_EGaIn": {
+    "name": "EGaIn",
+    "category": "thermal_material",
+    "subcategory": "liquid_metal",
+    "density": 6250.0,
+    "thermal_conductivity": 26.4,
+    "viscosity": 2.0,
+    "melting_point": 15.5,
+    "boiling_point": 2000.0,
+    "notes": "75% Ga, 25% In eutectic, flexible electronics, soft robotics, thermal switches",
+    "cost_per_kg": 12000.0,
+    "confidence": 0.95
+  },
+
+  "Indium_Foil": {
+    "name": "Indium Foil",
+    "category": "thermal_material",
+    "subcategory": "thermal_pad",
+    "cas_number": "7440-74-6",
+    "density": 7310.0,
+    "thermal_conductivity": 81.8,
+    "melting_point": 156.6,
+    "notes": "Pure indium, conforms under pressure, cryogenics, vacuum seals",
+    "cost_per_kg": 950.0,
+    "confidence": 0.98
+  },
+
+  "Graphite_Pad": {
+    "name": "Graphite Thermal Pad",
+    "category": "thermal_material",
+    "subcategory": "thermal_pad",
+    "density": 2000.0,
+    "thermal_conductivity": 25.0,
+    "operating_temp_min": -40.0,
+    "operating_temp_max": 400.0,
+    "notes": "Anisotropic graphite sheet, reusable, dry, GPUs, PS5 console",
+    "cost_per_kg": 380.0,
+    "confidence": 0.94
+  },
+
+  "Fujipoly_Ultra_Extreme": {
+    "name": "Fujipoly Ultra Extreme XR-m",
+    "category": "thermal_material",
+    "subcategory": "thermal_pad",
+    "density": 3600.0,
+    "thermal_conductivity": 17.0,
+    "hardness_shore_00": 5.0,
+    "operating_temp_min": -60.0,
+    "operating_temp_max": 200.0,
+    "notes": "Silicone-based, ultra-soft, high-end GPUs, 0.5-5.0mm thicknesses",
+    "cost_per_kg": 1800.0,
+    "confidence": 0.95
+  },
+
+  "Laird_Tpli_220": {
+    "name": "Laird Tflex 220",
+    "category": "thermal_material",
+    "subcategory": "thermal_pad",
+    "density": 2700.0,
+    "thermal_conductivity": 2.0,
+    "hardness_shore_00": 30.0,
+    "operating_temp_min": -40.0,
+    "operating_temp_max": 150.0,
+    "notes": "Gap filler, conformable, EMI shielding version available",
+    "cost_per_kg": 450.0,
+    "confidence": 0.93
+  },
+
+  "Bergquist_Gap_Pad_5000S35": {
+    "name": "Bergquist Gap Pad 5000S35",
+    "category": "thermal_material",
+    "subcategory": "thermal_pad",
+    "density": 3500.0,
+    "thermal_conductivity": 5.0,
+    "hardness_shore_00": 15.0,
+    "operating_temp_min": -60.0,
+    "operating_temp_max": 180.0,
+    "notes": "Silicone-free, automotive electronics, inherently tacky",
+    "cost_per_kg": 680.0,
+    "confidence": 0.92
+  },
+
+  "Thermalright_Odyssey": {
+    "name": "Thermalright Odyssey Thermal Pad",
+    "category": "thermal_material",
+    "subcategory": "thermal_pad",
+    "density": 2200.0,
+    "thermal_conductivity": 12.8,
+    "hardness_shore_00": 25.0,
+    "operating_temp_min": -40.0,
+    "operating_temp_max": 200.0,
+    "notes": "Budget high-performance, GPU VRAM, 0.5-3.0mm thicknesses",
+    "cost_per_kg": 420.0,
+    "confidence": 0.91
+  },
+
+  "PCM_Honeywell": {
+    "name": "Honeywell PCM Phase Change Material",
+    "category": "thermal_material",
+    "subcategory": "phase_change_material",
+    "density": 2800.0,
+    "thermal_conductivity": 4.0,
+    "phase_change_temp": 58.0,
+    "operating_temp_max": 125.0,
+    "notes": "Solid at room temp, flows at 58°C, CPUs, minimal pump-out",
+    "cost_per_kg": 950.0,
+    "confidence": 0.94
+  },
+
+  "Indium_TIM": {
+    "name": "Indium Corporation Thermal Interface Material",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 4200.0,
+    "thermal_conductivity": 25.0,
+    "viscosity": 450.0,
+    "operating_temp_min": -55.0,
+    "operating_temp_max": 200.0,
+    "notes": "Indium-based, high-power semiconductors, thermal cycling resistant",
+    "cost_per_kg": 2800.0,
+    "confidence": 0.93
+  },
+
+  "Paraffin_Wax_PCM": {
+    "name": "Paraffin Wax RT58",
+    "category": "thermal_material",
+    "subcategory": "phase_change_material",
+    "cas_number": "8002-74-2",
+    "density": 880.0,
+    "thermal_conductivity": 0.21,
+    "phase_change_temp": 58.0,
+    "latent_heat_kJ_kg": 180.0,
+    "notes": "Organic PCM, passive cooling, battery thermal management, low cost",
+    "cost_per_kg": 25.0,
+    "confidence": 0.96
+  },
+
+  "Salt_Hydrate_PCM": {
+    "name": "Sodium Sulfate Decahydrate",
+    "category": "thermal_material",
+    "subcategory": "phase_change_material",
+    "cas_number": "7727-73-3",
+    "density": 1460.0,
+    "thermal_conductivity": 0.54,
+    "phase_change_temp": 32.0,
+    "latent_heat_kJ_kg": 254.0,
+    "notes": "Na2SO4·10H2O, Glauber's salt, high latent heat, building HVAC",
+    "cost_per_kg": 15.0,
+    "confidence": 0.95
+  },
+
+  "Metallic_PCM_BiSnInCd": {
+    "name": "Bi-Sn-In-Cd Eutectic",
+    "category": "thermal_material",
+    "subcategory": "phase_change_material",
+    "density": 8650.0,
+    "thermal_conductivity": 19.0,
+    "phase_change_temp": 47.0,
+    "latent_heat_kJ_kg": 29.0,
+    "notes": "Field's metal variant, high conductivity PCM, electronics thermal buffering",
+    "cost_per_kg": 850.0,
+    "confidence": 0.90
+  },
+
+  "Boron_Nitride_Paste": {
+    "name": "Boron Nitride Thermal Paste",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "cas_number": "10043-11-5",
+    "density": 2100.0,
+    "thermal_conductivity": 5.0,
+    "operating_temp_min": -40.0,
+    "operating_temp_max": 800.0,
+    "notes": "h-BN, electrically insulating, ultra-high temp, power electronics",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.94
+  },
+
+  "Diamond_Compound": {
+    "name": "Synthetic Diamond Thermal Compound",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 3200.0,
+    "thermal_conductivity": 15.0,
+    "viscosity": 180.0,
+    "operating_temp_min": -50.0,
+    "operating_temp_max": 400.0,
+    "notes": "Micronized diamond particles, extreme overclocking, long-term stability",
+    "cost_per_kg": 3500.0,
+    "confidence": 0.92
+  },
+
+  "Silver_Compound": {
+    "name": "Silver Thermal Compound",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 4100.0,
+    "thermal_conductivity": 9.0,
+    "viscosity": 400.0,
+    "operating_temp_min": -50.0,
+    "operating_temp_max": 180.0,
+    "notes": "Ag particles in silicone, non-conductive despite metal, traditional choice",
+    "cost_per_kg": 650.0,
+    "confidence": 0.96
+  },
+
+  "Ceramic_Compound": {
+    "name": "Ceramic Thermal Compound",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 2650.0,
+    "thermal_conductivity": 3.5,
+    "viscosity": 850.0,
+    "operating_temp_min": -30.0,
+    "operating_temp_max": 150.0,
+    "notes": "ZnO/Al2O3, non-conductive, budget option, pre-applied on stock coolers",
+    "cost_per_kg": 120.0,
+    "confidence": 0.95
+  },
+
+  "Thermal_Adhesive_Arctic": {
+    "name": "Arctic Thermal Adhesive",
+    "category": "thermal_material",
+    "subcategory": "thermal_adhesive",
+    "density": 2900.0,
+    "thermal_conductivity": 4.0,
+    "viscosity": 12000.0,
+    "operating_temp_min": -40.0,
+    "operating_temp_max": 145.0,
+    "notes": "Epoxy-based, permanent bonding, heatsink attachment, 4-hour cure",
+    "cost_per_kg": 750.0,
+    "confidence": 0.93
+  },
+
+  "Thermal_Epoxy_Omegabond": {
+    "name": "Omegabond 101 Thermal Epoxy",
+    "category": "thermal_material",
+    "subcategory": "thermal_adhesive",
+    "density": 1900.0,
+    "thermal_conductivity": 1.5,
+    "operating_temp_min": -55.0,
+    "operating_temp_max": 260.0,
+    "notes": "Two-part epoxy, high-temp electronics, structural + thermal",
+    "cost_per_kg": 850.0,
+    "confidence": 0.92
+  },
+
+  "Graphene_Thermal_Paste": {
+    "name": "Graphene-Enhanced Thermal Paste",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 2850.0,
+    "thermal_conductivity": 18.0,
+    "viscosity": 250.0,
+    "operating_temp_min": -50.0,
+    "operating_temp_max": 250.0,
+    "notes": "Graphene nanoplatelets, emerging tech, non-conductive, stable",
+    "cost_per_kg": 2800.0,
+    "confidence": 0.88
+  },
+
+  "Liquid_Metal_Thermal_Pad": {
+    "name": "Honeywell PTM7958",
+    "category": "thermal_material",
+    "subcategory": "phase_change_material",
+    "density": 3500.0,
+    "thermal_conductivity": 8.5,
+    "phase_change_temp": 60.0,
+    "operating_temp_max": 125.0,
+    "notes": "Solid pad, transitions to paste-like at 60°C, PS5, laptops, no pump-out",
+    "cost_per_kg": 1850.0,
+    "confidence": 0.94
+  },
+
+  "Copper_Shim": {
+    "name": "Copper Thermal Shim",
+    "category": "thermal_material",
+    "subcategory": "thermal_pad",
+    "cas_number": "7440-50-8",
+    "density": 8960.0,
+    "thermal_conductivity": 401.0,
+    "operating_temp_max": 400.0,
+    "notes": "Solid copper, highest conductivity, GPU memory, requires TIM on both sides",
+    "cost_per_kg": 95.0,
+    "confidence": 0.98
+  },
+
+  "Aluminum_Nitride_Paste": {
+    "name": "Aluminum Nitride Thermal Paste",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "cas_number": "24304-00-5",
+    "density": 3300.0,
+    "thermal_conductivity": 170.0,
+    "operating_temp_min": -50.0,
+    "operating_temp_max": 600.0,
+    "notes": "AlN particles, ultra-high conductivity, electrically insulating, power modules",
+    "cost_per_kg": 4500.0,
+    "confidence": 0.91
+  },
+
+  "Carbon_Nanotube_TIM": {
+    "name": "Carbon Nanotube Thermal Interface Material",
+    "category": "thermal_material",
+    "subcategory": "thermal_paste",
+    "density": 1800.0,
+    "thermal_conductivity": 20.0,
+    "viscosity": 350.0,
+    "operating_temp_min": -60.0,
+    "operating_temp_max": 300.0,
+    "notes": "Vertically aligned CNTs, research/prototype, low contact resistance",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.85
+  }
+}

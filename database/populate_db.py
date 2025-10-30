@@ -12,10 +12,10 @@ from database.models import RecordChemDB, RecordMaterialDB, Base
 def main():
     parser = argparse.ArgumentParser(description="Populate a database from an ingested dataset.")
     parser.add_argument("dataset_path", type=str, help="Path to the ingested dataset file (.jsonl).")
-    parser.add_argument("--db_path", type=str, default="database/qulab.db", help="Path to the SQLite database file.")
+    parser.add_argument("--db-uri", type=str, default="sqlite:///database/qulab.db", help="Database URI (e.g., 'postgresql://user:pass@host/db' or 'sqlite:///path/to/db.sqlite')")
     args = parser.parse_args()
 
-    engine = create_engine(f'sqlite:///{args.db_path}')
+    engine = create_engine(args.db_uri)
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -28,17 +28,21 @@ def main():
         for line in f:
             record_data = json.loads(line)
             
-            if 'material_id' in record_data:
-                record = RecordMaterial.model_validate(record_data)
-                db_record = RecordMaterialDB(**record.model_dump())
-            else:
-                record = RecordChem.model_validate(record_data)
-                db_record = RecordChemDB(**record.model_dump())
-            
-            session.add(db_record)
+            try:
+                if 'material_id' in record_data:
+                    record = RecordMaterial.model_validate(record_data)
+                    db_record = RecordMaterialDB(**record.model_dump())
+                    session.merge(db_record)
+                else:
+                    record = RecordChem.model_validate(record_data)
+                    db_record = RecordChemDB(**record.model_dump())
+                    session.add(db_record)
+            except Exception as e:
+                print(f"Skipping record due to error: {e}")
     
     session.commit()
     print(f"Database populated successfully from {args.dataset_path}")
 
 if __name__ == "__main__":
     main()
+

@@ -1,0 +1,271 @@
+{
+  "_metadata": {
+    "description": "Superconductors Expansion - 20 materials for quantum computing, MRI, fusion reactors, power transmission",
+    "date": "2025-10-30",
+    "version": "1.0",
+    "categories": ["high_Tc_cuprate", "conventional_superconductor", "iron_based", "MgB2"]
+  },
+
+  "YBCO": {
+    "name": "Yttrium Barium Copper Oxide",
+    "category": "superconductor",
+    "subcategory": "high_Tc_cuprate",
+    "cas_number": "107539-20-8",
+    "density": 6300.0,
+    "critical_temperature": 92.0,
+    "critical_field_tesla": 120.0,
+    "critical_current_density_A_cm2": 100000.0,
+    "notes": "YBa2Cu3O7, first high-Tc above 77K (liquid N2), coated conductors, SQUID",
+    "cost_per_kg": 2500.0,
+    "confidence": 0.97
+  },
+
+  "BSCCO_2223": {
+    "name": "Bismuth Strontium Calcium Copper Oxide 2223",
+    "category": "superconductor",
+    "subcategory": "high_Tc_cuprate",
+    "density": 6200.0,
+    "critical_temperature": 110.0,
+    "critical_field_tesla": 150.0,
+    "critical_current_density_A_cm2": 50000.0,
+    "notes": "Bi2Sr2Ca2Cu3O10, highest Tc cuprate at ambient pressure, MRI magnets",
+    "cost_per_kg": 3800.0,
+    "confidence": 0.95
+  },
+
+  "BSCCO_2212": {
+    "name": "Bismuth Strontium Calcium Copper Oxide 2212",
+    "category": "superconductor",
+    "subcategory": "high_Tc_cuprate",
+    "density": 6100.0,
+    "critical_temperature": 85.0,
+    "critical_field_tesla": 100.0,
+    "critical_current_density_A_cm2": 80000.0,
+    "notes": "Bi2Sr2CaCu2O8, round wire form, fusion magnets (SPARC, ARC)",
+    "cost_per_kg": 3200.0,
+    "confidence": 0.96
+  },
+
+  "MgB2": {
+    "name": "Magnesium Diboride",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "cas_number": "12007-25-9",
+    "density": 2570.0,
+    "melting_point": 830.0,
+    "critical_temperature": 39.0,
+    "critical_field_tesla": 16.0,
+    "critical_current_density_A_cm2": 100000.0,
+    "notes": "Highest Tc conventional superconductor, discovered 2001, low cost, MRI",
+    "cost_per_kg": 450.0,
+    "confidence": 0.97
+  },
+
+  "Nb3Sn": {
+    "name": "Niobium-Tin",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "cas_number": "12035-72-2",
+    "density": 8900.0,
+    "melting_point": 2130.0,
+    "critical_temperature": 18.3,
+    "critical_field_tesla": 24.5,
+    "critical_current_density_A_cm2": 300000.0,
+    "notes": "High-field magnets, ITER fusion, particle accelerators, brittle",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.98
+  },
+
+  "Nb3Ge": {
+    "name": "Niobium-Germanium",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "cas_number": "12035-73-3",
+    "density": 8600.0,
+    "critical_temperature": 23.2,
+    "critical_field_tesla": 38.0,
+    "notes": "Highest Tc A15 superconductor, difficult to fabricate, research only",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.92
+  },
+
+  "V3Si": {
+    "name": "Vanadium-Silicon",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "cas_number": "12039-76-8",
+    "density": 5700.0,
+    "critical_temperature": 17.1,
+    "critical_field_tesla": 20.5,
+    "notes": "A15 structure, historical importance, now obsolete for applications",
+    "cost_per_kg": 650.0,
+    "confidence": 0.94
+  },
+
+  "NbN": {
+    "name": "Niobium Nitride",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "cas_number": "24621-21-4",
+    "density": 8400.0,
+    "critical_temperature": 16.0,
+    "critical_field_tesla": 15.0,
+    "notes": "Thin film superconductor, SNSPDs (single photon detectors), quantum circuits",
+    "cost_per_kg": 2800.0,
+    "confidence": 0.95
+  },
+
+  "TiN": {
+    "name": "Titanium Nitride",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "cas_number": "25583-20-4",
+    "density": 5220.0,
+    "melting_point": 2930.0,
+    "critical_temperature": 5.6,
+    "critical_field_tesla": 1.0,
+    "notes": "Thin film, kinetic inductance detectors, superconducting resonators",
+    "cost_per_kg": 850.0,
+    "confidence": 0.94
+  },
+
+  "Lead": {
+    "name": "Lead (Superconductor)",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "cas_number": "7439-92-1",
+    "density": 11340.0,
+    "melting_point": 327.5,
+    "critical_temperature": 7.2,
+    "critical_field_tesla": 0.08,
+    "notes": "Elemental superconductor, historical importance (discovered 1913), radiation shielding",
+    "cost_per_kg": 28.0,
+    "confidence": 0.98
+  },
+
+  "Tin": {
+    "name": "Tin (Superconductor)",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "cas_number": "7440-31-5",
+    "density": 7310.0,
+    "melting_point": 231.9,
+    "critical_temperature": 3.7,
+    "critical_field_tesla": 0.03,
+    "notes": "Elemental superconductor, isotope effect discovered in Sn, solder contacts",
+    "cost_per_kg": 35.0,
+    "confidence": 0.98
+  },
+
+  "Mercury": {
+    "name": "Mercury (Superconductor)",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "cas_number": "7439-97-6",
+    "density": 13534.0,
+    "melting_point": -38.8,
+    "critical_temperature": 4.15,
+    "critical_field_tesla": 0.04,
+    "notes": "First discovered superconductor (1911 by Kamerlingh Onnes), historical only, toxic",
+    "cost_per_kg": 420.0,
+    "confidence": 0.98
+  },
+
+  "FeSe": {
+    "name": "Iron Selenide",
+    "category": "superconductor",
+    "subcategory": "iron_based",
+    "cas_number": "1310-32-3",
+    "density": 5300.0,
+    "critical_temperature": 8.0,
+    "critical_field_tesla": 16.0,
+    "notes": "Simplest iron-based superconductor, Tc up to 37K under pressure",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.93
+  },
+
+  "LaFeAsO_F": {
+    "name": "Lanthanum Iron Arsenide Oxide Fluoride",
+    "category": "superconductor",
+    "subcategory": "iron_based",
+    "density": 6200.0,
+    "critical_temperature": 26.0,
+    "critical_field_tesla": 50.0,
+    "notes": "LaFeAsO1-xFx, first iron-based high-Tc (2008), 1111 family",
+    "cost_per_kg": 3500.0,
+    "confidence": 0.91
+  },
+
+  "BaFe2As2": {
+    "name": "Barium Iron Arsenide",
+    "category": "superconductor",
+    "subcategory": "iron_based",
+    "density": 6800.0,
+    "critical_temperature": 38.0,
+    "critical_field_tesla": 80.0,
+    "critical_current_density_A_cm2": 100000.0,
+    "notes": "122 family, K-doped, highest Tc iron-based at ambient pressure",
+    "cost_per_kg": 4200.0,
+    "confidence": 0.92
+  },
+
+  "FeTe_Se": {
+    "name": "Iron Telluride Selenide",
+    "category": "superconductor",
+    "subcategory": "iron_based",
+    "density": 5700.0,
+    "critical_temperature": 14.5,
+    "critical_field_tesla": 45.0,
+    "notes": "FeTe0.5Se0.5, 11 family, topological superconductivity candidate",
+    "cost_per_kg": 2800.0,
+    "confidence": 0.90
+  },
+
+  "CaAlSi": {
+    "name": "Calcium Aluminum Silicon",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "density": 2600.0,
+    "critical_temperature": 7.8,
+    "notes": "CaAlSi, discovered 2001 with MgB2, intermetallic",
+    "cost_per_kg": 850.0,
+    "confidence": 0.88
+  },
+
+  "H3S": {
+    "name": "Hydrogen Sulfide",
+    "category": "superconductor",
+    "subcategory": "high_pressure",
+    "cas_number": "7783-06-4",
+    "density": 2080.0,
+    "critical_temperature": 203.0,
+    "pressure_GPa": 155.0,
+    "notes": "Highest Tc superconductor (203K at 155 GPa), 2015 discovery, lab curiosity",
+    "cost_per_kg": 120.0,
+    "confidence": 0.94
+  },
+
+  "LaH10": {
+    "name": "Lanthanum Decahydride",
+    "category": "superconductor",
+    "subcategory": "high_pressure",
+    "density": 5600.0,
+    "critical_temperature": 250.0,
+    "pressure_GPa": 170.0,
+    "notes": "Highest confirmed Tc (250K at 170 GPa), 2018 discovery, high-pressure only",
+    "cost_per_kg": 2500.0,
+    "confidence": 0.92
+  },
+
+  "Chevrel_PbMo6S8": {
+    "name": "Lead Molybdenum Sulfide (Chevrel Phase)",
+    "category": "superconductor",
+    "subcategory": "conventional_superconductor",
+    "density": 6500.0,
+    "critical_temperature": 15.0,
+    "critical_field_tesla": 60.0,
+    "notes": "PbMo6S8, highest upper critical field of any superconductor, research",
+    "cost_per_kg": 5500.0,
+    "confidence": 0.89
+  }
+}

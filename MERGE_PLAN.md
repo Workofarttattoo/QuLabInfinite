@@ -50,3 +50,4 @@ This new client will be the bridge between the QuLab 2.0 simulator and the QuLab
 - **Week 4**: Thorough testing and documentation.
 
 This plan provides a clear path to integrating the valuable simulation capabilities of QuLab 2.0 into the robust data handling framework of QuLabInfinite, creating a more powerful and unified platform for scientific research.
+

@@ -6,6 +6,7 @@ Simulate atomic-level interactions with multiple force fields and integration al
 Target: 100,000 atoms @ 1fs timestep with periodic boundary conditions.
 """
 
+import math
 import numpy as np
 from typing import Dict, List, Tuple, Optional, Callable
 from dataclasses import dataclass
@@ -297,21 +298,19 @@ class MolecularDynamics:
             for j in range(i + 1, self.n_atoms):
                 r_vec = self.positions[j] - self.positions[i]
                 r_vec = self.minimum_image_convention(r_vec)
-                r_sq = np.sum(r_vec**2)
+                r_sq = float(np.sum(r_vec**2))
 
                 if r_sq > cutoff_sq:
                     continue
 
-                if r_sq < 1e-12:
-                    # Avoid singularities when atoms start at identical positions
-                    continue
+                # Enforce a minimum separation to avoid singularities
+                r_min = 0.75  # Angstroms
+                r_min_sq = r_min * r_min
+                if r_sq < r_min_sq:
+                    r_sq = r_min_sq
+                    r_vec = r_vec / (np.linalg.norm(r_vec) or 1.0) * r_min
 
-                r = np.sqrt(r_sq)
-
-                # Additional safety check for very small distances
-                r_min = 0.5  # Minimum distance in Angstroms
-                if r < r_min:
-                    r = r_min
+                r = math.sqrt(r_sq)
 
                 # Lennard-Jones: U = 4*epsilon*[(sigma/r)^12 - (sigma/r)^6]
                 sigma, epsilon = self.force_field.get_lj_params(

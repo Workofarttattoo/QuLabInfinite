@@ -1,0 +1,622 @@
+{
+  "_metadata": {
+    "description": "Optical Materials Expansion - 50 materials for lasers, nonlinear optics, photonics, fiber optics",
+    "date": "2025-10-30",
+    "version": "1.0",
+    "categories": ["laser_crystal", "nonlinear_optical", "optical_window", "optical_coating", "fiber_optic"]
+  },
+
+  "Nd_YAG": {
+    "name": "Neodymium-doped Yttrium Aluminum Garnet",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "cas_number": "12005-21-9",
+    "density": 4560.0,
+    "melting_point": 2243.0,
+    "refractive_index": 1.82,
+    "thermal_conductivity": 13.0,
+    "youngs_modulus": 317.0,
+    "notes": "Nd:YAG, 1064 nm laser, most common solid-state laser, frequency doubling to 532 nm",
+    "cost_per_kg": 15000.0,
+    "confidence": 0.98
+  },
+
+  "Ti_Sapphire": {
+    "name": "Titanium-doped Sapphire",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "cas_number": "1344-28-1",
+    "density": 3980.0,
+    "melting_point": 2320.0,
+    "refractive_index": 1.76,
+    "thermal_conductivity": 33.0,
+    "youngs_modulus": 400.0,
+    "notes": "Ti:Al2O3, 650-1100 nm tunable, femtosecond lasers, ultra-broadband",
+    "cost_per_kg": 45000.0,
+    "confidence": 0.97
+  },
+
+  "Yb_YAG": {
+    "name": "Ytterbium-doped Yttrium Aluminum Garnet",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "density": 4560.0,
+    "melting_point": 2243.0,
+    "refractive_index": 1.82,
+    "thermal_conductivity": 13.0,
+    "notes": "Yb:YAG, 1030 nm laser, diode-pumped, high efficiency, fiber laser alternative",
+    "cost_per_kg": 18000.0,
+    "confidence": 0.96
+  },
+
+  "Er_Glass": {
+    "name": "Erbium-doped Glass",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "density": 2500.0,
+    "glass_transition_temp": 900.0,
+    "refractive_index": 1.52,
+    "notes": "Er:Glass, 1540 nm laser, telecom wavelength, fiber amplifiers (EDFA)",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.95
+  },
+
+  "Nd_Glass": {
+    "name": "Neodymium-doped Glass",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "density": 2520.0,
+    "glass_transition_temp": 850.0,
+    "refractive_index": 1.54,
+    "notes": "Nd:Glass, 1054 nm laser, large apertures for fusion lasers (NIF)",
+    "cost_per_kg": 9500.0,
+    "confidence": 0.94
+  },
+
+  "Ruby": {
+    "name": "Ruby (Chromium-doped Sapphire)",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "cas_number": "1302-37-0",
+    "density": 3980.0,
+    "melting_point": 2320.0,
+    "refractive_index": 1.76,
+    "hardness_vickers": 2000.0,
+    "notes": "Cr:Al2O3, 694.3 nm laser, first laser material (1960), three-level system",
+    "cost_per_kg": 12000.0,
+    "confidence": 0.98
+  },
+
+  "Alexandrite": {
+    "name": "Alexandrite (Chromium-doped BeAl2O4)",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "density": 3700.0,
+    "melting_point": 2163.0,
+    "refractive_index": 1.74,
+    "notes": "Cr:BeAl2O4, 700-820 nm tunable, hair removal lasers",
+    "cost_per_kg": 35000.0,
+    "confidence": 0.93
+  },
+
+  "Ho_YAG": {
+    "name": "Holmium-doped Yttrium Aluminum Garnet",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "density": 4560.0,
+    "melting_point": 2243.0,
+    "refractive_index": 1.82,
+    "notes": "Ho:YAG, 2100 nm laser, medical (lithotripsy), LIDAR",
+    "cost_per_kg": 22000.0,
+    "confidence": 0.92
+  },
+
+  "KDP": {
+    "name": "Potassium Dihydrogen Phosphate",
+    "category": "optical_material",
+    "subcategory": "nonlinear_optical",
+    "cas_number": "7778-77-0",
+    "density": 2338.0,
+    "melting_point": 525.0,
+    "refractive_index": 1.51,
+    "notes": "KH2PO4, frequency doubling/tripling, Pockels cells, large apertures, NIF",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.97
+  },
+
+  "BBO": {
+    "name": "Beta Barium Borate",
+    "category": "optical_material",
+    "subcategory": "nonlinear_optical",
+    "cas_number": "13701-59-2",
+    "density": 3850.0,
+    "melting_point": 1368.0,
+    "refractive_index": 1.66,
+    "notes": "β-BaB2O4, UV-VIS-NIR frequency conversion, high damage threshold",
+    "cost_per_kg": 28000.0,
+    "confidence": 0.96
+  },
+
+  "LBO": {
+    "name": "Lithium Triborate",
+    "category": "optical_material",
+    "subcategory": "nonlinear_optical",
+    "cas_number": "12007-60-2",
+    "density": 2470.0,
+    "melting_point": 1107.0,
+    "refractive_index": 1.57,
+    "notes": "LiB3O5, frequency doubling 1064→532 nm, high power, low absorption",
+    "cost_per_kg": 32000.0,
+    "confidence": 0.95
+  },
+
+  "KTP": {
+    "name": "Potassium Titanyl Phosphate",
+    "category": "optical_material",
+    "subcategory": "nonlinear_optical",
+    "cas_number": "12712-38-8",
+    "density": 3010.0,
+    "melting_point": 1423.0,
+    "refractive_index": 1.78,
+    "notes": "KTiOPO4, frequency doubling, green laser pointers, high nonlinearity",
+    "cost_per_kg": 45000.0,
+    "confidence": 0.96
+  },
+
+  "LiNbO3": {
+    "name": "Lithium Niobate",
+    "category": "optical_material",
+    "subcategory": "nonlinear_optical",
+    "cas_number": "12031-63-9",
+    "density": 4640.0,
+    "melting_point": 1528.0,
+    "refractive_index": 2.21,
+    "notes": "Electro-optic modulators, Q-switches, frequency conversion, telecom",
+    "cost_per_kg": 18000.0,
+    "confidence": 0.97
+  },
+
+  "AgGaS2": {
+    "name": "Silver Gallium Sulfide",
+    "category": "optical_material",
+    "subcategory": "nonlinear_optical",
+    "cas_number": "12002-67-0",
+    "density": 4700.0,
+    "melting_point": 1269.0,
+    "refractive_index": 2.50,
+    "notes": "Mid-IR nonlinear optics (0.5-13 μm), OPO/OPA, high damage threshold",
+    "cost_per_kg": 95000.0,
+    "confidence": 0.92
+  },
+
+  "AgGaSe2": {
+    "name": "Silver Gallium Selenide",
+    "category": "optical_material",
+    "subcategory": "nonlinear_optical",
+    "cas_number": "12002-70-5",
+    "density": 5700.0,
+    "melting_point": 1131.0,
+    "refractive_index": 2.70,
+    "notes": "Mid-IR nonlinear optics (0.7-18 μm), highest figure of merit",
+    "cost_per_kg": 125000.0,
+    "confidence": 0.91
+  },
+
+  "ZnGeP2": {
+    "name": "Zinc Germanium Phosphide",
+    "category": "optical_material",
+    "subcategory": "nonlinear_optical",
+    "cas_number": "12037-53-1",
+    "density": 4200.0,
+    "melting_point": 1300.0,
+    "refractive_index": 3.10,
+    "notes": "Mid-IR nonlinear optics (2-12 μm), OPO, high thermal conductivity",
+    "cost_per_kg": 75000.0,
+    "confidence": 0.93
+  },
+
+  "ZnSe_Window": {
+    "name": "Zinc Selenide Window",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "1315-09-9",
+    "density": 5270.0,
+    "melting_point": 1793.0,
+    "refractive_index": 2.40,
+    "thermal_conductivity": 18.0,
+    "youngs_modulus": 70.0,
+    "notes": "IR window (0.6-20 μm), CO2 laser optics, thermal imaging",
+    "cost_per_kg": 3500.0,
+    "confidence": 0.97
+  },
+
+  "Germanium_Window": {
+    "name": "Germanium Window",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "7440-56-4",
+    "density": 5323.0,
+    "melting_point": 1211.0,
+    "refractive_index": 4.00,
+    "thermal_conductivity": 60.0,
+    "notes": "IR window (2-14 μm), thermal imaging, FLIR, opaque in visible",
+    "cost_per_kg": 2800.0,
+    "confidence": 0.98
+  },
+
+  "Silicon_Window": {
+    "name": "Silicon Window",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "7440-21-3",
+    "density": 2329.0,
+    "melting_point": 1687.0,
+    "refractive_index": 3.42,
+    "thermal_conductivity": 150.0,
+    "notes": "IR window (1.2-7 μm), low cost, high thermal conductivity",
+    "cost_per_kg": 450.0,
+    "confidence": 0.98
+  },
+
+  "GaAs_Window": {
+    "name": "Gallium Arsenide Window",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "1303-00-0",
+    "density": 5316.0,
+    "melting_point": 1511.0,
+    "refractive_index": 3.30,
+    "thermal_conductivity": 55.0,
+    "notes": "IR window (1-14 μm), CO2 laser optics, nonlinear optics",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.96
+  },
+
+  "CdTe_Window": {
+    "name": "Cadmium Telluride Window",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "1306-25-8",
+    "density": 5850.0,
+    "melting_point": 1365.0,
+    "refractive_index": 2.67,
+    "notes": "IR window (0.9-14 μm), thermal imaging, X-ray/gamma detectors",
+    "cost_per_kg": 12000.0,
+    "confidence": 0.94
+  },
+
+  "AMTIR": {
+    "name": "AMTIR (Ge-As-Se Glass)",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "density": 4390.0,
+    "glass_transition_temp": 623.0,
+    "refractive_index": 2.50,
+    "notes": "Chalcogenide glass, IR window (1-14 μm), moldable, thermal imaging",
+    "cost_per_kg": 5500.0,
+    "confidence": 0.93
+  },
+
+  "Fused_Silica": {
+    "name": "Fused Silica (UV Grade)",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "60676-86-0",
+    "density": 2203.0,
+    "glass_transition_temp": 1473.0,
+    "refractive_index": 1.46,
+    "thermal_conductivity": 1.38,
+    "notes": "UV-VIS-NIR (0.18-2.5 μm), low thermal expansion, high damage threshold",
+    "cost_per_kg": 850.0,
+    "confidence": 0.98
+  },
+
+  "MgF2_Window": {
+    "name": "Magnesium Fluoride Window",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "7783-40-6",
+    "density": 3180.0,
+    "melting_point": 1536.0,
+    "refractive_index": 1.38,
+    "notes": "UV-VIS-NIR (0.12-8 μm), AR coatings, Excimer laser optics",
+    "cost_per_kg": 1800.0,
+    "confidence": 0.96
+  },
+
+  "CaF2_Window": {
+    "name": "Calcium Fluoride Window",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "7789-75-5",
+    "density": 3180.0,
+    "melting_point": 1691.0,
+    "refractive_index": 1.43,
+    "thermal_conductivity": 9.7,
+    "notes": "UV-VIS-IR (0.13-10 μm), UV lithography, excimer lasers, low dispersion",
+    "cost_per_kg": 2200.0,
+    "confidence": 0.97
+  },
+
+  "LiF_Window": {
+    "name": "Lithium Fluoride Window",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "7789-24-4",
+    "density": 2635.0,
+    "melting_point": 1121.0,
+    "refractive_index": 1.39,
+    "notes": "Deep UV (0.12-7 μm), VUV optics, radiation resistant",
+    "cost_per_kg": 3500.0,
+    "confidence": 0.95
+  },
+
+  "TiO2_Coating": {
+    "name": "Titanium Dioxide (Coating)",
+    "category": "optical_material",
+    "subcategory": "optical_coating",
+    "cas_number": "13463-67-7",
+    "density": 4230.0,
+    "melting_point": 2116.0,
+    "refractive_index": 2.49,
+    "notes": "High-index coating layer, AR coatings, mirrors, 400-700 nm",
+    "cost_per_kg": 85.0,
+    "confidence": 0.97
+  },
+
+  "Ta2O5_Coating": {
+    "name": "Tantalum Pentoxide (Coating)",
+    "category": "optical_material",
+    "subcategory": "optical_coating",
+    "cas_number": "1314-61-0",
+    "density": 8200.0,
+    "melting_point": 2145.0,
+    "refractive_index": 2.10,
+    "notes": "High-index coating, AR coatings, high damage threshold, UV-VIS-NIR",
+    "cost_per_kg": 650.0,
+    "confidence": 0.96
+  },
+
+  "SiO2_Coating": {
+    "name": "Silicon Dioxide (Coating)",
+    "category": "optical_material",
+    "subcategory": "optical_coating",
+    "cas_number": "7631-86-9",
+    "density": 2200.0,
+    "melting_point": 1986.0,
+    "refractive_index": 1.46,
+    "notes": "Low-index coating layer, AR coatings, mirrors, UV-VIS-NIR",
+    "cost_per_kg": 45.0,
+    "confidence": 0.98
+  },
+
+  "Al2O3_Coating": {
+    "name": "Aluminum Oxide (Coating)",
+    "category": "optical_material",
+    "subcategory": "optical_coating",
+    "cas_number": "1344-28-1",
+    "density": 3950.0,
+    "melting_point": 2345.0,
+    "refractive_index": 1.65,
+    "notes": "Medium-index coating, protective overcoat, hard, UV-VIS-NIR",
+    "cost_per_kg": 120.0,
+    "confidence": 0.97
+  },
+
+  "HfO2_Coating": {
+    "name": "Hafnium Oxide (Coating)",
+    "category": "optical_material",
+    "subcategory": "optical_coating",
+    "cas_number": "12055-23-1",
+    "density": 9680.0,
+    "melting_point": 3083.0,
+    "refractive_index": 2.00,
+    "notes": "High-index coating, UV lasers, high damage threshold, 200-10000 nm",
+    "cost_per_kg": 1800.0,
+    "confidence": 0.95
+  },
+
+  "MgF2_Coating": {
+    "name": "Magnesium Fluoride (Coating)",
+    "category": "optical_material",
+    "subcategory": "optical_coating",
+    "cas_number": "7783-40-6",
+    "density": 3180.0,
+    "melting_point": 1536.0,
+    "refractive_index": 1.38,
+    "notes": "Low-index coating, single-layer AR at 550 nm, durable",
+    "cost_per_kg": 450.0,
+    "confidence": 0.96
+  },
+
+  "ZrO2_Coating": {
+    "name": "Zirconium Oxide (Coating)",
+    "category": "optical_material",
+    "subcategory": "optical_coating",
+    "cas_number": "1314-23-4",
+    "density": 5680.0,
+    "melting_point": 2988.0,
+    "refractive_index": 2.10,
+    "notes": "High-index coating, UV-VIS optics, high laser damage threshold",
+    "cost_per_kg": 350.0,
+    "confidence": 0.96
+  },
+
+  "Silica_Fiber": {
+    "name": "Silica Optical Fiber",
+    "category": "optical_material",
+    "subcategory": "fiber_optic",
+    "cas_number": "60676-86-0",
+    "density": 2200.0,
+    "glass_transition_temp": 1473.0,
+    "refractive_index": 1.46,
+    "notes": "Single-mode/multi-mode, telecom (1310/1550 nm), 0.2 dB/km loss",
+    "cost_per_kg": 350.0,
+    "confidence": 0.98
+  },
+
+  "ZBLAN_Fiber": {
+    "name": "ZBLAN Fluoride Fiber",
+    "category": "optical_material",
+    "subcategory": "fiber_optic",
+    "density": 4470.0,
+    "glass_transition_temp": 563.0,
+    "refractive_index": 1.50,
+    "notes": "ZrF4-BaF2-LaF3-AlF3-NaF, mid-IR (0.3-4.5 μm), 0.01 dB/km theoretical",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.93
+  },
+
+  "Chalcogenide_Fiber": {
+    "name": "Chalcogenide Glass Fiber",
+    "category": "optical_material",
+    "subcategory": "fiber_optic",
+    "density": 4500.0,
+    "glass_transition_temp": 623.0,
+    "refractive_index": 2.50,
+    "notes": "As-S-Se glass, mid-IR (2-11 μm), thermal imaging, nonlinear optics",
+    "cost_per_kg": 12000.0,
+    "confidence": 0.91
+  },
+
+  "Plastic_Fiber_PMMA": {
+    "name": "PMMA Plastic Optical Fiber",
+    "category": "optical_material",
+    "subcategory": "fiber_optic",
+    "density": 1190.0,
+    "glass_transition_temp": 378.0,
+    "refractive_index": 1.49,
+    "notes": "POF, short-range (< 100m), visible, 100-200 dB/km loss, low cost",
+    "cost_per_kg": 85.0,
+    "confidence": 0.95
+  },
+
+  "Photonic_Crystal_Fiber": {
+    "name": "Photonic Crystal Fiber",
+    "category": "optical_material",
+    "subcategory": "fiber_optic",
+    "density": 2200.0,
+    "refractive_index": 1.46,
+    "notes": "Hollow core or solid core, endlessly single-mode, supercontinuum",
+    "cost_per_kg": 25000.0,
+    "confidence": 0.92
+  },
+
+  "YVO4": {
+    "name": "Yttrium Orthovanadate",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "cas_number": "13566-12-6",
+    "density": 4220.0,
+    "melting_point": 2163.0,
+    "refractive_index": 2.00,
+    "thermal_conductivity": 5.1,
+    "notes": "Nd:YVO4, 1064 nm laser, green laser pointers (532 nm SHG), birefringent",
+    "cost_per_kg": 28000.0,
+    "confidence": 0.96
+  },
+
+  "Cr_Forsterite": {
+    "name": "Chromium-doped Forsterite",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "cas_number": "15118-03-3",
+    "density": 3210.0,
+    "melting_point": 2163.0,
+    "refractive_index": 1.67,
+    "notes": "Cr:Mg2SiO4, 1200-1350 nm tunable, femtosecond lasers, medical",
+    "cost_per_kg": 55000.0,
+    "confidence": 0.90
+  },
+
+  "PPLN": {
+    "name": "Periodically Poled Lithium Niobate",
+    "category": "optical_material",
+    "subcategory": "nonlinear_optical",
+    "cas_number": "12031-63-9",
+    "density": 4640.0,
+    "melting_point": 1528.0,
+    "refractive_index": 2.21,
+    "notes": "Quasi-phase matching, efficient SHG/OPO, telecom wavelength conversion",
+    "cost_per_kg": 85000.0,
+    "confidence": 0.94
+  },
+
+  "Calcite": {
+    "name": "Calcite (Optical Grade)",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "471-34-1",
+    "density": 2710.0,
+    "melting_point": 1612.0,
+    "refractive_index": 1.66,
+    "notes": "CaCO3, birefringent, polarizers (Glan-Thompson), UV-VIS (0.23-2.2 μm)",
+    "cost_per_kg": 850.0,
+    "confidence": 0.96
+  },
+
+  "Mica": {
+    "name": "Mica (Muscovite)",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "12001-26-2",
+    "density": 2830.0,
+    "melting_point": 1573.0,
+    "refractive_index": 1.59,
+    "notes": "KAl2(AlSi3O10)(OH)2, windows for high-temp/vacuum, cleaves to thin sheets",
+    "cost_per_kg": 250.0,
+    "confidence": 0.94
+  },
+
+  "ZnS_Window": {
+    "name": "Zinc Sulfide Window (Multispectral)",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "1314-98-3",
+    "density": 4090.0,
+    "melting_point": 2103.0,
+    "refractive_index": 2.25,
+    "thermal_conductivity": 27.0,
+    "notes": "Multispectral ZnS, VIS-IR (0.4-14 μm), domes, FLIR, yellowish",
+    "cost_per_kg": 4500.0,
+    "confidence": 0.96
+  },
+
+  "Diamond_Window": {
+    "name": "Diamond Window (Optical)",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "cas_number": "7782-40-3",
+    "density": 3520.0,
+    "melting_point": 4300.0,
+    "refractive_index": 2.42,
+    "thermal_conductivity": 2200.0,
+    "youngs_modulus": 1050.0,
+    "notes": "UV-IR (0.22-200 μm), ultra-hard, high-power lasers, synchrotron",
+    "cost_per_kg": 850000.0,
+    "confidence": 0.95
+  },
+
+  "Rochon_Prism_MCC": {
+    "name": "Magnesium Fluoride Calcite (Rochon Prism)",
+    "category": "optical_material",
+    "subcategory": "optical_window",
+    "density": 2900.0,
+    "refractive_index": 1.52,
+    "notes": "Birefringent prism polarizer, beam splitter, UV-VIS",
+    "cost_per_kg": 5500.0,
+    "confidence": 0.92
+  },
+
+  "Tm_YAG": {
+    "name": "Thulium-doped Yttrium Aluminum Garnet",
+    "category": "optical_material",
+    "subcategory": "laser_crystal",
+    "density": 4560.0,
+    "melting_point": 2243.0,
+    "refractive_index": 1.82,
+    "notes": "Tm:YAG, 2010 nm laser, medical (soft tissue), LIDAR",
+    "cost_per_kg": 26000.0,
+    "confidence": 0.93
+  }
+}

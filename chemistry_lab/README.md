@@ -2,7 +2,7 @@
 
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
-Comprehensive chemistry simulation laboratory for QuLab Infinite with 100% real-world accuracy.
+Comprehensive chemistry simulation laboratory for QuLab Infinite with calibrated accuracy envelopes (currently ~10–15% MAE on mechanics benchmarks).
 
 ## Features
 

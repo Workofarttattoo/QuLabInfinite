@@ -1,9 +1,31 @@
 from __future__ import annotations
-from typing import Iterable
+from typing import Iterable, Optional, Tuple
 from ..schemas import RecordChem, Provenance
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+
+
+def _parse_value_with_uncertainty(value_str: str) -> Tuple[Optional[float], Optional[float]]:
+    """
+    Parses a string like '-241.826 ± 0.040' into a value and uncertainty.
+    Returns (value, uncertainty). Uncertainty is None if not present.
+    """
+    if '±' in value_str:
+        parts = value_str.split('±')
+        try:
+            value = float(parts[0].strip())
+            uncertainty = float(parts[1].strip().split(' ')[0])
+            return value, uncertainty
+        except (ValueError, IndexError):
+            return None, None
+    else:
+        try:
+            value = float(value_str.strip().split(' ')[0])
+            return value, None
+        except (ValueError, IndexError):
+            return None, None
+
 
 def load_live(substance_cas_id: str = "7732-18-5", substance_name: str = "H2O") -> Iterable[RecordChem]:
     """
@@ -53,30 +75,30 @@ def load_live(substance_cas_id: str = "7732-18-5", substance_name: str = "H2O") 
         # A more robust parser would be needed for all data types.
         
         try:
+            value_num, uncertainty = _parse_value_with_uncertainty(value)
+            if value_num is None:
+                continue
+
+            record_data = {
+                "substance": substance_name,
+                "phase": "gas",
+                "provenance": prov.copy(deep=True),
+                "pressure_pa": 100000, # Standard pressure
+                "temperature_k": 298.15, # Standard temperature
+            }
+
+            if uncertainty is not None:
+                record_data["provenance"].extra['uncertainty'] = uncertainty
+
             if 'ΔfH°' in quantity:
-                # Value is in format '-241.826 ± 0.040'. We'll take the first part.
-                enthalpy_kj_per_mol = float(value.split(' ')[0])
-                yield RecordChem(
-                    substance=substance_name,
-                    phase="gas",
-                    enthalpy_j_per_mol=enthalpy_kj_per_mol * 1000,
-                    provenance=prov,
-                    # These fields are required but not all are present in this table
-                    pressure_pa=100000, # Standard pressure
-                    temperature_k=298.15, # Standard temperature
-                    tags=["enthalpy_of_formation"]
-                )
+                record_data["enthalpy_j_per_mol"] = value_num * 1000
+                record_data["tags"] = ["enthalpy_of_formation"]
+                yield RecordChem(**record_data)
+
             elif 'S°' in quantity:
-                entropy_j_per_mol_k = float(value.split(' ')[0])
-                yield RecordChem(
-                    substance=substance_name,
-                    phase="gas",
-                    entropy_j_per_mol_k=entropy_j_per_mol_k,
-                    provenance=prov,
-                    pressure_pa=100000,
-                    temperature_k=298.15,
-                    tags=["standard_entropy"]
-                )
+                record_data["entropy_j_per_mol_k"] = value_num
+                record_data["tags"] = ["standard_entropy"]
+                yield RecordChem(**record_data)
 
         except (ValueError, IndexError):
             continue

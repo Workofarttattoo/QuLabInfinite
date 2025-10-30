@@ -3,28 +3,37 @@ from .schemas import RecordChem, Provenance
 from typing import Iterable, Dict, Any, Callable, Type, List
 import pathlib, json, csv, hashlib
 from pydantic import ValidationError, BaseModel
+from .processors import UnitConversionProcessor, ValidationProcessor
+from .schemas import RecordChem, RecordMaterial
 
 class PydanticValidator:
     """A processor that validates records against a Pydantic schema."""
-    def __init__(self, schema: Type[BaseModel]):
-        self.schema = schema
+    def __init__(self, schemas: List[Type[BaseModel]]):
+        self.schemas = schemas
 
     def __call__(self, record: Dict) -> Dict | None:
-        try:
-            # Pydantic models are dictionaries, so we can validate them directly
-            if isinstance(record, BaseModel):
-                return self.schema.model_validate(record.model_dump())
-            return self.schema.model_validate(record)
-        except ValidationError as e:
-            print(f"Validation error for record: {e}")
-            return None
+        if isinstance(record, BaseModel):
+            record_dict = record.model_dump()
+        else:
+            record_dict = record
+
+        for schema in self.schemas:
+            try:
+                return schema.model_validate(record_dict)
+            except ValidationError:
+                continue
+        
+        # If no schema matched
+        print(f"Validation error for record: no matching schema found for {record_dict}")
+        return None
 
 class IngestionPipeline:
     """
     A pipeline for ingesting and processing data records.
     """
-    def __init__(self, processors: List[Callable]):
+    def __init__(self, processors: List[Callable], post_processors: List[Callable] | None = None):
         self.processors = processors
+        self.post_processors = post_processors or []
 
     def run(self, records: Iterable[Dict], out_path: str) -> str:
         """
@@ -32,10 +41,16 @@ class IngestionPipeline:
         """
         processed_records = self.process_records(records)
         
+        # Apply post-processors
+        for post_processor in self.post_processors:
+            processed_records = (post_processor(rec) for rec in processed_records)
+            
+        final_records = [rec for rec in processed_records if rec is not None]
+
         if out_path.endswith(".jsonl"):
-            return write_ndjson(processed_records, out_path)
+            return write_ndjson(final_records, out_path)
         elif out_path.endswith(".csv"):
-            return write_csv(processed_records, out_path)
+            return write_csv(final_records, out_path)
         else:
             raise ValueError(f"Unsupported output format: {out_path}")
 
@@ -50,6 +65,19 @@ class IngestionPipeline:
             
             if processed_record is not None:
                 yield processed_record
+
+def create_default_pipeline(registry_path: str = "data/registry.jsonl") -> IngestionPipeline:
+    """
+    Creates an ingestion pipeline with a default set of processors.
+    """
+    processors = [
+        PydanticValidator(schemas=[RecordChem, RecordMaterial]),
+        UnitConversionProcessor(),
+    ]
+    post_processors = [
+        ValidationProcessor(registry_path=registry_path),
+    ]
+    return IngestionPipeline(processors=processors, post_processors=post_processors)
 
 def write_ndjson(records: Iterable[BaseModel], out_path: str) -> str:
     p = pathlib.Path(out_path)
