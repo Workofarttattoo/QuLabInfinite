@@ -81,7 +81,7 @@ DATASET_REGISTRY: Dict[str, DatasetDescriptor] = {
         citation="HITRAN2020, Gordon et al., J. Quant. Spectrosc. Radiat. Transfer (2022).",
         local_hint="data/hitran",
         env_var="CHEMLAB_HITRAN_DIR",
-        file_extensions=[],
+        file_extensions=[".txt", ".par"],
         notes="This is a live data source; results are fetched on-demand via the hitran-api."
     ),
     "materials_project": DatasetDescriptor(
@@ -92,7 +92,7 @@ DATASET_REGISTRY: Dict[str, DatasetDescriptor] = {
         citation="A. Jain et al., APL Materials 1, 011002 (2013).",
         local_hint="data/materials_project",
         env_var="CHEMLAB_MP_DIR",
-        file_extensions=[],
+        file_extensions=[".json"],
         notes="This is a live data source; requires an API key set in the MP_API_KEY environment variable."
     ),
     "cod_crystallography": DatasetDescriptor(
@@ -103,7 +103,7 @@ DATASET_REGISTRY: Dict[str, DatasetDescriptor] = {
         citation="Gražulis et al., Nucleic Acids Research 40, D420-D427 (2012).",
         local_hint="data/cod",
         env_var="CHEMLAB_COD_DIR",
-        file_extensions=[],
+        file_extensions=[".cif"],
         notes="This is a live data source; results are fetched on-demand via the COD web service."
     ),
     "pdb_structures": DatasetDescriptor(
@@ -114,7 +114,7 @@ DATASET_REGISTRY: Dict[str, DatasetDescriptor] = {
         citation="Berman et al., Nucleic Acids Research 28, 235-242 (2000).",
         local_hint="data/pdb",
         env_var="CHEMLAB_PDB_DIR",
-        file_extensions=[],
+        file_extensions=[".pdb", ".cif"],
         notes="This is a live data source; results are fetched on-demand via the PDB web service."
     ),
     "nndc_wallet_cards": DatasetDescriptor(
@@ -125,7 +125,7 @@ DATASET_REGISTRY: Dict[str, DatasetDescriptor] = {
         citation="NNDC, Brookhaven National Laboratory.",
         local_hint="data/nndc",
         env_var="CHEMLAB_NNDC_DIR",
-        file_extensions=[],
+        file_extensions=[".txt"],
         notes="This is a live data source; results are fetched on-demand via the NNDC web service."
     ),
     "arxiv_materials": DatasetDescriptor(

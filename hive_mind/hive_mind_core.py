@@ -604,9 +604,26 @@ class HiveMind:
 
 
 # Convenience function for creating common agents
-def create_standard_agents(hive_mind: 'HiveMind') -> List[Agent]:
-    """Create standard set of laboratory agents"""
+def create_standard_agents(
+    hive_mind: 'HiveMind | None' = None,
+    *,
+    auto_register: bool | None = None,
+) -> List[Agent]:
+    """Create standard set of laboratory agents.
+
+    Parameters
+    ----------
+    hive_mind:
+        Optional HiveMind instance. When provided and ``auto_register`` is enabled,
+        agents are registered automatically. When omitted, the caller receives
+        unregistered Agent objects to wire up manually (legacy behaviour).
+    auto_register:
+        Whether to register the created agents with the provided hive mind.
+        Defaults to ``True`` when a hive mind is supplied, otherwise ``False``.
+    """
     from .agent_interface import create_level6_agent, AgentType
+
+    should_register = auto_register if auto_register is not None else hive_mind is not None
 
     agent_definitions = [
         (AgentType.PHYSICS, "physics-001", ["mechanics", "thermodynamics", "fluid_dynamics", "electromagnetism"]),
@@ -619,9 +636,18 @@ def create_standard_agents(hive_mind: 'HiveMind') -> List[Agent]:
     
     agents = []
     for agent_type, agent_id, capabilities in agent_definitions:
-        agent_instance = create_level6_agent(agent_type, agent_id, hive_mind)
-        hive_mind.register_agent(agent_instance.agent, agent_instance)
-        agents.append(agent_instance.agent)
+        agent_interface = None
+        try:
+            agent_interface = create_level6_agent(agent_type, agent_id, hive_mind)
+            agent = agent_interface.agent
+        except ValueError:
+            # Fall back to a basic Agent when no specialised interface exists.
+            agent = Agent(agent_id=agent_id, agent_type=agent_type, capabilities=capabilities)
+
+        if hive_mind and should_register:
+            hive_mind.register_agent(agent, agent_interface)
+
+        agents.append(agent)
         
     return agents
 

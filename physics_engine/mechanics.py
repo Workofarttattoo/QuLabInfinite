@@ -316,12 +316,15 @@ class MechanicsEngine:
         collisions = []
         n = len(self.particles)
 
-        if (not self.enable_collisions or
-                n == 0):
+        if (not self.enable_collisions or n == 0):
             return []
 
-        # Use brute-force for small numbers of particles
-        use_brute_force = n <= 20 or self.collision_particle_limit < n or self._collision_grid is None
+        # For very large swarms fall back to a no-collision approximation unless a grid is provided
+        if n > self.collision_particle_limit and self._collision_grid is None:
+            return []
+
+        # Use brute-force for small systems; otherwise rely on spatial hashing
+        use_brute_force = (n <= 20) or (n <= self.collision_particle_limit) or (self._collision_grid is None)
 
         if use_brute_force:
             for i in range(n):
@@ -475,68 +478,73 @@ class MechanicsEngine:
         if self.initial_energy is None:
             self.initial_energy = self.total_energy()
 
-        # Preserve any external forces assigned prior to this step
-        external_forces = None
-        if any(not np.all(p.force == 0.0) for p in self.particles):
-            external_forces = [p.force.copy() for p in self.particles]
+        # Snapshot externally applied forces/torques so we can restore them after integration.
+        baseline_particle_forces = [p.force.copy() for p in self.particles]
+        baseline_body_forces = [rb.force.copy() for rb in self.rigid_bodies]
+        baseline_body_torques = [rb.torque.copy() for rb in self.rigid_bodies]
 
-        # Clear forces from previous step
-        self.clear_forces()
+        def accumulate_forces() -> tuple[List[NDArray[np.float64]], List[NDArray[np.float64]], List[NDArray[np.float64]]]:
+            """Recompute total forces (external + gravity + contact) for the current state."""
+            self.clear_forces()
 
-        # Apply forces
-        self.apply_gravity()
-        self.apply_friction(dt)
-
-        # Re-apply caller-specified forces (e.g., springs)
-        if external_forces is not None:
-            for p, ext in zip(self.particles, external_forces):
-                if not np.all(ext == 0.0):
+            for p, ext in zip(self.particles, baseline_particle_forces):
+                if ext.size:
                     p.force += ext
 
-        # Update particles using velocity Verlet
-        for p in self.particles:
-            if p.fixed:
+            for rb, ext_f, ext_t in zip(self.rigid_bodies, baseline_body_forces, baseline_body_torques):
+                if ext_f.size:
+                    rb.force += ext_f
+                if ext_t.size:
+                    rb.torque += ext_t
+
+            self.apply_gravity()
+            self.apply_friction(dt)
+
+            particle_forces = [p.force.copy() for p in self.particles]
+            body_forces = [rb.force.copy() for rb in self.rigid_bodies]
+            body_torques = [rb.torque.copy() for rb in self.rigid_bodies]
+            return particle_forces, body_forces, body_torques
+
+        particle_forces_0, body_forces_0, body_torques_0 = accumulate_forces()
+
+        # Compute accelerations and update positions (velocity-Verlet first half-step)
+        accelerations_0: List[NDArray[np.float64]] = []
+        for p, force in zip(self.particles, particle_forces_0):
+            if p.fixed or p.mass < 1e-12:
+                accelerations_0.append(np.zeros(3))
                 continue
 
-            # Acceleration at current step
-            a_current = p.force / p.mass
+            a0 = force / p.mass
+            accelerations_0.append(a0)
+            p.position += p.velocity * dt + 0.5 * a0 * dt**2
 
-            # Update position: x(t+dt) = x(t) + v(t)*dt + 0.5*a(t)*dt²
-            p.position += p.velocity * dt + 0.5 * a_current * dt**2
-            
-            # Store current acceleration for velocity update
-            p.force = a_current  # Temporarily store a_current in force attribute
+        # Recompute forces at the new configuration
+        particle_forces_1, body_forces_1, body_torques_1 = accumulate_forces()
 
-        # Update forces at the new positions
-        self.apply_gravity()
-        # Note: Other forces like springs would need to be re-applied here as well
-        
-        # Complete the velocity update
-        for p in self.particles:
-            if p.fixed:
+        # Complete velocity update with average acceleration
+        for p, a0, force_new in zip(self.particles, accelerations_0, particle_forces_1):
+            if p.fixed or p.mass < 1e-12:
                 continue
-            
-            a_current = p.force # Retrieve a_current
-            a_new = (p.force / p.mass) if p.mass > 1e-9 else np.zeros(3)
 
-            # Update velocity: v(t+dt) = v(t) + 0.5*(a(t) + a(t+dt))*dt
-            p.velocity += 0.5 * (a_current + a_new) * dt
+            a1 = force_new / p.mass
+            p.velocity += 0.5 * (a0 + a1) * dt
 
-        # Update rigid bodies
-        for rb in self.rigid_bodies:
+        # Update rigid bodies (simple explicit integration)
+        for rb, force_new, torque_new in zip(self.rigid_bodies, body_forces_1, body_torques_1):
             if rb.fixed:
                 continue
-            
-            # Update linear motion
-            accel = rb.force / rb.mass
+
+            accel = force_new / rb.mass if rb.mass > 1e-12 else np.zeros(3)
             rb.position += rb.velocity * dt + 0.5 * accel * dt**2
             rb.velocity += accel * dt
 
-            # Update rotational motion
-            ang_accel = np.linalg.inv(rb.inertia_tensor) @ rb.torque
+            try:
+                ang_accel = np.linalg.solve(rb.inertia_tensor, torque_new)
+            except np.linalg.LinAlgError:
+                ang_accel = np.zeros(3)
             rb.angular_velocity += ang_accel * dt
-            
-            # Update orientation using quaternion integration
+
+            # Quaternion integration for orientation
             q = rb.orientation
             omega = rb.angular_velocity
             q_dot = 0.5 * np.array([
@@ -546,7 +554,9 @@ class MechanicsEngine:
                  q[0]*omega[2] + q[1]*omega[1] - q[2]*omega[0]
             ])
             q += q_dot * dt
-            q /= np.linalg.norm(q)  # Re-normalize quaternion
+            q_norm = np.linalg.norm(q)
+            if q_norm > 1e-12:
+                q /= q_norm
             rb.orientation = q
 
         # Detect and resolve collisions
@@ -557,9 +567,12 @@ class MechanicsEngine:
         # Solve constraints
         self.solve_constraints(dt)
 
-        # Reset forces so only caller-supplied inputs persist between steps
-        for p in self.particles:
-            p.force.fill(0.0)
+        # Restore caller-specified external forces for the next integration step
+        for p, ext in zip(self.particles, baseline_particle_forces):
+            p.force = ext
+        for rb, ext_f, ext_t in zip(self.rigid_bodies, baseline_body_forces, baseline_body_torques):
+            rb.force = ext_f
+            rb.torque = ext_t
 
         # Update time
         self.time += dt

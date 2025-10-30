@@ -94,7 +94,10 @@ def main():
             }
             registry_entries.append(registry_entry)
 
-    print(validator.generate_report(validation_results))
+    if validation_results:
+        print(validator.generate_report(validation_results))
+    else:
+        print("No validation entries matched the provided dataset; skipping aggregate report.")
 
     # Write to the registry
     registry_path = Path(args.registry_path)
