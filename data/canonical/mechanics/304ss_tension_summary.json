@@ -1,0 +1,27 @@
+{
+  "material": "AISI 304",
+  "dataset_id": "mech_304ss_tension_v1",
+  "curves": [
+    "../raw/mechanics/304ss_tension_298K.json",
+    "../raw/mechanics/304ss_tension_673K.json"
+  ],
+  "canonical_model": "johnson_cook",
+  "parameters": {
+    "A_MPa": 275.0,
+    "B_MPa": 525.0,
+    "n": 0.45,
+    "C": 0.015,
+    "m": 0.9,
+    "theta_ref_K": 298.15,
+    "epsilon_dot_ref": 0.001
+  },
+  "calibration": {
+    "method": "Bayesian",
+    "last_calibrated": "2025-10-29",
+    "engine_version": "mech_johnson_cook_v2",
+    "evidence": {
+      "mae_MPa": 12.4,
+      "coverage_90": 0.91
+    }
+  }
+}

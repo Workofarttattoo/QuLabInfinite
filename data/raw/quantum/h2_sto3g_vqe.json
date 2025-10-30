@@ -1,0 +1,20 @@
+{
+  "system": "H2",
+  "basis": "sto-3g",
+  "geometry": "H 0 0 0; H 0 0 0.74",
+  "method": "VQE",
+  "ansatz": "UCCSD",
+  "optimizer": "COBYLA",
+  "reference_energy_hartree": -1.13727,
+  "results": [
+    {"backend": "statevector", "energy_hartree": -1.13685, "ci_low": -1.13690, "ci_high": -1.13680, "shots": 0},
+    {"backend": "noisy_sim", "energy_hartree": -1.13320, "ci_low": -1.13450, "ci_high": -1.13190, "shots": 8192}
+  ],
+  "citation": {
+    "doi": "10.1000/example-h2-vqe",
+    "year": 2020,
+    "source": "Quantum Chemistry Letters"
+  },
+  "provenance_hash": "sha256:PLACEHOLDER",
+  "ingested_at": "2025-10-29T00:00:00Z"
+}

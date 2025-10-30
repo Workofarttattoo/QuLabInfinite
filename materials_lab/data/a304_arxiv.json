@@ -1,0 +1,18 @@
+{
+  "material": "SS 304",
+  "keywords": [
+    "tensile",
+    "strength",
+    "thermal"
+  ],
+  "results": [
+    {
+      "material": "SS 304",
+      "title": "Understanding the Effect of Uniaxial Tensile Strain on the Early Stages\n  of Sensitization in AISI 304 Austenitic Stainless Steel",
+      "published": "2014-03-07T14:04:59Z",
+      "summary_snippet": "In the present study, an attempt has been made to understand the effect of different competing mechanisms controlling the overall degree of sensitization (DOS) of deformed austenitic stainless steel at the early stage of sensitization. The Double Loop Electrochemical Potentiokinetic\u2026",
+      "link": "http://arxiv.org/abs/1403.1754v1",
+      "query": "https://export.arxiv.org/api/query?search_query=all%3A%22AISI+304%22+AND+%28all%3Atensile+OR+all%3Astrength+OR+all%3Athermal%29&start=0&max_results=20"
+    }
+  ]
+}

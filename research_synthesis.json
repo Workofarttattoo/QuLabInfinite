@@ -1,0 +1,40 @@
+{
+  "query": "automated synthesis planning",
+  "results": [
+    {
+      "title": "The Materials Science Procedural Text Corpus: Annotating Materials\n  Synthesis Procedures with Shallow Semantic Structures",
+      "authors": "Sheshera Mysore, Zach Jensen, Edward Kim, Kevin Huang, Haw-Shiuan Chang, Emma Strubell, Jeffrey Flanigan, Andrew McCallum, Elsa Olivetti",
+      "published": "2019-05-16T17:57:35Z",
+      "summary": "Materials science literature contains millions of materials synthesis\nprocedures described in unstructured natural language text. Large-scale\nanalysis of these synthesis procedures would facilitate deeper scientific\nunderstanding of materials synthesis and enable automated synthesis planning.\nSuch analysis requires extracting structured representations of synthesis\nprocedures from the raw text as a first step. To facilitate the training and\nevaluation of synthesis extraction models, we introduce a dataset of 230\nsynthesis procedures annotated by domain experts with labeled graphs that\nexpress the semantics of the synthesis sentences. The nodes in this graph are\nsynthesis operations and their typed arguments, and labeled edges specify\nrelations between the nodes. We describe this new resource in detail and\nhighlight some specific challenges to annotating scientific text with shallow\nsemantic structure. We make the corpus available to the community to promote\nfurther research and development of scientific information extraction systems.",
+      "link": "http://arxiv.org/abs/1905.06939v2"
+    },
+    {
+      "title": "MatPROV: A Provenance Graph Dataset of Material Synthesis Extracted from\n  Scientific Literature",
+      "authors": "Hirofumi Tsuruta, Masaya Kumagai",
+      "published": "2025-09-01T00:47:27Z",
+      "summary": "Synthesis procedures play a critical role in materials research, as they\ndirectly affect material properties. With data-driven approaches increasingly\naccelerating materials discovery, there is growing interest in extracting\nsynthesis procedures from scientific literature as structured data. However,\nexisting studies often rely on rigid, domain-specific schemas with predefined\nfields for structuring synthesis procedures or assume that synthesis procedures\nare linear sequences of operations, which limits their ability to capture the\nstructural complexity of real-world procedures. To address these limitations,\nwe adopt PROV-DM, an international standard for provenance information, which\nsupports flexible, graph-based modeling of procedures. We present MatPROV, a\ndataset of PROV-DM-compliant synthesis procedures extracted from scientific\nliterature using large language models. MatPROV captures structural\ncomplexities and causal relationships among materials, operations, and\nconditions through visually intuitive directed graphs. This representation\nenables machine-interpretable synthesis knowledge, opening opportunities for\nfuture research such as automated synthesis planning and optimization.",
+      "link": "http://arxiv.org/abs/2509.01042v3"
+    },
+    {
+      "title": "Multi-tier Automated Planning for Adaptive Behavior (Extended Version)",
+      "authors": "Daniel Ciolek, Nicol\u00e1s D'Ippolito, Alberto Pozanco, Sebastian Sardina",
+      "published": "2020-02-27T21:16:01Z",
+      "summary": "A planning domain, as any model, is never complete and inevitably makes\nassumptions on the environment's dynamic. By allowing the specification of just\none domain model, the knowledge engineer is only able to make one set of\nassumptions, and to specify a single objective-goal. Borrowing from work in\nSoftware Engineering, we propose a multi-tier framework for planning that\nallows the specification of different sets of assumptions, and of different\ncorresponding objectives. The framework aims to support the synthesis of\nadaptive behavior so as to mitigate the intrinsic risk in any planning modeling\ntask. After defining the multi-tier planning task and its solution concept, we\nshow how to solve problem instances by a succinct compilation to a form of\nnon-deterministic planning. In doing so, our technique justifies the\napplicability of planning with both fair and unfair actions, and the need for\nmore efforts in developing planning systems supporting dual fairness\nassumptions.",
+      "link": "http://arxiv.org/abs/2002.12445v1"
+    },
+    {
+      "title": "Re-evaluating Retrosynthesis Algorithms with Syntheseus",
+      "authors": "Krzysztof Maziarz, Austin Tripp, Guoqing Liu, Megan Stanley, Shufang Xie, Piotr Gai\u0144ski, Philipp Seidl, Marwin Segler",
+      "published": "2023-10-30T17:59:04Z",
+      "summary": "Automated Synthesis Planning has recently re-emerged as a research area at\nthe intersection of chemistry and machine learning. Despite the appearance of\nsteady progress, we argue that imperfect benchmarks and inconsistent\ncomparisons mask systematic shortcomings of existing techniques, and\nunnecessarily hamper progress. To remedy this, we present a synthesis planning\nlibrary with an extensive benchmarking framework, called syntheseus, which\npromotes best practice by default, enabling consistent meaningful evaluation of\nsingle-step models and multi-step planning algorithms. We demonstrate the\ncapabilities of syntheseus by re-evaluating several previous retrosynthesis\nalgorithms, and find that the ranking of state-of-the-art models changes in\ncontrolled evaluation experiments. We end with guidance for future works in\nthis area, and call the community to engage in the discussion on how to improve\nbenchmarks for synthesis planning.",
+      "link": "http://arxiv.org/abs/2310.19796v3"
+    },
+    {
+      "title": "Automated Synthesis of Steady-State Continuous Processes using\n  Reinforcement Learning",
+      "authors": "Quirin G\u00f6ttl, Dominik G. Grimm, Jakob Burger",
+      "published": "2021-01-12T11:49:34Z",
+      "summary": "Automated flowsheet synthesis is an important field in computer-aided process\nengineering. The present work demonstrates how reinforcement learning can be\nused for automated flowsheet synthesis without any heuristics of prior\nknowledge of conceptual design. The environment consists of a steady-state\nflowsheet simulator that contains all physical knowledge. An agent is trained\nto take discrete actions and sequentially built up flowsheets that solve a\ngiven process problem. A novel method named SynGameZero is developed to ensure\ngood exploration schemes in the complex problem. Therein, flowsheet synthesis\nis modelled as a game of two competing players. The agent plays this game\nagainst itself during training and consists of an artificial neural network and\na tree search for forward planning. The method is applied successfully to a\nreaction-distillation process in a quaternary system.",
+      "link": "http://arxiv.org/abs/2101.04422v2"
+    }
+  ]
+}

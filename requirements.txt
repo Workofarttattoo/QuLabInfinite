@@ -1,0 +1,13 @@
+requests
+beautifulsoup4
+hapi
+astroquery
+pymatgen
+psycopg2-binary
+
+numpy
+scipy
+matplotlib
+mendeleev
+PySide6
+pyvista

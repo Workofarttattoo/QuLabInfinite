@@ -1,0 +1,90 @@
+{
+    "speed_of_light": {
+        "source": "NIST CODATA 2018",
+        "value": 299792458.0,
+        "uncertainty": 0.0,
+        "units": "m/s",
+        "conditions": {},
+        "metadata": {"type": "fundamental_constant"}
+    },
+    "gravitational_constant": {
+        "source": "NIST CODATA 2018",
+        "value": 6.6743e-11,
+        "uncertainty": 1.5e-15,
+        "units": "m³/(kg⋅s²)",
+        "conditions": {},
+        "metadata": {"type": "fundamental_constant"}
+    },
+    "steel_304_yield_strength": {
+        "source": "ASM Handbook Vol. 1",
+        "value": 290.0,
+        "uncertainty": 15.0,
+        "units": "MPa",
+        "conditions": {"temperature": 293.15, "strain_rate": 0.001},
+        "metadata": {"material": "AISI 304 Stainless Steel", "property": "yield_strength"}
+    },
+    "steel_304_youngs_modulus": {
+        "source": "ASM Handbook Vol. 1",
+        "value": 193.0,
+        "uncertainty": 5.0,
+        "units": "GPa",
+        "conditions": {"temperature": 293.15},
+        "metadata": {"material": "AISI 304 Stainless Steel", "property": "youngs_modulus"}
+    },
+    "aluminum_6061_yield_strength": {
+        "source": "ASM Handbook Vol. 2",
+        "value": 276.0,
+        "uncertainty": 10.0,
+        "units": "MPa",
+        "conditions": {"temperature": 293.15, "temper": "T6"},
+        "metadata": {"material": "Aluminum 6061-T6", "property": "yield_strength"}
+    },
+    "copper_thermal_conductivity": {
+        "source": "Materials Project mp-30",
+        "value": 401.0,
+        "uncertainty": 5.0,
+        "units": "W/(m⋅K)",
+        "conditions": {"temperature": 293.15},
+        "metadata": {"material": "Copper", "property": "thermal_conductivity"}
+    },
+    "water_heat_capacity": {
+        "source": "NIST Chemistry WebBook",
+        "value": 4.184,
+        "uncertainty": 0.005,
+        "units": "J/(g⋅K)",
+        "conditions": {"temperature": 298.15, "pressure": 101325},
+        "metadata": {"molecule": "H2O", "property": "heat_capacity"}
+    },
+    "benzene_boiling_point": {
+        "source": "NIST Chemistry WebBook",
+        "value": 353.25,
+        "uncertainty": 0.1,
+        "units": "K",
+        "conditions": {"pressure": 101325},
+        "metadata": {"molecule": "C6H6", "property": "boiling_point"}
+    },
+    "h2_dissociation_energy": {
+        "source": "Huber & Herzberg 1979",
+        "value": 4.478,
+        "uncertainty": 0.001,
+        "units": "eV",
+        "conditions": {"method": "experimental_spectroscopy"},
+        "metadata": {"molecule": "H2", "property": "dissociation_energy"}
+    },
+    "h2_bond_length": {
+        "source": "NIST CCCBDB",
+        "value": 0.7414,
+        "uncertainty": 0.0001,
+        "units": "angstrom",
+        "conditions": {"method": "FCI/aug-cc-pV5Z"},
+        "metadata": {"molecule": "H2", "property": "bond_length"}
+    },
+    "h2o_bond_angle": {
+        "source": "NIST CCCBDB",
+        "value": 104.5,
+        "uncertainty": 0.1,
+        "units": "degrees",
+        "conditions": {"method": "experimental"},
+        "metadata": {"molecule": "H2O", "property": "bond_angle"}
+    }
+}

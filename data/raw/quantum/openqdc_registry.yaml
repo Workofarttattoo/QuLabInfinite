@@ -1,0 +1,18 @@
+# Pointers to locally cached OpenQDC datasets (large raw files are left outside the repo).
+# Regenerate hashes with `scripts/hash_openqdc_cache.py` once you refresh the cache.
+
+qmugs:
+  cache_dir: /Users/noone/.cache/openqdc/qmugs
+  approx_size_gb: 8.3
+  download_hint: "openqdc download QMugs"
+  notes: "2 million conformers; see https://docs.openqdc.io/"
+spice:
+  cache_dir: /Users/noone/.cache/openqdc/spice
+  approx_size_gb: 2.2
+  download_hint: "openqdc download Spice"
+  notes: "Large force-field training set"
+qm7x:
+  cache_dir: /Users/noone/.cache/openqdc/qm7x
+  approx_size_gb: 4.6
+  download_hint: "openqdc download QM7X"
+  notes: "Quantum properties for ~7k molecules"

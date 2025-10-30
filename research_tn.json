@@ -1,0 +1,40 @@
+{
+  "query": "tensor network quantum simulation",
+  "results": [
+    {
+      "title": "Simplification of tensor updates toward performance-complexity balanced\n  quantum computer simulation",
+      "authors": "Koichi Yanagisawa, Aruto Hosaka, Tsuyoshi Yoshida",
+      "published": "2024-06-05T07:18:28Z",
+      "summary": "Tensor network methods have evolved from solving optimization problems in\nquantum many-body spin systems. While the tensor network is now regarded as a\npowerful tool in quantum computer simulation, there still exists a complexity\nissue in updating the tensors. This work studies the tensor updates\nsimplification in the context of the tensor network based quantum computer\nsimulation. According to the numerical simulations, a method called simple\nupdate, also originated in quantum many-body spin systems, shows a good balance\nof the fidelity and the computational complexity.",
+      "link": "http://arxiv.org/abs/2406.03010v1"
+    },
+    {
+      "title": "Tensor Networks for Simulating Quantum Circuits on FPGAs",
+      "authors": "Maksim Levental",
+      "published": "2021-08-15T22:43:38Z",
+      "summary": "Most research in quantum computing today is performed against simulations of\nquantum computers rather than true quantum computers. Simulating a quantum\ncomputer entails implementing all of the unitary operators corresponding to the\nquantum gates as tensors. For high numbers of qubits, performing tensor\nmultiplications for these simulations becomes quite expensive, since $N$-qubit\ngates correspond to $2^{N}$-dimensional tensors. One way to accelerate such a\nsimulation is to use field programmable gate array (FPGA) hardware to\nefficiently compute the matrix multiplications. Though FPGAs can efficiently\nperform tensor multiplications, they are memory bound, having relatively small\nblock random access memory. One way to potentially reduce the memory footprint\nof a quantum computing system is to represent it as a tensor network; tensor\nnetworks are a formalism for representing compositions of tensors wherein\neconomical tensor contractions are readily identified. Thus we explore tensor\nnetworks as a means to reducing the memory footprint of quantum computing\nsystems and broadly accelerating simulations of such systems.",
+      "link": "http://arxiv.org/abs/2108.06831v1"
+    },
+    {
+      "title": "Local tensor network for strongly correlated projective states",
+      "authors": "B. B\u00e9ri, N. R. Cooper",
+      "published": "2011-01-28T19:15:07Z",
+      "summary": "The success of tensor network approaches in simulating strongly correlated\nquantum systems crucially depends on whether the many body states that are\nrelevant for the problem can be encoded in a local tensor network. Despite\nnumerous efforts, strongly correlated projective states, fractional quantum\nHall states in particular, have not yet found a local tensor network\nrepresentation. Here we show that one can encode the calculation of averages of\nlocal operators in a Grassmann tensor network which is local. Our construction\nis explicit, and allows the use of physically motivated trial wavefunctions as\nstarting points in tensor network variational calculations.",
+      "link": "http://arxiv.org/abs/1101.5610v1"
+    },
+    {
+      "title": "Tensor Network States with Low-Rank Tensors",
+      "authors": "Hao Chen, Thomas Barthel",
+      "published": "2022-05-30T17:58:16Z",
+      "summary": "Tensor networks are used to efficiently approximate states of\nstrongly-correlated quantum many-body systems. More generally, tensor network\napproximations may allow to reduce the costs for operating on an order-$N$\ntensor from exponential to polynomial in $N$, and this has become a popular\napproach for machine learning. We introduce the idea of imposing low-rank\nconstraints on the tensors that compose the tensor network. With this\nmodification, the time and space complexities for the network optimization can\nbe substantially reduced while maintaining high accuracy. We detail this idea\nfor tree tensor network states (TTNS) and projected entangled-pair states.\nSimulations of spin models on Cayley trees with low-rank TTNS exemplify the\neffect of rank constraints on the expressive power. We find that choosing the\ntensor rank $r$ to be on the order of the bond dimension $m$, is sufficient to\nobtain high-accuracy groundstate approximations and to substantially outperform\nstandard TTNS computations. Thus low-rank tensor networks are a promising route\nfor the simulation of quantum matter and machine learning on large data sets.",
+      "link": "http://arxiv.org/abs/2205.15296v1"
+    },
+    {
+      "title": "Harnessing CUDA-Q's MPS for Tensor Network Simulations of Large-Scale\n  Quantum Circuits",
+      "authors": "Gabin Schieffer, Stefano Markidis, Ivy Peng",
+      "published": "2025-01-27T10:36:05Z",
+      "summary": "Quantum computer simulators are an indispensable tool for prototyping quantum\nalgorithms and verifying the functioning of existing quantum computer hardware.\nThe current largest quantum computers feature more than one thousand qubits,\nchallenging their classical simulators. State-vector quantum simulators are\nchallenged by the exponential increase of representable quantum states with\nrespect to the number of qubits, making more than fifty qubits practically\nunfeasible. A more appealing approach for simulating quantum computers is\nadopting the tensor network approach, whose memory requirements fundamentally\ndepend on the level of entanglement in the quantum circuit, and allows\nsimulating the current largest quantum computers. This work investigates and\nevaluates the CUDA-Q tensor network simulators on an Nvidia Grace Hopper\nsystem, particularly the Matrix Product State (MPS) formulation. We compare the\nperformance of the CUDA-Q state vector implementation and validate the\ncorrectness of MPS simulations. Our results highlight that tensor network-based\nmethods provide a significant opportunity to simulate large-qubit circuits,\nalbeit approximately. We also show that current GPU-accelerated computation\ncannot fully utilize GPU efficiently in the case of MPS simulations.",
+      "link": "http://arxiv.org/abs/2501.15939v1"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "query": "computational fluid dynamics machine learning",
+  "results": [
+    {
+      "title": "Enhancing Computational Fluid Dynamics with Machine Learning",
+      "authors": "Ricardo Vinuesa, Steven L. Brunton",
+      "published": "2021-10-05T14:34:16Z",
+      "summary": "Machine learning is rapidly becoming a core technology for scientific\ncomputing, with numerous opportunities to advance the field of computational\nfluid dynamics. In this Perspective, we highlight some of the areas of highest\npotential impact, including to accelerate direct numerical simulations, to\nimprove turbulence closure modeling, and to develop enhanced reduced-order\nmodels. We also discuss emerging areas of machine learning that are promising\nfor computational fluid dynamics, as well as some potential limitations that\nshould be taken into account.",
+      "link": "http://arxiv.org/abs/2110.02085v2"
+    },
+    {
+      "title": "Machine learning in fluid dynamics: A critical assessment",
+      "authors": "Kunihiko Taira, Georgios Rigas, Kai Fukami",
+      "published": "2025-08-19T01:06:05Z",
+      "summary": "The fluid dynamics community has increasingly adopted machine learning to\nanalyze, model, predict, and control a wide range of flows. These methods offer\npowerful computational capabilities for regression, compression, and\noptimization. In some cases, machine learning has even outperformed traditional\napproaches. However, many fluid mechanics problems remain beyond the reach of\ncurrent machine learning techniques. As the field moves from its current state\ntoward a more mature paradigm, this article offers a critical assessment of the\nkey challenges that must be addressed. Tackling these technical issues will not\nonly deepen our understanding of flow physics but also expand the applicability\nof machine learning beyond fundamental research. We also highlight the\nimportance of community-maintained datasets and open-source code repositories\nto accelerate progress in this area. Furthermore, the future success of machine\nlearning in fluid dynamics will depend on effective training -- not only for\nthe next generation of researchers but also for established fluid mechanicians\nadapting to this evolving landscape. Data-driven fluid dynamics is in its\ncritical transitional state over the next few years to shape its future. This\nperspective article aims to spark discussions and encourage collaborative\nefforts to advance the integration of machine learning in fluid dynamics.",
+      "link": "http://arxiv.org/abs/2508.13430v2"
+    },
+    {
+      "title": "Learning Incompressible Fluid Dynamics from Scratch -- Towards Fast,\n  Differentiable Fluid Models that Generalize",
+      "authors": "Nils Wandel, Michael Weinmann, Reinhard Klein",
+      "published": "2020-06-15T20:59:28Z",
+      "summary": "Fast and stable fluid simulations are an essential prerequisite for\napplications ranging from computer-generated imagery to computer-aided design\nin research and development. However, solving the partial differential\nequations of incompressible fluids is a challenging task and traditional\nnumerical approximation schemes come at high computational costs. Recent deep\nlearning based approaches promise vast speed-ups but do not generalize to new\nfluid domains, require fluid simulation data for training, or rely on complex\npipelines that outsource major parts of the fluid simulation to traditional\nmethods.\n  In this work, we propose a novel physics-constrained training approach that\ngeneralizes to new fluid domains, requires no fluid simulation data, and allows\nconvolutional neural networks to map a fluid state from time-point t to a\nsubsequent state at time t + dt in a single forward pass. This simplifies the\npipeline to train and evaluate neural fluid models. After training, the\nframework yields models that are capable of fast fluid simulations and can\nhandle various fluid phenomena including the Magnus effect and Karman vortex\nstreets. We present an interactive real-time demo to show the speed and\ngeneralization capabilities of our trained models. Moreover, the trained neural\nnetworks are efficient differentiable fluid solvers as they offer a\ndifferentiable update step to advance the fluid simulation in time. We exploit\nthis fact in a proof-of-concept optimal control experiment. Our models\nsignificantly outperform a recent differentiable fluid solver in terms of\ncomputational speed and accuracy.",
+      "link": "http://arxiv.org/abs/2006.08762v3"
+    },
+    {
+      "title": "Inpainting Computational Fluid Dynamics with Deep Learning",
+      "authors": "Dule Shu, Wilson Zhen, Zijie Li, Amir Barati Farimani",
+      "published": "2024-02-27T03:44:55Z",
+      "summary": "Fluid data completion is a research problem with high potential benefit for\nboth experimental and computational fluid dynamics. An effective fluid data\ncompletion method reduces the required number of sensors in a fluid dynamics\nexperiment, and allows a coarser and more adaptive mesh for a Computational\nFluid Dynamics (CFD) simulation. However, the ill-posed nature of the fluid\ndata completion problem makes it prohibitively difficult to obtain a\ntheoretical solution and presents high numerical uncertainty and instability\nfor a data-driven approach (e.g., a neural network model). To address these\nchallenges, we leverage recent advancements in computer vision, employing the\nvector quantization technique to map both complete and incomplete fluid data\nspaces onto discrete-valued lower-dimensional representations via a two-stage\nlearning procedure. We demonstrated the effectiveness of our approach on\nKolmogorov flow data (Reynolds number: 1000) occluded by masks of different\nsize and arrangement. Experimental results show that our proposed model\nconsistently outperforms benchmark models under different occlusion settings in\nterms of point-wise reconstruction accuracy as well as turbulent energy\nspectrum and vorticity distribution.",
+      "link": "http://arxiv.org/abs/2402.17185v1"
+    },
+    {
+      "title": "Parameter-Conditioned Sequential Generative Modeling of Fluid Flows",
+      "authors": "Jeremy Morton, Freddie D. Witherden, Mykel J. Kochenderfer",
+      "published": "2019-12-14T00:16:53Z",
+      "summary": "The computational cost associated with simulating fluid flows can make it\ninfeasible to run many simulations across multiple flow conditions. Building\nupon concepts from generative modeling, we introduce a new method for learning\nneural network models capable of performing efficient parameterized simulations\nof fluid flows. Evaluated on their ability to simulate both two-dimensional and\nthree-dimensional fluid flows, trained models are shown to capture local and\nglobal properties of the flow fields at a wide array of flow conditions.\nFurthermore, flow simulations generated by the trained models are shown to be\norders of magnitude faster than the corresponding computational fluid dynamics\nsimulations.",
+      "link": "http://arxiv.org/abs/1912.06752v1"
+    }
+  ]
+}

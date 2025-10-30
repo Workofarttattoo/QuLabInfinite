@@ -1,0 +1,38 @@
+{
+  "6061-T6": {
+    "source_file": "materials_lab/data/6061t6_arxiv.json",
+    "query_keywords": [
+      "tensile",
+      "strength",
+      "thermal"
+    ],
+    "num_results": 0
+  },
+  "SS 304": {
+    "source_file": "materials_lab/data/a304_arxiv.json",
+    "query_keywords": [
+      "tensile",
+      "strength",
+      "thermal"
+    ],
+    "num_results": 1
+  },
+  "Ti-6Al-4V": {
+    "source_file": "materials_lab/data/ti6al4v_arxiv.json",
+    "query_keywords": [
+      "tensile",
+      "strength",
+      "thermal"
+    ],
+    "num_results": 6
+  },
+  "Al 6061-T6": {
+    "source_file": "materials_lab/data/al6061_arxiv.json",
+    "query_keywords": [
+      "tensile",
+      "strength",
+      "thermal"
+    ],
+    "num_results": 1
+  }
+}

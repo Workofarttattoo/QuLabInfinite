@@ -1,0 +1,30 @@
+id: mech_304ss_tension_v1
+summary: |
+  Golden path calibration for AISI 304 stainless steel Johnson-Cook model.
+  Uses tensile curves at 298 K and 673 K. Acceptance gates enforce MAE < 15 MPa
+  and 90% coverage of measured stress values.
+inputs:
+  - T_K
+  - strain_rate
+  - epsilon
+criteria:
+  mae_mpa:
+    max: 15.0
+  coverage_90:
+    min: 0.88
+data_ref:
+  raw:
+    - ../../data/raw/mechanics/304ss_tension_298K.json
+    - ../../data/raw/mechanics/304ss_tension_673K.json
+  canonical: ../../data/canonical/mechanics/304ss_tension_summary.json
+engine:
+  id: mech_johnson_cook_v2
+  calibration_script: ../../calib/mech_304ss_tension_calib.py
+reports:
+  - ../../reports/mech_304ss_tension_v1.md
+metadata:
+  last_calibrated: 2025-10-29
+  owner: materials-team
+  notes: |
+    Replace placeholder data with authoritative measurements before claiming
+    production readiness.

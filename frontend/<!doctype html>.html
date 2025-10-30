@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>QuLab Lite</title>
+    <style>
+      body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0b0f15; color: #e6eef8;}
+      a { color: #8ec5ff; text-decoration: none; }
+      .nav { display:flex; gap:1rem; padding:1rem; background:#0f1622; position:sticky; top:0; }
+      .container { max-width: 1100px; margin: 0 auto; padding: 1rem;}
+      .card { background:#111827; border:1px solid #1f2937; border-radius:12px; padding:1rem;}
+      .btn { background:#1e40af; color:white; border:none; padding:0.6rem 1rem; border-radius:8px; cursor:pointer;}
+      .btn:disabled { background:#374151; cursor:not-allowed; }
+      .input, textarea { background:#0b1220; color:#e6eef8; border:1px solid #1f2937; border-radius:8px; padding:0.5rem;}
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

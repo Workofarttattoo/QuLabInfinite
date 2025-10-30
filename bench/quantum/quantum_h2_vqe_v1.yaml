@@ -1,0 +1,26 @@
+id: quantum_h2_vqe_v1
+summary: |
+  Golden path validation for the VQE pipeline on H2 / STO-3G. Ensures the
+  optimizer reproduces reference energies within 1 millihartree and that the
+  reported confidence intervals capture the exact value.
+inputs:
+  - bond_length_angstrom
+criteria:
+  mae_millihartree:
+    max: 1.0
+  coverage_95:
+    min: 0.9
+data_ref:
+  raw: ../../data/raw/quantum/h2_sto3g_vqe.json
+  canonical: ../../data/canonical/quantum/h2_vqe_summary.json
+engine:
+  id: quantum_vqe_reference_v1
+  calibration_script: ../../calib/quantum_h2_vqe_calib.py
+reports:
+  - ../../reports/quantum_h2_vqe_v1.md
+metadata:
+  last_calibrated: 2025-10-29
+  owner: quantum-team
+  notes: |
+    Swap in experimental hardware benchmarks when available. Current dataset
+    derived from noiseless and noisy simulators.

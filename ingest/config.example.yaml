@@ -1,0 +1,7 @@
+# qulab_infinite_ingest/config.example.yaml
+registry_path: data/registry.jsonl
+default_outputs:
+  nist_thermo: data/nist_thermo.jsonl
+  hapi: data/hapi_lines.jsonl
+  cantera: data/ignition_samples.jsonl
+  sophiarch: data/sophiarch_join.jsonl

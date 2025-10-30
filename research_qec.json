@@ -1,0 +1,40 @@
+{
+  "query": "quantum error correction",
+  "results": [
+    {
+      "title": "Algebraic and information-theoretic conditions for operator quantum\n  error-correction",
+      "authors": "Michael A. Nielsen, David Poulin",
+      "published": "2005-06-09T00:45:04Z",
+      "summary": "Operator quantum error-correction is a technique for robustly storing quantum\ninformation in the presence of noise. It generalizes the standard theory of\nquantum error-correction, and provides a unified framework for topics such as\nquantum error-correction, decoherence-free subspaces, and noiseless subsystems.\nThis paper develops (a) easily applied algebraic and information-theoretic\nconditions which characterize when operator quantum error-correction is\nfeasible; (b) a representation theorem for a class of noise processes which can\nbe corrected using operator quantum error-correction; and (c) generalizations\nof the coherent information and quantum data processing inequality to the\nsetting of operator quantum error-correction.",
+      "link": "http://arxiv.org/abs/quant-ph/0506069v1"
+    },
+    {
+      "title": "Learning time-dependent noise to reduce logical errors: Real time error\n  rate estimation in quantum error correction",
+      "authors": "Ming-Xia Huo, Ying Li",
+      "published": "2017-10-10T14:56:23Z",
+      "summary": "Quantum error correction is important to quantum information processing,\nwhich allows us to reliably process information encoded in quantum error\ncorrection codes. Efficient quantum error correction benefits from the\nknowledge of error rates. We propose a protocol for monitoring error rates in\nreal time without interrupting the quantum error correction. Any adaptation of\nthe quantum error correction code or its implementation circuit is not\nrequired. The protocol can be directly applied to the most advanced quantum\nerror correction techniques, e.g. surface code. A Gaussian processes algorithm\nis used to estimate and predict error rates based on error correction data in\nthe past. We find that using these estimated error rates, the probability of\nerror correction failures can be significantly reduced by a factor increasing\nwith the code distance.",
+      "link": "http://arxiv.org/abs/1710.03636v2"
+    },
+    {
+      "title": "An Introduction to Error-Correcting Codes: From Classical to Quantum",
+      "authors": "Hsun-Hsien Chang",
+      "published": "2006-02-18T03:17:50Z",
+      "summary": "This report surveys quantum error-correcting codes. As Preskill claimed, 21st\ncentury would be the golden age of quantum error correction. Quantum channels\nbehave differently from classical channels, so researchers face difficulties in\ndeveloping robust quantum codes. Fortunately, the classical error control\nmethods have been well developed. If we can learn many lessons from classical\ncoding theory, we can expedite the development of quantum codes. Scientists\nhave discovered that quantum error correction shares many concepts with\nclassical counterpart. Both quantum and classical coding schemes add redundancy\nto information to protect against noises. They also have similar conditions for\nerror detectability and correctability.",
+      "link": "http://arxiv.org/abs/quant-ph/0602157v1"
+    },
+    {
+      "title": "Demonstration of teleportation-based error correction in the IBM quantum\n  computer",
+      "authors": "K. M. Anandu, Muhammad Shaharukh, Bikash K. Behera, Prasanta K. Panigrahi",
+      "published": "2019-02-02T08:03:10Z",
+      "summary": "Quantum error correcting codes (QECC) are the key ingredients both for\nfault-tolerant quantum computation and quantum communication.\nTeleportation-based error correction (TEC) helps in detecting and correcting\noperational and erasure errors by performing X and Z measurements during\nteleportation. Here we demonstrate the TEC protocol for the detection and\ncorrection of a single bit-flip error by proposing a new quantum circuit. A\nsingle phase-flip error can also be detected and corrected using the above\nprotocol. For the first time, we illustrate detection and correction of erasure\nerror in the superconducting qubit-based IBM's 14-qubit quantum computer.",
+      "link": "http://arxiv.org/abs/1902.01692v1"
+    },
+    {
+      "title": "A note on threshold theorem of fault-tolerant quantum computation",
+      "authors": "Min Liang, Li Yang",
+      "published": "2010-06-25T09:00:34Z",
+      "summary": "Error-correction process has to be carried out periodically to prevent\naccumulation of errors in fault-tolerant quantum computation. It is believed\nthat the best choice to get maximum threshold value is carrying out an\nerror-correction process after each quantum gate operation. Result of this note\nshows that the optimal error-correction period depends on the value of k which\nis the level number of concatenated quantum error-correction code.",
+      "link": "http://arxiv.org/abs/1006.4941v1"
+    }
+  ]
+}

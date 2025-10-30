@@ -1,0 +1,15 @@
+{
+  "system": "H2",
+  "basis": "sto-3g",
+  "dataset_id": "quantum_h2_vqe_v1",
+  "reference_energy_hartree": -1.13727,
+  "calibration": {
+    "method": "ExactDiagonalization",
+    "engine_version": "quantum_vqe_reference_v1",
+    "last_calibrated": "2025-10-29",
+    "metrics": {
+      "mae_millihartree": 0.4,
+      "ci_95_millihartree": 0.8
+    }
+  }
+}

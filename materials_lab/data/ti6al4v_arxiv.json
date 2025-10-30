@@ -1,0 +1,58 @@
+{
+  "material": "Ti-6Al-4V",
+  "keywords": [
+    "tensile",
+    "strength",
+    "thermal"
+  ],
+  "results": [
+    {
+      "material": "Ti-6Al-4V",
+      "title": "Effect of Post Weld Heat Treatments on the Elevated Temperature\n  Mechanical Properties of Ti6Al4V Friction Welds",
+      "published": "2018-02-09T17:42:11Z",
+      "summary_snippet": "The {\\alpha}+\\b{eta} titanium alloy (Ti6Al4V) has been successfully joined using rotary friction welding. To investigate the influence of post weld heat treatments on the microstructure and mechanical properties of the welds, the weld joints were heat treated in {\\alpha}+\\b{eta} and\u2026",
+      "link": "http://arxiv.org/abs/1802.03363v1",
+      "query": "https://export.arxiv.org/api/query?search_query=all%3A%22Ti6Al4V%22+AND+%28all%3Atensile+OR+all%3Astrength+OR+all%3Athermal%29&start=0&max_results=20"
+    },
+    {
+      "material": "Ti-6Al-4V",
+      "title": "Dry Cutting Experiments Database Ti6Al4V and Ck45",
+      "published": "2022-09-09T09:19:42Z",
+      "summary_snippet": "The numerical simulation of metal cutting processes requires material data for constitutive equations, which cannot be obtained with standard material testing procedures. Instead, inverse identifications of material parameters within numerical simulation models of the cutting experiment itself are necessary. The\u2026",
+      "link": "http://arxiv.org/abs/2209.04197v1",
+      "query": "https://export.arxiv.org/api/query?search_query=all%3A%22Ti6Al4V%22+AND+%28all%3Atensile+OR+all%3Astrength+OR+all%3Athermal%29&start=0&max_results=20"
+    },
+    {
+      "material": "Ti-6Al-4V",
+      "title": "Effects of H$^-$ low beam irradiation and high field pulsing tests in\n  different metals",
+      "published": "2024-09-29T13:15:14Z",
+      "summary_snippet": "This work studies the suitability of a set of different materials for manufacturing of more efficient and durable Radio-Frequency Quadrupole (RFQ) structures compared to that currently used in many linear particle accelerators, traditionally made out of copper. RFQs are susceptible\u2026",
+      "link": "http://arxiv.org/abs/2409.19698v2",
+      "query": "https://export.arxiv.org/api/query?search_query=all%3A%22Ti6Al4V%22+AND+%28all%3Atensile+OR+all%3Astrength+OR+all%3Athermal%29&start=0&max_results=20"
+    },
+    {
+      "material": "Ti-6Al-4V",
+      "title": "Physics and data driven model for prediction of residual stresses in\n  machining",
+      "published": "2024-03-27T10:47:53Z",
+      "summary_snippet": "The residual stress distributions obtained give a tensile region near the surface for Inconel 718, and a compressive region for Ti6Al4V, which are in line with experimental results found in literature.",
+      "link": "http://arxiv.org/abs/2403.18441v1",
+      "query": "https://export.arxiv.org/api/query?search_query=all%3A%22Ti6Al4V%22+AND+%28all%3Atensile+OR+all%3Astrength+OR+all%3Athermal%29&start=0&max_results=20"
+    },
+    {
+      "material": "Ti-6Al-4V",
+      "title": "Radiation damage of the ILC positron source target",
+      "published": "2007-12-14T13:12:48Z",
+      "summary_snippet": "The radiation damage of a stationary Ti6Al4V target in units of displacements per atom (dpa) has been estimated for photons from an undulator with strength 0.",
+      "link": "http://arxiv.org/abs/0712.2343v1",
+      "query": "https://export.arxiv.org/api/query?search_query=all%3A%22Ti6Al4V%22+AND+%28all%3Atensile+OR+all%3Astrength+OR+all%3Athermal%29&start=0&max_results=20"
+    },
+    {
+      "material": "Ti-6Al-4V",
+      "title": "Data-driven prediction of tool wear using Bayesian-regularized\n  artificial neural networks",
+      "published": "2023-11-30T15:22:20Z",
+      "summary_snippet": "The prediction of tool wear helps minimize costs and enhance product quality in manufacturing. While existing data-driven models using machine learning and deep learning have contributed to the accurate prediction of tool wear, they often lack generality and require substantial\u2026",
+      "link": "http://arxiv.org/abs/2311.18620v1",
+      "query": "https://export.arxiv.org/api/query?search_query=all%3A%22Ti6Al4V%22+AND+%28all%3Atensile+OR+all%3Astrength+OR+all%3Athermal%29&start=0&max_results=20"
+    }
+  ]
+}

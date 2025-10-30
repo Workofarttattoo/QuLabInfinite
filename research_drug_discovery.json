@@ -1,0 +1,40 @@
+{
+  "query": "AI for drug discovery",
+  "results": [
+    {
+      "title": "Accelerating drug discovery with Artificial: a whole-lab orchestration\n  and scheduling system for self-driving labs",
+      "authors": "Yao Fehlis, Paul Mandel, Charles Crain, Betty Liu, David Fuller",
+      "published": "2025-04-01T17:22:50Z",
+      "summary": "Self-driving labs are transforming drug discovery by enabling automated,\nAI-guided experimentation, but they face challenges in orchestrating complex\nworkflows, integrating diverse instruments and AI models, and managing data\nefficiently. Artificial addresses these issues with a comprehensive\norchestration and scheduling system that unifies lab operations, automates\nworkflows, and integrates AI-driven decision-making. By incorporating AI/ML\nmodels like NVIDIA BioNeMo - which facilitates molecular interaction prediction\nand biomolecular analysis - Artificial enhances drug discovery and accelerates\ndata-driven research. Through real-time coordination of instruments, robots,\nand personnel, the platform streamlines experiments, enhances reproducibility,\nand advances drug discovery.",
+      "link": "http://arxiv.org/abs/2504.00986v1"
+    },
+    {
+      "title": "Artificial Intelligence for Drug Discovery: Are We There Yet?",
+      "authors": "Catrin Hasselgren, Tudor I. Oprea",
+      "published": "2023-07-13T01:51:26Z",
+      "summary": "Drug discovery is adapting to novel technologies such as data science,\ninformatics, and artificial intelligence (AI) to accelerate effective treatment\ndevelopment while reducing costs and animal experiments. AI is transforming\ndrug discovery, as indicated by increasing interest from investors, industrial\nand academic scientists, and legislators. Successful drug discovery requires\noptimizing properties related to pharmacodynamics, pharmacokinetics, and\nclinical outcomes. This review discusses the use of AI in the three pillars of\ndrug discovery: diseases, targets, and therapeutic modalities, with a focus on\nsmall molecule drugs. AI technologies, such as generative chemistry, machine\nlearning, and multi-property optimization, have enabled several compounds to\nenter clinical trials. The scientific community must carefully vet known\ninformation to address the reproducibility crisis. The full potential of AI in\ndrug discovery can only be realized with sufficient ground truth and\nappropriate human intervention at later pipeline stages.",
+      "link": "http://arxiv.org/abs/2307.06521v1"
+    },
+    {
+      "title": "CardiGraphormer: Unveiling the Power of Self-Supervised Learning in\n  Revolutionizing Drug Discovery",
+      "authors": "Abhijit Gupta",
+      "published": "2023-07-03T08:58:32Z",
+      "summary": "In the expansive realm of drug discovery, with approximately 15,000 known\ndrugs and only around 4,200 approved, the combinatorial nature of the chemical\nspace presents a formidable challenge. While Artificial Intelligence (AI) has\nemerged as a powerful ally, traditional AI frameworks face significant hurdles.\nThis manuscript introduces CardiGraphormer, a groundbreaking approach that\nsynergizes self-supervised learning (SSL), Graph Neural Networks (GNNs), and\nCardinality Preserving Attention to revolutionize drug discovery.\nCardiGraphormer, a novel combination of Graphormer and Cardinality Preserving\nAttention, leverages SSL to learn potent molecular representations and employs\nGNNs to extract molecular fingerprints, enhancing predictive performance and\ninterpretability while reducing computation time. It excels in handling complex\ndata like molecular structures and performs tasks associated with nodes, pairs\nof nodes, subgraphs, or entire graph structures. CardiGraphormer's potential\napplications in drug discovery and drug interactions are vast, from identifying\nnew drug targets to predicting drug-to-drug interactions and enabling novel\ndrug discovery. This innovative approach provides an AI-enhanced methodology in\ndrug development, utilizing SSL combined with GNNs to overcome existing\nlimitations and pave the way for a richer exploration of the vast combinatorial\nchemical space in drug discovery.",
+      "link": "http://arxiv.org/abs/2307.00859v4"
+    },
+    {
+      "title": "Artificial Intelligence Approaches for Anti-Addiction Drug Discovery",
+      "authors": "Dong Chen, Jian Jiang, Zhe Su, Guo-Wei Wei",
+      "published": "2025-02-05T20:49:02Z",
+      "summary": "Drug addiction is a complex and pervasive global challenge that continues to\npose significant public health concerns. Traditional approaches to\nanti-addiction drug discovery have struggled to deliver effective therapeutics,\nfacing high attrition rates, long development timelines, and inefficiencies in\nprocessing large-scale data. Artificial intelligence (AI) has emerged as a\ntransformative solution to address these issues. Using advanced algorithms, AI\nis revolutionizing drug discovery by enhancing the speed and precision of key\nprocesses. This review explores the transformative role of AI in the pipeline\nfor anti-addiction drug discovery, including data collection, target\nidentification, and compound optimization. By highlighting the potential of AI\nto overcome traditional barriers, this review systematically examines how AI\naddresses critical gaps in anti-addiction research, emphasizing its potential\nto revolutionize drug discovery and development, overcome challenges, and\nadvance more effective therapeutic strategies.",
+      "link": "http://arxiv.org/abs/2502.03606v2"
+    },
+    {
+      "title": "ChatGPT in Drug Discovery: A Case Study on Anti-Cocaine Addiction Drug\n  Development with Chatbots",
+      "authors": "Rui Wang, Hongsong Feng, Guo-Wei Wei",
+      "published": "2023-08-14T03:43:57Z",
+      "summary": "The birth of ChatGPT, a cutting-edge language model-based chatbot developed\nby OpenAI, ushered in a new era in AI. However, due to potential pitfalls, its\nrole in rigorous scientific research is not clear yet. This paper vividly\nshowcases its innovative application within the field of drug discovery.\nFocused specifically on developing anti-cocaine addiction drugs, the study\nemploys GPT-4 as a virtual guide, offering strategic and methodological\ninsights to researchers working on generative models for drug candidates. The\nprimary objective is to generate optimal drug-like molecules with desired\nproperties. By leveraging the capabilities of ChatGPT, the study introduces a\nnovel approach to the drug discovery process. This symbiotic partnership\nbetween AI and researchers transforms how drug development is approached.\nChatbots become facilitators, steering researchers towards innovative\nmethodologies and productive paths for creating effective drug candidates. This\nresearch sheds light on the collaborative synergy between human expertise and\nAI assistance, wherein ChatGPT's cognitive abilities enhance the design and\ndevelopment of potential pharmaceutical solutions. This paper not only explores\nthe integration of advanced AI in drug discovery but also reimagines the\nlandscape by advocating for AI-powered chatbots as trailblazers in\nrevolutionizing therapeutic innovation.",
+      "link": "http://arxiv.org/abs/2308.06920v2"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "material": "Al 6061-T6",
+  "keywords": [
+    "tensile",
+    "strength",
+    "thermal"
+  ],
+  "results": [
+    {
+      "material": "Al 6061-T6",
+      "title": "Compressive performance and crack propagation in Al alloy/Ti2AlC\n  composites",
+      "published": "2019-08-23T10:55:18Z",
+      "summary_snippet": "While the coarse structured specimens exhibited a compressive strength of 80% relative to this.",
+      "link": "http://arxiv.org/abs/1908.08757v1",
+      "query": "https://export.arxiv.org/api/query?search_query=all%3A%22Al+6061%22+AND+%28all%3Atensile+OR+all%3Astrength+OR+all%3Athermal%29&start=0&max_results=20"
+    }
+  ]
+}
