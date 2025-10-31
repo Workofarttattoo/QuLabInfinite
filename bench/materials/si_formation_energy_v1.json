@@ -1,0 +1,34 @@
+{
+  "id": "materials_si_formation_energy_v1",
+  "version": "1.0.0",
+  "domain": "materials",
+  "description": "Silicon (diamond) formation/cohesive energy per atom benchmark vs DFT-PBE reference.",
+  "tags": ["materials", "formation_energy", "silicon", "PBE"],
+  "problem": {
+    "type": "formation_energy",
+    "system": "Si_diamond",
+    "reference_method": "DFT-PBE",
+    "temperature_K": 0
+  },
+  "discretization": {
+    "supercell": [2, 2, 2],
+    "kmesh": [6, 6, 6]
+  },
+  "tolerances": {
+    "mae_fe_ev": { "type": "absolute", "value": 0.05 }
+  },
+  "references": {
+    "fe_ev_per_atom": -4.63
+  },
+  "metrics": [
+    {
+      "name": "mae_fe_ev",
+      "reducer": "MAE",
+      "target": "fe_ev_per_atom",
+      "pass_if": "<=",
+      "unit": "eV/atom"
+    }
+  ]
+}
+
+

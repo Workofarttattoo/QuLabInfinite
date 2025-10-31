@@ -1,0 +1,32 @@
+{
+  "id": "chemistry_h2o_formation_energy_v1",
+  "version": "1.0.0",
+  "domain": "chemistry",
+  "description": "Standard formation energy (enthalpy of formation) of liquid water at 298K in kJ/mol.",
+  "tags": ["chemistry", "formation_energy", "water"],
+  "problem": {
+    "type": "formation_energy",
+    "reaction": "H2 + 1/2 O2 -> H2O(l)",
+    "temperature_K": 298,
+    "phase": "liquid",
+    "reference_method": "NIST"
+  },
+  "discretization": {},
+  "tolerances": {
+    "mae_dH_kjmol": { "type": "absolute", "value": 5.0 }
+  },
+  "references": {
+    "dH_kjmol": -241.8
+  },
+  "metrics": [
+    {
+      "name": "mae_dH_kjmol",
+      "reducer": "MAE",
+      "target": "dH_kjmol",
+      "pass_if": "<=",
+      "unit": "kJ/mol"
+    }
+  ]
+}
+
+

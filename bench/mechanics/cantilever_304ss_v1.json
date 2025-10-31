@@ -1,0 +1,46 @@
+{
+  "id": "mech_cantilever_304ss_v1",
+  "version": "1.0.0",
+  "domain": "mechanics",
+  "description": "Cantilever beam deflection under end load for 304 stainless steel (linear elastic).",
+  "tags": ["mechanics", "beam", "deflection", "304SS"],
+  "problem": {
+    "type": "linear_elastic",
+    "geometry": {
+      "shape": "rect_beam",
+      "length_m": 1.0,
+      "width_m": 0.05,
+      "thickness_m": 0.01
+    },
+    "boundary_conditions": {
+      "fixed_end": 0.0,
+      "end_load_N": 1000.0
+    },
+    "material": {
+      "name": "304SS",
+      "E_Pa": 1.93e11,
+      "nu": 0.29
+    }
+  },
+  "discretization": {
+    "mesh": "refined",
+    "order": 2
+  },
+  "tolerances": {
+    "deflection_tip_pct": { "type": "relative_pct", "value": 2.0 }
+  },
+  "references": {
+    "deflection_tip_m": 0.0123
+  },
+  "metrics": [
+    {
+      "name": "deflection_tip_pct",
+      "reducer": "mean_pct_error",
+      "target": "deflection_tip_m",
+      "pass_if": "<=",
+      "unit": "%"
+    }
+  ]
+}
+
+

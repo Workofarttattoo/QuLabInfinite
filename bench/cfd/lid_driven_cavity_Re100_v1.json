@@ -1,0 +1,30 @@
+{
+  "id": "cfd_lid_driven_cavity_Re100_v1",
+  "version": "1.0.0",
+  "domain": "cfd",
+  "description": "2D lid-driven cavity at Re=100 benchmark; compare velocity fields to canonical references.",
+  "tags": ["cfd", "lid_driven_cavity", "Re100"],
+  "problem": {
+    "type": "incompressible_navier_stokes",
+    "Re": 100,
+    "domain": "unit_square",
+    "lid_velocity": 1.0
+  },
+  "discretization": {
+    "grid": [129, 129],
+    "order": 2
+  },
+  "tolerances": {
+    "u_field_L2": { "type": "absolute", "value": 0.02 },
+    "v_centerline_Linf": { "type": "absolute", "value": 0.05 }
+  },
+  "references": {
+    "source": "Ghia et al., 1982"
+  },
+  "metrics": [
+    { "name": "u_field_L2", "reducer": "L2", "pass_if": "<=" },
+    { "name": "v_centerline_Linf", "reducer": "Linf", "pass_if": "<=" }
+  ]
+}
+
+
