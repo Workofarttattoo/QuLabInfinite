@@ -8,6 +8,7 @@ Free gift to the scientific community from QuLabInfinite.
 import numpy as np
 from dataclasses import dataclass, field
 from typing import TypeVar, Generic
+from scipy import constants
 
 T = TypeVar('T')
 

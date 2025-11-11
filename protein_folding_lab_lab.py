@@ -76,7 +76,7 @@ class ProteinLab:
         self.proteins.append(protein)
     
     def run_simulations(self):
-        for p in self.proproteins:
+        for p in self.proteins:
             p.build_protein()
             
 def run_demo():
