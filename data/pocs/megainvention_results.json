@@ -1,0 +1,1200 @@
+{
+  "total_concepts": 25,
+  "concepts_tested": 25,
+  "pocs_created": 25,
+  "passed": [
+    "Graphene Quantum Computing Processor",
+    "Neural Code Synthesis AI",
+    "Doolittle Holographic Avatar System",
+    "Full-Sensory VR Haptic Suit",
+    "Quantum-Resistant Blockchain Chip",
+    "Neuromorphic Sentience Core",
+    "Multi-Modal Perception System",
+    "Holographic Memory Matrix",
+    "Symbolic-Neural Reasoning Engine",
+    "Quantum Consciousness Bridge",
+    "Zero-Point Energy Vehicle Drivetrain",
+    "Ambient Energy Harvesting Generator",
+    "Algae Protein Bioreactor",
+    "Programmable Smart Material",
+    "Biodegradable Cellulose Composite",
+    "Autonomous Business Operating System",
+    "Lights-Out Manufacturing Cell",
+    "Kinetic Energy Storage Device",
+    "Neural-Mapped Pleasure System",
+    "Multi-Zone Haptic Stimulator",
+    "Oxytocin-Dopamine Amplifier",
+    "Vascular Sensitizer for Women",
+    "Serotonin Optimization Complex",
+    "Neural Harmony Blend",
+    "NeuroQuantum Cognitive Enhancer"
+  ],
+  "needs_work": [],
+  "pocs": [
+    {
+      "name": "Graphene Quantum Computing Processor",
+      "timestamp": "2025-11-02T20:14:45.109290",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Silicon",
+              "found": true,
+              "properties": {
+                "density": 2329.6,
+                "strength": 0.0,
+                "cost": 0.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability"
+      ]
+    },
+    {
+      "name": "Neural Code Synthesis AI",
+      "timestamp": "2025-11-02T20:14:45.109388",
+      "test_results": {
+        "materials_test": null,
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed"
+      ]
+    },
+    {
+      "name": "Doolittle Holographic Avatar System",
+      "timestamp": "2025-11-02T20:14:45.110648",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "BK7 Glass",
+              "found": true,
+              "properties": {
+                "density": 2510,
+                "strength": 0,
+                "cost": 15
+              }
+            },
+            {
+              "material": "PEEK",
+              "found": true,
+              "properties": {
+                "density": 1320.0,
+                "strength": 100.0,
+                "cost": 450.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $325.50 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 2/2 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $325.50 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Full-Sensory VR Haptic Suit",
+      "timestamp": "2025-11-02T20:14:45.111407",
+      "test_results": {
+        "materials_test": null,
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed"
+      ]
+    },
+    {
+      "name": "Quantum-Resistant Blockchain Chip",
+      "timestamp": "2025-11-02T20:14:45.112041",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Silicon",
+              "found": true,
+              "properties": {
+                "density": 2329.6,
+                "strength": 0.0,
+                "cost": 0.0
+              }
+            },
+            {
+              "material": "BK7 Glass",
+              "found": true,
+              "properties": {
+                "density": 2510,
+                "strength": 0,
+                "cost": 15
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $0.36 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 2/2 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $0.36 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Neuromorphic Sentience Core",
+      "timestamp": "2025-11-02T20:14:45.112119",
+      "test_results": {
+        "materials_test": null,
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed"
+      ]
+    },
+    {
+      "name": "Multi-Modal Perception System",
+      "timestamp": "2025-11-02T20:14:45.112908",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Silicon",
+              "found": true,
+              "properties": {
+                "density": 2329.6,
+                "strength": 0.0,
+                "cost": 0.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability"
+      ]
+    },
+    {
+      "name": "Holographic Memory Matrix",
+      "timestamp": "2025-11-02T20:14:45.113476",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "BK7 Glass",
+              "found": true,
+              "properties": {
+                "density": 2510,
+                "strength": 0,
+                "cost": 15
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $4.50 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $4.50 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Symbolic-Neural Reasoning Engine",
+      "timestamp": "2025-11-02T20:14:45.113541",
+      "test_results": {
+        "materials_test": null,
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed"
+      ]
+    },
+    {
+      "name": "Quantum Consciousness Bridge",
+      "timestamp": "2025-11-02T20:14:45.114219",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Silicon",
+              "found": true,
+              "properties": {
+                "density": 2329.6,
+                "strength": 0.0,
+                "cost": 0.0
+              }
+            },
+            {
+              "material": "Niobium",
+              "found": true,
+              "properties": {
+                "density": 8570.0,
+                "strength": 0.0,
+                "cost": 0.0
+              }
+            },
+            {
+              "material": "PEEK",
+              "found": true,
+              "properties": {
+                "density": 1320.0,
+                "strength": 100.0,
+                "cost": 450.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $126.00 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 3/3 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $126.00 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Zero-Point Energy Vehicle Drivetrain",
+      "timestamp": "2025-11-02T20:14:45.116320",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Quartz",
+              "found": true,
+              "properties": {
+                "density": 2650,
+                "strength": 0,
+                "cost": 25
+              }
+            },
+            {
+              "material": "Al 7075-T6",
+              "found": true,
+              "properties": {
+                "density": 2810,
+                "strength": 572,
+                "cost": 7.2
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $6.76 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 2/2 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $6.76 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Ambient Energy Harvesting Generator",
+      "timestamp": "2025-11-02T20:14:45.117985",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Quartz",
+              "found": true,
+              "properties": {
+                "density": 2650,
+                "strength": 0,
+                "cost": 25
+              }
+            },
+            {
+              "material": "BK7 Glass",
+              "found": true,
+              "properties": {
+                "density": 2510,
+                "strength": 0,
+                "cost": 15
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $9.00 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 2/2 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $9.00 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Algae Protein Bioreactor",
+      "timestamp": "2025-11-02T20:14:45.118107",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Borosilicate Glass",
+              "found": true,
+              "properties": {
+                "density": 2230,
+                "strength": 45,
+                "cost": 5.5
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": {
+          "pass": true,
+          "details": "Chemical feasibility assessed"
+        },
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.0
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.0,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $23.10 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "Chemical reactions validated as feasible",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $23.10 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Programmable Smart Material",
+      "timestamp": "2025-11-02T20:14:45.118160",
+      "test_results": {
+        "materials_test": null,
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed"
+      ]
+    },
+    {
+      "name": "Biodegradable Cellulose Composite",
+      "timestamp": "2025-11-02T20:14:45.118891",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Cellulose",
+              "found": true,
+              "properties": {
+                "density": 1600.0,
+                "strength": 7500.0,
+                "cost": 450.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $337.50 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $337.50 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Autonomous Business Operating System",
+      "timestamp": "2025-11-02T20:14:45.118944",
+      "test_results": {
+        "materials_test": null,
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed"
+      ]
+    },
+    {
+      "name": "Lights-Out Manufacturing Cell",
+      "timestamp": "2025-11-02T20:14:45.119366",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Al 7075-T6",
+              "found": true,
+              "properties": {
+                "density": 2810,
+                "strength": 572,
+                "cost": 7.2
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $10.08 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $10.08 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Kinetic Energy Storage Device",
+      "timestamp": "2025-11-02T20:14:45.120508",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Quartz",
+              "found": true,
+              "properties": {
+                "density": 2650,
+                "strength": 0,
+                "cost": 25
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $5.62 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $5.62 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Neural-Mapped Pleasure System",
+      "timestamp": "2025-11-02T20:14:45.121759",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "PEEK",
+              "found": true,
+              "properties": {
+                "density": 1320.0,
+                "strength": 100.0,
+                "cost": 450.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $126.00 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $126.00 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Multi-Zone Haptic Stimulator",
+      "timestamp": "2025-11-02T20:14:45.122991",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "PEEK",
+              "found": true,
+              "properties": {
+                "density": 1320.0,
+                "strength": 100.0,
+                "cost": 450.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $126.00 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability",
+        "Cost estimate $126.00 within budget $500.00"
+      ]
+    },
+    {
+      "name": "Oxytocin-Dopamine Amplifier",
+      "timestamp": "2025-11-02T20:14:45.123109",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Gold",
+              "found": true,
+              "properties": {
+                "density": 19300.0,
+                "strength": 0.0,
+                "cost": 0.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability"
+      ]
+    },
+    {
+      "name": "Vascular Sensitizer for Women",
+      "timestamp": "2025-11-02T20:14:45.123216",
+      "test_results": {
+        "materials_test": null,
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed"
+      ]
+    },
+    {
+      "name": "Serotonin Optimization Complex",
+      "timestamp": "2025-11-02T20:14:45.124699",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "PLGA",
+              "found": true,
+              "properties": {
+                "density": 1340.0,
+                "strength": 45.0,
+                "cost": 850.0
+              }
+            },
+            {
+              "material": "Cellulose",
+              "found": true,
+              "properties": {
+                "density": 1600.0,
+                "strength": 7500.0,
+                "cost": 450.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $975.00 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 2/2 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed",
+        "Cost estimate $975.00 exceeds budget $500.00"
+      ]
+    },
+    {
+      "name": "Neural Harmony Blend",
+      "timestamp": "2025-11-02T20:14:45.125397",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "PLGA",
+              "found": true,
+              "properties": {
+                "density": 1340.0,
+                "strength": 45.0,
+                "cost": 850.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $637.50 for prototype",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed",
+        "Cost estimate $637.50 exceeds budget $500.00"
+      ]
+    },
+    {
+      "name": "NeuroQuantum Cognitive Enhancer",
+      "timestamp": "2025-11-02T20:14:45.125543",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Silicon",
+              "found": true,
+              "properties": {
+                "density": 2329.6,
+                "strength": 0.0,
+                "cost": 0.0
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 1.0,
+          "details": "Quantum optimization score: 100.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "High quantum optimization score (100.0%) indicates strong viability"
+      ]
+    }
+  ]
+}

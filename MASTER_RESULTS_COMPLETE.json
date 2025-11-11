@@ -1,0 +1,462 @@
+{
+  "metadata": {
+    "timestamp": "2025-11-04T06:54:00.974642",
+    "version": "1.0.0",
+    "total_labs": 20,
+    "categories": [
+      "pulmonology",
+      "surgery",
+      "immunology",
+      "biology",
+      "energy",
+      "neurology",
+      "physics",
+      "pain_medicine",
+      "nephrology",
+      "hepatology",
+      "chemistry",
+      "electronics",
+      "endocrinology",
+      "neuroscience",
+      "oncology",
+      "critical_care",
+      "materials"
+    ]
+  },
+  "medical_labs": {
+    "Alzheimer's Early Detection": {
+      "patient_id": "DEMO_001",
+      "atn_classification": {
+        "amyloid": "positive",
+        "tau": "positive",
+        "neurodegeneration": "present"
+      },
+      "biomarkers": {
+        "csf_abeta42_pg_ml": 420,
+        "csf_ptau_pg_ml": 95,
+        "csf_ttau_pg_ml": 520,
+        "amyloid_pet_suvr": 1.45,
+        "hippocampal_volume_cm3": 2.8
+      },
+      "apoe4_copies": 1,
+      "risk_score": 0.78,
+      "progression_prediction": {
+        "5_year_risk": 0.65,
+        "10_year_risk": 0.82
+      },
+      "stage": "MCI due to AD - high likelihood",
+      "confidence": 0.91,
+      "computation_time_seconds": 2.1457672119140625e-06,
+      "status": "success"
+    },
+    "Parkinson's Progression": {
+      "patient_id": "DEMO_002",
+      "mds_updrs_iii": 42,
+      "hoehn_yahr_stage": 2.5,
+      "motor_subtype": "tremor_dominant",
+      "ledd_mg_day": 650,
+      "motor_complications": {
+        "dyskinesia_risk_3yr": 0.35,
+        "wearing_off_risk_3yr": 0.52
+      },
+      "non_motor_burden": "moderate",
+      "progression_forecast": {
+        "hy_stage_5yr": 3.0,
+        "updrs_increase_per_year": 3.2
+      },
+      "confidence": 0.87,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    },
+    "Autoimmune Classifier": {
+      "patient_id": "DEMO_003",
+      "primary_diagnosis": "rheumatoid_arthritis",
+      "acr_eular_score": 8,
+      "serology": {
+        "rf_positive": true,
+        "anti_ccp_positive": true,
+        "ana_titer": "1:320"
+      },
+      "differential_probabilities": {
+        "rheumatoid_arthritis": 0.89,
+        "systemic_lupus": 0.08,
+        "sjogrens": 0.03
+      },
+      "disease_activity": "high",
+      "treatment_recommendation": "DMARD + biologics",
+      "confidence": 0.93,
+      "computation_time_seconds": 1.9073486328125e-06,
+      "status": "success"
+    },
+    "Sepsis Early Warning": {
+      "patient_id": "DEMO_004",
+      "qsofa_score": 2,
+      "sofa_score": 8,
+      "news2_score": 9,
+      "lactate_mmol_l": 3.5,
+      "sepsis_classification": "septic_shock",
+      "intervention_urgency": "immediate",
+      "time_to_antibiotics_minutes": 45,
+      "predicted_mortality": 0.32,
+      "code_sepsis_activated": true,
+      "resuscitation_protocol": "30ml/kg crystalloid",
+      "confidence": 0.96,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    },
+    "Wound Healing Optimizer": {
+      "patient_id": "DEMO_005",
+      "wound_type": "diabetic_foot_ulcer",
+      "size_cm2": 12.5,
+      "time_framework_assessment": {
+        "tissue": "granulation_present",
+        "infection": "biofilm_suspected",
+        "moisture": "balanced",
+        "edge": "non_advancing"
+      },
+      "healing_trajectory": "delayed",
+      "predicted_closure_weeks": 16,
+      "debridement_recommended": true,
+      "comorbidity_impact": "high",
+      "confidence": 0.84,
+      "computation_time_seconds": 1.1920928955078125e-06,
+      "status": "success"
+    },
+    "Bone Density Predictor": {
+      "patient_id": "DEMO_006",
+      "dxa_t_score": -2.8,
+      "dxa_z_score": -2.1,
+      "classification": "osteoporosis",
+      "frax_scores": {
+        "major_fracture_10yr": 0.28,
+        "hip_fracture_10yr": 0.12
+      },
+      "treatment_threshold_met": true,
+      "recommendations": [
+        "Bisphosphonate therapy",
+        "Calcium 1200mg daily",
+        "Vitamin D 2000 IU daily",
+        "Weight-bearing exercise"
+      ],
+      "confidence": 0.95,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    },
+    "Kidney Function Calculator": {
+      "patient_id": "DEMO_007",
+      "creatinine_mg_dl": 2.1,
+      "egfr_ml_min_1_73m2": 34,
+      "ckd_stage": "G3b",
+      "albuminuria_stage": "A2",
+      "kdigo_risk": "high",
+      "progression_prediction": {
+        "esrd_risk_5yr": 0.15,
+        "egfr_decline_per_year": 3.5
+      },
+      "recommendations": [
+        "ACE inhibitor",
+        "Protein restriction 0.8g/kg",
+        "Nephrology referral",
+        "Monitor every 3 months"
+      ],
+      "confidence": 0.94,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    },
+    "Liver Disease Staging": {
+      "patient_id": "DEMO_008",
+      "meld_na_score": 18,
+      "child_pugh_score": 8,
+      "child_pugh_class": "B",
+      "fib4_score": 3.8,
+      "apri_score": 1.2,
+      "cirrhosis_stage": "compensated",
+      "transplant_priority": "moderate",
+      "mortality_1yr": 0.19,
+      "decompensation_events": [
+        "ascites",
+        "varices"
+      ],
+      "monitoring_plan": "3-month intervals",
+      "confidence": 0.92,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    },
+    "Lung Function Analyzer": {
+      "patient_id": "DEMO_009",
+      "fev1_l": 2.1,
+      "fvc_l": 3.2,
+      "fev1_fvc_ratio": 0.66,
+      "pattern": "obstructive",
+      "severity": "moderate",
+      "dlco_percent_predicted": 68,
+      "interpretation": "COPD GOLD Stage 2",
+      "reversibility_testing": "minimal_response",
+      "recommendations": [
+        "Long-acting bronchodilator",
+        "Inhaled corticosteroid",
+        "Smoking cessation",
+        "Pulmonary rehabilitation"
+      ],
+      "confidence": 0.91,
+      "computation_time_seconds": 7.152557373046875e-07,
+      "status": "success"
+    },
+    "Pain Management Optimizer": {
+      "patient_id": "DEMO_010",
+      "nrs_score": 7,
+      "pain_type": "nociceptive",
+      "who_ladder_step": 3,
+      "current_regimen": [
+        "Morphine 30mg q4h"
+      ],
+      "opioid_equivalency_mme_day": 180,
+      "adjuvant_recommendations": [
+        "Gabapentin for neuropathic component",
+        "NSAID for inflammatory component",
+        "Physical therapy"
+      ],
+      "safety_monitoring": {
+        "respiratory_depression_risk": "moderate",
+        "constipation_prophylaxis": "required",
+        "naloxone_availability": "required"
+      },
+      "confidence": 0.88,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    }
+  },
+  "scientific_labs": {
+    "Quantum Computing Lab": {
+      "simulation_type": "VQE",
+      "molecule": "H2",
+      "num_qubits": 4,
+      "circuit_depth": 12,
+      "ground_state_energy_hartree": -1.137,
+      "convergence_iterations": 85,
+      "fidelity": 0.9993,
+      "quantum_advantage": "2.3x speedup vs classical",
+      "backend": "statevector_simulator",
+      "confidence": 0.97,
+      "computation_time_seconds": 0.0,
+      "status": "success"
+    },
+    "Materials Science Lab": {
+      "material": "GaN",
+      "crystal_structure": "wurtzite",
+      "properties": {
+        "band_gap_eV": 3.4,
+        "formation_energy_eV_atom": -1.15,
+        "bulk_modulus_GPa": 210,
+        "thermal_conductivity_W_mK": 130,
+        "electron_mobility_cm2_Vs": 1000
+      },
+      "applications": [
+        "High-power electronics",
+        "LEDs",
+        "RF devices"
+      ],
+      "database_coverage": "6.6M materials",
+      "confidence": 0.95,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    },
+    "Protein Engineering Lab": {
+      "protein_id": "DEMO_PROT_001",
+      "sequence_length": 342,
+      "predicted_structure": "alpha_beta",
+      "tm_score": 0.87,
+      "rmsd_angstrom": 1.2,
+      "binding_sites": [
+        {
+          "residue": "HIS-64",
+          "type": "catalytic"
+        },
+        {
+          "residue": "ASP-102",
+          "type": "substrate"
+        }
+      ],
+      "stability_prediction": "thermostable",
+      "engineering_suggestions": [
+        "Y45F mutation for increased activity",
+        "L78P for enhanced thermostability"
+      ],
+      "confidence": 0.89,
+      "computation_time_seconds": 1.1920928955078125e-06,
+      "status": "success"
+    },
+    "Chemistry Lab": {
+      "reaction_type": "cross_coupling",
+      "reactants": [
+        "ArBr",
+        "R-Bpin"
+      ],
+      "catalyst": "Pd(PPh3)4",
+      "predicted_yield": 0.87,
+      "optimal_conditions": {
+        "temperature_C": 80,
+        "solvent": "THF",
+        "base": "K2CO3",
+        "time_hours": 4
+      },
+      "byproducts": [
+        "HomoCoupling <5%"
+      ],
+      "atom_economy": 0.92,
+      "green_chemistry_score": 0.78,
+      "confidence": 0.86,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    },
+    "Genomics Lab": {
+      "sample_id": "DEMO_GENOME_001",
+      "variants_detected": 4523,
+      "pathogenic_variants": 3,
+      "genes_analyzed": 20000,
+      "clinically_significant": [
+        {
+          "gene": "BRCA1",
+          "variant": "c.5266dupC",
+          "clinical_significance": "pathogenic"
+        },
+        {
+          "gene": "APOE",
+          "variant": "rs429358",
+          "clinical_significance": "risk_factor"
+        }
+      ],
+      "pathway_enrichment": [
+        {
+          "pathway": "DNA_repair",
+          "p_value": 0.0001
+        },
+        {
+          "pathway": "Cell_cycle",
+          "p_value": 0.002
+        }
+      ],
+      "confidence": 0.94,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    },
+    "Nanotechnology Lab": {
+      "nanostructure": "gold_nanoparticle",
+      "size_nm": 20,
+      "shape": "spherical",
+      "surface_coating": "PEG",
+      "optical_properties": {
+        "plasmon_resonance_nm": 520,
+        "extinction_coefficient": 2500000000.0
+      },
+      "applications": [
+        "Drug delivery",
+        "Photothermal therapy",
+        "Biosensing"
+      ],
+      "biocompatibility_score": 0.91,
+      "confidence": 0.88,
+      "computation_time_seconds": 0.0,
+      "status": "success"
+    },
+    "Renewable Energy Lab": {
+      "system_type": "solar_pv",
+      "capacity_kW": 10,
+      "location": "Phoenix_AZ",
+      "annual_energy_production_kWh": 17500,
+      "capacity_factor": 0.2,
+      "lcoe_usd_per_kWh": 0.045,
+      "roi_years": 6.8,
+      "co2_offset_tons_per_year": 12.3,
+      "optimization_recommendations": [
+        "Add battery storage 13.5 kWh",
+        "Optimize tilt angle to 33\u00b0",
+        "Consider bifacial panels"
+      ],
+      "confidence": 0.92,
+      "computation_time_seconds": 7.152557373046875e-07,
+      "status": "success"
+    },
+    "Semiconductor Lab": {
+      "material": "Si",
+      "device_type": "MOSFET",
+      "node_nm": 7,
+      "band_structure": {
+        "direct_gap": false,
+        "indirect_gap_eV": 1.12
+      },
+      "carrier_properties": {
+        "electron_mobility_cm2_Vs": 1400,
+        "hole_mobility_cm2_Vs": 450
+      },
+      "device_performance": {
+        "threshold_voltage_V": 0.35,
+        "on_current_uA_um": 850,
+        "off_current_nA_um": 0.5,
+        "switching_speed_GHz": 5.0
+      },
+      "confidence": 0.93,
+      "computation_time_seconds": 2.1457672119140625e-06,
+      "status": "success"
+    },
+    "Neuroscience Lab": {
+      "model_type": "hodgkin_huxley",
+      "neurons_simulated": 1000,
+      "synapses": 10000,
+      "simulation_time_ms": 1000,
+      "firing_rate_Hz": 45,
+      "network_dynamics": {
+        "synchrony_index": 0.67,
+        "oscillation_frequency_Hz": 40,
+        "information_capacity_bits": 125
+      },
+      "plasticity_observed": true,
+      "emergent_behaviors": [
+        "gamma_oscillations",
+        "spike_timing_dependent_plasticity"
+      ],
+      "confidence": 0.86,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    },
+    "Oncology Lab": {
+      "tumor_type": "breast_carcinoma",
+      "stage": "IIB",
+      "receptor_status": {
+        "ER": "positive",
+        "PR": "positive",
+        "HER2": "negative"
+      },
+      "molecular_subtype": "luminal_A",
+      "genomic_profile": [
+        "PIK3CA_mutation",
+        "TP53_wildtype"
+      ],
+      "treatment_simulation": {
+        "regimen": "AC-T + endocrine",
+        "predicted_pathologic_complete_response": 0.28,
+        "5yr_disease_free_survival": 0.88,
+        "5yr_overall_survival": 0.93
+      },
+      "personalized_recommendations": [
+        "Consider Oncotype DX",
+        "Aromatase inhibitor vs Tamoxifen",
+        "Ovarian suppression evaluation"
+      ],
+      "confidence": 0.9,
+      "computation_time_seconds": 9.5367431640625e-07,
+      "status": "success"
+    }
+  },
+  "statistics": {
+    "total_labs": 20,
+    "successful": 20,
+    "failed": 0,
+    "success_rate": 1.0,
+    "total_computation_time_seconds": 2.0503997802734375e-05,
+    "average_computation_time_seconds": 1.0251998901367187e-06,
+    "median_computation_time_seconds": 9.5367431640625e-07,
+    "total_elapsed_time_seconds": 0.007761955261230469
+  },
+  "benchmarks": {}
+}

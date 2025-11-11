@@ -1,0 +1,40 @@
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+# QuLab Master API Dockerfile
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install additional production dependencies
+RUN pip install --no-cache-dir \
+    uvicorn[standard]==0.24.0 \
+    fastapi==0.104.1 \
+    python-multipart==0.0.6 \
+    prometheus-client==0.19.0
+
+# Copy application
+COPY . .
+
+# Create logs directory
+RUN mkdir -p /app/logs
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Run with uvicorn
+CMD ["uvicorn", "master_qulab_api:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]

@@ -1,0 +1,265 @@
+{
+  "total_concepts": 5,
+  "concepts_tested": 5,
+  "pocs_created": 5,
+  "passed": [
+    "Airloy X103 Aerogel Thermal Shield",
+    "Graphene-Enhanced Supercapacitor",
+    "Smart Phase-Change Insulation",
+    "Carbon Nanotube Composite Beam",
+    "Piezoelectric Energy Harvester"
+  ],
+  "needs_work": [],
+  "pocs": [
+    {
+      "name": "Airloy X103 Aerogel Thermal Shield",
+      "timestamp": "2025-11-02T17:47:08.540362",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Graphene",
+              "found": true,
+              "properties": {
+                "density": 2267,
+                "strength": 130000,
+                "cost": 100000
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $150000.00 for prototype",
+        "Perform thermal cycling tests to validate temperature performance",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed",
+        "Cost estimate $150000.00 exceeds budget $500.00"
+      ]
+    },
+    {
+      "name": "Graphene-Enhanced Supercapacitor",
+      "timestamp": "2025-11-02T17:47:08.541248",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Graphene",
+              "found": true,
+              "properties": {
+                "density": 2267,
+                "strength": 130000,
+                "cost": 100000
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $150000.00 for prototype",
+        "Perform thermal cycling tests to validate temperature performance",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed",
+        "Cost estimate $150000.00 exceeds budget $500.00"
+      ]
+    },
+    {
+      "name": "Smart Phase-Change Insulation",
+      "timestamp": "2025-11-02T17:47:08.541619",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Graphene",
+              "found": true,
+              "properties": {
+                "density": 2267,
+                "strength": 130000,
+                "cost": 100000
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $150000.00 for prototype",
+        "Perform thermal cycling tests to validate temperature performance",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed",
+        "Cost estimate $150000.00 exceeds budget $500.00"
+      ]
+    },
+    {
+      "name": "Carbon Nanotube Composite Beam",
+      "timestamp": "2025-11-02T17:47:08.541918",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Graphene",
+              "found": true,
+              "properties": {
+                "density": 2267,
+                "strength": 130000,
+                "cost": 100000
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $150000.00 for prototype",
+        "Perform thermal cycling tests to validate temperature performance",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed",
+        "Cost estimate $150000.00 exceeds budget $500.00"
+      ]
+    },
+    {
+      "name": "Piezoelectric Energy Harvester",
+      "timestamp": "2025-11-02T17:47:08.542202",
+      "test_results": {
+        "materials_test": {
+          "pass": true,
+          "details": [
+            {
+              "material": "Graphene",
+              "found": true,
+              "properties": {
+                "density": 2267,
+                "strength": 130000,
+                "cost": 100000
+              }
+            }
+          ]
+        },
+        "physics_test": {
+          "pass": true,
+          "details": "Basic physics validation completed"
+        },
+        "chemistry_test": null,
+        "quantum_test": {
+          "score": 0.7,
+          "details": "Quantum optimization score: 70.0%"
+        },
+        "overall_pass": true,
+        "confidence": 1.3333333333333333
+      },
+      "validation_status": "passed",
+      "feasibility_score": 1.3333333333333333,
+      "next_steps": [
+        "Design detailed CAD model of prototype",
+        "Create bill of materials (BOM) with supplier quotes",
+        "Build initial prototype for lab testing",
+        "Run comprehensive QuLab simulations for optimization",
+        "Document test results and iterate on design",
+        "Budget allocation: $150000.00 for prototype",
+        "Perform thermal cycling tests to validate temperature performance",
+        "Consider provisional patent filing for IP protection"
+      ],
+      "findings": [
+        "Materials: 1/1 materials available in QuLab database",
+        "All required materials validated and available",
+        "Physics simulation validated feasibility",
+        "Moderate quantum score (70.0%) suggests refinement needed",
+        "Cost estimate $150000.00 exceeds budget $500.00"
+      ]
+    }
+  ]
+}

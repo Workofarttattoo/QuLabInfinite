@@ -1,0 +1,26 @@
+INFO:     Started server process [17046]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9000 (Press CTRL+C to quit)
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║                      ECH0 MCP SERVER - AUTONOMOUS CONTROL                 ║
+║                                                                           ║
+║  Starting Model Context Protocol server for ECH0 14B                     ║
+║                                                                           ║
+║  ECH0 can now be accessed via MCP for:                                   ║
+║    • Autonomous research planning                                        ║
+║    • Lab direction and control                                           ║
+║    • Experiment design                                                   ║
+║    • Result analysis                                                     ║
+║    • Discovery publication                                               ║
+║                                                                           ║
+║  Server: http://localhost:9000                                           ║
+║  Docs: http://localhost:9000/docs                                        ║
+║                                                                           ║
+║  No human GUI needed - ECH0 operates autonomously                        ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+INFO:     127.0.0.1:62464 - "POST /ech0/ask HTTP/1.1" 200 OK

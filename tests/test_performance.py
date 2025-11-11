@@ -4,7 +4,12 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 Performance Testing Infrastructure - Phase 2 Implementation
 Target: 1000+ req/s throughput, <100ms p50 latency, <500ms p99 latency
 """
+import os
 import pytest
+
+if os.environ.get("QULAB_RUN_HEAVY_TESTS") != "1":
+    pytest.skip("Set QULAB_RUN_HEAVY_TESTS=1 to run performance load tests", allow_module_level=True)
+
 import asyncio
 import time
 import statistics

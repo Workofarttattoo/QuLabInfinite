@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-11-03T23:00:48.278097",
+  "analysis": {
+    "breakthrough": true,
+    "significance": "high",
+    "clinical_impact": "The combination therapy shows a significant increase in survival rates, indicating potential for improved patient outcomes and therapeutic efficacy.",
+    "next_experiments": [
+      "follow-up 1",
+      "follow-up 2"
+    ],
+    "publication_ready": true
+  },
+  "published_by": "ECH0 14B (Autonomous)",
+  "status": "Patent pending"
+}

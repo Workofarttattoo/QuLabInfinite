@@ -1,0 +1,138 @@
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# QuLabInfinite Master Docker Compose
+# Complete deployment stack for all 20 labs
+
+version: '3.8'
+
+services:
+  # Unified API Server
+  qulab-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.master
+    container_name: qulab-unified-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - QULAB_ENV=production
+      - API_KEY_VALIDATION=strict
+    volumes:
+      - ./data:/app/data:ro
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - qulab-network
+
+  # Web Dashboard
+  qulab-dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: qulab-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://qulab-api:8000
+      - NODE_ENV=production
+    depends_on:
+      - qulab-api
+    restart: unless-stopped
+    networks:
+      - qulab-network
+
+  # Redis for caching and rate limiting
+  redis:
+    image: redis:7-alpine
+    container_name: qulab-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - qulab-network
+
+  # PostgreSQL for experiment storage
+  postgres:
+    image: postgres:15-alpine
+    container_name: qulab-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=qulab
+      - POSTGRES_USER=qulab_user
+      - POSTGRES_PASSWORD=qulab_secure_pass_change_me
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+    networks:
+      - qulab-network
+
+  # Prometheus for monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: qulab-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    restart: unless-stopped
+    networks:
+      - qulab-network
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: qulab-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin_change_me
+      - GF_INSTALL_PLUGINS=redis-datasource
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana-dashboards:/etc/grafana/provisioning/dashboards
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - qulab-network
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: qulab-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - qulab-api
+      - qulab-dashboard
+    restart: unless-stopped
+    networks:
+      - qulab-network
+
+volumes:
+  redis-data:
+  postgres-data:
+  prometheus-data:
+  grafana-data:
+
+networks:
+  qulab-network:
+    driver: bridge

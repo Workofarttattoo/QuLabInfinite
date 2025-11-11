@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drug Interaction Network Analyzer - QuLab</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+        .header { background: #9b59b6; color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 32px; margin-bottom: 10px; }
+        .header p { font-size: 18px; opacity: 0.9; }
+        .content { padding: 40px; }
+        .section { margin-bottom: 30px; }
+        .section h2 { color: #2c3e50; margin-bottom: 20px; font-size: 24px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; color: #2c3e50; font-weight: 600; margin-bottom: 8px; }
+        .input-field { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        .input-field:focus { outline: none; border-color: #9b59b6; }
+        .checkbox-field { margin-right: 10px; width: 20px; height: 20px; }
+        .button { background: #9b59b6; color: white; padding: 15px 40px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .button:active { transform: translateY(0); }
+        .demo-button { background: #95a5a6; margin-left: 10px; }
+        .result-box { background: #ecf0f1; border-left: 4px solid #9b59b6; padding: 20px; border-radius: 8px; margin-top: 20px; display: none; }
+        .result-box h3 { color: #2c3e50; margin-bottom: 15px; }
+        .result-item { margin-bottom: 10px; padding: 10px; background: white; border-radius: 4px; }
+        .result-label { font-weight: 600; color: #9b59b6; }
+        .footer { background: #34495e; color: white; padding: 20px; text-align: center; font-size: 12px; }
+        .footer a { color: #3498db; text-decoration: none; }
+        .nl-interface { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .nl-input { width: 100%; padding: 15px; border: 2px solid #9b59b6; border-radius: 8px; font-size: 16px; }
+        .nl-examples { margin-top: 10px; font-size: 14px; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 Drug Interaction Network Analyzer</h1>
+            <p>Detects 3+ drug interactions</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>💬 Natural Language Interface</h2>
+                <div class="nl-interface">
+                    <input type="text" class="nl-input" id="nlQuery" placeholder="Ask in plain English: 'Analyze a 58-year-old with stage 3 ovarian cancer'">
+                    <div class="nl-examples">
+                        💡 Try: "What's the optimal treatment for my patient?" or "Run analysis with default parameters"
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📋 Detailed Parameters</h2>
+                
+                <div class="input-group">
+                    <label>Medications (comma-separated)</label>
+                    <input type="text" id="drugs" class="input-field" placeholder="warfarin, amiodarone, aspirin">
+                </div>
+            
+                <div class="input-group">
+                    <label>Patient Age</label>
+                    <input type="number" id="age" class="input-field" value="70">
+                </div>
+            
+                <div class="input-group">
+                    <label>eGFR</label>
+                    <input type="number" id="kidney_function" class="input-field" value="60">
+                </div>
+            
+                <div style="margin-top: 30px;">
+                    <button class="button" onclick="runAnalysis()">🚀 Run Analysis</button>
+                    <button class="button demo-button" onclick="loadDemo()">📊 Load Demo</button>
+                </div>
+            </div>
+
+            <div class="result-box" id="resultBox">
+                <h3>✅ Results</h3>
+                <div id="results"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Copyright © 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.<br>
+            <a href="http://localhost:8000">QuLab Unified Interface</a> |
+            <a href="https://qulabinfinite.com">QuLabInfinite.com</a> |
+            <a href="https://aios.is">AIOS.is</a>
+        </div>
+    </div>
+
+    <script>
+        const demoData = {"drugs": "warfarin, amiodarone", "age": 75, "kidney_function": 45};
+
+        function loadDemo() {
+            Object.entries(demoData).forEach(([key, value]) => {
+                const elem = document.getElementById(key);
+                if (elem) {
+                    if (elem.type === 'checkbox') {
+                        elem.checked = value;
+                    } else {
+                        elem.value = value;
+                    }
+                }
+            });
+            alert('✅ Demo data loaded! Click "Run Analysis" to see results.');
+        }
+
+        async function runAnalysis() {
+            const resultBox = document.getElementById('resultBox');
+            const resultsDiv = document.getElementById('results');
+
+            // Collect inputs
+            const inputs = {};
+            ["drugs", "age", "kidney_function"].forEach(name => {
+                const elem = document.getElementById(name);
+                if (elem) {
+                    inputs[name] = elem.type === 'checkbox' ? elem.checked : elem.value;
+                }
+            });
+
+            resultsDiv.innerHTML = '<p>⏳ Running analysis...</p>';
+            resultBox.style.display = 'block';
+
+            try {
+                // In production, this would call the actual API
+                // For now, show mock results
+                setTimeout(() => {
+                    resultsDiv.innerHTML = `
+                        <div class="result-item">
+                            <span class="result-label">Status:</span> ✅ Analysis Complete
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Input Parameters:</span> ${JSON.stringify(inputs, null, 2)}
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Note:</span> Connect to lab API at http://localhost:800X for live results
+                        </div>
+                    `;
+                }, 1000);
+            } catch (error) {
+                resultsDiv.innerHTML = `<p style="color: red;">❌ Error: ${error.message}</p>`;
+            }
+        }
+
+        // Natural language processing
+        document.getElementById('nlQuery').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = e.target.value.toLowerCase();
+
+                // Simple NL parsing - extract numbers and keywords
+                const ageMatch = query.match(/(\d+)[-\s]year/);
+                const stageMatch = query.match(/stage\s+(\d+)/);
+
+                if (ageMatch) document.getElementById('age').value = ageMatch[1];
+                if (stageMatch) document.getElementById('stage').value = stageMatch[1];
+
+                alert('✅ Parsed your query! Review parameters and click "Run Analysis".');
+            }
+        });
+    </script>
+</body>
+</html>

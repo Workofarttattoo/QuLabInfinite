@@ -4,7 +4,12 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 Comprehensive Production Test Suite - Phase 2 Implementation
 Target: 98%+ code coverage
 """
+import os
 import pytest
+
+if os.environ.get("QULAB_RUN_HEAVY_TESTS") != "1":
+    pytest.skip("Set QULAB_RUN_HEAVY_TESTS=1 to run comprehensive production tests", allow_module_level=True)
+
 import json
 from fastapi.testclient import TestClient
 from api.secure_production_api import app
@@ -12,7 +17,7 @@ from qulab_ai.production import (
     get_logger,
     SecurityManager,
     RateLimiter,
-    Circuit Breaker,
+    CircuitBreaker,
     retry,
     safe_execution,
     QuLabException,

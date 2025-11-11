@@ -1,0 +1,267 @@
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# QuLabInfinite Kubernetes Deployment
+# Production-grade K8s manifests for all services
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: qulab-infinite
+
+---
+# ConfigMap for application configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qulab-config
+  namespace: qulab-infinite
+data:
+  API_ENV: "production"
+  LOG_LEVEL: "info"
+  REDIS_URL: "redis://redis-service:6379"
+  POSTGRES_URL: "postgresql://qulab_user:password@postgres-service:5432/qulab"
+
+---
+# Secret for sensitive data
+apiVersion: v1
+kind: Secret
+metadata:
+  name: qulab-secrets
+  namespace: qulab-infinite
+type: Opaque
+stringData:
+  postgres-password: "change_me_in_production"
+  api-master-key: "enterprise_key_change_me"
+
+---
+# Deployment: Unified API
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qulab-api
+  namespace: qulab-infinite
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: qulab-api
+  template:
+    metadata:
+      labels:
+        app: qulab-api
+    spec:
+      containers:
+      - name: api
+        image: qulab/unified-api:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        envFrom:
+        - configMapRef:
+            name: qulab-config
+        - secretRef:
+            name: qulab-secrets
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+---
+# Service: API
+apiVersion: v1
+kind: Service
+metadata:
+  name: qulab-api-service
+  namespace: qulab-infinite
+spec:
+  selector:
+    app: qulab-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
+
+---
+# Deployment: Redis
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: qulab-infinite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+---
+# Service: Redis
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: qulab-infinite
+spec:
+  selector:
+    app: redis
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
+
+---
+# StatefulSet: PostgreSQL
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: qulab-infinite
+spec:
+  serviceName: postgres-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: qulab
+        - name: POSTGRES_USER
+          value: qulab_user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: qulab-secrets
+              key: postgres-password
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 20Gi
+
+---
+# Service: PostgreSQL
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: qulab-infinite
+spec:
+  selector:
+    app: postgres
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+
+---
+# HorizontalPodAutoscaler: API
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: qulab-api-hpa
+  namespace: qulab-infinite
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: qulab-api
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+# Ingress: External access
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: qulab-ingress
+  namespace: qulab-infinite
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - api.qulab.io
+    secretName: qulab-tls
+  rules:
+  - host: api.qulab.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: qulab-api-service
+            port:
+              number: 80

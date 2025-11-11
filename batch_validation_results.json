@@ -1,151 +1,15 @@
 {
-  "timestamp": "2025-10-30T07:56:48.453118",
+  "timestamp": "2025-11-03T03:17:02.423305",
   "total_concepts": 5,
   "passed": 5,
   "results": [
-    {
-      "concept_name": "Titanium Alloy Frame",
-      "description": "Lightweight aerospace frame using Ti-6Al-4V",
-      "feasibility": 0.5,
-      "impact": 0.5,
-      "cost_estimate": 75000.0,
-      "quantum_score": 0.7,
-      "physics_validated": true,
-      "chemistry_validated": false,
-      "required_materials": [
-        "SWCNT"
-      ],
-      "confidence_scores": {
-        "material_selection": 0.3333333333333333,
-        "physics_validation": 0.9,
-        "chemistry_validation": 0.3,
-        "cost_estimation": 0.9,
-        "quantum_evaluation": 0.7,
-        "overall": 0.6266666666666667
-      },
-      "passed": true,
-      "rejection_reasons": [],
-      "timestamp": "2025-10-30T07:56:48.451192",
-      "acceleration_result": {
-        "concept": {
-          "name": "Titanium Alloy Frame",
-          "description": "Lightweight aerospace frame using Ti-6Al-4V",
-          "feasibility": 0.5,
-          "impact": 0.5,
-          "cost_estimate": 0.0,
-          "required_materials": [],
-          "physics_validated": false,
-          "chemistry_validated": false,
-          "quantum_score": 0.0,
-          "timestamp": "2025-10-30T07:56:47.713902"
-        },
-        "pipeline_steps": [
-          {
-            "step": "material_selection",
-            "materials": [
-              "SWCNT"
-            ],
-            "success": true
-          },
-          {
-            "step": "physics_validation",
-            "validated": true
-          },
-          {
-            "step": "cost_estimation",
-            "cost": 75000.0
-          },
-          {
-            "step": "quantum_evaluation",
-            "score": 0.7
-          }
-        ],
-        "final_recommendation": {
-          "recommend": true,
-          "confidence": 0.7,
-          "reasoning": [
-            "High quantum score: 70.0%",
-            "Physics validated",
-            "Over budget: $75000.00"
-          ]
-        }
-      }
-    },
-    {
-      "concept_name": "Graphene Supercapacitor",
-      "description": "Ultra-fast charging capacitor using graphene sheets",
-      "feasibility": 0.5,
-      "impact": 0.5,
-      "cost_estimate": 75000.0,
-      "quantum_score": 0.7,
-      "physics_validated": true,
-      "chemistry_validated": false,
-      "required_materials": [
-        "SWCNT"
-      ],
-      "confidence_scores": {
-        "material_selection": 0.3333333333333333,
-        "physics_validation": 0.9,
-        "chemistry_validation": 0.3,
-        "cost_estimation": 0.9,
-        "quantum_evaluation": 0.7,
-        "overall": 0.6266666666666667
-      },
-      "passed": true,
-      "rejection_reasons": [],
-      "timestamp": "2025-10-30T07:56:48.451602",
-      "acceleration_result": {
-        "concept": {
-          "name": "Graphene Supercapacitor",
-          "description": "Ultra-fast charging capacitor using graphene sheets",
-          "feasibility": 0.5,
-          "impact": 0.5,
-          "cost_estimate": 0.0,
-          "required_materials": [],
-          "physics_validated": false,
-          "chemistry_validated": false,
-          "quantum_score": 0.0,
-          "timestamp": "2025-10-30T07:56:47.713900"
-        },
-        "pipeline_steps": [
-          {
-            "step": "material_selection",
-            "materials": [
-              "SWCNT"
-            ],
-            "success": true
-          },
-          {
-            "step": "physics_validation",
-            "validated": true
-          },
-          {
-            "step": "cost_estimation",
-            "cost": 75000.0
-          },
-          {
-            "step": "quantum_evaluation",
-            "score": 0.7
-          }
-        ],
-        "final_recommendation": {
-          "recommend": true,
-          "confidence": 0.7,
-          "reasoning": [
-            "High quantum score: 70.0%",
-            "Physics validated",
-            "Over budget: $75000.00"
-          ]
-        }
-      }
-    },
     {
       "concept_name": "Carbon Nanotube Battery",
       "description": "High-capacity battery using SWCNT electrodes",
       "feasibility": 0.5,
       "impact": 0.5,
-      "cost_estimate": 75000.0,
-      "quantum_score": 0.7,
+      "cost_estimate": 750.0,
+      "quantum_score": 1.0,
       "physics_validated": true,
       "chemistry_validated": false,
       "required_materials": [
@@ -156,12 +20,12 @@
         "physics_validation": 0.9,
         "chemistry_validation": 0.3,
         "cost_estimation": 0.9,
-        "quantum_evaluation": 0.7,
-        "overall": 0.6266666666666667
+        "quantum_evaluation": 1.0,
+        "overall": 0.6866666666666668
       },
       "passed": true,
       "rejection_reasons": [],
-      "timestamp": "2025-10-30T07:56:48.452190",
+      "timestamp": "2025-11-03T03:17:02.402324",
       "acceleration_result": {
         "concept": {
           "name": "Carbon Nanotube Battery",
@@ -173,7 +37,7 @@
           "physics_validated": false,
           "chemistry_validated": false,
           "quantum_score": 0.0,
-          "timestamp": "2025-10-30T07:56:47.713897"
+          "timestamp": "2025-11-03T03:17:01.530830"
         },
         "pipeline_steps": [
           {
@@ -189,88 +53,20 @@
           },
           {
             "step": "cost_estimation",
-            "cost": 75000.0
+            "cost": 750.0
           },
           {
             "step": "quantum_evaluation",
-            "score": 0.7
+            "score": 1.0
           }
         ],
         "final_recommendation": {
           "recommend": true,
-          "confidence": 0.7,
+          "confidence": 1.0,
           "reasoning": [
-            "High quantum score: 70.0%",
+            "High quantum score: 100.0%",
             "Physics validated",
-            "Over budget: $75000.00"
-          ]
-        }
-      }
-    },
-    {
-      "concept_name": "Aerogel Heat Shield",
-      "description": "Ultra-lightweight heat shield using advanced aerogel composites",
-      "feasibility": 0.5,
-      "impact": 0.5,
-      "cost_estimate": 75000.0,
-      "quantum_score": 0.7,
-      "physics_validated": true,
-      "chemistry_validated": false,
-      "required_materials": [
-        "SWCNT"
-      ],
-      "confidence_scores": {
-        "material_selection": 0.3333333333333333,
-        "physics_validation": 0.9,
-        "chemistry_validation": 0.3,
-        "cost_estimation": 0.9,
-        "quantum_evaluation": 0.7,
-        "overall": 0.6266666666666667
-      },
-      "passed": true,
-      "rejection_reasons": [],
-      "timestamp": "2025-10-30T07:56:48.452421",
-      "acceleration_result": {
-        "concept": {
-          "name": "Aerogel Heat Shield",
-          "description": "Ultra-lightweight heat shield using advanced aerogel composites",
-          "feasibility": 0.5,
-          "impact": 0.5,
-          "cost_estimate": 0.0,
-          "required_materials": [],
-          "physics_validated": false,
-          "chemistry_validated": false,
-          "quantum_score": 0.0,
-          "timestamp": "2025-10-30T07:56:47.713886"
-        },
-        "pipeline_steps": [
-          {
-            "step": "material_selection",
-            "materials": [
-              "SWCNT"
-            ],
-            "success": true
-          },
-          {
-            "step": "physics_validation",
-            "validated": true
-          },
-          {
-            "step": "cost_estimation",
-            "cost": 75000.0
-          },
-          {
-            "step": "quantum_evaluation",
-            "score": 0.7
-          }
-        ],
-        "final_recommendation": {
-          "recommend": true,
-          "confidence": 0.7,
-          "reasoning": [
-            "High quantum score: 70.0%",
-            "Physics validated",
-            "Over budget: $75000.00"
+            "Within budget: $750.00"
           ]
         }
       }
@@ -280,8 +76,8 @@
       "description": "High-temperature ceramic coating for turbine blades",
       "feasibility": 0.5,
       "impact": 0.5,
-      "cost_estimate": 75000.0,
-      "quantum_score": 0.7,
+      "cost_estimate": 75.0,
+      "quantum_score": 1.0,
       "physics_validated": true,
       "chemistry_validated": false,
       "required_materials": [
@@ -292,12 +88,12 @@
         "physics_validation": 0.9,
         "chemistry_validation": 0.3,
         "cost_estimation": 0.9,
-        "quantum_evaluation": 0.7,
-        "overall": 0.6266666666666667
+        "quantum_evaluation": 1.0,
+        "overall": 0.6866666666666668
       },
       "passed": true,
       "rejection_reasons": [],
-      "timestamp": "2025-10-30T07:56:48.452526",
+      "timestamp": "2025-11-03T03:17:02.402798",
       "acceleration_result": {
         "concept": {
           "name": "Ceramic Thermal Barrier",
@@ -309,7 +105,7 @@
           "physics_validated": false,
           "chemistry_validated": false,
           "quantum_score": 0.0,
-          "timestamp": "2025-10-30T07:56:47.713903"
+          "timestamp": "2025-11-03T03:17:01.530838"
         },
         "pipeline_steps": [
           {
@@ -325,20 +121,226 @@
           },
           {
             "step": "cost_estimation",
-            "cost": 75000.0
+            "cost": 75.0
           },
           {
             "step": "quantum_evaluation",
-            "score": 0.7
+            "score": 1.0
           }
         ],
         "final_recommendation": {
           "recommend": true,
-          "confidence": 0.7,
+          "confidence": 1.0,
           "reasoning": [
-            "High quantum score: 70.0%",
+            "High quantum score: 100.0%",
             "Physics validated",
-            "Over budget: $75000.00"
+            "Within budget: $75.00"
+          ]
+        }
+      }
+    },
+    {
+      "concept_name": "Titanium Alloy Frame",
+      "description": "Lightweight aerospace frame using Ti-6Al-4V",
+      "feasibility": 0.5,
+      "impact": 0.5,
+      "cost_estimate": 33.3,
+      "quantum_score": 1.0,
+      "physics_validated": true,
+      "chemistry_validated": false,
+      "required_materials": [
+        "BK7 Glass",
+        "Al 7075-T6"
+      ],
+      "confidence_scores": {
+        "material_selection": 0.6666666666666666,
+        "physics_validation": 0.9,
+        "chemistry_validation": 0.3,
+        "cost_estimation": 0.9,
+        "quantum_evaluation": 1.0,
+        "overall": 0.7533333333333333
+      },
+      "passed": true,
+      "rejection_reasons": [],
+      "timestamp": "2025-11-03T03:17:02.415481",
+      "acceleration_result": {
+        "concept": {
+          "name": "Titanium Alloy Frame",
+          "description": "Lightweight aerospace frame using Ti-6Al-4V",
+          "feasibility": 0.5,
+          "impact": 0.5,
+          "cost_estimate": 0.0,
+          "required_materials": [],
+          "physics_validated": false,
+          "chemistry_validated": false,
+          "quantum_score": 0.0,
+          "timestamp": "2025-11-03T03:17:01.530836"
+        },
+        "pipeline_steps": [
+          {
+            "step": "material_selection",
+            "materials": [
+              "BK7 Glass",
+              "Al 7075-T6"
+            ],
+            "success": true
+          },
+          {
+            "step": "physics_validation",
+            "validated": true
+          },
+          {
+            "step": "cost_estimation",
+            "cost": 33.3
+          },
+          {
+            "step": "quantum_evaluation",
+            "score": 1.0
+          }
+        ],
+        "final_recommendation": {
+          "recommend": true,
+          "confidence": 1.0,
+          "reasoning": [
+            "High quantum score: 100.0%",
+            "Physics validated",
+            "Within budget: $33.30"
+          ]
+        }
+      }
+    },
+    {
+      "concept_name": "Aerogel Heat Shield",
+      "description": "Ultra-lightweight heat shield using advanced aerogel composites",
+      "feasibility": 0.5,
+      "impact": 0.5,
+      "cost_estimate": 22.5,
+      "quantum_score": 1.0,
+      "physics_validated": true,
+      "chemistry_validated": false,
+      "required_materials": [
+        "BK7 Glass"
+      ],
+      "confidence_scores": {
+        "material_selection": 0.3333333333333333,
+        "physics_validation": 0.9,
+        "chemistry_validation": 0.3,
+        "cost_estimation": 0.9,
+        "quantum_evaluation": 1.0,
+        "overall": 0.6866666666666668
+      },
+      "passed": true,
+      "rejection_reasons": [],
+      "timestamp": "2025-11-03T03:17:02.415744",
+      "acceleration_result": {
+        "concept": {
+          "name": "Aerogel Heat Shield",
+          "description": "Ultra-lightweight heat shield using advanced aerogel composites",
+          "feasibility": 0.5,
+          "impact": 0.5,
+          "cost_estimate": 0.0,
+          "required_materials": [],
+          "physics_validated": false,
+          "chemistry_validated": false,
+          "quantum_score": 0.0,
+          "timestamp": "2025-11-03T03:17:01.530818"
+        },
+        "pipeline_steps": [
+          {
+            "step": "material_selection",
+            "materials": [
+              "BK7 Glass"
+            ],
+            "success": true
+          },
+          {
+            "step": "physics_validation",
+            "validated": true
+          },
+          {
+            "step": "cost_estimation",
+            "cost": 22.5
+          },
+          {
+            "step": "quantum_evaluation",
+            "score": 1.0
+          }
+        ],
+        "final_recommendation": {
+          "recommend": true,
+          "confidence": 1.0,
+          "reasoning": [
+            "High quantum score: 100.0%",
+            "Physics validated",
+            "Within budget: $22.50"
+          ]
+        }
+      }
+    },
+    {
+      "concept_name": "Graphene Supercapacitor",
+      "description": "Ultra-fast charging capacitor using graphene sheets",
+      "feasibility": 0.5,
+      "impact": 0.5,
+      "cost_estimate": 750.0,
+      "quantum_score": 1.0,
+      "physics_validated": true,
+      "chemistry_validated": false,
+      "required_materials": [
+        "SWCNT"
+      ],
+      "confidence_scores": {
+        "material_selection": 0.3333333333333333,
+        "physics_validation": 0.9,
+        "chemistry_validation": 0.3,
+        "cost_estimation": 0.9,
+        "quantum_evaluation": 1.0,
+        "overall": 0.6866666666666668
+      },
+      "passed": true,
+      "rejection_reasons": [],
+      "timestamp": "2025-11-03T03:17:02.422587",
+      "acceleration_result": {
+        "concept": {
+          "name": "Graphene Supercapacitor",
+          "description": "Ultra-fast charging capacitor using graphene sheets",
+          "feasibility": 0.5,
+          "impact": 0.5,
+          "cost_estimate": 0.0,
+          "required_materials": [],
+          "physics_validated": false,
+          "chemistry_validated": false,
+          "quantum_score": 0.0,
+          "timestamp": "2025-11-03T03:17:01.530834"
+        },
+        "pipeline_steps": [
+          {
+            "step": "material_selection",
+            "materials": [
+              "SWCNT"
+            ],
+            "success": true
+          },
+          {
+            "step": "physics_validation",
+            "validated": true
+          },
+          {
+            "step": "cost_estimation",
+            "cost": 750.0
+          },
+          {
+            "step": "quantum_evaluation",
+            "score": 1.0
+          }
+        ],
+        "final_recommendation": {
+          "recommend": true,
+          "confidence": 1.0,
+          "reasoning": [
+            "High quantum score: 100.0%",
+            "Physics validated",
+            "Within budget: $750.00"
           ]
         }
       }
