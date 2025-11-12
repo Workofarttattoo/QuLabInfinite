@@ -1,3 +1,9 @@
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+__init__ - Part of Frequency Lab
+"""
+
 """Frequency laboratory toolkit package exports."""
 
 from .frequency_lab import FrequencyLab

@@ -48,66 +48,6 @@ class NanoparticleSynthesis:
                                temperature_K: float,
                                time_s: float,
                                dt: float = 0.01,
-                               surface_tension_J_per_m2: float = 1.5,
-                               molar_volume_m3_per_mol: float = 10.21e-6) -> Dict:
-        """
-        Simplified LaMer model that gives realistic results for Au nanoparticles
-        """
-        steps = int(time_s / dt)
-        time_array = np.linspace(0, time_s, steps)
-
-        # Empirical relationship for Au NPs (Turkevich method)
-        # Fast reduction → small particles (10-15 nm)
-        # Slow reduction → large particles (20-30 nm)
-        # Based on: Kimling et al., J. Phys. Chem. B 110, 15700 (2006)
-
-        # Size depends on reduction rate and temperature
-        size_factor = np.exp(-reduction_rate * 2)  # Faster = smaller
-        temp_factor = temperature_K / 373  # Normalize to 100°C
-
-        # Final diameter in nm (empirical fit to experimental data)
-        base_size = 13  # nm, typical for standard Turkevich
-        final_diameter_nm = base_size * (1 + size_factor) * temp_factor
-
-        # Ensure reasonable range
-        final_diameter_nm = np.clip(final_diameter_nm, 5, 100)
-
-        # Number of particles formed
-        # From mass balance: all gold forms particles
-        total_au_moles = precursor_conc_M * 1e-3  # moles in 1L
-        total_au_mass = total_au_moles * 197  # g (Au molar mass)
-
-        # Volume of one particle
-        radius_m = (final_diameter_nm / 2) * 1e-9
-        volume_per_particle = (4/3) * pi * radius_m**3
-
-        # Mass per particle
-        density_au = 19300  # kg/m³
-        mass_per_particle = volume_per_particle * density_au
-
-        # Number of particles
-        num_particles = (total_au_mass * 1e-3) / mass_per_particle
-
-        # Nucleation occurs early in reduction
-        nucleation_time = time_s * 0.1  # 10% of total time
-
-        return {
-            'time_s': time_array.tolist(),
-            'concentration_M': np.linspace(precursor_conc_M, 0, steps).tolist(),
-            'nuclei_count': np.linspace(0, num_particles, steps).tolist(),
-            'final_diameter_nm': final_diameter_nm,
-            'nucleation_time_s': nucleation_time,
-            'burst_occurred': True,
-            'final_nuclei_concentration_per_mL': num_particles / 1e3,
-            'model': 'Simplified LaMer Model (Empirical)'
-        }
-
-    def lamer_burst_nucleation_detailed(self,
-                               precursor_conc_M: float,
-                               reduction_rate: float,
-                               temperature_K: float,
-                               time_s: float,
-                               dt: float = 0.01,
                                surface_tension_J_per_m2: float = 1.5,  # Gold in water
                                molar_volume_m3_per_mol: float = 10.21e-6) -> Dict:  # Gold molar volume
         """
@@ -252,8 +192,8 @@ class NanoparticleSynthesis:
                         temperature_K: float,
                         time_hours: float,
                         surface_tension: float = 1.5,  # J/m² for Au/water
-                        diffusion_coefficient: float = 1e-12,  # m²/s for Au atoms (corrected)
-                        solubility: float = 1e-12) -> Dict:  # mol/m³ (much lower for Au)
+                        diffusion_coefficient: float = 5e-10,  # m²/s for Au atoms
+                        solubility: float = 1e-9) -> Dict:  # mol/m³
         """
         Simulate Ostwald ripening (particle coarsening) - CORRECTED VERSION
         Based on LSW theory with realistic parameters for aqueous systems
@@ -806,14 +746,12 @@ class NanomaterialProperties:
         # Heat of fusion (J/mol)
         delta_H_f = heat_of_fusion_kJ_per_mol * 1000
 
-        # Gibbs-Thomson equation with empirical correction
+        # Gibbs-Thomson equation
         # ΔT/T_bulk = 2σV_m/(ΔH_f * r)
-        # Add shape factor for spherical particles
-        shape_factor = 0.5  # Empirical correction for spheres
-        depression_fraction = shape_factor * 2 * surface_energy_J_per_m2 * V_m / (delta_H_f * r_m)
+        depression_fraction = 2 * surface_energy_J_per_m2 * V_m / (delta_H_f * r_m)
 
-        # Cap at physically reasonable values (max 30% depression)
-        depression_fraction = min(depression_fraction, 0.3)
+        # Cap at physically reasonable values (max 50% depression)
+        depression_fraction = min(depression_fraction, 0.5)
 
         delta_T = bulk_melting_K * depression_fraction
         T_nano = bulk_melting_K - delta_T

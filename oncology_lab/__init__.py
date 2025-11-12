@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+__init__ - Part of Oncology Lab
+"""
+
+"""
 QuLabInfinite Oncology Laboratory package.
 
 Exports convenience imports for the tumour, drug, and intervention simulation
