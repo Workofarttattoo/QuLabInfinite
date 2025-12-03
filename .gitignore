@@ -5,3 +5,6 @@ data/materials_db_expanded.json
 downloads/
 .tmp.driveupload/
 materials_lab/data/materials_project_all.jsonl
+venv/
+*.pyc
+__pycache__/
