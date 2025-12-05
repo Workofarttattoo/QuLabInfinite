@@ -19,6 +19,15 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, Field
 import uvicorn
 
+# Provide safe defaults before attempting heavy imports
+genetic_api = cancer_metabolic_api = drug_interaction_api = None
+immune_api = neurotransmitter_api = microbiome_api = None
+metabolic_api = stem_cell_api = medical_safety_api = None
+QuantumLab = MaterialsLab = ChemistryLab = None
+FrequencyLab = OncologyLab = ProteinFoldingLab = None
+CardiovascularPlaqueLab = TumorEvolutionLab = None
+LABS_AVAILABLE = False
+
 # Import all lab APIs
 try:
     from genetic_variant_analyzer_api import app as genetic_api
@@ -43,7 +52,6 @@ try:
     LABS_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Some lab imports failed: {e}")
-    LABS_AVAILABLE = False
 
 # Configuration
 logging.basicConfig(level=logging.INFO)
@@ -250,8 +258,8 @@ def get_lab_instance(lab_name: str):
     return lab_instances.get(lab_name)
 
 # Routes
-@app.get("/", tags=["Root"])
-async def root():
+@app.get("/", tags=["Root"], dependencies=[Depends(check_rate_limit)])
+async def root(user_info: dict = Depends(verify_api_key)):
     """API root with quick start guide"""
     return {
         "message": "QuLab Master API - Unified Quantum Laboratory Gateway",
@@ -339,8 +347,8 @@ async def optimize_lab(
         logger.error(f"Optimization failed on {lab_name}: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/health", response_model=HealthResponse, tags=["System"])
-async def health_check():
+@app.get("/health", response_model=HealthResponse, tags=["System"], dependencies=[Depends(check_rate_limit)])
+async def health_check(user_info: dict = Depends(verify_api_key)):
     """Comprehensive health check across all labs"""
     labs_status = {}
 
