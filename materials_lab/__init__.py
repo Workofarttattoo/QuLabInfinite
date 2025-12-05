@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -13,8 +15,6 @@ package so that ``import materials_lab`` works no matter where the caller is
 located in the filesystem.  Existing code that imported ``MaterialsLab`` (or
 related helpers) continues to work via the re-exports below.
 """
-
-from __future__ import annotations
 
 import sys
 from pathlib import Path
