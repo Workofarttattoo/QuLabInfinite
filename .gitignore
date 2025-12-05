@@ -8,3 +8,24 @@ materials_lab/data/materials_project_all.jsonl
 venv/
 *.pyc
 __pycache__/
+
+# Environment and API keys
+.env
+.env.local
+*.key
+*.secret
+
+# Materials Project cache
+mp_cache/
+.mp_cache/
+
+# Data downloads (keep committed datasets, ignore large downloads)
+data/materials_project_full.json
+data/materials_project_140k.json
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+.vscode/
+.idea/
