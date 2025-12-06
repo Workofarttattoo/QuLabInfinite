@@ -1,0 +1,79 @@
+{
+  "total_validated": 100,
+  "average_confidence": 94.82464765100671,
+  "median_confidence": 94.25,
+  "std_confidence": 3.6505978469046383,
+  "grade_distribution": {
+    "A-": 2,
+    "C+": 1,
+    "A": 78,
+    "A+": 19
+  },
+  "top_materials": [
+    {
+      "name": "Al 2024-T3",
+      "confidence": 100.0,
+      "grade": "A+"
+    },
+    {
+      "name": "Al 6061-T6",
+      "confidence": 100.0,
+      "grade": "A+"
+    },
+    {
+      "name": "Al 7075-T6",
+      "confidence": 100.0,
+      "grade": "A+"
+    },
+    {
+      "name": "SS 304",
+      "confidence": 100.0,
+      "grade": "A+"
+    },
+    {
+      "name": "SS 17-4 PH",
+      "confidence": 100.0,
+      "grade": "A+"
+    },
+    {
+      "name": "Ti-6Al-4V",
+      "confidence": 100.0,
+      "grade": "A+"
+    },
+    {
+      "name": "Cu C11000",
+      "confidence": 100.0,
+      "grade": "A+"
+    },
+    {
+      "name": "Brass C26000",
+      "confidence": 100.0,
+      "grade": "A+"
+    },
+    {
+      "name": "Ni 200",
+      "confidence": 100.0,
+      "grade": "A+"
+    },
+    {
+      "name": "Alumina 99.5%",
+      "confidence": 100.0,
+      "grade": "A+"
+    }
+  ],
+  "needs_review": [
+    {
+      "name": "Silicon Carbide",
+      "confidence": 68.21476510067114,
+      "issues": 4
+    }
+  ],
+  "issue_summary": {
+    "warning_completeness": 77,
+    "info_completeness": 81,
+    "info_outlier": 3,
+    "error_cross_validation": 4,
+    "warning_consistency": 1,
+    "error_consistency": 2
+  }
+}
