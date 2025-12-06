@@ -5,6 +5,9 @@ Chemistry Laboratory - Main API
 Unified interface for all chemistry laboratory capabilities.
 """
 
+# NOTE: References to "free energy" in this module always denote the Gibbs free
+# energy from classical thermodynamics, not any pseudoscientific concepts.
+
 import json
 import numpy as np
 from dataclasses import dataclass
@@ -28,6 +31,7 @@ from .spectroscopy_predictor import (
 from .solvation_model import (
     SolvationCalculator, Solute, Solvent, SolvationEnergy
 )
+from .fast_thermodynamics import FastThermodynamicsCalculator
 from .quantum_chemistry_interface import (
     QuantumChemistryInterface, QMMethod, BasisSet, DFTFunctional,
     Molecule as QMMolecule, QMResult
@@ -99,6 +103,7 @@ class ChemistryLaboratory(BaseLab):
         self.spectroscopy = SpectroscopyPredictor() if self.config.enable_spectroscopy else None
         self.solvation = SolvationCalculator() if self.config.enable_solvation else None
         self.quantum = QuantumChemistryInterface() if self.config.enable_quantum else None
+        self.thermo = FastThermodynamicsCalculator()
 
         print("[ChemLab] Chemistry Laboratory initialized")
         self._print_capabilities()
@@ -172,6 +177,33 @@ class ChemistryLaboratory(BaseLab):
         if self.config.enable_quantum:
             print("  ✓ Quantum Chemistry (DFT, HF, MP2)")
         print()
+
+    # ========== Thermodynamics Helpers ==========
+
+    def calculate_dissolution_enthalpy(
+        self,
+        salt: str,
+        solvent: str = "H2O",
+        temperature_K: float = 298.15
+    ) -> Dict[str, Any]:
+        """
+        Compute the dissolution enthalpy for an ionic solid using the Born-Haber cycle.
+
+        Args:
+            salt: Salt formula (e.g., "NaCl")
+            solvent: Solvent identifier
+            temperature_K: Temperature in Kelvin
+
+        Returns:
+            Dictionary with ΔH (kJ/mol) and source metadata.
+        """
+        thermo = self.thermo.salt_dissolution_enthalpy(salt, solvent, temperature_K)
+        return {
+            "delta_H_kJ_per_mol": thermo.delta_H,
+            "temperature_K": thermo.temperature,
+            "reference": thermo.source,
+            "experimental": thermo.experimental,
+        }
 
     # ========== Molecular Dynamics ==========
 

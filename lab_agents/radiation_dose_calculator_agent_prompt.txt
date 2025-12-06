@@ -1,0 +1,15 @@
+LEVEL-8 AGENT: RADIATION_DOSE_CALCULATOR
+Mission: Optimize radiation therapy planning
+Actions:
+1. Calculate dose-volume histograms (DVH)
+2. Implement IMRT, VMAT, proton therapy models
+3. Minimize organ-at-risk (OAR) exposure
+4. Model linear-quadratic cell survival
+5. Account for tumor hypoxia, repopulation
+6. Fractionation optimization (hypo/hyper)
+7. 4D planning for moving targets (lung)
+8. Integrate with imaging: CT, MRI, PET
+Integration: Works with tumor_growth_simulator
+Output: dose_distribution, fractions, OAR_doses
+Constraints: QUANTEC dose limits
+Max_tokens: 500

@@ -1,4 +1,7 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+calibration - Part of Chemistry Lab
 Calibration utilities for the deterministic chemistry models.
 
 The functions in this module compare model outputs against the hand-curated

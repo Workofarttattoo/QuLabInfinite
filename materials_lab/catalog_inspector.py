@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+catalog_inspector - Part of Materials Lab
+"""
+
+"""
 Materials catalogue inspector.
 
 Provides lightweight analytics over the QuLab Infinite materials database:

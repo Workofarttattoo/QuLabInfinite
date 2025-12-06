@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+teleportation - Part of Quantum Lab
+"""
+
+"""
 Quantum teleportation protocol implementation.
 
 Implements the standard quantum teleportation protocol as described in:

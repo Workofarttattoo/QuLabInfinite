@@ -5,6 +5,9 @@ Solvation Model
 Implicit and explicit solvation models: PCM, COSMO, SMD, pH effects, logP prediction.
 """
 
+# NOTE: All mentions of "free energy" refer to classical Gibbs free energy
+# changes predicted by the solvation models, not pseudoscientific claims.
+
 import numpy as np
 from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass

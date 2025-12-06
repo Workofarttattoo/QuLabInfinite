@@ -6,19 +6,10 @@ Virology Lab - Demonstration
 Shows all features with real scientific applications
 """
 
-import sys
 import numpy as np
-from pathlib import Path
+from .virology_engine import VirologyEngine
 
-# Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
-
-try:
-    from virology_lab import VirologyLab
-    from nist_constants import *
-except ImportError:
-    print("Error: Could not import required modules")
-    sys.exit(1)
+lab_title = "Virology Lab"
 
 def print_header(title):
     """Print formatted section header"""
@@ -30,7 +21,7 @@ def demo_basic_operations():
     """Demonstrate basic lab operations"""
     print_header("BASIC OPERATIONS")
 
-    lab = VirologyLab()
+    lab = VirologyEngine()
 
     # Example experiment
     result = lab.run_experiment({
@@ -47,7 +38,7 @@ def demo_advanced_features():
     """Demonstrate advanced features"""
     print_header("ADVANCED FEATURES")
 
-    lab = VirologyLab()
+    lab = VirologyEngine()
 
     # Advanced simulation
     print("Running advanced simulation...")

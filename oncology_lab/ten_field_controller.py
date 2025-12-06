@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+ten_field_controller - Part of Oncology Lab
+"""
+
+"""
 Controller for the ten-field tumour microenvironment abstraction.
 
 This component keeps track of simplified proxies for pH, oxygenation, nutrients,

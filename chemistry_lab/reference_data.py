@@ -1,4 +1,7 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+reference_data - Part of Chemistry Lab
 Reference experimental data for calibration routines.
 
 These small datasets provide authoritative values that are used to benchmark

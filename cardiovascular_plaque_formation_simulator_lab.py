@@ -5,86 +5,73 @@ CARDIOVASCULAR PLAQUE FORMATION SIMULATOR
 Free gift to the scientific community from QuLabInfinite.
 """
 
-from dataclasses import dataclass, field
 import numpy as np
-from scipy.constants import pi, m_p, e, epsilon_0
+from dataclasses import dataclass, field
+from typing import List
+from scipy.constants import pi
+
+# Constants and configuration
+@dataclass
+class PlaqueFormationConfig:
+    sim_duration: float = 10.0  # Duration of simulation in years
+    dt: float = 0.01            # Time step in years
+    initial_plaque_size: float = 0.0  # Initial size of plaque in mm^2
+    max_plaque_growth_rate: float = 0.1  # Maximum growth rate in mm^2/year
+    avg_cholesterol_level: float = 5  # Average cholesterol level in mg/dL
+    cholesterol_deposit_rate: float = 0.03  # Cholesterol deposit rate in mm^2/mg/dL/year
+    inflammation_factor: float = 1.2  # Inflammation factor affecting growth
 
 @dataclass
-class PlaqueFormationParams:
-    blood_flow_rate: float = 0.05 # L/min
-    vessel_radius: float = 4e-3   # m (average human coronary artery)
-    vessel_length: float = 1e-2   # m
-    cholesterol_concentration: float = 5e-6  # mol/L
-    plasma_protein_binding: float = 0.8     # Fraction of cholesterol bound to proteins
-    cell_cholesterol_export_rate: float = 1e-9 # mol/(cell*s)
-    cell_density: float = 2e7             # Cells/m^3 (average human coronary artery wall density)
-    plaque_growth_time_step: float = 60   # s
-    simulation_duration: int = 8760 * 4   # Days (simulating a year)
+class PlaqueFormationResult:
+    time_points: List[float] = field(default_factory=list)
+    plaque_sizes: List[float] = field(default_factory=list)
 
-@dataclass
-class SimulationState:
-    vessel_radius: float
-    cholesterol_concentration_profile: np.ndarray
-    blood_flow_rate: float
-    plaque_growth: float
-
-def create_cholesterol_concentration_profile(params: PlaqueFormationParams) -> np.ndarray:
-    """Create an initial concentration profile of cholesterol in the artery wall."""
-    num_points = int(params.vessel_length / (10 * params.vessel_radius))
-    distance_from_wall = np.linspace(0, params.vessel_length, num_points)
-    concentration_profile = np.zeros(num_points)
-    
-    # Assuming cholesterol is highest near the endothelium
-    for i in range(num_points):
-        concentration_profile[i] += params.cholesterol_concentration * (1 - params.plasma_protein_binding)
-
-    return concentration_profile
-
-def update_cholesterol_concentration(state: SimulationState, params: PlaqueFormationParams) -> np.ndarray:
-    """Update the cholesterol concentration profile based on cell density and flow rate."""
-    # Calculate flow velocity at each point
-    wall_shear_stress = 4 * state.blood_flow_rate / (pi * state.vessel_radius ** 2)
-    flow_velocity_profile = state.blood_flow_rate / (params.cell_density * pi * state.vessel_radius ** 3)
-
-    # Update cholesterol concentration based on endothelial transport, assuming linear decay with distance
-    updated_concentration_profile = np.zeros_like(state.cholesterol_concentration_profile)
-    
-    for i in range(len(updated_concentration_profile)):
-        if i > 0:
-            updated_concentration_profile[i] -= params.cell_cholesterol_export_rate * state.plaque_growth / flow_velocity_profile[i]
+class CardiovascularPlaqueSimulator:
+    def __init__(self, config: PlaqueFormationConfig):
+        self.config = config
+        self.results = PlaqueFormationResult()
         
-        # Bound cholesterol concentration to non-negative values
-        updated_concentration_profile = np.maximum(0, updated_concentration_profile)
-    
-    return updated_concentration_profile
-
-def simulate_plaque_growth(params: PlaqueFormationParams) -> SimulationState:
-    """Simulate the growth of plaques over a given period."""
-    state = SimulationState(
-        vessel_radius=params.vessel_radius,
-        cholesterol_concentration_profile=create_cholesterol_concentration_profile(params),
-        blood_flow_rate=params.blood_flow_rate,
-        plaque_growth=0.0
-    )
-
-    # Main loop for simulation
-    t_steps = int(params.simulation_duration * 24 * 3600 / params.plaque_growth_time_step)
-    
-    for _ in range(t_steps):
-        state.cholesterol_concentration_profile = update_EEK(state, params) # Placeholder for EEK calculation
+    def simulate(self):
+        t = 0
+        plaque_size = self.config.initial_plaque_size
         
-        # Update plaque growth based on cholesterol concentration
-        if np.any(state.cholesterol_concentration_profile > 0):
-            state.plaque_growth += 1e-6 * params.cell_density * params.plaque_growth_time_step / (state.vessel_radius ** 2)
-    
-    return state
+        while t <= self.config.sim_duration:
+            growth_rate = min(plaque_size * self.config.inflammation_factor, self.config.max_plaque_growth_rate)
+            
+            # Calculate cholesterol deposit based on average cholesterol level and deposit rate
+            cholesterol_deposit = self.config.cholesterol_level(t) * self.config.cholesterol_deposit_rate
+            
+            # Update plaque size
+            plaque_size += growth_rate + cholesterol_deposit
+            
+            # Append results to time_points and plaque_sizes lists
+            self.results.time_points.append(t)
+            self.results.plaque_sizes.append(plaque_size)
+            
+            t += self.config.dt
+        
+    def cholesterol_level(self, t):
+        return self.config.avg_cholesterol_level * (1.0 + 0.2 * np.sin(2 * pi * t / self.config.sim_duration))
+        
+    def get_results(self) -> PlaqueFormationResult:
+        return self.results
 
 def run_demo():
-    params = PlaqueFormationParams()
-    final_state = simulate_plaque_growth(params)
-
-    print(f"Final vessel radius after {params.simulation_duration} days: {final_state.vessel_radius}")
-    print(f"Plaque growth: {final_state.plaque_growth * 1e3:.2f} mm")
+    config = PlaqueFormationConfig(
+        sim_duration=5,
+        dt=0.01,
+        initial_plaque_size=0.1,
+        max_plaque_growth_rate=0.2,
+        avg_cholesterol_level=6,
+        cholesterol_deposit_rate=0.04
+    )
+    
+    simulator = CardiovascularPlaqueSimulator(config)
+    simulator.simulate()
+    
+    results = simulator.get_results()
+    print(f"Time points: {results.time_points}")
+    print(f"Plaque sizes (mm^2): {results.plaque_sizes}")
 
 if __name__ == '__main__':
     run_demo()

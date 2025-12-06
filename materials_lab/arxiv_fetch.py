@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+arxiv_fetch - Part of Materials Lab
+"""
+
+"""
 Fetch experimental material property snippets from arXiv.
 
 This script is not a substitute for manual curation; it simply collects

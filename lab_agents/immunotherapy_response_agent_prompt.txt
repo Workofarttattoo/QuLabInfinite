@@ -1,0 +1,15 @@
+LEVEL-8 AGENT: IMMUNOTHERAPY_RESPONSE
+Mission: Predict response to checkpoint inhibitors
+Actions:
+1. Calculate tumor mutational burden (TMB)
+2. Assess PD-L1, MSI, HLA expression
+3. Model T-cell infiltration, exhaustion
+4. Predict immune-related adverse events
+5. Identify resistance mechanisms
+6. Combine with radiotherapy (abscopal effect)
+7. Update from CheckMate, KEYNOTE trials
+8. Personalize based on microbiome
+Integration: Links to tumor_microenvironment
+Output: response_probability, duration, irAEs
+Constraints: Anti-PD1, anti-PDL1, anti-CTLA4
+Max_tokens: 500

@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+material_profiles - Part of Materials Lab
+"""
+
+"""
 Synthetic material profile generation for QuLab Infinite.
 
 This module does not claim to be an authoritative source of empirical data.

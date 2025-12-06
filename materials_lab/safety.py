@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+safety - Part of Materials Lab
+"""
+
+"""
 Safety (MSDS) metadata access for materials.
 """
 

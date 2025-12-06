@@ -1,0 +1,276 @@
+{
+  "pre_training": {
+    "correct": 0,
+    "total": 20,
+    "accuracy": 0.0,
+    "problems": [
+      {
+        "problem": "Minh is a student whose birthday is in the year $1997$, so he starts by writing $s$ integer-valued 1",
+        "correct_answer": "3",
+        "ech0_answer": "770",
+        "correct": false
+      },
+      {
+        "problem": "Let $a, b, c$ be positive integers. A three-dimensional grid is defined by the set of points\n\\[Q=\\{(",
+        "correct_answer": "$2^a 3^b 5^c$",
+        "ech0_answer": "765",
+        "correct": false
+      },
+      {
+        "problem": "Compute the integral part of the number\n\\[\n    \\sum_{n=1}^{2024}\\frac{2025^n}{\\left(1+2025\\right)\\cd",
+        "correct_answer": "0",
+        "ech0_answer": "90",
+        "correct": false
+      },
+      {
+        "problem": "A card deck consists of 1024 cards. On each card, a set of distinct decimal digits is written in suc",
+        "correct_answer": "taking the empty card",
+        "ech0_answer": "985",
+        "correct": false
+      },
+      {
+        "problem": "What is the least positive integer n such that, in every convex 1001-sided polygon, the sum of any n",
+        "correct_answer": "499000",
+        "ech0_answer": "613",
+        "correct": false
+      },
+      {
+        "problem": "Let $XYZ$ be a triangle inscribed in circle $(O)$ that is tangent to the sides $YZ, ZX, XY$ at point",
+        "correct_answer": "180",
+        "ech0_answer": "187",
+        "correct": false
+      },
+      {
+        "problem": "Let $x_1, \\ldots, x_{2024}$ be positive real numbers such that $x_{i+1} \\ge 2x_i$ for $i = 1,\\ldots,",
+        "correct_answer": "1012",
+        "ech0_answer": "717",
+        "correct": false
+      },
+      {
+        "problem": "Find all pairs $(a, b)$ of rational numbers such that\n\\[\n    a^2 - b^2 = \\frac{a}{a - 2}.\n\\]\n",
+        "correct_answer": "(0, 0)",
+        "ech0_answer": "798",
+        "correct": false
+      },
+      {
+        "problem": "Let $a_0, a_1, \\ldots$ be a sequence of non-negative integers. Suppose that for all non-negative int",
+        "correct_answer": "2026, 2030",
+        "ech0_answer": "732",
+        "correct": false
+      },
+      {
+        "problem": "In a research lab, scientists are studying the spread of a newly discovered bacteria on a $64 \\times",
+        "correct_answer": "1057",
+        "ech0_answer": "59",
+        "correct": false
+      },
+      {
+        "problem": "A cube with size $18 \\times 18 \\times 18$ consists of $5832$ unit cubes, all colored white. Anton an",
+        "correct_answer": "486",
+        "ech0_answer": "294",
+        "correct": false
+      },
+      {
+        "problem": "Let $PQRS$ be a convex quadrilateral with perimeter $3$ and $PR=QS=1$. Determine the maximum possibl",
+        "correct_answer": "$\\frac{5}{8}$",
+        "ech0_answer": "271",
+        "correct": false
+      },
+      {
+        "problem": "Find all $P:\\mathbb{R}\\rightarrow \\mathbb{R}$ such that $P$ is not identically zero and there exists",
+        "correct_answer": "$P(x)=2x^{2}+c$",
+        "ech0_answer": "608",
+        "correct": false
+      },
+      {
+        "problem": "Find the maximum number of possible colors in a $2^n \\times 2^n$ board colored such that for any $0 ",
+        "correct_answer": "$2^n$\n",
+        "ech0_answer": "163",
+        "correct": false
+      },
+      {
+        "problem": "Positive integers $M$ and $N$ satisfy the following conditions:\n\n(1) $M$ is a 1000-digit number, and",
+        "correct_answer": "939",
+        "ech0_answer": "582",
+        "correct": false
+      },
+      {
+        "problem": "Find the largest $n$ for which there exist positive integers $x_1, \\dots, x_n$ satisfying the follow",
+        "correct_answer": "4",
+        "ech0_answer": "59",
+        "correct": false
+      },
+      {
+        "problem": "In triangle $XYZ$, $\\angle YXZ = 60^o$, $XY = 3a$ and $XZ = 4a, (a > 0)$. Let $P$ be a point on the ",
+        "correct_answer": "$\\frac{a\\sqrt{19}}{2}$",
+        "ech0_answer": "765",
+        "correct": false
+      },
+      {
+        "problem": "Define a set\n\\[\n    S  = \\{2025k + 1: 0 \\le k \\le 2025^{100}, k \\in \\mathbb{Z}\\}.\n\\]\nConsider the fo",
+        "correct_answer": "$\\frac{2025^{101} + 2025^2 + 2025 + 1}{2026}$\n",
+        "ech0_answer": "457",
+        "correct": false
+      },
+      {
+        "problem": "Given five distinct points $A_1, A_2, A_3, A_4, A_5$ in space. These points are the centers of five ",
+        "correct_answer": "$\\frac{5+\\sqrt{21}}{2}$",
+        "ech0_answer": "259",
+        "correct": false
+      },
+      {
+        "problem": "Find the minimum value of an integer $N$ that satisfies the following condition:\n\nGiven 2025 non-deg",
+        "correct_answer": "2024",
+        "ech0_answer": "21",
+        "correct": false
+      }
+    ]
+  },
+  "post_training": {
+    "correct": 0,
+    "total": 20,
+    "accuracy": 0.0,
+    "problems": [
+      {
+        "problem": "Find all functions $g:\\mathbb{Q}\\rightarrow \\mathbb{Z}$ that satisfy the following condition for any",
+        "correct_answer": "$g(x)=c, g(x)=\\lceil x \\rceil, g(x)=\\lfloor x \\rfloor$\n",
+        "ech0_answer": "17",
+        "correct": false
+      },
+      {
+        "problem": "For a finite graph $G$, let $f(G)$ be the number of triangles and $g(G)$ the number of tetrahedra fo",
+        "correct_answer": "$\\frac{3}{32}$",
+        "ech0_answer": "4",
+        "correct": false
+      },
+      {
+        "problem": "There are 42 students participating in the Team Selection Test, each of them is assigned a positive ",
+        "correct_answer": "120526555",
+        "ech0_answer": "96",
+        "correct": false
+      },
+      {
+        "problem": "Find the minimal $d$ satisfying the following property:\n\nFor any sequence of integers $x_1, x_2, \\ld",
+        "correct_answer": "48",
+        "ech0_answer": "55",
+        "correct": false
+      },
+      {
+        "problem": "Find the maximum value of $D$ satisfying the following condition: There exists an infinite sequence ",
+        "correct_answer": "603729",
+        "ech0_answer": "2",
+        "correct": false
+      },
+      {
+        "problem": "Find the minimum value of $m$ such that for any $m$ positive integers, there exist $k$ positive inte",
+        "correct_answer": "$2k-1$\n",
+        "ech0_answer": "34",
+        "correct": false
+      },
+      {
+        "problem": "In the plane, 2025 red points and 2026 blue points are marked so that no three of the marked points ",
+        "correct_answer": "2025",
+        "ech0_answer": "4051",
+        "correct": false
+      },
+      {
+        "problem": "Find all positive integers $k$ such that the number of positive divisors of $2k^3$ is $2k$. ",
+        "correct_answer": "1, 4, 10",
+        "ech0_answer": "2",
+        "correct": false
+      },
+      {
+        "problem": "Given a convex $n$-sided polygon $B_1\\ldots B_n$. Let $Q_i$ ($i = 1,\\ldots, n$) be points on the bou",
+        "correct_answer": "3",
+        "ech0_answer": "1",
+        "correct": false
+      },
+      {
+        "problem": "The cirumradius and the inradius of triangle $XYZ$ are equal to $R$ and $r$, respectively.  $O$ and ",
+        "correct_answer": "$\\frac{R^2+Rr}{\\sqrt{R^2-2Rr}}$",
+        "ech0_answer": "78",
+        "correct": false
+      },
+      {
+        "problem": "Let $\\{a_n\\}_{n=1}^\\infty$ be the sequence of positive integers defined recursively with $a_1=1$ and",
+        "correct_answer": "$\\lfloor\\varphi n\\rfloor$, where $\\varphi = \\frac{\\sqrt{5}+1}{2}",
+        "ech0_answer": "1",
+        "correct": false
+      },
+      {
+        "problem": "L\u00ea B\u00e1 Kh\u00e1nh Tr\u00ecnh is a famous Vietnamese IMO contestant who won Vietnam's only Special Prize. He enj",
+        "correct_answer": "2731365",
+        "ech0_answer": "57",
+        "correct": false
+      },
+      {
+        "problem": "A non-equilateral triangle $XYZ$ is inscribed in a circle $\\Omega$ with centre $P$, radius $R$ and i",
+        "correct_answer": "$\\frac{\\rho}{R}$",
+        "ech0_answer": "32",
+        "correct": false
+      },
+      {
+        "problem": "Let $a_{1},\\ldots,a_{2024}$ be nonnegative real numbers such that $a_{x}+a_{x+1}+a_{x+2}\\leq2$ for a",
+        "correct_answer": "1012",
+        "ech0_answer": "2",
+        "correct": false
+      },
+      {
+        "problem": "A circle passes through vertex $Y$ of triangle $XYZ$, intersects sides $XY$ and $YZ$ at points $P$ a",
+        "correct_answer": "75",
+        "ech0_answer": "85",
+        "correct": false
+      },
+      {
+        "problem": "Let XYZ be a fixed triangle in the plane. Let P be an arbitrary point in the plane. The circle with ",
+        "correct_answer": "4",
+        "ech0_answer": "30",
+        "correct": false
+      },
+      {
+        "problem": "A polyomino is a figure which consists of unit squares joined together by their sides. (A polyomino ",
+        "correct_answer": "2450",
+        "ech0_answer": "35",
+        "correct": false
+      },
+      {
+        "problem": "Let $XYZ$ be an isosceles triangle ($XY = XZ$) with its circumcenter $P$. Point $Q$ is the midpoint ",
+        "correct_answer": "$\\frac{a}{2}$",
+        "ech0_answer": "16",
+        "correct": false
+      },
+      {
+        "problem": "In the vibrant nation of South Korea, there are $57$ bustling cities interconnected by a network of ",
+        "correct_answer": "28",
+        "ech0_answer": "75",
+        "correct": false
+      },
+      {
+        "problem": "Find all monic polynomials $P(x)$ with integer coefficients for which\n\\[\n    \\frac{6(|P(q)|!) - 1}{q",
+        "correct_answer": "$P(x) = x - 4$\n",
+        "ech0_answer": "3",
+        "correct": false
+      }
+    ]
+  },
+  "training_history": [
+    {
+      "epoch": 1,
+      "correct": 0,
+      "total": 400,
+      "accuracy": 0.0
+    },
+    {
+      "epoch": 2,
+      "correct": 0,
+      "total": 400,
+      "accuracy": 0.0
+    },
+    {
+      "epoch": 3,
+      "correct": 197,
+      "total": 400,
+      "accuracy": 49.25
+    }
+  ]
+}

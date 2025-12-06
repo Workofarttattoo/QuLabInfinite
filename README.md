@@ -5,6 +5,10 @@
 ## Overview
 10 production-grade medical diagnostic labs with 100% clinical accuracy, validated algorithms, and real-world clinical constants. Zero fake data, zero flaws.
 
+### API Authentication
+- All endpoints—including `/health`—now require a bearer token in the `Authorization` header (`Authorization: Bearer <api-key>`). Use one of the keys defined in `master_qulab_api.py` or set your own before deploying.
+- The streaming dashboard (`repos/aios-shell-prototype/web/aios/web/streaming_server.py`) reads `STREAMING_SERVER_API_KEY` from `.env`; set it before launching and pass the same token via `X-API-Key` (HTTP) or `?token=` (WebSocket).
+
 ## Labs Summary
 
 ### 1. Alzheimer's Early Detection (Port 8001)
