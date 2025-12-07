@@ -1,17 +1,29 @@
 """
 QuLabInfinite MCP Server
 
-This standalone server exposes the functionality of the QuLabInfinite application
-as a set of MCP tool calls. It is designed to be a separate layer, ensuring
-that the core application code remains unmodified.
+This module wraps QuLabInfinite labs, experiments, and materials databases so
+they can be plugged directly into any AI assistant that supports the Model
+Context Protocol (MCP). It keeps the application logic untouched while exposing
+it through a small dispatcher, a tool manifest for discovery, and a
+"cartographer" that inventories the available experiments and datasets.
 
-This server also includes logic for:
-- A "lite" offering for new users.
-- A token-based pricing model for full access.
-- A payment wall to handle subscription and token purchases.
+Key features
+------------
+- Lite/paid access model with token-aware tool dispatch.
+- Automatic tool manifest describing every callable MCP tool with pricing and
+  provenance data.
+- Cartography helpers to map labs/experiments on disk without importing heavy
+  modules.
+- Materials Project tracking so we always reference the freshest MP data by ID
+  (e.g., "mp-149").
 """
 
 import datetime
+import json
+import os
+from dataclasses import dataclass, asdict
+from pathlib import Path
+from typing import Callable, Dict, List, Optional
 
 # Placeholder for user management, token counting, and payment logic.
 # This will be implemented in subsequent steps.
@@ -206,6 +218,108 @@ from qulab_ai.parsers.structures import (
     parse_structure,
 )
 
+# --- Tool Metadata & Cartography ---
+
+
+@dataclass
+class ToolDefinition:
+    """Minimal metadata for an MCP-exposed tool."""
+
+    name: str
+    description: str
+    category: str
+    access: str = "paid"
+    token_cost: int = 0
+    handler: Optional[Callable] = None
+
+    def to_dict(self) -> Dict[str, str]:
+        """Serialize to a JSON-friendly dict without the handler."""
+        data = asdict(self)
+        data.pop("handler", None)
+        return data
+
+
+@dataclass
+class ExperimentDefinition:
+    """Lightweight description of a lab experiment module on disk."""
+
+    name: str
+    path: str
+    category: str = "lab"
+
+    def to_dict(self) -> Dict[str, str]:
+        return asdict(self)
+
+
+def _load_latest_materials_project_entries():
+    """Load the freshest Materials Project expansion file and expose mp IDs."""
+
+    data_dir = Path(__file__).parent / "materials_lab" / "data"
+    json_path = data_dir / "materials_project_expansion.json"
+    jsonl_path = data_dir / "materials_project_expansion.jsonl"
+
+    if json_path.exists():
+        with json_path.open("r") as f:
+            raw = json.load(f)
+        entries = []
+        for name, payload in raw.items():
+            mp_id = payload.get("material_id") or payload.get("provenance", {}).get("extra", {}).get("material_id")
+            entries.append({"name": name, "material_id": mp_id or "unknown"})
+    elif jsonl_path.exists():
+        entries = []
+        with jsonl_path.open("r") as f:
+            for line in f:
+                try:
+                    payload = json.loads(line)
+                    entries.append({"name": payload.get("substance", "unknown"), "material_id": payload.get("material_id", "unknown")})
+                except json.JSONDecodeError:
+                    continue
+    else:
+        entries = []
+
+    return {
+        "count": len(entries),
+        "entries": entries,
+        "latest_mp_ids": [entry["material_id"] for entry in entries if entry.get("material_id")],
+        "source": str(json_path if json_path.exists() else jsonl_path),
+        "last_modified": max(
+            (os.path.getmtime(p) for p in [json_path, jsonl_path] if Path(p).exists()),
+            default=None,
+        ),
+    }
+
+
+def discover_experiments(root: Path = Path(__file__).parent) -> List[ExperimentDefinition]:
+    """
+    Map available lab experiment modules without importing them.
+
+    We scan for files ending in ``_lab.py`` as well as directories ending in
+    ``_lab`` so MCP clients can expose them as runnable experiments.
+    """
+
+    experiments: List[ExperimentDefinition] = []
+
+    for path in root.glob("*_lab.py"):
+        experiments.append(ExperimentDefinition(name=path.stem, path=str(path)))
+
+    for path in root.glob("*_lab"):
+        experiments.append(ExperimentDefinition(name=path.name, path=str(path)))
+
+    # Include dedicated experiment demos
+    for path in root.glob("*experiment*.py"):
+        experiments.append(ExperimentDefinition(name=path.stem, path=str(path), category="experiment"))
+
+    # Deduplicate by name while keeping first occurrence
+    seen = set()
+    unique: List[ExperimentDefinition] = []
+    for exp in experiments:
+        if exp.name not in seen:
+            unique.append(exp)
+            seen.add(exp.name)
+
+    return unique
+
+
 # --- MCP Tool Call Definitions ---
 
 # The following functions wrap the imported application logic, making them
@@ -254,7 +368,16 @@ class MaterialsLabTools:
     @staticmethod
     def get_database_info() -> dict:
         """Gets information about the materials database."""
-        return get_materials_database_info()
+        info = get_materials_database_info()
+        mp_snapshot = _load_latest_materials_project_entries()
+
+        info["materials_project"] = {
+            "count": mp_snapshot["count"],
+            "latest_mp_ids": mp_snapshot["latest_mp_ids"][:5],
+            "source": mp_snapshot["source"],
+            "last_modified": mp_snapshot["last_modified"],
+        }
+        return info
 
 class ChemistryLabTools:
     """Tools related to the Chemistry Lab."""
@@ -339,6 +462,152 @@ def call_tool(user: UserAccount, tool_name: str, **kwargs):
         # with the payment URL in the body.
         print(f"Payment required: {e}. Please visit {e.payment_url}")
         return {"error": str(e), "payment_url": e.payment_url}
+
+
+def build_tool_manifest() -> Dict[str, Dict[str, ToolDefinition]]:
+    """Create a discoverable manifest of all MCP-exposed tools."""
+
+    manifest: Dict[str, Dict[str, ToolDefinition]] = {
+        "ech0": {
+            "analyze_material": ToolDefinition(
+                name="ech0.analyze_material",
+                description="Analyze a material using the Ech0 engine for rapid feasibility checks.",
+                category="ech0",
+                access="lite",
+                token_cost=TOKEN_COSTS.get("ech0.analyze_material", 0),
+                handler=Ech0EngineTools.analyze_material,
+            ),
+            "optimize_design": ToolDefinition(
+                name="ech0.optimize_design",
+                description="Optimize a proposed design with Ech0 heuristics.",
+                category="ech0",
+                token_cost=TOKEN_COSTS.get("ech0.optimize_design", 0),
+                handler=Ech0EngineTools.optimize_design,
+            ),
+        },
+        "materials": {
+            "analyze_structure": ToolDefinition(
+                name="materials.analyze_structure",
+                description="Parse and analyze a structure file with provenance.",
+                category="materials",
+                access="lite",
+                token_cost=TOKEN_COSTS.get("materials.analyze_structure", 0),
+                handler=MaterialsLabTools.analyze_structure,
+            ),
+            "batch_analyze_structures": ToolDefinition(
+                name="materials.batch_analyze_structures",
+                description="Batch analyze multiple structures (token cost is per file).",
+                category="materials",
+                token_cost=TOKEN_COSTS.get("materials.batch_analyze_structures", 0),
+                handler=MaterialsLabTools.batch_analyze_structures,
+            ),
+            "get_database_info": ToolDefinition(
+                name="materials.get_database_info",
+                description="Inspect the integrated materials database including Materials Project mp- IDs.",
+                category="materials",
+                access="lite",
+                token_cost=TOKEN_COSTS.get("materials.get_database_info", 0),
+                handler=MaterialsLabTools.get_database_info,
+            ),
+        },
+        "chemistry": {
+            "analyze_molecule": ToolDefinition(
+                name="chemistry.analyze_molecule",
+                description="Analyze a molecule from a SMILES string with provenance.",
+                category="chemistry",
+                token_cost=TOKEN_COSTS.get("chemistry.analyze_molecule", 0),
+                handler=ChemistryLabTools.analyze_molecule,
+            ),
+            "validate_smiles": ToolDefinition(
+                name="chemistry.validate_smiles",
+                description="Validate a SMILES string and return basic properties.",
+                category="chemistry",
+                access="lite",
+                token_cost=TOKEN_COSTS.get("chemistry.validate_smiles", 0),
+                handler=ChemistryLabTools.validate_smiles,
+            ),
+            "create_water_box": ToolDefinition(
+                name="chemistry.create_water_box",
+                description="Create a water box for molecular dynamics simulations.",
+                category="chemistry",
+                token_cost=TOKEN_COSTS.get("chemistry.create_water_box", 0),
+                handler=ChemistryLabTools.create_water_box,
+            ),
+        },
+        "physics": {
+            "get_element_properties": ToolDefinition(
+                name="physics.get_element_properties",
+                description="Lookup element properties from the physics engine.",
+                category="physics",
+                access="lite",
+                token_cost=TOKEN_COSTS.get("physics.get_element_properties", 0),
+                handler=PhysicsEngineTools.get_element_properties,
+            ),
+        },
+        "ai": {
+            "calc": ToolDefinition(
+                name="ai.calc",
+                description="Lightweight calculator exposed as an MCP tool.",
+                category="utility",
+                access="lite",
+                token_cost=TOKEN_COSTS.get("ai.calc", 0),
+                handler=QulabAITools.calc,
+            ),
+        },
+    }
+
+    return manifest
+
+
+def manifest_as_dict(manifest: Dict[str, Dict[str, ToolDefinition]]) -> Dict[str, Dict[str, Dict[str, str]]]:
+    """Serialize a tool manifest to plain dictionaries suitable for JSON."""
+
+    serialized: Dict[str, Dict[str, Dict[str, str]]] = {}
+    for module, tools in manifest.items():
+        serialized[module] = {name: tool.to_dict() for name, tool in tools.items()}
+    return serialized
+
+
+def map_capabilities() -> Dict[str, object]:
+    """High-level cartography of tools, experiments, and data sources."""
+
+    manifest = build_tool_manifest()
+    experiments = discover_experiments()
+    materials_project = _load_latest_materials_project_entries()
+
+    return {
+        "tools": manifest_as_dict(manifest),
+        "experiments": [exp.to_dict() for exp in experiments],
+        "data_sources": {
+            "materials_project": materials_project,
+            "materials_database_files": [
+                str(path)
+                for path in (Path(__file__).parent / "materials_lab" / "data").glob("materials*_expansion*.json*")
+            ],
+        },
+    }
+
+
+class McpServer:
+    """Lightweight MCP-style dispatcher wrapper for QuLabInfinite."""
+
+    def __init__(self, user_id: str = "user_lite_1"):
+        self.user = get_user(user_id) or UserAccount(user_id)
+        self.tool_manifest = build_tool_manifest()
+        self.experiments = discover_experiments()
+
+    def call(self, tool_name: str, **kwargs):
+        return call_tool(self.user, tool_name, **kwargs)
+
+    def describe(self) -> Dict[str, object]:
+        return {
+            "tools": manifest_as_dict(self.tool_manifest),
+            "experiments": [exp.to_dict() for exp in self.experiments],
+            "user": {
+                "id": self.user.user_id,
+                "access_level": self.user.access_level,
+            },
+        }
 
 
 # This is a representative subset of the tool call mappings.
