@@ -11,3 +11,7 @@ matplotlib
 mendeleev
 PySide6
 pyvista
+
+# API Framework
+fastapi
+uvicorn
