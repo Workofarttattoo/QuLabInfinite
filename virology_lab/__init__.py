@@ -6,6 +6,11 @@ Advanced viral replication modeling, mutation tracking, antiviral drug efficacy,
 """
 
 from .virology_engine import VirologyEngine
-from .demo import run_demo
 
 __all__ = ['VirologyEngine', 'run_demo']
+
+
+def run_demo():
+    """Lazy import to avoid circular references during package import."""
+    from .demo import main as demo_main
+    demo_main()

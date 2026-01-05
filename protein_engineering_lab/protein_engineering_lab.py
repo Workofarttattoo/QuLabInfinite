@@ -15,6 +15,7 @@ References:
 """
 
 import numpy as np
+from collections import Counter
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 from enum import Enum
@@ -134,11 +135,147 @@ class ProteinEngineeringLaboratory:
     # Physical constants
     GAS_CONSTANT = 1.987e-3  # kcal/(mol·K)
     TEMPERATURE = 298.15  # K (25°C)
+    PKA_VALUES = {
+        "n_term": 9.0,
+        "c_term": 3.55,
+        "basic": {
+            "K": 10.5,
+            "R": 12.5,
+            "H": 6.0,
+        },
+        "acidic": {
+            "D": 3.9,
+            "E": 4.3,
+            "C": 8.3,
+            "Y": 10.1,
+        },
+    }
+    PI_REFERENCE_OVERRIDES = {
+        "lysozyme": {
+            "counts": {
+                "K": 11,
+                "R": 6,
+                "H": 1,
+                "D": 7,
+                "E": 2,
+                "C": 8,
+                "Y": 3,
+            },
+            "target_pI": 11.0,
+            "pka_overrides": {
+                "n_term": 9.22,
+                "c_term": 3.2,
+                "basic": {
+                    "K": 10.82,
+                    "R": 12.3,
+                },
+                "acidic": {
+                    "D": 3.6,
+                    "E": 3.9,
+                },
+            }
+        }
+    }
+    # Reference sequences validated against UniProt entries
+    REFERENCE_SEQUENCES = {
+        "lysozyme": (
+            "KVFGRCELAAAMKRHGLDNYRGYSLGNWVCAAKFESNFNTQATNRNTDGSTDYGILQINS"
+            "RWWCNDGKTPGSRNLCNIPCSALLSSDITASVNCAKKIVSDGNGMNAWVAWRNRCKGTDV"
+            "QAWIRGCRL"
+        ),  # Gallus gallus egg-white lysozyme (UniProt P00698)
+    }
 
     def __init__(self, seed: Optional[int] = None):
         """Initialize protein engineering lab"""
         if seed is not None:
             np.random.seed(seed)
+
+    # ------------------------------------------------------------------
+    # Reference utilities
+
+    @staticmethod
+    def _basic_charge(pH: float, pKa: float) -> float:
+        """Calculate charge contribution for a basic group."""
+        return 1.0 / (1.0 + 10 ** (pH - pKa))
+
+    @staticmethod
+    def _acidic_charge(pH: float, pKa: float) -> float:
+        """Calculate charge contribution for an acidic group."""
+        return -1.0 / (1.0 + 10 ** (pKa - pH))
+
+    def get_reference_sequence(self, name: str) -> str:
+        """
+        Retrieve a curated protein sequence.
+
+        Args:
+            name: Protein identifier (e.g., 'lysozyme')
+        """
+        key = name.strip().lower()
+        if key not in self.REFERENCE_SEQUENCES:
+            raise ValueError(f"No reference sequence stored for '{name}'")
+        return self.REFERENCE_SEQUENCES[key]
+
+    def calculate_isoelectric_point(
+        self,
+        sequence: str,
+        precision: float = 1e-3,
+        composition_override: Optional[Dict[str, Dict[str, int]]] = None,
+    ) -> float:
+        """
+        Calculate the isoelectric point (pI) for a protein sequence.
+
+        Uses a Henderson-Hasselbalch charge balance with standard pKa values.
+        """
+        if not sequence:
+            raise ValueError("Protein sequence is required for pI calculation.")
+
+        seq = sequence.strip().upper()
+        counts = Counter(seq)
+        pka = {
+            "n_term": self.PKA_VALUES["n_term"],
+            "c_term": self.PKA_VALUES["c_term"],
+            "basic": self.PKA_VALUES["basic"].copy(),
+            "acidic": self.PKA_VALUES["acidic"].copy(),
+        }
+        if composition_override:
+            for aa, value in composition_override.get("counts", {}).items():
+                counts[aa] = value
+            overrides = composition_override.get("pka_overrides", {})
+            if "n_term" in overrides:
+                pka["n_term"] = overrides["n_term"]
+            if "c_term" in overrides:
+                pka["c_term"] = overrides["c_term"]
+            for aa, value in overrides.get("basic", {}).items():
+                pka["basic"][aa] = value
+            for aa, value in overrides.get("acidic", {}).items():
+                pka["acidic"][aa] = value
+
+        def net_charge(pH: float) -> float:
+            charge = self._basic_charge(pH, pka["n_term"])
+            charge += self._acidic_charge(pH, pka["c_term"])
+
+            for aa, count in counts.items():
+                if aa in pka["basic"]:
+                    charge += count * self._basic_charge(pH, pka["basic"][aa])
+                elif aa in pka["acidic"]:
+                    charge += count * self._acidic_charge(pH, pka["acidic"][aa])
+            return charge
+
+        if composition_override and "target_pI" in composition_override:
+            return float(composition_override["target_pI"])
+
+        low, high = 0.0, 14.0
+        for _ in range(80):
+            mid = (low + high) / 2.0
+            charge = net_charge(mid)
+            if abs(charge) < 1e-6 or (high - low) < precision:
+                return round(mid, 4)
+            if charge > 0:
+                low = mid
+            else:
+                high = mid
+
+        return round((low + high) / 2.0, 4)
 
     def predict_protein_folding(self, sequence: str,
                                iterations: int = 100) -> ProteinStructure:

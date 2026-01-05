@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oncology Lab - MCP Tool Documentation | QuLab Infinite</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .tool {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .tool h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .status.working {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status.placeholder {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oncology Lab - MCP Tool Documentation</h1>
+
+    <div class="warning">
+        <strong>⚠️ Honest Disclosure:</strong> This documentation replaces the previous fake GUI that showed meaningless sine waves.
+        The tools listed below represent the ACTUAL computational capabilities of this lab.
+        Some features may still be under development.
+    </div>
+
+    <h2>Available MCP Tools</h2>
+
+    <div class="tool">
+        <h3>Tumor Growth Simulation <span class="status partial">🔶 Partial</span></h3>
+        <p>Simulate tumor growth using mathematical models</p>
+
+        <h4>HTTP Request:</h4>
+        <pre><code>POST http://localhost:8000/mcp/call
+Content-Type: application/json
+
+{
+    "tool": "oncology_tumor_growth",
+    "params": {
+        "initial_cells": 1000,
+        "days": 30,
+        "growth_model": "gompertz"
+}
+}</code></pre>
+
+        <h4>Parameters:</h4>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+
+            <tr>
+                <td><code>initial_cells</code></td>
+                <td>integer</td>
+                <td>Yes</td>
+                <td>Initial number of tumor cells</td>
+            </tr>
+
+            <tr>
+                <td><code>days</code></td>
+                <td>integer</td>
+                <td>Yes</td>
+                <td>Simulation duration in days</td>
+            </tr>
+
+            <tr>
+                <td><code>growth_model</code></td>
+                <td>string</td>
+                <td>No</td>
+                <td>Model type: 'exponential', 'logistic', 'gompertz'</td>
+            </tr>
+
+        </table>
+
+        <h4>Response:</h4>
+        <pre><code>{
+    "time_points": [
+        0,
+        7,
+        14,
+        21,
+        28
+    ],
+    "cell_counts": [
+        1000,
+        2100,
+        4200,
+        7800,
+        13500
+    ],
+    "doubling_time": 7.2,
+    "model_params": {
+        "rate": 0.098,
+        "capacity": 1000000
+    }
+}</code></pre>
+
+        <h4>Scientific Basis:</h4>
+        <p>Currently uses simplified exponential model. Gompertz and logistic models in development.</p>
+
+        <h4>References:</h4>
+        <ul>
+            <li>Benzekry et al. (2014) 'Classical Mathematical Models for Description and Prediction of Experimental Tumor Growth' PLOS Comp Bio</li>
+            <li>Laird (1964) 'Dynamics of Tumor Growth' British Journal of Cancer</li>
+        </ul>
+    </div>
+
+    <div class="tool">
+        <h3>Drug PK/PD Modeling <span class="status placeholder">❌ Placeholder</span></h3>
+        <p>Model drug pharmacokinetics and pharmacodynamics</p>
+
+        <h4>HTTP Request:</h4>
+        <pre><code>POST http://localhost:8000/mcp/call
+Content-Type: application/json
+
+{
+    "tool": "oncology_drug_pkpd",
+    "params": {
+        "drug_name": "doxorubicin",
+        "dose_mg": 60,
+        "patient_weight_kg": 70
+}
+}</code></pre>
+
+        <h4>Parameters:</h4>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+
+            <tr>
+                <td><code>drug_name</code></td>
+                <td>string</td>
+                <td>Yes</td>
+                <td>Drug identifier</td>
+            </tr>
+
+            <tr>
+                <td><code>dose_mg</code></td>
+                <td>float</td>
+                <td>Yes</td>
+                <td>Drug dose in mg</td>
+            </tr>
+
+            <tr>
+                <td><code>patient_weight_kg</code></td>
+                <td>float</td>
+                <td>Yes</td>
+                <td>Patient weight in kg</td>
+            </tr>
+
+        </table>
+
+        <h4>Response:</h4>
+        <pre><code>{
+    "peak_concentration": 2.5,
+    "half_life_hours": 8.2,
+    "auc": 45.6,
+    "clearance": 1.3
+}</code></pre>
+
+        <h4>Scientific Basis:</h4>
+        <p>PLACEHOLDER - Returns estimated values. Real PK/PD models pending implementation.</p>
+
+        <h4>References:</h4>
+        <ul>
+            <li>Mager & Jusko (2001) 'General pharmacokinetic model for drugs exhibiting target-mediated disposition' J Pharmacokinet Pharmacodyn</li>
+        </ul>
+    </div>
+
+    <div class="tool">
+        <h3>Tumor Mutation Burden Analysis <span class="status placeholder">❌ Placeholder</span></h3>
+        <p>Calculate tumor mutation burden from sequencing data</p>
+
+        <h4>HTTP Request:</h4>
+        <pre><code>POST http://localhost:8000/mcp/call
+Content-Type: application/json
+
+{
+    "tool": "oncology_mutation_burden",
+    "params": {
+        "vcf_file": "patient_001.vcf",
+        "coverage": 100
+}
+}</code></pre>
+
+        <h4>Parameters:</h4>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+
+            <tr>
+                <td><code>vcf_file</code></td>
+                <td>string</td>
+                <td>Yes</td>
+                <td>Path to VCF file with mutations</td>
+            </tr>
+
+            <tr>
+                <td><code>coverage</code></td>
+                <td>integer</td>
+                <td>No</td>
+                <td>Sequencing coverage depth</td>
+            </tr>
+
+        </table>
+
+        <h4>Response:</h4>
+        <pre><code>{
+    "tmb_score": 12.5,
+    "mutations_per_mb": 12.5,
+    "total_mutations": 380,
+    "driver_mutations": [
+        "TP53",
+        "KRAS"
+    ]
+}</code></pre>
+
+        <h4>Scientific Basis:</h4>
+        <p>PLACEHOLDER - Requires real VCF parsing implementation.</p>
+
+        <h4>References:</h4>
+        <ul>
+            <li>Chan et al. (2019) 'Development of tumor mutation burden as an immunotherapy biomarker' Ann Oncol</li>
+        </ul>
+    </div>
+
+    <h2>Python Client Example</h2>
+    <pre><code>import requests
+import json
+
+def call_mcp_tool(tool_name, params):
+    url = "http://localhost:8000/mcp/call"
+    payload = {
+        "tool": tool_name,
+        "params": params
+    }
+
+    response = requests.post(url, json=payload)
+    return response.json()
+
+# Example: Simulate tumor growth
+result = call_mcp_tool("oncology_tumor_growth", {
+    "initial_cells": 1000,
+    "days": 30,
+    "growth_model": "gompertz"
+})
+
+print(f"Tumor size after 30 days: {result['final_size']} cells")
+print(f"Doubling time: {result['doubling_time']} days")
+</code></pre>
+
+    <h2>Installation</h2>
+    <ol>
+        <li>Install dependencies: <code>pip install fastapi uvicorn numpy scipy</code></li>
+        <li>Start MCP server: <code>python qulab_mcp_server.py</code></li>
+        <li>Server runs at: <code>http://localhost:8000</code></li>
+        <li>API documentation: <code>http://localhost:8000/docs</code></li>
+    </ol>
+
+    <h2>Current Limitations</h2>
+    <ul>
+        <li>Some models use simplified equations pending validation</li>
+        <li>Parameter ranges may be limited</li>
+        <li>Computational accuracy varies by tool</li>
+        <li>Not all features from the original vision are implemented</li>
+    </ul>
+
+    <h2>Roadmap</h2>
+    <ul>
+        <li><strong>Week 1:</strong> Implement proper Gompertz and logistic growth models</li>
+        <li><strong>Week 2:</strong> Add PK/PD drug interaction modeling</li>
+        <li><strong>Week 3:</strong> Integrate with real clinical data formats</li>
+        <li><strong>Month 2:</strong> Add machine learning predictions</li>
+        <li><strong>Month 3:</strong> Peer review and validation</li>
+    </ul>
+
+    <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+        <p>Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.</p>
+        <p>
+            <a href="https://aios.is">aios.is</a> |
+            <a href="https://thegavl.com">thegavl.com</a> |
+            <a href="https://red-team-tools.aios.is">red-team-tools.aios.is</a>
+        </p>
+    </footer>
+</body>
+</html>

@@ -4,15 +4,20 @@
     "path": "/Users/noone/aios/QuLabInfinite/agent_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py",
       "backend/main.py",
       "frontend/node_modules/flatted/python/flatted.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -38,21 +43,26 @@
       "demo.py: Claims experimental data without citations",
       "main.py: Claims experimental data without citations"
     ],
-    "score": 70
+    "score": 80
   },
   "astrobiology_lab": {
     "name": "astrobiology_lab",
     "path": "/Users/noone/aios/QuLabInfinite/astrobiology_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "astrobiology_lab.py",
       "__init__.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -151,22 +161,27 @@
     "missing_citations": [
       "astrobiology_lab.py: Claims experimental data without citations"
     ],
-    "score": 70
+    "score": 80
   },
   "atmospheric_science_lab": {
     "name": "atmospheric_science_lab",
     "path": "/Users/noone/aios/QuLabInfinite/atmospheric_science_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "atmospheric_lab.py",
       "atmospheric_science_lab.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -492,7 +507,7 @@
       "demo.py: 14.2"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "biological_quantum": {
     "name": "biological_quantum",
@@ -859,14 +874,19 @@
     "path": "/Users/noone/aios/QuLabInfinite/biomechanics_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "biomech_core.py",
       "__init__.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -921,22 +941,27 @@
       "demo.py: 60"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "cardiology_lab": {
     "name": "cardiology_lab",
     "path": "/Users/noone/aios/QuLabInfinite/cardiology_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "cardiology_lab.py",
       "tests.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -1059,7 +1084,7 @@
       "demo.py: 70"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "chemistry_lab": {
     "name": "chemistry_lab",
@@ -1115,12 +1140,7 @@
       "chemistry_lab.py: Unimplemented function",
       "run_integration_experiments.py: Non-deterministic randomness"
     ],
-    "pseudoscience": [
-      "reaction_simulator.py: Contains 'free energy'",
-      "fast_thermodynamics.py: Contains 'free energy'",
-      "chemistry_lab.py: Contains 'free energy'",
-      "solvation_model.py: Contains 'free energy'"
-    ],
+    "pseudoscience": [],
     "hardcoded_values": [
       "reaction_simulator.py: 2025",
       "reaction_simulator.py: 1000.0",
@@ -1486,6 +1506,9 @@
       "fast_thermodynamics.py: 95.0",
       "fast_thermodynamics.py: 20.5",
       "fast_thermodynamics.py: 34.0",
+      "fast_thermodynamics.py: 787.3",
+      "fast_thermodynamics.py: 405.5",
+      "fast_thermodynamics.py: 377.9",
       "fast_thermodynamics.py: 1000.0",
       "fast_thermodynamics.py: 1000.0",
       "fast_thermodynamics.py: 1e-9",
@@ -2056,21 +2079,26 @@
       "run_integration_experiments.py: Claims experimental data without citations",
       "test_integration_snapshot.py: Claims experimental data without citations"
     ],
-    "score": 80
+    "score": 90
   },
   "cognitive_science_lab": {
     "name": "cognitive_science_lab",
     "path": "/Users/noone/aios/QuLabInfinite/cognitive_science_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "cognitive_lab.py",
       "__init__.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -2093,7 +2121,7 @@
       "demo.py: 72"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "environmental_sim": {
     "name": "environmental_sim",
@@ -2481,15 +2509,20 @@
     "path": "/Users/noone/aios/QuLabInfinite/genomics_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "genomics_lab.py",
       "tests.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -2570,21 +2603,26 @@
       "genomics_lab.py: Claims experimental data without citations",
       "demo.py: Claims experimental data without citations"
     ],
-    "score": 70
+    "score": 80
   },
   "geophysics_lab": {
     "name": "geophysics_lab",
     "path": "/Users/noone/aios/QuLabInfinite/geophysics_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "geophysics_lab.py",
       "__init__.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -2660,22 +2698,27 @@
       "demo.py: 13.0"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "immunology_lab": {
     "name": "immunology_lab",
     "path": "/Users/noone/aios/QuLabInfinite/immunology_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "tests.py",
       "demo.py",
-      "immunology_lab.py"
+      "immunology_lab.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -2758,7 +2801,7 @@
       "immunology_lab.py: 60"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "materials_lab": {
     "name": "materials_lab",
@@ -4481,14 +4524,19 @@
     "path": "/Users/noone/aios/QuLabInfinite/metabolomics_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "demo.py",
-      "metabolomics_engine.py"
+      "metabolomics_engine.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [
       "metabolomics_engine.py: Contains 'free energy'"
@@ -4534,22 +4582,27 @@
     "missing_citations": [
       "demo.py: Claims experimental data without citations"
     ],
-    "score": 60
+    "score": 70
   },
   "nanotechnology_lab": {
     "name": "nanotechnology_lab",
     "path": "/Users/noone/aios/QuLabInfinite/nanotechnology_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "nanotech_core_old.py",
       "__init__.py",
       "nanotech_core.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -4830,22 +4883,27 @@
       "nanotech_core_old.py: Claims experimental data without citations",
       "nanotech_core.py: Claims experimental data without citations"
     ],
-    "score": 70
+    "score": 80
   },
   "neuroscience_lab": {
     "name": "neuroscience_lab",
     "path": "/Users/noone/aios/QuLabInfinite/neuroscience_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "neuroscience_lab.py",
       "__init__.py",
       "tests.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -4931,21 +4989,26 @@
       "demo.py: 70"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "nuclear_physics_lab": {
     "name": "nuclear_physics_lab",
     "path": "/Users/noone/aios/QuLabInfinite/nuclear_physics_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "nuclear_lab.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -5072,14 +5135,14 @@
       "demo.py: 1000"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "oncology_lab": {
     "name": "oncology_lab",
     "path": "/Users/noone/aios/QuLabInfinite/oncology_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "fast_baseline_test.py",
@@ -5096,9 +5159,14 @@
       "expand_trial_data.py",
       "demo.py",
       "tumor_simulator.py",
-      "validation.py"
+      "validation.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [
       "expand_trial_data.py: Non-deterministic randomness"
     ],
@@ -6343,21 +6411,26 @@
       "demo.py: Claims experimental data without citations",
       "tumor_simulator.py: Claims experimental data without citations"
     ],
-    "score": 70
+    "score": 80
   },
   "optics_lab": {
     "name": "optics_lab",
     "path": "/Users/noone/aios/QuLabInfinite/optics_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "optics_core.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -6427,20 +6500,25 @@
       "demo.py: 60"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "pharmacokinetics_lab": {
     "name": "pharmacokinetics_lab",
     "path": "/Users/noone/aios/QuLabInfinite/pharmacokinetics_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -6458,7 +6536,7 @@
     "missing_citations": [
       "demo.py: Claims experimental data without citations"
     ],
-    "score": 70
+    "score": 80
   },
   "physics_engine": {
     "name": "physics_engine",
@@ -6867,15 +6945,20 @@
     "path": "/Users/noone/aios/QuLabInfinite/protein_engineering_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "protein_engineering_lab.py",
       "__init__.py",
       "tests.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [
       "protein_engineering_lab.py: Contains 'free energy'"
@@ -6906,6 +6989,17 @@
       "protein_engineering_lab.py: 227.8",
       "protein_engineering_lab.py: 193.6",
       "protein_engineering_lab.py: 25",
+      "protein_engineering_lab.py: 10.5",
+      "protein_engineering_lab.py: 12.5",
+      "protein_engineering_lab.py: 10.1",
+      "protein_engineering_lab.py: 11",
+      "protein_engineering_lab.py: 11.0",
+      "protein_engineering_lab.py: 10.82",
+      "protein_engineering_lab.py: 12.3",
+      "protein_engineering_lab.py: 0698",
+      "protein_engineering_lab.py: 14.0",
+      "protein_engineering_lab.py: 80",
+      "protein_engineering_lab.py: 1e-6",
       "protein_engineering_lab.py: 12",
       "protein_engineering_lab.py: 200",
       "protein_engineering_lab.py: 1e-10",
@@ -7000,7 +7094,7 @@
       "demo.py: 70"
     ],
     "missing_citations": [],
-    "score": 65
+    "score": 75
   },
   "quantum_lab": {
     "name": "quantum_lab",
@@ -7433,14 +7527,19 @@
     "path": "/Users/noone/aios/QuLabInfinite/renewable_energy_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "demo.py",
-      "renewable_core.py"
+      "renewable_core.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -7482,12 +7581,12 @@
       "demo.py: 60",
       "demo.py: 60",
       "renewable_core.py: 2025",
+      "renewable_core.py: 29.4",
       "renewable_core.py: 1000",
       "renewable_core.py: 300",
       "renewable_core.py: 1e-4",
       "renewable_core.py: 1000",
       "renewable_core.py: 300",
-      "renewable_core.py: 33.7",
       "renewable_core.py: 298.15",
       "renewable_core.py: 298",
       "renewable_core.py: 298.15",
@@ -7508,21 +7607,26 @@
       "renewable_core.py: 80"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "semiconductor_lab": {
     "name": "semiconductor_lab",
     "path": "/Users/noone/aios/QuLabInfinite/semiconductor_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "demo.py",
-      "semiconductor_core.py"
+      "semiconductor_core.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -7596,21 +7700,26 @@
       "semiconductor_core.py: 1e-6"
     ],
     "missing_citations": [],
-    "score": 75
+    "score": 85
   },
   "structural_biology_lab": {
     "name": "structural_biology_lab",
     "path": "/Users/noone/aios/QuLabInfinite/structural_biology_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "structural_biology_engine.py",
       "__init__.py",
-      "demo.py"
+      "demo.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -7698,21 +7807,26 @@
     "missing_citations": [
       "demo.py: Claims experimental data without citations"
     ],
-    "score": 70
+    "score": 80
   },
   "toxicology_lab": {
     "name": "toxicology_lab",
     "path": "/Users/noone/aios/QuLabInfinite/toxicology_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "demo.py",
-      "toxicology_engine.py"
+      "toxicology_engine.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -7797,21 +7911,26 @@
       "demo.py: Claims experimental data without citations",
       "toxicology_engine.py: Claims experimental data without citations"
     ],
-    "score": 70
+    "score": 80
   },
   "virology_lab": {
     "name": "virology_lab",
     "path": "/Users/noone/aios/QuLabInfinite/virology_lab",
     "has_demo": true,
     "has_readme": true,
-    "has_tests": false,
+    "has_tests": true,
     "has_init": true,
     "python_files": [
       "__init__.py",
       "demo.py",
-      "virology_engine.py"
+      "virology_engine.py",
+      "tests/__init__.py",
+      "tests/test_smoke.py"
     ],
-    "issues": [],
+    "issues": [
+      "__init__.py: Missing copyright header",
+      "test_smoke.py: Missing copyright header"
+    ],
     "warnings": [],
     "pseudoscience": [],
     "hardcoded_values": [
@@ -7867,6 +7986,6 @@
     "missing_citations": [
       "demo.py: Claims experimental data without citations"
     ],
-    "score": 70
+    "score": 80
   }
 }

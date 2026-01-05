@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+validation_map - Part of Materials Lab
+"""
+
+"""
 Mapping between material properties and validation reference keys.
 
 Centralising this metadata lets MaterialsLab wire simulation outputs into the

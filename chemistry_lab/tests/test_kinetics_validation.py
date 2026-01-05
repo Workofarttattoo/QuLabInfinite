@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+test_kinetics_validation - Part of Chemistry Lab
+"""
+
+"""
 Kinetics validation tests ensure simulated reaction rates align with benchmarks.
 """
 

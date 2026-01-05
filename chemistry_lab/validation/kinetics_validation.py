@@ -1,4 +1,9 @@
-"""Kinetics validation harness for the Chemistry Laboratory."""
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+kinetics_validation - Part of Chemistry Lab
+Kinetics validation harness for the Chemistry Laboratory.
+"""
 
 from __future__ import annotations
 

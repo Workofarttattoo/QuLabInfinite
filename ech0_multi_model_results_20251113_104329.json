@@ -1,0 +1,400 @@
+{
+  "timestamp": "20251113_104329",
+  "models_tested": 5,
+  "results": {
+    "ech0-uncensored-14b": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 10,
+      "avg_time": 92.9605455160141,
+      "problems": [
+        {
+          "problem": "Let $C, I$ be the circumcenter and the incenter of a right-angled triangle; $R, r$ be the radii of r",
+          "ech0_answer": "The distance ( CK ) in terms of the circumradius ( R ) and the inradius ( r ) is:",
+          "correct_answer": "$R-2r$",
+          "correct": false,
+          "reasoning_time": 78.51958799362183
+        },
+        {
+          "problem": "For a positive integer $n$, we call $g:\\mathbb{Z}\\rightarrow \\mathbb{Z}$ a \\textif{$n$-good function",
+          "ech0_answer": "After analyzing the sequences and counting the terms that fit the criteria, we identify that the 132nd term in this pattern corresponds to a specific form of ( n ).",
+          "correct_answer": "69169",
+          "correct": false,
+          "reasoning_time": 114.73429822921753
+        },
+        {
+          "problem": "Find the number of triples $(a, b, c)$ of positive integers such that\n\\[\n    \\sqrt{\\frac{1001}{abc}}",
+          "ech0_answer": "0",
+          "correct_answer": "14",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Let $a_0, a_1, a_2, \\ldots$ be an infinite sequence of integers that is not eventually periodic, whi",
+          "ech0_answer": "(boxed{2025})",
+          "correct_answer": "2026",
+          "correct": false,
+          "reasoning_time": 85.1188051700592
+        },
+        {
+          "problem": "Let $WXYZ$ be a tetrahedron such that $WX = YZ = \\sqrt{41}$, $WY = XZ = \\sqrt{80}$, and $WZ = XY = \\",
+          "ech0_answer": "48",
+          "correct_answer": "104",
+          "correct": false,
+          "reasoning_time": 96.70417094230652
+        },
+        {
+          "problem": "Find all real numbers $a$ such that\n\\[\na\\lfloor 22a\\lfloor 22a\\lfloor 22a\\rfloor\\rfloor\\rfloor= 4.\n\\",
+          "ech0_answer": "( a = frac{2}{5} )",
+          "correct_answer": "$\\frac{1}{7}$",
+          "correct": false,
+          "reasoning_time": 83.05483818054199
+        },
+        {
+          "problem": "Find all functions $g:\\mathbb{R}^+\\rightarrow\\mathbb{R}^+$ such that for all positive real numbers $",
+          "ech0_answer": "( g(x) = x )",
+          "correct_answer": "$g(x)=\\frac{1}{3} ((2x)^a +(2x)^{-a})$ for some $a>0$",
+          "correct": false,
+          "reasoning_time": 95.80679607391357
+        },
+        {
+          "problem": "Find the maximum value of $m$ such that for any partition of $\\{1, 2, \\dots, 40\\}$ into $m$ sets, th",
+          "ech0_answer": "19",
+          "correct_answer": "3",
+          "correct": false,
+          "reasoning_time": 86.37234282493591
+        },
+        {
+          "problem": "A sports tournament is being organized for $256$ players. Every pair of players must play exactly on",
+          "ech0_answer": "[ 32480 ]",
+          "correct_answer": "4202432",
+          "correct": false,
+          "reasoning_time": 82.62296676635742
+        },
+        {
+          "problem": "Find all positive integers $n \\geq 2$ that satisfy the following condition:\n(Condition) For any $n$ ",
+          "ech0_answer": "[",
+          "correct_answer": "n is prime\n",
+          "correct": false,
+          "reasoning_time": 86.67164897918701
+        }
+      ]
+    },
+    "ech0-unified-14b": {
+      "accuracy": 10.0,
+      "correct": 1,
+      "total": 10,
+      "avg_time": 105.50607011318206,
+      "problems": [
+        {
+          "problem": "Consider a game where you start with $2025$ boxes, each containing a single marble. A move consists ",
+          "ech0_answer": "1",
+          "correct_answer": "2",
+          "correct": false,
+          "reasoning_time": 47.042328119277954
+        },
+        {
+          "problem": "Let $n$ be a positive integer, and let $1 = d_0 < d_1 < \\dots < d_k$ be its odd divisors in increasi",
+          "ech0_answer": "(boxed{27})",
+          "correct_answer": "60, 100, 8p (for all odd primes p)",
+          "correct": false,
+          "reasoning_time": 110.06867623329163
+        },
+        {
+          "problem": "There are 42 students participating in the Team Selection Test, each of them is assigned a positive ",
+          "ech0_answer": "After solving through the combinatorial framework, we find:",
+          "correct_answer": "120526555",
+          "correct": false,
+          "reasoning_time": 89.66062188148499
+        },
+        {
+          "problem": "Let $p$ be a positive rational number. Alice and Bob each have a blackboard, initially displaying 0.",
+          "ech0_answer": "[ boxed{p = 1} ]",
+          "correct_answer": "1/2,1,2",
+          "correct": false,
+          "reasoning_time": 90.23073291778564
+        },
+        {
+          "problem": "Let $\\{a_n\\}_{n \\ge 1}$ be the sequence of integers satisfying $a_1 = 0$ and\n\\[\n    a_n = \\max_{1 \\l",
+          "ech0_answer": "0",
+          "correct_answer": "11059",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "For a given positive integer $N$, Henry writes the quotient of $ab$ divided by $N+1$ on the board fo",
+          "ech0_answer": "0",
+          "correct_answer": "3",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Find all positive real $c$ such that there exists an infinite sequence of positive real numbers $a_1",
+          "ech0_answer": "(boxed{left(0, frac{1}{4}right)})",
+          "correct_answer": "$0<c<1$",
+          "correct": false,
+          "reasoning_time": 118.05834197998047
+        },
+        {
+          "problem": "Determine all functions $Q$ from the real numbers to itself such that $Q(0)\\neq0$ and\n\n$$\\frac{1}{2}",
+          "ech0_answer": "0",
+          "correct_answer": "$Q(x)=-2, Q(x)=2x-2$",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Find all pairs $(a, b)$ of rational numbers such that\n\\[\n    a^2 - b^2 = \\frac{a}{a - 2}.\n\\]\n",
+          "ech0_answer": "0",
+          "correct_answer": "(0, 0)",
+          "correct": true,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Let $N$ be a positive integer. Consider an infinite two-dimensional grid where each cell $(i, j) \\in",
+          "ech0_answer": "0",
+          "correct_answer": "$a_{ij} = i + j - 1$",
+          "correct": false,
+          "reasoning_time": 120.0
+        }
+      ]
+    },
+    "ech0-polymath-14b": {
+      "accuracy": 10.0,
+      "correct": 1,
+      "total": 10,
+      "avg_time": 168.04634408950807,
+      "problems": [
+        {
+          "problem": "A finite set $U$ of positive integers such that $|U|\\ge 3$ is called a \\textit{good set} if the grea",
+          "ech0_answer": "0",
+          "correct_answer": "1600",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "A hypersphere is the set of points at a fixed positive distance $r$ from its center. Let $\\mathcal{H",
+          "ech0_answer": "1",
+          "correct_answer": "2",
+          "correct": false,
+          "reasoning_time": 109.06728291511536
+        },
+        {
+          "problem": "A circle passes through vertex $Y$ of triangle $XYZ$, intersects sides $XY$ and $YZ$ at points $P$ a",
+          "ech0_answer": "0",
+          "correct_answer": "75",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Let $f(x) = \\pi\\sin x$. Find the number of solutions for the following equation.\n\\[\n    f^{2025}(x) ",
+          "ech0_answer": "The number of solutions is:",
+          "correct_answer": "$2^{2024}+1$",
+          "correct": false,
+          "reasoning_time": 117.95368790626526
+        },
+        {
+          "problem": "Compute the integral part of the number\n\\[\n    \\sum_{n=1}^{2024}\\frac{2025^n}{\\left(1+2025\\right)\\cd",
+          "ech0_answer": "0",
+          "correct_answer": "0",
+          "correct": true,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Find all integers $n \\ge 3$ for which there exist positive integers $b_1, b_2, \\ldots, b_n$ satisfyi",
+          "ech0_answer": "0",
+          "correct_answer": "odd $n$",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Find all pairs $(a, b)$ of positive real numbers such that for every prime number $p$ and real numbe",
+          "ech0_answer": "0",
+          "correct_answer": "$\\{(a,b):ab \\geq e^3\\}$\n",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Let $a_1, a_2, \\ldots$ be a sequence of positive integers satisfying the following condition.\n\n[Cond",
+          "ech0_answer": "ANSWER: (2^{2024})",
+          "correct_answer": "$4\\cdot3^{2023}$",
+          "correct": false,
+          "reasoning_time": 632.0054581165314
+        },
+        {
+          "problem": "In triangle $XYZ$, $\\angle YXZ = 60^o$, $XY = 3a$ and $XZ = 4a, (a > 0)$. Let $P$ be a point on the ",
+          "ech0_answer": "( boxed{asqrt{7}} )",
+          "correct_answer": "$\\frac{a\\sqrt{19}}{2}$",
+          "correct": false,
+          "reasoning_time": 106.6065788269043
+        },
+        {
+          "problem": "A function $g:\\mathbb{R}\\to\\mathbb{R}$ is called a \\textit{good function} if $g$ satisfies\n\\[\n4g\\lef",
+          "ech0_answer": "**",
+          "correct_answer": "$(-\\infty,-4)\\cup (-4,-\\frac{8}{3})$",
+          "correct": false,
+          "reasoning_time": 114.83043313026428
+        }
+      ]
+    },
+    "ech0-qulab-14b": {
+      "accuracy": 10.0,
+      "correct": 1,
+      "total": 10,
+      "avg_time": 95.91940951347351,
+      "problems": [
+        {
+          "problem": "Let $XYZ$ be a triangle with $\\angle X = 90^o, \\angle Y = 60^o$ and $YZ = 1$. Draw outside of $\\vart",
+          "ech0_answer": "0",
+          "correct_answer": "$\\frac{9\\sqrt{3}}{16}$",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Find the smallest positive integer $n$ such that there exists infinitely many triple $(a,b,c)$ of di",
+          "ech0_answer": "[",
+          "correct_answer": "3",
+          "correct": false,
+          "reasoning_time": 98.31811475753784
+        },
+        {
+          "problem": "Let $A$ be the area of parallelogram $PQRS$ and points $X,Y$ belong to $QR$ and $PS$, respectively, ",
+          "ech0_answer": "6",
+          "correct_answer": "$\\frac{50}{39}A$",
+          "correct": false,
+          "reasoning_time": 83.89061498641968
+        },
+        {
+          "problem": "Let $n > 12345$ be a prime number. Let $P$ be the set of all bijections from $\\{1, 2, \\dots, n\\}$ to",
+          "ech0_answer": "[ boxed{n+1} ]",
+          "correct_answer": "$(n-2)!$",
+          "correct": false,
+          "reasoning_time": 71.3107316493988
+        },
+        {
+          "problem": "Find all positive integers $n$ such that there exists a polynomial $P$ of degree $n$ with integer co",
+          "ech0_answer": "2**",
+          "correct_answer": "$n=4k+3$",
+          "correct": false,
+          "reasoning_time": 97.12319898605347
+        },
+        {
+          "problem": "We colored the $10000$ unit squares of an $100 \\times 100$ square lattice such that in each $2\\times",
+          "ech0_answer": "**",
+          "correct_answer": "5099",
+          "correct": false,
+          "reasoning_time": 94.31573724746704
+        },
+        {
+          "problem": "Let $\\gamma \\geq 1$ be a real number. Sun Wukong and the Sea God play a turn-based game on an infini",
+          "ech0_answer": "2",
+          "correct_answer": "2",
+          "correct": true,
+          "reasoning_time": 84.41158390045166
+        },
+        {
+          "problem": "Find the largest $n$ for which there exist positive integers $x_1, \\dots, x_n$ satisfying the follow",
+          "ech0_answer": "[ boxed{3} ]",
+          "correct_answer": "4",
+          "correct": false,
+          "reasoning_time": 118.22565579414368
+        },
+        {
+          "problem": "For an arbitrary positive integer $m$, not divisible by $3$, consider the permutation $x \\mapsto 3x ",
+          "ech0_answer": "185",
+          "correct_answer": "197",
+          "correct": false,
+          "reasoning_time": 87.7312400341034
+        },
+        {
+          "problem": "Let $WXYZ$ be a tetrahedron such that $WX = YZ = \\sqrt{41}$, $WY = XZ = \\sqrt{80}$, and $WZ = XY = \\",
+          "ech0_answer": "Simplifying and evaluating gives us ( d = frac{sqrt{410}}{6} ). Thus, ( a + b + c = 410 + 1 + 6 = 417 ).",
+          "correct_answer": "104",
+          "correct": false,
+          "reasoning_time": 103.86721777915955
+        }
+      ]
+    },
+    "ech0-uncensored-32b": {
+      "accuracy": 10.0,
+      "correct": 1,
+      "total": 10,
+      "avg_time": 120.0,
+      "problems": [
+        {
+          "problem": "Find the smallest positive integers $n$, for which the numbers in the set $S=\\{1,2, \\ldots, n\\}$ can",
+          "ech0_answer": "0",
+          "correct_answer": "69",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "L\u00ea B\u00e1 Kh\u00e1nh Tr\u00ecnh is a famous Vietnamese IMO contestant who won Vietnam's only Special Prize. He enj",
+          "ech0_answer": "0",
+          "correct_answer": "2731365",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "In $\\triangle XYZ$ with $XY=XZ$, point $P$ lies strictly between $X$ and $Z$ on side $\\overline{XZ}$",
+          "ech0_answer": "0",
+          "correct_answer": "547",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "In $\\triangle XYZ$ with side lengths $XY=13$, $YZ=14$, and $ZX=15$, let $N$ be the midpoint of $\\ove",
+          "ech0_answer": "0",
+          "correct_answer": "247",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "We call a real number $x$ 'mysterious' if it is a  solution to $A(x) = \\frac{1}{\\sqrt[3]{3}}x$ for s",
+          "ech0_answer": "0",
+          "correct_answer": "$A(x)=\\frac{1}{2}(x^2-x-4)$",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Find all functions $A:\\mathbb{R}\\rightarrow\\mathbb{R}$ such that $A(p)A(q)+A(-pq)=A(p+q)+2pq+1$ hold",
+          "ech0_answer": "0",
+          "correct_answer": "$A(x)=1-x, A(x)=1+2x, A(x)=1-x^{2}$",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Suppose that the function $g:\\mathbb{N}\\rightarrow\\mathbb{N}-\\{1\\}$ satisfies\n\\[\ng(n)+g(n+1)=g(n+2)g",
+          "ech0_answer": "0",
+          "correct_answer": "60750, 854130, 854970",
+          "correct": true,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Find the minimal $d$ satisfying the following property:\n\nFor any sequence of integers $x_1, x_2, \\ld",
+          "ech0_answer": "0",
+          "correct_answer": "48",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Let $PQRST$ be a regular pyramid with square base $QRST$. Suppose that on the line $QS$ lies a point",
+          "ech0_answer": "0",
+          "correct_answer": "$\\frac{4}{3}$",
+          "correct": false,
+          "reasoning_time": 120.0
+        },
+        {
+          "problem": "Find the largest $n$ for which there exist positive integers $x_1, \\dots, x_n$ satisfying the follow",
+          "ech0_answer": "0",
+          "correct_answer": "4",
+          "correct": false,
+          "reasoning_time": 120.0
+        }
+      ]
+    }
+  },
+  "best_model": {
+    "name": "ech0-unified-14b",
+    "accuracy": 10.0
+  }
+}

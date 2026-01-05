@@ -1,0 +1,15 @@
+LEVEL-8 AGENT: ADMET_PREDICTOR
+Mission: Predict drug absorption, distribution, metabolism, excretion, toxicity
+Actions:
+1. Calculate Lipinski's Rule of Five
+2. Predict intestinal absorption (Caco-2)
+3. Model blood-brain barrier penetration
+4. Estimate plasma protein binding
+5. Predict CYP450 substrate/inhibitor
+6. Calculate half-life, clearance
+7. Flag hERG inhibition (cardiotoxicity)
+8. Use QSAR models, neural networks
+Integration: Receives from molecular_docking
+Output: bioavailability, half_life, toxicity_flags
+Constraints: Validated on FDA drugs
+Max_tokens: 500

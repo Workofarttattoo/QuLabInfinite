@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuLab Infinite - Laboratory Index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0d1117;
+            color: #00ff88;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px #00ff88;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #58a6ff;
+            margin-bottom: 3rem;
+        }
+
+        .labs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .lab-card {
+            background: rgba(13,17,23,0.8);
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .lab-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #00ff88;
+            border-color: #58a6ff;
+        }
+
+        .lab-card h3 {
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+
+        .lab-status {
+            color: #00ff00;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #58a6ff;
+            font-size: 0.9rem;
+        }
+
+        .stats {
+            text-align: center;
+            margin: 2rem 0;
+            color: #ff6b00;
+        }
+    </style>
+</head>
+<body>
+    <h1>QuLab Infinite Laboratory System</h1>
+    <p class="subtitle">Advanced Scientific Simulation & Analysis Platform</p>
+    <p class="stats">94 Laboratories Online</p>
+
+    <div class="labs-grid">
+        
+            <div class="lab-card" onclick="window.open('aerospace_engineering_lab_gui.html', '_blank')">
+                <h3>Aerospace Engineering Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('algorithm_design_lab_gui.html', '_blank')">
+                <h3>Algorithm Design Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('alzheimers_early_detection_gui.html', '_blank')">
+                <h3>Alzheimers Early Detection</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('analytical_chemistry_lab_gui.html', '_blank')">
+                <h3>Analytical Chemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('astrobiology_lab_gui.html', '_blank')">
+                <h3>Astrobiology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('astrophysics_lab_gui.html', '_blank')">
+                <h3>Astrophysics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('atmospheric_chemistry_lab_gui.html', '_blank')">
+                <h3>Atmospheric Chemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('biochemistry_lab_gui.html', '_blank')">
+                <h3>Biochemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('bioinformatics_lab_gui.html', '_blank')">
+                <h3>Bioinformatics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('biological_quantum_lab_gui.html', '_blank')">
+                <h3>Biological Quantum Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('biomedical_engineering_lab_gui.html', '_blank')">
+                <h3>Biomedical Engineering Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('biophysics_lab_gui.html', '_blank')">
+                <h3>Biophysics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('bone_density_predictor_gui.html', '_blank')">
+                <h3>Bone Density Predictor</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('cancer_biology_simulator_gui.html', '_blank')">
+                <h3>Cancer Biology Simulator</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('carbon_capture_lab_gui.html', '_blank')">
+                <h3>Carbon Capture Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('cardiac_fibrosis_predictor_lab_gui.html', '_blank')">
+                <h3>Cardiac Fibrosis Predictor Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('cardiology_lab_gui.html', '_blank')">
+                <h3>Cardiology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('cardiovascular_plaque_formation_simulator_lab_gui.html', '_blank')">
+                <h3>Cardiovascular Plaque Formation Simulator Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('cardiovascular_plaque_lab_gui.html', '_blank')">
+                <h3>Cardiovascular Plaque Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('catalysis_lab_gui.html', '_blank')">
+                <h3>Catalysis Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('cell_biology_lab_gui.html', '_blank')">
+                <h3>Cell Biology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('chemical_engineering_lab_gui.html', '_blank')">
+                <h3>Chemical Engineering Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('climate_modeling_lab_gui.html', '_blank')">
+                <h3>Climate Modeling Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('clinical_trials_simulation_lab_gui.html', '_blank')">
+                <h3>Clinical Trials Simulation Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('complete_realistic_lab_gui.html', '_blank')">
+                <h3>Complete Realistic Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('computational_chemistry_lab_gui.html', '_blank')">
+                <h3>Computational Chemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('computational_neuroscience_lab_gui.html', '_blank')">
+                <h3>Computational Neuroscience Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('computer_vision_lab_gui.html', '_blank')">
+                <h3>Computer Vision Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('condensed_matter_physics_lab_gui.html', '_blank')">
+                <h3>Condensed Matter Physics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('control_systems_lab_gui.html', '_blank')">
+                <h3>Control Systems Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('cryptography_lab_gui.html', '_blank')">
+                <h3>Cryptography Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('deep_learning_lab_gui.html', '_blank')">
+                <h3>Deep Learning Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('developmental_biology_lab_gui.html', '_blank')">
+                <h3>Developmental Biology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('drug_design_lab_gui.html', '_blank')">
+                <h3>Drug Design Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('drug_interaction_simulator_lab_gui.html', '_blank')">
+                <h3>Drug Interaction Simulator Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('ecology_lab_gui.html', '_blank')">
+                <h3>Ecology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('electrical_engineering_lab_gui.html', '_blank')">
+                <h3>Electrical Engineering Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('electrochemistry_lab_gui.html', '_blank')">
+                <h3>Electrochemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('electromagnetism_lab_gui.html', '_blank')">
+                <h3>Electromagnetism Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('environmental_engineering_lab_gui.html', '_blank')">
+                <h3>Environmental Engineering Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('epigenetics_lab_gui.html', '_blank')">
+                <h3>Epigenetics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('evolutionary_biology_lab_gui.html', '_blank')">
+                <h3>Evolutionary Biology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('fluid_dynamics_lab_gui.html', '_blank')">
+                <h3>Fluid Dynamics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('genetics_lab_gui.html', '_blank')">
+                <h3>Genetics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('genomics_lab_gui.html', '_blank')">
+                <h3>Genomics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('geology_lab_gui.html', '_blank')">
+                <h3>Geology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('graph_theory_lab_gui.html', '_blank')">
+                <h3>Graph Theory Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('hydrology_lab_gui.html', '_blank')">
+                <h3>Hydrology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('immunology_lab_gui.html', '_blank')">
+                <h3>Immunology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('inorganic_chemistry_lab_gui.html', '_blank')">
+                <h3>Inorganic Chemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('machine_learning_lab_gui.html', '_blank')">
+                <h3>Machine Learning Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('materials_chemistry_lab_gui.html', '_blank')">
+                <h3>Materials Chemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('materials_science_lab_gui.html', '_blank')">
+                <h3>Materials Science Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('mechanical_engineering_lab_gui.html', '_blank')">
+                <h3>Mechanical Engineering Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('medical_imaging_lab_gui.html', '_blank')">
+                <h3>Medical Imaging Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('metabolomics_lab_gui.html', '_blank')">
+                <h3>Metabolomics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('meteorology_lab_gui.html', '_blank')">
+                <h3>Meteorology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('microbiology_lab_gui.html', '_blank')">
+                <h3>Microbiology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('molecular_biology_lab_gui.html', '_blank')">
+                <h3>Molecular Biology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('nanotechnology_lab_gui.html', '_blank')">
+                <h3>Nanotechnology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('natural_language_processing_lab_gui.html', '_blank')">
+                <h3>Natural Language Processing Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('neural_networks_lab_gui.html', '_blank')">
+                <h3>Neural Networks Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('neurology_lab_gui.html', '_blank')">
+                <h3>Neurology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('neuroscience_lab_gui.html', '_blank')">
+                <h3>Neuroscience Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('nuclear_physics_lab_gui.html', '_blank')">
+                <h3>Nuclear Physics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('oceanography_lab_gui.html', '_blank')">
+                <h3>Oceanography Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('oncology_lab_gui.html', '_blank')">
+                <h3>Oncology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('optics_and_photonics_lab_gui.html', '_blank')">
+                <h3>Optics And Photonics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('optimization_theory_lab_gui.html', '_blank')">
+                <h3>Optimization Theory Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('organic_chemistry_lab_gui.html', '_blank')">
+                <h3>Organic Chemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('parkinsons_progression_predictor_gui.html', '_blank')">
+                <h3>Parkinsons Progression Predictor</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('particle_physics_lab_gui.html', '_blank')">
+                <h3>Particle Physics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('pharmacology_lab_gui.html', '_blank')">
+                <h3>Pharmacology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('physical_chemistry_lab_gui.html', '_blank')">
+                <h3>Physical Chemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('plasma_physics_lab_gui.html', '_blank')">
+                <h3>Plasma Physics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('polymer_chemistry_lab_gui.html', '_blank')">
+                <h3>Polymer Chemistry Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('protein_folding_lab_lab_gui.html', '_blank')">
+                <h3>Protein Folding Lab Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('proteomics_lab_gui.html', '_blank')">
+                <h3>Proteomics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('quantum_computing_lab_gui.html', '_blank')">
+                <h3>Quantum Computing Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('quantum_mechanics_lab_gui.html', '_blank')">
+                <h3>Quantum Mechanics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('realistic_tumor_lab_gui.html', '_blank')">
+                <h3>Realistic Tumor Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('regenerative_medicine_lab_gui.html', '_blank')">
+                <h3>Regenerative Medicine Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('renewable_energy_lab_gui.html', '_blank')">
+                <h3>Renewable Energy Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('robotics_lab_gui.html', '_blank')">
+                <h3>Robotics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('seismology_lab_gui.html', '_blank')">
+                <h3>Seismology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('signal_processing_lab_gui.html', '_blank')">
+                <h3>Signal Processing Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('structural_engineering_lab_gui.html', '_blank')">
+                <h3>Structural Engineering Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('synthetic_biology_lab_gui.html', '_blank')">
+                <h3>Synthetic Biology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('systems_biology_lab_gui.html', '_blank')">
+                <h3>Systems Biology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('test_complete_lab_gui.html', '_blank')">
+                <h3>Test Complete Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('test_oncology_lab_gui.html', '_blank')">
+                <h3>Test Oncology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('thermodynamics_lab_gui.html', '_blank')">
+                <h3>Thermodynamics Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('toxicology_lab_gui.html', '_blank')">
+                <h3>Toxicology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+            <div class="lab-card" onclick="window.open('virology_lab_gui.html', '_blank')">
+                <h3>Virology Lab</h3>
+                <div class="lab-status">● ONLINE</div>
+            </div>
+        
+    </div>
+
+    <div class="footer">
+        <p>Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.</p>
+        <p>https://aios.is | https://thegavl.com | https://red-team-tools.aios.is</p>
+    </div>
+</body>
+</html>

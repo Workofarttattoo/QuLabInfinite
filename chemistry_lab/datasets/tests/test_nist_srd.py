@@ -1,3 +1,9 @@
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+test_nist_srd - Part of Chemistry Lab
+"""
+
 """Tests for the NIST SRD 101 dataset loader."""
 
 import unittest

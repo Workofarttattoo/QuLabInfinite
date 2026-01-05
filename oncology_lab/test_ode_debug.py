@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+test_ode_debug - Part of Oncology Lab
+"""
+
 """Debug ODE model to see what's happening"""
 
 from oncology_lab.fast_ode_validator import TumorODEModel

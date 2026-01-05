@@ -1,3 +1,9 @@
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+signal_generator - Part of Frequency Lab
+"""
+
 
 import numpy as np
 

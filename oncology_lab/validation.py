@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+validation - Part of Oncology Lab
+"""
+
+"""
 Lightweight validation helpers for the oncology sandbox.
 
 These utilities keep a small catalogue of published trial benchmarks so that

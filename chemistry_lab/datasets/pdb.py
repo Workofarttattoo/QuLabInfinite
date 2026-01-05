@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+pdb - Part of Chemistry Lab
+"""
+
+"""
 Specialized loader for fetching data from the Protein Data Bank (PDB).
 """
 
