@@ -5,3 +5,37 @@ data/materials_db_expanded.json
 downloads/
 .tmp.driveupload/
 materials_lab/data/materials_project_all.jsonl
+
+# --- local / generated ---
+.DS_Store
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.ech0_env
+.env
+.env.*
+*.log
+*.pid
+*.out
+*.err
+.pytest_cache/
+.matplotlib_cache/
+.snapshots/
+.tmp*/
+server_log.txt
+
+# --- frontend ---
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.vite/
+**/.vite/
+
+# --- large local artifacts / runs ---
+logs/
+**/logs/
+results/
+**/results/
