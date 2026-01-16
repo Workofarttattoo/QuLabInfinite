@@ -19,6 +19,8 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, Field
 import uvicorn
 
+from core.security import load_api_keys_from_env
+
 # Provide safe defaults before attempting heavy imports
 genetic_api = cancer_metabolic_api = drug_interaction_api = None
 immune_api = neurotransmitter_api = microbiome_api = None
@@ -57,17 +59,31 @@ except ImportError as e:
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Simple in-memory auth tokens (production should use database)
+
+def _load_master_rate_limit() -> int:
+    """Load and validate the configured master API rate limit."""
+    raw_limit = os.getenv("QU_LAB_MASTER_RATE_LIMIT", "1000")
+    try:
+        limit = int(raw_limit)
+    except ValueError:
+        raise RuntimeError("QU_LAB_MASTER_RATE_LIMIT must be a valid integer.")
+
+    if limit <= 0:
+        raise RuntimeError("QU_LAB_MASTER_RATE_LIMIT must be greater than zero.")
+    return limit
+
+
+DEFAULT_TIER = os.getenv("QU_LAB_MASTER_TIER", "enterprise")
+_configured_master_keys = load_api_keys_from_env()
 VALID_API_KEYS = {
-    "qulab_master_key_2025": {"name": "Master Admin", "tier": "enterprise"},
-    "qulab_demo_key": {"name": "Demo User", "tier": "demo"},
+    key: {"name": f"Configured Key {index + 1}", "tier": DEFAULT_TIER}
+    for index, key in enumerate(_configured_master_keys)
 }
 
 # Rate limiting storage
 rate_limit_storage = defaultdict(list)
 RATE_LIMITS = {
-    "enterprise": 1000,  # requests per minute
-    "demo": 60,
+    DEFAULT_TIER: _load_master_rate_limit(),  # requests per minute
 }
 
 # Initialize FastAPI

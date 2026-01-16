@@ -6,8 +6,9 @@
 10 production-grade medical diagnostic labs with 100% clinical accuracy, validated algorithms, and real-world clinical constants. Zero fake data, zero flaws.
 
 ### API Authentication
-- All endpoints—including `/health`—now require a bearer token in the `Authorization` header (`Authorization: Bearer <api-key>`). Use one of the keys defined in `master_qulab_api.py` or set your own before deploying.
-- The streaming dashboard (`repos/aios-shell-prototype/web/aios/web/streaming_server.py`) reads `STREAMING_SERVER_API_KEY` from `.env`; set it before launching and pass the same token via `X-API-Key` (HTTP) or `?token=` (WebSocket).
+- Set `QU_LAB_MASTER_KEYS` to a comma-separated list of strong secrets before starting any service. The APIs refuse to boot if this variable is missing or contains the legacy demo keys/placeholders.
+- `master_qulab_api.py` authenticates requests with a bearer token (`Authorization: Bearer <api-key>`). The core API routers (e.g., `api/main.py`, `api/unified_api.py`) expect the same keys in the `X-API-KEY` header.
+- For local development, copy `.env.example` to `.env`, replace the sample keys with your own, and export them before launching servers. The streaming dashboard (`repos/aios-shell-prototype/web/aios/web/streaming_server.py`) still reads `STREAMING_SERVER_API_KEY` from `.env`; set it before launching and pass the same token via `X-API-Key` (HTTP) or `?token=` (WebSocket).
 
 ## Labs Summary
 
