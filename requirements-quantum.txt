@@ -1,0 +1,3 @@
+# Optional quantum computing stack
+qiskit
+qiskit-aer

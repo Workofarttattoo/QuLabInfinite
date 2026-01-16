@@ -5,12 +5,22 @@ astroquery
 pymatgen
 psycopg2-binary
 
+pandas
 numpy
 scipy
 matplotlib
+networkx
+scikit-learn
 mendeleev
+pint
+psutil
+plotly
 PySide6
 pyvista
+pydantic
+python-multipart
+PyYAML
+sqlalchemy
 
 # API Framework
 fastapi
