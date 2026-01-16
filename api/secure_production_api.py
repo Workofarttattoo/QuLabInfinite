@@ -4,14 +4,17 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 Secure Production API with Authentication
 Enhanced version with OAuth2/JWT and API key support
 """
-from fastapi import FastAPI, HTTPException, Request, Security, Depends, status
-from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from pydantic import BaseModel, Field, EmailStr
-from typing import Optional, List, Dict, Any
-from datetime import datetime, timedelta
+import os
 import time
+import uuid
+from datetime import datetime, timedelta
+from typing import Dict, Any, List, Optional, Tuple
+
+from fastapi import Depends, FastAPI, HTTPException, Request, Security, status
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from pydantic import BaseModel, EmailStr, Field
 
 # Import QuLab AI components
 from chemistry_lab.qulab_ai_integration import analyze_molecule_with_provenance
@@ -32,6 +35,23 @@ from qulab_ai.production.security import (
 # Initialize logger
 logger = get_logger("secure_api")
 
+
+def get_allowed_origins() -> List[str]:
+    """Load allowed origins from environment with sane defaults."""
+    raw_origins = os.environ.get(
+        "QULAB_ALLOWED_ORIGINS",
+        "https://qulab.ai,https://api.qulab.ai"
+    )
+    origins = [
+        origin.strip()
+        for origin in raw_origins.split(",")
+        if origin.strip() and origin.strip() != "*"
+    ]
+    return origins or ["https://qulab.ai"]
+
+
+ALLOWED_ORIGINS = get_allowed_origins()
+
 # Initialize FastAPI app
 app = FastAPI(
     title="QuLab AI Secure Production API",
@@ -44,14 +64,14 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://qulab.ai", "https://api.qulab.ai"],  # Configure for production
+    allow_origins=ALLOWED_ORIGINS,  # Configure for production
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
 
 # Rate limiter
-rate_limiter = RateLimiter(requests_per_minute=100)
+rate_limiter = RateLimiter(requests_per_minute=100, default_tier="standard")
 
 # OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
@@ -76,55 +96,123 @@ class TokenResponse(BaseModel):
 class APIKeyCreate(BaseModel):
     name: str = Field(..., min_length=3)
     permissions: List[str] = ["read"]
+    tier: Optional[str] = Field("standard", description="Rate limit tier for the API key")
 
 class APIKeyResponse(BaseModel):
     key: str
     name: str
     permissions: List[str]
     created_at: datetime
+    tier: str
 
 class MoleculeRequest(BaseModel):
     smiles: str = Field(..., description="SMILES notation", example="CCO")
     citations: Optional[List[Dict[str, str]]] = None
 
+
+def resolve_rate_limit_subject(request: Request) -> Tuple[str, str]:
+    """Resolve rate limit identifier and tier based on request context."""
+    api_key = request.headers.get("X-API-Key")
+    if api_key:
+        key_data = SecurityManager.get_api_key(api_key)
+        if key_data:
+            return f"api_key:{api_key}", SecurityManager.get_api_key_rate_limit_tier(api_key)
+
+    auth_header = request.headers.get("Authorization")
+    if auth_header and auth_header.lower().startswith("bearer "):
+        token = auth_header.split(" ", 1)[1]
+        try:
+            payload = SecurityManager.decode_token(token)
+            username = payload.get("sub")
+            return f"user:{username}", SecurityManager.get_user_rate_limit_tier(username)
+        except HTTPException:
+            pass
+        except Exception as exc:  # pragma: no cover - defensive logging
+            logger.warning(
+                "Failed to decode token for rate limit tier resolution",
+                error=str(exc)
+            )
+
+    client_host = request.client.host if request.client else "unknown"
+    return f"ip:{client_host}", "public"
+
+
+@app.middleware("http")
+async def request_context_middleware(request: Request, call_next):
+    """Attach request IDs and emit structured request logs."""
+    request_id = request.headers.get("X-Request-ID") or str(uuid.uuid4())
+    request.state.request_id = request_id
+    start_time = time.time()
+
+    try:
+        response = await call_next(request)
+    except Exception as exc:
+        logger.error(
+            "Request processing failed",
+            request_id=request_id,
+            path=request.url.path,
+            method=request.method,
+            error=str(exc)
+        )
+        raise
+
+    duration_ms = (time.time() - start_time) * 1000
+    response.headers["X-Request-ID"] = request_id
+    logger.info(
+        "Request completed",
+        request_id=request_id,
+        path=request.url.path,
+        method=request.method,
+        status=response.status_code,
+        duration_ms=duration_ms
+    )
+    return response
+
+
 # Middleware for rate limiting
 @app.middleware("http")
 async def rate_limit_middleware(request: Request, call_next):
     """Rate limiting middleware"""
-    # Extract identifier (API key, user, or IP)
-    identifier = request.headers.get("X-API-Key") or \
-                request.headers.get("Authorization") or \
-                request.client.host
+    request_id = getattr(request.state, "request_id", str(uuid.uuid4()))
+    identifier, tier = resolve_rate_limit_subject(request)
 
     # Check rate limit
-    if not rate_limiter.check_rate_limit(identifier):
-        rate_info = rate_limiter.get_rate_limit_info(identifier)
+    allowed = rate_limiter.check_rate_limit(identifier, tier=tier)
+    rate_info = rate_limiter.get_rate_limit_info(identifier, tier=tier)
+
+    if not allowed:
         logger.warning(
             "Rate limit exceeded",
-            identifier=identifier[:20],
+            request_id=request_id,
+            identifier=identifier[:64],
             limit=rate_info["limit"],
-            reset=rate_info["reset"]
+            reset=rate_info["reset"],
+            tier=tier
         )
         return JSONResponse(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
             content={
                 "error": "rate_limit_exceeded",
                 "message": "Too many requests",
-                "rate_limit": rate_info
+                "rate_limit": rate_info,
+                "request_id": request_id
             },
             headers={
                 "X-RateLimit-Limit": str(rate_info["limit"]),
                 "X-RateLimit-Remaining": str(rate_info["remaining"]),
-                "X-RateLimit-Reset": rate_info["reset"]
+                "X-RateLimit-Reset": rate_info["reset"],
+                "X-RateLimit-Tier": tier,
+                "X-Request-ID": request_id,
             }
         )
 
     # Add rate limit headers to response
     response = await call_next(request)
-    rate_info = rate_limiter.get_rate_limit_info(identifier)
+    rate_info = rate_limiter.get_rate_limit_info(identifier, tier=tier)
     response.headers["X-RateLimit-Limit"] = str(rate_info["limit"])
     response.headers["X-RateLimit-Remaining"] = str(rate_info["remaining"])
     response.headers["X-RateLimit-Reset"] = rate_info["reset"]
+    response.headers["X-RateLimit-Tier"] = tier
 
     return response
 
@@ -240,20 +328,23 @@ async def create_api_key(
     """
     key_data = SecurityManager.create_api_key(
         name=key_request.name,
-        permissions=key_request.permissions
+        permissions=key_request.permissions,
+        tier=key_request.tier
     )
 
     logger.info(
         "API key created",
         user=current_user.get("sub"),
-        key_name=key_request.name
+        key_name=key_request.name,
+        tier=key_request.tier
     )
 
     return {
         "key": key_data["key"],
         "name": key_data["name"],
         "permissions": key_data["permissions"],
-        "created_at": key_data["created_at"]
+        "created_at": key_data["created_at"],
+        "tier": key_data["tier"],
     }
 
 # Protected endpoints - JWT Authentication
