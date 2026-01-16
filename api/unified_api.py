@@ -20,6 +20,8 @@ from datetime import datetime
 from collections import defaultdict
 import numpy as np
 
+from core.security import load_api_keys_from_env
+
 # Lab imports
 import sys
 sys.path.insert(0, '/Users/noone/QuLabInfinite')
@@ -52,10 +54,25 @@ app.add_middleware(
 # Authentication & Rate Limiting
 # ============================================================================
 
+def _load_rate_limit() -> int:
+    """Load and validate the configured rate limit."""
+    raw_limit = os.getenv("QU_LAB_RATE_LIMIT", "1000")
+    try:
+        limit = int(raw_limit)
+    except ValueError:
+        raise RuntimeError("QU_LAB_RATE_LIMIT must be a valid integer.")
+
+    if limit <= 0:
+        raise RuntimeError("QU_LAB_RATE_LIMIT must be greater than zero.")
+    return limit
+
+
+DEFAULT_TIER = os.getenv("QU_LAB_KEY_TIER", "custom")
+DEFAULT_RATE_LIMIT = _load_rate_limit()
+_configured_keys = load_api_keys_from_env()
 API_KEYS = {
-    "demo_key_12345": {"tier": "free", "rate_limit": 100},
-    "pro_key_67890": {"tier": "pro", "rate_limit": 1000},
-    "enterprise_key_abcde": {"tier": "enterprise", "rate_limit": 10000}
+    key: {"tier": DEFAULT_TIER, "rate_limit": DEFAULT_RATE_LIMIT}
+    for key in _configured_keys
 }
 
 rate_limit_tracker = defaultdict(list)
