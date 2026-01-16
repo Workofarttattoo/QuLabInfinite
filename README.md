@@ -87,11 +87,13 @@ python /Users/noone/QuLabInfinite/alzheimers_early_detection.py
 
 ### Start All Labs (10 concurrent servers)
 ```bash
-for port in {8001..8010}; do
-  lab=$(ls /Users/noone/QuLabInfinite/*.py | sed -n "$((port-8000))p")
-  python "$lab" &
-done
-# Labs available on ports 8001-8010
+LAB_HOST=0.0.0.0 LAB_PORT_PREFIX=800 bash scripts/start_medical_labs.sh
+# Ports: ${LAB_PORT_PREFIX}1-${LAB_PORT_PREFIX}10 (defaults to 8001-8010)
+```
+
+### Docker Compose (all 10 medical labs)
+```bash
+docker compose -f docker-compose.medical.yml up --build
 ```
 
 ### API Documentation
