@@ -68,6 +68,70 @@ Returns all available labs with descriptions and endpoints.
 }
 ```
 
+### Validation Status
+
+```http
+GET /validation/status
+```
+
+Returns the current validation gates and coverage metadata used by the simulators.
+
+**Response:**
+```json
+{
+  "updated_at": "2025-11-19T17:00:00Z",
+  "gates": {
+    "materials": {
+      "md_error_bounds_percent": 5.0,
+      "coverage": {
+        "reference_pairs": 42,
+        "validation_focus": "NIST + Materials Project cross-checks on steel, aluminum, aerogel, and carbon composites."
+      },
+      "ranges": [
+        {
+          "name": "temperature",
+          "keys": ["temperature", "temperature_c"],
+          "minimum": -50.0,
+          "maximum": 1200.0,
+          "units": "°C",
+          "note": "MD furnace calibration"
+        },
+        {
+          "name": "strain",
+          "keys": ["strain", "max_strain", "engineering_strain"],
+          "minimum": 0.0,
+          "maximum": 0.2,
+          "units": "ΔL/L",
+          "note": "Validated tensile strain coverage"
+        }
+      ]
+    },
+    "quantum": {
+      "coverage": {
+        "statevector_qubits": {"max": 30, "fidelity_floor": 0.99},
+        "tensor_network_qubits": {"max": 50, "fidelity_floor": 0.97},
+        "validated_gate_set": ["h", "x", "rx", "ry", "rz", "cnot", "cz"]
+      },
+      "ranges": [
+        {
+          "name": "num_qubits",
+          "keys": ["num_qubits"],
+          "minimum": 1,
+          "maximum": 50,
+          "units": "qubits",
+          "note": "Statevector exact ≤30; tensor network approximation ≤50"
+        }
+      ]
+    }
+  }
+}
+```
+
+**Outside-range warnings**
+
+- `/simulate` responses include a `warnings` array when inputs exceed validated limits (e.g., `num_qubits > 30` triggers a tensor-network warning; `temperature > 1200°C` flags MD calibration drift).
+- Production endpoints (e.g., spectroscopy encoding) surface the same `warnings` field when data points fall outside the validated 64–8192 sample window.
+
 ## Lab Endpoints
 
 ### 1. Materials Science Lab

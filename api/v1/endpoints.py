@@ -25,12 +25,19 @@ def list_labs():
     """List all available simulation labs and their capabilities."""
     return simulator.list_labs()
 
+@api_router.get("/validation/status", dependencies=[Depends(get_api_key)])
+def validation_status():
+    """Return current validation gates and coverage for all labs."""
+    return simulator.get_validation_status()
+
 @api_router.post("/simulate", dependencies=[Depends(get_api_key)])
 def run_simulation(request: SimulationRequest):
     """Run a simulation in a specified lab."""
     try:
         results = simulator.run_simulation(request.lab_name, request.experiment_spec)
-        return {"status": "success", "results": results}
+        response = {"status": "success", "results": results}
+        response.update(simulator.get_validation_warnings(request.lab_name, request.experiment_spec))
+        return response
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except NotImplementedError as e:
