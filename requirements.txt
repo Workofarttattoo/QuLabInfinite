@@ -11,3 +11,13 @@ matplotlib
 mendeleev
 PySide6
 pyvista
+transformers
+trl
+peft
+bitsandbytes
+datasets
+accelerate
+torch
+huggingface-hub
+google-cloud-storage
+google-cloud-aiplatform
