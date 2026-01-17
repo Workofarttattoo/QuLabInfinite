@@ -9,6 +9,7 @@ from quantum_lab.quantum_lab import QuantumLabSimulator
 from chemistry_lab.chemistry_lab import ChemistryLaboratory
 from core.base_lab import BaseLab
 from core.config import ConfigManager
+from core.validation_status import get_validation_status, get_validation_warnings
 
 class UnifiedSimulator:
     """
@@ -22,6 +23,7 @@ class UnifiedSimulator:
         """
         self.config_manager = ConfigManager(config_path)
         self.labs: Dict[str, BaseLab] = self._load_labs()
+        self.validation_status = get_validation_status()
 
     def _load_labs(self) -> Dict[str, BaseLab]:
         """
@@ -64,6 +66,13 @@ class UnifiedSimulator:
         lab = self.labs[lab_name]
         return lab.run_experiment(experiment_spec)
 
+    def get_validation_warnings(self, lab_name: str, experiment_spec: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Evaluate whether a requested simulation is outside validated ranges.
+        """
+        warnings = get_validation_warnings(lab_name, experiment_spec)
+        return {"warnings": warnings} if warnings else {}
+
     def get_lab_status(self, lab_name: str) -> Dict[str, Any]:
         """
         Get the status of a specific lab.
@@ -84,6 +93,13 @@ class UnifiedSimulator:
         List all available labs and their capabilities.
         """
         return {name: lab.get_capabilities() for name, lab in self.labs.items()}
+
+    def get_validation_status(self) -> Dict[str, Any]:
+        """
+        Return the current validation gates and coverage metadata.
+        """
+        self.validation_status = get_validation_status()
+        return self.validation_status
 
 if __name__ == '__main__':
     simulator = UnifiedSimulator()

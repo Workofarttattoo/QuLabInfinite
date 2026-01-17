@@ -102,6 +102,10 @@ Each lab exposes:
 - `GET /thresholds` (or similar) - Clinical constants reference
 - Interactive docs at `http://localhost:<port>/docs`
 
+### Validation Gates & Warnings
+- `GET /validation/status` surfaces the current calibration envelope, including MD error bounds (≤5% on benchmarked materials), validated strain window (0–0.2 ΔL/L), chemistry temperature/pressure gates (250–1200 K, 0.1–50 bar), and quantum coverage (statevector fidelity ≥0.99 up to 30 qubits; tensor network up to 50 qubits).
+- Simulation and production responses now add a `warnings` array when requests exceed these validated ranges (e.g., qubit counts above 30, tensile strain over 0.2, spectroscopy inputs outside 64–8192 samples), so clients can downgrade trust or re-parameterize automatically.
+
 ## Clinical Validation Status
 
 | Lab | Lines | Clinical Constants | Validated Equations | Production Ready |

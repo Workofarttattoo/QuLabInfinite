@@ -15,6 +15,7 @@ from datetime import datetime
 
 # Import QuLab AI components
 from chemistry_lab.qulab_ai_integration import analyze_molecule_with_provenance
+from core.validation_status import get_validation_status, get_validation_warnings
 from frequency_lab.qulab_ai_integration import encode_spectrum_array
 from qulab_ai.production import (
     get_logger,
@@ -58,6 +59,7 @@ class MoleculeResponse(BaseModel):
     citations: List[Dict[str, Any]]
     units_checked: bool
     units_backend: str
+    warnings: Optional[List[str]] = None
 
 class SpectrumRequest(BaseModel):
     x: List[float] = Field(..., description="X-axis values")
@@ -68,6 +70,7 @@ class SpectrumResponse(BaseModel):
     ml_encoding: Dict[str, float]
     alignment: Optional[Dict[str, Any]] = None
     data_points: int
+    warnings: Optional[List[str]] = None
 
 class HealthResponse(BaseModel):
     status: str
@@ -242,6 +245,14 @@ async def get_metrics():
         "system_metrics": system_metrics
     }
 
+# Validation status endpoint
+@app.get("/validation/status", tags=["Validation"])
+async def validation_status():
+    """
+    Report current validation gates and coverage metadata.
+    """
+    return get_validation_status()
+
 # Molecule parsing endpoint
 @app.post("/api/v1/parse/molecule", response_model=MoleculeResponse, tags=["Chemistry"])
 @timed_execution(log_threshold_ms=100.0)
@@ -261,6 +272,7 @@ async def parse_molecule(request: MoleculeRequest):
             request.smiles,
             citations=request.citations
         )
+        warnings = get_validation_warnings("chemistry", request.dict())
 
         logger.log_operation(
             operation="parse_molecule",
@@ -269,7 +281,7 @@ async def parse_molecule(request: MoleculeRequest):
             n_atoms=result["result"].get("n_atoms", 0)
         )
 
-        return result
+        return {**result, "warnings": warnings or None}
 
     except Exception as e:
         logger.log_operation(
@@ -319,6 +331,10 @@ async def encode_spectrum(request: SpectrumRequest):
             request.y,
             request.caption
         )
+        warnings = get_validation_warnings(
+            "spectroscopy",
+            {"data_points": len(request.x)}
+        )
 
         logger.log_operation(
             operation="encode_spectrum",
@@ -327,7 +343,7 @@ async def encode_spectrum(request: SpectrumRequest):
             peaks=result["ml_encoding"]["peaks"]
         )
 
-        return result
+        return {**result, "warnings": warnings or None}
 
     except Exception as e:
         logger.log_operation(
