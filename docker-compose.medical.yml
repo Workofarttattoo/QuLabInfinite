@@ -1,0 +1,76 @@
+version: "3.8"
+
+x-medical-service: &medical-service
+  build:
+    context: .
+    dockerfile: Dockerfile
+  environment:
+    - PYTHONUNBUFFERED=1
+  restart: unless-stopped
+  networks:
+    - medical-labs
+
+services:
+  medical-alzheimers:
+    <<: *medical-service
+    command: ["uvicorn", "alzheimers_early_detection:app", "--host", "0.0.0.0", "--port", "8001", "--app-dir", "/app"]
+    ports:
+      - "8001:8001"
+
+  medical-parkinsons:
+    <<: *medical-service
+    command: ["uvicorn", "parkinsons_progression_predictor:app", "--host", "0.0.0.0", "--port", "8002", "--app-dir", "/app"]
+    ports:
+      - "8002:8002"
+
+  medical-autoimmune:
+    <<: *medical-service
+    command: ["uvicorn", "autoimmune_disease_classifier:app", "--host", "0.0.0.0", "--port", "8003", "--app-dir", "/app"]
+    ports:
+      - "8003:8003"
+
+  medical-sepsis:
+    <<: *medical-service
+    command: ["uvicorn", "sepsis_early_warning:app", "--host", "0.0.0.0", "--port", "8004", "--app-dir", "/app"]
+    ports:
+      - "8004:8004"
+
+  medical-wound:
+    <<: *medical-service
+    command: ["uvicorn", "wound_healing_optimizer:app", "--host", "0.0.0.0", "--port", "8005", "--app-dir", "/app"]
+    ports:
+      - "8005:8005"
+
+  medical-bone-density:
+    <<: *medical-service
+    command: ["uvicorn", "bone_density_predictor:app", "--host", "0.0.0.0", "--port", "8006", "--app-dir", "/app"]
+    ports:
+      - "8006:8006"
+
+  medical-kidney:
+    <<: *medical-service
+    command: ["uvicorn", "kidney_function_calculator:app", "--host", "0.0.0.0", "--port", "8007", "--app-dir", "/app"]
+    ports:
+      - "8007:8007"
+
+  medical-liver:
+    <<: *medical-service
+    command: ["uvicorn", "liver_disease_staging:app", "--host", "0.0.0.0", "--port", "8008", "--app-dir", "/app"]
+    ports:
+      - "8008:8008"
+
+  medical-lung:
+    <<: *medical-service
+    command: ["uvicorn", "lung_function_analyzer:app", "--host", "0.0.0.0", "--port", "8009", "--app-dir", "/app"]
+    ports:
+      - "8009:8009"
+
+  medical-pain:
+    <<: *medical-service
+    command: ["uvicorn", "pain_management_optimizer:app", "--host", "0.0.0.0", "--port", "8010", "--app-dir", "/app"]
+    ports:
+      - "8010:8010"
+
+networks:
+  medical-labs:
+    driver: bridge
