@@ -1,0 +1,16 @@
+{
+  "experiment": "tumor_evolution",
+  "final_size_mm": 2.48,
+  "initial_size_mm": 15,
+  "reduction_percent": 83.5,
+  "response": "Complete",
+  "time_series": [
+    15.0,
+    10.39,
+    7.19,
+    4.98,
+    3.45
+  ],
+  "treatment": "pembrolizumab",
+  "tumor_type": "NSCLC"
+}
