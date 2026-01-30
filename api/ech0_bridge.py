@@ -38,7 +38,10 @@ if str(MODULE_DIR) not in sys.path:
 
 MATERIALS_DIR = BASE_DIR / "materials_lab"
 if MATERIALS_DIR.exists() and str(MATERIALS_DIR) not in sys.path:
-    sys.path.insert(0, str(MATERIALS_DIR))
+    # Append (instead of insert) so `import materials_lab` resolves the package
+    # before the loose module path, but standalone imports like `analysis_tools`
+    # remain available for legacy code.
+    sys.path.append(str(MATERIALS_DIR))
 
 VALIDATION_DIR = BASE_DIR / "validation"
 if VALIDATION_DIR.exists() and str(VALIDATION_DIR) not in sys.path:
