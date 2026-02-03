@@ -1,17 +1,40 @@
-requests
-beautifulsoup4
-hapi
-astroquery
-pymatgen
-psycopg2-binary
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# QuLab Infinite - Production Dependencies
+# Pin all versions for reproducible builds
 
-numpy
-scipy
-matplotlib
-mendeleev
-PySide6
-pyvista
+# Web scraping and data fetching
+requests==2.31.0
+beautifulsoup4==4.12.2
+hapi==1.2.0
+astroquery==0.4.6
 
-# API Framework
-fastapi
-uvicorn
+# Materials science and database
+pymatgen==2023.10.11
+psycopg2-binary==2.9.9
+
+# Scientific computing core
+numpy==1.24.3
+scipy==1.10.1
+matplotlib==3.7.2
+h5py==3.9.0
+
+# Chemistry and visualization
+mendeleev==0.14.0
+PySide6==6.5.2
+pyvista==0.42.3
+
+# API framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0.post1
+pydantic==2.5.0
+python-multipart==0.0.6
+
+# Authentication and security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+cryptography==41.0.7
+
+# Utilities
+python-dotenv==1.0.0
+pyyaml==6.0.1

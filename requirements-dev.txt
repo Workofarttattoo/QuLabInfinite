@@ -1,0 +1,41 @@
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# QuLab Infinite - Development Dependencies
+
+# Include production dependencies
+-r requirements.txt
+
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-asyncio==0.21.1
+pytest-mock==3.12.0
+pytest-xdist==3.5.0
+httpx==0.25.1  # For FastAPI testing
+
+# Code quality
+black==23.11.0
+flake8==6.1.0
+flake8-docstrings==1.7.0
+flake8-bugbear==23.11.28
+mypy==1.7.1
+pylint==3.0.3
+isort==5.12.0
+
+# Security scanning
+bandit==1.7.5
+safety==2.3.5
+
+# Documentation
+sphinx==7.2.6
+sphinx-rtd-theme==2.0.0
+sphinx-autodoc-typehints==1.25.2
+
+# Development tools
+pre-commit==3.5.0
+ipython==8.18.1
+jupyter==1.0.0
+
+# Type stubs
+types-requests==2.31.0.10
+types-pyyaml==6.0.12.12

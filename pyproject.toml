@@ -1,0 +1,283 @@
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qulab-infinite"
+version = "0.1.0"
+description = "Universal Materials Science & Quantum Simulation Laboratory"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "Proprietary - All Rights Reserved"}
+authors = [
+    {name = "Joshua Hendricks Cole", email = "noreply@corporationoflight.com"}
+]
+keywords = [
+    "quantum-computing",
+    "materials-science",
+    "chemistry",
+    "physics",
+    "medical-diagnostics",
+    "scientific-simulation",
+    "molecular-dynamics",
+    "quantum-chemistry"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+
+dependencies = [
+    # Web scraping and data fetching
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "hapi>=1.2.0",
+    "astroquery>=0.4.6",
+
+    # Materials science and database
+    "pymatgen>=2023.10.0",
+    "psycopg2-binary>=2.9.9",
+
+    # Scientific computing core
+    "numpy>=1.24.0,<2.0.0",
+    "scipy>=1.10.0",
+    "matplotlib>=3.7.0",
+    "h5py>=3.9.0",
+
+    # Chemistry and visualization
+    "mendeleev>=0.14.0",
+    "PySide6>=6.5.0",
+    "pyvista>=0.42.0",
+
+    # API framework
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.4.0",
+    "python-multipart>=0.0.6",
+
+    # Authentication and security
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "cryptography>=41.0.0",
+
+    # Additional utilities
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-mock>=3.12.0",
+    "pytest-xdist>=3.5.0",
+    "httpx>=0.25.0",  # For FastAPI testing
+
+    # Code quality
+    "black>=23.11.0",
+    "flake8>=6.1.0",
+    "flake8-docstrings>=1.7.0",
+    "flake8-bugbear>=23.11.0",
+    "mypy>=1.7.0",
+    "pylint>=3.0.0",
+    "isort>=5.12.0",
+
+    # Security scanning
+    "bandit>=1.7.5",
+    "safety>=2.3.0",
+
+    # Documentation
+    "sphinx>=7.2.0",
+    "sphinx-rtd-theme>=2.0.0",
+    "sphinx-autodoc-typehints>=1.25.0",
+
+    # Development tools
+    "pre-commit>=3.5.0",
+    "ipython>=8.18.0",
+    "jupyter>=1.0.0",
+]
+
+quantum = [
+    "qiskit>=0.45.0",
+    "cirq>=1.3.0",
+    "pennylane>=0.33.0",
+]
+
+ml = [
+    "scikit-learn>=1.3.0",
+    "torch>=2.1.0",
+    "tensorflow>=2.14.0",
+]
+
+monitoring = [
+    "prometheus-client>=0.19.0",
+    "sentry-sdk[fastapi]>=1.38.0",
+]
+
+all = [
+    "qulab-infinite[dev,quantum,ml,monitoring]",
+]
+
+[project.scripts]
+qulab = "qulab_cli:main"
+qulab-api = "api.unified_api:main"
+qulab-launcher = "qulab_launcher:main"
+
+[project.urls]
+Homepage = "https://github.com/QuLabInfinite/qulab-infinite"
+Documentation = "https://qulab-infinite.readthedocs.io"
+Repository = "https://github.com/QuLabInfinite/qulab-infinite"
+Issues = "https://github.com/QuLabInfinite/qulab-infinite/issues"
+
+[tool.setuptools]
+packages = {find = {}}
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml", "*.json", "*.csv", "*.dat"]
+
+# Black configuration
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | agent_lab/frontend/node_modules
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+skip_glob = ["*/node_modules/*", "*/venv/*", "*/.venv/*"]
+
+# pytest configuration
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "-ra",
+    "-q",
+    "--strict-markers",
+    "--cov=.",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "heavy: marks tests that require QULAB_RUN_HEAVY_TESTS=1",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*_test.py",
+    "*/node_modules/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/migrations/*",
+    "conftest.py",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+
+# mypy configuration
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+follow_imports = "normal"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pymatgen.*",
+    "mendeleev.*",
+    "pyvista.*",
+    "hapi.*",
+    "astroquery.*",
+]
+ignore_missing_imports = true
+
+# pylint configuration
+[tool.pylint.master]
+ignore = ["tests", "node_modules", "venv", ".venv", "migrations"]
+jobs = 0
+persistent = true
+
+[tool.pylint.messages_control]
+disable = [
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+    "R0903",  # too-few-public-methods
+    "R0913",  # too-many-arguments
+    "W0212",  # protected-access
+]
+
+[tool.pylint.format]
+max-line-length = 100
+
+# bandit security configuration
+[tool.bandit]
+exclude_dirs = ["tests", "node_modules", "venv", ".venv"]
+skips = ["B101", "B601"]
