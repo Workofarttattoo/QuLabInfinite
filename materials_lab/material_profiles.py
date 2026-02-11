@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -22,7 +23,6 @@ The generator focuses on:
   * Manufacturing metadata (process hints inferred from category)
 """
 
-from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Dict, List

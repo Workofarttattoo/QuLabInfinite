@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -9,7 +10,6 @@ calibration - Part of Materials Lab
 Simple experimental calibration bookkeeping for the materials laboratory.
 """
 
-from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Dict, Tuple
