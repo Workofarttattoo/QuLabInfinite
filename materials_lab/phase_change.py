@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations
 from nist_constants import *
 
 """
@@ -17,7 +18,6 @@ tests and by downstream orchestration layers when reasoning about frost
 formation on exposed materials.
 """
 
-from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Dict

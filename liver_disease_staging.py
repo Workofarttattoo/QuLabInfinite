@@ -5,6 +5,7 @@ Liver Disease Staging System
 Clinical-grade MELD, Child-Pugh, FIB-4, and APRI scoring
 """
 import numpy as np
+from typing import Optional
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from enum import Enum

@@ -5,6 +5,7 @@ Master QuLab API - Unified FastAPI Gateway
 Aggregates all 20+ quantum lab services with authentication, rate limiting, and monitoring
 """
 
+import os
 import asyncio
 import time
 from typing import Dict, List, Optional, Any
