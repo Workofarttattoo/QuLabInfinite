@@ -2,6 +2,7 @@ from __future__ import annotations
 import os
 import psycopg2
 import json
+from psycopg2.extras import execute_values
 from ingest.schemas import RecordChem, RecordMaterial, TeleportationSchema
 
 def get_db_connection():
@@ -81,17 +82,45 @@ def create_tables():
     cur.close()
     conn.close()
 
-def load_jsonl_to_db(file_path: str):
-    """Loads a .jsonl file into the appropriate database table."""
+def load_jsonl_to_db(file_path: str, batch_size: int = 100):
+    """Loads a .jsonl file into the appropriate database table using batch inserts."""
     conn = get_db_connection()
     cur = conn.cursor()
+
+    batches = {
+        "chem_records": [],
+        "material_records": [],
+        "teleportation_records": []
+    }
+
+    # Track columns for each table to ensure consistency in batch
+    table_columns = {}
+
+    conflict_columns = {
+        "chem_records": "content_hash",
+        "material_records": "content_hash",
+        "teleportation_records": "experiment_id"
+    }
+
+    def flush_batch(table_name):
+        if not batches[table_name]:
+            return
+
+        cols = table_columns[table_name]
+        conflict_col = conflict_columns.get(table_name)
+
+        col_names = ", ".join(cols)
+        # Using ON CONFLICT DO NOTHING to handle duplicates efficiently
+        sql = f"INSERT INTO {table_name} ({col_names}) VALUES %s ON CONFLICT ({conflict_col}) DO NOTHING"
+
+        execute_values(cur, sql, batches[table_name])
+        batches[table_name] = []
 
     with open(file_path, 'r') as f:
         for line in f:
             data = json.loads(line)
             
             # Determine if it's a RecordChem or RecordMaterial
-            # This is a bit brittle, relies on unique fields
             if "enthalpy_j_per_mol" in data or "entropy_j_per_mol_k" in data:
                 record = RecordChem(**data)
                 table = "chem_records"
@@ -105,33 +134,32 @@ def load_jsonl_to_db(file_path: str):
                 except Exception:
                     print(f"Skipping unknown record type: {data}")
                     continue
-            
-            # Use content_hash or experiment_id to avoid duplicates
-            if hasattr(record, 'content_hash'):
-                cur.execute(f"SELECT id FROM {table} WHERE content_hash = %s", (record.content_hash(),))
-                if cur.fetchone():
-                    continue
-            elif hasattr(record, 'experiment_id'):
-                cur.execute(f"SELECT id FROM {table} WHERE experiment_id = %s", (record.experiment_id,))
-                if cur.fetchone():
-                    continue
 
-            # Insert new record
+            # Prepare columns and values
             columns = [f for f in record.model_fields.keys() if f != 'id']
             values = [getattr(record, f) for f in columns]
             
+            if hasattr(record, 'content_hash'):
+                if 'content_hash' not in columns:
+                    columns.append('content_hash')
+                    values.append(record.content_hash())
+
+            if table not in table_columns:
+                table_columns[table] = columns
+
             # Need to handle jsonb and array fields
             for i, col in enumerate(columns):
                 if isinstance(values[i], dict) or isinstance(values[i], list) and col != 'tags':
                     values[i] = json.dumps(values[i])
 
-            insert_sql = f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join(['%s'] * len(columns))})"
+            batches[table].append(tuple(values))
             
-            if hasattr(record, 'content_hash'):
-                insert_sql = f"INSERT INTO {table} ({', '.join(columns)}, content_hash) VALUES ({', '.join(['%s'] * len(columns))}, %s)"
-                cur.execute(insert_sql, values + [record.content_hash()])
-            else:
-                cur.execute(insert_sql, values)
+            if len(batches[table]) >= batch_size:
+                flush_batch(table)
+
+    # Flush remaining records
+    for table in batches:
+        flush_batch(table)
 
     conn.commit()
     cur.close()
