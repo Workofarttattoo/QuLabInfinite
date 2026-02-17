@@ -1,6 +1,8 @@
 # Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
-from nist_constants import *
+from nist_constants import (
+    STEFAN_BOLTZMANN_CONSTANT, GAS_CONSTANT, AVOGADRO_CONSTANT, BOLTZMANN_CONSTANT
+)
 
 """
 Atmospheric Science Laboratory - Climate and Weather Modeling
@@ -18,10 +20,10 @@ class AtmosphericScienceLab:
     """Production-ready atmospheric science simulation and analysis"""
 
     # Physical constants (NIST/CODATA values)
-    STEFAN_BOLTZMANN = 5.670374419e-8  # W/(m^2·K^4)
-    GAS_CONSTANT = 8.314462618  # J/(mol·K)
-    AVOGADRO = 6.02214076e23  # 1/mol
-    BOLTZMANN = 1.380649e-23  # J/K
+    STEFAN_BOLTZMANN = STEFAN_BOLTZMANN_CONSTANT  # W/(m^2·K^4)
+    GAS_CONSTANT = GAS_CONSTANT  # J/(mol·K)
+    AVOGADRO = AVOGADRO_CONSTANT  # 1/mol
+    BOLTZMANN = BOLTZMANN_CONSTANT  # J/K
     GRAVITY = 9.80665  # m/s^2 (standard)
 
     # Atmospheric constants

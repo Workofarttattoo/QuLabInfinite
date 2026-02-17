@@ -4,10 +4,6 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 thermodynamics_grid - Part of Physics Engine
 """
 
-"""
-Grid-based Thermodynamics Engine using the Finite Difference Method.
-"""
-
 from __future__ import annotations
 
 from typing import Tuple, Optional
