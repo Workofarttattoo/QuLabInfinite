@@ -1,8 +1,11 @@
+import logging
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from typing import Dict, Any
+
+logger = logging.getLogger(__name__)
 
 from materials_lab.materials_lab import MaterialsLab
 from quantum_lab.quantum_lab import QuantumLabSimulator
@@ -27,7 +30,7 @@ class UnifiedSimulator:
         """
         Load all available laboratories.
         """
-        print("[info] Loading all available labs...")
+        logger.info("Loading all available labs...")
         
         # Get lab-specific configs
         mat_config = self.config_manager.get_lab_config("materials_lab")
@@ -44,7 +47,7 @@ class UnifiedSimulator:
             ),
             "chemistry": ChemistryLaboratory(config=chm_config),
         }
-        print("[info] All labs loaded.")
+        logger.info("All labs loaded.")
         return labs
 
     def run_simulation(self, lab_name: str, experiment_spec: Dict[str, Any]) -> Dict[str, Any]:
