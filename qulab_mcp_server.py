@@ -10,6 +10,7 @@ import os
 import sys
 import json
 import asyncio
+import time
 import importlib
 import inspect
 import traceback
@@ -238,12 +239,15 @@ class QuLabMCPServer:
                 raise AttributeError(f"Function {func_name} not found in {lab_name}")
 
             # Execute the function
+            start_time = time.perf_counter()
             if asyncio.iscoroutinefunction(func):
                 result = await func(**request.parameters)
             else:
                 # Run sync function in executor to not block
                 loop = asyncio.get_event_loop()
                 result = await loop.run_in_executor(None, func, **request.parameters)
+
+            execution_time_ms = (time.perf_counter() - start_time) * 1000
 
             # Convert numpy arrays to lists for JSON serialization
             result = self._serialize_result(result)
@@ -260,7 +264,7 @@ class QuLabMCPServer:
                     'lab': lab_name,
                     'function': func_name,
                     'is_real_algorithm': tool_def.is_real_algorithm,
-                    'execution_time_ms': 0  # TODO: measure actual time
+                    'execution_time_ms': execution_time_ms
                 }
             )
 
