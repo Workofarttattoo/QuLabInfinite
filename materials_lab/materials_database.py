@@ -156,6 +156,7 @@ class MaterialsDatabase:
             os.path.join(base_dir, "../../data", "materials_db_expanded.json"), # Check root data folder
             os.path.join(base_dir, "../../data", "comprehensive_materials.json"), # Check root data folder
             os.path.join(base_dir, "data", "materials_lab_expansion.json"),
+            os.path.join(base_dir, "data", "lab_materials_expansion.json"),
             os.path.join(base_dir, "data", "lab_materials_expansion_900.json"),
             os.path.join(base_dir, "data", "lab_materials_expansion_full.json"),
             os.path.join(base_dir, "data", "lab_materials_expansion_final.json"),
@@ -163,6 +164,7 @@ class MaterialsDatabase:
             os.path.join(base_dir, "data", "materials_expansion_supplement.json"),
             os.path.join(base_dir, "data", "comprehensive_materials.json"),
             os.path.join(base_dir, "data", "materials_project_expansion.json"),
+            os.path.join(base_dir, "data", "elements.json"),
         ]
         self.biomaterials_path = os.path.join(base_dir, "data", "biomaterials_expansion.json")
         self.magnetic_materials_path = os.path.join(base_dir, "data", "magnetic_materials_expansion.json")
