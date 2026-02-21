@@ -20,6 +20,8 @@ Biocompatibility Factors:
 5. Degradation products (if biodegradable)
 """
 
+import json
+import os
 import numpy as np
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
@@ -114,258 +116,34 @@ class FastBiocompatibilityPredictor:
         """Build database of known biomaterials with clinical data"""
 
         materials = {}
+        base_dir = os.path.dirname(__file__)
+        data_path = os.path.join(base_dir, "data", "fast_biocompatibility_data.json")
 
-        # === METALS & ALLOYS (Implants) ===
+        try:
+            with open(data_path, 'r') as f:
+                data = json.load(f)
 
-        materials["Ti-6Al-4V"] = BiomaterialProperties(
-            name="Ti-6Al-4V (Titanium alloy)",
-            polymer_type="metal",
-            degradable=False,
-            surface_energy=45.0,  # mJ/m²
-            elastic_modulus=110.0,  # GPa
-            yield_strength=880.0,  # MPa
-            cytotoxicity_score=0,  # Excellent
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=50,
-            common_applications=["orthopedic implants", "dental implants", "bone plates"]
-        )
+            for key, props in data.items():
+                materials[key] = BiomaterialProperties(**props)
 
-        materials["SS 316L"] = BiomaterialProperties(
-            name="SS 316L (Surgical stainless steel)",
-            polymer_type="metal",
-            degradable=False,
-            surface_energy=40.0,
-            elastic_modulus=193.0,
-            yield_strength=290.0,
-            cytotoxicity_score=1,  # Good
-            inflammatory_response="slight",
-            fda_approved=True,
-            years_clinical_use=70,
-            common_applications=["surgical instruments", "temporary implants", "bone screws"]
-        )
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print(f"Warning: Failed to load biomaterial database from {data_path}: {e}")
+            print("Loading minimal fallback database.")
 
-        materials["CoCrMo"] = BiomaterialProperties(
-            name="CoCrMo (Cobalt-chromium alloy)",
-            polymer_type="metal",
-            degradable=False,
-            surface_energy=42.0,
-            elastic_modulus=210.0,
-            yield_strength=450.0,
-            cytotoxicity_score=1,
-            inflammatory_response="slight",
-            fda_approved=True,
-            years_clinical_use=60,
-            common_applications=["hip replacements", "knee replacements", "dental prosthetics"]
-        )
-
-        # === POLYMERS (Medical Devices) ===
-
-        materials["PEEK"] = BiomaterialProperties(
-            name="PEEK (Polyetheretherketone)",
-            polymer_type="polyether",
-            degradable=False,
-            surface_energy=38.0,
-            contact_angle=85.0,  # degrees
-            elastic_modulus=3.6,  # Similar to bone!
-            yield_strength=90.0,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=30,
-            common_applications=["spinal implants", "cranial implants", "dental abutments"]
-        )
-
-        materials["UHMWPE"] = BiomaterialProperties(
-            name="UHMWPE (Ultra-high molecular weight polyethylene)",
-            polymer_type="polyolefin",
-            degradable=False,
-            surface_energy=33.0,
-            elastic_modulus=0.8,
-            yield_strength=21.0,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=50,
-            common_applications=["joint replacements", "acetabular cups", "tibial inserts"]
-        )
-
-        materials["PMMA_Bone_Cement"] = BiomaterialProperties(
-            name="PMMA Bone Cement",
-            polymer_type="acrylic",
-            degradable=False,
-            surface_energy=39.0,
-            elastic_modulus=2.5,
-            cytotoxicity_score=1,  # Exothermic curing
-            inflammatory_response="slight",
-            fda_approved=True,
-            years_clinical_use=60,
-            common_applications=["bone cement", "vertebroplasty", "joint fixation"]
-        )
-
-        materials["Silicone_Medical"] = BiomaterialProperties(
-            name="Medical-grade silicone",
-            polymer_type="silicone",
-            degradable=False,
-            surface_energy=21.0,  # Hydrophobic
-            contact_angle=110.0,
-            elastic_modulus=0.001,  # Very flexible
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=60,
-            common_applications=["breast implants", "catheters", "tubing", "soft tissue"]
-        )
-
-        # === CERAMICS & BIOACTIVE GLASSES ===
-
-        materials["Hydroxyapatite"] = BiomaterialProperties(
-            name="Hydroxyapatite (Ca10(PO4)6(OH)2)",
-            polymer_type="ceramic",
-            degradable=True,
-            degradation_products=["Ca2+", "PO4^3-"],  # Natural bone minerals
-            surface_energy=55.0,  # Very hydrophilic
-            elastic_modulus=80.0,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=40,
-            common_applications=["bone grafts", "coatings for implants", "dental applications"]
-        )
-
-        materials["Tricalcium_Phosphate"] = BiomaterialProperties(
-            name="β-Tricalcium Phosphate (β-TCP)",
-            polymer_type="ceramic",
-            degradable=True,
-            degradation_products=["Ca2+", "PO4^3-"],
-            surface_energy=52.0,
-            elastic_modulus=50.0,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=30,
-            common_applications=["bone void fillers", "tissue scaffolds", "dental"]
-        )
-
-        materials["Bioglass_45S5"] = BiomaterialProperties(
-            name="Bioglass 45S5",
-            polymer_type="bioactive_glass",
-            degradable=True,
-            degradation_products=["Ca2+", "PO4^3-", "Si(OH)4"],
-            surface_energy=58.0,
-            elastic_modulus=35.0,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=25,
-            common_applications=["bone regeneration", "periodontal repair", "coatings"]
-        )
-
-        # === BIODEGRADABLE POLYMERS (Drug Delivery, Temporary Scaffolds) ===
-
-        materials["PLGA_50-50"] = BiomaterialProperties(
-            name="PLGA 50:50 (Poly(lactic-co-glycolic acid))",
-            polymer_type="polyester",
-            degradable=True,
-            degradation_products=["lactic acid", "glycolic acid"],  # Natural metabolites
-            surface_energy=42.0,
-            elastic_modulus=2.0,
-            yield_strength=50.0,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=30,
-            common_applications=["drug delivery", "sutures", "tissue scaffolds"]
-        )
-
-        materials["PCL"] = BiomaterialProperties(
-            name="PCL (Polycaprolactone)",
-            polymer_type="polyester",
-            degradable=True,
-            degradation_products=["6-hydroxycaproic acid"],
-            surface_energy=35.0,
-            elastic_modulus=0.4,
-            yield_strength=16.0,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=25,
-            common_applications=["drug delivery", "tissue scaffolds", "long-term implants"]
-        )
-
-        materials["PLA"] = BiomaterialProperties(
-            name="PLA (Polylactic acid)",
-            polymer_type="polyester",
-            degradable=True,
-            degradation_products=["lactic acid"],  # Natural metabolite
-            surface_energy=43.0,
-            elastic_modulus=3.5,
-            yield_strength=60.0,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=30,
-            common_applications=["sutures", "bone screws", "drug delivery"]
-        )
-
-        # === HYDROGELS (Soft Tissue, Drug Delivery) ===
-
-        materials["PEG_Hydrogel"] = BiomaterialProperties(
-            name="PEG Hydrogel (Polyethylene glycol)",
-            polymer_type="polyether_hydrogel",
-            degradable=False,
-            surface_energy=61.0,  # Very hydrophilic
-            elastic_modulus=0.001,  # Very soft
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=20,
-            common_applications=["drug delivery", "wound dressings", "cell encapsulation"]
-        )
-
-        materials["Alginate_Sodium"] = BiomaterialProperties(
-            name="Sodium Alginate",
-            polymer_type="polysaccharide",
-            degradable=True,
-            degradation_products=["glucuronic acid", "mannuronic acid"],
-            surface_energy=60.0,
-            elastic_modulus=0.01,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=30,
-            common_applications=["wound dressings", "cell encapsulation", "tissue engineering"]
-        )
-
-        materials["Chitosan"] = BiomaterialProperties(
-            name="Chitosan",
-            polymer_type="polysaccharide",
-            degradable=True,
-            degradation_products=["glucosamine"],
-            surface_energy=55.0,
-            elastic_modulus=0.5,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=20,
-            common_applications=["wound healing", "drug delivery", "antibacterial coatings"]
-        )
-
-        # === NATURAL BIOMATERIALS ===
-
-        materials["Collagen_Type_I"] = BiomaterialProperties(
-            name="Collagen Type I",
-            polymer_type="protein",
-            degradable=True,
-            degradation_products=["amino acids"],  # Natural
-            surface_energy=58.0,
-            elastic_modulus=0.002,
-            cytotoxicity_score=0,
-            inflammatory_response="minimal",
-            fda_approved=True,
-            years_clinical_use=40,
-            common_applications=["tissue scaffolds", "wound dressings", "sutures"]
-        )
+            # minimal fallback
+            materials["Ti-6Al-4V"] = BiomaterialProperties(
+                name="Ti-6Al-4V (Titanium alloy)",
+                polymer_type="metal",
+                degradable=False,
+                surface_energy=45.0,
+                elastic_modulus=110.0,
+                yield_strength=880.0,
+                cytotoxicity_score=0,
+                inflammatory_response="minimal",
+                fda_approved=True,
+                years_clinical_use=50,
+                common_applications=["orthopedic implants", "dental implants", "bone plates"]
+            )
 
         return materials
 
