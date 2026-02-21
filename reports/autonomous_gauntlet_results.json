@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-21T05:04:17.463002+00:00",
+    "snr_definition": "peak_amplitude / (2 * noise_RMS)",
+    "status_taxonomy": {
+      "INSUFFICIENT_SNR": "SNR < 5",
+      "HIGH_UNCERTAINTY": "5 <= SNR < 15",
+      "RELIABLE": "SNR >= 15"
+    },
+    "average_snr_gain_runs_1_to_3": 9.74
+  },
+  "runs": [
+    {
+      "run_id": 1,
+      "scenario": "Electrochemical Trace-Metal Assay (Pb\u00b2\u207a in river water)",
+      "failure_mode": "Noise-dominant (RF interference + electrochemical shot noise)",
+      "trigger_metric": "SNR < 5 \u2192 INSUFFICIENT_SNR",
+      "initial_snr": 2.79,
+      "initial_status": "INSUFFICIENT_SNR",
+      "redesigns": [
+        {
+          "attempt_number": 1,
+          "description": "Oversampling N=1000 + moving-average window W=10 + Tukey outlier rejection",
+          "technique": "Temporal averaging + robust statistics",
+          "n_eff": 316.22776601683796,
+          "predicted_gain": 17.78,
+          "observed_snr": 58.9,
+          "status": "RELIABLE",
+          "succeeded": true,
+          "tradeoff_note": "Increased acquisition time \u00d7100 (~10 s \u2192 ~1000 s). Outlier rejection adds ~15 % beyond \u221aN \u2014 explained by non-Gaussian (heavy-tail) noise from RF spikes being disproportionately suppressed."
+        }
+      ],
+      "final_snr": 58.9,
+      "final_status": "RELIABLE",
+      "snr_gain": 21.11,
+      "iterations_needed": 1,
+      "notes": "SNR definition: peak_amplitude / (2 \u00d7 noise_RMS). Initial conditions: n=10 replicates, no smoothing."
+    },
+    {
+      "run_id": 2,
+      "scenario": "Fluorescent Dye Quantification (rhodamine 6G, 50 nM)",
+      "failure_mode": "Signal-limited: concentration at UV-Vis LOD \u2192 HIGH_UNCERTAINTY",
+      "trigger_metric": "SNR = 12.72 (5 \u2264 SNR < 15) \u2192 HIGH_UNCERTAINTY (LOD/LOQ regime)",
+      "initial_snr": 12.72,
+      "initial_status": "HIGH_UNCERTAINTY",
+      "redesigns": [
+        {
+          "attempt_number": 1,
+          "description": "Modality switch: UV-Vis absorption \u2192 Laser-Induced Fluorescence (LIF, 532 nm excitation)",
+          "technique": "LIF with single-photon counting detector",
+          "n_eff": 9.0,
+          "predicted_gain": 3.0,
+          "observed_snr": 37.48,
+          "status": "RELIABLE",
+          "succeeded": true,
+          "tradeoff_note": "LIF: LOD ~10 pM (vs ~10 nM UV-Vis), dynamic range 10\u2074\u201310\u2076. Weakness: photobleaching risk (intense laser), quenching at >1 \u00b5M. Gain slightly below prediction (~3\u00d7) due to mild quenching at 50 nM edge."
+        }
+      ],
+      "final_snr": 37.48,
+      "final_status": "RELIABLE",
+      "snr_gain": 2.95,
+      "iterations_needed": 1,
+      "notes": "High_UNCERTAINTY \u2260 INSUFFICIENT_SNR. At 50 nM, UV-Vis \u03b5\u00d7l\u00d7c gives A \u2248 0.002 \u2014 noise-floor limited. Widened CI \u00d72 applied before modality switch decision."
+    },
+    {
+      "run_id": 3,
+      "scenario": "Atomic Absorption Spectroscopy \u2014 heavy-metal panel (temperature-sensitive hollow cathode)",
+      "failure_mode": "Drift-dominant: baseline walk 0.7\u03c3/min (thermal hollow-cathode drift)",
+      "trigger_metric": "SNR = 8.98 (HIGH_UNCERTAINTY) + drift flag > 0.5\u03c3/min",
+      "initial_snr": 8.98,
+      "initial_status": "HIGH_UNCERTAINTY",
+      "redesigns": [
+        {
+          "attempt_number": 1,
+          "description": "Reference-standard recalibration + linear drift correction (Thermo-reference channel)",
+          "technique": "Two-channel referencing with internal standard injection",
+          "n_eff": 25.4,
+          "predicted_gain": 2.53,
+          "observed_snr": 46.35,
+          "status": "RELIABLE",
+          "succeeded": true,
+          "tradeoff_note": "Deterministic drift is fully correctable by linear reference fit \u2014 achieves ~97 % removal vs the conservative 85 % assumed in prediction. Tradeoff: requires internal standard (cost, contamination risk). Gain (~8\u00d7) greatly exceeds prediction (2.5\u00d7) due to drift's deterministic nature."
+        }
+      ],
+      "final_snr": 46.35,
+      "final_status": "RELIABLE",
+      "snr_gain": 5.16,
+      "iterations_needed": 1,
+      "notes": "Drift is DETERMINISTIC (linear thermal model), not Gaussian noise. A reference-standard fit can remove nearly 100 % of it, not just 85 %. That is why observed gain >> simple prediction."
+    },
+    {
+      "run_id": 4,
+      "scenario": "Photomultiplier Tube Fluorometer (PMT overloaded + thermal baseline walk)",
+      "failure_mode": "Multi-failure: PMT detector saturation (clipped signal) + thermal drift",
+      "trigger_metric": "SNR = 3.1 (INSUFFICIENT_SNR) + drift flag + saturation flag",
+      "initial_snr": 3.1,
+      "initial_status": "INSUFFICIENT_SNR",
+      "redesigns": [
+        {
+          "attempt_number": 1,
+          "description": "Reduce PMT gain by 50 % (attenuator insert) to eliminate detector saturation",
+          "technique": "PMT gain attenuation",
+          "n_eff": 1.35,
+          "predicted_gain": 1.35,
+          "observed_snr": 3.86,
+          "status": "INSUFFICIENT_SNR",
+          "succeeded": false,
+          "tradeoff_note": "Lower gain unsaturates detector \u2192 true signal partially visible. Thermal drift (\u03c3_drift = 1.8) still dominates baseline noise. SNR = 3.86 \u2014 INSUFFICIENT_SNR. Iteration required."
+        },
+        {
+          "attempt_number": 2,
+          "description": "LIF modality switch (532 nm) + reference-standard drift correction (two-channel)",
+          "technique": "LIF + internal reference channel",
+          "n_eff": 7.0,
+          "predicted_gain": 5.43,
+          "observed_snr": 21.82,
+          "status": "RELIABLE",
+          "succeeded": true,
+          "tradeoff_note": "Combined: LIF boosts signal amplitude \u00d7\u221a7, reference channel removes ~95 % of drift. Tradeoff: higher complexity, two optical channels, internal standard cost. This is the key skeptic moment: the system needed TWO iterations."
+        }
+      ],
+      "final_snr": 21.82,
+      "final_status": "RELIABLE",
+      "snr_gain": 7.04,
+      "iterations_needed": 2,
+      "notes": "Saturation clips the signal peak \u2192 apparent signal amplitude is REDUCED. Drift adds stochastic baseline walk. First redesign addresses only saturation (gain reduction) \u2014 insufficient because drift is still uncontrolled."
+    }
+  ]
+}
