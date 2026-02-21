@@ -72,16 +72,19 @@ def main():
     # Demo 5: Mutation accumulation simulation
     print("\n5. Mutation Accumulation Over Generations")
     print("-" * 70)
-    short_seq = lab.generate_random_sequence(10000, gc_content=0.5)
-    mutations = lab.simulate_mutation_accumulation(short_seq, generations=1000)
+    short_seq = lab.generate_random_sequence(100000, gc_content=0.5)
+    mutations = lab.simulate_mutation_accumulation(short_seq, generations=5000)
 
     deleterious = [m for m in mutations if m.functional_impact == "deleterious"]
     benign = [m for m in mutations if m.functional_impact == "benign"]
 
     print(f"Total mutations: {len(mutations)}")
-    print(f"Deleterious: {len(deleterious)} ({len(deleterious)/len(mutations)*100:.1f}%)")
-    print(f"Benign: {len(benign)} ({len(benign)/len(mutations)*100:.1f}%)")
-    print(f"Average pathogenicity: {sum(m.pathogenicity_score for m in mutations)/len(mutations):.3f}")
+    if mutations:
+        print(f"Deleterious: {len(deleterious)} ({len(deleterious)/len(mutations)*100:.1f}%)")
+        print(f"Benign: {len(benign)} ({len(benign)/len(mutations)*100:.1f}%)")
+        print(f"Average pathogenicity: {sum(m.pathogenicity_score for m in mutations)/len(mutations):.3f}")
+    else:
+        print("No mutations accumulated.")
 
     # Demo 6: RNA-Seq experiment
     print("\n6. RNA-Seq Differential Expression")

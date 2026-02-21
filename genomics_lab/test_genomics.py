@@ -7,7 +7,7 @@ Tests all major functions with known benchmarks
 
 import unittest
 import numpy as np
-from .genomics_lab import (
+from .simulation import (
     GenomicsLaboratory,
     DNASequence,
     Gene,
@@ -101,9 +101,10 @@ class TestGenomicsLaboratory(unittest.TestCase):
 
     def test_mutation_accumulation(self):
         """Test mutation accumulation over generations"""
-        test_seq = self.lab.generate_random_sequence(1000)
+        # Use longer sequence and more generations to ensure mutations occur
+        test_seq = self.lab.generate_random_sequence(100000)
 
-        mutations = self.lab.simulate_mutation_accumulation(test_seq, generations=100)
+        mutations = self.lab.simulate_mutation_accumulation(test_seq, generations=5000)
 
         # Should accumulate some mutations
         self.assertGreater(len(mutations), 0)
