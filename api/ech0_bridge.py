@@ -148,27 +148,8 @@ class ECH0Bridge:
             callback: A function to be called when a new message is received.
                       The callback will receive a dictionary with the message data.
         """
-        # We'll use the hive_mind's existing knowledge sharing system.
-        # We need a unique ID for ech0 to subscribe.
-        ech0_subscriber_id = "ech0_listener_process"
-        
-        self.hive_mind.knowledge.subscribe(ech0_subscriber_id, "hearing_channel")
-
-        # To make this work, we need to inject the callback into the agent
-        # processing logic. The simplest way is to create a pseudo-agent for ech0.
-        class ECH0ListenerAgent:
-            def process_broadcast(self, topic: str, data: Dict[str, Any]):
-                if topic == "hearing_channel":
-                    callback(data)
-
-        # We register this pseudo-agent so it can receive callbacks.
-        # This is a bit of a hack, but it cleanly integrates with the existing system.
-        if self.hive_mind.registry.get_agent_instance(ech0_subscriber_id) is None:
-            # The 'agent' part of the registration is just for the registry's data model.
-            from hive_mind.hive_mind_core import Agent, AgentType
-            pseudo_agent_data = Agent(agent_id=ech0_subscriber_id, agent_type=AgentType.ORCHESTRATION, capabilities=["listening"])
-            self.hive_mind.registry.register_agent(pseudo_agent_data, ECH0ListenerAgent())
-
+        # Cleanly subscribe using the external callback mechanism
+        self.hive_mind.knowledge.subscribe_callback("hearing_channel", callback)
         print("ECH0 is now subscribed to the hearing channel.")
 
 

@@ -450,12 +450,23 @@ class KnowledgeSharing:
         self.agent_registry = agent_registry
         self.knowledge_base: Dict[str, Any] = {}
         self.subscriptions: Dict[str, Set[str]] = defaultdict(set)  # topic -> agent_ids
+        self.external_subscribers: Dict[str, Set[Callable[[Dict[str, Any]], None]]] = defaultdict(set)
         self.broadcasts: List[Dict[str, Any]] = []
 
     def subscribe(self, agent_id: str, topic: str) -> None:
         """Subscribe agent to knowledge topic"""
         self.subscriptions[topic].add(agent_id)
         LOG.info(f"[info] Agent {agent_id} subscribed to topic '{topic}'")
+
+    def subscribe_callback(self, topic: str, callback: Callable[[Dict[str, Any]], None]) -> None:
+        """Subscribe an external callback to knowledge topic"""
+        self.external_subscribers[topic].add(callback)
+        LOG.info(f"[info] External callback subscribed to topic '{topic}'")
+
+    def unsubscribe_callback(self, topic: str, callback: Callable[[Dict[str, Any]], None]) -> None:
+        """Unsubscribe an external callback from knowledge topic"""
+        self.external_subscribers[topic].discard(callback)
+        LOG.info(f"[info] External callback unsubscribed from topic '{topic}'")
 
     def unsubscribe(self, agent_id: str, topic: str) -> None:
         """Unsubscribe agent from topic"""
@@ -476,14 +487,23 @@ class KnowledgeSharing:
             self.knowledge_base[topic] = []
         self.knowledge_base[topic].append(broadcast)
 
-        # Notify subscribers
+        # Notify agent subscribers
         subscribers = self.subscriptions.get(topic, set())
         for agent_id in subscribers:
             agent_instance = self.agent_registry.get_agent_instance(agent_id)
             if agent_instance and hasattr(agent_instance, 'process_broadcast'):
                 agent_instance.process_broadcast(topic, data)
         
-        LOG.info(f"[info] Knowledge published to topic '{topic}' by {source_agent}, {len(subscribers)} subscribers notified")
+        # Notify external subscribers
+        external_subscribers = self.external_subscribers.get(topic, set())
+        # Iterate over a copy to allow callbacks to unsubscribe safely
+        for callback in list(external_subscribers):
+            try:
+                callback(data)
+            except Exception as e:
+                LOG.error(f"[error] External callback failed for topic '{topic}': {e}")
+
+        LOG.info(f"[info] Knowledge published to topic '{topic}' by {source_agent}, {len(subscribers)} agents and {len(external_subscribers)} external callbacks notified")
 
     def query(self, topic: str, filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
         """Query knowledge base"""
