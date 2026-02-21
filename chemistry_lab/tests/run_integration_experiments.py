@@ -1,3 +1,9 @@
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+run_integration_experiments - Part of Chemistry Lab
+"""
+
 """Utility to generate integration experiment data for regression testing."""
 
 from __future__ import annotations

@@ -1,0 +1,15 @@
+{
+  "equilibrium_warming_K": 3.65,
+  "experiment": "temperature_projection",
+  "radiative_forcing_W_m2": 4.5,
+  "scenario": "RCP4.5",
+  "time_series": [
+    0.0,
+    1.8,
+    2.71,
+    3.17,
+    3.41
+  ],
+  "warming_by_2050_K": 2.98,
+  "warming_by_2100_K": 3.52
+}

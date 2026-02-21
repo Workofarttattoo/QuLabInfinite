@@ -5,9 +5,25 @@ astroquery
 pymatgen
 psycopg2-binary
 
+pandas
 numpy
 scipy
 matplotlib
+networkx
+scikit-learn
 mendeleev
+pint
+psutil
+plotly
 PySide6
 pyvista
+transformers
+trl
+peft
+bitsandbytes
+datasets
+accelerate
+torch
+huggingface-hub
+google-cloud-storage
+google-cloud-aiplatform

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Robotic Nodes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .test-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .node-preview {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            width: 300px;
+        }
+        .node-header {
+            background: #e3f2fd;
+            margin: -10px -10px 10px -10px;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1976d2;
+            font-weight: bold;
+        }
+        .position-display {
+            background: #f5f5f5;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 8px 0;
+        }
+        .parameter {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .label {
+            font-weight: bold;
+            color: #666;
+        }
+        .chip {
+            display: inline-block;
+            background: #1976d2;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Robotic Control Nodes Preview</h1>
+    <div class="test-container">
+        <div class="node-preview">
+            <div class="node-header">
+                <span>🎯</span>
+                <span>Robot Move To</span>
+            </div>
+            <p style="color: #666; font-size: 14px;">Move robotic arm to specified position and orientation</p>
+            <div class="chip">UR3e</div>
+            <div class="position-display">
+                X: 100 | Y: 200 | Z: 150
+            </div>
+            <div class="parameter">
+                <span class="label">Speed:</span> 100 mm/s
+            </div>
+            <div class="parameter">
+                <span class="label">Motion:</span> linear
+            </div>
+        </div>
+
+        <div class="node-preview">
+            <div class="node-header">
+                <span>🤏</span>
+                <span>Robot Pick</span>
+            </div>
+            <p style="color: #666; font-size: 14px;">Pick up an object at specified location</p>
+            <div class="chip">Dobot</div>
+            <div class="position-display">
+                X: 50 | Y: 100 | Z: 30
+            </div>
+            <div class="parameter">
+                <span class="label">Object:</span> vial_001
+            </div>
+            <div class="parameter">
+                <span class="label">Grip Force:</span> 60%
+            </div>
+        </div>
+
+        <div class="node-preview">
+            <div class="node-header">
+                <span>📦</span>
+                <span>Robot Place</span>
+            </div>
+            <p style="color: #666; font-size: 14px;">Place an object at specified location</p>
+            <div class="chip">Kinova</div>
+            <div class="position-display">
+                X: 300 | Y: 100 | Z: 50
+            </div>
+            <div class="parameter">
+                <span class="label">Object:</span> sample_tube
+            </div>
+            <div class="parameter">
+                <span class="label">Release Height:</span> 10mm
+            </div>
+        </div>
+
+        <div class="node-preview">
+            <div class="node-header">
+                <span>🏠</span>
+                <span>Robot Home</span>
+            </div>
+            <p style="color: #666; font-size: 14px;">Return robot to home position</p>
+            <div class="chip">Generic</div>
+            <div class="parameter">
+                <span class="label">Reason:</span> Safety position before shutdown
+            </div>
+            <div class="parameter">
+                <span class="label">Safe Mode:</span> Enabled
+            </div>
+        </div>
+
+        <div class="node-preview">
+            <div class="node-header">
+                <span>🔄</span>
+                <span>Robot Execute Sequence</span>
+            </div>
+            <p style="color: #666; font-size: 14px;">Execute a predefined motion sequence</p>
+            <div class="chip">UR3e</div>
+            <div class="parameter">
+                <span class="label">Sequence:</span> pick_and_place_routine
+            </div>
+            <div class="parameter">
+                <span class="label">Loops:</span> 3
+            </div>
+            <div class="parameter">
+                <span class="label">Timeout:</span> 300s
+            </div>
+        </div>
+
+        <div class="node-preview">
+            <div class="node-header">
+                <span>⏱️</span>
+                <span>Robot Wait</span>
+            </div>
+            <p style="color: #666; font-size: 14px;">Robot waits for specified duration</p>
+            <div class="chip">Generic</div>
+            <div class="parameter">
+                <span class="label">Duration:</span> 5 seconds
+            </div>
+            <div class="parameter">
+                <span class="label">Reason:</span> Wait for reaction to complete
+            </div>
+        </div>
+    </div>
+</body>
+</html>

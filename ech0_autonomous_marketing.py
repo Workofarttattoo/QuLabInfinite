@@ -206,7 +206,7 @@ Free gift to the scientific community from QuLabInfinite.
             ['/opt/homebrew/bin/ollama', 'run', self.ech0_model, prompt],
             capture_output=True,
             text=True,
-            timeout=300  # 5 minutes max
+            timeout=600  # 5 minutes max
         )
 
         code = result.stdout.strip()
@@ -239,7 +239,7 @@ Free gift to the scientific community from QuLabInfinite.
         try:
             # Try to run it
             result = subprocess.run(
-                ['python3', str(lab_filepath)],
+                ['/Users/noone/miniconda3/bin/python', str(lab_filepath)],
                 capture_output=True,
                 text=True,
                 timeout=120,

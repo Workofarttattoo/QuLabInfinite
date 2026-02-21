@@ -1,5 +1,7 @@
 # Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
+from nist_constants import *
+
 """
 Nuclear Physics Laboratory - Nuclear Reactions and Radiation
 Implements validated models for fusion, fission, decay, and shielding

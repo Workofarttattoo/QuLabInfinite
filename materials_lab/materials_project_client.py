@@ -225,10 +225,13 @@ class MaterialsProjectClient:
 
         self.api_key = api_key or os.environ.get("MP_API_KEY")
         if not self.api_key:
-            raise ValueError(
-                "Materials Project API key not found. "
-                "Get a free key at https://materialsproject.org/api and set MP_API_KEY environment variable."
+            print(
+                "⚠️  WARNING: Materials Project API key not found.\n"
+                "    To access 140,000+ materials, get a free key at https://materialsproject.org/api\n"
+                "    and set the MP_API_KEY environment variable.\n"
+                "    Proceeding with local database and cache only."
             )
+            # We don't raise ValueError anymore, to allow offline usage of cache/local DB
 
         self.cache_dir = Path(cache_dir or "./mp_cache")
         self.cache_dir.mkdir(exist_ok=True)
@@ -286,6 +289,10 @@ class MaterialsProjectClient:
             if cached:
                 self.logger.info(f"Loaded {mp_id} from cache")
                 return cached
+
+        if not self.api_key:
+            self.logger.warning(f"Cannot fetch {mp_id}: Missing Materials Project API key.")
+            return None
 
         # Query API
         self._rate_limit()
@@ -361,6 +368,10 @@ class MaterialsProjectClient:
         Returns:
             List of MPMaterialData objects
         """
+        if not self.api_key:
+            self.logger.warning("Search failed: Missing Materials Project API key.")
+            return []
+
         self._rate_limit()
 
         try:

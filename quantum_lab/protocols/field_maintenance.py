@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+field_maintenance - Part of Quantum Lab
+"""
+
+"""
 Quantum Field Maintenance and Noise Cancellation Integration.
 
 This module integrates noise cancellation with the teleportation protocol

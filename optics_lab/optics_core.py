@@ -1,5 +1,7 @@
 # Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
+from nist_constants import *
+
 """
 Optics Core Module
 NIST-validated constants and scientifically accurate optical simulations

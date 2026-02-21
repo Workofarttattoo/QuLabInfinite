@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+from nist_constants import *
+
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+phase_change - Part of Materials Lab
+"""
+
 """
 Ice nucleation and crystal growth approximations for QuLab Infinite.
 
@@ -9,7 +18,6 @@ tests and by downstream orchestration layers when reasoning about frost
 formation on exposed materials.
 """
 
-from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Dict

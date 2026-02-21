@@ -1,3 +1,9 @@
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+test_frequency_lab - Part of Frequency Lab
+"""
+
 
 import unittest
 import numpy as np

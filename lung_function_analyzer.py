@@ -5,6 +5,7 @@ Lung Function Analyzer
 Clinical-grade spirometry interpretation with ATS/ERS guidelines
 """
 import numpy as np
+from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from enum import Enum

@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-16T04:48:13.689954+00:00",
+    "labs": [
+      "quantum_mechanics",
+      "oncology",
+      "pharmacology",
+      "climate_modeling",
+      "machine_learning"
+    ],
+    "seed": 42
+  },
+  "proofs": [
+    {
+      "name": "quantum_mechanics_teleportation",
+      "path": "reports/golden_runs/quantum_mechanics_teleportation.json"
+    },
+    {
+      "name": "oncology_tumor_evolution",
+      "path": "reports/golden_runs/oncology_tumor_evolution.json"
+    },
+    {
+      "name": "pharmacology_pk_model",
+      "path": "reports/golden_runs/pharmacology_pk_model.json"
+    },
+    {
+      "name": "climate_temperature_projection",
+      "path": "reports/golden_runs/climate_temperature_projection.json"
+    },
+    {
+      "name": "machine_learning_model_comparison",
+      "path": "reports/golden_runs/machine_learning_model_comparison.json"
+    },
+    {
+      "name": "chemistry_reaction_kinetics",
+      "path": "reports/golden_runs/chemistry_reaction_kinetics.json"
+    }
+  ]
+}
