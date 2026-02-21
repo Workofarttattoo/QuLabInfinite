@@ -393,24 +393,40 @@ class MaterialsProjectClient:
                     criteria['is_stable'] = is_stable
 
                 # Search
-                docs = mpr.materials.summary.search(**criteria, num_chunks=1, chunk_size=limit)
+                docs = mpr.materials.summary.search(**criteria)
 
                 # Convert to MPMaterialData
                 materials = []
                 for doc in docs[:limit]:
+                    # Helper to get attribute or dict item
+                    def get_val(obj, key):
+                        return getattr(obj, key, obj.get(key) if isinstance(obj, dict) else None)
+
+                    # Extract structure - might be object or dict
+                    structure = get_val(doc, 'structure')
+                    if hasattr(structure, 'as_dict'):
+                        structure = structure.as_dict()
+                    elif not isinstance(structure, dict) and structure is not None:
+                        # Fallback if structure is not dict-like but not Pymatgen Structure (unlikely)
+                        pass
+
+                    # Extract symmetry symbol
+                    symmetry = get_val(doc, 'symmetry')
+                    space_group = getattr(symmetry, 'symbol', symmetry.get('symbol') if isinstance(symmetry, dict) else 'P1') if symmetry else 'P1'
+
                     material = MPMaterialData(
-                        mp_id=str(doc.material_id),
-                        formula=doc.formula_pretty,
-                        formation_energy_per_atom=doc.formation_energy_per_atom,
-                        band_gap=doc.band_gap,
-                        density=doc.density,
-                        volume=doc.volume,
-                        nsites=doc.nsites,
-                        structure=doc.structure.as_dict(),
-                        space_group=doc.symmetry.symbol,
-                        energy_above_hull=doc.energy_above_hull,
-                        is_stable=doc.is_stable,
-                        theoretical=doc.theoretical,
+                        mp_id=str(get_val(doc, 'material_id')),
+                        formula=get_val(doc, 'formula_pretty'),
+                        formation_energy_per_atom=get_val(doc, 'formation_energy_per_atom'),
+                        band_gap=get_val(doc, 'band_gap'),
+                        density=get_val(doc, 'density'),
+                        volume=get_val(doc, 'volume'),
+                        nsites=get_val(doc, 'nsites'),
+                        structure=structure,
+                        space_group=space_group,
+                        energy_above_hull=get_val(doc, 'energy_above_hull'),
+                        is_stable=get_val(doc, 'is_stable'),
+                        theoretical=get_val(doc, 'theoretical'),
                     )
                     materials.append(material)
                     self._save_to_cache(material)

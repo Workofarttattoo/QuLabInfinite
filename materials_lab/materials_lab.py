@@ -54,7 +54,7 @@ class MaterialsLab(BaseLab):
     Main Materials Science Laboratory API
 
     Provides unified interface for:
-    - Material database access (1000+ materials)
+    - Material database access (3400+ materials, including Materials Project data)
     - Material testing simulations
     - Material design and optimization
     - Property prediction with ML
