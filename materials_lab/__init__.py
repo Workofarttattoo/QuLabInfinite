@@ -1,8 +1,19 @@
 from __future__ import annotations
+
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
 __init__ - Part of Materials Lab
+"""
+
+"""
+Materials laboratory package exports.
+
+The original project stored most functionality in the ``materials_lab.py`` file
+inside this directory.  Adding ``__init__.py`` promotes the directory to a
+package so that ``import materials_lab`` works no matter where the caller is
+located in the filesystem.  Existing code that imported ``MaterialsLab`` (or
+related helpers) continues to work via the re-exports below.
 """
 
 import sys

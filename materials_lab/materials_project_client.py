@@ -20,12 +20,21 @@ from pathlib import Path
 import logging
 
 try:
-    from pymatgen.ext.matproj import MPRester
-    from pymatgen.core import Structure
+    # Try new mp-api first
+    from mp_api.client import MPRester
+    from emmet.core.symmetry import SymmetryData
     PYMATGEN_AVAILABLE = True
+    USE_NEW_API = True
 except ImportError:
-    PYMATGEN_AVAILABLE = False
-    logging.warning("pymatgen not installed. Install with: pip install pymatgen")
+    try:
+        # Fall back to old pymatgen API
+        from pymatgen.ext.matproj import MPRester
+        PYMATGEN_AVAILABLE = True
+        USE_NEW_API = False
+    except ImportError:
+        PYMATGEN_AVAILABLE = False
+        USE_NEW_API = False
+        logging.warning("Neither mp-api nor pymatgen installed. Install with: pip install mp-api")
 
 try:
     from .materials_database import MaterialProperties
