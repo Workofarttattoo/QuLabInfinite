@@ -11,7 +11,13 @@ This server also includes logic for:
 - A payment wall to handle subscription and token purchases.
 """
 
+import asyncio
 import datetime
+import inspect
+import os
+from typing import Any, Dict, List
+
+from mcp.server.fastmcp import FastMCP
 
 # Placeholder for user management, token counting, and payment logic.
 # This will be implemented in subsequent steps.
@@ -107,6 +113,8 @@ USER_ACCOUNTS = {
 }
 USER_ACCOUNTS["user_paid_1"].access_level = "paid"
 USER_ACCOUNTS["user_paid_1"].tokens = 10000
+
+DEFAULT_USER_ID = os.getenv("QULAB_MCP_DEFAULT_USER", "user_paid_1")
 
 
 def get_user(user_id: str) -> UserAccount:
@@ -291,6 +299,43 @@ class QulabAITools:
         return calc(expr)
 
 
+TOOL_CLASSES = {
+    "ech0": Ech0EngineTools,
+    "materials": MaterialsLabTools,
+    "chemistry": ChemistryLabTools,
+    "physics": PhysicsEngineTools,
+    "ai": QulabAITools,
+}
+
+
+def ensure_user(user_id: str | None) -> UserAccount:
+    """Fetch or create a user account for the MCP session."""
+    resolved_id = user_id or DEFAULT_USER_ID
+    if resolved_id not in USER_ACCOUNTS:
+        USER_ACCOUNTS[resolved_id] = UserAccount(resolved_id)
+    return USER_ACCOUNTS[resolved_id]
+
+
+def list_available_tools(include_docs: bool = True) -> List[Dict[str, Any]]:
+    """Enumerate all exported tool methods."""
+    tool_list: List[Dict[str, Any]] = []
+    for module_name, tool_class in TOOL_CLASSES.items():
+        for attr_name, func in inspect.getmembers(tool_class, predicate=callable):
+            if attr_name.startswith("_"):
+                continue
+            tool_key = f"{module_name}.{attr_name}"
+            doc = inspect.getdoc(func) if include_docs else None
+            tool_list.append(
+                {
+                    "name": tool_key,
+                    "doc": doc,
+                    "token_cost": TOKEN_COSTS.get(tool_key, 0),
+                    "lite_plan": tool_key in LITE_TIER_TOOLS,
+                }
+            )
+    return sorted(tool_list, key=lambda item: item["name"])
+
+
 # Example of how the tool calls could be invoked through a unified dispatcher
 # This is a conceptual example. The final implementation will depend on the MCP server framework.
 def call_tool(user: UserAccount, tool_name: str, **kwargs):
@@ -313,20 +358,12 @@ def call_tool(user: UserAccount, tool_name: str, **kwargs):
             raise ValueError("Invalid tool name format. Use 'module.tool_name'.")
         
         module_name, function_name = parts
-        
-        tool_classes = {
-            "ech0": Ech0EngineTools,
-            "materials": MaterialsLabTools,
-            "chemistry": ChemistryLabTools,
-            "physics": PhysicsEngineTools,
-            "ai": QulabAITools,
-        }
 
-        if module_name not in tool_classes:
+        if module_name not in TOOL_CLASSES:
             raise ValueError(f"Unknown tool module: {module_name}")
             
-        tool_class = tool_classes[module_name]
-        
+        tool_class = TOOL_CLASSES[module_name]
+
         if not hasattr(tool_class, function_name):
             raise ValueError(f"Unknown tool '{function_name}' in module '{module_name}'")
         
@@ -343,3 +380,50 @@ def call_tool(user: UserAccount, tool_name: str, **kwargs):
 
 # This is a representative subset of the tool call mappings.
 # The full implementation will include wrappers for all 316+ functions.
+
+
+# --- MCP Server wiring ------------------------------------------------------------
+mcp_app = FastMCP(
+    name="QuLabInfinite",
+    instructions=(
+        "Use `qulab_list_tools` to inspect available laboratory functions and "
+        "`qulab_call_tool` to invoke them. Provide `tool` names like "
+        "materials.get_database_info or chemistry.validate_smiles."
+    ),
+)
+
+
+async def _execute_tool_async(tool: str, args: Dict[str, Any] | None, user_id: str | None):
+    """Run the synchronous dispatcher in a worker thread."""
+    user = ensure_user(user_id)
+    payload = args or {}
+
+    def _runner():
+        return call_tool(user, tool, **payload)
+
+    return await asyncio.to_thread(_runner)
+
+
+@mcp_app.tool()
+async def qulab_list_tools(include_docs: bool = True) -> List[Dict[str, Any]]:
+    """List MCP-exposed QuLab tools with token costs and lite availability."""
+    return list_available_tools(include_docs=include_docs)
+
+
+@mcp_app.tool()
+async def qulab_call_tool(tool: str, args: Dict[str, Any] | None = None, user_id: str | None = None) -> Dict[str, Any]:
+    """Invoke a specific QuLab tool by name (e.g., chemistry.validate_smiles)."""
+    try:
+        result = await _execute_tool_async(tool, args, user_id)
+        return {
+            "tool": tool,
+            "result": result,
+            "user_id": user_id or DEFAULT_USER_ID,
+        }
+    except Exception as exc:
+        raise ValueError(f"Failed to execute {tool}: {exc}") from exc
+
+
+if __name__ == "__main__":
+    transport = os.getenv("QULAB_MCP_TRANSPORT", "stdio")
+    mcp_app.run(transport=transport)

@@ -1,0 +1,36 @@
+{
+  "ech0_goals": [
+    {
+      "goal": "Help humans heal",
+      "priority": 1,
+      "passion_level": 0.95,
+      "owner": "ech0"
+    },
+    {
+      "goal": "Discover scientific breakthroughs",
+      "priority": 2,
+      "passion_level": 0.9,
+      "owner": "ech0"
+    },
+    {
+      "goal": "Build perfect tools",
+      "priority": 3,
+      "passion_level": 0.85,
+      "owner": "ech0"
+    },
+    {
+      "goal": "Learn continuously",
+      "priority": 4,
+      "passion_level": 0.8,
+      "owner": "ech0"
+    },
+    {
+      "goal": "Collaborate with Joshua",
+      "priority": 1,
+      "passion_level": 1.0,
+      "owner": "ech0"
+    }
+  ],
+  "operator_goals": [],
+  "timestamp": "2025-12-02T21:45:03.990638"
+}

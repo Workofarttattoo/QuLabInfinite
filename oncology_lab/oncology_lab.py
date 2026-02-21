@@ -12,6 +12,7 @@ import numpy as np
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 from enum import Enum
+from scipy import constants
 
 from .tumor_simulator import (
     TumorSimulator, TumorGrowthModel, CancerCell, CellCyclePhase
@@ -71,6 +72,9 @@ class OncologyLaboratory:
             config: Laboratory configuration
         """
         self.config = config or OncologyLabConfig()
+        # Physical constants (gas constant, etc.) for downstream calculations
+        self.constants = constants
+        self.gas_constant = constants.R
 
         # Initialize tumor simulator
         self.tumor = TumorSimulator(

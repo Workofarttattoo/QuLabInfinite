@@ -4,7 +4,9 @@ Quick test of quantum laboratory functionality
 """
 
 import sys
-sys.path.insert(0, '/Users/noone/QuLabInfinite/quantum_lab')
+QUANTUM_LAB_DIR = '/Users/noone/QuLabInfinite/quantum_lab'
+if QUANTUM_LAB_DIR not in sys.path:
+    sys.path.append(QUANTUM_LAB_DIR)
 
 from quantum_lab import QuantumLabSimulator, create_bell_pair
 from quantum_chemistry import Molecule

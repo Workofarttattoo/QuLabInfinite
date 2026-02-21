@@ -12,8 +12,10 @@ from enum import Enum
 import sys
 import os
 
-# Add quantum_lab to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'quantum_lab'))
+# Add quantum_lab to path without shadowing the package
+quantum_lab_path = os.path.join(os.path.dirname(__file__), '..', 'quantum_lab')
+if quantum_lab_path not in sys.path:
+    sys.path.append(quantum_lab_path)
 
 
 class QMMethod(Enum):
