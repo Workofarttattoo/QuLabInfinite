@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+arxiv_fetch - Part of Materials Lab
+"""
+
 """
 Fetch experimental material property snippets from arXiv.
 
@@ -19,7 +26,6 @@ Outputs a JSON structure with entries containing:
   - query: the actual search query executed
 """
 
-from __future__ import annotations
 
 import argparse
 import json

@@ -1,5 +1,7 @@
 """
-Grid-based Thermodynamics Engine using the Finite Difference Method.
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+thermodynamics_grid - Part of Physics Engine
 """
 
 from __future__ import annotations

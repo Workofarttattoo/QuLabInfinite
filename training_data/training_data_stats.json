@@ -1,0 +1,17 @@
+{
+  "total_examples": 19281,
+  "by_domain": {
+    "mathematics": 7500,
+    "science": 11679,
+    "physics": 102
+  },
+  "datasets_used": [
+    "math",
+    "science",
+    "physics"
+  ],
+  "output_files": {
+    "jsonl": "/Users/noone/aios/QuLabInfinite/training_data/ech0_polymath_science_training.jsonl",
+    "json": "/Users/noone/aios/QuLabInfinite/training_data/ech0_polymath_science_training.json"
+  }
+}

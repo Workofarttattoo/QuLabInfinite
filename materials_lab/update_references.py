@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+update_references - Part of Materials Lab
+"""
+
 """
 Update material references in the database using arXiv snippets.
 
@@ -12,7 +19,6 @@ Usage:
             materials_lab/data/ti6al4v_arxiv.json
 """
 
-from __future__ import annotations
 
 import argparse
 import json

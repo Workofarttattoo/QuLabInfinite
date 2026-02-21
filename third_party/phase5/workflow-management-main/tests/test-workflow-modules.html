@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Modules Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .module {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .module-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .module-description {
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .parameter {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 4px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .parameter-name {
+            font-weight: bold;
+            color: #0066cc;
+        }
+        .parameter-type {
+            color: #666;
+            font-style: italic;
+        }
+        .parameter-example {
+            color: #28a745;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧩 新增工作流模块测试页面</h1>
+
+    <div class="success">
+        ✅ 成功添加了 6 个新的实验室工作流模块到 UO Registration 系统！
+    </div>
+
+    <div class="module">
+        <div class="module-header">🧪 Device Initialization</div>
+        <div class="module-description">Initialize one or multiple lab instruments before workflow begins</div>
+        <div class="parameter">
+            <span class="parameter-name">deviceId</span>
+            <span class="parameter-type">(string)</span>:
+            <span class="parameter-example">"cytation5"</span> - Internal name or alias of the device
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">deviceType</span>
+            <span class="parameter-type">(enum)</span>:
+            <span class="parameter-example">"photoreactor" | "cytation" | "robot"</span> - Optional for UI grouping
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">initMode</span>
+            <span class="parameter-type">(enum)</span>:
+            <span class="parameter-example">"soft" | "hard"</span> - Soft: warmup only; Hard: full reset/init
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">timeoutS</span>
+            <span class="parameter-type">(int)</span>:
+            <span class="parameter-example">30</span> - Max wait time before failing
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">retryCount</span>
+            <span class="parameter-type">(int)</span>:
+            <span class="parameter-example">2</span> - Retry attempts before failure
+        </div>
+    </div>
+
+    <div class="module">
+        <div class="module-header">✅ User Confirmation Prompt</div>
+        <div class="module-description">Ask user to confirm a physical setup step before proceeding</div>
+        <div class="parameter">
+            <span class="parameter-name">promptText</span>
+            <span class="parameter-type">(string)</span>:
+            <span class="parameter-example">"Confirm vial placement"</span> - Message shown to the user
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">expectedResponse</span>
+            <span class="parameter-type">(enum)</span>:
+            <span class="parameter-example">"yes" | "ok" | "done"</span> - Optional; expected answer
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">timeoutS</span>
+            <span class="parameter-type">(int)</span>:
+            <span class="parameter-example">120</span> - Time to wait for response
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">abortOnTimeout</span>
+            <span class="parameter-type">(bool)</span>:
+            <span class="parameter-example">true</span> - Whether to cancel if no response
+        </div>
+    </div>
+
+    <div class="module">
+        <div class="module-header">🔁 Liquid Transfer</div>
+        <div class="module-description">Transfer a specified volume from a source to a target container</div>
+        <div class="parameter">
+            <span class="parameter-name">sourceContainer</span>
+            <span class="parameter-type">(string)</span>:
+            <span class="parameter-example">"stock_A"</span> - Container ID or label
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">targetContainer</span>
+            <span class="parameter-type">(string)</span>:
+            <span class="parameter-example">"reactor_tube"</span> - Destination container ID
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">volumeMl</span>
+            <span class="parameter-type">(float)</span>:
+            <span class="parameter-example">0.5</span> - Volume to transfer in mL
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">speedUlPerS</span>
+            <span class="parameter-type">(float)</span>:
+            <span class="parameter-example">300</span> - Transfer speed
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">pipetteType</span>
+            <span class="parameter-type">(enum)</span>:
+            <span class="parameter-example">"single" | "multi"</span> - For robotic arms with multiple tips
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">mixAfter</span>
+            <span class="parameter-type">(bool)</span>:
+            <span class="parameter-example">true</span> - Optional mix step post transfer
+        </div>
+    </div>
+
+    <div class="module">
+        <div class="module-header">🔆 Start Reaction</div>
+        <div class="module-description">Activate a device to start a chemical or biological reaction</div>
+        <div class="parameter">
+            <span class="parameter-name">deviceId</span>
+            <span class="parameter-type">(string)</span>:
+            <span class="parameter-example">"photoreactor_1"</span> - Device ID or name
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">mode</span>
+            <span class="parameter-type">(string)</span>:
+            <span class="parameter-example">"UV-A 365nm"</span> - Reaction mode or preset
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">durationS</span>
+            <span class="parameter-type">(int)</span>:
+            <span class="parameter-example">300</span> - Duration in seconds
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">intensityPct</span>
+            <span class="parameter-type">(int)</span>:
+            <span class="parameter-example">80</span> - Optional power level %
+        </div>
+    </div>
+
+    <div class="module">
+        <div class="module-header">📏 Trigger Measurement</div>
+        <div class="module-description">Trigger a device to measure sample or system status</div>
+        <div class="parameter">
+            <span class="parameter-name">deviceId</span>
+            <span class="parameter-type">(string)</span>:
+            <span class="parameter-example">"cytation5"</span> - Name or alias of the measurement device
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">measurementType</span>
+            <span class="parameter-type">(enum)</span>:
+            <span class="parameter-example">"OD600" | "fluorescence" | "absorbance"</span> - Common readout types
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">wavelengthNm</span>
+            <span class="parameter-type">(int)</span>:
+            <span class="parameter-example">600</span> - Optional override
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">integrationTimeMs</span>
+            <span class="parameter-type">(int)</span>:
+            <span class="parameter-example">500</span> - Optional timing config
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">exportFormat</span>
+            <span class="parameter-type">(enum)</span>:
+            <span class="parameter-example">"csv" | "json"</span> - Output file format
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">saveTo</span>
+            <span class="parameter-type">(string)</span>:
+            <span class="parameter-example">"results/exp001_cytation.csv"</span> - File path or DB destination
+        </div>
+    </div>
+
+    <div class="module">
+        <div class="module-header">⏸️ Pause / Delay Step</div>
+        <div class="module-description">Pause the workflow execution for a fixed duration</div>
+        <div class="parameter">
+            <span class="parameter-name">durationS</span>
+            <span class="parameter-type">(int)</span>:
+            <span class="parameter-example">300</span> - Duration to pause in seconds
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">reason</span>
+            <span class="parameter-type">(string)</span>:
+            <span class="parameter-example">"Allow reaction to settle"</span> - Shown in UI/log
+        </div>
+        <div class="parameter">
+            <span class="parameter-name">skippable</span>
+            <span class="parameter-type">(bool)</span>:
+            <span class="parameter-example">true</span> - Whether user can skip this manually
+        </div>
+    </div>
+
+    <div class="success">
+        🎯 <strong>使用说明：</strong><br>
+        1. 在浏览器中访问 <a href="http://localhost:5174/" target="_blank">UO Registration 系统</a><br>
+        2. 点击 "Create & Register UO" 按钮<br>
+        3. 在右侧组件库中查找新的 "Workflow Components" 分类<br>
+        4. 拖拽这些新模块到画布中进行配置<br>
+        5. 点击 "Load Example" 查看包含工作流模块的示例<br>
+        6. 每个模块都有详细的参数配置选项
+    </div>
+
+    <div class="success">
+        🔄 <strong>更新状态：</strong><br>
+        ✅ 已成功添加 6 个新的工作流模块<br>
+        ✅ 已更新组件库配置<br>
+        ✅ 已更新示例数据包含工作流组件<br>
+        ✅ 已添加新的 "Workflow Components" 分类<br>
+        ✅ 已为每个工作流模块创建专门的参数配置界面<br>
+        ✅ 已添加工作流组件的预览渲染支持<br>
+        ✅ 已修复 UO 节点在画布上的参数显示问题<br>
+        ✅ 已实现工作流模块的详细参数结构和渲染<br>
+        ✅ 开发服务器运行正常，支持热重载
+    </div>
+
+    <div class="info">
+        🎨 <strong>新功能特性：</strong><br>
+        • 每个工作流模块现在都有专门的参数配置界面<br>
+        • 配置界面根据模块类型显示相应的参数字段<br>
+        • 预览模式下显示美观的工作流组件卡片<br>
+        • 支持实时参数配置和预览更新<br>
+        • 所有参数都有合适的默认值和验证<br>
+        • 🔥 <strong>修复了画布显示问题</strong>：UO 节点现在正确显示配置的参数值<br>
+        • 🎯 <strong>工作流模块专门渲染</strong>：每个模块都有独特的图标和颜色主题<br>
+        • 📋 <strong>详细参数结构</strong>：支持复杂的嵌套参数配置
+    </div>
+
+    <div class="warning">
+        🧪 <strong>全面测试步骤：</strong><br>
+        <strong>基础模块测试 (10个):</strong><br>
+        • 🔢 数值模块: Volume, Concentration, Time, Temperature<br>
+        • 📋 选择模块: Material, Container, Buffer<br>
+        • 🔘 控制模块: Toggle, File Operations, Text Note<br><br>
+        <strong>工作流模块测试 (6个):</strong><br>
+        • 🧪 Device Initialization, ✅ User Confirmation<br>
+        • 🔁 Liquid Transfer, 🔆 Start Reaction<br>
+        • 📏 Trigger Measurement, ⏸️ Pause/Delay<br><br>
+        <strong>验证步骤:</strong><br>
+        1. 创建包含各种模块类型的混合 UO<br>
+        2. 配置每个模块的参数<br>
+        3. 保存并注册该 UO<br>
+        4. 从侧边栏拖拽到画布上<br>
+        5. 展开节点验证所有参数正确显示<br>
+        6. 测试参数编辑和保存功能
+    </div>
+
+    <div class="success">
+        🎯 <strong>验证结果：</strong><br>
+        ✅ 所有 16 个模块都有独立的参数 Schema<br>
+        ✅ 前端根据模块类型动态渲染配置界面<br>
+        ✅ 支持完整的字段类型 (string, number, enum, boolean, file)<br>
+        ✅ 动态 JSON 生成功能完整<br>
+        ✅ 画布节点参数显示正确<br>
+        ✅ 视觉设计统一且美观
+    </div>
+</body>
+</html>

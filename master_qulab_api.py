@@ -5,6 +5,7 @@ Master QuLab API - Unified FastAPI Gateway
 Aggregates all 20+ quantum lab services with authentication, rate limiting, and monitoring
 """
 
+import os
 import asyncio
 import time
 from typing import Dict, List, Optional, Any
@@ -18,6 +19,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, Field
 import uvicorn
+
+from core.security import load_api_keys_from_env
+
+# Provide safe defaults before attempting heavy imports
+genetic_api = cancer_metabolic_api = drug_interaction_api = None
+immune_api = neurotransmitter_api = microbiome_api = None
+metabolic_api = stem_cell_api = medical_safety_api = None
+QuantumLab = MaterialsLab = ChemistryLab = None
+FrequencyLab = OncologyLab = ProteinFoldingLab = None
+CardiovascularPlaqueLab = TumorEvolutionLab = None
+LABS_AVAILABLE = False
 
 # Import all lab APIs
 try:
@@ -43,23 +55,36 @@ try:
     LABS_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Some lab imports failed: {e}")
-    LABS_AVAILABLE = False
 
 # Configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Simple in-memory auth tokens (production should use database)
+
+def _load_master_rate_limit() -> int:
+    """Load and validate the configured master API rate limit."""
+    raw_limit = os.getenv("QU_LAB_MASTER_RATE_LIMIT", "1000")
+    try:
+        limit = int(raw_limit)
+    except ValueError:
+        raise RuntimeError("QU_LAB_MASTER_RATE_LIMIT must be a valid integer.")
+
+    if limit <= 0:
+        raise RuntimeError("QU_LAB_MASTER_RATE_LIMIT must be greater than zero.")
+    return limit
+
+
+DEFAULT_TIER = os.getenv("QU_LAB_MASTER_TIER", "enterprise")
+_configured_master_keys = load_api_keys_from_env()
 VALID_API_KEYS = {
-    "qulab_master_key_2025": {"name": "Master Admin", "tier": "enterprise"},
-    "qulab_demo_key": {"name": "Demo User", "tier": "demo"},
+    key: {"name": f"Configured Key {index + 1}", "tier": DEFAULT_TIER}
+    for index, key in enumerate(_configured_master_keys)
 }
 
 # Rate limiting storage
 rate_limit_storage = defaultdict(list)
 RATE_LIMITS = {
-    "enterprise": 1000,  # requests per minute
-    "demo": 60,
+    DEFAULT_TIER: _load_master_rate_limit(),  # requests per minute
 }
 
 # Initialize FastAPI
@@ -250,8 +275,8 @@ def get_lab_instance(lab_name: str):
     return lab_instances.get(lab_name)
 
 # Routes
-@app.get("/", tags=["Root"])
-async def root():
+@app.get("/", tags=["Root"], dependencies=[Depends(check_rate_limit)])
+async def root(user_info: dict = Depends(verify_api_key)):
     """API root with quick start guide"""
     return {
         "message": "QuLab Master API - Unified Quantum Laboratory Gateway",
@@ -339,8 +364,8 @@ async def optimize_lab(
         logger.error(f"Optimization failed on {lab_name}: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/health", response_model=HealthResponse, tags=["System"])
-async def health_check():
+@app.get("/health", response_model=HealthResponse, tags=["System"], dependencies=[Depends(check_rate_limit)])
+async def health_check(user_info: dict = Depends(verify_api_key)):
     """Comprehensive health check across all labs"""
     labs_status = {}
 

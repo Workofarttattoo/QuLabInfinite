@@ -21,7 +21,7 @@ SAMPLE_RATE = 16000
 CHUNK_SIZE = 1024
 CHANNELS = 1
 ACTIVATION_PHRASE = ["hey echo", "hey ech0", "hey eko"]
-AUDIO_DIR = Path('/Users/noone/QuLabInfinite/audio_recordings')
+AUDIO_DIR = Path('audio_recordings')
 AUDIO_DIR.mkdir(exist_ok=True)
 
 class WhisperListener:

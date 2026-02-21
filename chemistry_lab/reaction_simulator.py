@@ -1,9 +1,14 @@
 """
+from nist_constants import *
+
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
 Reaction Simulator
 Simulate chemical reactions with transition state theory, reaction pathways, catalysis, and kinetics.
 """
+
+# NOTE: The phrase "free energy" in this module refers exclusively to the Gibbs
+# free energy used in standard thermodynamics calculations, not pseudoscience.
 
 import json
 from dataclasses import dataclass, field, asdict

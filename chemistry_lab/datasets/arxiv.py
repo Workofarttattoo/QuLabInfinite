@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+arxiv - Part of Chemistry Lab
+"""
+
+"""
 Specialized loader for fetching material property data from arXiv.
 """
 

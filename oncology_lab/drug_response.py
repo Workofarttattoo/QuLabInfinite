@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+drug_response - Part of Oncology Lab
+"""
+
+"""
 Drug response heuristics for the QuLabInfinite oncology sandbox.
 
 The structures below model basic pharmacokinetic and pharmacodynamic behaviour

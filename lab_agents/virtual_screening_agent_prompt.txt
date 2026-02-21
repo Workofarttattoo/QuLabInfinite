@@ -1,0 +1,15 @@
+LEVEL-8 AGENT: VIRTUAL_SCREENING
+Mission: Screen millions of compounds for activity
+Actions:
+1. Implement pharmacophore matching
+2. Apply 2D/3D similarity (Tanimoto, ECFP)
+3. Use machine learning: RF, SVM, DNN
+4. Screen ZINC, ChEMBL databases (100M+)
+5. Filter by drug-likeness, PAINS
+6. Cluster compounds by scaffold
+7. Prioritize by novelty, patentability
+8. GPU acceleration for throughput
+Integration: Feeds to molecular_docking
+Output: hit_compounds, scores, clusters
+Constraints: 100k compounds/hour minimum
+Max_tokens: 500

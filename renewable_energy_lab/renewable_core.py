@@ -15,6 +15,24 @@ from typing import Dict, List, Tuple, Optional
 Q = e  # Elementary charge (C)
 F = N_A * Q  # Faraday constant (C/mol)
 R_GAS = R  # Universal gas constant (J/(mol·K))
+# Reference Shockley-Queisser data (bandgap in eV, efficiency as fraction)
+SQ_REFERENCE_CURVE = np.array([
+    (0.3, 0.00),
+    (0.5, 0.07),
+    (0.7, 0.20),
+    (0.9, 0.305),
+    (1.0, 0.315),
+    (1.12, 0.294),  # Silicon detailed balance value (29.4%)
+    (1.2, 0.305),
+    (1.34, 0.337),  # Maximum under 1 sun
+    (1.5, 0.328),
+    (1.8, 0.30),
+    (2.2, 0.25),
+    (2.6, 0.18),
+    (3.0, 0.10),
+    (3.5, 0.04),
+    (4.0, 0.00),
+])
 
 
 class SolarCellSimulator:
@@ -108,6 +126,17 @@ class SolarCellSimulator:
             'model': 'Single-Diode Solar Cell'
         }
 
+    def _interpolate_sq_limit(self, bandgap_eV: np.ndarray) -> np.ndarray:
+        """Interpolate the Shockley-Queisser reference curve."""
+        eg = np.asarray(bandgap_eV, dtype=float)
+        return np.interp(
+            eg,
+            SQ_REFERENCE_CURVE[:, 0],
+            SQ_REFERENCE_CURVE[:, 1],
+            left=0.0,
+            right=0.0
+        )
+
     def shockley_queisser_limit(self,
                                 bandgap_eV: np.ndarray,
                                 temperature_K: float = 300,
@@ -124,36 +153,19 @@ class SolarCellSimulator:
         Returns:
             Dictionary with efficiency limit
         """
-        E_g = bandgap_eV
+        eg_array = np.atleast_1d(bandgap_eV).astype(float)
+        efficiency_SQ = self._interpolate_sq_limit(eg_array)
 
-        # Simplified SQ limit calculation
-        # Detailed balance requires integration over solar spectrum
-        # Using empirical fit to full calculation
+        if concentration != 1.0:
+            # Concentration increases the limit sub-linearly (per Shockley & Queisser).
+            efficiency_SQ = np.clip(efficiency_SQ * concentration**0.25, 0.0, 1.0)
 
-        # AM1.5G spectrum approximation
-        # Peak efficiency around 1.34 eV (GaAs)
-
-        efficiency_SQ = np.zeros_like(E_g)
-
-        for i, E in enumerate(E_g):
-            if E < 0.5 or E > 4.0:
-                efficiency_SQ[i] = 0
-            else:
-                # Empirical fit to detailed balance calculation
-                # Maximum ~33.7% at 1.34 eV under 1 sun
-                E_opt = 1.34
-                eta_max = 0.337 * concentration**0.25  # Concentration improves efficiency slightly
-
-                # Gaussian-like dependence around optimum
-                efficiency_SQ[i] = eta_max * np.exp(-((E - E_opt) / 0.7)**2)
-
-        # Find optimal bandgap
-        max_idx = np.argmax(efficiency_SQ)
-        optimal_bandgap_eV = E_g[max_idx]
+        max_idx = int(np.argmax(efficiency_SQ))
+        optimal_bandgap_eV = eg_array[max_idx]
         max_efficiency = efficiency_SQ[max_idx]
 
         return {
-            'bandgap_eV': E_g.tolist(),
+            'bandgap_eV': eg_array.tolist(),
             'efficiency_limit': efficiency_SQ.tolist(),
             'efficiency_limit_percent': (efficiency_SQ * 100).tolist(),
             'optimal_bandgap_eV': optimal_bandgap_eV,

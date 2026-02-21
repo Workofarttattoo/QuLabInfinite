@@ -1,0 +1,15 @@
+{
+  "AUC_mg_hr_L": 20.0,
+  "Cmax_mg_L": 1.43,
+  "clearance_L_hr": 5,
+  "concentration_profile": [
+    1.429,
+    1.01,
+    0.715,
+    0.505,
+    0.358
+  ],
+  "dose_mg": 100,
+  "experiment": "pk_model",
+  "half_life_hr": 9.7
+}

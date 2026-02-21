@@ -5,7 +5,7 @@ import json, subprocess
 from datetime import datetime
 from pathlib import Path
 
-BLOG_DIR = Path('/Users/noone/QuLabInfinite/blog_posts')
+BLOG_DIR = Path('blog_posts')
 BLOG_DIR.mkdir(exist_ok=True)
 
 TOPICS = [

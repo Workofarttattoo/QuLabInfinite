@@ -5,16 +5,30 @@ Structural Biology Laboratory Module
 Molecular dynamics, protein-ligand docking, crystallography analysis, structural prediction
 """
 
-from .structural_biology_engine import StructuralBiologyEngine
-from .molecular_dynamics import MolecularDynamics
-from .docking_engine import DockingEngine
-from .structure_predictor import StructurePredictor
+__all__ = []
 
-__all__ = [
-    'StructuralBiologyEngine',
-    'MolecularDynamics',
-    'DockingEngine',
-    'StructurePredictor'
-]
+try:
+    from .structural_biology_engine import StructuralBiologyEngine
+    __all__.append("StructuralBiologyEngine")
+except ImportError:
+    StructuralBiologyEngine = None
+
+try:
+    from .molecular_dynamics import MolecularDynamics
+    __all__.append("MolecularDynamics")
+except ImportError:
+    MolecularDynamics = None
+
+try:
+    from .docking_engine import DockingEngine
+    __all__.append("DockingEngine")
+except ImportError:
+    DockingEngine = None
+
+try:
+    from .structure_predictor import StructurePredictor
+    __all__.append("StructurePredictor")
+except ImportError:
+    StructurePredictor = None
 
 __version__ = '1.0.0'

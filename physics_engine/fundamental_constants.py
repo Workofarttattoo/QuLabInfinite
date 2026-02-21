@@ -1,13 +1,16 @@
 """
+from nist_constants import *
+
 Fundamental Physical Constants
 
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
-All values from NIST CODATA 2018 with uncertainty tracking.
+All values from NIST CODATA 2022 via nist_constants.py.
 """
 
 from typing import NamedTuple
 import math
+import nist_constants as nist
 
 
 class PhysicalConstant(NamedTuple):
@@ -20,7 +23,7 @@ class PhysicalConstant(NamedTuple):
 
 # Speed of light in vacuum
 c = PhysicalConstant(
-    value=299792458.0,
+    value=nist.SPEED_OF_LIGHT,
     uncertainty=0.0,
     units="m/s",
     description="Speed of light in vacuum"
@@ -28,7 +31,7 @@ c = PhysicalConstant(
 
 # Planck constant
 h = PhysicalConstant(
-    value=6.62607015e-34,
+    value=nist.PLANCK_CONSTANT,
     uncertainty=0.0,
     units="J⋅s",
     description="Planck constant"
@@ -36,7 +39,7 @@ h = PhysicalConstant(
 
 # Reduced Planck constant (ℏ = h/2π)
 hbar = PhysicalConstant(
-    value=h.value / (2 * math.pi),
+    value=nist.REDUCED_PLANCK_CONSTANT,
     uncertainty=0.0,
     units="J⋅s",
     description="Reduced Planck constant"
@@ -44,7 +47,7 @@ hbar = PhysicalConstant(
 
 # Boltzmann constant
 k_B = PhysicalConstant(
-    value=1.380649e-23,
+    value=nist.BOLTZMANN_CONSTANT,
     uncertainty=0.0,
     units="J/K",
     description="Boltzmann constant"
@@ -52,7 +55,7 @@ k_B = PhysicalConstant(
 
 # Gravitational constant
 G = PhysicalConstant(
-    value=6.67430e-11,
+    value=nist.GRAVITATIONAL_CONSTANT,
     uncertainty=1.5e-15,
     units="m³/(kg⋅s²)",
     description="Newtonian constant of gravitation"
@@ -60,7 +63,7 @@ G = PhysicalConstant(
 
 # Elementary charge
 e = PhysicalConstant(
-    value=1.602176634e-19,
+    value=nist.ELEMENTARY_CHARGE,
     uncertainty=0.0,
     units="C",
     description="Elementary charge"
@@ -68,7 +71,7 @@ e = PhysicalConstant(
 
 # Electron mass
 m_e = PhysicalConstant(
-    value=9.1093837015e-31,
+    value=nist.ELECTRON_MASS,
     uncertainty=2.8e-40,
     units="kg",
     description="Electron mass"
@@ -76,7 +79,7 @@ m_e = PhysicalConstant(
 
 # Proton mass
 m_p = PhysicalConstant(
-    value=1.67262192369e-27,
+    value=nist.PROTON_MASS,
     uncertainty=5.1e-37,
     units="kg",
     description="Proton mass"
@@ -84,7 +87,7 @@ m_p = PhysicalConstant(
 
 # Neutron mass
 m_n = PhysicalConstant(
-    value=1.67492749804e-27,
+    value=nist.NEUTRON_MASS,
     uncertainty=9.5e-37,
     units="kg",
     description="Neutron mass"
@@ -92,7 +95,7 @@ m_n = PhysicalConstant(
 
 # Avogadro constant
 N_A = PhysicalConstant(
-    value=6.02214076e23,
+    value=nist.AVOGADRO_CONSTANT,
     uncertainty=0.0,
     units="mol⁻¹",
     description="Avogadro constant"
@@ -100,7 +103,7 @@ N_A = PhysicalConstant(
 
 # Gas constant
 R = PhysicalConstant(
-    value=8.314462618,
+    value=nist.GAS_CONSTANT,
     uncertainty=0.0,
     units="J/(mol⋅K)",
     description="Molar gas constant"
@@ -108,7 +111,7 @@ R = PhysicalConstant(
 
 # Stefan-Boltzmann constant
 sigma = PhysicalConstant(
-    value=5.670374419e-8,
+    value=nist.STEFAN_BOLTZMANN_CONSTANT,
     uncertainty=0.0,
     units="W/(m²⋅K⁴)",
     description="Stefan-Boltzmann constant"
@@ -116,7 +119,7 @@ sigma = PhysicalConstant(
 
 # Vacuum permittivity (electric constant)
 epsilon_0 = PhysicalConstant(
-    value=8.8541878128e-12,
+    value=nist.VACUUM_PERMITTIVITY,
     uncertainty=1.3e-21,
     units="F/m",
     description="Vacuum permittivity"
@@ -124,7 +127,7 @@ epsilon_0 = PhysicalConstant(
 
 # Vacuum permeability (magnetic constant)
 mu_0 = PhysicalConstant(
-    value=1.25663706212e-6,
+    value=nist.VACUUM_PERMEABILITY,
     uncertainty=1.9e-16,
     units="H/m",
     description="Vacuum permeability"
@@ -132,7 +135,7 @@ mu_0 = PhysicalConstant(
 
 # Fine-structure constant
 alpha = PhysicalConstant(
-    value=7.2973525693e-3,
+    value=nist.FINE_STRUCTURE_CONSTANT,
     uncertainty=1.1e-12,
     units="dimensionless",
     description="Fine-structure constant"
@@ -140,7 +143,7 @@ alpha = PhysicalConstant(
 
 # Rydberg constant
 R_inf = PhysicalConstant(
-    value=10973731.568160,
+    value=nist.RYDBERG_CONSTANT,
     uncertainty=0.000021,
     units="m⁻¹",
     description="Rydberg constant"
@@ -148,13 +151,13 @@ R_inf = PhysicalConstant(
 
 # Bohr radius
 a_0 = PhysicalConstant(
-    value=5.29177210903e-11,
+    value=nist.BOHR_RADIUS,
     uncertainty=8.0e-21,
     units="m",
     description="Bohr radius"
 )
 
-# Standard gravity
+# Standard gravity (Standard constant, not in NIST CODATA but standard)
 g_0 = PhysicalConstant(
     value=9.80665,
     uncertainty=0.0,
@@ -181,7 +184,7 @@ T_0 = PhysicalConstant(
 
 # Atomic mass unit
 u = PhysicalConstant(
-    value=1.66053906660e-27,
+    value=nist.ATOMIC_MASS_UNIT,
     uncertainty=5.0e-37,
     units="kg",
     description="Atomic mass unit"
@@ -189,7 +192,7 @@ u = PhysicalConstant(
 
 # Faraday constant
 F = PhysicalConstant(
-    value=96485.33212,
+    value=nist.ELEMENTARY_CHARGE * nist.AVOGADRO_CONSTANT,
     uncertainty=0.0,
     units="C/mol",
     description="Faraday constant"
@@ -225,7 +228,7 @@ def get_all_constants() -> dict:
 
 
 if __name__ == "__main__":
-    print("Fundamental Physical Constants (NIST CODATA 2018)")
+    print("Fundamental Physical Constants (NIST CODATA 2022 via nist_constants.py)")
     print("=" * 80)
     for name, const in get_all_constants().items():
         print(f"{name:8} = {const.value:15.6e} ± {const.uncertainty:10.3e} {const.units:15} # {const.description}")

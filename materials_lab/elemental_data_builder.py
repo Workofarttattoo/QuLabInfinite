@@ -1,3 +1,9 @@
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+elemental_data_builder - Part of Materials Lab
+"""
+
 
 import json
 import os

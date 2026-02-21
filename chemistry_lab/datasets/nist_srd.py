@@ -1,3 +1,9 @@
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+nist_srd - Part of Chemistry Lab
+"""
+
 """Specialized loader for NIST Standard Reference Database 101."""
 
 from __future__ import annotations

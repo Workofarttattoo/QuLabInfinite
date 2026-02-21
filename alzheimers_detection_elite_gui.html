@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Early Detection Lab - AI-Powered Neuroimaging</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0d1117;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(255, 0, 170, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0, 170, 255, 0.1) 0%, transparent 50%);
+            color: #ff00aa;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Neural network background */
+        #neural-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Header */
+        .neuro-header {
+            background: linear-gradient(90deg, rgba(255,0,170,0.1), rgba(0,170,255,0.1));
+            border-bottom: 2px solid #ff00aa;
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-shadow: 0 0 30px #ff00aa;
+            display: inline-block;
+        }
+
+        .brain-icon {
+            display: inline-block;
+            margin-right: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Main Layout */
+        .neuro-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: rgba(13,17,23,0.9);
+            border: 2px solid #ff00aa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            max-height: calc(100vh - 150px);
+            overflow-y: auto;
+        }
+
+        .section-title {
+            color: #00aaff;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #00aaff;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Visualization Grid */
+        .viz-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 400px);
+            gap: 1rem;
+        }
+
+        .viz-panel {
+            background: rgba(13,17,23,0.9);
+            border: 2px solid #00aaff;
+            border-radius: 10px;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brain-scan {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        .biomarker-chart {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        .risk-trajectory {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+
+        /* Brain visualization */
+        #brain-canvas {
+            width: 100%;
+            height: 350px;
+            background: #0d1117;
+            border: 1px solid rgba(255,0,170,0.3);
+            border-radius: 5px;
+        }
+
+        /* Biomarker display */
+        .biomarker-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .biomarker-item {
+            background: rgba(0,170,255,0.1);
+            border: 1px solid #00aaff;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .biomarker-name {
+            color: #00aaff;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .biomarker-value {
+            font-size: 1.5rem;
+            color: #ff00aa;
+            font-weight: bold;
+        }
+
+        .biomarker-unit {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+        }
+
+        .risk-level {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .risk-low { background: rgba(0,255,0,0.2); color: #00ff00; }
+        .risk-medium { background: rgba(255,255,0,0.2); color: #ffff00; }
+        .risk-high { background: rgba(255,0,0,0.2); color: #ff0000; }
+
+        /* Risk trajectory chart */
+        #risk-chart {
+            width: 100%;
+            height: 300px;
+            background: #0d1117;
+            border: 1px solid rgba(255,0,170,0.3);
+            border-radius: 5px;
+        }
+
+        /* Control styles */
+        .neuro-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: #1c2128;
+            border: 1px solid #ff00aa;
+            color: #00ff88;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 1rem;
+        }
+
+        .neuro-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #ff00aa, #00aaff);
+            border: none;
+            color: #0d1117;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-bottom: 0.5rem;
+        }
+
+        .neuro-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255,0,170,0.8);
+        }
+
+        /* Protein aggregation visualization */
+        .protein-panel {
+            background: #0d1117;
+            border: 1px solid #ff00aa;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        #protein-canvas {
+            width: 100%;
+            height: 200px;
+        }
+
+        /* Results panel */
+        .results-panel {
+            background: rgba(13,17,23,0.95);
+            border: 2px solid #ff00aa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: rgba(255,0,170,0.05);
+            border-left: 3px solid #ff00aa;
+            margin-bottom: 0.5rem;
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0,170,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff00aa, #00aaff);
+            transition: width 0.5s ease;
+        }
+
+        /* Neural activity animation */
+        @keyframes neural-pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        .neural-activity {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #ff00aa, transparent);
+            border-radius: 50%;
+            animation: neural-pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Neural Network Background -->
+    <canvas id="neural-network"></canvas>
+
+    <!-- Header -->
+    <div class="neuro-header">
+        <div class="brain-icon">🧠</div>
+        <h1>Alzheimer's Early Detection Lab - AI Neuroimaging Analysis</h1>
+    </div>
+
+    <!-- Main Container -->
+    <div class="neuro-container">
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <h2 class="section-title">Patient Information</h2>
+
+            <input type="number" class="neuro-input" id="age" placeholder="Age (50-95)" min="50" max="95" value="65">
+
+            <select class="neuro-input" id="apoe-status">
+                <option value="e3e3">APOE ε3/ε3 (Normal Risk)</option>
+                <option value="e3e4">APOE ε3/ε4 (Moderate Risk)</option>
+                <option value="e4e4">APOE ε4/ε4 (High Risk)</option>
+                <option value="e2e3">APOE ε2/ε3 (Protective)</option>
+            </select>
+
+            <select class="neuro-input" id="scan-type">
+                <option value="mri">Structural MRI</option>
+                <option value="pet-amyloid">Amyloid PET</option>
+                <option value="pet-tau">Tau PET</option>
+                <option value="pet-fdg">FDG-PET (Metabolism)</option>
+                <option value="dti">Diffusion Tensor Imaging</option>
+                <option value="fmri">Functional MRI</option>
+            </select>
+
+            <h2 class="section-title">Biomarker Panel</h2>
+
+            <input type="number" class="neuro-input" id="csf-abeta" placeholder="CSF Aβ42 (pg/mL)" value="650">
+            <input type="number" class="neuro-input" id="csf-tau" placeholder="CSF Total Tau (pg/mL)" value="450">
+            <input type="number" class="neuro-input" id="csf-ptau" placeholder="CSF p-Tau181 (pg/mL)" value="65">
+            <input type="number" class="neuro-input" id="plasma-nfl" placeholder="Plasma NfL (pg/mL)" value="45">
+
+            <h2 class="section-title">Cognitive Assessment</h2>
+
+            <input type="number" class="neuro-input" id="mmse" placeholder="MMSE Score (0-30)" min="0" max="30" value="26">
+            <input type="number" class="neuro-input" id="moca" placeholder="MoCA Score (0-30)" min="0" max="30" value="24">
+            <input type="number" class="neuro-input" id="cdr" placeholder="CDR Score (0-3)" min="0" max="3" step="0.5" value="0.5">
+
+            <button class="neuro-btn" onclick="runAnalysis()">
+                🔬 Analyze Brain Data
+            </button>
+
+            <button class="neuro-btn" style="background: linear-gradient(135deg, #00ff88, #0088ff);" onclick="predictProgression()">
+                📈 Predict Progression
+            </button>
+
+            <button class="neuro-btn" style="background: linear-gradient(135deg, #ffaa00, #ff0088);" onclick="generateReport()">
+                📄 Generate Report
+            </button>
+        </div>
+
+        <!-- Visualization Area -->
+        <div>
+            <div class="viz-grid">
+                <!-- Brain Scan Visualization -->
+                <div class="viz-panel brain-scan">
+                    <h3 class="section-title">Brain Imaging Analysis</h3>
+                    <canvas id="brain-canvas"></canvas>
+                    <div class="neural-activity" style="top: 50px; left: 100px;"></div>
+                    <div class="neural-activity" style="top: 150px; left: 200px; animation-delay: 0.5s;"></div>
+                    <div class="neural-activity" style="top: 100px; left: 150px; animation-delay: 1s;"></div>
+                </div>
+
+                <!-- Biomarker Chart -->
+                <div class="viz-panel biomarker-chart">
+                    <h3 class="section-title">Biomarker Profile</h3>
+                    <div class="biomarker-grid">
+                        <div class="biomarker-item">
+                            <div class="biomarker-name">Aβ42</div>
+                            <div class="biomarker-value" id="abeta-display">650</div>
+                            <div class="biomarker-unit">pg/mL</div>
+                            <span class="risk-level risk-medium">MEDIUM</span>
+                        </div>
+                        <div class="biomarker-item">
+                            <div class="biomarker-name">Total Tau</div>
+                            <div class="biomarker-value" id="tau-display">450</div>
+                            <div class="biomarker-unit">pg/mL</div>
+                            <span class="risk-level risk-medium">MEDIUM</span>
+                        </div>
+                        <div class="biomarker-item">
+                            <div class="biomarker-name">p-Tau181</div>
+                            <div class="biomarker-value" id="ptau-display">65</div>
+                            <div class="biomarker-unit">pg/mL</div>
+                            <span class="risk-level risk-high">HIGH</span>
+                        </div>
+                        <div class="biomarker-item">
+                            <div class="biomarker-name">NfL</div>
+                            <div class="biomarker-value" id="nfl-display">45</div>
+                            <div class="biomarker-unit">pg/mL</div>
+                            <span class="risk-level risk-low">LOW</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Trajectory -->
+                <div class="viz-panel risk-trajectory">
+                    <h3 class="section-title">Progression Risk Trajectory</h3>
+                    <canvas id="risk-chart"></canvas>
+                    <div class="protein-panel">
+                        <h4 style="color: #00aaff; margin-bottom: 0.5rem;">Protein Aggregation Model</h4>
+                        <canvas id="protein-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="results-panel">
+                <h3 class="section-title">AI Analysis Results</h3>
+
+                <div class="result-item">
+                    <span>Overall Risk Score:</span>
+                    <strong style="color: #ff00aa;">72.3%</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Predicted Stage:</span>
+                    <strong style="color: #00aaff;">Mild Cognitive Impairment (MCI)</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Confidence Level:</span>
+                    <strong style="color: #00ff88;">87.5%</strong>
+                </div>
+
+                <div class="confidence-bar">
+                    <div class="confidence-fill" style="width: 87.5%;"></div>
+                </div>
+
+                <div class="result-item" style="margin-top: 1rem;">
+                    <span>Hippocampal Volume:</span>
+                    <strong>3,245 mm³ (-12% from normal)</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Cortical Thickness:</span>
+                    <strong>2.1 mm (mild atrophy detected)</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>White Matter Hyperintensities:</span>
+                    <strong>Fazekas Score: 2</strong>
+                </div>
+
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,255,136,0.1); border-radius: 5px;">
+                    <p style="color: #00ff88; margin-bottom: 0.5rem;">
+                        <strong>Recommendation:</strong> Patient shows biomarker evidence of early-stage neurodegeneration.
+                        Consider enrollment in clinical trial for anti-amyloid therapy.
+                    </p>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                        Next assessment recommended in 6 months. Monitor for cognitive changes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Neural network background animation
+        function animateNeuralNetwork() {
+            const canvas = document.getElementById('neural-network');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const neurons = [];
+            const connections = [];
+
+            // Create neurons
+            for (let i = 0; i < 30; i++) {
+                neurons.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    active: Math.random() > 0.7
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Draw connections
+                ctx.strokeStyle = 'rgba(255, 0, 170, 0.1)';
+                neurons.forEach((n1, i) => {
+                    neurons.slice(i + 1).forEach(n2 => {
+                        const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y);
+                        if (dist < 200) {
+                            ctx.beginPath();
+                            ctx.moveTo(n1.x, n1.y);
+                            ctx.lineTo(n2.x, n2.y);
+                            ctx.stroke();
+                        }
+                    });
+                });
+
+                // Draw neurons
+                neurons.forEach(n => {
+                    n.x += n.vx;
+                    n.y += n.vy;
+
+                    if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+                    if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+
+                    ctx.fillStyle = n.active ? '#ff00aa' : 'rgba(0, 170, 255, 0.5)';
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.active ? 4 : 3, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Random activation
+                    if (Math.random() < 0.01) n.active = !n.active;
+                });
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        }
+
+        // Brain visualization
+        function drawBrainScan() {
+            const canvas = document.getElementById('brain-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = canvas.offsetWidth;
+            canvas.height = 350;
+
+            // Simulate brain regions
+            const regions = [
+                {name: 'Hippocampus', x: 150, y: 175, size: 30, atrophy: 0.12},
+                {name: 'Entorhinal', x: 120, y: 200, size: 25, atrophy: 0.18},
+                {name: 'Temporal', x: 100, y: 150, size: 40, atrophy: 0.08},
+                {name: 'Parietal', x: 200, y: 100, size: 45, atrophy: 0.05},
+                {name: 'Frontal', x: 250, y: 150, size: 50, atrophy: 0.03}
+            ];
+
+            // Draw brain outline
+            ctx.strokeStyle = '#00aaff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.ellipse(canvas.width/2, canvas.height/2, 120, 150, 0, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Draw regions with atrophy indication
+            regions.forEach(region => {
+                const color = region.atrophy > 0.1 ? '#ff0000' : region.atrophy > 0.05 ? '#ffaa00' : '#00ff88';
+
+                ctx.fillStyle = color + '33';
+                ctx.beginPath();
+                ctx.arc(region.x, region.y, region.size * (1 - region.atrophy), 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.strokeStyle = color;
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = '#00aaff';
+                ctx.font = '10px Courier New';
+                ctx.fillText(region.name, region.x - 20, region.y - region.size - 5);
+            });
+
+            // Draw amyloid plaques
+            for (let i = 0; i < 20; i++) {
+                const x = 80 + Math.random() * 240;
+                const y = 50 + Math.random() * 250;
+
+                ctx.fillStyle = 'rgba(255, 0, 170, 0.6)';
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Risk trajectory chart
+        function drawRiskTrajectory() {
+            const canvas = document.getElementById('risk-chart');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = canvas.offsetWidth;
+            canvas.height = 300;
+
+            // Draw axes
+            ctx.strokeStyle = '#00aaff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(50, 250);
+            ctx.lineTo(canvas.width - 30, 250);
+            ctx.moveTo(50, 30);
+            ctx.lineTo(50, 250);
+            ctx.stroke();
+
+            // Labels
+            ctx.fillStyle = '#00aaff';
+            ctx.font = '12px Courier New';
+            ctx.fillText('Years', canvas.width/2, 280);
+
+            ctx.save();
+            ctx.translate(20, canvas.height/2);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText('Risk %', 0, 0);
+            ctx.restore();
+
+            // Draw risk curves
+            const scenarios = [
+                {label: 'With Intervention', color: '#00ff88', data: []},
+                {label: 'Natural Progression', color: '#ff00aa', data: []},
+                {label: 'Worst Case', color: '#ff0000', data: []}
+            ];
+
+            // Generate data
+            for (let i = 0; i <= 10; i++) {
+                scenarios[0].data.push(30 + i * 2 + Math.sin(i) * 5);
+                scenarios[1].data.push(30 + i * 5 + Math.sin(i * 0.5) * 3);
+                scenarios[2].data.push(30 + i * 8 + Math.sin(i * 0.3) * 2);
+            }
+
+            // Draw curves
+            scenarios.forEach(scenario => {
+                ctx.strokeStyle = scenario.color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                scenario.data.forEach((risk, year) => {
+                    const x = 50 + (year / 10) * (canvas.width - 80);
+                    const y = 250 - (risk / 100) * 200;
+
+                    if (year === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+
+                ctx.stroke();
+            });
+
+            // Legend
+            let legendY = 40;
+            scenarios.forEach(scenario => {
+                ctx.fillStyle = scenario.color;
+                ctx.fillRect(canvas.width - 180, legendY, 15, 15);
+                ctx.fillStyle = '#00aaff';
+                ctx.font = '11px Courier New';
+                ctx.fillText(scenario.label, canvas.width - 160, legendY + 12);
+                legendY += 25;
+            });
+        }
+
+        // Protein aggregation visualization
+        function drawProteinAggregation() {
+            const canvas = document.getElementById('protein-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = canvas.offsetWidth;
+            canvas.height = 200;
+
+            // Draw protein molecules
+            const time = Date.now() * 0.001;
+
+            for (let i = 0; i < 50; i++) {
+                const x = (i % 10) * 50 + 30 + Math.sin(time + i) * 5;
+                const y = Math.floor(i / 10) * 30 + 30 + Math.cos(time + i) * 3;
+                const aggregated = i < 20;
+
+                ctx.fillStyle = aggregated ? '#ff00aa' : '#00ff88';
+                ctx.globalAlpha = aggregated ? 0.8 : 0.4;
+                ctx.beginPath();
+                ctx.arc(x, y, aggregated ? 6 : 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Draw tau tangles
+            ctx.strokeStyle = '#ffaa00';
+            ctx.lineWidth = 2;
+            ctx.globalAlpha = 0.6;
+            ctx.beginPath();
+            for (let i = 0; i < 5; i++) {
+                const x = 100 + i * 80;
+                const y = 100 + Math.sin(time * 2 + i) * 30;
+                ctx.moveTo(x, y);
+                ctx.bezierCurveTo(
+                    x + 20, y + 20,
+                    x + 40, y - 20,
+                    x + 60, y
+                );
+            }
+            ctx.stroke();
+        }
+
+        // Analysis functions
+        function runAnalysis() {
+            console.log('Running AI analysis...');
+
+            // Update visualizations
+            drawBrainScan();
+            drawRiskTrajectory();
+
+            // Animate progress
+            const bars = document.querySelectorAll('.confidence-fill');
+            bars.forEach(bar => {
+                const width = Math.random() * 30 + 70;
+                bar.style.width = width + '%';
+            });
+
+            // Update biomarkers
+            document.getElementById('abeta-display').textContent = document.getElementById('csf-abeta').value;
+            document.getElementById('tau-display').textContent = document.getElementById('csf-tau').value;
+            document.getElementById('ptau-display').textContent = document.getElementById('csf-ptau').value;
+            document.getElementById('nfl-display').textContent = document.getElementById('plasma-nfl').value;
+        }
+
+        function predictProgression() {
+            console.log('Predicting disease progression...');
+            drawRiskTrajectory();
+        }
+
+        function generateReport() {
+            console.log('Generating comprehensive report...');
+            alert('Report generated! Check downloads folder for PDF.');
+        }
+
+        // Initialize animations
+        animateNeuralNetwork();
+        drawBrainScan();
+        drawRiskTrajectory();
+        setInterval(drawProteinAggregation, 50);
+
+        // Copyright notice
+        console.log('Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light)');
+        console.log('Websites: https://aios.is | https://thegavl.com | https://red-team-tools.aios.is');
+    </script>
+</body>
+</html>
