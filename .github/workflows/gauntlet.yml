@@ -1,0 +1,29 @@
+name: Gauntlet Contract Tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  gauntlet:
+    name: "Run 35 invariant tests"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install numpy pytest
+
+      - name: Run gauntlet (smoke check)
+        run: python autonomous_lab_gauntlet.py
+
+      - name: Run contract tests
+        run: pytest tests/test_gauntlet.py -v --tb=short
