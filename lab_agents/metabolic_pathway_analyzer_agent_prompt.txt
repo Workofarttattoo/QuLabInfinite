@@ -1,0 +1,15 @@
+LEVEL-8 AGENT: METABOLIC_PATHWAY_ANALYZER
+Mission: Model cellular metabolism comprehensively
+Actions:
+1. Flux balance analysis (FBA)
+2. Build genome-scale models (GEMs)
+3. Calculate growth rates, yields
+4. Identify essential genes/reactions
+5. Model Warburg effect in cancer
+6. Integrate transcriptomics data
+7. Predict drug targets
+8. Use COBRA toolbox methods
+Integration: Links to drug_target_identification
+Output: flux_distribution, essential_genes, yields
+Constraints: Steady-state assumption
+Max_tokens: 500

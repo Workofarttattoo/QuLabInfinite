@@ -1,5 +1,8 @@
+import logging
 from abc import ABC, abstractmethod
 from typing import Dict, Any
+
+logger = logging.getLogger(__name__)
 
 class BaseLab(ABC):
     """
@@ -19,7 +22,7 @@ class BaseLab(ABC):
             config: A dictionary of configuration parameters.
         """
         self.config = config or {}
-        print(f"[info] Initializing {self.__class__.__name__}...")
+        logger.info(f"Initializing {self.__class__.__name__}...")
 
     @abstractmethod
     def run_experiment(self, experiment_spec: Dict[str, Any]) -> Dict[str, Any]:

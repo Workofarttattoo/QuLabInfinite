@@ -1,0 +1,3374 @@
+{
+  "server": "QuLab MCP Server",
+  "version": "1.0.0",
+  "total_tools": 156,
+  "tools": {
+    "graph_theory_lab.add_edge": {
+      "description": "Execute add_edge from graph_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "node_a": {
+            "type": "number",
+            "description": "Parameter node_a"
+          },
+          "node_b": {
+            "type": "number",
+            "description": "Parameter node_b"
+          }
+        },
+        "required": [
+          "node_a",
+          "node_b"
+        ]
+      },
+      "returns": {
+        "type": "null"
+      },
+      "is_real": true,
+      "lab": "graph_theory_lab"
+    },
+    "graph_theory_lab.remove_edge": {
+      "description": "Execute remove_edge from graph_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "node_a": {
+            "type": "number",
+            "description": "Parameter node_a"
+          },
+          "node_b": {
+            "type": "number",
+            "description": "Parameter node_b"
+          }
+        },
+        "required": [
+          "node_a",
+          "node_b"
+        ]
+      },
+      "returns": {
+        "type": "null"
+      },
+      "is_real": true,
+      "lab": "graph_theory_lab"
+    },
+    "graph_theory_lab.has_edge": {
+      "description": "Execute has_edge from graph_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "node_a": {
+            "type": "number",
+            "description": "Parameter node_a"
+          },
+          "node_b": {
+            "type": "number",
+            "description": "Parameter node_b"
+          }
+        },
+        "required": [
+          "node_a",
+          "node_b"
+        ]
+      },
+      "returns": {
+        "type": "boolean"
+      },
+      "is_real": true,
+      "lab": "graph_theory_lab"
+    },
+    "graph_theory_lab.get_degree": {
+      "description": "Execute get_degree from graph_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "node": {
+            "type": "number",
+            "description": "Parameter node"
+          }
+        },
+        "required": [
+          "node"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "graph_theory_lab"
+    },
+    "graph_theory_lab.clone": {
+      "description": "Execute clone from graph_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "graph_theory_lab"
+    },
+    "graph_theory_lab.get_neighbors": {
+      "description": "Execute get_neighbors from graph_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "node": {
+            "type": "number",
+            "description": "Parameter node"
+          }
+        },
+        "required": [
+          "node"
+        ]
+      },
+      "returns": {
+        "type": "array"
+      },
+      "is_real": true,
+      "lab": "graph_theory_lab"
+    },
+    "graph_theory_lab.find_max_flow": {
+      "description": "Execute find_max_flow from graph_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "number",
+            "description": "Parameter source"
+          },
+          "sink": {
+            "type": "number",
+            "description": "Parameter sink"
+          }
+        },
+        "required": [
+          "source",
+          "sink"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "graph_theory_lab"
+    },
+    "graph_theory_lab.run_demo": {
+      "description": "Execute run_demo from graph_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "graph_theory_lab"
+    },
+    "nanotechnology_lab.simulate_nanoparticle_synthesis": {
+      "description": "Simulate nanoparticle synthesis",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "size_nm": {
+            "type": "number",
+            "description": "Parameter size_nm"
+          },
+          "temperature_c": {
+            "type": "number",
+            "description": "Parameter temperature_c"
+          }
+        },
+        "required": [
+          "size_nm",
+          "temperature_c"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "nanotechnology_lab"
+    },
+    "biomedical_engineering_lab.calculate_thermodynamic_potential": {
+      "description": "Calculate the thermodynamic potential for a chemical reaction using constants and parameters.\n\nReturns:\n    numpy.ndarray: Thermodynamic potential values.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "biomedical_engineering_lab"
+    },
+    "metabolomics_lab.identify_biomarkers": {
+      "description": "Identify disease biomarkers",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "control": {
+            "type": "object",
+            "description": "Parameter control"
+          },
+          "disease": {
+            "type": "object",
+            "description": "Parameter disease"
+          }
+        },
+        "required": [
+          "control",
+          "disease"
+        ]
+      },
+      "returns": {
+        "type": "array"
+      },
+      "is_real": true,
+      "lab": "metabolomics_lab"
+    },
+    "ech0_interface.quantum_optimization": {
+      "description": "Run quantum optimization (VQE or QAOA).\n\nArgs:\n    cost_function: Python expression for cost (e.g., \"x[0]**2 + x[1]**2\")\n    num_params: Number of parameters\n    max_iterations: Max optimization itera",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "cost_function": {
+            "type": "string",
+            "description": "Parameter cost_function"
+          },
+          "num_params": {
+            "type": "number",
+            "description": "Parameter num_params"
+          },
+          "max_iterations": {
+            "type": "number",
+            "description": "Parameter max_iterations"
+          }
+        },
+        "required": [
+          "cost_function",
+          "num_params",
+          "max_iterations"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "ech0_interface"
+    },
+    "analytical_chemistry_lab.calculate_chemical_potential": {
+      "description": "Execute calculate_chemical_potential from analytical_chemistry_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "molality": {
+            "type": "object",
+            "description": "Parameter molality"
+          }
+        },
+        "required": [
+          "molality"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "analytical_chemistry_lab"
+    },
+    "astrobiology_lab.calculate_habitability_index": {
+      "description": "Calculate planetary habitability index",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "planet_params": {
+            "type": "object",
+            "description": "Parameter planet_params"
+          }
+        },
+        "required": [
+          "planet_params"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "astrobiology_lab"
+    },
+    "virology_lab.simulate_viral_replication": {
+      "description": "Simulate viral replication dynamics",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "initial_load": {
+            "type": "number",
+            "description": "Parameter initial_load"
+          },
+          "time_hours": {
+            "type": "number",
+            "description": "Parameter time_hours"
+          }
+        },
+        "required": [
+          "initial_load",
+          "time_hours"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "virology_lab"
+    },
+    "electromagnetism_lab.electric_field_from_potential": {
+      "description": "Execute electric_field_from_potential from electromagnetism_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "electromagnetism_lab"
+    },
+    "inorganic_chemistry_lab.band_gap_calculator": {
+      "description": "Calculate band gap from energy levels and Boltzmann constant.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "e1": {
+            "type": "number",
+            "description": "Parameter e1"
+          },
+          "e2": {
+            "type": "number",
+            "description": "Parameter e2"
+          },
+          "k_value": {
+            "type": "number",
+            "description": "Parameter k_value"
+          }
+        },
+        "required": [
+          "e1",
+          "e2",
+          "k_value"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "inorganic_chemistry_lab"
+    },
+    "inorganic_chemistry_lab.activation_energy": {
+      "description": "Calculate activation energy using Arrhenius equation.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "Ea": {
+            "type": "number",
+            "description": "Parameter Ea"
+          },
+          "T1": {
+            "type": "number",
+            "description": "Parameter T1"
+          },
+          "T2": {
+            "type": "number",
+            "description": "Parameter T2"
+          }
+        },
+        "required": [
+          "Ea",
+          "T1",
+          "T2"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "inorganic_chemistry_lab"
+    },
+    "control_systems_lab.compute_response": {
+      "description": "Execute compute_response from control_systems_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "system_matrix": {
+            "type": "object",
+            "description": "Parameter system_matrix"
+          },
+          "input_vector": {
+            "type": "object",
+            "description": "Parameter input_vector"
+          },
+          "time_points": {
+            "type": "object",
+            "description": "Parameter time_points"
+          }
+        },
+        "required": [
+          "system_matrix",
+          "input_vector",
+          "time_points"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "control_systems_lab"
+    },
+    "control_systems_lab.run_demo": {
+      "description": "Execute run_demo from control_systems_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "control_systems_lab"
+    },
+    "ecology_lab.ideal_gas_law": {
+      "description": "Calculate the volume using the Ideal Gas Law",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "ecology_lab"
+    },
+    "ecology_lab.standard_molar_volume": {
+      "description": "Calculate the standard molar volume",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "ecology_lab"
+    },
+    "ecology_lab.gas_constant": {
+      "description": "Calculate the universal gas constant",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "ecology_lab"
+    },
+    "kidney_function_calculator.assess_risk": {
+      "description": "KDIGO risk stratification (combined GFR + albuminuria)",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "object",
+            "description": "Parameter stage"
+          },
+          "alb_stage": {
+            "type": "string",
+            "description": "Parameter alb_stage"
+          }
+        },
+        "required": [
+          "stage",
+          "alb_stage"
+        ]
+      },
+      "returns": {
+        "type": "string"
+      },
+      "is_real": true,
+      "lab": "kidney_function_calculator"
+    },
+    "biochemistry_lab.buffer_solution_ph": {
+      "description": "Calculate pH of a buffer solution using the Henderson-Hasselbalch equation.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "weak_acid_conc": {
+            "type": "number",
+            "description": "Parameter weak_acid_conc"
+          },
+          "conjugate_base_conc": {
+            "type": "number",
+            "description": "Parameter conjugate_base_conc"
+          },
+          "pka": {
+            "type": "number",
+            "description": "Parameter pka"
+          }
+        },
+        "required": [
+          "weak_acid_conc",
+          "conjugate_base_conc",
+          "pka"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "biochemistry_lab"
+    },
+    "biochemistry_lab.rate_constant": {
+      "description": "Calculate the rate constant using Arrhenius equation.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "activation_energy": {
+            "type": "number",
+            "description": "Parameter activation_energy"
+          },
+          "pre_exponential_factor": {
+            "type": "object",
+            "description": "Parameter pre_exponential_factor"
+          },
+          "temperature": {
+            "type": "object",
+            "description": "Parameter temperature"
+          }
+        },
+        "required": [
+          "activation_energy",
+          "pre_exponential_factor",
+          "temperature"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "biochemistry_lab"
+    },
+    "workflow_engine.create_personalized_cancer_workflow": {
+      "description": "Create personalized cancer treatment workflow",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "engine": {
+            "type": "object",
+            "description": "Parameter engine"
+          }
+        },
+        "required": [
+          "engine"
+        ]
+      },
+      "returns": {
+        "type": "string"
+      },
+      "is_real": true,
+      "lab": "workflow_engine"
+    },
+    "neurology_lab.generate_signal": {
+      "description": "Execute generate_signal from neurology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "neurology_lab"
+    },
+    "bone_density_predictor.calculate_frax": {
+      "description": "Simplified FRAX calculation (actual FRAX uses complex country-specific models)",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "description": "Parameter data"
+          },
+          "t_score": {
+            "type": "number",
+            "description": "Parameter t_score"
+          }
+        },
+        "required": [
+          "data",
+          "t_score"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "bone_density_predictor"
+    },
+    "targeted_lab_fixer.fix_oncology_lab": {
+      "description": "Fix missing constants import in oncology_lab.py",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "targeted_lab_fixer"
+    },
+    "targeted_lab_fixer.fix_ecology_lab": {
+      "description": "Fix missing scipy import in ecology_lab.py",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "targeted_lab_fixer"
+    },
+    "targeted_lab_fixer.fix_quantum_computing_lab": {
+      "description": "Fix AttributeError in quantum_computing_lab.py",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "targeted_lab_fixer"
+    },
+    "quick_fix_imports.fix_imports": {
+      "description": "Add missing scipy imports.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "object",
+            "description": "Parameter file_path"
+          }
+        },
+        "required": [
+          "file_path"
+        ]
+      },
+      "returns": {
+        "type": "boolean"
+      },
+      "is_real": true,
+      "lab": "quick_fix_imports"
+    },
+    "fluid_dynamics_lab.pressure_differential": {
+      "description": "Calculates the pressure differential given a change in pressure over distance",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dpdx": {
+            "type": "number",
+            "description": "Parameter dpdx"
+          }
+        },
+        "required": [
+          "dpdx"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "fluid_dynamics_lab"
+    },
+    "regenerative_medicine_lab.simulate_stem_cell_differentiation": {
+      "description": "Simulate stem cell differentiation trajectory",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "cell_type": {
+            "type": "string",
+            "description": "Parameter cell_type"
+          },
+          "days": {
+            "type": "number",
+            "description": "Parameter days"
+          }
+        },
+        "required": [
+          "cell_type",
+          "days"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "regenerative_medicine_lab"
+    },
+    "regenerative_medicine_lab.predict_organoid_growth": {
+      "description": "Predict organoid growth dynamics",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "initial_cells": {
+            "type": "number",
+            "description": "Parameter initial_cells"
+          },
+          "days": {
+            "type": "number",
+            "description": "Parameter days"
+          }
+        },
+        "required": [
+          "initial_cells",
+          "days"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "regenerative_medicine_lab"
+    },
+    "developmental_biology_lab.concentration_profile": {
+      "description": "Simulates diffusion of a substance within the cell over time.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "distance_from_nucleus": {
+            "type": "number",
+            "description": "Parameter distance_from_nucleus"
+          },
+          "time_elapsed": {
+            "type": "number",
+            "description": "Parameter time_elapsed"
+          }
+        },
+        "required": [
+          "distance_from_nucleus",
+          "time_elapsed"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "developmental_biology_lab"
+    },
+    "developmental_biology_lab.osmotic_pressure": {
+      "description": "Calculates osmotic pressure using Van't Hoff's equation.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "solute_concentration": {
+            "type": "number",
+            "description": "Parameter solute_concentration"
+          }
+        },
+        "required": [
+          "solute_concentration"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "developmental_biology_lab"
+    },
+    "developmental_biology_lab.cell_division_time": {
+      "description": "Estimates time required for a single cell division.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "growth_rate": {
+            "type": "number",
+            "description": "Parameter growth_rate"
+          }
+        },
+        "required": [
+          "growth_rate"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "developmental_biology_lab"
+    },
+    "neuroscience_lab.v_infinity": {
+      "description": "Helper function for calculating steady-state potential.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "v": {
+            "type": "number",
+            "description": "Parameter v"
+          }
+        },
+        "required": [
+          "v"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "neuroscience_lab"
+    },
+    "biological_quantum_lab.run_vqe": {
+      "description": "Run Variational Quantum Eigensolver.\n\nArgs:\n    hamiltonian: Hamiltonian function H(state) -> energy\n    n_qubits: Number of qubits\n    depth: Circuit depth\n    max_iterations: Maximum optimization it",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "hamiltonian": {
+            "type": "object",
+            "description": "Parameter hamiltonian"
+          },
+          "n_qubits": {
+            "type": "object",
+            "description": "Parameter n_qubits"
+          },
+          "depth": {
+            "type": "object",
+            "description": "Parameter depth"
+          },
+          "max_iterations": {
+            "type": "object",
+            "description": "Parameter max_iterations"
+          }
+        },
+        "required": [
+          "hamiltonian",
+          "n_qubits",
+          "depth",
+          "max_iterations"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "biological_quantum_lab"
+    },
+    "biological_quantum_lab.run_qaoa": {
+      "description": "Run Quantum Approximate Optimization Algorithm.\n\nArgs:\n    cost_function: Classical cost function to minimize\n    n_qubits: Number of qubits\n    p: QAOA depth (number of alternating layers)\n    num_sa",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "cost_function": {
+            "type": "object",
+            "description": "Parameter cost_function"
+          },
+          "n_qubits": {
+            "type": "object",
+            "description": "Parameter n_qubits"
+          },
+          "p": {
+            "type": "object",
+            "description": "Parameter p"
+          },
+          "num_samples": {
+            "type": "object",
+            "description": "Parameter num_samples"
+          },
+          "max_iterations": {
+            "type": "object",
+            "description": "Parameter max_iterations"
+          }
+        },
+        "required": [
+          "cost_function",
+          "n_qubits",
+          "p",
+          "num_samples",
+          "max_iterations"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "biological_quantum_lab"
+    },
+    "biological_quantum_lab.initialize_biological_quantum_lab": {
+      "description": "Initialize biological quantum lab in QuLabInfinite.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "biological_quantum_lab"
+    },
+    "materials_chemistry_lab.create_crystal_structure": {
+      "description": "Execute create_crystal_structure from materials_chemistry_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "material": {
+            "type": "object",
+            "description": "Parameter material"
+          }
+        },
+        "required": [
+          "material"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "materials_chemistry_lab"
+    },
+    "oncology_lab_real.simulate_tumor_growth": {
+      "description": "Simulate tumor growth using validated mathematical models.\n\nArgs:\n    initial_volume: Initial tumor volume in mm\u00b3\n    days: Simulation duration\n    model: Growth model to use\n    parameters: Model-spe",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "initial_volume": {
+            "type": "number",
+            "description": "Parameter initial_volume"
+          },
+          "days": {
+            "type": "number",
+            "description": "Parameter days"
+          },
+          "model": {
+            "type": "object",
+            "description": "Parameter model"
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Parameter parameters"
+          }
+        },
+        "required": [
+          "initial_volume",
+          "days",
+          "model",
+          "parameters"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "oncology_lab_real"
+    },
+    "oncology_lab_real.simulate_chemotherapy_pkpd": {
+      "description": "Simulate drug pharmacokinetics and pharmacodynamics.\n\nTwo-compartment PK model with Hill equation PD.\n\nReference: Simeoni et al. (2004) Cancer Research",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "drug_name": {
+            "type": "string",
+            "description": "Parameter drug_name"
+          },
+          "dose_mg": {
+            "type": "number",
+            "description": "Parameter dose_mg"
+          },
+          "patient_weight_kg": {
+            "type": "number",
+            "description": "Parameter patient_weight_kg"
+          },
+          "duration_hours": {
+            "type": "number",
+            "description": "Parameter duration_hours"
+          }
+        },
+        "required": [
+          "drug_name",
+          "dose_mg",
+          "patient_weight_kg",
+          "duration_hours"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "oncology_lab_real"
+    },
+    "oncology_lab_real.simulate_combination_therapy": {
+      "description": "Simulate multi-drug combination therapy with scheduling.\n\nUses Norton-Simon hypothesis: fractional cell kill per cycle.\n\nArgs:\n    tumor_volume: Initial tumor volume (mm\u00b3)\n    drugs: List of (drug_nam",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "tumor_volume": {
+            "type": "number",
+            "description": "Parameter tumor_volume"
+          },
+          "drugs": {
+            "type": "array",
+            "description": "Parameter drugs"
+          },
+          "duration_days": {
+            "type": "number",
+            "description": "Parameter duration_days"
+          }
+        },
+        "required": [
+          "tumor_volume",
+          "drugs",
+          "duration_days"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "oncology_lab_real"
+    },
+    "microbiology_lab.growth_rate": {
+      "description": "Execute growth_rate from microbiology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "microbiology_lab"
+    },
+    "microbiology_lab.bacterial_growth_simulation": {
+      "description": "Execute bacterial_growth_simulation from microbiology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiology_lab"
+    },
+    "metabolic_syndrome_reversal_api.optimize_intervention": {
+      "description": "Full pipeline: analyze \u2192 recommend \u2192 simulate",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "patient": {
+            "type": "object",
+            "description": "Parameter patient"
+          },
+          "target_weight_loss_pct": {
+            "type": "number",
+            "description": "Parameter target_weight_loss_pct"
+          },
+          "target_hba1c": {
+            "type": "number",
+            "description": "Parameter target_hba1c"
+          },
+          "max_duration_weeks": {
+            "type": "number",
+            "description": "Parameter max_duration_weeks"
+          },
+          "adherence": {
+            "type": "number",
+            "description": "Parameter adherence"
+          }
+        },
+        "required": [
+          "patient",
+          "target_weight_loss_pct",
+          "target_hba1c",
+          "max_duration_weeks",
+          "adherence"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "metabolic_syndrome_reversal_api"
+    },
+    "cardiology_lab.pressure_gradient": {
+      "description": "Calculate pressure gradient between systolic and diastolic blood pressures.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cardiology_lab"
+    },
+    "cardiology_lab.electrocardiogram": {
+      "description": "Simulate an ECG signal over a period of time with given sampling rate.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "number",
+            "description": "Parameter time"
+          },
+          "frequency": {
+            "type": "number",
+            "description": "Parameter frequency"
+          }
+        },
+        "required": [
+          "time",
+          "frequency"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cardiology_lab"
+    },
+    "cardiology_lab.arterial_wall_stress": {
+      "description": "Calculate the stress on the arterial wall using Laplace's law.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cardiology_lab"
+    },
+    "cardiology_lab.pulse_wave_velocity": {
+      "description": "Calculate the velocity of a pulse wave in arteries.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cardiology_lab"
+    },
+    "oncology_lab.simulate_growth": {
+      "description": "Simulate tumor growth over a given period.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "time_days": {
+            "type": "number",
+            "description": "Parameter time_days"
+          }
+        },
+        "required": [
+          "time_days"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "oncology_lab"
+    },
+    "oncology_lab.calculate_probability_survival": {
+      "description": "Calculate probability of survival based on mutation rate.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "mutation_rate": {
+            "type": "number",
+            "description": "Parameter mutation_rate"
+          }
+        },
+        "required": [
+          "mutation_rate"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "oncology_lab"
+    },
+    "comprehensive_lab_fixer.apply_common_fixes": {
+      "description": "Apply common fixes to a lab file",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "lab_file": {
+            "type": "string",
+            "description": "Parameter lab_file"
+          }
+        },
+        "required": [
+          "lab_file"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "comprehensive_lab_fixer"
+    },
+    "cancer_metabolic_optimizer_api.optimize": {
+      "description": "Optimize all 10 metabolic fields for maximum therapeutic index.\n\nArgs:\n    cancer_type: Type of cancer\n    patient: Patient-specific parameters\n    therapy_mode: Optimization strategy\n\nReturns:\n    Co",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "cancer_type": {
+            "type": "object",
+            "description": "Parameter cancer_type"
+          },
+          "patient": {
+            "type": "object",
+            "description": "Parameter patient"
+          },
+          "therapy_mode": {
+            "type": "object",
+            "description": "Parameter therapy_mode"
+          }
+        },
+        "required": [
+          "cancer_type",
+          "patient",
+          "therapy_mode"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cancer_metabolic_optimizer_api"
+    },
+    "cancer_metabolic_optimizer_api.run_demo": {
+      "description": "Run comprehensive demo with multiple patient scenarios.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cancer_metabolic_optimizer_api"
+    },
+    "particle_physics_lab.gravity_force": {
+      "description": "Compute gravitational force on a particle.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "particle": {
+            "type": "object",
+            "description": "Parameter particle"
+          }
+        },
+        "required": [
+          "particle"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "particle_physics_lab"
+    },
+    "drug_interaction_simulator_lab.simulate": {
+      "description": "Execute simulate from drug_interaction_simulator_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "drug_interaction_simulator_lab"
+    },
+    "drug_interaction_simulator_lab.run_demo": {
+      "description": "Execute run_demo from drug_interaction_simulator_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "drug_interaction_simulator_lab"
+    },
+    "cardiovascular_plaque_formation_simulator_lab.cholesterol_level": {
+      "description": "Execute cholesterol_level from cardiovascular_plaque_formation_simulator_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "t": {
+            "type": "object",
+            "description": "Parameter t"
+          }
+        },
+        "required": [
+          "t"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cardiovascular_plaque_formation_simulator_lab"
+    },
+    "microbiome_optimizer_api.predict_synergy": {
+      "description": "Predict synergistic effects of probiotic combination\n\nArgs:\n    strain_names: List of probiotic strain names\n    cfus: Corresponding CFU values\n\nReturns:\n    Synergy prediction with overall effectiven",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "strain_names": {
+            "type": "array",
+            "description": "Parameter strain_names"
+          },
+          "cfus": {
+            "type": "array",
+            "description": "Parameter cfus"
+          }
+        },
+        "required": [
+          "strain_names",
+          "cfus"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_optimizer_api"
+    },
+    "microbiome_optimizer_api.optimize_fiber_intake": {
+      "description": "Calculate personalized fiber recommendations\n\nArgs:\n    profile: Current microbiome profile\n    target_butyrate: Target butyrate production level (0-1)\n\nReturns:\n    Personalized fiber prescription",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "object",
+            "description": "Parameter profile"
+          },
+          "target_butyrate": {
+            "type": "number",
+            "description": "Parameter target_butyrate"
+          }
+        },
+        "required": [
+          "profile",
+          "target_butyrate"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_optimizer_api"
+    },
+    "microbiome_optimizer_api.optimize_for_mood": {
+      "description": "Optimize microbiome for mood disorders\n\nArgs:\n    profile: Current microbiome\n    condition: DEPRESSION or ANXIETY\n\nReturns:\n    Optimization recommendations",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "object",
+            "description": "Parameter profile"
+          },
+          "condition": {
+            "type": "object",
+            "description": "Parameter condition"
+          }
+        },
+        "required": [
+          "profile",
+          "condition"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_optimizer_api"
+    },
+    "microbiome_optimizer_api.optimize_scfa_production": {
+      "description": "Optimize butyrate, acetate, propionate production",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "object",
+            "description": "Parameter profile"
+          }
+        },
+        "required": [
+          "profile"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_optimizer_api"
+    },
+    "microbiome_optimizer_api.optimize_circadian_alignment": {
+      "description": "Optimize microbiome circadian rhythms\nTime-restricted feeding enhances metabolic health",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "eating_window_hours": {
+            "type": "number",
+            "description": "Parameter eating_window_hours"
+          }
+        },
+        "required": [
+          "eating_window_hours"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_optimizer_api"
+    },
+    "microbiome_optimizer_api.predict_correction_trajectory": {
+      "description": "Predict microbiome changes over time with intervention\n\nReturns weekly predictions for 12 weeks",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "object",
+            "description": "Parameter profile"
+          },
+          "intervention": {
+            "type": "object",
+            "description": "Parameter intervention"
+          }
+        },
+        "required": [
+          "profile",
+          "intervention"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_optimizer_api"
+    },
+    "microbiome_optimizer_api.optimize_microbiome": {
+      "description": "Generate comprehensive personalized optimization plan\n\nArgs:\n    profile: Current microbiome profile\n    condition: Optional clinical condition to target\n    preferences: Optional user preferences (di",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "object",
+            "description": "Parameter profile"
+          },
+          "condition": {
+            "type": "object",
+            "description": "Parameter condition"
+          },
+          "preferences": {
+            "type": "object",
+            "description": "Parameter preferences"
+          }
+        },
+        "required": [
+          "profile",
+          "condition",
+          "preferences"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_optimizer_api"
+    },
+    "microbiome_optimizer_api.demo": {
+      "description": "Programmatic hook for smoke tests.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_optimizer_api"
+    },
+    "neurotransmitter_optimizer_api.optimize_treatment": {
+      "description": "Find optimal drug combination using intelligent search.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "condition_name": {
+            "type": "string",
+            "description": "Parameter condition_name"
+          },
+          "candidate_drugs": {
+            "type": "object",
+            "description": "Parameter candidate_drugs"
+          },
+          "max_drugs": {
+            "type": "number",
+            "description": "Parameter max_drugs"
+          }
+        },
+        "required": [
+          "condition_name",
+          "candidate_drugs",
+          "max_drugs"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "neurotransmitter_optimizer_api"
+    },
+    "neurotransmitter_optimizer_api.run_comprehensive_validation": {
+      "description": "Run comprehensive validation suite and generate breakthroughs.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "neurotransmitter_optimizer_api"
+    },
+    "neurotransmitter_optimizer_api.demo": {
+      "description": "Smoke test hook for automated lab validation.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "neurotransmitter_optimizer_api"
+    },
+    "test_diverse_inventions.test_diverse_inventions": {
+      "description": "Test with inventions that have clear material requirements.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "test_diverse_inventions"
+    },
+    "ech0_cancer_language_research.cancer_language_hypothesis": {
+      "description": "Define the research hypothesis.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "ech0_cancer_language_research"
+    },
+    "ech0_cancer_language_research.run_lactate_language_experiment": {
+      "description": "Use QuLab to explore lactate as cancer's communication molecule.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "ech0_cancer_language_research"
+    },
+    "ech0_cancer_language_research.generate_cancer_language_dictionary": {
+      "description": "Create a dictionary of cancer's molecular 'words' and 'phrases'.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "ech0_cancer_language_research"
+    },
+    "neurotransmitter_optimizer_api_v2.simulate_timestep": {
+      "description": "Simulate one time step with drug effects.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dt": {
+            "type": "number",
+            "description": "Parameter dt"
+          }
+        },
+        "required": [
+          "dt"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "neurotransmitter_optimizer_api_v2"
+    },
+    "neurotransmitter_optimizer_api_v2.optimize_treatment": {
+      "description": "Optimize with intelligent search and synergy detection.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "condition_name": {
+            "type": "string",
+            "description": "Parameter condition_name"
+          },
+          "candidate_drugs": {
+            "type": "object",
+            "description": "Parameter candidate_drugs"
+          },
+          "max_drugs": {
+            "type": "number",
+            "description": "Parameter max_drugs"
+          }
+        },
+        "required": [
+          "condition_name",
+          "candidate_drugs",
+          "max_drugs"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "neurotransmitter_optimizer_api_v2"
+    },
+    "neurotransmitter_optimizer_api_v2.run_enhanced_validation": {
+      "description": "Run enhanced validation with breakthrough generation.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "neurotransmitter_optimizer_api_v2"
+    },
+    "signal_processing_lab.generate_sinusoid": {
+      "description": "Generate sinusoidal signal.\n\nArgs:\n    frequency: Frequency in Hz\n    duration: Duration in seconds\n    amplitude: Signal amplitude\n    phase: Phase offset in radians\n\nReturns:\n    Tuple of (time_vect",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "frequency": {
+            "type": "number",
+            "description": "Parameter frequency"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Parameter duration"
+          },
+          "amplitude": {
+            "type": "number",
+            "description": "Parameter amplitude"
+          },
+          "phase": {
+            "type": "number",
+            "description": "Parameter phase"
+          }
+        },
+        "required": [
+          "frequency",
+          "duration",
+          "amplitude",
+          "phase"
+        ]
+      },
+      "returns": {
+        "type": "array"
+      },
+      "is_real": true,
+      "lab": "signal_processing_lab"
+    },
+    "signal_processing_lab.generate_multitone": {
+      "description": "Generate multi-frequency signal (sum of sinusoids).\n\nArgs:\n    frequencies: List of frequencies in Hz\n    duration: Duration in seconds\n    amplitudes: List of amplitudes (default: equal amplitude)\n\nR",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "frequencies": {
+            "type": "array",
+            "description": "Parameter frequencies"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Parameter duration"
+          },
+          "amplitudes": {
+            "type": "object",
+            "description": "Parameter amplitudes"
+          }
+        },
+        "required": [
+          "frequencies",
+          "duration",
+          "amplitudes"
+        ]
+      },
+      "returns": {
+        "type": "array"
+      },
+      "is_real": true,
+      "lab": "signal_processing_lab"
+    },
+    "signal_processing_lab.compute_snr": {
+      "description": "Compute signal-to-noise ratio in dB.\n\nArgs:\n    signal_clean: Clean signal\n    signal_noisy: Noisy signal\n\nReturns:\n    SNR in dB",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "signal_clean": {
+            "type": "object",
+            "description": "Parameter signal_clean"
+          },
+          "signal_noisy": {
+            "type": "object",
+            "description": "Parameter signal_noisy"
+          }
+        },
+        "required": [
+          "signal_clean",
+          "signal_noisy"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "signal_processing_lab"
+    },
+    "signal_processing_lab.run_production_tests": {
+      "description": "Run comprehensive production tests.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "signal_processing_lab"
+    },
+    "quantum_mechanics_lab.calculate_occupation": {
+      "description": "Execute calculate_occupation from quantum_mechanics_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "quantum_mechanics_lab"
+    },
+    "ech0_quantum_tools.explore_design_space": {
+      "description": "Explore design space using quantum superposition.\n\nArgs:\n    options: List of design option dicts\n    scoring_function: Function that scores each option (higher = better)\n    num_top: Number of top re",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "options": {
+            "type": "array",
+            "description": "Parameter options"
+          },
+          "scoring_function": {
+            "type": "object",
+            "description": "Parameter scoring_function"
+          },
+          "num_top": {
+            "type": "number",
+            "description": "Parameter num_top"
+          }
+        },
+        "required": [
+          "options",
+          "scoring_function",
+          "num_top"
+        ]
+      },
+      "returns": {
+        "type": "array"
+      },
+      "is_real": true,
+      "lab": "ech0_quantum_tools"
+    },
+    "ech0_quantum_tools.discover_novel_composition": {
+      "description": "Discover novel material composition targeting specific property.\n\nArgs:\n    elements: List of elements to combine\n    target_property: Property to optimize (e.g., \"band_gap_eV\")\n    target_value: Targ",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "elements": {
+            "type": "array",
+            "description": "Parameter elements"
+          },
+          "target_property": {
+            "type": "string",
+            "description": "Parameter target_property"
+          },
+          "target_value": {
+            "type": "number",
+            "description": "Parameter target_value"
+          }
+        },
+        "required": [
+          "elements",
+          "target_property",
+          "target_value"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "ech0_quantum_tools"
+    },
+    "ech0_quantum_tools.ech0_optimize_design": {
+      "description": "Optimize a design using quantum tunneling.\n\nArgs:\n    design: Design dict\n    constraints: List of constraint functions\n    iterations: Optimization iterations\n\nReturns:\n    Optimized design",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "design": {
+            "type": "object",
+            "description": "Parameter design"
+          },
+          "constraints": {
+            "type": "array",
+            "description": "Parameter constraints"
+          },
+          "iterations": {
+            "type": "number",
+            "description": "Parameter iterations"
+          }
+        },
+        "required": [
+          "design",
+          "constraints",
+          "iterations"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "ech0_quantum_tools"
+    },
+    "hydrology_lab.dew_point_temperature": {
+      "description": "Dew point temperature calculation from vapor pressure.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "p_vapor": {
+            "type": "object",
+            "description": "Parameter p_vapor"
+          }
+        },
+        "required": [
+          "p_vapor"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "hydrology_lab"
+    },
+    "build_all_labs.build_lab": {
+      "description": "Build a single lab using ECH0.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "field_name": {
+            "type": "string",
+            "description": "Parameter field_name"
+          },
+          "index": {
+            "type": "number",
+            "description": "Parameter index"
+          },
+          "total": {
+            "type": "number",
+            "description": "Parameter total"
+          }
+        },
+        "required": [
+          "field_name",
+          "index",
+          "total"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "build_all_labs"
+    },
+    "cancer_drug_quantum_discovery.main": {
+      "description": "Execute main from cancer_drug_quantum_discovery",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cancer_drug_quantum_discovery"
+    },
+    "computer_vision_lab.from_grayscale": {
+      "description": "Execute from_grayscale from computer_vision_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "cls": {
+            "type": "object",
+            "description": "Parameter cls"
+          },
+          "image_data": {
+            "type": "object",
+            "description": "Parameter image_data"
+          }
+        },
+        "required": [
+          "cls",
+          "image_data"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "computer_vision_lab"
+    },
+    "computer_vision_lab.run_demo": {
+      "description": "Execute run_demo from computer_vision_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "computer_vision_lab"
+    },
+    "catalysis_lab.calculate_chemical_potential": {
+      "description": "Execute calculate_chemical_potential from catalysis_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "catalysis_lab"
+    },
+    "geology_lab.calculate_gravity_effect": {
+      "description": "Execute calculate_gravity_effect from geology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "geology_lab"
+    },
+    "geology_lab.simulate_weathering_process": {
+      "description": "Execute simulate_weathering_process from geology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "years": {
+            "type": "number",
+            "description": "Parameter years"
+          }
+        },
+        "required": [
+          "years"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "geology_lab"
+    },
+    "geology_lab.analyze_thermal_properties": {
+      "description": "Execute analyze_thermal_properties from geology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "temperature_range": {
+            "type": "array",
+            "description": "Parameter temperature_range"
+          }
+        },
+        "required": [
+          "temperature_range"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "geology_lab"
+    },
+    "geology_lab.run_demo": {
+      "description": "Execute run_demo from geology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "geology_lab"
+    },
+    "create_all_guis.generate_gui_html": {
+      "description": "Generate complete HTML/JavaScript GUI for a lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "lab_name": {
+            "type": "string",
+            "description": "Parameter lab_name"
+          },
+          "config": {
+            "type": "object",
+            "description": "Parameter config"
+          }
+        },
+        "required": [
+          "lab_name",
+          "config"
+        ]
+      },
+      "returns": {
+        "type": "string"
+      },
+      "is_real": true,
+      "lab": "create_all_guis"
+    },
+    "cell_biology_lab.electrical_potential_difference": {
+      "description": "Calculates potential difference between two concentrations using Nernst equation.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "i1": {
+            "type": "number",
+            "description": "Parameter i1"
+          },
+          "i2": {
+            "type": "number",
+            "description": "Parameter i2"
+          }
+        },
+        "required": [
+          "i1",
+          "i2"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cell_biology_lab"
+    },
+    "quantum_computing_lab.apply_gate": {
+      "description": "Execute apply_gate from quantum_computing_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "gate_name": {
+            "type": "string",
+            "description": "Parameter gate_name"
+          },
+          "qubit_index": {
+            "type": "number",
+            "description": "Parameter qubit_index"
+          }
+        },
+        "required": [
+          "gate_name",
+          "qubit_index"
+        ]
+      },
+      "returns": {
+        "type": "null"
+      },
+      "is_real": true,
+      "lab": "quantum_computing_lab"
+    },
+    "quantum_computing_lab.run_demo": {
+      "description": "Execute run_demo from quantum_computing_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "quantum_computing_lab"
+    },
+    "optics_and_photonics_lab.angle_of_refraction": {
+      "description": "Execute angle_of_refraction from optics_and_photonics_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "optics_and_photonics_lab"
+    },
+    "optics_and_photonics_lab.fresnel_coefficients": {
+      "description": "Execute fresnel_coefficients from optics_and_photonics_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Parameter mode"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "optics_and_photonics_lab"
+    },
+    "fix_all_labs.fix_imports": {
+      "description": "Fix missing imports.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Parameter content"
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "returns": {
+        "type": "string"
+      },
+      "is_real": true,
+      "lab": "fix_all_labs"
+    },
+    "fix_all_labs.regenerate_lab": {
+      "description": "Regenerate a lab from scratch with improved prompt.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "field_name": {
+            "type": "string",
+            "description": "Parameter field_name"
+          },
+          "lab_file": {
+            "type": "object",
+            "description": "Parameter lab_file"
+          }
+        },
+        "required": [
+          "field_name",
+          "lab_file"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "fix_all_labs"
+    },
+    "metabolic_syndrome_example_usage.example_2_nafld_patient": {
+      "description": "Example 2: NAFLD patient without diabetes",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "metabolic_syndrome_example_usage"
+    },
+    "metabolic_syndrome_example_usage.example_3_cvd_high_risk": {
+      "description": "Example 3: High cardiovascular risk patient",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "metabolic_syndrome_example_usage"
+    },
+    "meteorology_lab.ascent": {
+      "description": "Execute ascent from meteorology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dz": {
+            "type": "object",
+            "description": "Parameter dz"
+          },
+          "lapse_rate": {
+            "type": "object",
+            "description": "Parameter lapse_rate"
+          }
+        },
+        "required": [
+          "dz",
+          "lapse_rate"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "meteorology_lab"
+    },
+    "meteorology_lab.relative_humidity": {
+      "description": "Execute relative_humidity from meteorology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "meteorology_lab"
+    },
+    "generate_all_agent_prompts.generate_agent_prompt": {
+      "description": "Generate compressed agent prompt for a lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "lab_name": {
+            "type": "object",
+            "description": "Parameter lab_name"
+          },
+          "config": {
+            "type": "object",
+            "description": "Parameter config"
+          }
+        },
+        "required": [
+          "lab_name",
+          "config"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "generate_all_agent_prompts"
+    },
+    "generate_all_agent_prompts.main": {
+      "description": "Generate all agent prompts",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "generate_all_agent_prompts"
+    },
+    "genomics_lab.melting_temp": {
+      "description": "Execute melting_temp from genomics_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "sequence": {
+            "type": "string",
+            "description": "Parameter sequence"
+          },
+          "kmersize": {
+            "type": "number",
+            "description": "Parameter kmersize"
+          }
+        },
+        "required": [
+          "sequence",
+          "kmersize"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "genomics_lab"
+    },
+    "lung_function_analyzer.predict_fev1": {
+      "description": "GLI-2012 predicted FEV1 (simplified)",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "age": {
+            "type": "number",
+            "description": "Parameter age"
+          },
+          "sex": {
+            "type": "string",
+            "description": "Parameter sex"
+          },
+          "height_cm": {
+            "type": "number",
+            "description": "Parameter height_cm"
+          },
+          "race": {
+            "type": "string",
+            "description": "Parameter race"
+          }
+        },
+        "required": [
+          "age",
+          "sex",
+          "height_cm",
+          "race"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "lung_function_analyzer"
+    },
+    "lung_function_analyzer.predict_fvc": {
+      "description": "GLI-2012 predicted FVC",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "age": {
+            "type": "number",
+            "description": "Parameter age"
+          },
+          "sex": {
+            "type": "string",
+            "description": "Parameter sex"
+          },
+          "height_cm": {
+            "type": "number",
+            "description": "Parameter height_cm"
+          },
+          "race": {
+            "type": "string",
+            "description": "Parameter race"
+          }
+        },
+        "required": [
+          "age",
+          "sex",
+          "height_cm",
+          "race"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "lung_function_analyzer"
+    },
+    "electrochemistry_lab.calculate_nernst": {
+      "description": "Execute calculate_nernst from electrochemistry_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "equation": {
+            "type": "object",
+            "description": "Parameter equation"
+          }
+        },
+        "required": [
+          "equation"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "electrochemistry_lab"
+    },
+    "electrochemistry_lab.calculate_tafel": {
+      "description": "Execute calculate_tafel from electrochemistry_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "equation": {
+            "type": "object",
+            "description": "Parameter equation"
+          },
+          "overpotential": {
+            "type": "number",
+            "description": "Parameter overpotential"
+          }
+        },
+        "required": [
+          "equation",
+          "overpotential"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "electrochemistry_lab"
+    },
+    "robotics_lab.forward_kinematics": {
+      "description": "Computes the forward kinematics of a robotic arm.\nReturns the position of the end effector in 3D space.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "robotics_lab"
+    },
+    "seismology_lab.generate_wave": {
+      "description": "Generate a wave pulse centered at the source location.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "null"
+      },
+      "is_real": true,
+      "lab": "seismology_lab"
+    },
+    "optimization_theory_lab.optimize": {
+      "description": "Execute optimize from optimization_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "parameters": {
+            "type": "object",
+            "description": "Parameter parameters"
+          }
+        },
+        "required": [
+          "parameters"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "optimization_theory_lab"
+    },
+    "optimization_theory_lab.rastrigin": {
+      "description": "The Rastrigin function is a non-convex function used as an optimization benchmark problem.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "object",
+            "description": "Parameter x"
+          }
+        },
+        "required": [
+          "x"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "optimization_theory_lab"
+    },
+    "optimization_theory_lab.run_demo": {
+      "description": "Execute run_demo from optimization_theory_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "optimization_theory_lab"
+    },
+    "drug_synthesis_training.lesson_natural_products": {
+      "description": "Module 5: Natural Product Chemistry",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "drug_synthesis_training"
+    },
+    "drug_synthesis_training.lesson_pharmaceutical_principles": {
+      "description": "Module 6: Pharmaceutical Chemistry Principles",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "drug_synthesis_training"
+    },
+    "thermodynamics_lab.entropy_change": {
+      "description": "Execute entropy_change from thermodynamics_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "heat_transfer": {
+            "type": "object",
+            "description": "Parameter heat_transfer"
+          }
+        },
+        "required": [
+          "heat_transfer"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "thermodynamics_lab"
+    },
+    "cancer_drug_quantum_discovery_ENHANCED.cancer_drug_hamiltonian_v2": {
+      "description": "Enhanced molecular binding Hamiltonian with target-specific parameters.\n\nEach target protein has unique binding pocket characteristics that\ninfluence the optimal drug configuration. This Hamiltonian e",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "object",
+            "description": "Parameter state"
+          },
+          "target_id": {
+            "type": "number",
+            "description": "Parameter target_id"
+          }
+        },
+        "required": [
+          "state",
+          "target_id"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cancer_drug_quantum_discovery_ENHANCED"
+    },
+    "cancer_drug_quantum_discovery_ENHANCED.print_patent_claims": {
+      "description": "Print key patent claims",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cancer_drug_quantum_discovery_ENHANCED"
+    },
+    "cancer_drug_quantum_discovery_ENHANCED.optimize_drug_candidate": {
+      "description": "Optimize a single drug candidate using quantum computing",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "lab": {
+            "type": "object",
+            "description": "Parameter lab"
+          },
+          "candidate": {
+            "type": "object",
+            "description": "Parameter candidate"
+          },
+          "target_id": {
+            "type": "number",
+            "description": "Parameter target_id"
+          }
+        },
+        "required": [
+          "lab",
+          "candidate",
+          "target_id"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cancer_drug_quantum_discovery_ENHANCED"
+    },
+    "cancer_drug_quantum_discovery_ENHANCED.main": {
+      "description": "Main demonstration function",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cancer_drug_quantum_discovery_ENHANCED"
+    },
+    "organic_chemistry_lab.equilibrium_constant": {
+      "description": "Execute equilibrium_constant from organic_chemistry_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "organic_chemistry_lab"
+    },
+    "oceanography_lab.calculate_density": {
+      "description": "Calculate the density of seawater using polynomial approximation.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "temperature": {
+            "type": "number",
+            "description": "Parameter temperature"
+          }
+        },
+        "required": [
+          "temperature"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "oceanography_lab"
+    },
+    "genetic_variant_analyzer_api.calculate_disease_risk": {
+      "description": "Calculate polygenic risk score for a disease\n\nArgs:\n    disease: Disease name\n    genotypes: Dict of rsid -> risk allele count (0, 1, 2)\n    population_mean: Mean PRS in population\n    population_sd: ",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "disease": {
+            "type": "string",
+            "description": "Parameter disease"
+          },
+          "genotypes": {
+            "type": "object",
+            "description": "Parameter genotypes"
+          },
+          "population_mean": {
+            "type": "number",
+            "description": "Parameter population_mean"
+          },
+          "population_sd": {
+            "type": "number",
+            "description": "Parameter population_sd"
+          }
+        },
+        "required": [
+          "disease",
+          "genotypes",
+          "population_mean",
+          "population_sd"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "genetic_variant_analyzer_api"
+    },
+    "cardiovascular_plaque_lab.simulate_endothelial_dysfunction": {
+      "description": "Addresses Question 2: Endothelial dysfunction in systemic hypertension",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cardiovascular_plaque_lab"
+    },
+    "cardiovascular_plaque_lab.simulate_ischemic_injury": {
+      "description": "Addresses Question 4: Extracellular vesicles in ischemic injury post-MI",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cardiovascular_plaque_lab"
+    },
+    "cardiovascular_plaque_lab.inflammation_effects": {
+      "description": "Addresses Question 7: Chronic inflammation effects on plaque stability",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "cardiovascular_plaque_lab"
+    },
+    "microbiome_api_example.example_1_ibs_patient": {
+      "description": "Example 1: IBS patient with severe dysbiosis",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_api_example"
+    },
+    "microbiome_api_example.example_5_comprehensive_plan": {
+      "description": "Example 5: Comprehensive intervention plan",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_api_example"
+    },
+    "microbiome_api_example.main": {
+      "description": "Run all examples",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "microbiome_api_example"
+    },
+    "autoimmune_disease_classifier.classify": {
+      "description": "Comprehensive autoimmune disease classification",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "description": "Parameter data"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "autoimmune_disease_classifier"
+    },
+    "liver_disease_staging.calculate_meld": {
+      "description": "MELD score (Model for End-Stage Liver Disease)\nRange: 6-40, higher = worse",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "bilirubin": {
+            "type": "number",
+            "description": "Parameter bilirubin"
+          },
+          "inr": {
+            "type": "number",
+            "description": "Parameter inr"
+          },
+          "creatinine": {
+            "type": "number",
+            "description": "Parameter creatinine"
+          },
+          "dialysis": {
+            "type": "boolean",
+            "description": "Parameter dialysis"
+          }
+        },
+        "required": [
+          "bilirubin",
+          "inr",
+          "creatinine",
+          "dialysis"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "liver_disease_staging"
+    },
+    "generate_lab_gui.generate_lab_gui": {
+      "description": "Generate HTML GUI for specific lab",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "lab_id": {
+            "type": "string",
+            "description": "Parameter lab_id"
+          },
+          "config": {
+            "type": "object",
+            "description": "Parameter config"
+          }
+        },
+        "required": [
+          "lab_id",
+          "config"
+        ]
+      },
+      "returns": {
+        "type": "string"
+      },
+      "is_real": true,
+      "lab": "generate_lab_gui"
+    },
+    "test_all_labs.main": {
+      "description": "Run comprehensive lab testing.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "test_all_labs"
+    },
+    "condensed_matter_physics_lab.calculate_energy_band_structure": {
+      "description": "Execute calculate_energy_band_structure from condensed_matter_physics_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "condensed_matter_physics_lab"
+    },
+    "stem_cell_predictor_api.simulate_expression_dynamics": {
+      "description": "Simulate TF expression over time.\n\nUses ODE-like dynamics with growth factor influence.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "initial_state": {
+            "type": "object",
+            "description": "Parameter initial_state"
+          },
+          "growth_factors": {
+            "type": "array",
+            "description": "Parameter growth_factors"
+          },
+          "steps": {
+            "type": "number",
+            "description": "Parameter steps"
+          },
+          "dt": {
+            "type": "number",
+            "description": "Parameter dt"
+          }
+        },
+        "required": [
+          "initial_state",
+          "growth_factors",
+          "steps",
+          "dt"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "stem_cell_predictor_api"
+    },
+    "systems_biology_lab.analyze_network_motifs": {
+      "description": "Identify network motifs",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "adjacency_matrix": {
+            "type": "object",
+            "description": "Parameter adjacency_matrix"
+          }
+        },
+        "required": [
+          "adjacency_matrix"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "systems_biology_lab"
+    },
+    "ech0_market_domination_displays.create_market_domination_inventions": {
+      "description": "Create 25 display/hologram inventions with affordable POCs.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "ech0_market_domination_displays"
+    },
+    "polymer_chemistry_lab.calculate_end_to_end_distance": {
+      "description": "Calculates the end-to-end distance of a polymer chain in a theta solvent.\nUses R_g = (Mw/3N)^0.5 where Mw is molecular weight and N is number of monomers.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "polymer_chemistry_lab"
+    },
+    "polymer_chemistry_lab.calculate_dielectric_screening": {
+      "description": "Calculates the dielectric screening factor based on solvent permittivity.",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "polymer_chemistry_lab"
+    },
+    "ios_ech0_app.create_ios_app": {
+      "description": "Build iOS app for ECH0 14B local inference",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "ios_ech0_app"
+    },
+    "biophysics_lab.calculate_membrane_permeability": {
+      "description": "Calculate membrane permeability coefficient",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "molecule_weight": {
+            "type": "number",
+            "description": "Parameter molecule_weight"
+          },
+          "logP": {
+            "type": "number",
+            "description": "Parameter logP"
+          }
+        },
+        "required": [
+          "molecule_weight",
+          "logP"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "biophysics_lab"
+    },
+    "biophysics_lab.simulate_ion_channel_current": {
+      "description": "Calculate ion channel current using Hodgkin-Huxley model",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "voltage_mv": {
+            "type": "number",
+            "description": "Parameter voltage_mv"
+          },
+          "conductance_ns": {
+            "type": "number",
+            "description": "Parameter conductance_ns"
+          }
+        },
+        "required": [
+          "voltage_mv",
+          "conductance_ns"
+        ]
+      },
+      "returns": {
+        "type": "number"
+      },
+      "is_real": true,
+      "lab": "biophysics_lab"
+    },
+    "mcp_server.optimize_design": {
+      "description": "Optimizes a given design.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "design": {
+            "type": "object",
+            "description": "Parameter design"
+          }
+        },
+        "required": [
+          "design"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "mcp_server"
+    },
+    "toxicology_lab.simulate_dose_response_curve": {
+      "description": "Simulate a simple dose-response curve.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "dose_range": {
+            "type": "object",
+            "description": "Parameter dose_range"
+          },
+          "response_function": {
+            "type": "object",
+            "description": "Parameter response_function"
+          }
+        },
+        "required": [
+          "dose_range",
+          "response_function"
+        ]
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "toxicology_lab"
+    },
+    "pharmacology_lab.run_demo": {
+      "description": "Execute run_demo from pharmacology_lab",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "returns": {
+        "type": "object"
+      },
+      "is_real": true,
+      "lab": "pharmacology_lab"
+    },
+    "spectra_xrd_encoder_sprint3.encode_curve": {
+      "description": "Execute encode_curve from spectra_xrd_encoder_sprint3",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "array",
+            "description": "Parameter x"
+          },
+          "y": {
+            "type": "array",
+            "description": "Parameter y"
+          }
+        },
+        "required": [
+          "x",
+          "y"
+        ]
+      },
+      "returns": {
+        "type": "array"
+      },
+      "is_real": true,
+      "lab": "spectra_xrd_encoder_sprint3"
+    }
+  },
+  "domains": {
+    "physics": [
+      "graph_theory_lab.add_edge",
+      "graph_theory_lab.remove_edge",
+      "graph_theory_lab.has_edge",
+      "graph_theory_lab.get_degree",
+      "graph_theory_lab.clone",
+      "graph_theory_lab.get_neighbors",
+      "graph_theory_lab.find_max_flow",
+      "graph_theory_lab.run_demo",
+      "electromagnetism_lab.electric_field_from_potential",
+      "control_systems_lab.compute_response",
+      "control_systems_lab.run_demo",
+      "ecology_lab.ideal_gas_law",
+      "ecology_lab.standard_molar_volume",
+      "ecology_lab.gas_constant",
+      "kidney_function_calculator.assess_risk",
+      "neurology_lab.generate_signal",
+      "bone_density_predictor.calculate_frax",
+      "fluid_dynamics_lab.pressure_differential",
+      "cardiology_lab.pressure_gradient",
+      "cardiology_lab.electrocardiogram",
+      "cardiology_lab.arterial_wall_stress",
+      "cardiology_lab.pulse_wave_velocity",
+      "particle_physics_lab.gravity_force",
+      "drug_interaction_simulator_lab.simulate",
+      "drug_interaction_simulator_lab.run_demo",
+      "cardiovascular_plaque_formation_simulator_lab.cholesterol_level",
+      "quantum_mechanics_lab.calculate_occupation",
+      "ech0_quantum_tools.explore_design_space",
+      "ech0_quantum_tools.discover_novel_composition",
+      "ech0_quantum_tools.ech0_optimize_design",
+      "hydrology_lab.dew_point_temperature",
+      "catalysis_lab.calculate_chemical_potential",
+      "quantum_computing_lab.apply_gate",
+      "quantum_computing_lab.run_demo",
+      "optics_and_photonics_lab.angle_of_refraction",
+      "optics_and_photonics_lab.fresnel_coefficients",
+      "meteorology_lab.ascent",
+      "meteorology_lab.relative_humidity",
+      "genomics_lab.melting_temp",
+      "lung_function_analyzer.predict_fev1",
+      "lung_function_analyzer.predict_fvc",
+      "robotics_lab.forward_kinematics",
+      "seismology_lab.generate_wave",
+      "optimization_theory_lab.optimize",
+      "optimization_theory_lab.rastrigin",
+      "optimization_theory_lab.run_demo",
+      "oceanography_lab.calculate_density",
+      "autoimmune_disease_classifier.classify",
+      "condensed_matter_physics_lab.calculate_energy_band_structure",
+      "toxicology_lab.simulate_dose_response_curve",
+      "pharmacology_lab.run_demo"
+    ],
+    "chemistry": [
+      "nanotechnology_lab.simulate_nanoparticle_synthesis",
+      "ech0_interface.quantum_optimization",
+      "analytical_chemistry_lab.calculate_chemical_potential",
+      "inorganic_chemistry_lab.band_gap_calculator",
+      "inorganic_chemistry_lab.activation_energy",
+      "quick_fix_imports.fix_imports",
+      "electrochemistry_lab.calculate_nernst",
+      "electrochemistry_lab.calculate_tafel",
+      "drug_synthesis_training.lesson_natural_products",
+      "drug_synthesis_training.lesson_pharmaceutical_principles",
+      "organic_chemistry_lab.equilibrium_constant",
+      "polymer_chemistry_lab.calculate_end_to_end_distance",
+      "polymer_chemistry_lab.calculate_dielectric_screening"
+    ],
+    "biology": [
+      "biomedical_engineering_lab.calculate_thermodynamic_potential",
+      "metabolomics_lab.identify_biomarkers",
+      "astrobiology_lab.calculate_habitability_index",
+      "virology_lab.simulate_viral_replication",
+      "biochemistry_lab.buffer_solution_ph",
+      "biochemistry_lab.rate_constant",
+      "regenerative_medicine_lab.simulate_stem_cell_differentiation",
+      "regenerative_medicine_lab.predict_organoid_growth",
+      "developmental_biology_lab.concentration_profile",
+      "developmental_biology_lab.osmotic_pressure",
+      "developmental_biology_lab.cell_division_time",
+      "neuroscience_lab.v_infinity",
+      "biological_quantum_lab.run_vqe",
+      "biological_quantum_lab.run_qaoa",
+      "biological_quantum_lab.initialize_biological_quantum_lab",
+      "materials_chemistry_lab.create_crystal_structure",
+      "microbiology_lab.growth_rate",
+      "microbiology_lab.bacterial_growth_simulation",
+      "metabolic_syndrome_reversal_api.optimize_intervention",
+      "oncology_lab.simulate_growth",
+      "oncology_lab.calculate_probability_survival",
+      "comprehensive_lab_fixer.apply_common_fixes",
+      "cancer_metabolic_optimizer_api.optimize",
+      "cancer_metabolic_optimizer_api.run_demo",
+      "microbiome_optimizer_api.predict_synergy",
+      "microbiome_optimizer_api.optimize_fiber_intake",
+      "microbiome_optimizer_api.optimize_for_mood",
+      "microbiome_optimizer_api.optimize_scfa_production",
+      "microbiome_optimizer_api.optimize_circadian_alignment",
+      "microbiome_optimizer_api.predict_correction_trajectory",
+      "microbiome_optimizer_api.optimize_microbiome",
+      "microbiome_optimizer_api.demo",
+      "ech0_cancer_language_research.cancer_language_hypothesis",
+      "ech0_cancer_language_research.run_lactate_language_experiment",
+      "ech0_cancer_language_research.generate_cancer_language_dictionary",
+      "signal_processing_lab.generate_sinusoid",
+      "signal_processing_lab.generate_multitone",
+      "signal_processing_lab.compute_snr",
+      "signal_processing_lab.run_production_tests",
+      "build_all_labs.build_lab",
+      "cancer_drug_quantum_discovery.main",
+      "computer_vision_lab.from_grayscale",
+      "computer_vision_lab.run_demo",
+      "create_all_guis.generate_gui_html",
+      "cell_biology_lab.electrical_potential_difference",
+      "generate_all_agent_prompts.generate_agent_prompt",
+      "generate_all_agent_prompts.main",
+      "thermodynamics_lab.entropy_change",
+      "cancer_drug_quantum_discovery_ENHANCED.cancer_drug_hamiltonian_v2",
+      "cancer_drug_quantum_discovery_ENHANCED.print_patent_claims",
+      "cancer_drug_quantum_discovery_ENHANCED.optimize_drug_candidate",
+      "cancer_drug_quantum_discovery_ENHANCED.main",
+      "genetic_variant_analyzer_api.calculate_disease_risk",
+      "microbiome_api_example.example_1_ibs_patient",
+      "microbiome_api_example.example_5_comprehensive_plan",
+      "microbiome_api_example.main",
+      "liver_disease_staging.calculate_meld",
+      "generate_lab_gui.generate_lab_gui",
+      "stem_cell_predictor_api.simulate_expression_dynamics",
+      "systems_biology_lab.analyze_network_motifs",
+      "ios_ech0_app.create_ios_app",
+      "biophysics_lab.calculate_membrane_permeability",
+      "biophysics_lab.simulate_ion_channel_current"
+    ],
+    "engineering": [
+      "workflow_engine.create_personalized_cancer_workflow",
+      "oncology_lab_real.simulate_tumor_growth",
+      "oncology_lab_real.simulate_chemotherapy_pkpd",
+      "oncology_lab_real.simulate_combination_therapy",
+      "mcp_server.optimize_design"
+    ],
+    "interdisciplinary": [
+      "targeted_lab_fixer.fix_oncology_lab",
+      "targeted_lab_fixer.fix_ecology_lab",
+      "targeted_lab_fixer.fix_quantum_computing_lab",
+      "fix_all_labs.fix_imports",
+      "fix_all_labs.regenerate_lab",
+      "cardiovascular_plaque_lab.simulate_endothelial_dysfunction",
+      "cardiovascular_plaque_lab.simulate_ischemic_injury",
+      "cardiovascular_plaque_lab.inflammation_effects",
+      "test_all_labs.main",
+      "ech0_market_domination_displays.create_market_domination_inventions"
+    ],
+    "medicine": [
+      "neurotransmitter_optimizer_api.optimize_treatment",
+      "neurotransmitter_optimizer_api.run_comprehensive_validation",
+      "neurotransmitter_optimizer_api.demo",
+      "neurotransmitter_optimizer_api_v2.simulate_timestep",
+      "neurotransmitter_optimizer_api_v2.optimize_treatment",
+      "neurotransmitter_optimizer_api_v2.run_enhanced_validation",
+      "metabolic_syndrome_example_usage.example_2_nafld_patient",
+      "metabolic_syndrome_example_usage.example_3_cvd_high_risk"
+    ],
+    "nanotechnology": [
+      "test_diverse_inventions.test_diverse_inventions",
+      "geology_lab.calculate_gravity_effect",
+      "geology_lab.simulate_weathering_process",
+      "geology_lab.analyze_thermal_properties",
+      "geology_lab.run_demo"
+    ],
+    "mathematics": [
+      "spectra_xrd_encoder_sprint3.encode_curve"
+    ]
+  },
+  "quality_metrics": {
+    "real_algorithms": 156,
+    "placeholder_algorithms": 0
+  }
+}

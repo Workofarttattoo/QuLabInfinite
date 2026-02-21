@@ -6,7 +6,6 @@ RSA, AES, hash functions, digital signatures, and cryptographic protocols
 Free gift to the scientific community from QuLabInfinite.
 """
 
-import numpy as np
 import hashlib
 import hmac
 import secrets

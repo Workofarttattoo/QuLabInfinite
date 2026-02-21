@@ -13,7 +13,7 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 
 import os
 import json
-import time
+from pathlib import Path
 import requests
 from datetime import datetime
 from typing import Dict, List, Any, Optional
@@ -23,15 +23,14 @@ from together import Together
 # CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
 
-TOGETHER_API_KEY = os.getenv(
-    "TOGETHER_AI_API_KEY",
-    "869e51a66a9a057a41e1d0cf2da0de7006d8c58d78751a38a80047ebb8954a92"
-)
+TOGETHER_API_KEY = os.getenv("TOGETHER_AI_API_KEY", "")
 
 QULAB_API_URL = os.getenv("QULAB_API_URL", "http://localhost:8001")
-QULAB_API_KEY = "qulab_master_key_2025"  # Master admin key
+QULAB_API_KEY = os.getenv("QULAB_API_KEY", "qulab_master_key_2025")  # Master admin key
 
-MODEL_ID = "moonshotai/Kimi-K2-Instruct-0905"  # 1046B parameter model
+MODEL_ID = os.getenv("ECH0_PRIME_MODEL", "moonshotai/Kimi-K2-Instruct-0905")  # 1046B parameter model
+
+DEFAULT_SAVE_DIR = Path(os.getenv("ECH0_PRIME_SAVE_DIR", "ech0_prime_sessions"))
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SYSTEM PROMPT FOR QULAB INFINITE RESEARCH
@@ -286,10 +285,15 @@ class Ech0PrimeQuLabResearcher:
     """
 
     def __init__(self):
+        if not TOGETHER_API_KEY:
+            raise RuntimeError("TOGETHER_AI_API_KEY not set. Export it before running ECH0-PRIME.")
+
         self.client = Together(api_key=TOGETHER_API_KEY)
         self.qulab = QuLabInfiniteClient()
         self.conversation_history = []
         self.experiment_log = []
+        self.session_dir = DEFAULT_SAVE_DIR
+        self.session_dir.mkdir(parents=True, exist_ok=True)
 
     def query_llm(self, user_message: str) -> str:
         """Query the 1046B model."""
@@ -358,7 +362,8 @@ class Ech0PrimeQuLabResearcher:
         # Check QuLab availability
         if not self.qulab.health_check():
             print("[WARN] QuLab Infinite not running.")
-            print("[INFO] Start with: cd /Users/noone/QuLabInfinite && python master_qulab_api.py")
+            repo_root = Path(__file__).resolve().parent
+            print(f"[INFO] Start with: cd {repo_root} && python master_qulab_api.py")
             print("[INFO] Continuing in theory-only mode...\n")
 
         # Initial query
@@ -440,12 +445,18 @@ Analyze these results:
 
     def save_session(self, filepath: str):
         """Save session to file."""
-        with open(filepath, "w") as f:
+        path = Path(filepath)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("w") as f:
             json.dump({
                 "experiments": self.experiment_log,
                 "conversation": self.conversation_history,
                 "timestamp": datetime.now().isoformat()
             }, f, indent=2)
+
+    def build_session_filepath(self, timestamp: Optional[datetime] = None) -> Path:
+        ts = (timestamp or datetime.now()).strftime("%Y%m%d_%H%M%S")
+        return self.session_dir / f"ech0_research_{ts}.json"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -466,8 +477,7 @@ def main():
         question = " ".join(sys.argv[1:])
         results = researcher.research_loop(question, max_iterations=5, verbose=True)
 
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filepath = f"/Users/noone/QuLabInfinite/ech0_research_{timestamp}.json"
+        filepath = researcher.build_session_filepath()
         researcher.save_session(filepath)
         print(f"\nSession saved to: {filepath}")
 
@@ -505,8 +515,7 @@ def main():
                 question = user_input[9:]
                 results = researcher.research_loop(question, max_iterations=5, verbose=True)
 
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                filepath = f"/Users/noone/QuLabInfinite/ech0_research_{timestamp}.json"
+                filepath = researcher.build_session_filepath()
                 researcher.save_session(filepath)
                 print(f"\nSession saved to: {filepath}")
 

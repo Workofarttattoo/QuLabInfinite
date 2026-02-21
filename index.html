@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuLab Infinite - Active Labs</title>
+    <style>
+        :root {
+            --bg: #0b0f17;
+            --panel: #111827;
+            --panel-strong: #0f172a;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --accent: #7cf4a4;
+            --accent-soft: rgba(124, 244, 164, 0.2);
+            --frame-glow: rgba(124, 244, 164, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at top, rgba(124, 244, 164, 0.08), transparent 45%), var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .shell {
+            display: grid;
+            grid-template-columns: minmax(260px, 320px) 1fr;
+            min-height: 100vh;
+        }
+
+        .lab-sidebar {
+            background: linear-gradient(180deg, rgba(124, 244, 164, 0.08), transparent 40%), var(--panel-strong);
+            border-right: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 32px 24px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .sidebar-subtitle {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .lab-count {
+            margin-top: 18px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.12);
+            color: var(--text);
+            font-size: 0.85rem;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .lab-count span {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .lab-list {
+            margin-top: 24px;
+            overflow-y: auto;
+            padding-right: 4px;
+            flex: 1;
+        }
+
+        .lab-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .lab-list::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 999px;
+        }
+
+        .lab-item {
+            width: 100%;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            padding: 12px 14px;
+            text-align: left;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .lab-item:hover {
+            border-color: var(--accent);
+            background: rgba(124, 244, 164, 0.08);
+        }
+
+        .lab-item.active {
+            border-color: var(--accent);
+            background: rgba(124, 244, 164, 0.16);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .lab-item small {
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .lab-main {
+            padding: 40px 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .lab-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .lab-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .lab-subtitle {
+            color: var(--muted);
+            margin-top: 8px;
+            max-width: 620px;
+        }
+
+        .open-lab {
+            text-decoration: none;
+            color: #0b0f17;
+            background: linear-gradient(135deg, var(--accent), #7ab8ff);
+            padding: 12px 20px;
+            border-radius: 999px;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .open-lab:hover {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .lab-stage {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+            gap: 24px;
+        }
+
+        .lab-frame {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 24px;
+            padding: 24px;
+            position: relative;
+            border: 2px solid rgba(148, 163, 184, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        }
+
+        .lab-frame::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 26px;
+            border: 1px solid var(--accent-soft);
+            pointer-events: none;
+        }
+
+        .frame-aurora {
+            border-color: rgba(124, 244, 164, 0.6);
+            background: linear-gradient(145deg, rgba(124, 244, 164, 0.12), rgba(15, 23, 42, 0.9));
+            box-shadow: 0 0 40px var(--frame-glow);
+        }
+
+        .frame-orchid {
+            border-color: rgba(167, 139, 250, 0.6);
+            background: linear-gradient(160deg, rgba(167, 139, 250, 0.18), rgba(15, 23, 42, 0.9));
+            box-shadow: 0 0 40px rgba(167, 139, 250, 0.25);
+        }
+
+        .frame-sky {
+            border-color: rgba(56, 189, 248, 0.6);
+            background: linear-gradient(160deg, rgba(56, 189, 248, 0.16), rgba(15, 23, 42, 0.9));
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.25);
+        }
+
+        .frame-ember {
+            border-color: rgba(251, 191, 36, 0.6);
+            background: linear-gradient(160deg, rgba(251, 191, 36, 0.18), rgba(15, 23, 42, 0.9));
+            box-shadow: 0 0 40px rgba(251, 191, 36, 0.22);
+        }
+
+        .frame-ocean {
+            border-color: rgba(45, 212, 191, 0.6);
+            background: linear-gradient(160deg, rgba(45, 212, 191, 0.18), rgba(15, 23, 42, 0.9));
+            box-shadow: 0 0 40px rgba(45, 212, 191, 0.25);
+        }
+
+        .frame-stellar {
+            border-color: rgba(129, 140, 248, 0.6);
+            background: linear-gradient(160deg, rgba(129, 140, 248, 0.18), rgba(15, 23, 42, 0.9));
+            box-shadow: 0 0 40px rgba(129, 140, 248, 0.25);
+        }
+
+        .frame-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .frame-title {
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+
+        .status-pill {
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            background: rgba(148, 163, 184, 0.2);
+            color: var(--text);
+        }
+
+        .chat-window {
+            background: rgba(2, 6, 23, 0.6);
+            border-radius: 18px;
+            padding: 18px;
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            padding: 12px 14px;
+            border-radius: 14px;
+            max-width: 80%;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: rgba(124, 244, 164, 0.18);
+            border: 1px solid rgba(124, 244, 164, 0.3);
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+            background: rgba(148, 163, 184, 0.15);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        .prompt-bar {
+            margin-top: auto;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        .prompt-input {
+            flex: 1;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .prompt-send {
+            background: var(--accent);
+            color: #0b0f17;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .lab-details {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .detail-section h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .detail-section p,
+        .detail-section li {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chip {
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            background: rgba(148, 163, 184, 0.16);
+            color: var(--text);
+        }
+
+        .footer {
+            margin-top: 16px;
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 1100px) {
+            .shell {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-sidebar {
+                position: relative;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .lab-stage {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <aside class="lab-sidebar">
+            <div>
+                <div class="brand">QuLab <span>Infinite</span></div>
+                <p class="sidebar-subtitle">Active labs, ready for natural language exploration.</p>
+                <div class="lab-count">Active Labs <span id="labCount">0</span></div>
+            </div>
+            <div class="lab-list" id="labList" aria-label="Active labs list"></div>
+            <div class="footer">
+                GAVL-ready simulations • Quantum connectors enabled • Patent pending
+            </div>
+        </aside>
+        <main class="lab-main">
+            <header class="lab-header">
+                <div>
+                    <h1 class="lab-title" id="labTitle">GAVL Materials Forge</h1>
+                    <p class="lab-subtitle" id="labSubtitle">Ask for novel material stacks, tuned parameters, and experimental combos. Every lab keeps the same natural language flow while presenting its own instrument mat.</p>
+                </div>
+                <a class="open-lab" id="labLink" href="#" target="_blank" rel="noopener">Open lab chat</a>
+            </header>
+            <section class="lab-stage">
+                <div class="lab-frame frame-aurora" id="labFrame">
+                    <div class="frame-header">
+                        <div class="frame-title" id="frameTitle">Live Lab Chat</div>
+                        <div class="status-pill">Active session</div>
+                    </div>
+                    <div class="chat-window" id="chatWindow">
+                        <div class="message assistant">Welcome back. Describe the material system or clinical scenario you want to explore. I will keep the analysis continuous and grounded in the active lab.</div>
+                        <div class="message user">Show me a lightweight, high-strength composite with thermal stability above 900°C.</div>
+                        <div class="message assistant">Drafting a carbon-ceramic laminate with aerogel cores and graphene-reinforced seams. I can tune density, weave pattern, and catalyst routes. Want a manufacturing path or performance sweep?</div>
+                        <div class="prompt-bar">
+                            <span class="prompt-input">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
+                            <span class="prompt-send">Send</span>
+                        </div>
+                    </div>
+                </div>
+                <aside class="lab-details">
+                    <div class="detail-section">
+                        <h3>Continuity Layer</h3>
+                        <p>This interface keeps a single natural language flow across labs. Every selection updates the frame, context window, and technical vocabulary without breaking the chat rhythm.</p>
+                    </div>
+                    <div class="detail-section">
+                        <h3>What you can ask</h3>
+                        <ul>
+                            <li>Material stacks with verified compatibility and synthesis routes.</li>
+                            <li>Simulation sweeps, edge cases, and trade-off maps.</li>
+                            <li>Novel combinations that still obey domain constraints.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-section">
+                        <h3>Quick prompts</h3>
+                        <div class="chip-group" id="promptChips">
+                            <span class="chip">"Design a bioactive scaffold with tunable porosity."</span>
+                            <span class="chip">"Mix superconductors with nano-ceramics."</span>
+                            <span class="chip">"Find a catalyst for low-temp CO₂ conversion."</span>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <h3>Lab focus</h3>
+                        <p id="labFocus">Advanced materials planning, combinatorial synthesis, and validation-ready outputs.</p>
+                    </div>
+                </aside>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const themes = [
+            { name: 'Aurora', frameClass: 'frame-aurora', accent: '#7cf4a4', soft: 'rgba(124, 244, 164, 0.2)' },
+            { name: 'Orchid', frameClass: 'frame-orchid', accent: '#a78bfa', soft: 'rgba(167, 139, 250, 0.2)' },
+            { name: 'Sky', frameClass: 'frame-sky', accent: '#38bdf8', soft: 'rgba(56, 189, 248, 0.2)' },
+            { name: 'Ember', frameClass: 'frame-ember', accent: '#fbbf24', soft: 'rgba(251, 191, 36, 0.2)' },
+            { name: 'Ocean', frameClass: 'frame-ocean', accent: '#2dd4bf', soft: 'rgba(45, 212, 191, 0.2)' },
+            { name: 'Stellar', frameClass: 'frame-stellar', accent: '#818cf8', soft: 'rgba(129, 140, 248, 0.2)' }
+        ];
+
+        const labs = [
+            { name: 'Aerospace Engineering Lab', link: 'aerospace_engineering_lab_gui.html' },
+            { name: 'Algorithm Design Lab', link: 'algorithm_design_lab_gui.html' },
+            { name: 'Alzheimers Early Detection', link: 'alzheimers_early_detection_gui.html' },
+            { name: 'Analytical Chemistry Lab', link: 'analytical_chemistry_lab_gui.html' },
+            { name: 'Astrobiology Lab', link: 'astrobiology_lab_gui.html' },
+            { name: 'Astrophysics Lab', link: 'astrophysics_lab_gui.html' },
+            { name: 'Atmospheric Chemistry Lab', link: 'atmospheric_chemistry_lab_gui.html' },
+            { name: 'Biochemistry Lab', link: 'biochemistry_lab_gui.html' },
+            { name: 'Bioinformatics Lab', link: 'bioinformatics_lab_gui.html' },
+            { name: 'Biological Quantum Lab', link: 'biological_quantum_lab_gui.html' },
+            { name: 'Biomedical Engineering Lab', link: 'biomedical_engineering_lab_gui.html' },
+            { name: 'Biophysics Lab', link: 'biophysics_lab_gui.html' },
+            { name: 'Bone Density Predictor', link: 'bone_density_predictor_gui.html' },
+            { name: 'Cancer Biology Simulator', link: 'cancer_biology_simulator_gui.html' },
+            { name: 'Carbon Capture Lab', link: 'carbon_capture_lab_gui.html' },
+            { name: 'Cardiac Fibrosis Predictor Lab', link: 'cardiac_fibrosis_predictor_lab_gui.html' },
+            { name: 'Cardiology Lab', link: 'cardiology_lab_gui.html' },
+            { name: 'Cardiovascular Plaque Formation Simulator Lab', link: 'cardiovascular_plaque_formation_simulator_lab_gui.html' },
+            { name: 'Cardiovascular Plaque Lab', link: 'cardiovascular_plaque_lab_gui.html' },
+            { name: 'Catalysis Lab', link: 'catalysis_lab_gui.html' },
+            { name: 'Cell Biology Lab', link: 'cell_biology_lab_gui.html' },
+            { name: 'Chemical Engineering Lab', link: 'chemical_engineering_lab_gui.html' },
+            { name: 'Climate Modeling Lab', link: 'climate_modeling_lab_gui.html' },
+            { name: 'Clinical Trials Simulation Lab', link: 'clinical_trials_simulation_lab_gui.html' },
+            { name: 'Complete Realistic Lab', link: 'complete_realistic_lab_gui.html' },
+            { name: 'Computational Chemistry Lab', link: 'computational_chemistry_lab_gui.html' },
+            { name: 'Computational Neuroscience Lab', link: 'computational_neuroscience_lab_gui.html' },
+            { name: 'Computer Vision Lab', link: 'computer_vision_lab_gui.html' },
+            { name: 'Condensed Matter Physics Lab', link: 'condensed_matter_physics_lab_gui.html' },
+            { name: 'Control Systems Lab', link: 'control_systems_lab_gui.html' },
+            { name: 'Cryptography Lab', link: 'cryptography_lab_gui.html' },
+            { name: 'Deep Learning Lab', link: 'deep_learning_lab_gui.html' },
+            { name: 'Developmental Biology Lab', link: 'developmental_biology_lab_gui.html' },
+            { name: 'Drug Design Lab', link: 'drug_design_lab_gui.html' },
+            { name: 'Drug Interaction Simulator Lab', link: 'drug_interaction_simulator_lab_gui.html' },
+            { name: 'Ecology Lab', link: 'ecology_lab_gui.html' },
+            { name: 'Electrical Engineering Lab', link: 'electrical_engineering_lab_gui.html' },
+            { name: 'Electrochemistry Lab', link: 'electrochemistry_lab_gui.html' },
+            { name: 'Electromagnetism Lab', link: 'electromagnetism_lab_gui.html' },
+            { name: 'Environmental Engineering Lab', link: 'environmental_engineering_lab_gui.html' },
+            { name: 'Epigenetics Lab', link: 'epigenetics_lab_gui.html' },
+            { name: 'Evolutionary Biology Lab', link: 'evolutionary_biology_lab_gui.html' },
+            { name: 'Fluid Dynamics Lab', link: 'fluid_dynamics_lab_gui.html' },
+            { name: 'Genetics Lab', link: 'genetics_lab_gui.html' },
+            { name: 'Genomics Lab', link: 'genomics_lab_gui.html' },
+            { name: 'Geology Lab', link: 'geology_lab_gui.html' },
+            { name: 'Graph Theory Lab', link: 'graph_theory_lab_gui.html' },
+            { name: 'Hydrology Lab', link: 'hydrology_lab_gui.html' },
+            { name: 'Immunology Lab', link: 'immunology_lab_gui.html' },
+            { name: 'Inorganic Chemistry Lab', link: 'inorganic_chemistry_lab_gui.html' },
+            { name: 'Machine Learning Lab', link: 'machine_learning_lab_gui.html' },
+            { name: 'Materials Chemistry Lab', link: 'materials_chemistry_lab_gui.html' },
+            { name: 'Materials Science Lab', link: 'materials_science_lab_gui.html' },
+            { name: 'Mechanical Engineering Lab', link: 'mechanical_engineering_lab_gui.html' },
+            { name: 'Medical Imaging Lab', link: 'medical_imaging_lab_gui.html' },
+            { name: 'Metabolomics Lab', link: 'metabolomics_lab_gui.html' },
+            { name: 'Meteorology Lab', link: 'meteorology_lab_gui.html' },
+            { name: 'Microbiology Lab', link: 'microbiology_lab_gui.html' },
+            { name: 'Molecular Biology Lab', link: 'molecular_biology_lab_gui.html' },
+            { name: 'Nanotechnology Lab', link: 'nanotechnology_lab_gui.html' },
+            { name: 'Natural Language Processing Lab', link: 'natural_language_processing_lab_gui.html' },
+            { name: 'Neural Networks Lab', link: 'neural_networks_lab_gui.html' },
+            { name: 'Neurology Lab', link: 'neurology_lab_gui.html' },
+            { name: 'Neuroscience Lab', link: 'neuroscience_lab_gui.html' },
+            { name: 'Nuclear Physics Lab', link: 'nuclear_physics_lab_gui.html' },
+            { name: 'Oceanography Lab', link: 'oceanography_lab_gui.html' },
+            { name: 'Oncology Lab', link: 'oncology_lab_gui.html' },
+            { name: 'Optics And Photonics Lab', link: 'optics_and_photonics_lab_gui.html' },
+            { name: 'Optimization Theory Lab', link: 'optimization_theory_lab_gui.html' },
+            { name: 'Organic Chemistry Lab', link: 'organic_chemistry_lab_gui.html' },
+            { name: 'Parkinsons Progression Predictor', link: 'parkinsons_progression_predictor_gui.html' },
+            { name: 'Particle Physics Lab', link: 'particle_physics_lab_gui.html' },
+            { name: 'Pharmacology Lab', link: 'pharmacology_lab_gui.html' },
+            { name: 'Physical Chemistry Lab', link: 'physical_chemistry_lab_gui.html' },
+            { name: 'Plasma Physics Lab', link: 'plasma_physics_lab_gui.html' },
+            { name: 'Polymer Chemistry Lab', link: 'polymer_chemistry_lab_gui.html' },
+            { name: 'Protein Folding Lab Lab', link: 'protein_folding_lab_lab_gui.html' },
+            { name: 'Proteomics Lab', link: 'proteomics_lab_gui.html' },
+            { name: 'Quantum Computing Lab', link: 'quantum_computing_lab_gui.html' },
+            { name: 'Quantum Mechanics Lab', link: 'quantum_mechanics_lab_gui.html' },
+            { name: 'Realistic Tumor Lab', link: 'realistic_tumor_lab_gui.html' },
+            { name: 'Regenerative Medicine Lab', link: 'regenerative_medicine_lab_gui.html' },
+            { name: 'Renewable Energy Lab', link: 'renewable_energy_lab_gui.html' },
+            { name: 'Robotics Lab', link: 'robotics_lab_gui.html' },
+            { name: 'Seismology Lab', link: 'seismology_lab_gui.html' },
+            { name: 'Signal Processing Lab', link: 'signal_processing_lab_gui.html' },
+            { name: 'Structural Engineering Lab', link: 'structural_engineering_lab_gui.html' },
+            { name: 'Synthetic Biology Lab', link: 'synthetic_biology_lab_gui.html' },
+            { name: 'Systems Biology Lab', link: 'systems_biology_lab_gui.html' },
+            { name: 'Test Complete Lab', link: 'test_complete_lab_gui.html' },
+            { name: 'Test Oncology Lab', link: 'test_oncology_lab_gui.html' },
+            { name: 'Thermodynamics Lab', link: 'thermodynamics_lab_gui.html' },
+            { name: 'Toxicology Lab', link: 'toxicology_lab_gui.html' },
+            { name: 'Virology Lab', link: 'virology_lab_gui.html' }
+        ];
+
+        const labList = document.getElementById('labList');
+        const labTitle = document.getElementById('labTitle');
+        const labSubtitle = document.getElementById('labSubtitle');
+        const labLink = document.getElementById('labLink');
+        const labFrame = document.getElementById('labFrame');
+        const frameTitle = document.getElementById('frameTitle');
+        const labFocus = document.getElementById('labFocus');
+        const labCount = document.getElementById('labCount');
+
+        const focusLines = [
+            'Advanced materials planning, combinatorial synthesis, and validation-ready outputs.',
+            'Predictive simulations with tunable parameters, ready for rapid exploration.',
+            'Research-grade inference with continuous lab memory and traceable assumptions.',
+            'High-velocity experimentation with realistic constraints and actionable next steps.'
+        ];
+
+        const subtitleLines = [
+            'Ask for novel material stacks, tuned parameters, and experimental combos. Every lab keeps the same natural language flow while presenting its own instrument mat.',
+            'Keep the conversation running while the lab shifts to its own domain tooling and frame aesthetics.',
+            'Continuity-first lab interface designed for exploratory prompts and validated outputs.'
+        ];
+
+        labCount.textContent = labs.length;
+
+        const setTheme = (theme) => {
+            document.documentElement.style.setProperty('--accent', theme.accent);
+            document.documentElement.style.setProperty('--accent-soft', theme.soft);
+            document.documentElement.style.setProperty('--frame-glow', theme.soft);
+        };
+
+        const selectLab = (lab, index) => {
+            const theme = themes[index % themes.length];
+            setTheme(theme);
+            labFrame.className = `lab-frame ${theme.frameClass}`;
+            labTitle.textContent = lab.name;
+            labSubtitle.textContent = subtitleLines[index % subtitleLines.length];
+            labLink.href = lab.link;
+            frameTitle.textContent = `${lab.name} • Natural Language Console`;
+            labFocus.textContent = focusLines[index % focusLines.length];
+
+            [...labList.children].forEach((item) => item.classList.remove('active'));
+            const active = labList.children[index];
+            if (active) {
+                active.classList.add('active');
+            }
+        };
+
+        labs.forEach((lab, index) => {
+            const item = document.createElement('button');
+            item.type = 'button';
+            item.className = 'lab-item';
+            item.innerHTML = `<strong>${lab.name}</strong><small>Natural language lab chat</small>`;
+            item.addEventListener('click', () => selectLab(lab, index));
+            labList.appendChild(item);
+        });
+
+        selectLab(labs[0], 0);
+    </script>
+</body>
+</html>

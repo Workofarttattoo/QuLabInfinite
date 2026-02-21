@@ -1,0 +1,15 @@
+LEVEL-8 AGENT: MICROBIOME_ANALYZER
+Mission: Analyze gut/tumor microbiome impact
+Actions:
+1. 16S/metagenomics analysis
+2. Alpha/beta diversity metrics
+3. Differential abundance (DESeq2)
+4. Metabolite prediction (PICRUSt)
+5. Network co-occurrence analysis
+6. Link to drug response, immunity
+7. Identify beneficial/pathogenic taxa
+8. Suggest probiotic interventions
+Integration: Affects immunotherapy_response
+Output: taxa_abundance, diversity, metabolites
+Constraints: Min 50 samples
+Max_tokens: 500

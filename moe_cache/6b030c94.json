@@ -1,0 +1,6 @@
+{
+  "query": "KE 10kg @ 5m/s?",
+  "response": "To calculate the kinetic energy (KE) of an object, you use the formula:\n\n\\[ KE = \\frac{1}{2}mv^2 \\]\n\nwhere:\n- \\( m \\) is the mass of the object,\n- \\( v \\) is the velocity of the object.\n\nGiven:\n- Mass (\\( m \\)) = 10 kg\n- Velocity (\\( v \\)) = 5 m/s\n\nSubstitute these values into the formula:\n\n\\[ KE = \\frac{1}{2} \\times 10 \\, \\text{kg} \\times (5 \\, \\text{m/s})^2 \\]\n\nFirst, calculate \\( v^2 \\):\n\n\\[ v^2 = (5 \\, \\text{m/s})^2 = 25 \\, \\text{(m/s)}^2 \\]\n\nNext, substitute back into the formula:\n\n\\[ KE = \\frac{1}{2} \\times 10 \\times 25 \\]\n\\[ KE = 5 \\times 25 \\]\n\\[ KE = 125 \\, \\text{Joules} \\]\n\nSo, the kinetic energy of a 10 kg object moving at 5 m/s is **125 Joules**.",
+  "domain": "mathematics",
+  "timestamp": 1763076327.1994162
+}

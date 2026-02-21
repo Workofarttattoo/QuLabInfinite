@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+test_integration_hooks - Part of Chemistry Lab
+"""
+
+"""
 Unit tests for chemistry_lab.integration quantitative hooks.
 """
 

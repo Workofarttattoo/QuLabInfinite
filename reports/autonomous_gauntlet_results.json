@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-02-21T06:17:45.562477+00:00",
+  "snr_definition": "(max-min)/(2*std)",
+  "runs": [
+    {
+      "run_id": 1,
+      "initial_snr": 2.79,
+      "final_snr": 58.9,
+      "snr_gain": 21.11,
+      "iterations": 1,
+      "final_status": "RELIABLE",
+      "redesigns": [
+        {
+          "name": "Oversampling + smoothing",
+          "snr": 58.9,
+          "status": "RELIABLE"
+        }
+      ]
+    },
+    {
+      "run_id": 2,
+      "initial_snr": 12.72,
+      "final_snr": 37.48,
+      "snr_gain": 2.95,
+      "iterations": 1,
+      "final_status": "RELIABLE",
+      "redesigns": [
+        {
+          "name": "Switch modality \u2192 LIF",
+          "snr": 37.48,
+          "status": "RELIABLE"
+        }
+      ]
+    },
+    {
+      "run_id": 3,
+      "initial_snr": 8.98,
+      "final_snr": 46.35,
+      "snr_gain": 5.16,
+      "iterations": 1,
+      "final_status": "RELIABLE",
+      "redesigns": [
+        {
+          "name": "Reference recalibration",
+          "snr": 46.35,
+          "status": "RELIABLE"
+        }
+      ]
+    },
+    {
+      "run_id": 4,
+      "initial_snr": 3.1,
+      "final_snr": 21.82,
+      "snr_gain": 7.04,
+      "iterations": 2,
+      "final_status": "RELIABLE",
+      "redesigns": [
+        {
+          "name": "Reduce gain (fails)",
+          "snr": 3.86,
+          "status": "INSUFFICIENT_SNR"
+        },
+        {
+          "name": "LIF + recalibration",
+          "snr": 21.82,
+          "status": "RELIABLE"
+        }
+      ]
+    }
+  ]
+}

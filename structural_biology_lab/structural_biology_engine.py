@@ -1,5 +1,7 @@
 # Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
+from nist_constants import *
+
 """
 Structural Biology Engine - Molecular dynamics, docking, structure prediction
 Based on PDB standards, force field parameters, and structural bioinformatics

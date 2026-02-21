@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+tumor_simulator - Part of Oncology Lab
+"""
+
+"""
 Tumor growth and microenvironment simulation primitives.
 
 The implementation provides a simplified, research-oriented approximation of

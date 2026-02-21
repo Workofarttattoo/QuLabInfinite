@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+test_datasets - Part of Chemistry Lab
+"""
+
+"""
 Tests ensuring dataset registry metadata is available and loaders fail gracefully.
 """
 

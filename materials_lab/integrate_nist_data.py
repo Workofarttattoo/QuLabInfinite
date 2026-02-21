@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+integrate_nist_data - Part of Materials Lab
+"""
+
+"""
 Integrate thermochemical data from NIST into the materials catalog.
 """
 

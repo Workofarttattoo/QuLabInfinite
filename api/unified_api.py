@@ -6,7 +6,7 @@ QuLabInfinite Unified API
 Enterprise-grade FastAPI server exposing all 20 labs with authentication, rate limiting, and real-time WebSocket support.
 """
 
-from fastapi import FastAPI, HTTPException, Depends, WebSocket, WebSocketDisconnect, Header
+from fastapi import FastAPI, HTTPException, Depends, WebSocket, WebSocketDisconnect, Header, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
@@ -19,6 +19,8 @@ import os
 from datetime import datetime
 from collections import defaultdict
 import numpy as np
+
+from core.security import load_api_keys_from_env
 
 # Lab imports
 import sys
@@ -52,29 +54,51 @@ app.add_middleware(
 # Authentication & Rate Limiting
 # ============================================================================
 
+def _load_rate_limit() -> int:
+    """Load and validate the configured rate limit."""
+    raw_limit = os.getenv("QU_LAB_RATE_LIMIT", "1000")
+    try:
+        limit = int(raw_limit)
+    except ValueError:
+        raise RuntimeError("QU_LAB_RATE_LIMIT must be a valid integer.")
+
+    if limit <= 0:
+        raise RuntimeError("QU_LAB_RATE_LIMIT must be greater than zero.")
+    return limit
+
+
+DEFAULT_TIER = os.getenv("QU_LAB_KEY_TIER", "custom")
+DEFAULT_RATE_LIMIT = _load_rate_limit()
+_configured_keys = load_api_keys_from_env()
 API_KEYS = {
-    "demo_key_12345": {"tier": "free", "rate_limit": 100},
-    "pro_key_67890": {"tier": "pro", "rate_limit": 1000},
-    "enterprise_key_abcde": {"tier": "enterprise", "rate_limit": 10000}
+    key: {"tier": DEFAULT_TIER, "rate_limit": DEFAULT_RATE_LIMIT}
+    for key in _configured_keys
 }
 
 rate_limit_tracker = defaultdict(list)
 
-def verify_api_key(x_api_key: str = Header(...)) -> Dict[str, Any]:
+def verify_api_key(
+    x_api_key: Optional[str] = Header(None),
+    api_key: Optional[str] = Query(None)
+) -> Dict[str, Any]:
     """Verify API key and return user info"""
-    if x_api_key not in API_KEYS:
+    token = x_api_key or api_key
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing API key")
+
+    if token not in API_KEYS:
         raise HTTPException(status_code=401, detail="Invalid API key")
 
-    user_info = API_KEYS[x_api_key]
+    user_info = API_KEYS[token]
 
     # Rate limiting
     now = time.time()
-    rate_limit_tracker[x_api_key] = [t for t in rate_limit_tracker[x_api_key] if now - t < 3600]
+    rate_limit_tracker[token] = [t for t in rate_limit_tracker[token] if now - t < 3600]
 
-    if len(rate_limit_tracker[x_api_key]) >= user_info["rate_limit"]:
+    if len(rate_limit_tracker[token]) >= user_info["rate_limit"]:
         raise HTTPException(status_code=429, detail="Rate limit exceeded")
 
-    rate_limit_tracker[x_api_key].append(now)
+    rate_limit_tracker[token].append(now)
 
     return user_info
 
@@ -511,7 +535,11 @@ async def metabolic_analyze(
 active_connections: Dict[str, List[WebSocket]] = defaultdict(list)
 
 @app.websocket("/ws/{lab_name}")
-async def websocket_endpoint(websocket: WebSocket, lab_name: str):
+async def websocket_endpoint(
+    websocket: WebSocket,
+    lab_name: str,
+    user: Dict = Depends(verify_api_key)
+):
     """WebSocket for real-time lab results"""
     await websocket.accept()
     active_connections[lab_name].append(websocket)

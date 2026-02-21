@@ -1,0 +1,398 @@
+{
+  "total_modules": 65,
+  "categories": {
+    "ml_architecture": [
+      "nfnets",
+      "byol",
+      "avae",
+      "gated_linear_networks",
+      "hierarchical_transformer_memory"
+    ],
+    "physics_simulation": [
+      "learning_to_simulate",
+      "meshgraphnets",
+      "fusion_tcv",
+      "glassy_dynamics"
+    ],
+    "bioinformatics": [
+      "alphafold_casp13",
+      "enformer"
+    ],
+    "reinforcement_learning": [
+      "box_arrangement",
+      "catch_carry"
+    ],
+    "computer_vision": [],
+    "optimization": [
+      "neural_mip_solving"
+    ],
+    "fairness_safety": [
+      "adversarial_robustness",
+      "counterfactual_fairness"
+    ],
+    "other": []
+  },
+  "modules": {
+    "PrediNet": {
+      "description": "# The PrediNet Architecture and Relations Game Datasets",
+      "path": "/Users/noone/Downloads/deepmind-research-master/PrediNet",
+      "dependencies": []
+    },
+    "adversarial_robustness": {
+      "description": "# Adversarial Robustness",
+      "path": "/Users/noone/Downloads/deepmind-research-master/adversarial_robustness",
+      "dependencies": []
+    },
+    "affordances_theory": {
+      "description": "# Code for \"What can I do here? A theory of affordances in reinforcement Learning.",
+      "path": "/Users/noone/Downloads/deepmind-research-master/affordances_theory",
+      "dependencies": []
+    },
+    "alphafold_casp13": {
+      "description": "# AlphaFold 1",
+      "path": "/Users/noone/Downloads/deepmind-research-master/alphafold_casp13",
+      "dependencies": [
+        "setuptools==41.0.0",
+        "absl-py==0.8.1",
+        "numpy==1.16",
+        "six==1.12",
+        "dm-sonnet==1.35"
+      ]
+    },
+    "avae": {
+      "description": "# The Autoencoding Variational Autoencoder",
+      "path": "/Users/noone/Downloads/deepmind-research-master/avae",
+      "dependencies": []
+    },
+    "bigbigan": {
+      "description": "# Pretrained BigBiGAN models",
+      "path": "/Users/noone/Downloads/deepmind-research-master/bigbigan",
+      "dependencies": []
+    },
+    "box_arrangement": {
+      "description": "# Predicate tasks.",
+      "path": "/Users/noone/Downloads/deepmind-research-master/box_arrangement",
+      "dependencies": []
+    },
+    "byol": {
+      "description": "# Bootstrap Your Own Latent",
+      "path": "/Users/noone/Downloads/deepmind-research-master/byol",
+      "dependencies": [
+        "dm-acme",
+        "dm-haiku",
+        "dm-tree",
+        "jax",
+        "jaxlib"
+      ]
+    },
+    "cadl": {
+      "description": "# A dataset of CAD sketches",
+      "path": "/Users/noone/Downloads/deepmind-research-master/cadl",
+      "dependencies": []
+    },
+    "catch_carry": {
+      "description": "# Catch & Carry: Reusable Neural Controllers for Vision-Guided Whole-Body Tasks",
+      "path": "/Users/noone/Downloads/deepmind-research-master/catch_carry",
+      "dependencies": []
+    },
+    "causal_reasoning": {
+      "description": "# Algorithms for Causal Reasoning in Probability Trees",
+      "path": "/Users/noone/Downloads/deepmind-research-master/causal_reasoning",
+      "dependencies": []
+    },
+    "cmtouch": {
+      "description": "--------------------------------------------------------------------------------",
+      "path": "/Users/noone/Downloads/deepmind-research-master/cmtouch",
+      "dependencies": []
+    },
+    "continual_learning": {
+      "description": "# Continual learning with pre-trained encoders and ensembles of classifiers",
+      "path": "/Users/noone/Downloads/deepmind-research-master/continual_learning",
+      "dependencies": []
+    },
+    "counterfactual_fairness": {
+      "description": "# Path-Specific Counterfactual Fairness (AAAI 2019)",
+      "path": "/Users/noone/Downloads/deepmind-research-master/counterfactual_fairness",
+      "dependencies": []
+    },
+    "cs_gan": {
+      "description": "# Deep Compressed Sensing",
+      "path": "/Users/noone/Downloads/deepmind-research-master/cs_gan",
+      "dependencies": []
+    },
+    "curl": {
+      "description": "# Continual Unsupervised Representation Learning (CURL)",
+      "path": "/Users/noone/Downloads/deepmind-research-master/curl",
+      "dependencies": []
+    },
+    "density_functional_approximation_dm21": {
+      "description": "# Pushing the Frontiers of Density Functionals by Solving the Fractional Electron Problem",
+      "path": "/Users/noone/Downloads/deepmind-research-master/density_functional_approximation_dm21",
+      "dependencies": []
+    },
+    "enformer": {
+      "description": "# Enformer",
+      "path": "/Users/noone/Downloads/deepmind-research-master/enformer",
+      "dependencies": []
+    },
+    "ensemble_loss_landscape": {
+      "description": "# Accompanying code for Deep Ensemble: A Loss Landscape Perspective",
+      "path": "/Users/noone/Downloads/deepmind-research-master/ensemble_loss_landscape",
+      "dependencies": []
+    },
+    "functional_regularisation_for_continual_learning": {
+      "description": "# Functional Regularisation for Continual Learning (FRCL) with Gaussian Processes",
+      "path": "/Users/noone/Downloads/deepmind-research-master/functional_regularisation_for_continual_learning",
+      "dependencies": []
+    },
+    "fusion_tcv": {
+      "description": "# TCV Fusion Control Objectives",
+      "path": "/Users/noone/Downloads/deepmind-research-master/fusion_tcv",
+      "dependencies": []
+    },
+    "galaxy_mergers": {
+      "description": "# A Deep Learning Approach for Characterizing Major Galaxy Mergers",
+      "path": "/Users/noone/Downloads/deepmind-research-master/galaxy_mergers",
+      "dependencies": []
+    },
+    "gated_linear_networks": {
+      "description": "# Gated Linear Networks",
+      "path": "/Users/noone/Downloads/deepmind-research-master/gated_linear_networks",
+      "dependencies": [
+        "absl-py==0.10.0",
+        "aiohttp==3.6.2",
+        "astunparse==1.6.3",
+        "async-timeout==3.0.1",
+        "attrs==20.2.0"
+      ]
+    },
+    "geomancer": {
+      "description": "# Geometric Manifold Component Estimator (GEOMANCER)",
+      "path": "/Users/noone/Downloads/deepmind-research-master/geomancer",
+      "dependencies": []
+    },
+    "glassy_dynamics": {
+      "description": "# Unveiling the predictive power of static structure in glassy systems",
+      "path": "/Users/noone/Downloads/deepmind-research-master/glassy_dynamics",
+      "dependencies": []
+    },
+    "graph_matching_networks": {
+      "description": "# Graph Matching Networks for Learning the Similarity of Graph Structured Objects",
+      "path": "/Users/noone/Downloads/deepmind-research-master/graph_matching_networks",
+      "dependencies": [
+        "matplotlib==3.1.1",
+        "networkx==2.3",
+        "dm-sonnet==1.34",
+        "numpy==1.16.4",
+        "tensorflow==1.14"
+      ]
+    },
+    "hierarchical_probabilistic_unet": {
+      "description": "# Hierarchical Probabilistic U-Net",
+      "path": "/Users/noone/Downloads/deepmind-research-master/hierarchical_probabilistic_unet",
+      "dependencies": []
+    },
+    "hierarchical_transformer_memory": {
+      "description": "# Towards mental time travel: A hierarchical memory for RL agents",
+      "path": "/Users/noone/Downloads/deepmind-research-master/hierarchical_transformer_memory",
+      "dependencies": []
+    },
+    "himo": {
+      "description": "# Accompanying code for Value-driven Hindsight Modelling",
+      "path": "/Users/noone/Downloads/deepmind-research-master/himo",
+      "dependencies": []
+    },
+    "iodine": {
+      "description": "# IODINE",
+      "path": "/Users/noone/Downloads/deepmind-research-master/iodine",
+      "dependencies": []
+    },
+    "kfac_ferminet_alpha": {
+      "description": "# Accompanying code for Better, Faster Fermionic Neural Networks",
+      "path": "/Users/noone/Downloads/deepmind-research-master/kfac_ferminet_alpha",
+      "dependencies": []
+    },
+    "learned_free_energy_estimation": {
+      "description": "# Targeted free energy estimation via learned mappings",
+      "path": "/Users/noone/Downloads/deepmind-research-master/learned_free_energy_estimation",
+      "dependencies": []
+    },
+    "learning_to_simulate": {
+      "description": "# Learning to Simulate Complex Physics with Graph Networks (ICML 2020)",
+      "path": "/Users/noone/Downloads/deepmind-research-master/learning_to_simulate",
+      "dependencies": [
+        "absl-py",
+        "graph-nets>=1.1",
+        "tensorflow>=1.15,<2",
+        "numpy",
+        "dm-sonnet<2"
+      ]
+    },
+    "memo": {
+      "description": "# MEMO: A Deep Network For Flexible Combination Of Episodic Memories.",
+      "path": "/Users/noone/Downloads/deepmind-research-master/memo",
+      "dependencies": []
+    },
+    "meshgraphnets": {
+      "description": "# Learning Mesh-Based Simulation with Graph Networks (ICLR 2021)",
+      "path": "/Users/noone/Downloads/deepmind-research-master/meshgraphnets",
+      "dependencies": []
+    },
+    "mmv": {
+      "description": "# Self-supervised Multimodal Versatile Networks",
+      "path": "/Users/noone/Downloads/deepmind-research-master/mmv",
+      "dependencies": []
+    },
+    "neural_mip_solving": {
+      "description": "# Neural MIP Solving - NN Verification Dataset",
+      "path": "/Users/noone/Downloads/deepmind-research-master/neural_mip_solving",
+      "dependencies": []
+    },
+    "nfnets": {
+      "description": "# Code for Normalizer-Free Networks",
+      "path": "/Users/noone/Downloads/deepmind-research-master/nfnets",
+      "dependencies": [
+        "absl-py==0.10.0",
+        "chex>=0.0.2",
+        "dill>=0.3.3",
+        "dm-haiku>=0.0.3",
+        "jax>=0.2.8"
+      ]
+    },
+    "noisy_label": {
+      "description": "<img src=\"paradigm.png\" width=\"50%\">",
+      "path": "/Users/noone/Downloads/deepmind-research-master/noisy_label",
+      "dependencies": []
+    },
+    "nowcasting": {
+      "description": "# Skillful Precipitation Nowcasting Using Deep Generative Models of Radar",
+      "path": "/Users/noone/Downloads/deepmind-research-master/nowcasting",
+      "dependencies": []
+    },
+    "object_attention_for_reasoning": {
+      "description": "Implementation of the ALOE model",
+      "path": "/Users/noone/Downloads/deepmind-research-master/object_attention_for_reasoning",
+      "dependencies": []
+    },
+    "ode_gan": {
+      "description": "# ODE-GAN: Training GANs by Solving Ordinary Differential Equations",
+      "path": "/Users/noone/Downloads/deepmind-research-master/ode_gan",
+      "dependencies": []
+    },
+    "ogb_lsc": {
+      "description": "# DeepMind entry for OGB-LSC",
+      "path": "/Users/noone/Downloads/deepmind-research-master/ogb_lsc",
+      "dependencies": []
+    },
+    "option_keyboard": {
+      "description": "# The Option Keyboard: Combining Skills in Reinforcement Learning",
+      "path": "/Users/noone/Downloads/deepmind-research-master/option_keyboard",
+      "dependencies": []
+    },
+    "perceiver": {
+      "description": "# Perceiver and Perceiver IO",
+      "path": "/Users/noone/Downloads/deepmind-research-master/perceiver",
+      "dependencies": []
+    },
+    "physics_inspired_models": {
+      "description": "# Implementation of multiple physics inspired models for modelling dynamics",
+      "path": "/Users/noone/Downloads/deepmind-research-master/physics_inspired_models",
+      "dependencies": []
+    },
+    "physics_planning_games": {
+      "description": "# Physically Embedded Planning Environments",
+      "path": "/Users/noone/Downloads/deepmind-research-master/physics_planning_games",
+      "dependencies": []
+    },
+    "pitfalls_static_language_models": {
+      "description": "# Mind the Gap: Assessing Temporal Generalization in Neural Language Models",
+      "path": "/Users/noone/Downloads/deepmind-research-master/pitfalls_static_language_models",
+      "dependencies": []
+    },
+    "polygen": {
+      "description": "# PolyGen: An Autoregressive Generative Model of 3D Meshes",
+      "path": "/Users/noone/Downloads/deepmind-research-master/polygen",
+      "dependencies": []
+    },
+    "powerpropagation": {
+      "description": "# Powerpropagation",
+      "path": "/Users/noone/Downloads/deepmind-research-master/powerpropagation",
+      "dependencies": []
+    },
+    "rapid_task_solving": {
+      "description": "# One-shot StreetLearn and Memory & Planning Game",
+      "path": "/Users/noone/Downloads/deepmind-research-master/rapid_task_solving",
+      "dependencies": []
+    },
+    "regal": {
+      "description": "# REGAL",
+      "path": "/Users/noone/Downloads/deepmind-research-master/regal",
+      "dependencies": []
+    },
+    "rl_unplugged": {
+      "description": "<img src=\"./images/tasks.png\" width=\"50%\">",
+      "path": "/Users/noone/Downloads/deepmind-research-master/rl_unplugged",
+      "dependencies": []
+    },
+    "satore": {
+      "description": "# Satore: First-order logic saturation with atom rewriting",
+      "path": "/Users/noone/Downloads/deepmind-research-master/satore",
+      "dependencies": []
+    },
+    "scratchgan": {
+      "description": "# ScratchGAN",
+      "path": "/Users/noone/Downloads/deepmind-research-master/scratchgan",
+      "dependencies": []
+    },
+    "side_effects_penalties": {
+      "description": "# Side effects penalties",
+      "path": "/Users/noone/Downloads/deepmind-research-master/side_effects_penalties",
+      "dependencies": []
+    },
+    "sketchy": {
+      "description": "# Sketchy data",
+      "path": "/Users/noone/Downloads/deepmind-research-master/sketchy",
+      "dependencies": []
+    },
+    "synthetic_returns": {
+      "description": "# Code for Synthetic Returns",
+      "path": "/Users/noone/Downloads/deepmind-research-master/synthetic_returns",
+      "dependencies": []
+    },
+    "tandem_dqn": {
+      "description": "# Tandem DQN",
+      "path": "/Users/noone/Downloads/deepmind-research-master/tandem_dqn",
+      "dependencies": []
+    },
+    "transporter": {
+      "description": "# Transporter - Unsupervised Learning of Object Keypoints for Perception and Control",
+      "path": "/Users/noone/Downloads/deepmind-research-master/transporter",
+      "dependencies": []
+    },
+    "tvt": {
+      "description": "# TVT: Temporal Value Transport",
+      "path": "/Users/noone/Downloads/deepmind-research-master/tvt",
+      "dependencies": []
+    },
+    "unrestricted_advx": {
+      "description": "# Unrestricted Adversarial Challenge",
+      "path": "/Users/noone/Downloads/deepmind-research-master/unrestricted_advx",
+      "dependencies": []
+    },
+    "unsupervised_adversarial_training": {
+      "description": "# Unsupervised Adversarial Training (UAT)",
+      "path": "/Users/noone/Downloads/deepmind-research-master/unsupervised_adversarial_training",
+      "dependencies": []
+    },
+    "visr": {
+      "description": "# VISR - Fast Task Inference with Variational Intrinsic Successor Features",
+      "path": "/Users/noone/Downloads/deepmind-research-master/visr",
+      "dependencies": []
+    },
+    "wikigraphs": {
+      "description": "# WikiGraphs",
+      "path": "/Users/noone/Downloads/deepmind-research-master/wikigraphs",
+      "dependencies": []
+    }
+  }
+}

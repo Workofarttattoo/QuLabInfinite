@@ -1,0 +1,9 @@
+{
+  "distance_km": 1,
+  "experiment": "teleportation_fidelity",
+  "fidelity": 0.9453,
+  "protocol": "GHZ",
+  "recommendation": "Protocol viable",
+  "success": true,
+  "transmission_efficiency": 0.955
+}

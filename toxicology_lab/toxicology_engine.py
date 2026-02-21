@@ -500,7 +500,7 @@ if __name__ == '__main__':
     results = run_toxicology_demo()
 
     # Save results
-    with open('/Users/noone/QuLabInfinite/toxicology_lab_results.json', 'w') as f:
+    with open('toxicology_lab_results.json', 'w') as f:
         json.dump(results, f, indent=2)
 
     print("\nResults saved to: toxicology_lab_results.json")
