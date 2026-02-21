@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-03T17:31:11.171770+00:00"
+  },
+  "ech0": {
+    "baseline": {
+      "shrinkage_percent": 83.5,
+      "alive_cells": 165
+    },
+    "ech0_protocol": {
+      "shrinkage_percent": 88.6,
+      "alive_cells": 114,
+      "field_schedule": [
+        "glucose",
+        "oxygen",
+        "temperature",
+        "lactate (cycle 2)"
+      ]
+    },
+    "improvement_points": 5.099999999999994
+  },
+  "oncology": {
+    "tumor_growth_cm3": {
+      "day_0": 3.799999999999998,
+      "day_90": 50.4128399495868,
+      "day_180": 164.94067891784877
+    },
+    "drug_response": {
+      "drug": "Erlotinib",
+      "response_at_5uM": 0.041229828123505265
+    },
+    "combination_synergy": {
+      "bliss_expected": 0.7525,
+      "loewe_ci": 0.31578947368421056
+    }
+  },
+  "clinical_trial": {
+    "sample_size": 60,
+    "response_rates": {
+      "A": 0.625,
+      "B": 0.7857142857142857
+    },
+    "assignments": {
+      "A": 32,
+      "B": 28
+    }
+  }
+}
