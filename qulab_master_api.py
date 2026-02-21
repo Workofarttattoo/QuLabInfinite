@@ -387,8 +387,8 @@ class QuLabMasterAPI:
                 "display_name": "Advanced Genomics Lab",
                 "description": "Advanced genomics research",
                 "domain": LabDomain.BIOLOGY,
-                "module": "genomics_lab.genomics_lab",
-                "class": "GenomicsLab",
+                "module": "genomics_lab.simulation",
+                "class": "GenomicsLaboratory",
                 "keywords": ["genomics", "advanced", "research"]
             },
             "bioinformatics": {

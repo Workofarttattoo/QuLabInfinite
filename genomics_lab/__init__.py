@@ -4,7 +4,7 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 QuLabInfinite Genomics Laboratory
 """
 
-from .genomics_lab import (
+from .simulation import (
     GenomicsLaboratory,
     DNASequence,
     Gene,
@@ -14,6 +14,18 @@ from .genomics_lab import (
     GeneticElement
 )
 
+from .analysis import (
+    GenomicsLab,
+    Sequence,
+    Variant,
+    SequenceAlignment,
+    VariantCaller,
+    GWASAnalysis,
+    PathwayEnrichment,
+    ExpressionClustering,
+    CNVDetection
+)
+
 __all__ = [
     'GenomicsLaboratory',
     'DNASequence',
@@ -21,5 +33,14 @@ __all__ = [
     'CRISPRTarget',
     'Mutation',
     'Nucleotide',
-    'GeneticElement'
+    'GeneticElement',
+    'GenomicsLab',
+    'Sequence',
+    'Variant',
+    'SequenceAlignment',
+    'VariantCaller',
+    'GWASAnalysis',
+    'PathwayEnrichment',
+    'ExpressionClustering',
+    'CNVDetection'
 ]
