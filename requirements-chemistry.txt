@@ -1,0 +1,3 @@
+# Optional chemistry/biology stack
+rdkit-pypi
+biopython
