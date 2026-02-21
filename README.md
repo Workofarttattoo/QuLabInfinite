@@ -1,20 +1,15 @@
 # QuLab Infinite: Universal Materials Science & Quantum Simulation Laboratory
 
-![QuLab Infinite Banner](media/banner.png)
+### Start All Labs (10 concurrent servers)
+```bash
+LAB_HOST=0.0.0.0 LAB_PORT_PREFIX=800 bash scripts/start_medical_labs.sh
+# Ports: ${LAB_PORT_PREFIX}1-${LAB_PORT_PREFIX}10 (defaults to 8001-8010)
+```
 
-<div align="center">
-
-[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg?style=for-the-badge&logo=python)](https://www.python.org/)
-[![MCP](https://img.shields.io/badge/Protocol-MCP-green.svg?style=for-the-badge)](https://modelcontextprotocol.io/)
-[![License](https://img.shields.io/badge/License-Proprietary-red.svg?style=for-the-badge)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Patent--Pending-gold.svg?style=for-the-badge)]()
-
-**The most comprehensive scientific experimentation and autonomous discovery platform ever created.**
-</div>
-
----
-
-## 🔬 Redefining Science through AI & Automation
+### Docker Compose (all 10 medical labs)
+```bash
+docker compose -f docker-compose.medical.yml up --build
+```
 
 QuLab Infinite provides **1,532+ high-fidelity scientific tools** integrated into a unified MCP (Model Context Protocol) runtime. It coordinates **220+ specialized laboratories**, covering every stage of the scientific method from molecular design to automated synthesis.
 
