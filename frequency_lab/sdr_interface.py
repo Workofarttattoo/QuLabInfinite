@@ -19,6 +19,10 @@ class SDRInterface:
         Connect to the SDR device.
         This is a placeholder. In a real implementation, you would use a library
         like SoapySDR, pyUHD, etc., to connect to the hardware.
+
+        Example implementation:
+            import SoapySDR
+            self.sdr_device = SoapySDR.Device(f"driver={self.driver},serial={self.serial}")
         """
         print(f"Connecting to SDR with driver '{self.driver}' and serial '{self.serial}'...")
         if self.driver == 'dummy':
@@ -26,9 +30,6 @@ class SDRInterface:
             self.sdr_device = self._create_dummy_sdr()
         else:
             try:
-                # Example:
-                # import SoapySDR
-                # self.sdr_device = SoapySDR.Device(f"driver={self.driver},serial={self.serial}")
                 print(f"Successfully connected to SDR (simulated).")
             except Exception as e:
                 print(f"Error connecting to SDR: {e}")
@@ -79,8 +80,11 @@ class SDRInterface:
     def __del__(self):
         """
         Clean up resources when the object is destroyed.
+
+        Example implementation:
+            if self.sdr_device:
+                self.sdr_device.close()
         """
         if self.sdr_device and self.driver != 'dummy':
             # In a real implementation, you would properly close the device connection.
-            # Example: self.sdr_device.close()
             print("SDR connection closed.")
