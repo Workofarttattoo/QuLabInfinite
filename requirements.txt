@@ -17,11 +17,13 @@ psutil
 plotly
 PySide6
 pyvista
-pydantic
-python-multipart
-PyYAML
-sqlalchemy
-
-# API Framework
-fastapi
-uvicorn
+transformers
+trl
+peft
+bitsandbytes
+datasets
+accelerate
+torch
+huggingface-hub
+google-cloud-storage
+google-cloud-aiplatform
