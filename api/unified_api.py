@@ -6,7 +6,7 @@ QuLabInfinite Unified API
 Enterprise-grade FastAPI server exposing all 20 labs with authentication, rate limiting, and real-time WebSocket support.
 """
 
-from fastapi import FastAPI, HTTPException, Depends, WebSocket, WebSocketDisconnect, Header
+from fastapi import FastAPI, HTTPException, Depends, WebSocket, WebSocketDisconnect, Header, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
@@ -77,21 +77,28 @@ API_KEYS = {
 
 rate_limit_tracker = defaultdict(list)
 
-def verify_api_key(x_api_key: str = Header(...)) -> Dict[str, Any]:
+def verify_api_key(
+    x_api_key: Optional[str] = Header(None),
+    api_key: Optional[str] = Query(None)
+) -> Dict[str, Any]:
     """Verify API key and return user info"""
-    if x_api_key not in API_KEYS:
+    token = x_api_key or api_key
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing API key")
+
+    if token not in API_KEYS:
         raise HTTPException(status_code=401, detail="Invalid API key")
 
-    user_info = API_KEYS[x_api_key]
+    user_info = API_KEYS[token]
 
     # Rate limiting
     now = time.time()
-    rate_limit_tracker[x_api_key] = [t for t in rate_limit_tracker[x_api_key] if now - t < 3600]
+    rate_limit_tracker[token] = [t for t in rate_limit_tracker[token] if now - t < 3600]
 
-    if len(rate_limit_tracker[x_api_key]) >= user_info["rate_limit"]:
+    if len(rate_limit_tracker[token]) >= user_info["rate_limit"]:
         raise HTTPException(status_code=429, detail="Rate limit exceeded")
 
-    rate_limit_tracker[x_api_key].append(now)
+    rate_limit_tracker[token].append(now)
 
     return user_info
 
@@ -528,7 +535,11 @@ async def metabolic_analyze(
 active_connections: Dict[str, List[WebSocket]] = defaultdict(list)
 
 @app.websocket("/ws/{lab_name}")
-async def websocket_endpoint(websocket: WebSocket, lab_name: str):
+async def websocket_endpoint(
+    websocket: WebSocket,
+    lab_name: str,
+    user: Dict = Depends(verify_api_key)
+):
     """WebSocket for real-time lab results"""
     await websocket.accept()
     active_connections[lab_name].append(websocket)
