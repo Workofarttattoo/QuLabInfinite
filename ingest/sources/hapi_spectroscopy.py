@@ -5,8 +5,6 @@ import hapi as hapi
 import h5py
 import pathlib
 
-# from astroquery.hitran import Hitran
-# from astropy import units as u
 
 def load_live(molecule_name: str, min_wavenumber: float, max_wavenumber: float, h5_dir: str = "data/h5") -> Iterable[RecordChem]:
     """
