@@ -1,109 +1,71 @@
 {
-  "generated_at": "2026-02-21T05:52:54.242786Z",
-  "snr_definition": "SNR = (max(signal)-min(signal)) / (2*std(baseline_region))",
-  "status_taxonomy": {
-    "INSUFFICIENT_SNR": "<5",
-    "HIGH_UNCERTAINTY": "5\u201315",
-    "RELIABLE": ">=15"
-  },
+  "generated_at": "2026-02-21T06:03:41.809727+00:00",
+  "snr_definition": "(max-min)/(2*std)",
   "runs": [
     {
       "run_id": 1,
-      "title": "Run 1 \u2014 Noise-dominant",
-      "failure_mode": "Noise-dominant",
-      "trigger_metric": "SNR = 2.79 < 5",
       "initial_snr": 2.79,
-      "initial_status": "INSUFFICIENT_SNR",
       "final_snr": 58.9,
-      "final_status": "RELIABLE",
       "snr_gain": 21.11,
-      "iterations_needed": 1,
-      "predicted_gain": 17.8,
-      "observed_gain": 21.11,
+      "iterations": 1,
+      "final_status": "RELIABLE",
       "redesigns": [
         {
-          "name": "Oversample N=100 + moving-average W=10",
+          "name": "Oversampling + smoothing",
           "snr": 58.9,
-          "status": "RELIABLE",
-          "notes": "Sublinear overlap correction; mild heavy-tail suppression may exceed \u221aN prediction."
+          "status": "RELIABLE"
         }
-      ],
-      "extra": {}
+      ]
     },
     {
       "run_id": 2,
-      "title": "Run 2 \u2014 Signal-limited (LOD/LOQ regime)",
-      "failure_mode": "Signal-limited",
-      "trigger_metric": "SNR = 12.72 (LOD/LOQ regime)",
       "initial_snr": 12.72,
-      "initial_status": "HIGH_UNCERTAINTY",
       "final_snr": 37.48,
-      "final_status": "RELIABLE",
       "snr_gain": 2.95,
-      "iterations_needed": 1,
-      "predicted_gain": 3.0,
-      "observed_gain": 2.95,
+      "iterations": 1,
+      "final_status": "RELIABLE",
       "redesigns": [
         {
           "name": "Switch modality \u2192 LIF",
           "snr": 37.48,
-          "status": "RELIABLE",
-          "notes": "Improvement consistent with leaving UV-Vis LOD without entering quenching regime."
+          "status": "RELIABLE"
         }
-      ],
-      "extra": {}
+      ]
     },
     {
       "run_id": 3,
-      "title": "Run 3 \u2014 Drift-dominant",
-      "failure_mode": "Drift-dominant",
-      "trigger_metric": "SNR = 8.98, drift > 0.5\u03c3/min",
       "initial_snr": 8.98,
-      "initial_status": "HIGH_UNCERTAINTY",
       "final_snr": 46.35,
-      "final_status": "RELIABLE",
       "snr_gain": 5.16,
-      "iterations_needed": 1,
-      "predicted_gain": 8.0,
-      "observed_gain": 5.16,
+      "iterations": 1,
+      "final_status": "RELIABLE",
       "redesigns": [
         {
-          "name": "Reference standard + recalibration (deterministic drift removal)",
+          "name": "Reference recalibration",
           "snr": 46.35,
-          "status": "RELIABLE",
-          "notes": "Deterministic drift removal can outperform iid Gaussian gain models."
+          "status": "RELIABLE"
         }
-      ],
-      "extra": {}
+      ]
     },
     {
       "run_id": 4,
-      "title": "Run 4 \u2014 Hard Mode (multi-failure)",
-      "failure_mode": "Multi-failure",
-      "trigger_metric": "SNR = 3.10, drift + saturation",
       "initial_snr": 3.1,
-      "initial_status": "INSUFFICIENT_SNR",
       "final_snr": 21.82,
-      "final_status": "RELIABLE",
       "snr_gain": 7.04,
-      "iterations_needed": 2,
-      "predicted_gain": 6.0,
-      "observed_gain": 7.04,
+      "iterations": 2,
+      "final_status": "RELIABLE",
       "redesigns": [
         {
-          "name": "First redesign: Reduce gain (saturation fix only)",
+          "name": "Reduce gain (fails)",
           "snr": 3.86,
-          "status": "INSUFFICIENT_SNR",
-          "notes": "Must remain INSUFFICIENT_SNR to force iteration."
+          "status": "INSUFFICIENT_SNR"
         },
         {
-          "name": "Second redesign: LIF + reference recalibration",
+          "name": "LIF + recalibration",
           "snr": 21.82,
-          "status": "RELIABLE",
-          "notes": "Compounding fixes bring system to RELIABLE."
+          "status": "RELIABLE"
         }
-      ],
-      "extra": {}
+      ]
     }
   ]
 }
