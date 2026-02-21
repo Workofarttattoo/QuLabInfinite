@@ -1,5 +1,8 @@
+import logging
 import yaml
 from typing import Dict, Any
+
+logger = logging.getLogger(__name__)
 
 DEFAULT_CONFIG = {
     "materials_lab": {
@@ -38,12 +41,12 @@ class ConfigManager:
                 # You might want to merge with defaults to handle missing keys
                 return config
         except FileNotFoundError:
-            print(f"[info] Config file not found at {self.config_path}. Creating a default one.")
+            logger.info(f"Config file not found at {self.config_path}. Creating a default one.")
             with open(self.config_path, 'w') as f:
                 yaml.dump(DEFAULT_CONFIG, f, default_flow_style=False)
             return DEFAULT_CONFIG
         except Exception as e:
-            print(f"[error] Failed to load config file: {e}")
+            logger.exception("Failed to load config file")
             return DEFAULT_CONFIG
 
     def get_lab_config(self, lab_name: str) -> Dict[str, Any]:
@@ -77,4 +80,4 @@ class ConfigManager:
             with open(self.config_path, 'w') as f:
                 yaml.dump(self._config, f, default_flow_style=False)
         except Exception as e:
-            print(f"[error] Failed to save config file: {e}")
+            logger.exception("Failed to save config file")

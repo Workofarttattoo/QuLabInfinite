@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+uncertainty - Part of Materials Lab
+"""
+
 """
 Helpers for estimating uncertainties on simulated measurements.
 """
 
-from __future__ import annotations
 
 from typing import Dict
 

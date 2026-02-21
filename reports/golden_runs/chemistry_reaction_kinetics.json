@@ -1,0 +1,14 @@
+{
+  "confidence": 0.721,
+  "experiment": "reaction_kinetics",
+  "lab": "chemistry_lab",
+  "metrics": {
+    "measured_activation_energy_kJ_mol": 50.7951,
+    "measured_pressure_bar": 1.0271,
+    "measured_rate_constant_s": 0.002,
+    "measured_temperature_K": 291.1513
+  },
+  "patentability_score": 0.78,
+  "recommendation": "Promising results - proceed to next phase",
+  "success": true
+}

@@ -1,21 +1,11 @@
 from fastapi import Security, HTTPException, status
 from fastapi.security import APIKeyHeader
-import json
-import os
+
+from core.security import load_api_keys_from_env
 
 API_KEY_HEADER = APIKeyHeader(name="X-API-KEY")
-api_keys_path = os.path.join(os.path.dirname(__file__), "..", "api_keys.json")
 
-def load_api_keys() -> list[str]:
-    """Load valid API keys from a JSON file."""
-    try:
-        with open(api_keys_path, "r") as f:
-            data = json.load(f)
-            return data.get("valid_keys", [])
-    except FileNotFoundError:
-        return []
-
-VALID_API_KEYS = load_api_keys()
+VALID_API_KEYS = load_api_keys_from_env()
 
 async def get_api_key(api_key: str = Security(API_KEY_HEADER)):
     """Dependency to verify the API key."""

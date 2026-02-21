@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+noise_cancellation - Part of Quantum Lab
+"""
+
+"""
 Quantum Noise Cancellation and Field Maintenance.
 
 Implements inverse channel modeling to cancel out noise and maintain

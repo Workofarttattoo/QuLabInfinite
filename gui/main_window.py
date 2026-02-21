@@ -5,7 +5,7 @@ Main window for the QuLabInfinite GUI.
 import sys
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
-    QMenuBar, QStatusBar, QTabWidget
+    QMenuBar, QStatusBar, QTabWidget, QLabel
 )
 from PySide6.QtCore import QThread, Signal, QObject
 
@@ -62,6 +62,20 @@ class MainWindow(QMainWindow):
         self.dataframe_viewer = DataFrameViewer()
         chemistry_layout.addWidget(self.dataframe_viewer)
         self.tabs.addTab(chemistry_tab, "Chemistry Lab")
+
+        # --- Materials Lab Tab (New) ---
+        materials_tab = QWidget()
+        materials_layout = QVBoxLayout(materials_tab)
+        materials_label = QLabel("Materials Database View - Coming Soon")
+        materials_layout.addWidget(materials_label)
+        self.tabs.addTab(materials_tab, "Materials Lab")
+
+        # --- Stitch Workflow Tab (New) ---
+        stitch_tab = QWidget()
+        stitch_layout = QVBoxLayout(stitch_tab)
+        stitch_label = QLabel("Stitch Workflow Engine - Integrating Labs")
+        stitch_layout.addWidget(stitch_label)
+        self.tabs.addTab(stitch_tab, "Stitch Workflow")
 
         # Menu and status bar
         self.setMenuBar(QMenuBar())

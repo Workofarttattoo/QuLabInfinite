@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+cod - Part of Chemistry Lab
+"""
+
+"""
 Specialized loader for fetching data from the Crystallography Open Database (COD).
 """
 

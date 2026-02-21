@@ -88,7 +88,10 @@ class TensileTest:
         fracture_idx = np.argmin(np.abs(strain - fracture_strain))
 
         # Calculate energy absorbed (area under curve)
-        toughness = np.trapz(stress[:fracture_idx], strain[:fracture_idx])  # MJ/m³
+        try:
+            toughness = np.trapezoid(stress[:fracture_idx], strain[:fracture_idx])  # MJ/m³
+        except AttributeError:
+            toughness = np.trapz(stress[:fracture_idx], strain[:fracture_idx])  # MJ/m³
 
         data = {
             "strain": strain.tolist(),

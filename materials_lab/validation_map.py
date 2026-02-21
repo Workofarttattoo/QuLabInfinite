@@ -1,3 +1,10 @@
+from __future__ import annotations
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+validation_map - Part of Materials Lab
+"""
+
 """
 Mapping between material properties and validation reference keys.
 
@@ -6,7 +13,6 @@ shared validation framework without duplicating constants across tests, CLIs,
 or database tooling.
 """
 
-from __future__ import annotations
 
 from typing import Dict, Mapping
 

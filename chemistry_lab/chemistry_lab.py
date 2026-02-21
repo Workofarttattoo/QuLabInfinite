@@ -5,9 +5,13 @@ Chemistry Laboratory - Main API
 Unified interface for all chemistry laboratory capabilities.
 """
 
+# NOTE: References to "free energy" in this module always denote the Gibbs free
+# energy from classical thermodynamics, not any pseudoscientific concepts.
+
 import json
 import numpy as np
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
+from numbers import Real
 from typing import Dict, List, Tuple, Optional, TYPE_CHECKING, Any
 
 # Import all sub-modules
@@ -28,6 +32,7 @@ from .spectroscopy_predictor import (
 from .solvation_model import (
     SolvationCalculator, Solute, Solvent, SolvationEnergy
 )
+from .fast_thermodynamics import FastThermodynamicsCalculator
 from .quantum_chemistry_interface import (
     QuantumChemistryInterface, QMMethod, BasisSet, DFTFunctional,
     Molecule as QMMolecule, QMResult
@@ -99,6 +104,7 @@ class ChemistryLaboratory(BaseLab):
         self.spectroscopy = SpectroscopyPredictor() if self.config.enable_spectroscopy else None
         self.solvation = SolvationCalculator() if self.config.enable_solvation else None
         self.quantum = QuantumChemistryInterface() if self.config.enable_quantum else None
+        self.thermo = FastThermodynamicsCalculator()
 
         print("[ChemLab] Chemistry Laboratory initialized")
         self._print_capabilities()
@@ -119,9 +125,41 @@ class ChemistryLaboratory(BaseLab):
             return {"status": "completed", "frames": len(trajectory)}
         
         elif exp_type == "reaction_simulation":
-            # This requires complex reactant/product molecule objects
-            # For now, we'll just indicate it's a valid experiment type
-             raise NotImplementedError("Reaction simulation via run_experiment is not fully implemented yet.")
+            reactants_spec = experiment_spec.get("reactants")
+            products_spec = experiment_spec.get("products")
+            conditions_spec = experiment_spec.get("conditions", {})
+
+            self._validate_reaction_inputs(reactants_spec, products_spec, conditions_spec)
+
+            reactants = self._build_reactant_molecules(reactants_spec)
+            products = self._build_reactant_molecules(products_spec)
+            conditions = self._build_reaction_conditions(conditions_spec)
+            reaction_name = experiment_spec.get("reaction_name")
+
+            result = self.simulate_reaction(
+                reactants,
+                products,
+                conditions,
+                reaction_name=reaction_name
+            )
+
+            kinetics = result.get("kinetics")
+            profiles = {
+                "time": result["time"].tolist(),
+                "reactant_concentration": result["reactant_concentration"].tolist(),
+                "product_concentration": result["product_concentration"].tolist(),
+                "product_distribution": {
+                    key: value.tolist() for key, value in result["product_distribution"].items()
+                }
+            }
+
+            return {
+                "status": "completed",
+                "reaction_name": reaction_name or "custom_reaction",
+                "kinetics": asdict(kinetics) if kinetics else {},
+                "selectivity": kinetics.product_selectivity if kinetics else {},
+                "profiles": profiles,
+            }
 
         elif exp_type == "spectroscopy":
             molecule = experiment_spec.get("molecule")
@@ -172,6 +210,33 @@ class ChemistryLaboratory(BaseLab):
         if self.config.enable_quantum:
             print("  ✓ Quantum Chemistry (DFT, HF, MP2)")
         print()
+
+    # ========== Thermodynamics Helpers ==========
+
+    def calculate_dissolution_enthalpy(
+        self,
+        salt: str,
+        solvent: str = "H2O",
+        temperature_K: float = 298.15
+    ) -> Dict[str, Any]:
+        """
+        Compute the dissolution enthalpy for an ionic solid using the Born-Haber cycle.
+
+        Args:
+            salt: Salt formula (e.g., "NaCl")
+            solvent: Solvent identifier
+            temperature_K: Temperature in Kelvin
+
+        Returns:
+            Dictionary with ΔH (kJ/mol) and source metadata.
+        """
+        thermo = self.thermo.salt_dissolution_enthalpy(salt, solvent, temperature_K)
+        return {
+            "delta_H_kJ_per_mol": thermo.delta_H,
+            "temperature_K": thermo.temperature,
+            "reference": thermo.source,
+            "experimental": thermo.experimental,
+        }
 
     # ========== Molecular Dynamics ==========
 
@@ -483,6 +548,93 @@ class ChemistryLaboratory(BaseLab):
             )
 
         return results
+
+    def _validate_reaction_inputs(
+        self,
+        reactants: Any,
+        products: Any,
+        conditions: Any
+    ) -> None:
+        """Minimal validation for reaction experiment inputs."""
+        if not isinstance(reactants, list) or not reactants:
+            raise ValueError("'reactants' must be a non-empty list of molecule specifications.")
+        if not isinstance(products, list) or not products:
+            raise ValueError("'products' must be a non-empty list of molecule specifications.")
+        if not isinstance(conditions, dict):
+            raise ValueError("'conditions' must be provided as a dictionary.")
+
+        for label, collection in (("reactant", reactants), ("product", products)):
+            for idx, entry in enumerate(collection):
+                if not isinstance(entry, dict):
+                    raise ValueError(f"Each {label} specification must be a dictionary (item {idx}).")
+                if not (entry.get("formula") or entry.get("smiles")):
+                    raise ValueError(f"{label.capitalize()} {idx + 1} requires 'formula' or 'smiles'.")
+                for field in ("energy", "enthalpy", "entropy"):
+                    if field not in entry:
+                        raise ValueError(f"{label.capitalize()} {idx + 1} missing required field '{field}'.")
+                    if not isinstance(entry[field], Real):
+                        raise ValueError(f"{label.capitalize()} {idx + 1} field '{field}' must be numeric.")
+
+        self._validate_conditions(
+            conditions.get("temperature", self.config.temperature),
+            conditions.get("pressure", self.config.pressure),
+            conditions.get("pH")
+        )
+
+    def _validate_conditions(self, temperature: Any, pressure: Any, pH: Any = None) -> None:
+        """Validate basic reaction conditions."""
+        if not isinstance(temperature, Real) or temperature <= 0:
+            raise ValueError("'temperature' must be a positive number in Kelvin.")
+        if not isinstance(pressure, Real) or pressure <= 0:
+            raise ValueError("'pressure' must be a positive number in bar.")
+        if pH is not None and (not isinstance(pH, Real) or pH < 0 or pH > 14):
+            raise ValueError("'pH' must be between 0 and 14 if provided.")
+
+    def _build_reaction_conditions(self, conditions_spec: Dict[str, Any]) -> ReactionConditions:
+        """Construct ReactionConditions from a dictionary specification."""
+        temperature = conditions_spec.get("temperature", self.config.temperature)
+        pressure = conditions_spec.get("pressure", self.config.pressure)
+        pH = conditions_spec.get("pH")
+        catalyst = conditions_spec.get("catalyst")
+
+        if catalyst is not None and not isinstance(catalyst, Catalyst):
+            raise ValueError("'catalyst' must be a Catalyst instance if provided.")
+
+        self._validate_conditions(temperature, pressure, pH)
+
+        return ReactionConditions(
+            temperature=temperature,
+            pressure=pressure,
+            solvent=conditions_spec.get("solvent"),
+            pH=pH,
+            catalyst=catalyst
+        )
+
+    def _build_reactant_molecules(self, molecules_spec: List[Dict[str, Any]]) -> List[ReactMolecule]:
+        """Convert dictionary specifications into ReactMolecule instances."""
+        molecules: List[ReactMolecule] = []
+        for index, spec in enumerate(molecules_spec):
+            formula = spec.get("formula", "")
+            smiles = spec.get("smiles", "")
+            geometry = spec.get("geometry")
+
+            try:
+                molecule = ReactMolecule(
+                    formula=formula,
+                    smiles=smiles,
+                    energy=float(spec["energy"]),
+                    enthalpy=float(spec["enthalpy"]),
+                    entropy=float(spec["entropy"]),
+                    geometry=geometry
+                )
+            except KeyError as exc:
+                raise ValueError(f"Molecule {index + 1} missing required key: {exc.args[0]}") from exc
+            except (TypeError, ValueError) as exc:
+                raise ValueError(f"Molecule {index + 1} has invalid numeric values: {exc}") from exc
+
+            molecules.append(molecule)
+
+        return molecules
 
     def reaction_optimization_workflow(
         self,

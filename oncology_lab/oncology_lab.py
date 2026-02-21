@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+oncology_lab - Part of Oncology Lab
+"""
+
+"""
 QuLabInfinite Oncology Laboratory Interface.
 
 This module wires together the tumor-growth, drug-response, and intervention

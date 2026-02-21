@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+tomography - Part of Quantum Lab
+"""
+
+"""
 Quantum state tomography and fidelity calculation.
 
 Implements quantum state tomography for reconstructing unknown quantum states

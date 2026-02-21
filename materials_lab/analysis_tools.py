@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+analysis_tools - Part of Materials Lab
+"""
+
 """
 Materials analysis helpers for QuLab Infinite.
 
@@ -13,7 +20,6 @@ These helpers do not modify the underlying database; they provide structured
 results suitable for ECH0 workflows, command-line tools, or web endpoints.
 """
 
-from __future__ import annotations
 
 import math
 import statistics

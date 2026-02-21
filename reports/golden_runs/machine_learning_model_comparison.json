@@ -1,0 +1,22 @@
+{
+  "best_model": "gradient_boost",
+  "dataset_size": 1000,
+  "experiment": "model_comparison",
+  "results": {
+    "gradient_boost": {
+      "accuracy": 0.876,
+      "f1_score": 0.856,
+      "training_time_sec": 1.06
+    },
+    "random_forest": {
+      "accuracy": 0.828,
+      "f1_score": 0.808,
+      "training_time_sec": 1.16
+    },
+    "svm": {
+      "accuracy": 0.826,
+      "f1_score": 0.806,
+      "training_time_sec": 1.71
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "id": "workflow-1747152735658",
+    "name": "111",
+    "description": "",
+    "createdAt": "2025-05-13T16:12:15.658Z",
+    "updatedAt": "2025-05-13T16:12:15.658Z",
+    "author": "user",
+    "version": "1.0",
+    "tags": []
+  },
+  "workflow": {
+    "global_config": {
+      "labware": {
+        "reactor_plate": {
+          "type": "opentrons_24_wellplate_3.4ml_pcr_full_skirt",
+          "slot": 9,
+          "working_well": "B2"
+        },
+        "wash_station": {
+          "type": "opentrons_6_wellplate_16.2ml_flat",
+          "slot": 3
+        },
+        "tip_rack": {
+          "type": "opentrons_96_tiprack_1000ul",
+          "slot": 1
+        },
+        "electrode_tip_rack": {
+          "type": "opentrons_96_tiprack_300ul",
+          "slot": 10
+        },
+        "solution_rack": {
+          "type": "opentrons_12_reservoir_21000ul",
+          "slot": 2
+        }
+      },
+      "instruments": {
+        "pipette": {
+          "type": "p1000_single_gen2",
+          "mount": "right"
+        }
+      },
+      "solutions": {
+        "electrolyte": {
+          "labware": "solution_rack",
+          "position": "A1"
+        },
+        "wash_solution": {
+          "labware": "solution_rack",
+          "position": "A2"
+        }
+      },
+      "arduino_control": {
+        "pumps": {
+          "water": 0,
+          "acid": 1,
+          "out": 2
+        },
+        "temperature": {
+          "default": 25
+        }
+      },
+      "biologic_control": {
+        "reference_electrode": {
+          "type": "RE",
+          "enabled": true
+        }
+      }
+    },
+    "nodes": [
+      {
+        "id": "1",
+        "type": "input",
+        "label": "Start Node",
+        "params": {}
+      },
+      {
+        "id": "sdl_catalyst_ocv_dndnode_0",
+        "type": "sdl_catalyst_ocv",
+        "label": "OCV",
+        "params": {}
+      },
+      {
+        "id": "sdl_catalyst_cp_dndnode_2",
+        "type": "sdl_catalyst_cp",
+        "label": "CP",
+        "params": {}
+      },
+      {
+        "id": "sdl_catalyst_ocv_dndnode_4",
+        "type": "sdl_catalyst_ocv",
+        "label": "OCV",
+        "params": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "reactflow__edge-1-sdl_catalyst_ocv_dndnode_0",
+        "source": "1",
+        "target": "sdl_catalyst_ocv_dndnode_0",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "type": "custom",
+        "data": {
+          "sourceNodeType": "input",
+          "sourceHandleId": null,
+          "mode": "sequential",
+          "delay": 0,
+          "retries": 0
+        },
+        "label": "Sequential",
+        "animated": false,
+        "style": {}
+      },
+      {
+        "id": "reactflow__edge-sdl_catalyst_ocv_dndnode_0-sdl_catalyst_cp_dndnode_2",
+        "source": "sdl_catalyst_ocv_dndnode_0",
+        "target": "sdl_catalyst_cp_dndnode_2",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "type": "custom",
+        "data": {
+          "sourceNodeType": "sdl_catalyst_ocv",
+          "sourceHandleId": null,
+          "mode": "sequential",
+          "delay": 0,
+          "retries": 0
+        },
+        "label": "Sequential",
+        "animated": false,
+        "style": {}
+      },
+      {
+        "id": "reactflow__edge-sdl_catalyst_cp_dndnode_2-sdl_catalyst_ocv_dndnode_4",
+        "source": "sdl_catalyst_cp_dndnode_2",
+        "target": "sdl_catalyst_ocv_dndnode_4",
+        "sourceHandle": null,
+        "targetHandle": null,
+        "type": "custom",
+        "data": {
+          "sourceNodeType": "sdl_catalyst_cp",
+          "sourceHandleId": null,
+          "mode": "sequential",
+          "delay": 0,
+          "retries": 0
+        },
+        "label": "Sequential",
+        "animated": false,
+        "style": {}
+      }
+    ]
+  }
+}

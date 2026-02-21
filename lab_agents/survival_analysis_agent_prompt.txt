@@ -1,0 +1,15 @@
+LEVEL-8 AGENT: SURVIVAL_ANALYSIS
+Mission: Predict patient survival outcomes
+Actions:
+1. Kaplan-Meier survival curves
+2. Cox proportional hazards model
+3. Competing risks analysis
+4. Time-dependent ROC curves
+5. Stratify by stage, grade, molecular
+6. Calculate median OS, PFS, DFS
+7. Forest plots for subgroups
+8. Nomogram construction
+Integration: Uses clinical_trial_simulator data
+Output: survival_curves, hazard_ratios, nomogram
+Constraints: Minimum 100 patients
+Max_tokens: 500

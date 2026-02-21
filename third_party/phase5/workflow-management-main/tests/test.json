@@ -1,0 +1,466 @@
+{
+    "global_config": {
+      "labware": {
+        "reactor_plate": {
+          "type": "opentrons_24_wellplate_3.4ml_pcr_full_skirt",
+          "slot": 9,
+          "working_well": "B2"
+        },
+        "wash_station": {
+          "type": "opentrons_6_wellplate_16.2ml_flat",
+          "slot": 3
+        },
+        "tip_rack": {
+          "type": "opentrons_96_tiprack_1000ul",
+          "slot": 1
+        },
+        "electrode_tip_rack": {
+          "type": "opentrons_96_tiprack_300ul",
+          "slot": 10
+        },
+        "solution_rack": {
+          "type": "opentrons_12_reservoir_21000ul",
+          "slot": 2
+        }
+      },
+      "instruments": {
+        "pipette": {
+          "type": "p1000_single_gen2",
+          "mount": "right"
+        }
+      },
+      "solutions": {
+        "electrolyte": {
+          "labware": "solution_rack",
+          "position": "A1"
+        },
+        "wash_solution": {
+          "labware": "solution_rack",
+          "position": "A2"
+        }
+      },
+      "arduino_control": {
+        "pumps": {
+          "water": 0,
+          "acid": 1,
+          "out": 2
+        },
+        "temperature": {
+          "default": 25.0
+        }
+      },
+      "biologic_control": {
+        "reference_electrode": {
+          "type": "RE",
+          "enabled": true
+        }
+      }
+    },
+    "nodes": [
+      {
+        "id": "ocv1",
+        "type": "OCV",
+        "label": "OCV (initial)",
+        "params": {
+          "duration_s": 300,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_voltage_V": 0.0,
+          "end_voltage_V": 0.0,
+          "scan_rate_mV_s": 0,
+          "cycles": 1,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": [
+            {
+              "action": "pick_up_tip",
+              "labware": "electrode_tip_rack",
+              "well": "A1"
+            },
+            {
+              "action": "move_to",
+              "labware": "reactor_plate",
+              "well": "B2",
+              "offset": {
+                "z": -20
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "cp",
+        "type": "CP",
+        "label": "Chronopotentiometry",
+        "params": {
+          "current_mA": 10,
+          "duration_s": 600,
+          "sample_rate": 1,
+          "start_voltage_V": 0.0,
+          "end_voltage_V": 0.0,
+          "scan_rate_mV_s": 0,
+          "cycles": 1,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": []
+        }
+      },
+      {
+        "id": "ocv2",
+        "type": "OCV",
+        "label": "OCV (post-fabrication)",
+        "params": {
+          "duration_s": 300,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_voltage_V": 0.0,
+          "end_voltage_V": 0.0,
+          "scan_rate_mV_s": 0,
+          "cycles": 1,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": [
+            {
+              "action": "move_to",
+              "labware": "wash_station",
+              "well": "A1"
+            },
+            {
+              "action": "wash",
+              "arduino_actions": {
+                "pump0_ml": 5.0,
+                "ultrasonic0_ms": 5000,
+                "pump2_ml": 6.0
+              }
+            },
+            {
+              "action": "move_to",
+              "labware": "reactor_plate",
+              "well": "B2",
+              "offset": {
+                "z": -20
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "cva1",
+        "type": "CVA",
+        "label": "Cyclic Voltammetry A",
+        "params": {
+          "start_voltage_V": -0.2,
+          "end_voltage_V": 1.0,
+          "scan_rate_mV_s": 50,
+          "cycles": 3,
+          "duration_s": 300,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": []
+        }
+      },
+      {
+        "id": "peis1",
+        "type": "PEIS",
+        "label": "PEIS A",
+        "params": {
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "duration_s": 300,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_voltage_V": 0.0,
+          "end_voltage_V": 0.0,
+          "scan_rate_mV_s": 0,
+          "cycles": 1,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": []
+        }
+      },
+      {
+        "id": "cv1",
+        "type": "CV",
+        "label": "CV A",
+        "params": {
+          "start_voltage_V": -0.2,
+          "end_voltage_V": 1.0,
+          "scan_rate_mV_s": 100,
+          "cycles": 3,
+          "duration_s": 300,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": []
+        }
+      },
+      {
+        "id": "cv_activation",
+        "type": "CV_activation",
+        "label": "CV Activation",
+        "params": {
+          "start_voltage_V": -0.5,
+          "end_voltage_V": 1.2,
+          "scan_rate_mV_s": 100,
+          "cycles": 10,
+          "duration_s": 600,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 30.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": []
+        }
+      },
+      {
+        "id": "cva2",
+        "type": "CVA",
+        "label": "Cyclic Voltammetry B",
+        "params": {
+          "start_voltage_V": -0.2,
+          "end_voltage_V": 1.0,
+          "scan_rate_mV_s": 50,
+          "cycles": 3,
+          "duration_s": 300,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": []
+        }
+      },
+      {
+        "id": "peis2",
+        "type": "PEIS",
+        "label": "PEIS B",
+        "params": {
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "duration_s": 300,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_voltage_V": 0.0,
+          "end_voltage_V": 0.0,
+          "scan_rate_mV_s": 0,
+          "cycles": 1,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": [
+            {
+              "action": "move_to",
+              "labware": "wash_station",
+              "well": "A1"
+            },
+            {
+              "action": "wash",
+              "arduino_actions": {
+                "pump0_ml": 5.0,
+                "ultrasonic0_ms": 5000,
+                "pump2_ml": 6.0
+              }
+            },
+            {
+              "action": "move_to",
+              "labware": "reactor_plate",
+              "well": "B2",
+              "offset": {
+                "z": -20
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "cv2",
+        "type": "CV",
+        "label": "CV B",
+        "params": {
+          "start_voltage_V": -0.2,
+          "end_voltage_V": 1.0,
+          "scan_rate_mV_s": 100,
+          "cycles": 3,
+          "duration_s": 300,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": []
+        }
+      },
+      {
+        "id": "lsv",
+        "type": "LSV",
+        "label": "LSV / Tafel Slope",
+        "params": {
+          "start_voltage_V": -0.2,
+          "end_voltage_V": 1.0,
+          "scan_rate_mV_s": 5,
+          "duration_s": 300,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "cycles": 1,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": []
+        }
+      },
+      {
+        "id": "cv_stability",
+        "type": "CV_stability",
+        "label": "CV Stability",
+        "params": {
+          "start_voltage_V": 0.0,
+          "end_voltage_V": 1.0,
+          "scan_rate_mV_s": 100,
+          "cycles": 50,
+          "duration_s": 3600,
+          "sample_rate": 1,
+          "current_mA": 0,
+          "start_freq_Hz": 100000,
+          "end_freq_Hz": 0.1,
+          "amplitude_mV": 10,
+          "arduino_control": {
+            "base0_temp": 25.0,
+            "pump0_ml": 0.0,
+            "ultrasonic0_ms": 0
+          },
+          "ot2_actions": [
+            {
+              "action": "move_to",
+              "labware": "wash_station",
+              "well": "A1"
+            },
+            {
+              "action": "wash",
+              "arduino_actions": {
+                "pump0_ml": 5.0,
+                "ultrasonic0_ms": 5000,
+                "pump2_ml": 6.0
+              }
+            },
+            {
+              "action": "move_to",
+              "labware": "electrode_tip_rack",
+              "well": "A1"
+            },
+            {
+              "action": "drop_tip",
+              "labware": "electrode_tip_rack",
+              "well": "A1"
+            },
+            {
+              "action": "home",
+              "labware": "robot",
+              "well": "home"
+            }
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "ocv1",
+        "target": "cp"
+      },
+      {
+        "source": "cp",
+        "target": "ocv2"
+      },
+      {
+        "source": "cva1",
+        "target": "peis1"
+      },
+      {
+        "source": "peis1",
+        "target": "cv1"
+      },
+      {
+        "source": "cv1",
+        "target": "cv_activation"
+      },
+      {
+        "source": "cv_activation",
+        "target": "cva2"
+      },
+      {
+        "source": "cva2",
+        "target": "peis2"
+      },
+      {
+        "source": "peis2",
+        "target": "cv2"
+      },
+      {
+        "source": "cv2",
+        "target": "lsv"
+      },
+      {
+        "source": "lsv",
+        "target": "cv_stability"
+      }
+    ]
+  }

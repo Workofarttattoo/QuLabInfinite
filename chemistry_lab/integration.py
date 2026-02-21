@@ -1,4 +1,10 @@
-"""Utilities to propagate chemistry results into other laboratory modules."""
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+integration - Part of Chemistry Lab
+
+Utilities to propagate chemistry results into other laboratory modules.
+"""
 
 from __future__ import annotations
 

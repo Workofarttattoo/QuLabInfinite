@@ -191,7 +191,7 @@ if __name__ == "__main__":
     results = run_all_demos()
 
     # Save results to JSON
-    with open('/Users/noone/QuLabInfinite/biomechanics_lab_results.json', 'w') as f:
+    with open('biomechanics_lab_results.json', 'w') as f:
         json.dump(results, f, indent=2)
 
-    print("\nResults saved to: /Users/noone/QuLabInfinite/biomechanics_lab_results.json")
+    print("\nResults saved to: biomechanics_lab_results.json")

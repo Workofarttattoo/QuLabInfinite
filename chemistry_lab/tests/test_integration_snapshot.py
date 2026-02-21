@@ -1,3 +1,9 @@
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+test_integration_snapshot - Part of Chemistry Lab
+"""
+
 """Snapshot tests for integration experiment dataset and dashboard."""
 
 import json

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nanotechnology Lab - MCP Tool Documentation | QuLab Infinite</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .tool {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .tool h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .status.working {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status.placeholder {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nanotechnology Lab - MCP Tool Documentation</h1>
+
+    <div class="warning">
+        <strong>⚠️ Honest Disclosure:</strong> This documentation replaces the previous fake GUI that showed meaningless sine waves.
+        The tools listed below represent the ACTUAL computational capabilities of this lab.
+        Some features may still be under development.
+    </div>
+
+    <h2>Available MCP Tools</h2>
+
+    <div class="tool">
+        <h3>Nanoparticle Synthesis Simulation <span class="status partial">🔶 Partial</span></h3>
+        <p>Simulate nanoparticle synthesis conditions and yield</p>
+
+        <h4>HTTP Request:</h4>
+        <pre><code>POST http://localhost:8000/mcp/call
+Content-Type: application/json
+
+{
+    "tool": "nano_synthesis_simulation",
+    "params": {
+        "size_nm": 20,
+        "temperature_c": 120,
+        "material": "Au"
+}
+}</code></pre>
+
+        <h4>Parameters:</h4>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+
+            <tr>
+                <td><code>size_nm</code></td>
+                <td>float</td>
+                <td>Yes</td>
+                <td>Target particle size in nanometers</td>
+            </tr>
+
+            <tr>
+                <td><code>temperature_c</code></td>
+                <td>float</td>
+                <td>Yes</td>
+                <td>Synthesis temperature in Celsius</td>
+            </tr>
+
+            <tr>
+                <td><code>material</code></td>
+                <td>string</td>
+                <td>No</td>
+                <td>Material type: 'Au', 'Ag', 'CdSe', 'Fe3O4'</td>
+            </tr>
+
+        </table>
+
+        <h4>Response:</h4>
+        <pre><code>{
+    "yield_percent": 85,
+    "mean_size": 20.5,
+    "std_dev": 2.1,
+    "polydispersity_index": 0.105
+}</code></pre>
+
+        <h4>Scientific Basis:</h4>
+        <p>Uses LaMer model for nucleation and growth. Simple temperature dependence.</p>
+
+        <h4>References:</h4>
+        <ul>
+            <li>LaMer & Dinegar (1950) 'Theory, Production and Mechanism of Formation of Monodispersed Hydrosols' JACS</li>
+            <li>Thanh et al. (2014) 'Mechanisms of Nucleation and Growth of Nanoparticles in Solution' Chem Rev</li>
+        </ul>
+    </div>
+
+    <div class="tool">
+        <h3>Surface Property Calculator <span class="status working">✅ Working</span></h3>
+        <p>Calculate nanoparticle surface area and atomic properties</p>
+
+        <h4>HTTP Request:</h4>
+        <pre><code>POST http://localhost:8000/mcp/call
+Content-Type: application/json
+
+{
+    "tool": "nano_surface_properties",
+    "params": {
+        "diameter_nm": 10,
+        "shape": "sphere"
+}
+}</code></pre>
+
+        <h4>Parameters:</h4>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+
+            <tr>
+                <td><code>diameter_nm</code></td>
+                <td>float</td>
+                <td>Yes</td>
+                <td>Particle diameter in nanometers</td>
+            </tr>
+
+            <tr>
+                <td><code>shape</code></td>
+                <td>string</td>
+                <td>No</td>
+                <td>Particle shape: 'sphere', 'cube', 'rod'</td>
+            </tr>
+
+        </table>
+
+        <h4>Response:</h4>
+        <pre><code>{
+    "surface_area_nm2": 314.16,
+    "volume_nm3": 523.6,
+    "surface_to_volume_ratio": 0.6,
+    "surface_atoms": 3142
+}</code></pre>
+
+        <h4>Scientific Basis:</h4>
+        <p>Geometric calculations with atomic density estimates.</p>
+
+        <h4>References:</h4>
+        <ul>
+            <li>Roduner (2006) 'Size matters: why nanomaterials are different' Chem Soc Rev</li>
+        </ul>
+    </div>
+
+    <div class="tool">
+        <h3>Quantum Confinement Effects <span class="status partial">🔶 Partial</span></h3>
+        <p>Calculate quantum confinement effects on bandgap</p>
+
+        <h4>HTTP Request:</h4>
+        <pre><code>POST http://localhost:8000/mcp/call
+Content-Type: application/json
+
+{
+    "tool": "nano_quantum_confinement",
+    "params": {
+        "size_nm": 3,
+        "material": "CdSe"
+}
+}</code></pre>
+
+        <h4>Parameters:</h4>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+            </tr>
+
+            <tr>
+                <td><code>size_nm</code></td>
+                <td>float</td>
+                <td>Yes</td>
+                <td>Quantum dot size in nanometers</td>
+            </tr>
+
+            <tr>
+                <td><code>material</code></td>
+                <td>string</td>
+                <td>Yes</td>
+                <td>Material: 'CdS', 'CdSe', 'CdTe', 'PbS'</td>
+            </tr>
+
+        </table>
+
+        <h4>Response:</h4>
+        <pre><code>{
+    "bulk_bandgap_ev": 1.74,
+    "confined_bandgap_ev": 2.35,
+    "emission_wavelength_nm": 528,
+    "color": "green"
+}</code></pre>
+
+        <h4>Scientific Basis:</h4>
+        <p>Brus equation approximation. Neglects excitonic effects.</p>
+
+        <h4>References:</h4>
+        <ul>
+            <li>Brus (1984) 'Electron-electron and electron-hole interactions in small semiconductor crystallites' JCP</li>
+            <li>Efros & Rosen (2000) 'The Electronic Structure of Semiconductor Nanocrystals' Annu Rev Mater Sci</li>
+        </ul>
+    </div>
+
+    <h2>Python Client Example</h2>
+    <pre><code>import requests
+import json
+
+def call_mcp_tool(tool_name, params):
+    url = "http://localhost:8000/mcp/call"
+    payload = {
+        "tool": tool_name,
+        "params": params
+    }
+
+    response = requests.post(url, json=payload)
+    return response.json()
+
+# Example: Simulate tumor growth
+result = call_mcp_tool("oncology_tumor_growth", {
+    "initial_cells": 1000,
+    "days": 30,
+    "growth_model": "gompertz"
+})
+
+print(f"Tumor size after 30 days: {result['final_size']} cells")
+print(f"Doubling time: {result['doubling_time']} days")
+</code></pre>
+
+    <h2>Installation</h2>
+    <ol>
+        <li>Install dependencies: <code>pip install fastapi uvicorn numpy scipy</code></li>
+        <li>Start MCP server: <code>python qulab_mcp_server.py</code></li>
+        <li>Server runs at: <code>http://localhost:8000</code></li>
+        <li>API documentation: <code>http://localhost:8000/docs</code></li>
+    </ol>
+
+    <h2>Current Limitations</h2>
+    <ul>
+        <li>Some models use simplified equations pending validation</li>
+        <li>Parameter ranges may be limited</li>
+        <li>Computational accuracy varies by tool</li>
+        <li>Not all features from the original vision are implemented</li>
+    </ul>
+
+    <h2>Roadmap</h2>
+    <ul>
+        <li><strong>Week 1:</strong> Implement proper Gompertz and logistic growth models</li>
+        <li><strong>Week 2:</strong> Add PK/PD drug interaction modeling</li>
+        <li><strong>Week 3:</strong> Integrate with real clinical data formats</li>
+        <li><strong>Month 2:</strong> Add machine learning predictions</li>
+        <li><strong>Month 3:</strong> Peer review and validation</li>
+    </ul>
+
+    <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+        <p>Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.</p>
+        <p>
+            <a href="https://aios.is">aios.is</a> |
+            <a href="https://thegavl.com">thegavl.com</a> |
+            <a href="https://red-team-tools.aios.is">red-team-tools.aios.is</a>
+        </p>
+    </footer>
+</body>
+</html>

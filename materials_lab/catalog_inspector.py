@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+catalog_inspector - Part of Materials Lab
+"""
+
 """
 Materials catalogue inspector.
 
@@ -13,7 +20,6 @@ records; it only reports metrics so humans can cross-check against reference
 sources. Use it interactively or from CI to monitor data quality.
 """
 
-from __future__ import annotations
 
 import argparse
 import json

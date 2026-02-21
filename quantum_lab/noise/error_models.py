@@ -1,4 +1,10 @@
 """
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+error_models - Part of Quantum Lab
+"""
+
+"""
 Quantum error models and noise simulation.
 
 Implements various quantum error models including depolarizing noise,
