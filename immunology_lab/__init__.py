@@ -4,22 +4,8 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 QuLabInfinite Immunology Laboratory
 """
 
-from .immunology_lab import (
-    ImmunologyLaboratory,
-    AntibodyAntigenBinding,
-    ImmuneResponse,
-    VaccineEfficacy,
-    ImmuneCell,
-    Cytokine,
-    AntibodyClass
-)
+from .immunology_lab import ImmunologyLab
 
 __all__ = [
-    'ImmunologyLaboratory',
-    'AntibodyAntigenBinding',
-    'ImmuneResponse',
-    'VaccineEfficacy',
-    'ImmuneCell',
-    'Cytokine',
-    'AntibodyClass'
+    'ImmunologyLab'
 ]

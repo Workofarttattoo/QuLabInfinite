@@ -1,532 +1,707 @@
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
-QuLabInfinite Immunology Laboratory
-====================================
-Production-ready immunology simulation with immune response dynamics,
-antibody-antigen binding, vaccine efficacy modeling, and autoimmune disease analysis.
-
-References:
-- Janeway's Immunobiology (9th edition)
-- Antibody-antigen binding kinetics (Karlsson et al.)
-- Vaccine efficacy models from CDC/WHO standards
-- Autoimmune disease parameters from clinical literature
+IMMUNOLOGY LAB - Production Ready
+Advanced immune system modeling, antibody dynamics, and vaccine design.
 """
 
 import numpy as np
-from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
-from enum import Enum
-import json
-
-
-class ImmuneCell(Enum):
-    """Types of immune cells"""
-    T_HELPER = "t_helper"  # CD4+
-    T_CYTOTOXIC = "t_cytotoxic"  # CD8+
-    B_CELL = "b_cell"
-    NK_CELL = "nk_cell"
-    MACROPHAGE = "macrophage"
-    DENDRITIC = "dendritic"
-    NEUTROPHIL = "neutrophil"
-
-
-class Cytokine(Enum):
-    """Major cytokines"""
-    IL2 = "interleukin_2"  # T cell proliferation
-    IL4 = "interleukin_4"  # B cell activation
-    IL6 = "interleukin_6"  # Inflammation
-    IL10 = "interleukin_10"  # Anti-inflammatory
-    IFNG = "interferon_gamma"  # Antiviral
-    TNF = "tumor_necrosis_factor"  # Inflammation
-
-
-class AntibodyClass(Enum):
-    """Antibody classes (isotypes)"""
-    IGM = "IgM"  # First response
-    IGG = "IgG"  # Main antibody
-    IGA = "IgA"  # Mucosal immunity
-    IGE = "IgE"  # Allergies
-    IGD = "IgD"  # B cell receptor
-
+from dataclasses import dataclass, field
+from typing import List, Tuple, Dict, Optional, Callable
+from scipy import stats, optimize, integrate
+from scipy.spatial.distance import cdist
 
 @dataclass
-class AntibodyAntigenBinding:
-    """Antibody-antigen binding kinetics"""
-    ka: float  # Association rate constant (M^-1 s^-1)
-    kd: float  # Dissociation rate constant (s^-1)
-    KD: float  # Dissociation constant (M)
-    affinity: float  # 1/KD
-    binding_curve: np.ndarray
-
-
-@dataclass
-class ImmuneResponse:
-    """Immune response dynamics"""
-    pathogen_count: np.ndarray
-    antibody_titer: np.ndarray
-    t_cell_count: np.ndarray
-    cytokine_levels: Dict[str, np.ndarray]
-    time_days: np.ndarray
-
-
-@dataclass
-class VaccineEfficacy:
-    """Vaccine efficacy metrics"""
-    seroconversion_rate: float  # % who develop antibodies
-    geometric_mean_titer: float  # Average antibody level
-    protection_rate: float  # % protected from disease
-    duration_months: float  # Duration of protection
-    adverse_events_rate: float
-
-
-class ImmunologyLaboratory:
-    """
-    Production immunology laboratory with validated models
-    """
+class ImmunologyLab:
+    """Production-ready immunology simulation laboratory."""
 
     # Physical constants
-    AVOGADRO = 6.022e23  # mol^-1
+    AVOGADRO: float = 6.022e23  # molecules/mol
+    BOLTZMANN: float = 1.38e-23  # J/K
+    TEMPERATURE: float = 310.15  # K (37°C)
 
-    # Antibody-antigen binding rates (typical ranges from literature)
-    BINDING_RATES = {
-        'high_affinity': {'ka': 1e7, 'kd': 1e-4},  # Strong binding
-        'medium_affinity': {'ka': 1e6, 'kd': 1e-3},
-        'low_affinity': {'ka': 1e5, 'kd': 1e-2}  # Weak binding
-    }
+    # Immunological parameters
+    antibody_production_rate: float = 2000  # antibodies per B cell per second
+    t_cell_proliferation_rate: float = 0.693  # per day (doubling time ~1 day)
+    antigen_decay_rate: float = 0.1  # per hour
+    cytokine_diffusion: float = 10.0  # μm²/s
 
-    # Immune cell parameters
-    CELL_PARAMS = {
-        ImmuneCell.T_HELPER: {
-            'proliferation_rate': 0.5,  # divisions/day
-            'lifespan_days': 100,
-            'activation_threshold': 1e-9  # M antigen
-        },
-        ImmuneCell.B_CELL: {
-            'proliferation_rate': 0.7,
-            'lifespan_days': 30,
-            'antibody_production': 2000  # molecules/cell/second
-        },
-        ImmuneCell.T_CYTOTOXIC: {
-            'proliferation_rate': 0.6,
-            'lifespan_days': 100,
-            'killing_rate': 10  # infected cells/day
+    # Cell counts (per μL of blood)
+    NORMAL_CELL_COUNTS: Dict[str, Tuple[float, float]] = field(default_factory=lambda: {
+        'neutrophils': (2500, 7000),
+        'lymphocytes': (1500, 4000),
+        'monocytes': (200, 800),
+        'eosinophils': (50, 400),
+        'basophils': (25, 100),
+        'nk_cells': (90, 600),
+        'b_cells': (100, 500),
+        't_cells': (800, 3500),
+        'cd4_t_cells': (500, 2000),
+        'cd8_t_cells': (300, 1500)
+    })
+
+    # Cytokine network
+    CYTOKINES: List[str] = field(default_factory=lambda: [
+        'IL-1', 'IL-2', 'IL-4', 'IL-6', 'IL-10', 'IL-12',
+        'TNF-α', 'IFN-γ', 'TGF-β'
+    ])
+
+    def __post_init__(self):
+        """Initialize immune system components."""
+        self.antibody_repertoire = []
+        self.t_cell_repertoire = []
+        self.memory_cells = []
+        self.antigen_history = []
+        self.cytokine_levels = {cytokine: 0.0 for cytokine in self.CYTOKINES}
+
+    def generate_antibody_repertoire(self, diversity: int = 10000) -> np.ndarray:
+        """Generate diverse antibody repertoire through V(D)J recombination."""
+        # Simplified CDR3 representation (20 amino acids, length 10-20)
+        repertoire = []
+
+        for _ in range(diversity):
+            # Random CDR3 length
+            cdr3_length = np.random.randint(10, 21)
+
+            # Random amino acid sequence (20 standard amino acids)
+            cdr3_sequence = np.random.randint(0, 20, cdr3_length)
+
+            repertoire.append(cdr3_sequence)
+
+        self.antibody_repertoire = repertoire
+        return repertoire
+
+    def antibody_antigen_affinity(self, antibody: np.ndarray,
+                                 antigen: np.ndarray) -> float:
+        """Calculate binding affinity between antibody and antigen."""
+        # Ensure compatible lengths for comparison
+        min_len = min(len(antibody), len(antigen))
+        antibody_segment = antibody[:min_len]
+        antigen_segment = antigen[:min_len]
+
+        # Shape complementarity (inverse of Hamming distance)
+        hamming_distance = np.sum(antibody_segment != antigen_segment)
+        shape_score = 1 - (hamming_distance / min_len)
+
+        # Hydrophobic interactions
+        hydrophobic_aa = [0, 5, 7, 9, 11, 12, 14, 18]  # A, F, I, L, M, P, V, W
+        hydro_matches = sum(1 for ab, ag in zip(antibody_segment, antigen_segment)
+                           if ab == ag and ab in hydrophobic_aa)
+        hydro_score = hydro_matches / min_len
+
+        # Electrostatic interactions
+        positive_aa = [1, 8, 10]  # R, K, H
+        negative_aa = [3, 4]  # D, E
+
+        electro_score = 0
+        for ab, ag in zip(antibody_segment, antigen_segment):
+            if (ab in positive_aa and ag in negative_aa) or \
+               (ab in negative_aa and ag in positive_aa):
+                electro_score += 0.1
+
+        # Combined affinity score
+        affinity = shape_score * 0.5 + hydro_score * 0.3 + electro_score * 0.2
+
+        # Apply sigmoid to get realistic binding curve
+        Kd = 1e-9  # Dissociation constant (M)
+        concentration = 1e-6  # Antigen concentration (M)
+        binding = concentration / (Kd + concentration)
+
+        return affinity * binding
+
+    def somatic_hypermutation(self, antibody: np.ndarray,
+                            mutation_rate: float = 0.001) -> np.ndarray:
+        """Simulate somatic hypermutation in B cells."""
+        mutated = antibody.copy()
+
+        for i in range(len(mutated)):
+            if np.random.random() < mutation_rate:
+                # Point mutation to different amino acid
+                mutated[i] = np.random.randint(0, 20)
+
+        return mutated
+
+    def affinity_maturation(self, initial_antibody: np.ndarray,
+                          antigen: np.ndarray,
+                          generations: int = 20,
+                          population_size: int = 100) -> Tuple[np.ndarray, List[float]]:
+        """Simulate affinity maturation in germinal centers."""
+        population = [initial_antibody.copy() for _ in range(population_size)]
+        affinity_history = []
+
+        for generation in range(generations):
+            # Calculate affinities
+            affinities = [self.antibody_antigen_affinity(ab, antigen)
+                         for ab in population]
+
+            # Record best affinity
+            affinity_history.append(max(affinities))
+
+            # Selection (top 50%)
+            sorted_indices = np.argsort(affinities)[::-1]
+            selected = [population[i] for i in sorted_indices[:population_size//2]]
+
+            # Proliferation with mutation
+            new_population = []
+            for antibody in selected:
+                # Each selected B cell produces 2 daughters
+                for _ in range(2):
+                    daughter = self.somatic_hypermutation(antibody)
+                    new_population.append(daughter)
+
+            population = new_population
+
+        # Return best antibody
+        final_affinities = [self.antibody_antigen_affinity(ab, antigen)
+                           for ab in population]
+        best_idx = np.argmax(final_affinities)
+
+        return population[best_idx], affinity_history
+
+    def t_cell_activation(self, signal1_strength: float,
+                        signal2_strength: float,
+                        signal3_cytokines: Dict[str, float]) -> float:
+        """Model T cell activation with three-signal model."""
+        # Signal 1: TCR-MHC interaction
+        tcr_signal = signal1_strength
+
+        # Signal 2: Costimulation (CD28-B7)
+        costim_signal = signal2_strength
+
+        # Signal 3: Cytokine environment
+        cytokine_effect = 0
+        if 'IL-2' in signal3_cytokines:
+            cytokine_effect += signal3_cytokines['IL-2'] * 0.5
+        if 'IL-12' in signal3_cytokines:
+            cytokine_effect += signal3_cytokines['IL-12'] * 0.3
+        if 'IFN-γ' in signal3_cytokines:
+            cytokine_effect += signal3_cytokines['IFN-γ'] * 0.2
+
+        # Activation threshold model
+        activation_threshold = 0.5
+        total_signal = tcr_signal * costim_signal * (1 + cytokine_effect)
+
+        # Sigmoid activation function
+        activation = 1 / (1 + np.exp(-10 * (total_signal - activation_threshold)))
+
+        return activation
+
+    def simulate_infection_response(self, pathogen_load: float,
+                                  duration_days: int = 14) -> Dict:
+        """Simulate complete immune response to infection."""
+        time_points = np.linspace(0, duration_days, duration_days * 24)  # Hourly
+        results = {
+            'time': time_points,
+            'pathogen': np.zeros_like(time_points),
+            'antibodies': np.zeros_like(time_points),
+            'cd8_t_cells': np.zeros_like(time_points),
+            'cd4_t_cells': np.zeros_like(time_points),
+            'cytokines': {cyt: np.zeros_like(time_points) for cyt in ['IL-2', 'IFN-γ', 'TNF-α']}
         }
-    }
-
-    # Cytokine parameters (pg/mL typical levels)
-    CYTOKINE_BASELINE = {
-        Cytokine.IL2: 5,
-        Cytokine.IL6: 10,
-        Cytokine.IL10: 5,
-        Cytokine.IFNG: 2,
-        Cytokine.TNF: 8
-    }
-
-    def __init__(self, seed: Optional[int] = None):
-        """Initialize immunology lab"""
-        if seed is not None:
-            np.random.seed(seed)
-
-    def simulate_antibody_antigen_binding(self, antibody_conc_nM: float,
-                                        antigen_conc_nM: float,
-                                        affinity: str = 'medium_affinity',
-                                        duration_s: float = 3600) -> AntibodyAntigenBinding:
-        """
-        Simulate antibody-antigen binding kinetics using Langmuir model
-
-        Args:
-            antibody_conc_nM: Antibody concentration (nM)
-            antigen_conc_nM: Antigen concentration (nM)
-            affinity: 'high_affinity', 'medium_affinity', or 'low_affinity'
-            duration_s: Duration in seconds
-
-        Returns:
-            Binding kinetics data
-        """
-        rates = self.BINDING_RATES[affinity]
-        ka = rates['ka']  # M^-1 s^-1
-        kd = rates['kd']  # s^-1
-
-        # Convert nM to M
-        Ab = antibody_conc_nM * 1e-9
-        Ag = antigen_conc_nM * 1e-9
-
-        # Dissociation constant KD = kd/ka
-        KD = kd / ka
-
-        # Time array
-        time = np.linspace(0, duration_s, 1000)
-        dt = time[1] - time[0]
-
-        # Simulate binding: dC/dt = ka*Ab*Ag - kd*C
-        # where C is complex concentration
-        C = np.zeros(len(time))
-        Ab_free = np.zeros(len(time))
-        Ag_free = np.zeros(len(time))
-
-        Ab_free[0] = Ab
-        Ag_free[0] = Ag
-
-        for i in range(1, len(time)):
-            # Rate of complex formation
-            dC = ka * Ab_free[i-1] * Ag_free[i-1] - kd * C[i-1]
-            C[i] = max(0, C[i-1] + dC * dt)
-
-            # Update free concentrations
-            Ab_free[i] = max(0, Ab - C[i])
-            Ag_free[i] = max(0, Ag - C[i])
-
-        # Calculate equilibrium binding (fraction bound)
-        # At equilibrium: C_eq = (Ab * Ag) / (KD + Ag)
-        fraction_bound = C / Ab
-
-        return AntibodyAntigenBinding(
-            ka=ka,
-            kd=kd,
-            KD=KD,
-            affinity=1.0 / KD,
-            binding_curve=fraction_bound
-        )
-
-    def simulate_immune_response(self, pathogen_dose: float,
-                                pathogen_growth_rate: float = 2.0,
-                                duration_days: float = 30) -> ImmuneResponse:
-        """
-        Simulate complete immune response to pathogen
-
-        Args:
-            pathogen_dose: Initial pathogen count
-            pathogen_growth_rate: Doubling time (hours)
-            duration_days: Simulation duration
-
-        Returns:
-            Immune response dynamics
-        """
-        # Time array (hours)
-        dt = 0.1  # hours
-        time_h = np.arange(0, duration_days * 24, dt)
-        time_days = time_h / 24
-
-        n_steps = len(time_h)
-
-        # Initialize arrays
-        pathogen = np.zeros(n_steps)
-        antibody = np.zeros(n_steps)
-        t_helper = np.zeros(n_steps)
-        t_cyto = np.zeros(n_steps)
-        b_cells = np.zeros(n_steps)
-
-        # Cytokines
-        il2 = np.zeros(n_steps)
-        il6 = np.zeros(n_steps)
-        ifng = np.zeros(n_steps)
 
         # Initial conditions
-        pathogen[0] = pathogen_dose
-        t_helper[0] = 1e6  # Baseline T helper cells
-        b_cells[0] = 1e5  # Baseline B cells
-        t_cyto[0] = 5e5  # Baseline cytotoxic T cells
+        pathogen = pathogen_load
+        antibodies = 0
+        cd8_t = 100  # Baseline T cells
+        cd4_t = 200  # Baseline helper T cells
+        memory_b = 0
+        activated_b = 0
 
-        # Baseline cytokines
-        il2[0] = self.CYTOKINE_BASELINE[Cytokine.IL2]
-        il6[0] = self.CYTOKINE_BASELINE[Cytokine.IL6]
-        ifng[0] = self.CYTOKINE_BASELINE[Cytokine.IFNG]
+        # Simulation parameters
+        pathogen_growth_rate = 0.5  # per day
+        pathogen_clearance_rate = 0.001  # per antibody per day
+        antibody_production = 1000  # per activated B cell per day
+        t_cell_killing_rate = 0.01  # per CD8 T cell per day
 
-        # Pathogen growth rate (per hour)
-        pathogen_r = np.log(2) / pathogen_growth_rate
-
-        for i in range(1, n_steps):
+        for i, t in enumerate(time_points):
             # Pathogen dynamics
-            # Growth - immune clearance
-            immune_clearance = (t_cyto[i-1] * 1e-5 * pathogen[i-1] +
-                              antibody[i-1] * 1e-3 * pathogen[i-1])
+            growth = pathogen_growth_rate * pathogen * (1 - pathogen / 1e9)  # Logistic growth
+            clearance = pathogen_clearance_rate * antibodies * pathogen
+            t_cell_killing = t_cell_killing_rate * cd8_t * pathogen
 
-            d_pathogen = pathogen_r * pathogen[i-1] - immune_clearance
-            pathogen[i] = max(0, pathogen[i-1] + d_pathogen * dt)
+            pathogen = max(0, pathogen + (growth - clearance - t_cell_killing) / 24)
 
-            # T helper activation by pathogen
-            activation = pathogen[i] / (1e6 + pathogen[i])
-            d_t_helper = (activation * 0.5 * t_helper[i-1] -  # Proliferation
-                         0.01 * t_helper[i-1])  # Death
-            t_helper[i] = max(1e6, t_helper[i-1] + d_t_helper * dt)
+            # Innate immune response (first 48 hours)
+            if t < 2:
+                # Cytokine release
+                results['cytokines']['TNF-α'][i] = pathogen / 1e6
+                results['cytokines']['IL-2'][i] = pathogen / 2e6
 
-            # Cytotoxic T cell expansion
-            d_t_cyto = (activation * 0.6 * t_cyto[i-1] -
-                       0.01 * t_cyto[i-1])
-            t_cyto[i] = max(5e5, t_cyto[i-1] + d_t_cyto * dt)
+            # Adaptive immune response (after 3 days)
+            if t > 3:
+                # T cell activation and proliferation
+                activation_signal = min(1, pathogen / 1e6)
+                cd4_t += cd4_t * self.t_cell_proliferation_rate * activation_signal / 24
+                cd8_t += cd8_t * self.t_cell_proliferation_rate * activation_signal / 24
 
-            # B cell activation and antibody production
-            b_activation = activation * (il2[i-1] / 10)
-            d_b_cells = (b_activation * 0.7 * b_cells[i-1] -
-                        0.03 * b_cells[i-1])
-            b_cells[i] = max(1e5, b_cells[i-1] + d_b_cells * dt)
+                # B cell activation (after 5 days)
+                if t > 5:
+                    activated_b = min(1000, pathogen / 1e5)
+                    antibodies += activated_b * antibody_production / 24
 
-            # Antibody production (molecules per cell per hour)
-            antibody_production = b_cells[i] * 2000 * 3600 / 1e12  # Convert to nM
-            antibody_decay = 0.05 * antibody[i-1]  # Half-life ~14 days
+                # Cytokine production by T cells
+                results['cytokines']['IFN-γ'][i] = cd8_t / 1000
+                results['cytokines']['IL-2'][i] = cd4_t / 1000
 
-            antibody[i] = max(0, antibody[i-1] + (antibody_production - antibody_decay) * dt)
+            # Memory cell formation (after 10 days)
+            if t > 10 and pathogen < 1e4:
+                memory_b = activated_b * 0.1
 
-            # Cytokine dynamics
-            il2[i] = self.CYTOKINE_BASELINE[Cytokine.IL2] + activation * 50
-            il6[i] = self.CYTOKINE_BASELINE[Cytokine.IL6] + activation * 100
-            ifng[i] = self.CYTOKINE_BASELINE[Cytokine.IFNG] + activation * 30
+            # Record state
+            results['pathogen'][i] = pathogen
+            results['antibodies'][i] = antibodies
+            results['cd8_t_cells'][i] = cd8_t
+            results['cd4_t_cells'][i] = cd4_t
 
-        cytokine_dict = {
-            'IL2': il2,
-            'IL6': il6,
-            'IFNG': ifng
+            # Check if infection cleared
+            if pathogen < 1:
+                results['pathogen'][i:] = 0
+                results['antibodies'][i:] = antibodies * np.exp(-0.1 * (time_points[i:] - t))
+                break
+
+        return results
+
+    def simulate_vaccination(self, vaccine_type: str = 'protein',
+                           doses: List[int] = [0, 28],
+                           duration_days: int = 180) -> Dict:
+        """Simulate immune response to vaccination."""
+        time_points = np.arange(0, duration_days + 1)
+        results = {
+            'time': time_points,
+            'antibody_titer': np.zeros_like(time_points, dtype=float),
+            'memory_b_cells': np.zeros_like(time_points, dtype=float),
+            'memory_t_cells': np.zeros_like(time_points, dtype=float),
+            'protection': np.zeros_like(time_points, dtype=float)
         }
 
-        return ImmuneResponse(
-            pathogen_count=pathogen,
-            antibody_titer=antibody,
-            t_cell_count=t_helper,
-            cytokine_levels=cytokine_dict,
-            time_days=time_days
-        )
-
-    def calculate_vaccine_efficacy(self, vaccine_type: str = 'mRNA',
-                                  dose_schedule: List[int] = [0, 28],
-                                  adjuvant: bool = True) -> VaccineEfficacy:
-        """
-        Calculate vaccine efficacy based on vaccine parameters
-
-        Args:
-            vaccine_type: 'mRNA', 'protein', 'inactivated', 'live_attenuated'
-            dose_schedule: Days for each dose
-            adjuvant: Whether adjuvant is included
-
-        Returns:
-            Vaccine efficacy metrics
-        """
-        # Base efficacy by vaccine type (from clinical data)
-        base_efficacy = {
-            'mRNA': 0.95,
-            'protein': 0.85,
-            'inactivated': 0.70,
-            'live_attenuated': 0.90
+        # Vaccine-specific parameters
+        vaccine_params = {
+            'protein': {'peak_antibody': 100, 'decay_rate': 0.05, 'memory_factor': 0.1},
+            'mRNA': {'peak_antibody': 500, 'decay_rate': 0.03, 'memory_factor': 0.2},
+            'viral_vector': {'peak_antibody': 300, 'decay_rate': 0.04, 'memory_factor': 0.15},
+            'live_attenuated': {'peak_antibody': 200, 'decay_rate': 0.02, 'memory_factor': 0.3}
         }
 
-        # Base seroconversion
-        base_sero = {
-            'mRNA': 0.98,
-            'protein': 0.90,
-            'inactivated': 0.85,
-            'live_attenuated': 0.95
-        }
+        params = vaccine_params.get(vaccine_type, vaccine_params['protein'])
 
-        # Duration of protection (months)
-        duration = {
-            'mRNA': 8,
-            'protein': 6,
-            'inactivated': 4,
-            'live_attenuated': 12
-        }
+        # Simulate each dose
+        for dose_num, dose_day in enumerate(doses):
+            # Boost factor for subsequent doses
+            boost = 1 + dose_num * 1.5
 
-        efficacy = base_efficacy.get(vaccine_type, 0.8)
-        seroconversion = base_sero.get(vaccine_type, 0.9)
-        protect_duration = duration.get(vaccine_type, 6)
+            for i, day in enumerate(time_points):
+                if day >= dose_day:
+                    days_since_dose = day - dose_day
 
-        # Adjust for doses
-        dose_multiplier = min(len(dose_schedule), 3) / 2.0  # 2 doses optimal
-        efficacy *= dose_multiplier
-        seroconversion *= dose_multiplier
+                    # Antibody kinetics
+                    if days_since_dose < 14:
+                        # Rising phase
+                        antibody_level = params['peak_antibody'] * boost * \
+                                       (1 - np.exp(-0.5 * days_since_dose))
+                    else:
+                        # Decay phase
+                        peak = params['peak_antibody'] * boost
+                        antibody_level = peak * np.exp(-params['decay_rate'] * (days_since_dose - 14))
 
-        # Adjuvant boost
-        if adjuvant and vaccine_type in ['protein', 'inactivated']:
-            efficacy *= 1.15
-            seroconversion *= 1.1
+                    results['antibody_titer'][i] += antibody_level
 
-        # Cap at realistic maxima
-        efficacy = min(0.98, efficacy)
-        seroconversion = min(0.99, seroconversion)
+                    # Memory cells
+                    if days_since_dose > 7:
+                        memory_b = params['memory_factor'] * boost * 100
+                        memory_t = params['memory_factor'] * boost * 50
 
-        # Geometric mean titer (arbitrary units, log-normal distribution)
-        gmt = np.random.lognormal(6, 1.5) * (efficacy / 0.8)
+                        results['memory_b_cells'][i] = max(results['memory_b_cells'][i], memory_b)
+                        results['memory_t_cells'][i] = max(results['memory_t_cells'][i], memory_t)
 
-        # Adverse events (typical rates)
-        adverse_rates = {
-            'mRNA': 0.15,  # 15% (mostly mild)
-            'protein': 0.10,
-            'inactivated': 0.05,
-            'live_attenuated': 0.20
-        }
-        adverse_rate = adverse_rates.get(vaccine_type, 0.10)
+        # Calculate protection level (correlate of protection)
+        protection_threshold = 50  # Arbitrary units
+        for i in range(len(time_points)):
+            if results['antibody_titer'][i] > protection_threshold:
+                results['protection'][i] = min(1, results['antibody_titer'][i] / (protection_threshold * 2))
+            else:
+                # Partial protection from memory cells
+                results['protection'][i] = min(0.5, (results['memory_b_cells'][i] +
+                                                    results['memory_t_cells'][i]) / 200)
 
-        return VaccineEfficacy(
-            seroconversion_rate=float(seroconversion),
-            geometric_mean_titer=float(gmt),
-            protection_rate=float(efficacy),
-            duration_months=float(protect_duration),
-            adverse_events_rate=float(adverse_rate)
-        )
+        return results
 
-    def simulate_autoimmune_disease(self, disease: str = 'rheumatoid_arthritis',
-                                  duration_months: int = 12,
-                                  treatment: Optional[str] = None) -> Dict:
-        """
-        Simulate autoimmune disease progression
+    def model_cytokine_network(self, initial_stimulus: Dict[str, float],
+                              time_steps: int = 100) -> np.ndarray:
+        """Model cytokine signaling network dynamics."""
+        n_cytokines = len(self.CYTOKINES)
+        cytokine_levels = np.zeros((time_steps, n_cytokines))
 
-        Args:
-            disease: 'rheumatoid_arthritis', 'lupus', 'multiple_sclerosis', 'type1_diabetes'
-            duration_months: Simulation duration
-            treatment: 'corticosteroid', 'dmard', 'biologic', None
+        # Initialize with stimulus
+        for i, cytokine in enumerate(self.CYTOKINES):
+            cytokine_levels[0, i] = initial_stimulus.get(cytokine, 0)
 
-        Returns:
-            Disease progression metrics
-        """
-        # Disease parameters
-        disease_params = {
-            'rheumatoid_arthritis': {
-                'baseline_severity': 50,
-                'progression_rate': 2.0,  # per month
-                'auto_antibody_baseline': 100,
-                'inflammation_baseline': 30
-            },
-            'lupus': {
-                'baseline_severity': 40,
-                'progression_rate': 3.0,
-                'auto_antibody_baseline': 200,
-                'inflammation_baseline': 50
-            },
-            'multiple_sclerosis': {
-                'baseline_severity': 35,
-                'progression_rate': 1.5,
-                'auto_antibody_baseline': 50,
-                'inflammation_baseline': 40
-            },
-            'type1_diabetes': {
-                'baseline_severity': 60,
-                'progression_rate': 4.0,
-                'auto_antibody_baseline': 150,
-                'inflammation_baseline': 35
-            }
-        }
+        # Interaction matrix (simplified)
+        interaction_matrix = np.random.randn(n_cytokines, n_cytokines) * 0.1
+        np.fill_diagonal(interaction_matrix, -0.1)  # Self-regulation
 
-        params = disease_params.get(disease, disease_params['rheumatoid_arthritis'])
+        # Specific interactions
+        il2_idx = self.CYTOKINES.index('IL-2')
+        ifng_idx = self.CYTOKINES.index('IFN-γ')
+        il10_idx = self.CYTOKINES.index('IL-10')
 
-        # Time array (months)
-        time = np.arange(0, duration_months + 1)
+        interaction_matrix[il2_idx, ifng_idx] = 0.3  # IL-2 promotes IFN-γ
+        interaction_matrix[ifng_idx, il2_idx] = 0.2  # Positive feedback
+        interaction_matrix[il10_idx, :] = -0.1  # IL-10 is anti-inflammatory
 
-        # Initialize arrays
-        severity = np.zeros(len(time))
-        auto_antibody = np.zeros(len(time))
-        inflammation = np.zeros(len(time))
+        # Simulate dynamics
+        for t in range(1, time_steps):
+            # Rate of change = production + interactions - decay
+            production = np.ones(n_cytokines) * 0.01  # Basal production
+            interactions = np.dot(interaction_matrix, cytokine_levels[t-1])
+            decay = -0.05 * cytokine_levels[t-1]
 
-        severity[0] = params['baseline_severity']
-        auto_antibody[0] = params['auto_antibody_baseline']
-        inflammation[0] = params['inflammation_baseline']
+            change = production + interactions + decay
+            cytokine_levels[t] = np.maximum(0, cytokine_levels[t-1] + change)
 
-        # Treatment effects
-        treatment_efficacy = {
-            'corticosteroid': {'severity': 0.3, 'inflammation': 0.6},
-            'dmard': {'severity': 0.5, 'inflammation': 0.4},
-            'biologic': {'severity': 0.7, 'inflammation': 0.8},
-            None: {'severity': 0.0, 'inflammation': 0.0}
-        }
+            # Saturation
+            cytokine_levels[t] = np.minimum(100, cytokine_levels[t])
 
-        effect = treatment_efficacy.get(treatment, treatment_efficacy[None])
+        return cytokine_levels
 
-        for i in range(1, len(time)):
-            # Disease progression
-            progression = params['progression_rate'] * (1 - effect['severity'])
+    def calculate_neutralizing_antibody_titer(self, antibodies: List[np.ndarray],
+                                             virus: np.ndarray) -> float:
+        """Calculate neutralizing antibody titer against virus."""
+        if not antibodies:
+            return 0
 
-            # Add stochastic flares
-            flare = 10 if np.random.random() < 0.15 else 0
+        # Calculate neutralization for each antibody
+        neutralization_scores = []
 
-            severity[i] = min(100, max(0, severity[i-1] + progression + flare -
-                                     effect['severity'] * 5))
+        for antibody in antibodies:
+            affinity = self.antibody_antigen_affinity(antibody, virus)
 
-            # Auto-antibody levels correlate with severity
-            auto_antibody[i] = params['auto_antibody_baseline'] * (1 + severity[i] / 100)
+            # Neutralization depends on binding to critical epitopes
+            # Simplified: assume 30% of binding sites are neutralizing
+            neutralizing_probability = 0.3
 
-            # Inflammation
-            inflammation[i] = params['inflammation_baseline'] * (1 + severity[i] / 100) * \
-                            (1 - effect['inflammation'])
+            if np.random.random() < neutralizing_probability:
+                neutralization_scores.append(affinity)
+            else:
+                neutralization_scores.append(affinity * 0.1)  # Weak neutralization
 
-        # Calculate disease metrics
-        avg_severity = float(np.mean(severity))
-        flare_count = int(np.sum(np.diff(severity) > 5))
-        remission_months = int(np.sum(severity < 20))
+        # Calculate IC50 (concentration for 50% neutralization)
+        if neutralization_scores:
+            mean_neutralization = np.mean(neutralization_scores)
+            # Convert to titer (reciprocal dilution)
+            titer = 1 / (1e-6 / mean_neutralization) if mean_neutralization > 0 else 0
+        else:
+            titer = 0
+
+        return titer
+
+    def mhc_peptide_binding(self, peptide: np.ndarray,
+                           mhc_allele: str = 'HLA-A*02:01') -> float:
+        """Predict MHC-peptide binding affinity."""
+        # Simplified binding motif for HLA-A*02:01
+        # Prefers L at position 2, V at position 9
+        binding_score = 0
+
+        # Length preference (8-11 amino acids)
+        optimal_length = 9
+        length_penalty = abs(len(peptide) - optimal_length) * 0.1
+        binding_score -= length_penalty
+
+        # Anchor residues
+        if len(peptide) >= 2:
+            if peptide[1] == 11:  # L at position 2
+                binding_score += 0.5
+        if len(peptide) >= 9:
+            if peptide[8] == 17:  # V at position 9
+                binding_score += 0.5
+
+        # Hydrophobicity at C-terminus
+        if len(peptide) > 0:
+            hydrophobic_aa = [0, 5, 7, 9, 11, 12, 14, 17, 18]
+            if peptide[-1] in hydrophobic_aa:
+                binding_score += 0.3
+
+        # Convert to binding affinity (nM)
+        # Strong binders: < 50 nM, Weak binders: 50-500 nM
+        affinity_nm = 500 * np.exp(-binding_score)
+
+        return affinity_nm
+
+    def tcr_repertoire_diversity(self, repertoire_size: int = 10000) -> Dict:
+        """Analyze T cell receptor repertoire diversity."""
+        # Generate TCR sequences (simplified CDR3β)
+        tcr_sequences = []
+        v_genes = 50  # ~50 V gene segments
+        j_genes = 13  # 13 J gene segments
+
+        for _ in range(repertoire_size):
+            v_segment = np.random.randint(0, v_genes)
+            j_segment = np.random.randint(0, j_genes)
+            # Random N additions (0-15 nucleotides)
+            n_additions = np.random.randint(0, 6)  # In amino acids
+
+            # CDR3 sequence
+            cdr3_length = np.random.randint(12, 18)
+            cdr3 = np.random.randint(0, 20, cdr3_length)
+
+            tcr_sequences.append({
+                'v_gene': v_segment,
+                'j_gene': j_segment,
+                'cdr3': cdr3,
+                'n_additions': n_additions
+            })
+
+        # Calculate diversity metrics
+        # Shannon entropy
+        unique_sequences = set(tuple(tcr['cdr3']) for tcr in tcr_sequences)
+        shannon_entropy = -sum((1/len(unique_sequences)) * np.log(1/len(unique_sequences))
+                              for _ in unique_sequences)
+
+        # Simpson's diversity index
+        sequence_counts = {}
+        for tcr in tcr_sequences:
+            seq_tuple = tuple(tcr['cdr3'])
+            sequence_counts[seq_tuple] = sequence_counts.get(seq_tuple, 0) + 1
+
+        simpson_index = sum((count/repertoire_size)**2
+                          for count in sequence_counts.values())
+        simpson_diversity = 1 - simpson_index
+
+        # Clonality
+        max_clone_size = max(sequence_counts.values())
+        clonality = max_clone_size / repertoire_size
 
         return {
-            'disease': disease,
-            'duration_months': duration_months,
-            'treatment': treatment,
-            'average_severity': avg_severity,
-            'final_severity': float(severity[-1]),
-            'flare_count': flare_count,
-            'remission_months': remission_months,
-            'avg_auto_antibody': float(np.mean(auto_antibody)),
-            'avg_inflammation': float(np.mean(inflammation)),
-            'severity_trajectory': severity.tolist()
+            'total_sequences': repertoire_size,
+            'unique_sequences': len(unique_sequences),
+            'shannon_entropy': shannon_entropy,
+            'simpson_diversity': simpson_diversity,
+            'clonality': clonality,
+            'repertoire': tcr_sequences[:100]  # Return sample
         }
 
-
-def run_comprehensive_test() -> Dict:
-    """Run comprehensive immunology lab test"""
-    lab = ImmunologyLaboratory(seed=42)
-    results = {}
-
-    # Test 1: Antibody-antigen binding
-    print("Testing antibody-antigen binding...")
-    binding_high = lab.simulate_antibody_antigen_binding(
-        antibody_conc_nM=100, antigen_conc_nM=50, affinity='high_affinity'
-    )
-    results['antibody_binding'] = {
-        'KD_nM': binding_high.KD * 1e9,
-        'affinity_M-1': float(binding_high.affinity),
-        'ka': binding_high.ka,
-        'kd': binding_high.kd,
-        'max_binding_fraction': float(np.max(binding_high.binding_curve))
-    }
-
-    # Test 2: Immune response
-    print("Simulating immune response...")
-    response = lab.simulate_immune_response(pathogen_dose=1e6, duration_days=21)
-    results['immune_response'] = {
-        'peak_pathogen': float(np.max(response.pathogen_count)),
-        'clearance_time_days': float(response.time_days[np.argmax(response.antibody_titer)]),
-        'peak_antibody_titer': float(np.max(response.antibody_titer)),
-        'final_pathogen': float(response.pathogen_count[-1])
-    }
-
-    # Test 3: Vaccine efficacy
-    print("Calculating vaccine efficacy...")
-    vaccines = ['mRNA', 'protein', 'inactivated']
-    vaccine_results = {}
-    for vax in vaccines:
-        efficacy = lab.calculate_vaccine_efficacy(vax, dose_schedule=[0, 28], adjuvant=True)
-        vaccine_results[vax] = {
-            'seroconversion': efficacy.seroconversion_rate,
-            'protection': efficacy.protection_rate,
-            'duration_months': efficacy.duration_months,
-            'GMT': efficacy.geometric_mean_titer
+    def simulate_autoimmune_response(self, self_antigen: np.ndarray,
+                                   tolerance_threshold: float = 0.8) -> Dict:
+        """Simulate breakdown of immunological tolerance."""
+        results = {
+            'autoreactive_cells': 0,
+            'tissue_damage': 0,
+            'autoantibodies': [],
+            'regulatory_response': 0
         }
-    results['vaccines'] = vaccine_results
 
-    # Test 4: Autoimmune disease
-    print("Simulating autoimmune disease...")
-    disease_sim = lab.simulate_autoimmune_disease(
-        disease='rheumatoid_arthritis',
-        duration_months=12,
-        treatment='biologic'
-    )
-    results['autoimmune'] = {
-        'disease': disease_sim['disease'],
-        'avg_severity': disease_sim['average_severity'],
-        'flares': disease_sim['flare_count'],
-        'remission_months': disease_sim['remission_months']
-    }
+        # Generate T cell repertoire
+        n_t_cells = 1000
+        t_cell_repertoire = [np.random.randint(0, 20, 15) for _ in range(n_t_cells)]
 
-    return results
+        # Check for autoreactive T cells
+        autoreactive_tcells = []
+        for tcr in t_cell_repertoire:
+            # Calculate self-reactivity
+            reactivity = self.antibody_antigen_affinity(tcr, self_antigen)
 
+            # Negative selection in thymus
+            if reactivity > tolerance_threshold:
+                # Cell should be deleted
+                if np.random.random() < 0.95:  # 95% deletion efficiency
+                    continue
+                else:
+                    # Escaped negative selection
+                    autoreactive_tcells.append(tcr)
 
-if __name__ == "__main__":
-    print("QuLabInfinite Immunology Laboratory - Comprehensive Test")
-    print("=" * 60)
+        results['autoreactive_cells'] = len(autoreactive_tcells)
 
-    results = run_comprehensive_test()
-    print(json.dumps(results, indent=2))
+        # Peripheral tolerance mechanisms
+        if autoreactive_tcells:
+            # Regulatory T cells
+            treg_suppression = min(0.8, len(autoreactive_tcells) * 0.01)
+            results['regulatory_response'] = treg_suppression
+
+            # Calculate tissue damage
+            escaped_cells = len(autoreactive_tcells) * (1 - treg_suppression)
+            results['tissue_damage'] = min(100, escaped_cells * 0.1)
+
+            # Autoantibody production
+            if escaped_cells > 10:
+                n_autoantibodies = int(escaped_cells / 10)
+                for _ in range(n_autoantibodies):
+                    autoantibody = self.somatic_hypermutation(
+                        np.random.choice(autoreactive_tcells)
+                    )
+                    results['autoantibodies'].append(autoantibody)
+
+        return results
+
+    def model_immunosenescence(self, age_years: int) -> Dict:
+        """Model age-related changes in immune function."""
+        # Young adult baseline (age 20-30)
+        baseline_age = 25
+
+        results = {
+            'thymic_output': 0,
+            'naive_t_cells': 0,
+            'memory_t_cells': 0,
+            'b_cell_diversity': 0,
+            'inflammation': 0,
+            'vaccine_response': 0
+        }
+
+        # Thymic involution (exponential decay after puberty)
+        if age_years < 20:
+            thymic_function = 1.0
+        else:
+            thymic_function = np.exp(-0.03 * (age_years - 20))
+
+        results['thymic_output'] = thymic_function * 100  # Relative to young adult
+
+        # T cell compartments
+        results['naive_t_cells'] = max(10, 100 * thymic_function)
+        results['memory_t_cells'] = min(90, 30 + age_years * 0.8)
+
+        # B cell repertoire diversity
+        if age_years < 60:
+            b_cell_diversity = 100 - (age_years - baseline_age) * 0.5
+        else:
+            b_cell_diversity = 70 - (age_years - 60) * 1.0
+
+        results['b_cell_diversity'] = max(20, b_cell_diversity)
+
+        # Inflammaging (chronic low-grade inflammation)
+        if age_years > 50:
+            inflammation = (age_years - 50) * 2
+        else:
+            inflammation = 0
+
+        results['inflammation'] = min(100, inflammation)
+
+        # Vaccine response
+        vaccine_efficacy = 100 * thymic_function * (results['b_cell_diversity'] / 100)
+        vaccine_efficacy *= (1 - results['inflammation'] / 200)  # Inflammation reduces response
+
+        results['vaccine_response'] = max(10, vaccine_efficacy)
+
+        return results
+
+    def simulate_immunotherapy(self, therapy_type: str = 'checkpoint',
+                             tumor_burden: float = 1000,
+                             duration_weeks: int = 12) -> Dict:
+        """Simulate cancer immunotherapy response."""
+        time_points = np.linspace(0, duration_weeks, duration_weeks * 7)
+        results = {
+            'time': time_points,
+            'tumor_size': np.zeros_like(time_points),
+            'cd8_infiltration': np.zeros_like(time_points),
+            'pd1_expression': np.zeros_like(time_points),
+            'response': 'progressive_disease'
+        }
+
+        tumor = tumor_burden
+        cd8_cells = 100  # Initial T cells
+        pd1_level = 0.3  # Baseline PD-1 expression
+
+        for i, t in enumerate(time_points):
+            if therapy_type == 'checkpoint':
+                # Anti-PD-1/PD-L1 therapy
+                if t > 2:  # Therapy starts after 2 weeks
+                    # Reduce PD-1 mediated suppression
+                    pd1_level = max(0.1, pd1_level - 0.01)
+
+                    # Enhanced T cell activity
+                    cd8_cells += cd8_cells * 0.02 * (1 - pd1_level)
+
+                    # Tumor killing
+                    kill_rate = 0.001 * cd8_cells * (1 - pd1_level)
+                    tumor = max(0, tumor - kill_rate)
+
+            elif therapy_type == 'car_t':
+                # CAR-T cell therapy
+                if t == 2:  # Infusion at week 2
+                    cd8_cells += 10000  # Large number of CAR-T cells
+
+                if t > 2:
+                    # CAR-T expansion
+                    if tumor > 10:
+                        cd8_cells += cd8_cells * 0.1  # Rapid expansion
+
+                    # Tumor killing (more efficient than checkpoint)
+                    kill_rate = 0.01 * cd8_cells
+                    tumor = max(0, tumor - kill_rate)
+
+                    # CAR-T exhaustion over time
+                    if t > 6:
+                        cd8_cells *= 0.95
+
+            elif therapy_type == 'vaccine':
+                # Therapeutic cancer vaccine
+                if t % 2 == 0 and t > 0:  # Boost every 2 weeks
+                    cd8_cells += 500  # Moderate T cell increase
+
+                if t > 1:
+                    # Slower but sustained response
+                    kill_rate = 0.0001 * cd8_cells
+                    tumor = max(0, tumor - kill_rate)
+
+            # Tumor growth (if not completely eliminated)
+            if tumor > 0:
+                growth_rate = 0.01 * tumor * (1 - tumor / 10000)  # Logistic growth
+                tumor += growth_rate
+
+            # Record state
+            results['tumor_size'][i] = tumor
+            results['cd8_infiltration'][i] = cd8_cells
+            results['pd1_expression'][i] = pd1_level
+
+        # Determine response category (RECIST-like criteria)
+        final_tumor = results['tumor_size'][-1]
+        initial_tumor = tumor_burden
+
+        if final_tumor == 0:
+            results['response'] = 'complete_response'
+        elif final_tumor < 0.3 * initial_tumor:
+            results['response'] = 'partial_response'
+        elif final_tumor < 1.2 * initial_tumor:
+            results['response'] = 'stable_disease'
+        else:
+            results['response'] = 'progressive_disease'
+
+        return results
+
+    def run_comprehensive_analysis(self) -> Dict:
+        """Run complete immunology analysis pipeline."""
+        results = {}
+
+        print("Generating antibody repertoire...")
+        repertoire = self.generate_antibody_repertoire(1000)
+        results['repertoire_size'] = len(repertoire)
+
+        print("Testing antibody-antigen binding...")
+        test_antigen = np.random.randint(0, 20, 15)
+        test_antibody = repertoire[0] if repertoire else np.random.randint(0, 20, 15)
+        affinity = self.antibody_antigen_affinity(test_antibody, test_antigen)
+        results['binding_affinity'] = affinity
+
+        print("Simulating affinity maturation...")
+        if repertoire:
+            mature_antibody, affinity_history = self.affinity_maturation(
+                repertoire[0], test_antigen, generations=10
+            )
+            results['affinity_improvement'] = affinity_history[-1] / affinity_history[0] if affinity_history[0] > 0 else 1
+
+        print("Simulating infection response...")
+        infection = self.simulate_infection_response(1e6, duration_days=14)
+        results['infection_cleared'] = infection['pathogen'][-1] < 1
+        results['peak_antibodies'] = np.max(infection['antibodies'])
+
+        print("Simulating vaccination...")
+        vaccination = self.simulate_vaccination('mRNA', doses=[0, 28], duration_days=90)
+        results['peak_antibody_titer'] = np.max(vaccination['antibody_titer'])
+        results['protection_duration'] = np.sum(vaccination['protection'] > 0.5)
+
+        print("Analyzing TCR diversity...")
+        tcr_diversity = self.tcr_repertoire_diversity(5000)
+        results['tcr_diversity'] = tcr_diversity['simpson_diversity']
+
+        print("Simulating immunotherapy...")
+        therapy = self.simulate_immunotherapy('checkpoint', tumor_burden=1000, duration_weeks=12)
+        results['therapy_response'] = therapy['response']
+
+        return results
