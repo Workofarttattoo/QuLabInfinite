@@ -39,16 +39,22 @@ class StructuralBeam:
 
     def calculate_bending_moment_and_shear_force(self):
         total_length = sum([e.length for e in self.elements])
-        distributed_loads = np.zeros(total_length + 1, dtype=np.float64)
+        if total_length <= 0:
+            empty = np.zeros(1, dtype=np.float64)
+            return empty, empty
+
+        n_points = int(np.ceil(total_length)) + 1
+        distributed_loads = np.zeros(n_points, dtype=np.float64)
+        idx_from_pos = lambda pos: int(np.clip(pos / total_length * (n_points - 1), 0, n_points - 1))
         
         for load in self.loads:
             if load.load_type == "uniform":
-                start_index = int(load.start / total_length * len(distributed_loads))
-                end_index = min(start_index + int((load.end - load.start) / total_length * len(distributed_loads)) + 1, len(distributed_loads))
+                start_index = idx_from_pos(load.start)
+                end_index = idx_from_pos(load.end) + 1
                 distributed_loads[start_index:end_index] += load.magnitude
 
-        shear_force = np.zeros(total_length + 1, dtype=np.float64)
-        bending_moment = np.zeros(total_length + 1, dtype=np.float64)
+        shear_force = np.zeros(n_points, dtype=np.float64)
+        bending_moment = np.zeros(n_points, dtype=np.float64)
 
         for i in range(1, len(shear_force)):
             shear_force[i] = shear_force[i-1] - distributed_loads[i]
@@ -60,14 +66,20 @@ class StructuralBeam:
 
     def calculate_stress_and_deflection(self):
         total_length = sum([e.length for e in self.elements])
-        distributed_loads = np.zeros(total_length + 1, dtype=np.float64)
-        stresses = np.zeros(total_length + 1, dtype=np.float64)
-        deflections = np.zeros(total_length + 1, dtype=np.float64)
+        if total_length <= 0:
+            empty = np.zeros(1, dtype=np.float64)
+            return empty, empty
+
+        n_points = int(np.ceil(total_length)) + 1
+        distributed_loads = np.zeros(n_points, dtype=np.float64)
+        stresses = np.zeros(n_points, dtype=np.float64)
+        deflections = np.zeros(n_points, dtype=np.float64)
+        idx_from_pos = lambda pos: int(np.clip(pos / total_length * (n_points - 1), 0, n_points - 1))
 
         for load in self.loads:
             if load.load_type == "uniform":
-                start_index = int(load.start / total_length * len(distributed_loads))
-                end_index = min(start_index + int((load.end - load.start) / total_length * len(distributed_loads)) + 1, len(distributed_loads))
+                start_index = idx_from_pos(load.start)
+                end_index = idx_from_pos(load.end) + 1
                 distributed_loads[start_index:end_index] += load.magnitude
 
         for element in self.elements:

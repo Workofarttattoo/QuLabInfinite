@@ -6,6 +6,7 @@ comprehensive validation, error handling, and result serialization.
 """
 
 from typing import List, Optional, Dict, Any
+from datetime import datetime
 from fastapi import APIRouter, HTTPException, BackgroundTasks
 from pydantic import BaseModel, Field, validator
 import uuid
@@ -122,7 +123,7 @@ async def teleport_quantum_state(request: TeleportationRequest):
         if request.save_results:
             teleportation_schema = TeleportationSchema(
                 experiment_id=experiment_id,
-                timestamp=result.execution_time,  # Use execution time as timestamp
+                timestamp=datetime.utcnow(),
                 alpha=request.alpha,
                 beta=request.beta,
                 fidelity=result.fidelity,
@@ -199,7 +200,7 @@ async def teleport_batch(request: BatchTeleportationRequest, background_tasks: B
                 if request.save_results:
                     teleportation_schema = TeleportationSchema(
                         experiment_id=experiment_id,
-                        timestamp=result.execution_time,
+                        timestamp=datetime.utcnow(),
                         alpha=exp_request.alpha,
                         beta=exp_request.beta,
                         fidelity=result.fidelity,
