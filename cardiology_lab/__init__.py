@@ -11,7 +11,9 @@ from .cardiology_lab import (
     BloodFlowResult,
     HeartChamber,
     ECGLead,
-    CardiacDrug
+    CardiacDrug,
+    ECGParameters,
+    HemodynamicParameters
 )
 
 __all__ = [
@@ -21,5 +23,7 @@ __all__ = [
     'BloodFlowResult',
     'HeartChamber',
     'ECGLead',
-    'CardiacDrug'
+    'CardiacDrug',
+    'ECGParameters',
+    'HemodynamicParameters'
 ]
