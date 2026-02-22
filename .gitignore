@@ -6,6 +6,14 @@ downloads/
 .tmp.driveupload/
 materials_lab/data/materials_project_all.jsonl
 
+# --- IP Protection ---
+*patent*
+*synthesis*
+*discovery*
+MATERIALS_PORTFOLIO.md
+REPRODUCIBLE_MATERIALS_PATENT_HANDBOOK.md
+ECHO_MATERIALS_SYNTHESIS_HANDBOOK.md
+
 # --- local / generated ---
 .DS_Store
 __pycache__/
