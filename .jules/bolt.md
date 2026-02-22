@@ -1,0 +1,3 @@
+## 2026-02-22 - Finite Difference Thermodynamics Optimization
+**Learning:** Reconstructing sparse matrices (`scipy.sparse.diags`) and re-factorizing them (`spsolve`) at every timestep is extremely expensive, especially for implicit solvers where the system matrix (A) is constant if the timestep (dt) is constant.
+**Action:** Always cache the linear operator and its factorization (using `scipy.sparse.linalg.factorized`) when solving PDEs with constant coefficients. Only rebuild when parameters change. Also, be careful with `diags` output as it might be immutable; convert to `lil` or `csc` before modifying or solving.
