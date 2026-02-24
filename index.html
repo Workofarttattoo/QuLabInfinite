@@ -80,6 +80,25 @@
             font-weight: 600;
         }
 
+        .search-input {
+            width: 100%;
+            background: rgba(148, 163, 184, 0.12);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            color: var(--text);
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-top: 16px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(124, 244, 164, 0.05);
+        }
+
         .lab-list {
             margin-top: 24px;
             overflow-y: auto;
@@ -346,6 +365,16 @@
             font-size: 0.8rem;
             background: rgba(148, 163, 184, 0.16);
             color: var(--text);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+            transform: translateY(-1px);
         }
 
         .footer {
@@ -379,6 +408,7 @@
                 <div class="brand">QuLab <span>Infinite</span></div>
                 <p class="sidebar-subtitle">Active labs, ready for natural language exploration.</p>
                 <div class="lab-count">Active Labs <span id="labCount">0</span></div>
+                <input type="text" id="labSearch" class="search-input" placeholder="Filter labs..." aria-label="Filter labs">
             </div>
             <div class="lab-list" id="labList" aria-label="Active labs list"></div>
             <div class="footer">
@@ -425,9 +455,9 @@
                     <div class="detail-section">
                         <h3>Quick prompts</h3>
                         <div class="chip-group" id="promptChips">
-                            <span class="chip">"Design a bioactive scaffold with tunable porosity."</span>
-                            <span class="chip">"Mix superconductors with nano-ceramics."</span>
-                            <span class="chip">"Find a catalyst for low-temp CO₂ conversion."</span>
+                            <button class="chip" type="button">"Design a bioactive scaffold with tunable porosity."</button>
+                            <button class="chip" type="button">"Mix superconductors with nano-ceramics."</button>
+                            <button class="chip" type="button">"Find a catalyst for low-temp CO₂ conversion."</button>
                         </div>
                     </div>
                     <div class="detail-section">
@@ -554,6 +584,7 @@
         const frameTitle = document.getElementById('frameTitle');
         const labFocus = document.getElementById('labFocus');
         const labCount = document.getElementById('labCount');
+        const labSearch = document.getElementById('labSearch');
 
         const focusLines = [
             'Advanced materials planning, combinatorial synthesis, and validation-ready outputs.',
@@ -586,20 +617,48 @@
             frameTitle.textContent = `${lab.name} • Natural Language Console`;
             labFocus.textContent = focusLines[index % focusLines.length];
 
-            [...labList.children].forEach((item) => item.classList.remove('active'));
-            const active = labList.children[index];
-            if (active) {
-                active.classList.add('active');
-            }
+            // Update active state in list by matching name
+            [...labList.children].forEach((item) => {
+                const title = item.querySelector('strong').textContent;
+                if (title === lab.name) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
         };
 
-        labs.forEach((lab, index) => {
-            const item = document.createElement('button');
-            item.type = 'button';
-            item.className = 'lab-item';
-            item.innerHTML = `<strong>${lab.name}</strong><small>Natural language lab chat</small>`;
-            item.addEventListener('click', () => selectLab(lab, index));
-            labList.appendChild(item);
+        const renderLabs = (filterText = '') => {
+            labList.innerHTML = '';
+            const filtered = labs.filter(lab =>
+                lab.name.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            filtered.forEach((lab) => {
+                const originalIndex = labs.indexOf(lab);
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.className = 'lab-item';
+                if (labTitle.textContent === lab.name) {
+                    item.classList.add('active');
+                }
+                item.innerHTML = `<strong>${lab.name}</strong><small>Natural language lab chat</small>`;
+                item.addEventListener('click', () => selectLab(lab, originalIndex));
+                labList.appendChild(item);
+            });
+        };
+
+        renderLabs();
+
+        labSearch.addEventListener('input', (e) => {
+            renderLabs(e.target.value);
+        });
+
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const text = chip.textContent.replace(/^"|"$/g, ''); // Remove quotes
+                document.querySelector('.prompt-input').textContent = text;
+            });
         });
 
         selectLab(labs[0], 0);
