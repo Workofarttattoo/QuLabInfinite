@@ -348,6 +348,44 @@
             color: var(--text);
         }
 
+        button.chip {
+            border: 1px solid transparent;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button.chip:hover, button.chip:focus {
+            background: rgba(148, 163, 184, 0.3);
+            border-color: var(--accent-soft);
+            outline: none;
+        }
+
+        button.chip:focus-visible {
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        button.prompt-send {
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button.prompt-send:hover, button.prompt-send:focus {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        button.prompt-send:focus-visible {
+            box-shadow: 0 0 0 2px var(--text);
+        }
+
+        button.prompt-send:active {
+            transform: scale(0.95);
+        }
+
         .footer {
             margin-top: 16px;
             color: var(--muted);
@@ -391,7 +429,7 @@
                     <h1 class="lab-title" id="labTitle">GAVL Materials Forge</h1>
                     <p class="lab-subtitle" id="labSubtitle">Ask for novel material stacks, tuned parameters, and experimental combos. Every lab keeps the same natural language flow while presenting its own instrument mat.</p>
                 </div>
-                <a class="open-lab" id="labLink" href="#" target="_blank" rel="noopener">Open lab chat</a>
+                <a class="open-lab" id="labLink" href="#" target="_blank" rel="noopener" aria-label="Open lab chat (opens in new tab)">Open lab chat</a>
             </header>
             <section class="lab-stage">
                 <div class="lab-frame frame-aurora" id="labFrame">
@@ -404,8 +442,8 @@
                         <div class="message user">Show me a lightweight, high-strength composite with thermal stability above 900°C.</div>
                         <div class="message assistant">Drafting a carbon-ceramic laminate with aerogel cores and graphene-reinforced seams. I can tune density, weave pattern, and catalyst routes. Want a manufacturing path or performance sweep?</div>
                         <div class="prompt-bar">
-                            <span class="prompt-input">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
-                            <span class="prompt-send">Send</span>
+                            <span class="prompt-input" id="promptInput" role="textbox" aria-placeholder="Type a new request">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
+                            <button class="prompt-send" id="promptSend" type="button" aria-label="Send request">Send</button>
                         </div>
                     </div>
                 </div>
@@ -425,9 +463,9 @@
                     <div class="detail-section">
                         <h3>Quick prompts</h3>
                         <div class="chip-group" id="promptChips">
-                            <span class="chip">"Design a bioactive scaffold with tunable porosity."</span>
-                            <span class="chip">"Mix superconductors with nano-ceramics."</span>
-                            <span class="chip">"Find a catalyst for low-temp CO₂ conversion."</span>
+                            <button class="chip" type="button">"Design a bioactive scaffold with tunable porosity."</button>
+                            <button class="chip" type="button">"Mix superconductors with nano-ceramics."</button>
+                            <button class="chip" type="button">"Find a catalyst for low-temp CO₂ conversion."</button>
                         </div>
                     </div>
                     <div class="detail-section">
@@ -603,6 +641,89 @@
         });
 
         selectLab(labs[0], 0);
+
+        // Interactive Prompt System
+        const promptInput = document.getElementById('promptInput');
+        const promptSend = document.getElementById('promptSend');
+        const chatWindow = document.getElementById('chatWindow');
+        const promptBar = document.querySelector('.prompt-bar');
+
+        // Make input editable
+        promptInput.contentEditable = true;
+        const defaultPlaceholder = promptInput.textContent;
+
+        const setInputActive = () => {
+            if (promptInput.textContent === defaultPlaceholder) {
+                promptInput.textContent = '';
+            }
+            promptInput.style.color = 'var(--text)';
+            promptInput.focus();
+        };
+
+        const resetInput = () => {
+            promptInput.textContent = defaultPlaceholder;
+            promptInput.style.color = 'var(--muted)';
+        };
+
+        // Handle Focus/Blur for Placeholder
+        promptInput.addEventListener('focus', () => {
+            if (promptInput.textContent === defaultPlaceholder) {
+                promptInput.textContent = '';
+                promptInput.style.color = 'var(--text)';
+            }
+        });
+
+        promptInput.addEventListener('blur', () => {
+            if (promptInput.textContent.trim() === '') {
+                resetInput();
+            }
+        });
+
+        promptInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+
+        // Quick Prompts
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const text = chip.textContent.replace(/^"|"$/g, ''); // Strip quotes
+                setInputActive();
+                promptInput.textContent = text;
+            });
+        });
+
+        // Send Logic
+        const handleSend = () => {
+            const text = promptInput.textContent;
+            if (!text || text === defaultPlaceholder || text.trim() === '') return;
+
+            // Add User Message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.textContent = text;
+            chatWindow.insertBefore(userMsg, promptBar);
+
+            // Clear Input
+            resetInput();
+            promptInput.blur(); // Remove focus to show placeholder style correctly
+
+            // Scroll to bottom
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // Simulate Assistant Response
+            setTimeout(() => {
+                const assistantMsg = document.createElement('div');
+                assistantMsg.className = 'message assistant';
+                assistantMsg.textContent = "Analyzing request parameters... (Simulation Mode)";
+                chatWindow.insertBefore(assistantMsg, promptBar);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, 800);
+        };
+
+        promptSend.addEventListener('click', handleSend);
     </script>
 </body>
 </html>
