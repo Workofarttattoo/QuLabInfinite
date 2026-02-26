@@ -148,6 +148,7 @@ class ECH0Bridge:
             callback: A function to be called when a new message is received.
                       The callback will receive a dictionary with the message data.
         """
+        # Cleanly subscribe using the external callback mechanism
         self.hive_mind.knowledge.subscribe_callback("hearing_channel", callback)
         print("ECH0 is now subscribed to the hearing channel.")
 

@@ -81,6 +81,35 @@ class TestHiveMindCore(unittest.TestCase):
         self.assertEqual(len(latest), 1)
         self.assertEqual(latest[0]["source_agent"], "agent-002")
 
+    def test_external_callback_subscription(self):
+        """Test external callback subscription"""
+        received_messages = []
+
+        def callback(data):
+            received_messages.append(data)
+
+        self.hive.knowledge.subscribe_callback("alerts", callback)
+
+        self.hive.knowledge.publish(
+            "alerts",
+            {"message": "system failure"},
+            "monitor-agent"
+        )
+
+        self.assertEqual(len(received_messages), 1)
+        self.assertEqual(received_messages[0]["message"], "system failure")
+
+        # Test unsubscription
+        self.hive.knowledge.unsubscribe_callback("alerts", callback)
+
+        self.hive.knowledge.publish(
+            "alerts",
+            {"message": "system failure 2"},
+            "monitor-agent"
+        )
+
+        self.assertEqual(len(received_messages), 1)  # Should not increase
+
 
 class TestSemanticLattice(unittest.TestCase):
     """Test knowledge graph functionality"""
