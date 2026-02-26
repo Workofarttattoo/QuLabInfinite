@@ -1,7 +1,3 @@
-## 2024-05-22 - Handling Long Lists with Client-Side Filtering
-**Learning:** Users struggle to scan long lists of items (like 100+ labs) without search functionality. Client-side filtering provides instant feedback and significantly improves usability for static datasets.
-**Action:** Always include a search/filter input for lists with more than 20 items to allow quick access via typing.
-
-## 2024-05-22 - Accessible Search Inputs without Visible Labels
-**Learning:** Search inputs often rely on placeholders for design minimalism, which can disappear or be insufficient for screen readers.
-**Action:** Ensure inputs without visible labels have a clear `aria-label` (e.g., `aria-label="Filter labs list"`) to provide context to assistive technologies.
+## 2025-02-12 - [Mock Dashboard Interactivity]
+**Learning:** Converting static 'chip' elements to buttons significantly improves perceived quality of a dashboard mock, even if the backend is simulated. Users expect chips to be clickable filters or inputs.
+**Action:** Always use `<button>` for chip-like elements that trigger actions, and provide immediate visual feedback (populating input) to validate the interaction.
