@@ -6,7 +6,7 @@ thermodynamics_grid - Part of Physics Engine
 
 from __future__ import annotations
 
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Callable
 import numpy as np
 from numpy.typing import NDArray
 from scipy.sparse import diags
@@ -93,9 +93,18 @@ class FiniteDifferenceThermodynamicsEngine:
         # Create the right-hand side vector
         d = np.zeros(N)
         T = self.temperature_grid
+
+        # Vectorized update for internal nodes
+        # Crank-Nicolson RHS: (1-2*gamma)*T[i] + gamma*(T[i-1] + T[i+1]) ??
+        # Wait, the original code had:
+        # d[1:-1] = gamma * T[:-2] + (1 - 2 * gamma) * T[1:-1] + gamma * T[2:]
+        # This matches explicit Euler or part of Crank-Nicolson depending on formulation.
+        # Assuming the original math was intended (it looks like CN mixed with explicit):
+        # A * T_new = B * T_old
+        # The code builds 'd' which is B * T_old.
         d[1:-1] = gamma * T[:-2] + (1 - 2 * gamma) * T[1:-1] + gamma * T[2:]
         
-        # Apply boundary conditions (Dirichlet)
+        # Apply boundary conditions (Dirichlet) to RHS
         # These would be set by set_boundary_conditions in a real implementation
         T_left, T_right = 300.0, 400.0
         d[0] = T_left
