@@ -637,6 +637,7 @@ class RenewableEnergyLab:
         battery_power = np.zeros(n_steps)
         grid_power = np.zeros(n_steps)
         curtailment = np.zeros(n_steps)
+        load_shedding = np.zeros(n_steps)
         cost = np.zeros(n_steps)
 
         # Battery state
@@ -692,12 +693,14 @@ class RenewableEnergyLab:
 
                     if deficit > grid.max_import:
                         # Load shedding required
-                        pass
+                        load_shedding[i] = deficit - grid.max_import
 
         return {
             'battery_power': battery_power,
             'grid_power': grid_power,
             'curtailment': curtailment,
+            'load_shedding': load_shedding,
+            'total_load_shedding': np.sum(load_shedding),
             'cost': cost,
             'total_cost': np.sum(cost)
         }
