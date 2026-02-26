@@ -296,11 +296,12 @@ class TumorMicroenvironment:
         ∂C/∂t = D∇²C - k*C
         Using simple finite difference method
         """
-        # Laplacian (simplified 3D)
+        # Laplacian (simplified 3D) using padding to avoid 6 copies
+        padded = np.pad(field, 1, mode='wrap')
         laplacian = (
-            np.roll(field, 1, axis=0) + np.roll(field, -1, axis=0) +
-            np.roll(field, 1, axis=1) + np.roll(field, -1, axis=1) +
-            np.roll(field, 1, axis=2) + np.roll(field, -1, axis=2) -
+            padded[:-2, 1:-1, 1:-1] + padded[2:, 1:-1, 1:-1] +
+            padded[1:-1, :-2, 1:-1] + padded[1:-1, 2:, 1:-1] +
+            padded[1:-1, 1:-1, :-2] + padded[1:-1, 1:-1, 2:] -
             6 * field
         ) / (self.resolution ** 2)
 
