@@ -6,7 +6,7 @@ thermodynamics_grid - Part of Physics Engine
 
 from __future__ import annotations
 
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Callable
 import numpy as np
 from numpy.typing import NDArray
 from scipy.linalg import solve_banded
@@ -102,7 +102,7 @@ class FiniteDifferenceThermodynamicsEngine:
         # d[i] = gamma*T[i-1] + (1-2gamma)*T[i] + gamma*T[i+1]
         d[1:-1] = gamma * T[:-2] + (1 - 2 * gamma) * T[1:-1] + gamma * T[2:]
         
-        # Apply boundary conditions (Dirichlet)
+        # Apply boundary conditions (Dirichlet) to RHS
         # These would be set by set_boundary_conditions in a real implementation
         T_left, T_right = 300.0, 400.0
         d[0] = T_left
