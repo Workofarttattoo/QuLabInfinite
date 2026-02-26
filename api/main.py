@@ -7,7 +7,7 @@ from typing import Dict, Any
 # Ensure the project root is in the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core.unified_simulator import UnifiedSimulator
+from core.unified_simulator import get_simulator
 from api.auth import get_api_key
 from api.v1.endpoints import api_router
 
@@ -19,7 +19,7 @@ app = FastAPI(
 
 app.include_router(api_router, prefix="/api/v1")
 
-simulator = UnifiedSimulator()
+simulator = get_simulator()
 
 class SimulationRequest(BaseModel):
     lab_name: str
