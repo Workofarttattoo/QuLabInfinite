@@ -14,12 +14,39 @@ from .neuroscience_lab import (
     BrainRegion
 )
 
+from .biophysics import (
+    IonChannel,
+    HodgkinHuxleyNeuron,
+    LeakyIntegrateFireNeuron,
+    AdaptiveExponentialNeuron,
+    IzhikevichNeuron,
+    SynapticPlasticity,
+    NetworkConnectivity,
+    NeurotransmitterDynamics,
+    EEGSimulator,
+    NeuralNetworkSimulator
+)
+
+# Alias for compatibility
+NeuroscienceLab = NeuroscienceLaboratory
+
 __all__ = [
     'NeuroscienceLaboratory',
+    'NeuroscienceLab',
     'NeuronState',
     'SynapticConnection',
     'BrainActivity',
     'NeuronType',
     'Neurotransmitter',
-    'BrainRegion'
+    'BrainRegion',
+    'IonChannel',
+    'HodgkinHuxleyNeuron',
+    'LeakyIntegrateFireNeuron',
+    'AdaptiveExponentialNeuron',
+    'IzhikevichNeuron',
+    'SynapticPlasticity',
+    'NetworkConnectivity',
+    'NeurotransmitterDynamics',
+    'EEGSimulator',
+    'NeuralNetworkSimulator'
 ]

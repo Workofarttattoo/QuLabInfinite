@@ -472,6 +472,11 @@ class KnowledgeSharing:
         """Unsubscribe agent from topic"""
         self.subscriptions[topic].discard(agent_id)
 
+    def unsubscribe_callback(self, topic: str, callback: Callable[[Dict[str, Any]], None]) -> None:
+        """Unsubscribe a callback function from a topic"""
+        if callback in self.callback_subscriptions[topic]:
+            self.callback_subscriptions[topic].remove(callback)
+
     def publish(self, topic: str, data: Dict[str, Any], source_agent: str) -> None:
         """Publish knowledge to topic"""
         broadcast = {
@@ -493,6 +498,14 @@ class KnowledgeSharing:
             agent_instance = self.agent_registry.get_agent_instance(agent_id)
             if agent_instance and hasattr(agent_instance, 'process_broadcast'):
                 agent_instance.process_broadcast(topic, data)
+
+        # Notify callback subscribers
+        callbacks = self.callback_subscriptions.get(topic, [])
+        for callback in list(callbacks):
+            try:
+                callback(data)
+            except Exception as e:
+                LOG.error(f"[error] Error in callback for topic '{topic}': {e}")
         
         # Notify external subscribers
         external_subscribers = self.external_subscribers.get(topic, set())

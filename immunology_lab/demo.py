@@ -1,154 +1,136 @@
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
-Immunology Laboratory Demo
+IMMUNOLOGY LAB - Production Demo
 """
 
-from immunology_lab import ImmunologyLaboratory
 import numpy as np
+from .immunology_lab import ImmunologyLab
 
 
-def main():
-    """Run immunology lab demonstration"""
-    print("QuLabInfinite Immunology Laboratory - Demo")
-    print("=" * 70)
+def run_demo():
+    """Demonstrate comprehensive immunology capabilities."""
+    print("=" * 80)
+    print("IMMUNOLOGY LAB - Production Demo")
+    print("=" * 80)
 
-    lab = ImmunologyLaboratory(seed=42)
+    lab = ImmunologyLab()
 
-    # Demo 1: Antibody-antigen binding kinetics
-    print("\n1. Antibody-Antigen Binding Kinetics")
-    print("-" * 70)
+    print("\n1. ANTIBODY REPERTOIRE GENERATION")
+    print("-" * 40)
+    repertoire = lab.generate_antibody_repertoire(diversity=100)
+    print(f"Generated {len(repertoire)} unique antibodies")
+    print(f"Example CDR3 length: {len(repertoire[0])} amino acids")
 
-    affinities = ['high_affinity', 'medium_affinity', 'low_affinity']
-    for affinity in affinities:
-        binding = lab.simulate_antibody_antigen_binding(
-            antibody_conc_nM=100,
-            antigen_conc_nM=50,
-            affinity=affinity,
-            duration_s=3600
-        )
+    print("\n2. ANTIBODY-ANTIGEN BINDING")
+    print("-" * 40)
+    antigen = np.random.randint(0, 20, 15)
+    antibody = repertoire[0]
+    affinity = lab.antibody_antigen_affinity(antibody, antigen)
+    print(f"Binding affinity: {affinity:.4f}")
+    print(f"Interpretation: {'High' if affinity > 0.5 else 'Low'} affinity")
 
-        print(f"\n{affinity.replace('_', ' ').title()}:")
-        print(f"  KD = {binding.KD*1e9:.2f} nM")
-        print(f"  ka = {binding.ka:.2e} M^-1 s^-1")
-        print(f"  kd = {binding.kd:.2e} s^-1")
-        print(f"  Max binding: {np.max(binding.binding_curve)*100:.1f}%")
+    print("\n3. AFFINITY MATURATION")
+    print("-" * 40)
+    mature_ab, history = lab.affinity_maturation(antibody, antigen, generations=20)
+    print(f"Initial affinity: {history[0]:.4f}")
+    print(f"Final affinity: {history[-1]:.4f}")
+    print(f"Improvement: {history[-1]/history[0]:.2f}x")
 
-    # Demo 2: Immune response to infection
-    print("\n2. Immune Response to Pathogen")
-    print("-" * 70)
+    print("\n4. T CELL ACTIVATION")
+    print("-" * 40)
+    signal1 = 0.7  # Strong TCR signal
+    signal2 = 0.8  # Good costimulation
+    signal3 = {'IL-2': 0.5, 'IFN-γ': 0.3}
+    activation = lab.t_cell_activation(signal1, signal2, signal3)
+    print(f"T cell activation level: {activation:.2%}")
 
-    doses = [1e4, 1e6, 1e8]
-    for dose in doses:
-        response = lab.simulate_immune_response(
-            pathogen_dose=dose,
-            pathogen_growth_rate=2.0,
-            duration_days=21
-        )
+    print("\n5. INFECTION RESPONSE")
+    print("-" * 40)
+    response = lab.simulate_infection_response(pathogen_load=1e6, duration_days=14)
+    print(f"Peak pathogen load: {np.max(response['pathogen']):.2e}")
+    print(f"Time to clearance: {np.argmax(response['pathogen'] < 1) / 24:.1f} days")
+    print(f"Peak antibody level: {np.max(response['antibodies']):.0f}")
+    print(f"Peak CD8 T cells: {np.max(response['cd8_t_cells']):.0f}")
 
-        peak_pathogen = np.max(response.pathogen_count)
-        clearance_idx = np.where(response.pathogen_count < dose * 0.01)[0]
-        clearance_day = response.time_days[clearance_idx[0]] if len(clearance_idx) > 0 else 21
+    print("\n6. VACCINATION RESPONSE")
+    print("-" * 40)
+    for vaccine_type in ['protein', 'mRNA']:
+        vacc = lab.simulate_vaccination(vaccine_type, doses=[0, 28], duration_days=180)
+        print(f"\n{vaccine_type.upper()} Vaccine:")
+        print(f"  Peak antibody titer: {np.max(vacc['antibody_titer']):.0f}")
+        print(f"  Duration of protection (>50%): {np.sum(vacc['protection'] > 0.5)} days")
+        print(f"  Memory B cells at day 180: {vacc['memory_b_cells'][-1]:.0f}")
 
-        print(f"\nInitial dose: {dose:.0e} pathogens")
-        print(f"  Peak pathogen: {peak_pathogen:.2e}")
-        print(f"  Clearance time: {clearance_day:.1f} days")
-        print(f"  Peak antibody: {np.max(response.antibody_titer):.2f} nM")
-        print(f"  Peak T cells: {np.max(response.t_cell_count):.2e}")
+    print("\n7. CYTOKINE NETWORK")
+    print("-" * 40)
+    initial = {'IL-2': 10, 'TNF-α': 5}
+    cytokines = lab.model_cytokine_network(initial, time_steps=50)
+    print(f"Initial stimulus: {initial}")
+    print(f"Peak IL-2: {np.max(cytokines[:, lab.CYTOKINES.index('IL-2')]):.1f}")
+    print(f"Peak IFN-γ: {np.max(cytokines[:, lab.CYTOKINES.index('IFN-γ')]):.1f}")
 
-    # Demo 3: Vaccine comparison
-    print("\n3. Vaccine Efficacy Comparison")
-    print("-" * 70)
+    print("\n8. MHC-PEPTIDE BINDING")
+    print("-" * 40)
+    peptide = np.array([11, 11, 5, 7, 9, 12, 14, 18, 17])  # LLFILVPWV-like
+    binding = lab.mhc_peptide_binding(peptide, 'HLA-A*02:01')
+    print(f"Peptide length: {len(peptide)} aa")
+    print(f"Predicted binding affinity: {binding:.1f} nM")
+    print(f"Classification: {'Strong' if binding < 50 else 'Weak' if binding < 500 else 'Non'}-binder")
 
-    vaccines = ['mRNA', 'protein', 'inactivated', 'live_attenuated']
+    print("\n9. TCR REPERTOIRE DIVERSITY")
+    print("-" * 40)
+    tcr_analysis = lab.tcr_repertoire_diversity(repertoire_size=1000)
+    print(f"Total TCRs: {tcr_analysis['total_sequences']}")
+    print(f"Unique sequences: {tcr_analysis['unique_sequences']}")
+    print(f"Shannon entropy: {tcr_analysis['shannon_entropy']:.2f}")
+    print(f"Simpson diversity: {tcr_analysis['simpson_diversity']:.4f}")
+    print(f"Clonality: {tcr_analysis['clonality']:.4f}")
 
-    for vaccine_type in vaccines:
-        # Single dose
-        single = lab.calculate_vaccine_efficacy(
-            vaccine_type=vaccine_type,
-            dose_schedule=[0],
-            adjuvant=False
-        )
+    print("\n10. AUTOIMMUNE RESPONSE")
+    print("-" * 40)
+    self_antigen = np.random.randint(0, 20, 15)
+    autoimmune = lab.simulate_autoimmune_response(self_antigen, tolerance_threshold=0.8)
+    print(f"Autoreactive T cells: {autoimmune['autoreactive_cells']}")
+    print(f"Regulatory response: {autoimmune['regulatory_response']:.2%}")
+    print(f"Tissue damage: {autoimmune['tissue_damage']:.1f}%")
+    print(f"Autoantibodies generated: {len(autoimmune['autoantibodies'])}")
 
-        # Two doses with adjuvant
-        double = lab.calculate_vaccine_efficacy(
-            vaccine_type=vaccine_type,
-            dose_schedule=[0, 28],
-            adjuvant=True
-        )
+    print("\n11. IMMUNOSENESCENCE")
+    print("-" * 40)
+    for age in [25, 50, 75]:
+        aging = lab.model_immunosenescence(age)
+        print(f"\nAge {age} years:")
+        print(f"  Thymic output: {aging['thymic_output']:.1f}%")
+        print(f"  Naive T cells: {aging['naive_t_cells']:.1f}%")
+        print(f"  B cell diversity: {aging['b_cell_diversity']:.1f}%")
+        print(f"  Inflammation: {aging['inflammation']:.1f}%")
+        print(f"  Vaccine response: {aging['vaccine_response']:.1f}%")
 
-        print(f"\n{vaccine_type.replace('_', ' ').title()}:")
-        print(f"  Single dose: {single.protection_rate*100:.1f}% protection, "
-              f"{single.seroconversion_rate*100:.1f}% seroconversion")
-        print(f"  Two doses + adj: {double.protection_rate*100:.1f}% protection, "
-              f"{double.seroconversion_rate*100:.1f}% seroconversion")
-        print(f"  GMT: {double.geometric_mean_titer:.0f}")
-        print(f"  Duration: {double.duration_months:.0f} months")
-        print(f"  Adverse events: {double.adverse_events_rate*100:.1f}%")
+    print("\n12. CANCER IMMUNOTHERAPY")
+    print("-" * 40)
+    for therapy in ['checkpoint', 'car_t', 'vaccine']:
+        result = lab.simulate_immunotherapy(therapy, tumor_burden=1000, duration_weeks=12)
+        print(f"\n{therapy.upper()} Therapy:")
+        print(f"  Initial tumor: 1000 cells")
+        print(f"  Final tumor: {result['tumor_size'][-1]:.0f} cells")
+        print(f"  Peak CD8 infiltration: {np.max(result['cd8_infiltration']):.0f} cells")
+        print(f"  Response: {result['response'].replace('_', ' ').title()}")
 
-    # Demo 4: Autoimmune disease progression
-    print("\n4. Autoimmune Disease Progression")
-    print("-" * 70)
+    print("\n13. COMPREHENSIVE ANALYSIS")
+    print("-" * 40)
+    comprehensive = lab.run_comprehensive_analysis()
+    print("\nAnalysis Results:")
+    for key, value in comprehensive.items():
+        if isinstance(value, float):
+            print(f"  {key}: {value:.4f}")
+        else:
+            print(f"  {key}: {value}")
 
-    diseases = ['rheumatoid_arthritis', 'lupus', 'multiple_sclerosis', 'type1_diabetes']
-    treatments = [None, 'corticosteroid', 'dmard', 'biologic']
-
-    for disease in diseases[:2]:  # Show first 2 diseases
-        print(f"\n{disease.replace('_', ' ').title()}:")
-
-        for treatment in treatments:
-            sim = lab.simulate_autoimmune_disease(
-                disease=disease,
-                duration_months=12,
-                treatment=treatment
-            )
-
-            treatment_name = treatment if treatment else "No treatment"
-            print(f"  {treatment_name}:")
-            print(f"    Avg severity: {sim['average_severity']:.1f}/100")
-            print(f"    Flares: {sim['flare_count']}")
-            print(f"    Remission: {sim['remission_months']}/12 months")
-
-    # Demo 5: Cytokine storm simulation
-    print("\n5. Immune Response Kinetics Detail")
-    print("-" * 70)
-
-    response = lab.simulate_immune_response(
-        pathogen_dose=1e7,
-        pathogen_growth_rate=1.5,
-        duration_days=14
-    )
-
-    # Find peak cytokine day
-    il6_levels = response.cytokine_levels['IL6']
-    peak_day = response.time_days[np.argmax(il6_levels)]
-
-    print(f"High-dose infection (1e7 pathogens):")
-    print(f"  Peak IL-6 day: {peak_day:.1f}")
-    print(f"  Peak IL-6 level: {np.max(il6_levels):.1f} pg/mL")
-    print(f"  Peak IL-2 level: {np.max(response.cytokine_levels['IL2']):.1f} pg/mL")
-    print(f"  Peak IFN-γ level: {np.max(response.cytokine_levels['IFNG']):.1f} pg/mL")
-
-    # Demo 6: Dose-response relationship
-    print("\n6. Antibody Dose-Response")
-    print("-" * 70)
-
-    antibody_concs = [1, 10, 100, 1000]  # nM
-    print("Antigen concentration: 50 nM")
-
-    for ab_conc in antibody_concs:
-        binding = lab.simulate_antibody_antigen_binding(
-            antibody_conc_nM=ab_conc,
-            antigen_conc_nM=50,
-            affinity='medium_affinity'
-        )
-
-        equilibrium_binding = binding.binding_curve[-1]
-        print(f"  [{ab_conc:4d} nM Ab] → {equilibrium_binding*100:5.1f}% antigen bound")
-
-    print("\n" + "=" * 70)
-    print("Demo complete!")
+    print("\n" + "=" * 80)
+    print("Immunology Lab demonstration complete!")
+    print("=" * 80)
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    run_demo()
