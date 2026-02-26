@@ -36,7 +36,7 @@ class LabAuditor:
     """Comprehensive lab auditor for QuLabInfinite"""
 
     def __init__(self):
-        self.base_path = Path("/Users/noone/aios/QuLabInfinite")
+        self.base_path = Path(__file__).resolve().parent
         self.results = {}
         self.issues = {}
 
