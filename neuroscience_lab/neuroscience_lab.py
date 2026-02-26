@@ -327,7 +327,10 @@ class NeuroscienceLaboratory:
             concentration[step] = max(0, concentration[step-1] + dc * self.dt)
 
         # Calculate area under curve (total exposure)
-        auc = float(np.trapz(concentration, time))
+        if hasattr(np, 'trapezoid'):
+            auc = float(np.trapezoid(concentration, time))
+        else:
+            auc = float(np.trapz(concentration, time))
 
         # Peak concentration
         peak = float(np.max(concentration))

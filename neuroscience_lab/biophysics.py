@@ -545,9 +545,9 @@ class NeuralNetworkSimulator:
                                        np.random.gamma(2, 0.5, (self.n_exc, self.n_inh))
 
         # Inhibitory connections (negative weights)
-        W[self.n_exc:, :self.n_exc] = -(np.random.rand(self.n_inh, self.n_exc) < p_ie) * \
+        W[self.n_exc:, :self.n_exc] = -1.0 * (np.random.rand(self.n_inh, self.n_exc) < p_ie) * \
                                        np.random.gamma(2, 2, (self.n_inh, self.n_exc))
-        W[self.n_exc:, self.n_exc:] = -(np.random.rand(self.n_inh, self.n_inh) < p_ii) * \
+        W[self.n_exc:, self.n_exc:] = -1.0 * (np.random.rand(self.n_inh, self.n_inh) < p_ii) * \
                                        np.random.gamma(2, 2, (self.n_inh, self.n_inh))
 
         np.fill_diagonal(W, 0)  # No self-connections
