@@ -96,6 +96,24 @@
             border-radius: 999px;
         }
 
+        .lab-search {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(148, 163, 184, 0.12);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .lab-search:focus {
+            border-color: var(--accent);
+            background: rgba(124, 244, 164, 0.08);
+        }
+
         .lab-item {
             width: 100%;
             background: transparent;
@@ -380,6 +398,9 @@
                 <p class="sidebar-subtitle">Active labs, ready for natural language exploration.</p>
                 <div class="lab-count">Active Labs <span id="labCount">0</span></div>
             </div>
+            <div style="padding: 12px 0 4px 0;">
+                <input type="text" id="labSearch" class="lab-search" placeholder="Filter labs..." aria-label="Filter labs">
+            </div>
             <div class="lab-list" id="labList" aria-label="Active labs list"></div>
             <div class="footer">
                 GAVL-ready simulations • Quantum connectors enabled • Patent pending
@@ -603,6 +624,22 @@
         });
 
         selectLab(labs[0], 0);
+
+        // Search functionality
+        const labSearch = document.getElementById('labSearch');
+        labSearch.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const items = labList.getElementsByClassName('lab-item');
+            Array.from(items).forEach(item => {
+                const name = item.querySelector('strong').textContent.toLowerCase();
+                if (name.includes(term)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
