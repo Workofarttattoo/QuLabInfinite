@@ -504,6 +504,78 @@ class GWASAnalysis:
         self.min_maf = 0.05  # Minimum minor allele frequency
         self.bonferroni_threshold = 5e-8
 
+    def batch_association_test(self, genotypes: np.ndarray, phenotypes: np.ndarray) -> List[Dict]:
+        """Perform vectorized association test for multiple SNPs (no covariates)
+
+        Args:
+            genotypes: Genotype matrix (samples x SNPs)
+            phenotypes: Phenotype values (samples)
+        Returns:
+            List of association statistics
+        """
+        n_samples, n_snps = genotypes.shape
+
+        # Calculate allele frequencies (MAF)
+        allele_counts = np.sum(genotypes, axis=0)
+        mafs = np.minimum(allele_counts / (2 * n_samples), 1 - allele_counts / (2 * n_samples))
+
+        valid_snps = mafs >= self.min_maf
+        if not np.any(valid_snps):
+            return [{'p_value': 1.0, 'beta': 0.0, 'se': float('inf'), 'maf': float(m)} for m in mafs]
+
+        # Center data
+        y = phenotypes - np.mean(phenotypes)
+        G = genotypes[:, valid_snps]
+        G_mean = np.mean(G, axis=0)
+        G_centered = G - G_mean
+
+        # Calculate betas: beta = sum(x*y) / sum(x^2)
+        numerator = y @ G_centered  # (n_samples,) @ (n_samples, n_valid) -> (n_valid,)
+        denominator = np.sum(G_centered**2, axis=0)
+
+        # Avoid division by zero
+        with np.errstate(divide='ignore', invalid='ignore'):
+            betas = numerator / denominator
+
+            # Calculate standard errors
+            # y_hat_centered = betas * G_centered
+            # residuals = y_centered - y_hat_centered
+            y_hat_centered = G_centered * betas
+            residuals = y[:, np.newaxis] - y_hat_centered
+            rss = np.sum(residuals**2, axis=0)
+
+            sigma_sq = rss / (n_samples - 2)
+            se = np.sqrt(sigma_sq / denominator)
+
+            # T-statistics and P-values
+            t_stats = betas / se
+            # 2-sided p-value
+            p_values = 2 * (1 - stats.t.cdf(np.abs(t_stats), df=n_samples - 2))
+
+        # Compile results
+        results = []
+        valid_idx = 0
+        for i in range(n_snps):
+            if valid_snps[i]:
+                res = {
+                    'p_value': float(p_values[valid_idx]) if not np.isnan(p_values[valid_idx]) else 1.0,
+                    'beta': float(betas[valid_idx]) if not np.isnan(betas[valid_idx]) else 0.0,
+                    'se': float(se[valid_idx]) if not np.isnan(se[valid_idx]) else float('inf'),
+                    't_statistic': float(t_stats[valid_idx]) if not np.isnan(t_stats[valid_idx]) else 0.0,
+                    'maf': float(mafs[i])
+                }
+                valid_idx += 1
+            else:
+                res = {
+                    'p_value': 1.0,
+                    'beta': 0.0,
+                    'se': float('inf'),
+                    'maf': float(mafs[i])
+                }
+            results.append(res)
+
+        return results
+
     def association_test(self, genotypes: np.ndarray, phenotypes: np.ndarray,
                         covariates: np.ndarray = None) -> Dict:
         """Perform association test for single SNP
@@ -1101,15 +1173,12 @@ class GenomicsLab:
 
     def run_gwas(self, genotype_matrix: np.ndarray, phenotypes: np.ndarray) -> Dict:
         """Run genome-wide association study"""
-        results = []
+        # Use vectorized implementation for speedup
+        results = self.gwas.batch_association_test(genotype_matrix, phenotypes)
 
-        for snp_idx in range(genotype_matrix.shape[1]):
-            assoc = self.gwas.association_test(
-                genotype_matrix[:, snp_idx],
-                phenotypes
-            )
-            assoc['snp_idx'] = snp_idx
-            results.append(assoc)
+        # Add SNP index
+        for i, res in enumerate(results):
+            res['snp_idx'] = i
 
         # Multiple testing correction
         p_values = [r['p_value'] for r in results]
