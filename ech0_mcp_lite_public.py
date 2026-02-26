@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Any, List
 import subprocess
+import asyncio
 import json
 import time
 
@@ -54,19 +55,23 @@ def check_rate_limit(ip: str) -> bool:
     request_counts[ip].append(now)
     return True
 
-def ask_ech0_lite(prompt: str) -> str:
+async def ask_ech0_lite(prompt: str) -> str:
     """Limited ECH0 access - short responses only"""
     try:
         # Prepend instruction for concise response
         full_prompt = f"{prompt}\n\nProvide a brief, 2-3 sentence answer only."
 
-        result = subprocess.run(
-            ["timeout", "30", "ollama", "run", "ech0-uncensored-14b", full_prompt],
-            capture_output=True,
-            text=True,
-            check=True
+        process = await asyncio.create_subprocess_exec(
+            "timeout", "30", "ollama", "run", "ech0-uncensored-14b", full_prompt,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
         )
-        response = result.stdout.strip()
+        stdout, stderr = await process.communicate()
+
+        if process.returncode != 0:
+            raise subprocess.CalledProcessError(process.returncode, "timeout", output=stdout, stderr=stderr)
+
+        response = stdout.decode().strip()
 
         # Limit to 300 chars for free tier
         if len(response) > 300:
@@ -128,7 +133,7 @@ async def ask_ech0_lite_endpoint(request: QuestionRequest, req: Request):
             detail="Free tier: Questions limited to 200 chars. Upgrade for full access."
         )
 
-    response = ask_ech0_lite(request.question)
+    response = await ask_ech0_lite(request.question)
 
     return {
         "question": request.question,

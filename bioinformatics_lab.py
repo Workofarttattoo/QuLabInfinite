@@ -11,6 +11,12 @@ from typing import List, Tuple, Dict, Optional
 from scipy.spatial.distance import pdist, squareform
 from scipy.cluster.hierarchy import linkage, dendrogram
 import re
+from functools import lru_cache
+
+@lru_cache(maxsize=1024)
+def _compile_motif_pattern(motif_pattern: str) -> re.Pattern:
+    """Cache compiled regex patterns."""
+    return re.compile(motif_pattern.replace('N', '.'))
 
 @dataclass
 class BioinformaticsLab:
@@ -254,7 +260,7 @@ class BioinformaticsLab:
     def find_motifs(self, sequence: str, motif_pattern: str) -> List[int]:
         """Find all occurrences of a motif pattern in a sequence using regex."""
         positions = []
-        pattern = re.compile(motif_pattern.replace('N', '.'))
+        pattern = _compile_motif_pattern(motif_pattern)
 
         for match in pattern.finditer(sequence):
             positions.append(match.start())
