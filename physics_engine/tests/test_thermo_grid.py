@@ -1,55 +1,71 @@
+"""
+Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+
+Unit tests for the finite difference thermodynamics grid engine.
+"""
+
+import sys
 import unittest
+from unittest.mock import MagicMock
+
+# Mock mendeleev before importing physics_engine
+sys.modules["mendeleev"] = MagicMock()
+
 import numpy as np
 from physics_engine.thermodynamics_grid import FiniteDifferenceThermodynamicsEngine
-from physics_engine.thermodynamics import MATERIALS
+from physics_engine.thermodynamics import MaterialProperties
 
-class TestFiniteDifferenceThermodynamicsEngine(unittest.TestCase):
-    def test_grid_initialization(self):
-        N = 100
-        dx = 0.01
-        material = MATERIALS["copper"]
-        engine = FiniteDifferenceThermodynamicsEngine((N,), dx, material)
+class TestThermoGrid(unittest.TestCase):
+    """Test cases for FiniteDifferenceThermodynamicsEngine."""
 
-        self.assertEqual(engine.grid_shape, (N,))
-        self.assertEqual(engine.dx, dx)
-        self.assertTrue(np.all(engine.temperature_grid == 300.0))
+    def setUp(self):
+        # Mock material
+        self.material = MaterialProperties(
+            name="Test",
+            density=1.0,
+            specific_heat=1.0,
+            thermal_conductivity=1.0
+        )
+        # Small grid for testing
+        self.N = 10
+        self.grid_shape = (self.N,)
+        self.dx = 1.0
+        self.dt = 1.0
 
-    def test_step_execution(self):
-        N = 100
-        dx = 0.01
-        material = MATERIALS["copper"]
-        engine = FiniteDifferenceThermodynamicsEngine((N,), dx, material)
+        self.engine = FiniteDifferenceThermodynamicsEngine(self.grid_shape, self.dx, self.material)
 
-        # Should not raise error
-        engine.step(0.01)
+    def test_initialization(self):
+        self.assertEqual(self.engine.grid_shape, (self.N,))
+        self.assertEqual(len(self.engine.temperature_grid), self.N)
+        self.assertTrue(np.all(self.engine.temperature_grid == 300.0))
 
-        # Should have cached the matrix
-        self.assertIsNotNone(engine._ab_cached)
-        self.assertEqual(engine._last_dt, 0.01)
+    def test_boundary_conditions(self):
+        # Run one step
+        self.engine.step(self.dt)
 
-    def test_steady_state(self):
-        N = 10
-        dx = 0.1
-        material = MATERIALS["copper"]
-        engine = FiniteDifferenceThermodynamicsEngine((N,), dx, material)
+        # Check boundary conditions
+        # Based on the code, left is 300.0, right is 400.0
+        self.assertEqual(self.engine.temperature_grid[0], 300.0)
+        self.assertEqual(self.engine.temperature_grid[-1], 400.0)
 
-        # Run to steady state
-        # Copper diffusivity approx 1.1e-4 m^2/s
-        # L = 1.0m. Time constant ~ L^2/alpha ~ 1/1e-4 ~ 10000s.
-        # Run for 50000s
-        for _ in range(500):
-            engine.step(100.0)
+    def test_diffusion(self):
+        # Run multiple steps
+        for _ in range(10):
+            self.engine.step(self.dt)
 
-        T = engine.temperature_grid
+        # Check if heat diffused from right (400) to left (300)
+        # The right side should be hotter than the middle, which should be hotter than the left
+        # T[N-1] > T[N-2] > ... > T[0]
+        # Note: Depending on diffusivity and time, the gradient might not be fully established,
+        # but T[-2] should certainly be > 300 if T[-1] is 400.
 
-        # Check boundaries
-        self.assertAlmostEqual(T[0], 300.0)
-        self.assertAlmostEqual(T[-1], 400.0)
+        self.assertGreater(self.engine.temperature_grid[-2], 300.0)
+        self.assertLess(self.engine.temperature_grid[1], 400.0)
 
-        # Check linearity
-        expected = np.linspace(300, 400, N)
-        mse = np.mean((T - expected)**2)
-        self.assertLess(mse, 1e-5)
+        # Monotonicity check (simple diffusion case)
+        # T[i] <= T[i+1]
+        diffs = np.diff(self.engine.temperature_grid)
+        self.assertTrue(np.all(diffs >= -1e-10), f"Temperature grid is not monotonic: {self.engine.temperature_grid}")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

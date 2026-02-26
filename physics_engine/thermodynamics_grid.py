@@ -9,8 +9,6 @@ from __future__ import annotations
 from typing import Tuple, Optional, Callable
 import numpy as np
 from numpy.typing import NDArray
-from scipy.sparse import diags
-from scipy.sparse.linalg import spsolve
 from scipy.linalg import solve_banded
 
 from .thermodynamics import MaterialProperties, MATERIALS
@@ -20,6 +18,7 @@ class FiniteDifferenceThermodynamicsEngine:
     A grid-based thermodynamics engine for simulating heat transfer in continuous media.
     
     Uses the finite difference method to solve the heat equation.
+    Optimized to use cached banded matrices for tridiagonal systems.
     """
     def __init__(self, grid_shape: Tuple[int, ...], dx: float, material: MaterialProperties):
         self.grid_shape = grid_shape
@@ -31,9 +30,9 @@ class FiniteDifferenceThermodynamicsEngine:
             material.thermal_conductivity / (material.density * material.specific_heat)
         )
 
-        # Cache for solver matrix
-        self._ab_cached = None
-        self._last_dt = None
+        # Caching for performance optimization
+        self.cached_matrix = None
+        self.cached_dt = None
 
     def set_boundary_conditions(self, boundaries: dict):
         """
@@ -46,6 +45,37 @@ class FiniteDifferenceThermodynamicsEngine:
         # This is a placeholder for a more robust boundary condition system
         pass
 
+    def _build_banded_matrix(self, dt: float) -> NDArray[np.float64]:
+        """
+        Construct the banded matrix for the linear system.
+        """
+        N = self.grid_shape[0]
+        alpha = self.thermal_diffusivity
+        gamma = alpha * dt / (2 * self.dx**2)
+
+        # Banded matrix format (3, N) for tridiagonal
+        # Row 0: Upper diagonal (prefixed with 0, effectively shifted right)
+        # Row 1: Main diagonal
+        # Row 2: Lower diagonal (suffixed with 0, effectively shifted left)
+
+        ab = np.zeros((3, N))
+
+        # Fill diagonals
+        ab[0, 1:] = -gamma         # Upper diagonal: A[i, i+1]
+        ab[1, :] = 1 + 2 * gamma   # Main diagonal: A[i, i]
+        ab[2, :-1] = -gamma        # Lower diagonal: A[i, i-1]
+
+        # Apply Dirichlet boundary conditions (Identity rows)
+        # Row 0 (index 0): A[0,0]=1, A[0,1]=0
+        ab[1, 0] = 1.0
+        ab[0, 1] = 0.0
+
+        # Row N-1 (index N-1): A[N-1,N-1]=1, A[N-1,N-2]=0
+        ab[1, N-1] = 1.0
+        ab[2, N-2] = 0.0
+
+        return ab
+
     def step(self, dt: float):
         """
         Advance the simulation by one timestep using an implicit method.
@@ -55,53 +85,21 @@ class FiniteDifferenceThermodynamicsEngine:
             raise NotImplementedError("Only 1D grid is supported for now.")
             
         N = self.grid_shape[0]
-        alpha = self.thermal_diffusivity
         
-        # Implicit method for stability (Crank-Nicolson)
+        # Rebuild matrix if dt changes
+        if dt != self.cached_dt or self.cached_matrix is None:
+            self.cached_matrix = self._build_banded_matrix(dt)
+            self.cached_dt = dt
+
+        alpha = self.thermal_diffusivity
         gamma = alpha * dt / (2 * self.dx**2)
         
-        # Check cache
-        if self._ab_cached is None or dt != self._last_dt:
-            # Create banded matrix for solve_banded (3 x N)
-            # Row 0: Upper diagonal (starting from index 1)
-            # Row 1: Main diagonal
-            # Row 2: Lower diagonal (starting from index 0)
-
-            ab = np.zeros((3, N))
-
-            # Main diagonal
-            ab[1, :] = 1 + 2 * gamma
-            # Upper diagonal (A[i, i+1]) -> ab[0, i+1]
-            # Since solve_banded expects ab[u + i - j, j], for u=1, j=i+1 => 1 + i - (i+1) = 0
-            ab[0, 1:] = -gamma
-            # Lower diagonal (A[i, i-1]) -> ab[2, i-1]
-            # For l=1, j=i-1 => 1 + i - (i-1) = 2
-            ab[2, :-1] = -gamma
-
-            # Apply boundary conditions to matrix
-            # Left boundary (i=0): T[0] = T_left -> 1*T[0] + 0*T[1] = T_left
-            ab[1, 0] = 1.0  # Main diagonal
-            ab[0, 1] = 0.0  # Upper diagonal A[0, 1]
-
-            # Right boundary (i=N-1): T[N-1] = T_right -> 0*T[N-2] + 1*T[N-1] = T_right
-            ab[1, N-1] = 1.0 # Main diagonal
-            ab[2, N-2] = 0.0 # Lower diagonal A[N-1, N-2]
-
-            self._ab_cached = ab
-            self._last_dt = dt
-
-        # Create the right-hand side vector
+        # Create the right-hand side vector d
         d = np.zeros(N)
         T = self.temperature_grid
 
-        # Vectorized update for internal nodes
-        # Crank-Nicolson RHS: (1-2*gamma)*T[i] + gamma*(T[i-1] + T[i+1]) ??
-        # Wait, the original code had:
-        # d[1:-1] = gamma * T[:-2] + (1 - 2 * gamma) * T[1:-1] + gamma * T[2:]
-        # This matches explicit Euler or part of Crank-Nicolson depending on formulation.
-        # Assuming the original math was intended (it looks like CN mixed with explicit):
-        # A * T_new = B * T_old
-        # The code builds 'd' which is B * T_old.
+        # Standard Crank-Nicolson RHS: (I - A_explicit) * T_old
+        # d[i] = gamma*T[i-1] + (1-2gamma)*T[i] + gamma*T[i+1]
         d[1:-1] = gamma * T[:-2] + (1 - 2 * gamma) * T[1:-1] + gamma * T[2:]
         
         # Apply boundary conditions (Dirichlet) to RHS
@@ -110,5 +108,6 @@ class FiniteDifferenceThermodynamicsEngine:
         d[0] = T_left
         d[N-1] = T_right
         
-        # Solve the linear system using banded solver (O(N))
-        self.temperature_grid = solve_banded((1, 1), self._ab_cached, d)
+        # Solve the linear system using the specialized banded solver
+        # (1, 1) specifies the number of lower and upper diagonals
+        self.temperature_grid = solve_banded((1, 1), self.cached_matrix, d)
