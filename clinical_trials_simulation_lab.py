@@ -489,28 +489,63 @@ class ClinicalTrialsSimulationLab:
         # Initialize coefficients
         beta = np.zeros(n_covariates)
 
+        # Sort by time descending (optimization)
+        order = np.argsort(-times)
+        times_sorted = times[order]
+        events_sorted = events[order]
+        covariates_sorted = covariates[order]
+
         # Newton-Raphson iteration (simplified)
         for _ in range(10):  # Maximum iterations
             # Calculate risk scores
-            risk_scores = np.exp(covariates @ beta)
+            risk_scores = np.exp(covariates_sorted @ beta)
 
             # Calculate partial likelihood derivatives
             gradient = np.zeros(n_covariates)
             hessian = np.zeros((n_covariates, n_covariates))
 
-            for i in range(n_patients):
-                if events[i]:
-                    # Risk set
-                    at_risk = times >= times[i]
-                    risk_sum = np.sum(risk_scores[at_risk])
+            # Accumulators for efficient risk set calculation
+            # Process from largest time (smallest risk set) to smallest time (largest risk set)
+            # Risk set for time t includes all subjects with time >= t
 
-                    if risk_sum > 0:
-                        # First derivative
-                        weighted_cov = np.sum(
-                            covariates[at_risk] * risk_scores[at_risk].reshape(-1, 1),
-                            axis=0
-                        ) / risk_sum
-                        gradient += covariates[i] - weighted_cov
+            current_risk_sum = 0.0
+            current_weighted_cov_sum = np.zeros(n_covariates)
+
+            i = 0
+            while i < n_patients:
+                # Identify block of tied times
+                j = i
+                while j < n_patients and times_sorted[j] == times_sorted[i]:
+                    j += 1
+
+                # Block is i:j
+                # Add current block to risk set accumulators
+                # Because we are traversing descending times, these new patients enter the risk set
+                # for themselves and all subsequent (smaller time) patients.
+
+                block_risk_scores = risk_scores[i:j]
+                block_covariates = covariates_sorted[i:j]
+
+                block_risk_sum = np.sum(block_risk_scores)
+
+                # Weighted sum: sum(cov * score)
+                block_weighted_cov_sum = np.sum(block_covariates * block_risk_scores.reshape(-1, 1), axis=0)
+
+                current_risk_sum += block_risk_sum
+                current_weighted_cov_sum += block_weighted_cov_sum
+
+                # Process events in this block
+                events_in_block_mask = events_sorted[i:j].astype(bool)
+                if np.any(events_in_block_mask) and current_risk_sum > 0:
+                    weighted_cov_mean = current_weighted_cov_sum / current_risk_sum
+
+                    # Sum of covariates for the events in this block
+                    event_covariates_sum = np.sum(block_covariates[events_in_block_mask], axis=0)
+                    num_events_in_block = np.sum(events_in_block_mask)
+
+                    gradient += event_covariates_sum - (weighted_cov_mean * num_events_in_block)
+
+                i = j
 
             # Update beta (simplified - actual implementation needs Hessian)
             beta += 0.1 * gradient / n_patients

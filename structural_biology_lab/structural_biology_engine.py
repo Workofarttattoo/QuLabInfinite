@@ -1,6 +1,6 @@
 # Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
-from nist_constants import *
+from nist_constants import BOLTZMANN_CONSTANT, AVOGADRO_CONSTANT, GAS_CONSTANT, ATOMIC_MASS_UNIT
 
 """
 Structural Biology Engine - Molecular dynamics, docking, structure prediction
@@ -68,9 +68,9 @@ class StructuralBiologyEngine:
 
     def __init__(self):
         """Initialize structural biology engine"""
-        self.kb = 1.380649e-23  # Boltzmann constant (J/K)
-        self.NA = 6.02214076e23  # Avogadro's number
-        self.R = 8.314  # Gas constant (J/(mol*K))
+        self.kb = BOLTZMANN_CONSTANT  # Boltzmann constant (J/K)
+        self.NA = AVOGADRO_CONSTANT  # Avogadro's number
+        self.R = GAS_CONSTANT  # Gas constant (J/(mol*K))
 
     def calculate_protein_mass(self, sequence: str) -> Dict:
         """
@@ -423,7 +423,7 @@ def run_structural_biology_demo():
     positions = np.random.randn(n_atoms, 3)
     velocities = np.random.randn(n_atoms, 3) * 1000
     forces = np.random.randn(n_atoms, 3) * 1e-10
-    masses = np.ones(n_atoms) * 12.0 * 1.66054e-27  # Carbon atoms
+    masses = np.ones(n_atoms) * 12.0 * ATOMIC_MASS_UNIT  # Carbon atoms
 
     md_step = engine.molecular_dynamics_step(
         positions=positions,

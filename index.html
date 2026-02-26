@@ -80,6 +80,25 @@
             font-weight: 600;
         }
 
+        .search-input {
+            width: 100%;
+            background: rgba(148, 163, 184, 0.12);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            color: var(--text);
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-top: 16px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(124, 244, 164, 0.05);
+        }
+
         .lab-list {
             margin-top: 24px;
             overflow-y: auto;
@@ -94,6 +113,24 @@
         .lab-list::-webkit-scrollbar-thumb {
             background: rgba(148, 163, 184, 0.3);
             border-radius: 999px;
+        }
+
+        .lab-search {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(148, 163, 184, 0.12);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .lab-search:focus {
+            border-color: var(--accent);
+            background: rgba(124, 244, 164, 0.08);
         }
 
         .lab-item {
@@ -116,6 +153,13 @@
         .lab-item:hover {
             border-color: var(--accent);
             background: rgba(124, 244, 164, 0.08);
+        }
+
+        .lab-item:focus-visible {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(124, 244, 164, 0.08);
+            box-shadow: 0 0 0 2px var(--accent-soft);
         }
 
         .lab-item.active {
@@ -168,6 +212,11 @@
 
         .open-lab:hover {
             transform: translateY(-2px) scale(1.02);
+        }
+
+        .open-lab:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
 
         .lab-stage {
@@ -346,6 +395,54 @@
             font-size: 0.8rem;
             background: rgba(148, 163, 184, 0.16);
             color: var(--text);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        button.chip {
+            border: 1px solid transparent;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button.chip:hover, button.chip:focus {
+            background: rgba(148, 163, 184, 0.3);
+            border-color: var(--accent-soft);
+            outline: none;
+        }
+
+        button.chip:focus-visible {
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        button.prompt-send {
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button.prompt-send:hover, button.prompt-send:focus {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        button.prompt-send:focus-visible {
+            box-shadow: 0 0 0 2px var(--text);
+        }
+
+        button.prompt-send:active {
+            transform: scale(0.95);
         }
 
         .footer {
@@ -379,6 +476,10 @@
                 <div class="brand">QuLab <span>Infinite</span></div>
                 <p class="sidebar-subtitle">Active labs, ready for natural language exploration.</p>
                 <div class="lab-count">Active Labs <span id="labCount">0</span></div>
+                <input type="text" id="labSearch" class="search-input" placeholder="Filter labs..." aria-label="Filter labs">
+            </div>
+            <div style="padding: 12px 0 4px 0;">
+                <input type="text" id="labSearch" class="lab-search" placeholder="Filter labs..." aria-label="Filter labs">
             </div>
             <div class="lab-list" id="labList" aria-label="Active labs list"></div>
             <div class="footer">
@@ -391,7 +492,7 @@
                     <h1 class="lab-title" id="labTitle">GAVL Materials Forge</h1>
                     <p class="lab-subtitle" id="labSubtitle">Ask for novel material stacks, tuned parameters, and experimental combos. Every lab keeps the same natural language flow while presenting its own instrument mat.</p>
                 </div>
-                <a class="open-lab" id="labLink" href="#" target="_blank" rel="noopener">Open lab chat</a>
+                <a class="open-lab" id="labLink" href="#" target="_blank" rel="noopener" aria-label="Open lab chat (opens in new tab)">Open lab chat</a>
             </header>
             <section class="lab-stage">
                 <div class="lab-frame frame-aurora" id="labFrame">
@@ -404,8 +505,8 @@
                         <div class="message user">Show me a lightweight, high-strength composite with thermal stability above 900°C.</div>
                         <div class="message assistant">Drafting a carbon-ceramic laminate with aerogel cores and graphene-reinforced seams. I can tune density, weave pattern, and catalyst routes. Want a manufacturing path or performance sweep?</div>
                         <div class="prompt-bar">
-                            <span class="prompt-input">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
-                            <span class="prompt-send">Send</span>
+                            <span class="prompt-input" id="promptInput" role="textbox" aria-placeholder="Type a new request">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
+                            <button class="prompt-send" id="promptSend" type="button" aria-label="Send request">Send</button>
                         </div>
                     </div>
                 </div>
@@ -425,9 +526,9 @@
                     <div class="detail-section">
                         <h3>Quick prompts</h3>
                         <div class="chip-group" id="promptChips">
-                            <span class="chip">"Design a bioactive scaffold with tunable porosity."</span>
-                            <span class="chip">"Mix superconductors with nano-ceramics."</span>
-                            <span class="chip">"Find a catalyst for low-temp CO₂ conversion."</span>
+                            <button class="chip" type="button">"Design a bioactive scaffold with tunable porosity."</button>
+                            <button class="chip" type="button">"Mix superconductors with nano-ceramics."</button>
+                            <button class="chip" type="button">"Find a catalyst for low-temp CO₂ conversion."</button>
                         </div>
                     </div>
                     <div class="detail-section">
@@ -554,6 +655,7 @@
         const frameTitle = document.getElementById('frameTitle');
         const labFocus = document.getElementById('labFocus');
         const labCount = document.getElementById('labCount');
+        const labSearch = document.getElementById('labSearch');
 
         const focusLines = [
             'Advanced materials planning, combinatorial synthesis, and validation-ready outputs.',
@@ -586,23 +688,114 @@
             frameTitle.textContent = `${lab.name} • Natural Language Console`;
             labFocus.textContent = focusLines[index % focusLines.length];
 
-            [...labList.children].forEach((item) => item.classList.remove('active'));
+            [...labList.children].forEach((item) => {
+                item.classList.remove('active');
+                item.removeAttribute('aria-current');
+            });
             const active = labList.children[index];
             if (active) {
                 active.classList.add('active');
+                active.setAttribute('aria-current', 'true');
             }
         };
 
-        labs.forEach((lab, index) => {
-            const item = document.createElement('button');
-            item.type = 'button';
-            item.className = 'lab-item';
-            item.innerHTML = `<strong>${lab.name}</strong><small>Natural language lab chat</small>`;
-            item.addEventListener('click', () => selectLab(lab, index));
-            labList.appendChild(item);
+        renderLabs();
+
+        labSearch.addEventListener('input', (e) => {
+            renderLabs(e.target.value);
+        });
+
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const text = chip.textContent.replace(/^"|"$/g, ''); // Remove quotes
+                document.querySelector('.prompt-input').textContent = text;
+            });
         });
 
         selectLab(labs[0], 0);
+
+        // Interactive Prompt System
+        const promptInput = document.getElementById('promptInput');
+        const promptSend = document.getElementById('promptSend');
+        const chatWindow = document.getElementById('chatWindow');
+        const promptBar = document.querySelector('.prompt-bar');
+
+        // Make input editable
+        promptInput.contentEditable = true;
+        const defaultPlaceholder = promptInput.textContent;
+
+        const setInputActive = () => {
+            if (promptInput.textContent === defaultPlaceholder) {
+                promptInput.textContent = '';
+            }
+            promptInput.style.color = 'var(--text)';
+            promptInput.focus();
+        };
+
+        const resetInput = () => {
+            promptInput.textContent = defaultPlaceholder;
+            promptInput.style.color = 'var(--muted)';
+        };
+
+        // Handle Focus/Blur for Placeholder
+        promptInput.addEventListener('focus', () => {
+            if (promptInput.textContent === defaultPlaceholder) {
+                promptInput.textContent = '';
+                promptInput.style.color = 'var(--text)';
+            }
+        });
+
+        promptInput.addEventListener('blur', () => {
+            if (promptInput.textContent.trim() === '') {
+                resetInput();
+            }
+        });
+
+        promptInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+
+        // Quick Prompts
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const text = chip.textContent.replace(/^"|"$/g, ''); // Strip quotes
+                setInputActive();
+                promptInput.textContent = text;
+            });
+        });
+
+        // Send Logic
+        const handleSend = () => {
+            const text = promptInput.textContent;
+            if (!text || text === defaultPlaceholder || text.trim() === '') return;
+
+            // Add User Message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.textContent = text;
+            chatWindow.insertBefore(userMsg, promptBar);
+
+            // Clear Input
+            resetInput();
+            promptInput.blur(); // Remove focus to show placeholder style correctly
+
+            // Scroll to bottom
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // Simulate Assistant Response
+            setTimeout(() => {
+                const assistantMsg = document.createElement('div');
+                assistantMsg.className = 'message assistant';
+                assistantMsg.textContent = "Analyzing request parameters... (Simulation Mode)";
+                chatWindow.insertBefore(assistantMsg, promptBar);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, 800);
+        };
+
+        promptSend.addEventListener('click', handleSend);
     </script>
 </body>
 </html>

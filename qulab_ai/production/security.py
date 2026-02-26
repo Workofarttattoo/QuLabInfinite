@@ -8,6 +8,7 @@ import json
 import os
 import secrets
 import time
+from abc import ABC, abstractmethod
 from collections import defaultdict
 from datetime import datetime, timedelta
 from threading import Lock
@@ -22,7 +23,7 @@ from qulab_ai.production.logging_config import get_logger
 logger = get_logger("security")
 
 # Security configuration
-SECRET_KEY = secrets.token_urlsafe(32)  # In production, load from environment
+SECRET_KEY = os.environ.get("QULAB_SECRET_KEY", secrets.token_urlsafe(32))
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 REFRESH_TOKEN_EXPIRE_DAYS = 7
@@ -297,12 +298,14 @@ class SecurityManager:
         return "standard"
 
 
-class RateLimitStore:
+class RateLimitStore(ABC):
     """Abstract rate limit storage"""
 
+    @abstractmethod
     def record_request(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
         raise NotImplementedError
 
+    @abstractmethod
     def get_request_count(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
         raise NotImplementedError
 

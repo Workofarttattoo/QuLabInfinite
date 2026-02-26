@@ -26,9 +26,13 @@ class PhysicsControls(QWidget):
             "elastic_collision",
             "heat_conduction"
         ])
+        self.sim_selector.setToolTip("Select a physics benchmark simulation to run.")
+        self.sim_selector.setStatusTip("Select a physics benchmark simulation to run.")
         sim_layout.addWidget(self.sim_selector)
 
         self.run_button = QPushButton("Run Simulation")
+        self.run_button.setToolTip("Start the selected simulation.")
+        self.run_button.setStatusTip("Start the selected simulation.")
         sim_layout.addWidget(self.run_button)
         
         layout.addWidget(sim_group)
@@ -41,6 +45,8 @@ class PhysicsControls(QWidget):
         self.gravity_input.setRange(-100.0, 100.0)
         self.gravity_input.setValue(-9.81)
         self.gravity_input.setSuffix(" m/s²")
+        self.gravity_input.setToolTip("Acceleration due to gravity (Z-axis). Standard Earth gravity is -9.81 m/s².")
+        self.gravity_input.setStatusTip("Set the acceleration due to gravity along the Z-axis.")
         params_layout.addRow("Gravity (Z):", self.gravity_input)
 
         self.timestep_input = QDoubleSpinBox()
@@ -49,12 +55,16 @@ class PhysicsControls(QWidget):
         self.timestep_input.setValue(0.001)
         self.timestep_input.setSingleStep(0.001)
         self.timestep_input.setSuffix(" s")
+        self.timestep_input.setToolTip("Time step for the simulation integration (delta time). Smaller values are more accurate but slower.")
+        self.timestep_input.setStatusTip("Set the simulation time step (dt).")
         params_layout.addRow("Timestep:", self.timestep_input)
 
         self.restitution_input = QDoubleSpinBox()
         self.restitution_input.setRange(0.0, 1.0)
         self.restitution_input.setValue(0.8)
         self.restitution_input.setSingleStep(0.1)
+        self.restitution_input.setToolTip("Coefficient of restitution (bounciness). 1.0 is perfectly elastic, 0.0 is perfectly inelastic.")
+        self.restitution_input.setStatusTip("Set the coefficient of restitution (bounciness) for collisions.")
         params_layout.addRow("Restitution:", self.restitution_input)
 
         layout.addWidget(params_group)
