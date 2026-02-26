@@ -98,6 +98,25 @@ python app.py
 
 ---
 
+
+## 📊 Phase 4 Benchmark Clean-Up (Reproducibility > Leaderboards)
+
+Run reproducible MMLU/ARC subsets with full prompt/output/hardware logging:
+
+```bash
+python benchmarks/reproducibility/run_llm_repro_benchmark.py \
+  --dataset mmlu \
+  --mmlu-subject college_physics \
+  --split test \
+  --limit 50 \
+  --model ech0-polymath-14b \
+  --backend ollama
+```
+
+See `benchmarks/reproducibility/README.md` for the complete workflow and GitHub-ready reproducibility bundle output.
+
+---
+
 ## 📄 Intellectual Property
 
 **Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light).**
