@@ -31,9 +31,12 @@ from enum import Enum
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.responses import JSONResponse
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, Field
+
+from core.security import load_api_keys_from_env
 
 # Configure logging
 logging.basicConfig(
@@ -641,6 +644,32 @@ app = FastAPI(
 analyzer = VariantImpactAnalyzer()
 risk_calculator = PolygenicRiskCalculator()
 
+# Security Setup
+security = HTTPBearer()
+
+def _get_valid_api_keys():
+    """Load and cache valid API keys from environment"""
+    try:
+        keys = load_api_keys_from_env("QU_LAB_MASTER_KEYS")
+        return {key: {"tier": "standard"} for key in keys}
+    except Exception as e:
+        LOG.warning(f"Security initialized with zero keys: {e}")
+        return {}
+
+VALID_API_KEYS = _get_valid_api_keys()
+
+async def verify_api_key(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
+    """Verify API key and return user info"""
+    api_key = credentials.credentials
+
+    if api_key not in VALID_API_KEYS:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or missing API key"
+        )
+
+    return VALID_API_KEYS[api_key]
+
 # Request/Response models
 class VariantRequest(BaseModel):
     gene: str = Field(..., description="Gene symbol (e.g., BRCA1)")
@@ -682,7 +711,7 @@ async def root():
     }
 
 
-@app.post("/analyze/variant")
+@app.post("/analyze/variant", dependencies=[Depends(verify_api_key)])
 async def analyze_variant_endpoint(request: VariantRequest):
     """Analyze impact of a single genetic variant"""
     try:
@@ -727,7 +756,7 @@ async def analyze_variant_endpoint(request: VariantRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/analyze/batch")
+@app.post("/analyze/batch", dependencies=[Depends(verify_api_key)])
 async def analyze_batch_endpoint(request: BatchVariantRequest):
     """Analyze multiple variants in batch"""
     try:
@@ -760,7 +789,7 @@ async def analyze_batch_endpoint(request: BatchVariantRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/risk/polygenic")
+@app.post("/risk/polygenic", dependencies=[Depends(verify_api_key)])
 async def calculate_polygenic_risk_endpoint(request: PolygenicRiskRequest):
     """Calculate polygenic risk score for a disease"""
     try:
@@ -785,7 +814,7 @@ async def calculate_polygenic_risk_endpoint(request: PolygenicRiskRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/demo/brca")
+@app.get("/demo/brca", dependencies=[Depends(verify_api_key)])
 async def demo_brca():
     """Demo: Analyze BRCA1/2 pathogenic variants"""
     variants = [
@@ -836,7 +865,7 @@ async def demo_brca():
     return {"demo": "BRCA1/2 Analysis", "results": results}
 
 
-@app.get("/demo/apoe4")
+@app.get("/demo/apoe4", dependencies=[Depends(verify_api_key)])
 async def demo_apoe4():
     """Demo: Analyze APOE4 Alzheimer's risk"""
     # APOE4/4 genotype (highest AD risk)
@@ -856,7 +885,7 @@ async def demo_apoe4():
     }
 
 
-@app.get("/demo/cyp2d6")
+@app.get("/demo/cyp2d6", dependencies=[Depends(verify_api_key)])
 async def demo_cyp2d6():
     """Demo: Analyze CYP2D6 drug metabolism"""
     variant = GeneticVariant(
