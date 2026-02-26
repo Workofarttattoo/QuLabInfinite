@@ -363,9 +363,9 @@ class CryptographyLab:
         if len(leaves) == 1:
             return leaves[0]
 
-        # Pad to even number
+        # Pad to even number (without modifying original list)
         if len(leaves) % 2 == 1:
-            leaves.append(leaves[-1])
+            leaves = leaves + [leaves[-1]]
 
         # Build next level
         next_level = []
