@@ -727,31 +727,46 @@ async def analyze_variant_endpoint(request: VariantRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+def process_batch_variants(variants: List[VariantRequest]) -> List[Dict]:
+    """
+    Process variants synchronously.
+    Extracted for execution in thread pool.
+    """
+    results = []
+    for var_req in variants:
+        variant = GeneticVariant(
+            gene=var_req.gene,
+            chromosome=var_req.chromosome,
+            position=var_req.position,
+            ref_allele=var_req.ref_allele,
+            alt_allele=var_req.alt_allele,
+            variant_type=var_req.variant_type,
+            rsid=var_req.rsid,
+            genotype=var_req.genotype
+        )
+
+        impact = analyzer.analyze_variant(variant)
+        results.append({
+            "gene": variant.gene,
+            "rsid": variant.rsid,
+            "clinical_significance": impact.clinical_significance.value,
+            "function_score": round(impact.function_score, 3),
+            "recommendations_count": len(impact.recommendations)
+        })
+    return results
+
+
 @app.post("/analyze/batch")
 async def analyze_batch_endpoint(request: BatchVariantRequest):
     """Analyze multiple variants in batch"""
     try:
-        results = []
-        for var_req in request.variants:
-            variant = GeneticVariant(
-                gene=var_req.gene,
-                chromosome=var_req.chromosome,
-                position=var_req.position,
-                ref_allele=var_req.ref_allele,
-                alt_allele=var_req.alt_allele,
-                variant_type=var_req.variant_type,
-                rsid=var_req.rsid,
-                genotype=var_req.genotype
-            )
-
-            impact = analyzer.analyze_variant(variant)
-            results.append({
-                "gene": variant.gene,
-                "rsid": variant.rsid,
-                "clinical_significance": impact.clinical_significance.value,
-                "function_score": round(impact.function_score, 3),
-                "recommendations_count": len(impact.recommendations)
-            })
+        loop = asyncio.get_running_loop()
+        # Offload CPU-bound batch processing to thread pool
+        results = await loop.run_in_executor(
+            None,
+            process_batch_variants,
+            request.variants
+        )
 
         return {"analyzed": len(results), "results": results}
 
