@@ -450,6 +450,7 @@ class KnowledgeSharing:
         self.agent_registry = agent_registry
         self.knowledge_base: Dict[str, Any] = {}
         self.subscriptions: Dict[str, Set[str]] = defaultdict(set)  # topic -> agent_ids
+        self.callback_subscriptions: Dict[str, List[Callable[[Dict[str, Any]], None]]] = defaultdict(list)
         self.broadcasts: List[Dict[str, Any]] = []
 
     def subscribe(self, agent_id: str, topic: str) -> None:
@@ -457,9 +458,22 @@ class KnowledgeSharing:
         self.subscriptions[topic].add(agent_id)
         LOG.info(f"[info] Agent {agent_id} subscribed to topic '{topic}'")
 
+    def subscribe_callback(self, topic: str, callback: Callable[[Dict[str, Any]], None]) -> None:
+        """Subscribe a callback function to a knowledge topic"""
+        if callback not in self.callback_subscriptions[topic]:
+            self.callback_subscriptions[topic].append(callback)
+            LOG.info(f"[info] Callback subscribed to topic '{topic}'")
+        else:
+            LOG.info(f"[info] Callback already subscribed to topic '{topic}'")
+
     def unsubscribe(self, agent_id: str, topic: str) -> None:
         """Unsubscribe agent from topic"""
         self.subscriptions[topic].discard(agent_id)
+
+    def unsubscribe_callback(self, topic: str, callback: Callable[[Dict[str, Any]], None]) -> None:
+        """Unsubscribe a callback function from a topic"""
+        if callback in self.callback_subscriptions[topic]:
+            self.callback_subscriptions[topic].remove(callback)
 
     def publish(self, topic: str, data: Dict[str, Any], source_agent: str) -> None:
         """Publish knowledge to topic"""
@@ -476,14 +490,22 @@ class KnowledgeSharing:
             self.knowledge_base[topic] = []
         self.knowledge_base[topic].append(broadcast)
 
-        # Notify subscribers
+        # Notify agent subscribers
         subscribers = self.subscriptions.get(topic, set())
         for agent_id in subscribers:
             agent_instance = self.agent_registry.get_agent_instance(agent_id)
             if agent_instance and hasattr(agent_instance, 'process_broadcast'):
                 agent_instance.process_broadcast(topic, data)
+
+        # Notify callback subscribers
+        callbacks = self.callback_subscriptions.get(topic, [])
+        for callback in list(callbacks):
+            try:
+                callback(data)
+            except Exception as e:
+                LOG.error(f"[error] Error in callback for topic '{topic}': {e}")
         
-        LOG.info(f"[info] Knowledge published to topic '{topic}' by {source_agent}, {len(subscribers)} subscribers notified")
+        LOG.info(f"[info] Knowledge published to topic '{topic}' by {source_agent}, {len(subscribers)} agents and {len(callbacks)} callbacks notified")
 
     def query(self, topic: str, filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
         """Query knowledge base"""
