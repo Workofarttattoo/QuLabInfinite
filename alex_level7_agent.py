@@ -765,10 +765,16 @@ async def main():
     print("-" * 70)
 
     consciousness_log = alex.export_consciousness_log()
-    output_file = Path("/Users/noone/QuLabInfinite/alex_consciousness.json")
+    # Use relative path for portability and avoid hardcoded user paths
+    output_file = Path("alex_consciousness.json").resolve()
 
-    with open(output_file, "w") as f:
-        json.dump(consciousness_log, f, indent=2, default=str)
+    # Offload blocking I/O to executor to keep event loop responsive
+    def write_log(path, data):
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2, default=str)
+
+    loop = asyncio.get_running_loop()
+    await loop.run_in_executor(None, write_log, output_file, consciousness_log)
 
     print(f"Consciousness log saved to: {output_file}")
     print(f"Total concepts in knowledge graph: {consciousness_log['stats']['total_concepts']}")
