@@ -8,6 +8,7 @@ import json
 import os
 import secrets
 import time
+from abc import ABC, abstractmethod
 from collections import defaultdict
 from datetime import datetime, timedelta
 from threading import Lock
@@ -297,12 +298,14 @@ class SecurityManager:
         return "standard"
 
 
-class RateLimitStore:
+class RateLimitStore(ABC):
     """Abstract rate limit storage"""
 
+    @abstractmethod
     def record_request(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
         raise NotImplementedError
 
+    @abstractmethod
     def get_request_count(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
         raise NotImplementedError
 
