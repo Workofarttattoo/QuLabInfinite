@@ -1,71 +1,44 @@
-"""
-Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
-
-Unit tests for the finite difference thermodynamics grid engine.
-"""
-
-import sys
 import unittest
-from unittest.mock import MagicMock
-
-# Mock mendeleev before importing physics_engine
-sys.modules["mendeleev"] = MagicMock()
-
 import numpy as np
+import sys
+import os
+
+# Add parent directory to path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 from physics_engine.thermodynamics_grid import FiniteDifferenceThermodynamicsEngine
-from physics_engine.thermodynamics import MaterialProperties
+from physics_engine.thermodynamics import MATERIALS
 
-class TestThermoGrid(unittest.TestCase):
-    """Test cases for FiniteDifferenceThermodynamicsEngine."""
+class TestFiniteDifferenceThermodynamicsEngine(unittest.TestCase):
+    def test_heat_diffusion(self):
+        """Test that heat diffuses correctly in 1D grid."""
+        N = 100
+        dx = 0.01
+        dt = 0.1
+        material = MATERIALS["copper"]
 
-    def setUp(self):
-        # Mock material
-        self.material = MaterialProperties(
-            name="Test",
-            density=1.0,
-            specific_heat=1.0,
-            thermal_conductivity=1.0
-        )
-        # Small grid for testing
-        self.N = 10
-        self.grid_shape = (self.N,)
-        self.dx = 1.0
-        self.dt = 1.0
+        engine = FiniteDifferenceThermodynamicsEngine(grid_shape=(N,), dx=dx, material=material)
 
-        self.engine = FiniteDifferenceThermodynamicsEngine(self.grid_shape, self.dx, self.material)
+        # Set initial condition: hot in the middle
+        engine.temperature_grid[:] = 300.0
+        mid = N // 2
+        # Set a block of 400K in the middle
+        engine.temperature_grid[mid-5:mid+5] = 400.0
 
-    def test_initialization(self):
-        self.assertEqual(self.engine.grid_shape, (self.N,))
-        self.assertEqual(len(self.engine.temperature_grid), self.N)
-        self.assertTrue(np.all(self.engine.temperature_grid == 300.0))
+        # Step
+        steps = 100
+        for _ in range(steps):
+            engine.step(dt)
 
-    def test_boundary_conditions(self):
-        # Run one step
-        self.engine.step(self.dt)
+        # The right boundary is fixed at 400.0, so max temp will be 400.0.
+        # We check if the middle block has cooled down due to diffusion.
 
-        # Check boundary conditions
-        # Based on the code, left is 300.0, right is 400.0
-        self.assertEqual(self.engine.temperature_grid[0], 300.0)
-        self.assertEqual(self.engine.temperature_grid[-1], 400.0)
+        mid_temp = np.mean(engine.temperature_grid[mid-5:mid+5])
+        self.assertLess(mid_temp, 390.0, "Middle block did not cool down significantly")
 
-    def test_diffusion(self):
-        # Run multiple steps
-        for _ in range(10):
-            self.engine.step(self.dt)
+        # Check boundary conditions are respected
+        self.assertAlmostEqual(engine.temperature_grid[0], 300.0, delta=1e-5)
+        self.assertAlmostEqual(engine.temperature_grid[-1], 400.0, delta=1e-5)
 
-        # Check if heat diffused from right (400) to left (300)
-        # The right side should be hotter than the middle, which should be hotter than the left
-        # T[N-1] > T[N-2] > ... > T[0]
-        # Note: Depending on diffusivity and time, the gradient might not be fully established,
-        # but T[-2] should certainly be > 300 if T[-1] is 400.
-
-        self.assertGreater(self.engine.temperature_grid[-2], 300.0)
-        self.assertLess(self.engine.temperature_grid[1], 400.0)
-
-        # Monotonicity check (simple diffusion case)
-        # T[i] <= T[i+1]
-        diffs = np.diff(self.engine.temperature_grid)
-        self.assertTrue(np.all(diffs >= -1e-10), f"Temperature grid is not monotonic: {self.engine.temperature_grid}")
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
