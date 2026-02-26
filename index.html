@@ -155,6 +155,13 @@
             background: rgba(124, 244, 164, 0.08);
         }
 
+        .lab-item:focus-visible {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(124, 244, 164, 0.08);
+            box-shadow: 0 0 0 2px var(--accent-soft);
+        }
+
         .lab-item.active {
             border-color: var(--accent);
             background: rgba(124, 244, 164, 0.16);
@@ -205,6 +212,11 @@
 
         .open-lab:hover {
             transform: translateY(-2px) scale(1.02);
+        }
+
+        .open-lab:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
 
         .lab-stage {
@@ -676,35 +688,15 @@
             frameTitle.textContent = `${lab.name} • Natural Language Console`;
             labFocus.textContent = focusLines[index % focusLines.length];
 
-            // Update active state in list by matching name
             [...labList.children].forEach((item) => {
-                const title = item.querySelector('strong').textContent;
-                if (title === lab.name) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
+                item.classList.remove('active');
+                item.removeAttribute('aria-current');
             });
-        };
-
-        const renderLabs = (filterText = '') => {
-            labList.innerHTML = '';
-            const filtered = labs.filter(lab =>
-                lab.name.toLowerCase().includes(filterText.toLowerCase())
-            );
-
-            filtered.forEach((lab) => {
-                const originalIndex = labs.indexOf(lab);
-                const item = document.createElement('button');
-                item.type = 'button';
-                item.className = 'lab-item';
-                if (labTitle.textContent === lab.name) {
-                    item.classList.add('active');
-                }
-                item.innerHTML = `<strong>${lab.name}</strong><small>Natural language lab chat</small>`;
-                item.addEventListener('click', () => selectLab(lab, originalIndex));
-                labList.appendChild(item);
-            });
+            const active = labList.children[index];
+            if (active) {
+                active.classList.add('active');
+                active.setAttribute('aria-current', 'true');
+            }
         };
 
         renderLabs();

@@ -1,3 +1,3 @@
-## 2025-02-12 - [Mock Dashboard Interactivity]
-**Learning:** Converting static 'chip' elements to buttons significantly improves perceived quality of a dashboard mock, even if the backend is simulated. Users expect chips to be clickable filters or inputs.
-**Action:** Always use `<button>` for chip-like elements that trigger actions, and provide immediate visual feedback (populating input) to validate the interaction.
+## 2026-02-23 - Missing Focus States in Custom Navigation
+**Learning:** The custom button implementation for lab items completely lacks keyboard focus indicators, making navigation impossible for keyboard users. This is a critical pattern failure in this design system.
+**Action:** Always verify custom interactive elements like `.lab-item` have explicit `:focus-visible` styles matching their hover states.
