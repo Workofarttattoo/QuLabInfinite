@@ -1,40 +1,55 @@
-
 import unittest
 import numpy as np
 from physics_engine.thermodynamics_grid import FiniteDifferenceThermodynamicsEngine
-from physics_engine.thermodynamics import MaterialProperties
+from physics_engine.thermodynamics import MATERIALS
 
 class TestFiniteDifferenceThermodynamicsEngine(unittest.TestCase):
-    def test_initialization(self):
-        material = MaterialProperties(
-            name="Test", density=1000, specific_heat=1000, thermal_conductivity=10
-        )
-        engine = FiniteDifferenceThermodynamicsEngine((10,), 0.1, material)
-        self.assertEqual(engine.grid_shape, (10,))
-        self.assertEqual(engine.temperature_grid.shape, (10,))
+    def test_grid_initialization(self):
+        N = 100
+        dx = 0.01
+        material = MATERIALS["copper"]
+        engine = FiniteDifferenceThermodynamicsEngine((N,), dx, material)
 
-    def test_step_caching(self):
-        material = MaterialProperties(
-            name="Test", density=1000, specific_heat=1000, thermal_conductivity=10
-        )
-        engine = FiniteDifferenceThermodynamicsEngine((10,), 0.1, material)
-        dt = 0.1
+        self.assertEqual(engine.grid_shape, (N,))
+        self.assertEqual(engine.dx, dx)
+        self.assertTrue(np.all(engine.temperature_grid == 300.0))
 
-        # First step should initialize solver
-        engine.step(dt)
-        self.assertIsNotNone(engine.solver)
-        self.assertEqual(engine.last_dt, dt)
+    def test_step_execution(self):
+        N = 100
+        dx = 0.01
+        material = MATERIALS["copper"]
+        engine = FiniteDifferenceThermodynamicsEngine((N,), dx, material)
 
-        solver_id = id(engine.solver)
+        # Should not raise error
+        engine.step(0.01)
 
-        # Second step with same dt should reuse solver
-        engine.step(dt)
-        self.assertEqual(id(engine.solver), solver_id)
+        # Should have cached the matrix
+        self.assertIsNotNone(engine._ab_cached)
+        self.assertEqual(engine._last_dt, 0.01)
 
-        # Step with different dt should recreate solver
-        engine.step(0.2)
-        self.assertNotEqual(id(engine.solver), solver_id)
-        self.assertEqual(engine.last_dt, 0.2)
+    def test_steady_state(self):
+        N = 10
+        dx = 0.1
+        material = MATERIALS["copper"]
+        engine = FiniteDifferenceThermodynamicsEngine((N,), dx, material)
+
+        # Run to steady state
+        # Copper diffusivity approx 1.1e-4 m^2/s
+        # L = 1.0m. Time constant ~ L^2/alpha ~ 1/1e-4 ~ 10000s.
+        # Run for 50000s
+        for _ in range(500):
+            engine.step(100.0)
+
+        T = engine.temperature_grid
+
+        # Check boundaries
+        self.assertAlmostEqual(T[0], 300.0)
+        self.assertAlmostEqual(T[-1], 400.0)
+
+        # Check linearity
+        expected = np.linspace(300, 400, N)
+        mse = np.mean((T - expected)**2)
+        self.assertLess(mse, 1e-5)
 
 if __name__ == "__main__":
     unittest.main()

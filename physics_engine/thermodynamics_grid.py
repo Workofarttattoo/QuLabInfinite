@@ -10,7 +10,8 @@ from typing import Tuple, Optional, Callable
 import numpy as np
 from numpy.typing import NDArray
 from scipy.sparse import diags
-from scipy.sparse.linalg import factorized
+from scipy.sparse.linalg import spsolve
+from scipy.linalg import solve_banded
 
 from .thermodynamics import MaterialProperties, MATERIALS
 
@@ -30,10 +31,9 @@ class FiniteDifferenceThermodynamicsEngine:
             material.thermal_conductivity / (material.density * material.specific_heat)
         )
 
-        # Caching for solver
-        self.last_dt: Optional[float] = None
-        self.solver: Optional[Callable] = None
-        self.cached_gamma: Optional[float] = None
+        # Cache for solver matrix
+        self._ab_cached = None
+        self._last_dt = None
 
     def set_boundary_conditions(self, boundaries: dict):
         """
@@ -57,30 +57,39 @@ class FiniteDifferenceThermodynamicsEngine:
         N = self.grid_shape[0]
         alpha = self.thermal_diffusivity
         
-        # Check if we can reuse the solver
-        if dt != self.last_dt:
-            # Implicit method for stability (Crank-Nicolson)
-            gamma = alpha * dt / (2 * self.dx**2)
-            self.cached_gamma = gamma
-
-            # Create the tridiagonal matrix for the linear system
-            main_diag = np.full(N, 1 + 2 * gamma)
-            off_diag = np.full(N - 1, -gamma)
-            A = diags([off_diag, main_diag, off_diag], [-1, 0, 1], shape=(N, N))
-
-            # Convert to LIL for efficient modification
-            A = A.tolil()
-
-            # Apply boundary conditions (Dirichlet) matrix modifications
-            A[0, 0], A[0, 1] = 1, 0
-            A[N-1, N-1], A[N-1, N-2] = 1, 0
-
-            # Precompute factorization for fast solving
-            self.solver = factorized(A.tocsc())
-            self.last_dt = dt
-        else:
-            gamma = self.cached_gamma
+        # Implicit method for stability (Crank-Nicolson)
+        gamma = alpha * dt / (2 * self.dx**2)
         
+        # Check cache
+        if self._ab_cached is None or dt != self._last_dt:
+            # Create banded matrix for solve_banded (3 x N)
+            # Row 0: Upper diagonal (starting from index 1)
+            # Row 1: Main diagonal
+            # Row 2: Lower diagonal (starting from index 0)
+
+            ab = np.zeros((3, N))
+
+            # Main diagonal
+            ab[1, :] = 1 + 2 * gamma
+            # Upper diagonal (A[i, i+1]) -> ab[0, i+1]
+            # Since solve_banded expects ab[u + i - j, j], for u=1, j=i+1 => 1 + i - (i+1) = 0
+            ab[0, 1:] = -gamma
+            # Lower diagonal (A[i, i-1]) -> ab[2, i-1]
+            # For l=1, j=i-1 => 1 + i - (i-1) = 2
+            ab[2, :-1] = -gamma
+
+            # Apply boundary conditions to matrix
+            # Left boundary (i=0): T[0] = T_left -> 1*T[0] + 0*T[1] = T_left
+            ab[1, 0] = 1.0  # Main diagonal
+            ab[0, 1] = 0.0  # Upper diagonal A[0, 1]
+
+            # Right boundary (i=N-1): T[N-1] = T_right -> 0*T[N-2] + 1*T[N-1] = T_right
+            ab[1, N-1] = 1.0 # Main diagonal
+            ab[2, N-2] = 0.0 # Lower diagonal A[N-1, N-2]
+
+            self._ab_cached = ab
+            self._last_dt = dt
+
         # Create the right-hand side vector
         d = np.zeros(N)
         T = self.temperature_grid
@@ -101,6 +110,5 @@ class FiniteDifferenceThermodynamicsEngine:
         d[0] = T_left
         d[N-1] = T_right
         
-        # Solve the linear system using precomputed solver
-        if self.solver:
-            self.temperature_grid = self.solver(d)
+        # Solve the linear system using banded solver (O(N))
+        self.temperature_grid = solve_banded((1, 1), self._ab_cached, d)
