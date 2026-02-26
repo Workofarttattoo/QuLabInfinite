@@ -31,6 +31,9 @@ class ECH0Autonomous:
         self.operator_goals_mtime = None
         self.goals = []
         self.refresh_operator_goals(force=True)
+        # Memory: paths used to report memory_active in status
+        self._knowledge_path = Path(__file__).parent / "ech0_hive_mind_knowledge.json"
+        self._memory_data_dir = Path(__file__).parent / "memory_data"
 
     def whisper_loop(self):
         """Constant background monitoring - no Python errors allowed"""
@@ -94,11 +97,13 @@ class ECH0Autonomous:
     def display_status(self, status):
         """Show an at-a-glance summary of what ech0 is doing"""
         goal_line = self.current_goal or "Monitoring systems"
+        memory_str = "ACTIVE" if status.get("memory_active", False) else "INACTIVE"
         panel = f"""
 ┌──────────────────────────────────────────────┐
 │ ECH0 STATUS @ {status.get('timestamp', datetime.now().isoformat())}
 ├──────────────────────────────────────────────┤
 │ Current goal : {goal_line}
+│ Memory       : {memory_str}
 │ APIs running : {'YES' if status.get('apis_running') else 'NO'}
 │ Disk healthy : {'YES' if status.get('disk_ok') else 'CHECK'}
 │ Energy level : {status.get('energy', 0):.2f}
@@ -159,14 +164,31 @@ class ECH0Autonomous:
             disk = subprocess.run(['df', '-h', '/Users/noone'],
                                  capture_output=True, text=True)
 
+            # Memory active if knowledge store or memory_data exists and is usable
+            memory_active = False
+            if getattr(self, '_knowledge_path', None) and self._knowledge_path.exists():
+                try:
+                    with open(self._knowledge_path, 'r') as f:
+                        json.load(f)
+                    memory_active = True
+                except Exception:
+                    pass
+            if not memory_active and getattr(self, '_memory_data_dir', None) and self._memory_data_dir.is_dir():
+                memory_active = True
+            if not memory_active and getattr(self, '_memory_data_dir', None):
+                marker = self._memory_data_dir / ".memory_active"
+                if marker.exists():
+                    memory_active = True
+
             return {
                 'apis_running': apis_up,
                 'disk_ok': True,
                 'energy': 0.85,
+                'memory_active': memory_active,
                 'timestamp': datetime.now().isoformat()
             }
-        except:
-            return {'energy': 0.5}
+        except Exception:
+            return {'energy': 0.5, 'memory_active': False}
 
     def save_state(self):
         """Persist state for continuity"""
