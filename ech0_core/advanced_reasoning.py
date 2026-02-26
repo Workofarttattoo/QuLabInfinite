@@ -7,6 +7,7 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 
 import subprocess
 import time
+import re
 from typing import Tuple, List, Optional
 from dataclasses import dataclass
 
@@ -201,8 +202,6 @@ End with: VERIFIED: YES or VERIFIED: NO, CORRECTED_ANSWER: [answer]""")
 
     def _extract_answer(self, response: str) -> str:
         """Extract answer from response"""
-        import re
-
         # Look for ANSWER: marker
         answer_match = re.search(r'ANSWER:\s*([^\n]+)', response, re.IGNORECASE)
         if answer_match:
@@ -219,8 +218,6 @@ End with: VERIFIED: YES or VERIFIED: NO, CORRECTED_ANSWER: [answer]""")
 
     def _extract_corrected_answer(self, response: str) -> str:
         """Extract corrected answer from verification response"""
-        import re
-
         match = re.search(r'CORRECTED_ANSWER:\s*([^\n]+)', response, re.IGNORECASE)
         if match:
             return match.group(1).strip()
