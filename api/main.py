@@ -1,6 +1,7 @@
 import sys
 import os
 from fastapi import FastAPI, HTTPException, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Any
 
@@ -11,10 +12,24 @@ from core.unified_simulator import get_simulator
 from api.auth import get_api_key
 from api.v1.endpoints import api_router
 
+# Optional: Stitch metrics for aios.is website (requires STITCH_API_KEY in env)
+try:
+    from api.stitch_metrics import fetch_stitch_metrics
+except ImportError:
+    fetch_stitch_metrics = None
+
 app = FastAPI(
     title="QuLabInfinite API",
     description="A unified API for advanced scientific simulations.",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://aios.is", "https://www.aios.is", "http://localhost:8080", "http://127.0.0.1:8080"],
+    allow_credentials=True,
+    allow_methods=["GET", "OPTIONS"],
+    allow_headers=["*"],
 )
 
 app.include_router(api_router, prefix="/api/v1")
@@ -46,6 +61,18 @@ def run_simulation(request: SimulationRequest):
         raise HTTPException(status_code=501, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {e}")
+
+
+@app.get("/api/website/stitch-metrics")
+def website_stitch_metrics():
+    """
+    Public endpoint for aios.is website: Stitch pipeline metrics.
+    Uses STITCH_API_KEY server-side only; never exposes the key.
+    """
+    if fetch_stitch_metrics is None:
+        return {"enabled": False, "reason": "Stitch integration not loaded", "sources": 0, "destinations": 0}
+    return fetch_stitch_metrics()
+
 
 if __name__ == "__main__":
     import uvicorn

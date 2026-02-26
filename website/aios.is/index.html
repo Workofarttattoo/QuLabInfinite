@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ai:oS – Echo Prime (almost AGI) and QuLab Infinite. Cognitive synthetic AI and universal materials science labs.">
+    <meta name="keywords" content="Echo Prime, QuLab Infinite, cognitive synthetic AI, materials science, quantum simulation, aios">
+    <title>Ai:oS – Echo Prime & QuLab Infinite</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .aios-hero { padding: 140px 0 80px; text-align: center; }
+        .aios-hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 16px; }
+        .aios-hero .tagline { font-size: 1.25rem; color: var(--text-secondary); max-width: 640px; margin: 0 auto 32px; }
+        .pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 560px; margin: 0 auto 48px; }
+        .pillar { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center; }
+        .pillar a { color: inherit; text-decoration: none; font-weight: 600; }
+        .pillar .sub { font-size: 0.9rem; color: var(--text-secondary); margin-top: 8px; }
+        .product-section { padding: 80px 0; }
+        .product-section:nth-child(even) { background: var(--bg-secondary); }
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+        @media (max-width: 900px) { .product-grid { grid-template-columns: 1fr; } .pillars { grid-template-columns: 1fr; } }
+        .product-writeup h2 { font-size: 2rem; margin-bottom: 16px; }
+        .product-writeup p { color: var(--text-secondary); margin-bottom: 20px; }
+        .product-links { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+        .product-links a { display: inline-block; padding: 10px 18px; border-radius: 8px; background: var(--bg-tertiary); color: var(--primary); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.2s; }
+        .product-links a:hover { background: var(--primary); color: white; }
+        .space-embed-wrap { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; min-height: 420px; }
+        .space-embed-wrap iframe { width: 100%; height: 420px; border: 0; display: block; }
+        .space-embed-wrap .embed-fallback { padding: 48px 24px; text-align: center; color: var(--text-secondary); }
+        .space-embed-wrap .embed-fallback a { color: var(--primary); }
+        .infographic-wrap { margin: 24px 0; padding: 24px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
+        .infographic-wrap h4 { margin-bottom: 16px; font-size: 1.1rem; }
+        .comparison-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .comparison-table th, .comparison-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .comparison-table th { color: var(--text-secondary); font-weight: 600; }
+        .comparison-table .ep { color: var(--success); }
+        .stitch-section { padding: 60px 0; background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%); }
+        .stitch-section h2 { text-align: center; margin-bottom: 24px; }
+        .stitch-dashboard { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .stitch-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; }
+        .stitch-card .value { font-size: 2rem; font-weight: 700; color: var(--primary); }
+        .stitch-card .label { font-size: 0.9rem; color: var(--text-secondary); margin-top: 8px; }
+        .stitch-card .names { font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; text-align: left; max-height: 80px; overflow-y: auto; }
+        .stitch-error { text-align: center; color: var(--text-secondary); padding: 24px; }
+        .stitch-loading { text-align: center; color: var(--text-secondary); padding: 24px; }
+        .hero-visual { width: 100%; max-width: 900px; margin: 0 auto 32px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 24px 48px var(--shadow); }
+        .hero-visual img { width: 100%; height: auto; display: block; }
+        .section-visual { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 12px 24px var(--shadow); }
+        .section-visual img { width: 100%; height: auto; display: block; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="logo">Ai:<span class="logo-accent">oS</span></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#echo-prime">Echo Prime</a></li>
+                <li><a href="#qulab">QuLab Infinite</a></li>
+                <li><a href="#pipelines">Live Pipelines</a></li>
+                <li><a href="#contact" class="btn-primary">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero aios-hero">
+        <div class="container">
+            <h1 class="hero-title">Autonomous Intelligence Operating System</h1>
+            <p class="tagline">Two breakthrough platforms: cognitive synthetic AI and universal materials science — under one roof.</p>
+            <div class="hero-visual">
+                <img src="images/hero-visual.png" alt="QuLab Infinite — materials science and quantum simulation" width="900" height="400">
+            </div>
+            <div class="pillars">
+                <div class="pillar">
+                    <a href="#echo-prime">Echo Prime</a>
+                    <p class="sub">Almost AGI — cognitive synthetic architecture</p>
+                </div>
+                <div class="pillar">
+                    <a href="#qulab">QuLab Infinite</a>
+                    <p class="sub">220+ labs · 6.6M materials · 1,500+ tools</p>
+                </div>
+            </div>
+            <div class="hero-cta">
+                <a href="#echo-prime" class="btn-primary btn-large">Explore Echo Prime</a>
+                <a href="#qulab" class="btn-secondary btn-large">Explore QuLab</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="echo-prime" class="product-section">
+        <div class="container">
+            <div class="product-grid">
+                <div class="product-writeup">
+                    <div class="section-visual" style="max-width: 480px; margin-bottom: 24px;">
+                        <img src="images/echo-prime-visual.png" alt="Echo Prime cognitive architecture" width="480" height="270">
+                    </div>
+                    <h2>Echo Prime — almost AGI</h2>
+                    <p>Not a chatbot. A cognitive synthetic architecture: Mixture of Experts, RAG-backed memory, multi-stage verification, and continuous learning. Built for scientific discovery and autonomous experimentation — with hard-coded ethics and consent.</p>
+                    <div class="product-links">
+                        <a href="https://github.com/Workofarttattoo/QuLabInfinite/blob/main/echo_prime_investor_deck.md" target="_blank" rel="noopener">Whitepaper</a>
+                        <a href="https://github.com/Workofarttattoo/QuLabInfinite/blob/main/echo_prime_investor_deck.html" target="_blank" rel="noopener">Technical deep dive</a>
+                        <a href="https://echo.aios.is" target="_blank" rel="noopener">Blog</a>
+                    </div>
+                    <div class="infographic-wrap">
+                        <h4>Cognitive synthetic vs standard transformers</h4>
+                        <table class="comparison-table">
+                            <thead><tr><th>Aspect</th><th>Standard LLMs</th><th class="ep">Echo Prime</th></tr></thead>
+                            <tbody>
+                                <tr><td>Architecture</td><td>Static transformer</td><td class="ep">Dynamic MoE + routing</td></tr>
+                                <tr><td>Memory</td><td>Context window only</td><td class="ep">RAG persistent knowledge</td></tr>
+                                <tr><td>Learning</td><td>Training-complete</td><td class="ep">Continuous autonomous</td></tr>
+                                <tr><td>Reasoning</td><td>Pattern matching</td><td class="ep">Multi-stage verification</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="space-embed-wrap">
+                    <div id="echo-prime-embed" class="embed-fallback">
+                        <p>Live Space: set <code>ECHO_PRIME_SPACE_URL</code> in the script below.</p>
+                        <p><a href="https://huggingface.co/spaces" target="_blank" rel="noopener">Deploy your Echo Prime Space on Hugging Face</a> and paste the embed URL here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="qulab" class="product-section">
+        <div class="container">
+            <div class="product-grid">
+                <div class="space-embed-wrap" style="order: 1;">
+                    <div id="qulab-embed" class="embed-fallback">
+                        <p>Live Space: set <code>QULAB_SPACE_URL</code> in the script below.</p>
+                        <p><a href="https://huggingface.co/spaces" target="_blank" rel="noopener">Deploy your QuLab Space on Hugging Face</a> and paste the embed URL here.</p>
+                    </div>
+                </div>
+                <div class="product-writeup" style="order: 2;">
+                    <div class="section-visual" style="max-width: 480px; margin-bottom: 24px;">
+                        <img src="images/qulab-visual.png" alt="QuLab Infinite — 220+ labs, materials and quantum simulation" width="480" height="270">
+                    </div>
+                    <h2>QuLab Infinite</h2>
+                    <p>Universal materials science and quantum simulation lab: 220+ specialized labs, 6.6M+ simulation-ready materials, 1,500+ tools. MCP-native, API-first, and production-ready.</p>
+                    <div class="product-links">
+                        <a href="https://github.com/Workofarttattoo/QuLabInfinite/blob/main/qulab_infinite_investor_deck.md" target="_blank" rel="noopener">Whitepaper</a>
+                        <a href="https://github.com/Workofarttattoo/QuLabInfinite#-technical-architecture" target="_blank" rel="noopener">Technical architecture</a>
+                        <a href="https://github.com/Workofarttattoo/QuLabInfinite/tree/main/materials_lab" target="_blank" rel="noopener">Materials discovery</a>
+                        <a href="https://github.com/Workofarttattoo/QuLabInfinite" target="_blank" rel="noopener">GitHub</a>
+                        <a href="https://qulab.aios.is" target="_blank" rel="noopener">qulab.aios.is</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pipelines" class="stitch-section">
+        <div class="container">
+            <h2>Live data pipelines</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 32px;">Stitch + Google: pipelines and metrics powering our data stack.</p>
+            <div id="stitch-dashboard" class="stitch-loading">Loading pipeline metrics…</div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="contact-content">
+                <h2>Get in touch</h2>
+                <p>inventor@aios.is · Echo Prime & QuLab Infinite</p>
+                <div class="contact-cta">
+                    <a href="mailto:inventor@aios.is" class="btn-primary btn-large">Email us</a>
+                    <a href="https://github.com/Workofarttattoo/QuLabInfinite" class="btn-secondary btn-large" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.</p>
+                <p><a href="https://aios.is" style="color: var(--text-secondary);">aios.is</a> · <a href="https://echo.aios.is" style="color: var(--text-secondary);">echo.aios.is</a> · <a href="https://qulab.aios.is" style="color: var(--text-secondary);">qulab.aios.is</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+(function () {
+        // ——— Config: set your Space embed URLs and API base ———
+        var ECHO_PRIME_SPACE_URL = 'https://workofarttattoo-echo-prime-cognitive-architecture.hf.space';
+        var QULAB_SPACE_URL = 'https://workofarttattoo-qulab-infinite.hf.space';
+        var API_BASE = '';              // e.g. 'https://api.qulab.aios.is' for Stitch metrics (leave '' if same-origin)
+
+        function embedSpace(containerId, url) {
+            var wrap = document.getElementById(containerId);
+            if (!wrap) return;
+            var parent = wrap.closest('.space-embed-wrap');
+            if (!parent) return;
+            if (!url || !url.trim()) return;
+            var iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.title = containerId === 'echo-prime-embed' ? 'Echo Prime Space' : 'QuLab Infinite Space';
+            parent.replaceChildren(iframe);
+        }
+
+        embedSpace('echo-prime-embed', ECHO_PRIME_SPACE_URL);
+        embedSpace('qulab-embed', QULAB_SPACE_URL);
+
+        // ——— Stitch metrics (uses STITCH_API_KEY server-side) ———
+        var stitchEl = document.getElementById('stitch-dashboard');
+        if (stitchEl) {
+            var base = (API_BASE || window.location.origin).replace(/\/$/, '');
+            fetch(base + '/api/website/stitch-metrics', { method: 'GET' })
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    if (d.enabled && (d.sources > 0 || d.destinations > 0)) {
+                        stitchEl.className = 'stitch-dashboard';
+                        stitchEl.innerHTML =
+                            '<div class="stitch-card"><span class="value">' + d.sources + '</span><span class="label">Sources</span>' +
+                            (d.source_names && d.source_names.length ? '<div class="names">' + d.source_names.slice(0, 5).join(', ') + '</div>' : '') + '</div>' +
+                            '<div class="stitch-card"><span class="value">' + d.destinations + '</span><span class="label">Destinations</span>' +
+                            (d.destination_names && d.destination_names.length ? '<div class="names">' + d.destination_names.slice(0, 5).join(', ') + '</div>' : '') + '</div>';
+                    } else {
+                        stitchEl.className = 'stitch-error';
+                        stitchEl.textContent = d.reason || 'Stitch not configured. Set STITCH_API_KEY in .env and run the API to see live pipeline metrics here.';
+                    }
+                })
+                .catch(function () {
+                    stitchEl.className = 'stitch-error';
+                    stitchEl.textContent = 'Metrics API unavailable. Start the QuLab API with STITCH_API_KEY in .env to see Stitch pipeline data.';
+                });
+        }
+    })();
+    </script>
+</body>
+</html>
