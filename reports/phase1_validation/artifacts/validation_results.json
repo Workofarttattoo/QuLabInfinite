@@ -1,0 +1,452 @@
+{
+  "corpus_documents": 250,
+  "openalex_metadata": [
+    {
+      "domain": "quantum materials",
+      "openalex_meta_count": 78175,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Aquantum%20materials%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    },
+    {
+      "domain": "oncology",
+      "openalex_meta_count": 148708,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Aoncology%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    },
+    {
+      "domain": "genomics",
+      "openalex_meta_count": 313312,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Agenomics%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    },
+    {
+      "domain": "climate modeling",
+      "openalex_meta_count": 320053,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Aclimate%20modeling%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    },
+    {
+      "domain": "signal processing",
+      "openalex_meta_count": 439046,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Asignal%20processing%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    },
+    {
+      "domain": "drug discovery",
+      "openalex_meta_count": 92130,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Adrug%20discovery%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    },
+    {
+      "domain": "electromagnetism",
+      "openalex_meta_count": 225281,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Aelectromagnetism%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    },
+    {
+      "domain": "metabolomics",
+      "openalex_meta_count": 86428,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Ametabolomics%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    },
+    {
+      "domain": "nanotechnology",
+      "openalex_meta_count": 65593,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Ananotechnology%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    },
+    {
+      "domain": "environmental engineering",
+      "openalex_meta_count": 71280,
+      "sample_size": 25,
+      "query_url": "https://api.openalex.org/works?filter=title_and_abstract.search%3Aenvironmental%20engineering%2Cfrom_publication_date%3A2020-01-01&per-page=25&sort=cited_by_count:desc"
+    }
+  ],
+  "timing": {
+    "ingest_seconds": 9.201108486999999,
+    "embed_seconds": 0.03570657900002061,
+    "retrieval_latency_ms": {
+      "p50": 0.4371279999872968,
+      "p95": 0.5888389999881838,
+      "mean": 0.4596072400011053,
+      "max": 1.02153300002783,
+      "min": 0.3486800000018775
+    }
+  },
+  "evaluation": {
+    "queries": 10,
+    "hit_at_5": 0.9,
+    "runs": [
+      {
+        "query": "Top 2020-2025 publications on superconducting quantum materials with measured critical temperature.",
+        "expected_domain": "quantum materials",
+        "top5": [
+          {
+            "score": 479.49843329344066,
+            "id": "https://openalex.org/W4200058053",
+            "title": "Synthesis of nanomaterials using various top-down and bottom-up approaches, influencing factors, advantages, and disadvantages: A review",
+            "domain": "nanotechnology"
+          },
+          {
+            "score": 457.8257485385898,
+            "id": "https://openalex.org/W4288079687",
+            "title": "The Solar Orbiter mission",
+            "domain": "electromagnetism"
+          },
+          {
+            "score": 203.63649321999227,
+            "id": "https://openalex.org/W2998885490",
+            "title": "The Community Earth System Model Version 2 (CESM2)",
+            "domain": "climate modeling"
+          },
+          {
+            "score": 69.28210380824567,
+            "id": "https://openalex.org/W3050436686",
+            "title": "Detail review on chemical, physical and green synthesis, classification, characterizations and applications of nanoparticles",
+            "domain": "nanotechnology"
+          },
+          {
+            "score": 43.356516975747056,
+            "id": "https://openalex.org/W3028066085",
+            "title": "Global threat of arsenic in groundwater",
+            "domain": "climate modeling"
+          }
+        ],
+        "domain_hit@5": false
+      },
+      {
+        "query": "Clinical studies on PD-1 and CTLA-4 combination therapies in solid tumors.",
+        "expected_domain": "oncology",
+        "top5": [
+          {
+            "score": 805.3988450875298,
+            "id": "https://openalex.org/W3126208996",
+            "title": "Fecal microbiota transplant overcomes resistance to anti\u2013PD-1 therapy in melanoma patients",
+            "domain": "metabolomics"
+          },
+          {
+            "score": 106.41487755211965,
+            "id": "https://openalex.org/W4210511445",
+            "title": "Gastric Cancer, Version 2.2022, NCCN Clinical Practice Guidelines in Oncology",
+            "domain": "oncology"
+          },
+          {
+            "score": 83.66832570972959,
+            "id": "https://openalex.org/W4205818685",
+            "title": "Green synthesis of nanoparticles: Current developments and limitations",
+            "domain": "environmental engineering"
+          },
+          {
+            "score": 75.00816048514689,
+            "id": "https://openalex.org/W3142080073",
+            "title": "Pyroptosis: mechanisms and diseases",
+            "domain": "drug discovery"
+          },
+          {
+            "score": 67.41705503135091,
+            "id": "https://openalex.org/W2998885490",
+            "title": "The Community Earth System Model Version 2 (CESM2)",
+            "domain": "climate modeling"
+          }
+        ],
+        "domain_hit@5": true
+      },
+      {
+        "query": "Methods papers comparing single-cell RNA-seq normalization strategies.",
+        "expected_domain": "genomics",
+        "top5": [
+          {
+            "score": 439.50753028232265,
+            "id": "https://openalex.org/W3039661397",
+            "title": "Ultraflexible and Mechanically Strong Double-Layered Aramid Nanofiber\u2013Ti<sub>3</sub>C<sub>2</sub>T<sub><i>x</i></sub> MXene/Silver Nanowire Nanocomposite Papers for High-Performance Electromagnetic Interference Shielding",
+            "domain": "electromagnetism"
+          },
+          {
+            "score": 155.19898817906258,
+            "id": "https://openalex.org/W2275249742",
+            "title": "International Journal of Nanomedicine",
+            "domain": "nanotechnology"
+          },
+          {
+            "score": 103.21927795392413,
+            "id": "https://openalex.org/W3185587603",
+            "title": "IOBR: Multi-Omics Immuno-Oncology Biological Research to Decode Tumor Microenvironment and Signatures",
+            "domain": "oncology"
+          },
+          {
+            "score": 86.16177459812177,
+            "id": "https://openalex.org/W4214540501",
+            "title": "Proceedings of the 28th ACM International Conference on Multimedia",
+            "domain": "environmental engineering"
+          },
+          {
+            "score": 68.21697568533784,
+            "id": "https://openalex.org/W3036135788",
+            "title": "Using SPAdes De Novo Assembler",
+            "domain": "genomics"
+          }
+        ],
+        "domain_hit@5": true
+      },
+      {
+        "query": "Ensemble downscaling approaches for regional precipitation forecasting.",
+        "expected_domain": "climate modeling",
+        "top5": [
+          {
+            "score": 380.61275934209345,
+            "id": "https://openalex.org/W3022643593",
+            "title": "Time-series forecasting with deep learning: a survey",
+            "domain": "climate modeling"
+          },
+          {
+            "score": 244.32133251042467,
+            "id": "https://openalex.org/W4382363623",
+            "title": "Climate Change 2021 \u2013 The Physical Science Basis",
+            "domain": "climate modeling"
+          },
+          {
+            "score": 164.32133212828367,
+            "id": "https://openalex.org/W3025949386",
+            "title": "The ERA5 global reanalysis",
+            "domain": "climate modeling"
+          },
+          {
+            "score": 152.06362412809452,
+            "id": "https://openalex.org/W3030446301",
+            "title": "Presentation and Evaluation of the IPSL\u2010CM6A\u2010LR Climate Model",
+            "domain": "climate modeling"
+          },
+          {
+            "score": 149.88069069842626,
+            "id": "https://openalex.org/W4295088938",
+            "title": "Exceeding 1.5\u00b0C global warming could trigger multiple climate tipping points",
+            "domain": "climate modeling"
+          }
+        ],
+        "domain_hit@5": true
+      },
+      {
+        "query": "Denoising autoencoders for non-stationary biomedical signal reconstruction.",
+        "expected_domain": "signal processing",
+        "top5": [
+          {
+            "score": 7798.657352552696,
+            "id": "https://openalex.org/W3108495343",
+            "title": "Non-uniform refinement: adaptive regularization improves single-particle cryo-EM reconstruction",
+            "domain": "drug discovery"
+          },
+          {
+            "score": 219.05211545520186,
+            "id": "https://openalex.org/W3036167779",
+            "title": "Denoising Diffusion Probabilistic Models",
+            "domain": "genomics"
+          },
+          {
+            "score": 58.603093152294306,
+            "id": "https://openalex.org/W3093053585",
+            "title": "The <scp>BioGRID</scp> database: A comprehensive biomedical resource of curated protein, genetic, and chemical interactions",
+            "domain": "drug discovery"
+          },
+          {
+            "score": 52.310691236422,
+            "id": "https://openalex.org/W4200307603",
+            "title": "Targeting PI3K/Akt signal transduction for cancer therapy",
+            "domain": "drug discovery"
+          },
+          {
+            "score": 52.310691236422,
+            "id": "https://openalex.org/W4200307603",
+            "title": "Targeting PI3K/Akt signal transduction for cancer therapy",
+            "domain": "signal processing"
+          }
+        ],
+        "domain_hit@5": true
+      },
+      {
+        "query": "Structure-based virtual screening workflows validated by wet-lab IC50 assays.",
+        "expected_domain": "drug discovery",
+        "top5": [
+          {
+            "score": 348.31449193449356,
+            "id": "https://openalex.org/W3007178273",
+            "title": "Recent developments in the P<scp>y</scp>SCF program package",
+            "domain": "quantum materials"
+          },
+          {
+            "score": 292.1786806865761,
+            "id": "https://openalex.org/W3203343200",
+            "title": "eggNOG-mapper v2: Functional Annotation, Orthology Assignments, and Domain Prediction at the Metagenomic Scale",
+            "domain": "genomics"
+          },
+          {
+            "score": 282.10433286723793,
+            "id": "https://openalex.org/W3008142620",
+            "title": "Analysis of therapeutic targets for SARS-CoV-2 and discovery of potential drugs by computational methods",
+            "domain": "drug discovery"
+          },
+          {
+            "score": 269.5058100720856,
+            "id": "https://openalex.org/W2999998096",
+            "title": "Designing a 0D/2D S\u2010Scheme Heterojunction over Polymeric Carbon Nitride for Visible\u2010Light Photocatalytic Inactivation of Bacteria",
+            "domain": "quantum materials"
+          },
+          {
+            "score": 202.4500033674009,
+            "id": "https://openalex.org/W4214540501",
+            "title": "Proceedings of the 28th ACM International Conference on Multimedia",
+            "domain": "environmental engineering"
+          }
+        ],
+        "domain_hit@5": true
+      },
+      {
+        "query": "Finite-element approaches for high-frequency electromagnetic shielding design.",
+        "expected_domain": "electromagnetism",
+        "top5": [
+          {
+            "score": 535.4177208978995,
+            "id": "https://openalex.org/W4313066883",
+            "title": "Computational Electrodynamics",
+            "domain": "electromagnetism"
+          },
+          {
+            "score": 188.32763580113448,
+            "id": "https://openalex.org/W3020799238",
+            "title": "2D MXenes for Electromagnetic Shielding: A Review",
+            "domain": "electromagnetism"
+          },
+          {
+            "score": 177.1248689643861,
+            "id": "https://openalex.org/W3001710124",
+            "title": "Electromagnetic Shielding of Monolayer MXene Assemblies",
+            "domain": "electromagnetism"
+          },
+          {
+            "score": 171.28257840416217,
+            "id": "https://openalex.org/W3017049640",
+            "title": "RepeatModeler2 for automated genomic discovery of transposable element families",
+            "domain": "genomics"
+          },
+          {
+            "score": 135.61747769842165,
+            "id": "https://openalex.org/W3012189453",
+            "title": "Beyond Ti<sub>3</sub>C<sub>2</sub>T<sub><i>x</i></sub>: MXenes for Electromagnetic Interference Shielding",
+            "domain": "electromagnetism"
+          }
+        ],
+        "domain_hit@5": true
+      },
+      {
+        "query": "Metabolite identification pipelines using tandem mass spectrometry libraries.",
+        "expected_domain": "metabolomics",
+        "top5": [
+          {
+            "score": 1094.7827092948862,
+            "id": "https://openalex.org/W4394578957",
+            "title": "MetaboAnalyst 6.0: towards a unified platform for metabolomics data processing, analysis and interpretation",
+            "domain": "metabolomics"
+          },
+          {
+            "score": 1046.3270895749465,
+            "id": "https://openalex.org/W4221095311",
+            "title": "Majorbio Cloud: A one\u2010stop, comprehensive bioinformatic platform for multiomics analyses",
+            "domain": "metabolomics"
+          },
+          {
+            "score": 627.4367431446988,
+            "id": "https://openalex.org/W3181660183",
+            "title": "Mass spectrometry-based metabolomics: a guide for annotation, quantification and best reporting practices",
+            "domain": "metabolomics"
+          },
+          {
+            "score": 269.91736651301676,
+            "id": "https://openalex.org/W3017049640",
+            "title": "RepeatModeler2 for automated genomic discovery of transposable element families",
+            "domain": "genomics"
+          },
+          {
+            "score": 216.87910449443726,
+            "id": "https://openalex.org/W3036135788",
+            "title": "Using SPAdes De Novo Assembler",
+            "domain": "genomics"
+          }
+        ],
+        "domain_hit@5": true
+      },
+      {
+        "query": "Synthesis routes for 2D nanomaterials with tunable bandgaps.",
+        "expected_domain": "nanotechnology",
+        "top5": [
+          {
+            "score": 1201.6798267438437,
+            "id": "https://openalex.org/W3126205838",
+            "title": "Metal Halide Perovskites for X-ray Imaging Scintillators and Detectors",
+            "domain": "quantum materials"
+          },
+          {
+            "score": 363.2619635678584,
+            "id": "https://openalex.org/W3013181597",
+            "title": "Health Impact of Silver Nanoparticles: A Review of the Biodistribution and Toxicity Following Various Routes of Exposure",
+            "domain": "nanotechnology"
+          },
+          {
+            "score": 256.7673164451847,
+            "id": "https://openalex.org/W3152601855",
+            "title": "High-entropy ceramics: Present status, challenges, and a look forward",
+            "domain": "electromagnetism"
+          },
+          {
+            "score": 97.95024379740968,
+            "id": "https://openalex.org/W4200058053",
+            "title": "Synthesis of nanomaterials using various top-down and bottom-up approaches, influencing factors, advantages, and disadvantages: A review",
+            "domain": "nanotechnology"
+          },
+          {
+            "score": 88.16486008453384,
+            "id": "https://openalex.org/W3171967633",
+            "title": "The world of two-dimensional carbides and nitrides (MXenes)",
+            "domain": "electromagnetism"
+          }
+        ],
+        "domain_hit@5": true
+      },
+      {
+        "query": "Life-cycle assessment studies of wastewater nutrient recovery systems.",
+        "expected_domain": "environmental engineering",
+        "top5": [
+          {
+            "score": 1327.0959980204536,
+            "id": "https://openalex.org/W3181660183",
+            "title": "Mass spectrometry-based metabolomics: a guide for annotation, quantification and best reporting practices",
+            "domain": "metabolomics"
+          },
+          {
+            "score": 628.6277494023572,
+            "id": "https://openalex.org/W3158173456",
+            "title": "Recent developments in physical, biological, chemical, and hybrid treatment techniques for removing emerging contaminants from wastewater",
+            "domain": "nanotechnology"
+          },
+          {
+            "score": 268.018261553161,
+            "id": "https://openalex.org/W3114973248",
+            "title": "Mechanisms and adsorption capacities of biochar for the removal of organic and inorganic pollutants from industrial wastewater",
+            "domain": "environmental engineering"
+          },
+          {
+            "score": 236.23022920391296,
+            "id": "https://openalex.org/W294310462",
+            "title": "Constructed Wetlands for Water Quality Improvement",
+            "domain": "environmental engineering"
+          },
+          {
+            "score": 76.185956264826,
+            "id": "https://openalex.org/W3143063265",
+            "title": "Sensitive protein alignments at tree-of-life scale using DIAMOND",
+            "domain": "genomics"
+          }
+        ],
+        "domain_hit@5": true
+      }
+    ]
+  }
+}
