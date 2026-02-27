@@ -406,6 +406,19 @@ class TumorSimulator:
         """
         self.field_overrides = field_values.copy()
 
+    FIELD_TO_LATTICE = {
+        'ph_level': 'ph_field',
+        'oxygen_percent': 'oxygen_field',
+        'glucose_mm': 'glucose_field',
+        'lactate_mm': 'lactate_field',
+        'temperature_c': 'temperature_field',
+        'ros_um': 'ros_field',
+        'glutamine_mm': 'glutamine_field',
+        'calcium_um': 'calcium_field',
+        'atp_adp_ratio': 'atp_field',
+        'cytokine_pg_ml': 'cytokine_field',
+    }
+
     def _get_field_value(self, field_name: str, grid_pos: np.ndarray) -> float:
         """
         Retrieve a microenvironment value for the given lattice position,
@@ -414,20 +427,7 @@ class TumorSimulator:
         if field_name in self.field_overrides:
             return self.field_overrides[field_name]
 
-        field_map = {
-            'ph_level': 'ph_field',
-            'oxygen_percent': 'oxygen_field',
-            'glucose_mm': 'glucose_field',
-            'lactate_mm': 'lactate_field',
-            'temperature_c': 'temperature_field',
-            'ros_um': 'ros_field',
-            'glutamine_mm': 'glutamine_field',
-            'calcium_um': 'calcium_field',
-            'atp_adp_ratio': 'atp_field',
-            'cytokine_pg_ml': 'cytokine_field',
-        }
-
-        lattice_name = field_map.get(field_name)
+        lattice_name = self.FIELD_TO_LATTICE.get(field_name)
         if lattice_name is None:
             raise KeyError(f"Unknown field '{field_name}'")
 
@@ -507,6 +507,51 @@ class TumorSimulator:
         apoptotic_count = 0
         necrotic_count = 0
 
+        # Optimization: Pre-calculate grid limits and resolution
+        grid_max = np.array(self.microenvironment.grid_size) - 1
+        inv_resolution = 1.0 / self.microenvironment.resolution
+
+        # Optimization: Pre-resolve field sources
+        ph_src = self.field_overrides.get('ph_level')
+        ph_is_scalar = ph_src is not None
+        if not ph_is_scalar: ph_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['ph_level'])
+
+        ox_src = self.field_overrides.get('oxygen_percent')
+        ox_is_scalar = ox_src is not None
+        if not ox_is_scalar: ox_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['oxygen_percent'])
+
+        gl_src = self.field_overrides.get('glucose_mm')
+        gl_is_scalar = gl_src is not None
+        if not gl_is_scalar: gl_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['glucose_mm'])
+
+        la_src = self.field_overrides.get('lactate_mm')
+        la_is_scalar = la_src is not None
+        if not la_is_scalar: la_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['lactate_mm'])
+
+        tp_src = self.field_overrides.get('temperature_c')
+        tp_is_scalar = tp_src is not None
+        if not tp_is_scalar: tp_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['temperature_c'])
+
+        rs_src = self.field_overrides.get('ros_um')
+        rs_is_scalar = rs_src is not None
+        if not rs_is_scalar: rs_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['ros_um'])
+
+        gm_src = self.field_overrides.get('glutamine_mm')
+        gm_is_scalar = gm_src is not None
+        if not gm_is_scalar: gm_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['glutamine_mm'])
+
+        ca_src = self.field_overrides.get('calcium_um')
+        ca_is_scalar = ca_src is not None
+        if not ca_is_scalar: ca_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['calcium_um'])
+
+        at_src = self.field_overrides.get('atp_adp_ratio')
+        at_is_scalar = at_src is not None
+        if not at_is_scalar: at_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['atp_adp_ratio'])
+
+        cy_src = self.field_overrides.get('cytokine_pg_ml')
+        cy_is_scalar = cy_src is not None
+        if not cy_is_scalar: cy_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['cytokine_pg_ml'])
+
         for cell in self.cells:
             if not cell.is_alive:
                 cell.time_since_death += dt
@@ -517,19 +562,20 @@ class TumorSimulator:
                 continue
 
             # Update local microenvironment for this cell
-            grid_pos = (cell.position / self.microenvironment.resolution).astype(int)
-            grid_pos = np.clip(grid_pos, 0, np.array(self.microenvironment.grid_size) - 1)
+            grid_pos = (cell.position * inv_resolution).astype(int)
+            np.clip(grid_pos, 0, grid_max, out=grid_pos)
+            g_idx = tuple(grid_pos)
 
-            cell.local_ph = self._get_field_value('ph_level', grid_pos)
-            cell.local_oxygen = self._get_field_value('oxygen_percent', grid_pos)
-            cell.local_glucose = self._get_field_value('glucose_mm', grid_pos)
-            cell.local_lactate = self._get_field_value('lactate_mm', grid_pos)
-            cell.local_temperature = self._get_field_value('temperature_c', grid_pos)
-            cell.local_ros = self._get_field_value('ros_um', grid_pos)
-            cell.local_glutamine = self._get_field_value('glutamine_mm', grid_pos)
-            cell.local_calcium = self._get_field_value('calcium_um', grid_pos)
-            cell.atp_adp_ratio = self._get_field_value('atp_adp_ratio', grid_pos)
-            cell.cytokine_exposure = self._get_field_value('cytokine_pg_ml', grid_pos)
+            cell.local_ph = ph_src if ph_is_scalar else ph_src[g_idx]
+            cell.local_oxygen = ox_src if ox_is_scalar else ox_src[g_idx]
+            cell.local_glucose = gl_src if gl_is_scalar else gl_src[g_idx]
+            cell.local_lactate = la_src if la_is_scalar else la_src[g_idx]
+            cell.local_temperature = tp_src if tp_is_scalar else tp_src[g_idx]
+            cell.local_ros = rs_src if rs_is_scalar else rs_src[g_idx]
+            cell.local_glutamine = gm_src if gm_is_scalar else gm_src[g_idx]
+            cell.local_calcium = ca_src if ca_is_scalar else ca_src[g_idx]
+            cell.atp_adp_ratio = at_src if at_is_scalar else at_src[g_idx]
+            cell.cytokine_exposure = cy_src if cy_is_scalar else cy_src[g_idx]
 
             # Calculate nutrient access based on distance to nearest vessel
             distances_to_vessels = [
