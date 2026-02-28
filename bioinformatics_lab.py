@@ -231,9 +231,15 @@ class BioinformaticsLab:
             min_dist = float('inf')
             min_pair = (0, 1)
 
-            for i in range(len(clusters)):
-                for j in range(i + 1, len(clusters)):
-                    avg_dist = np.mean([distances[a, b] for a in clusters[i] for b in clusters[j]])
+            num_clusters = len(clusters)
+            for i in range(num_clusters):
+                cluster_i = clusters[i]
+                for j in range(i + 1, num_clusters):
+                    cluster_j = clusters[j]
+
+                    # Vectorized mean computation over distance submatrix for clusters i and j
+                    avg_dist = np.mean(distances[np.ix_(cluster_i, cluster_j)])
+
                     if avg_dist < min_dist:
                         min_dist = avg_dist
                         min_pair = (i, j)
