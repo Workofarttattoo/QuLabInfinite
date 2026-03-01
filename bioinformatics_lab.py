@@ -96,26 +96,34 @@ class BioinformaticsLab:
         """Find all open reading frames in a DNA sequence."""
         orfs = []
         dna = sequence.upper().replace('U', 'T')
+        stop_codons = {'TAA', 'TAG', 'TGA'}
 
         for frame in range(3):
             i = frame
             while i < len(dna) - 2:
-                codon = dna[i:i+3]
-                if codon == 'ATG':  # Start codon
-                    start = i
-                    orf_seq = codon
+                next_atg = dna.find('ATG', i)
+                if next_atg == -1:
+                    break
+
+                # Ensure it's in the correct reading frame
+                if (next_atg - frame) % 3 != 0:
+                    i = next_atg + 1
+                    continue
+
+                start = next_atg
+                i = start + 3
+
+                # Find the nearest stop codon in the correct frame
+                while i < len(dna) - 2:
+                    codon = dna[i:i+3]
+                    if codon in stop_codons:
+                        if (i + 3 - start) >= min_length:
+                            orfs.append((start, i+3, dna[start:i+3]))
+                        break
                     i += 3
 
-                    while i < len(dna) - 2:
-                        codon = dna[i:i+3]
-                        orf_seq += codon
-                        if codon in ['TAA', 'TAG', 'TGA']:  # Stop codons
-                            if len(orf_seq) >= min_length:
-                                orfs.append((start, i+3, orf_seq))
-                            break
-                        i += 3
-                else:
-                    i += 3
+                # The next start codon must be searched from after the current stop codon
+                i += 3
 
         return orfs
 
@@ -358,27 +366,47 @@ class BioinformaticsLab:
                      'M': 1.05, 'N': 0.89, 'P': 0.55, 'Q': 1.10, 'R': 0.93,
                      'S': 0.75, 'T': 1.19, 'V': 1.70, 'W': 1.37, 'Y': 1.47}
 
-        structure = []
         window_size = 6
+        half_window = window_size // 2
+        n = len(protein_sequence)
 
-        for i in range(len(protein_sequence)):
-            if i < window_size // 2 or i >= len(protein_sequence) - window_size // 2:
-                structure.append('C')  # Coil at terminals
-                continue
+        if n <= window_size:
+            ss_string = 'C' * n
+            self.secondary_structures[protein_sequence[:20] + '...'] = ss_string
+            return ss_string
 
-            # Calculate average propensities in window
-            window = protein_sequence[i - window_size//2 : i + window_size//2 + 1]
-            avg_helix = np.mean([helix_prop.get(aa, 1.0) for aa in window])
-            avg_sheet = np.mean([sheet_prop.get(aa, 1.0) for aa in window])
+        # Convert to array of propensities
+        h_props = np.array([helix_prop.get(aa, 1.0) for aa in protein_sequence])
+        s_props = np.array([sheet_prop.get(aa, 1.0) for aa in protein_sequence])
 
-            if avg_helix > 1.03 and avg_helix > avg_sheet:
-                structure.append('H')  # Helix
-            elif avg_sheet > 1.05:
-                structure.append('E')  # Extended/Sheet
-            else:
-                structure.append('C')  # Coil
+        window_len = 2 * half_window + 1
+        kernel = np.ones(window_len) / window_len
 
-        ss_string = ''.join(structure)
+        # Calculate moving average (using convolve)
+        avg_h = np.convolve(h_props, kernel, mode='valid')
+        avg_s = np.convolve(s_props, kernel, mode='valid')
+
+        # Round to ensure exact float consistency with list sum/mean
+        avg_h = np.round(avg_h, 10)
+        avg_s = np.round(avg_s, 10)
+
+        # 'C' everywhere
+        struct_arr = np.full(n, 'C', dtype=str)
+
+        # Identify inner region indices
+        inner_idx = slice(half_window, n - half_window)
+
+        # Apply logic conditions vectorized over inner region
+        h_mask = (avg_h > 1.03) & (avg_h > avg_s)
+        e_mask = (~h_mask) & (avg_s > 1.05)
+
+        inner_structs = np.full(len(avg_h), 'C', dtype=str)
+        inner_structs[h_mask] = 'H'
+        inner_structs[e_mask] = 'E'
+
+        struct_arr[inner_idx] = inner_structs
+
+        ss_string = ''.join(struct_arr)
         self.secondary_structures[protein_sequence[:20] + '...'] = ss_string
         return ss_string
 
@@ -456,18 +484,25 @@ class BioinformaticsLab:
             'S': -0.8, 'T': -0.7, 'V': 4.2, 'W': -0.9, 'Y': -1.3
         }
 
-        profile = []
+        vals = np.array([hydropathy.get(aa, 0.0) for aa in protein_sequence])
+        n = len(vals)
+        if n == 0:
+            return np.array([])
+
         half_window = window_size // 2
 
-        for i in range(len(protein_sequence)):
-            start = max(0, i - half_window)
-            end = min(len(protein_sequence), i + half_window + 1)
-            window = protein_sequence[start:end]
+        # Calculate cumulative sums for O(1) moving averages
+        cum_vals = np.insert(np.cumsum(vals), 0, 0)
 
-            avg_hydropathy = np.mean([hydropathy.get(aa, 0) for aa in window])
-            profile.append(avg_hydropathy)
+        # Vectorized bounds for dynamic sliding window edges
+        starts = np.maximum(0, np.arange(n) - half_window)
+        ends = np.minimum(n, np.arange(n) + half_window + 1)
 
-        return np.array(profile)
+        window_sums = cum_vals[ends] - cum_vals[starts]
+        window_counts = ends - starts
+
+        profile = window_sums / window_counts
+        return profile
 
     def run_comprehensive_analysis(self, dna_sequence: str) -> Dict:
         """Run complete bioinformatics analysis pipeline."""
