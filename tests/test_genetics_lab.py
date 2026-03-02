@@ -78,6 +78,10 @@ except ImportError:
             if len(data) == 0: return 0.0
             return sum(data) / len(data)
 
+        def sum(self, data, *args, **kwargs):
+            if len(data) == 0: return 0.0
+            return sum(data)
+
         def var(self, data, *args, **kwargs):
             if len(data) < 2: return 0.0
             m = self.mean(data)
@@ -147,6 +151,10 @@ except ImportError:
 
         class Binom: pass
         binom = Binom()
+
+        class F:
+            def sf(self, x, df1, df2): return 0.01 if x > 0 else 1.0
+        f = F()
 
         def f_oneway(self, *args): return (10.0, 0.01)
 
