@@ -20,3 +20,8 @@ Each YAML file should contain:
 - `metadata`: owner, last calibration date, notes.
 
 Use `bench/run_golden_paths.py` to execute all registered benchmarks.
+
+
+## Reproducibility benchmark runner
+
+Use `bench/repro_benchmark.py` for ARC/MMLU runs that store exact prompts, exact outputs, and hardware snapshots under `artifacts/repro_benchmark/`.
