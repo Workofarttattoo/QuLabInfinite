@@ -1,0 +1,8 @@
+{
+  "num_examples": 12,
+  "num_correct": 10,
+  "accuracy": 0.8333333333333334,
+  "dataset": "winogrande",
+  "model": "ech0:latest",
+  "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/winogrande_20260303_203243"
+}

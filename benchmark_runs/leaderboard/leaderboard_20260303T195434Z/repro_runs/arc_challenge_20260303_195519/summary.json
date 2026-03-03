@@ -1,0 +1,8 @@
+{
+  "num_examples": 15,
+  "num_correct": 14,
+  "accuracy": 0.9333333333333333,
+  "dataset": "arc_challenge",
+  "model": "ech0:latest",
+  "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs/arc_challenge_20260303_195519"
+}

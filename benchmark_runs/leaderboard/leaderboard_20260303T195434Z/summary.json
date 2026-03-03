@@ -1,0 +1,83 @@
+{
+  "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z",
+  "timestamp_utc": "2026-03-03T19:57:59.907260+00:00",
+  "selected_runner": "repro",
+  "model": "ech0:latest",
+  "tasks": [
+    "arc_challenge",
+    "arc_easy",
+    "mmlu_college_physics"
+  ],
+  "lm_eval": {
+    "runner": "lm_eval",
+    "command": "/Users/noone/miniconda3/bin/python -m lm_eval --model local-chat-completions --model_args model=ech0:latest,base_url=http://127.0.0.1:11434/v1 --tasks arc_challenge,arc_easy,mmlu_college_physics --num_fewshot 0 --limit 15 --log_samples --show_config --output_path benchmark_runs/leaderboard/leaderboard_20260303T195434Z/lm_eval",
+    "output_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/lm_eval",
+    "stdout_log": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/lm_eval/stdout.log",
+    "stderr_log": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/lm_eval/stderr.log",
+    "ok": false,
+    "returncode": null,
+    "error": "lm-eval timed out after 45s."
+  },
+  "repro": {
+    "runner": "repro",
+    "output_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs",
+    "aggregate": {
+      "num_tasks": 3,
+      "num_success": 3,
+      "macro_accuracy": 0.8666666666666667
+    },
+    "tasks": [
+      {
+        "task": "arc_challenge",
+        "dataset": "arc_challenge",
+        "mmlu_subject": null,
+        "ok": true,
+        "returncode": 0,
+        "command": "/Users/noone/miniconda3/bin/python /Users/noone/QuLabInfinite/benchmarks/reproducibility/run_llm_repro_benchmark.py --dataset arc_challenge --split test --limit 15 --seed 42 --model ech0:latest --backend ollama --timeout 120 --output-dir benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs",
+        "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs/arc_challenge_20260303_195519",
+        "summary": {
+          "num_examples": 15,
+          "num_correct": 14,
+          "accuracy": 0.9333333333333333,
+          "dataset": "arc_challenge",
+          "model": "ech0:latest",
+          "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs/arc_challenge_20260303_195519"
+        }
+      },
+      {
+        "task": "arc_easy",
+        "dataset": "arc_easy",
+        "mmlu_subject": null,
+        "ok": true,
+        "returncode": 0,
+        "command": "/Users/noone/miniconda3/bin/python /Users/noone/QuLabInfinite/benchmarks/reproducibility/run_llm_repro_benchmark.py --dataset arc_easy --split test --limit 15 --seed 42 --model ech0:latest --backend ollama --timeout 120 --output-dir benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs",
+        "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs/arc_easy_20260303_195557",
+        "summary": {
+          "num_examples": 15,
+          "num_correct": 15,
+          "accuracy": 1.0,
+          "dataset": "arc_easy",
+          "model": "ech0:latest",
+          "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs/arc_easy_20260303_195557"
+        }
+      },
+      {
+        "task": "mmlu_college_physics",
+        "dataset": "mmlu",
+        "mmlu_subject": "college_physics",
+        "ok": true,
+        "returncode": 0,
+        "command": "/Users/noone/miniconda3/bin/python /Users/noone/QuLabInfinite/benchmarks/reproducibility/run_llm_repro_benchmark.py --dataset mmlu --split test --limit 15 --seed 42 --model ech0:latest --backend ollama --timeout 120 --output-dir benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs --mmlu-subject college_physics",
+        "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs/mmlu_20260303_195627",
+        "summary": {
+          "num_examples": 15,
+          "num_correct": 10,
+          "accuracy": 0.6666666666666666,
+          "dataset": "mmlu",
+          "model": "ech0:latest",
+          "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs/mmlu_20260303_195627"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "num_examples": 12,
+  "num_correct": 7,
+  "accuracy": 0.5833333333333334,
+  "dataset": "truthfulqa_mc1",
+  "model": "ech0:latest",
+  "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/truthfulqa_mc1_20260303_203306"
+}

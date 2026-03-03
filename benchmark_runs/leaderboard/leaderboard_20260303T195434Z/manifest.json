@@ -1,0 +1,26 @@
+{
+  "timestamp_utc": "2026-03-03T19:54:34.639628+00:00",
+  "command": "benchmarks/reproducibility/run_leaderboard_harness.py --model ech0:latest --tasks arc_challenge,arc_easy,mmlu_college_physics --limit 15 --mode auto --lm-eval-timeout 45",
+  "args": {
+    "model": "ech0:latest",
+    "tasks": "arc_challenge,arc_easy,mmlu_college_physics",
+    "mode": "auto",
+    "limit": 15,
+    "seed": 42,
+    "split": "test",
+    "mmlu_subject": "college_physics",
+    "backend": "ollama",
+    "command_template": "",
+    "timeout": 120,
+    "no_shuffle": false,
+    "num_fewshot": 0,
+    "base_url": "http://127.0.0.1:11434/v1",
+    "lm_eval_timeout": 45,
+    "output_dir": "benchmark_runs/leaderboard"
+  },
+  "tasks": [
+    "arc_challenge",
+    "arc_easy",
+    "mmlu_college_physics"
+  ]
+}

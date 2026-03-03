@@ -1,0 +1,8 @@
+{
+  "num_examples": 15,
+  "num_correct": 15,
+  "accuracy": 1.0,
+  "dataset": "arc_easy",
+  "model": "ech0:latest",
+  "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs/arc_easy_20260303_195557"
+}

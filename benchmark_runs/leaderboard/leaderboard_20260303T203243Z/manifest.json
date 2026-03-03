@@ -1,0 +1,28 @@
+{
+  "timestamp_utc": "2026-03-03T20:32:43.453083+00:00",
+  "command": "benchmarks/reproducibility/run_leaderboard_harness.py --model ech0:latest --tasks winnogrande,truthfulqa,mmlu_college_physics,gorilla --limit 12 --mode repro --timeout 120",
+  "args": {
+    "model": "ech0:latest",
+    "tasks": "winnogrande,truthfulqa,mmlu_college_physics,gorilla",
+    "mode": "repro",
+    "limit": 12,
+    "seed": 42,
+    "split": "test",
+    "mmlu_subject": "college_physics",
+    "gorilla_file": "BFCL_v3_exec_simple.json",
+    "backend": "ollama",
+    "command_template": "",
+    "timeout": 120,
+    "no_shuffle": false,
+    "num_fewshot": 0,
+    "base_url": "http://127.0.0.1:11434/v1",
+    "lm_eval_timeout": 180,
+    "output_dir": "benchmark_runs/leaderboard"
+  },
+  "tasks": [
+    "winnogrande",
+    "truthfulqa",
+    "mmlu_college_physics",
+    "gorilla"
+  ]
+}

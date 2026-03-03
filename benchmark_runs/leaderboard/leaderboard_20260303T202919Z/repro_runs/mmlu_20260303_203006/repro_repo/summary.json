@@ -1,0 +1,8 @@
+{
+  "num_examples": 12,
+  "num_correct": 7,
+  "accuracy": 0.5833333333333334,
+  "dataset": "mmlu",
+  "model": "ech0:latest",
+  "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T202919Z/repro_runs/mmlu_20260303_203006"
+}

@@ -1,0 +1,8 @@
+{
+  "num_examples": 12,
+  "num_correct": 8,
+  "accuracy": 0.6666666666666666,
+  "dataset": "gorilla_exec_simple",
+  "model": "ech0:latest",
+  "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/gorilla_exec_simple_20260303_203350"
+}

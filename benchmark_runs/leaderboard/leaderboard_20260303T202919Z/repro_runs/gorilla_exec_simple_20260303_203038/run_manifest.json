@@ -1,0 +1,13 @@
+{
+  "command": "python /Users/noone/QuLabInfinite/benchmarks/reproducibility/run_llm_repro_benchmark.py --dataset gorilla_exec_simple --split test --limit 12 --seed 42 --model ech0:latest --backend ollama --timeout 120 --output-dir benchmark_runs/leaderboard/leaderboard_20260303T202919Z/repro_runs --gorilla-file BFCL_v3_exec_simple.json",
+  "dataset": "gorilla_exec_simple",
+  "mmlu_subject": "college_physics",
+  "gorilla_file": "BFCL_v3_exec_simple.json",
+  "split": "test",
+  "limit": 12,
+  "seed": 42,
+  "model": "ech0:latest",
+  "backend": "ollama",
+  "command_template": "",
+  "timeout": 120
+}

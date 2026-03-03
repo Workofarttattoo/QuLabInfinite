@@ -1,0 +1,12 @@
+{
+  "command": "python /Users/noone/QuLabInfinite/benchmarks/reproducibility/run_llm_repro_benchmark.py --dataset arc_easy --split test --limit 15 --seed 42 --model ech0:latest --backend ollama --timeout 120 --output-dir benchmark_runs/leaderboard/leaderboard_20260303T195434Z/repro_runs",
+  "dataset": "arc_easy",
+  "mmlu_subject": "college_physics",
+  "split": "test",
+  "limit": 15,
+  "seed": 42,
+  "model": "ech0:latest",
+  "backend": "ollama",
+  "command_template": "",
+  "timeout": 120
+}

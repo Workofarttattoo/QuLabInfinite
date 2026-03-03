@@ -1,0 +1,7 @@
+{
+  "benchmark": "arc",
+  "limit": 5,
+  "mmlu_subject": null,
+  "model_command": null,
+  "run_id": "arc_20260226T211255Z"
+}

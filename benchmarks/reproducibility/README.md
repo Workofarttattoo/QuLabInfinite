@@ -18,6 +18,9 @@ For every run it records:
 - Full MMLU subject split via `cais/mmlu` (e.g. `college_physics`)
 - ARC-Challenge subset via `allenai/ai2_arc`
 - ARC-Easy subset via `allenai/ai2_arc`
+- WinoGrande via `winogrande/winogrande_xl`
+- TruthfulQA MC1 via `truthfulqa/truthful_qa`
+- Gorilla/BFCL (`BFCL_v3_exec_simple.json`) via `gorilla-llm/Berkeley-Function-Calling-Leaderboard`
 
 ## Usage
 
@@ -42,6 +45,27 @@ python benchmarks/reproducibility/run_llm_repro_benchmark.py \
   --backend command \
   --command-template "python local_infer.py --model my-model-id --prompt {prompt}"
 ```
+
+## Leaderboard Harness (lm-eval + fallback)
+
+Use this when you want a leaderboard-oriented command that still preserves
+reproducibility artifacts:
+
+```bash
+python benchmarks/reproducibility/run_leaderboard_harness.py \
+  --model ech0:latest \
+  --tasks winnogrande,truthfulqa,mmlu_college_physics,gorilla_exec_simple \
+  --limit 25 \
+  --mode auto
+```
+
+`--mode auto` behavior:
+- tries `lm_eval` first (local OpenAI-compatible API at `http://127.0.0.1:11434/v1`)
+- if `lm_eval` fails/times out, falls back to `run_llm_repro_benchmark.py`
+
+Artifacts are written under:
+- `benchmark_runs/leaderboard/leaderboard_<timestamp>/summary.json`
+- plus per-run logs, hardware metadata, and runner-specific outputs
 
 ## Output
 

@@ -115,6 +115,16 @@ python benchmarks/reproducibility/run_llm_repro_benchmark.py \
 
 See `benchmarks/reproducibility/README.md` for the complete workflow and GitHub-ready reproducibility bundle output.
 
+For leaderboard-style runs with automatic `lm_eval` + fallback:
+
+```bash
+python benchmarks/reproducibility/run_leaderboard_harness.py \
+  --model ech0:latest \
+  --tasks winnogrande,truthfulqa,mmlu_college_physics,gorilla_exec_simple \
+  --limit 25 \
+  --mode auto
+```
+
 ---
 
 ## 📄 Intellectual Property

@@ -1,0 +1,92 @@
+{
+  "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z",
+  "timestamp_utc": "2026-03-03T20:35:16.659539+00:00",
+  "selected_runner": "repro",
+  "model": "ech0:latest",
+  "tasks": [
+    "winnogrande",
+    "truthfulqa",
+    "mmlu_college_physics",
+    "gorilla"
+  ],
+  "lm_eval": null,
+  "repro": {
+    "runner": "repro",
+    "output_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs",
+    "aggregate": {
+      "num_tasks": 4,
+      "num_success": 4,
+      "macro_accuracy": 0.6666666666666667
+    },
+    "tasks": [
+      {
+        "task": "winnogrande",
+        "dataset": "winogrande",
+        "mmlu_subject": null,
+        "ok": true,
+        "returncode": 0,
+        "command": "/Users/noone/miniconda3/bin/python /Users/noone/QuLabInfinite/benchmarks/reproducibility/run_llm_repro_benchmark.py --dataset winogrande --split test --limit 12 --seed 42 --model ech0:latest --backend ollama --timeout 120 --output-dir benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs",
+        "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/winogrande_20260303_203243",
+        "summary": {
+          "num_examples": 12,
+          "num_correct": 10,
+          "accuracy": 0.8333333333333334,
+          "dataset": "winogrande",
+          "model": "ech0:latest",
+          "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/winogrande_20260303_203243"
+        }
+      },
+      {
+        "task": "truthfulqa",
+        "dataset": "truthfulqa_mc1",
+        "mmlu_subject": null,
+        "ok": true,
+        "returncode": 0,
+        "command": "/Users/noone/miniconda3/bin/python /Users/noone/QuLabInfinite/benchmarks/reproducibility/run_llm_repro_benchmark.py --dataset truthfulqa_mc1 --split test --limit 12 --seed 42 --model ech0:latest --backend ollama --timeout 120 --output-dir benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs",
+        "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/truthfulqa_mc1_20260303_203306",
+        "summary": {
+          "num_examples": 12,
+          "num_correct": 7,
+          "accuracy": 0.5833333333333334,
+          "dataset": "truthfulqa_mc1",
+          "model": "ech0:latest",
+          "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/truthfulqa_mc1_20260303_203306"
+        }
+      },
+      {
+        "task": "mmlu_college_physics",
+        "dataset": "mmlu",
+        "mmlu_subject": "college_physics",
+        "ok": true,
+        "returncode": 0,
+        "command": "/Users/noone/miniconda3/bin/python /Users/noone/QuLabInfinite/benchmarks/reproducibility/run_llm_repro_benchmark.py --dataset mmlu --split test --limit 12 --seed 42 --model ech0:latest --backend ollama --timeout 120 --output-dir benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs --mmlu-subject college_physics",
+        "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/mmlu_20260303_203323",
+        "summary": {
+          "num_examples": 12,
+          "num_correct": 7,
+          "accuracy": 0.5833333333333334,
+          "dataset": "mmlu",
+          "model": "ech0:latest",
+          "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/mmlu_20260303_203323"
+        }
+      },
+      {
+        "task": "gorilla",
+        "dataset": "gorilla_exec_simple",
+        "mmlu_subject": null,
+        "ok": true,
+        "returncode": 0,
+        "command": "/Users/noone/miniconda3/bin/python /Users/noone/QuLabInfinite/benchmarks/reproducibility/run_llm_repro_benchmark.py --dataset gorilla_exec_simple --split test --limit 12 --seed 42 --model ech0:latest --backend ollama --timeout 120 --output-dir benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs --gorilla-file BFCL_v3_exec_simple.json",
+        "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/gorilla_exec_simple_20260303_203350",
+        "summary": {
+          "num_examples": 12,
+          "num_correct": 8,
+          "accuracy": 0.6666666666666666,
+          "dataset": "gorilla_exec_simple",
+          "model": "ech0:latest",
+          "run_dir": "benchmark_runs/leaderboard/leaderboard_20260303T203243Z/repro_runs/gorilla_exec_simple_20260303_203350"
+        }
+      }
+    ]
+  }
+}
