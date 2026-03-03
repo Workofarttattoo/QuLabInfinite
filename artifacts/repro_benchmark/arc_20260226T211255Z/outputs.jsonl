@@ -1,0 +1,5 @@
+{"index": 1, "example_id": "Mercury_7175875", "raw_output": "A", "predicted_label": "A", "answer_key": "C", "correct": false}
+{"index": 2, "example_id": "Mercury_SC_409171", "raw_output": "A", "predicted_label": "A", "answer_key": "B", "correct": false}
+{"index": 3, "example_id": "Mercury_SC_408547", "raw_output": "A", "predicted_label": "A", "answer_key": "C", "correct": false}
+{"index": 4, "example_id": "Mercury_407327", "raw_output": "A", "predicted_label": "A", "answer_key": "D", "correct": false}
+{"index": 5, "example_id": "MCAS_2006_9_44", "raw_output": "A", "predicted_label": "A", "answer_key": "D", "correct": false}

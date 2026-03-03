@@ -1,0 +1,57 @@
+{
+  "total": 5,
+  "correct": 0,
+  "accuracy": 0.0,
+  "records": [
+    {
+      "index": 1,
+      "example_id": "Mercury_7175875",
+      "subject": "arc_challenge",
+      "prompt": "Answer the multiple-choice question with a single letter (A, B, C, D, or E).\n\nQuestion: An astronomer observes that a planet rotates faster after a meteorite impact. Which is the most likely effect of this increase in rotation?\nChoices:\nA. Planetary density will decrease.\nB. Planetary years will become longer.\nC. Planetary days will become shorter.\nD. Planetary gravity will become stronger.\n\nFinal answer:",
+      "raw_output": "A",
+      "predicted_label": "A",
+      "answer_key": "C",
+      "correct": false
+    },
+    {
+      "index": 2,
+      "example_id": "Mercury_SC_409171",
+      "subject": "arc_challenge",
+      "prompt": "Answer the multiple-choice question with a single letter (A, B, C, D, or E).\n\nQuestion: A group of engineers wanted to know how different building designs would respond during an earthquake. They made several models of buildings and tested each for its ability to withstand earthquake conditions. Which will most likely result from testing different building designs?\nChoices:\nA. buildings will be built faster\nB. buildings will be made safer\nC. building designs will look nicer\nD. building materials will be cheaper\n\nFinal answer:",
+      "raw_output": "A",
+      "predicted_label": "A",
+      "answer_key": "B",
+      "correct": false
+    },
+    {
+      "index": 3,
+      "example_id": "Mercury_SC_408547",
+      "subject": "arc_challenge",
+      "prompt": "Answer the multiple-choice question with a single letter (A, B, C, D, or E).\n\nQuestion: The end result in the process of photosynthesis is the production of sugar and oxygen. Which step signals the beginning of photosynthesis?\nChoices:\nA. Chemical energy is absorbed through the roots.\nB. Light energy is converted to chemical energy.\nC. Chlorophyll in the leaf captures light energy.\nD. Sunlight is converted into chlorophyll.\n\nFinal answer:",
+      "raw_output": "A",
+      "predicted_label": "A",
+      "answer_key": "C",
+      "correct": false
+    },
+    {
+      "index": 4,
+      "example_id": "Mercury_407327",
+      "subject": "arc_challenge",
+      "prompt": "Answer the multiple-choice question with a single letter (A, B, C, D, or E).\n\nQuestion: A physicist wants to determine the speed a car must reach to jump over a ramp. The physicist conducts three trials. In trials two and three, the speed of the car is increased by 20 miles per hour. What is the physicist investigating when he changes the speed?\nChoices:\nA. the control\nB. the hypothesis statement\nC. the dependent (responding) variable\nD. the independent (manipulated) variable\n\nFinal answer:",
+      "raw_output": "A",
+      "predicted_label": "A",
+      "answer_key": "D",
+      "correct": false
+    },
+    {
+      "index": 5,
+      "example_id": "MCAS_2006_9_44",
+      "subject": "arc_challenge",
+      "prompt": "Answer the multiple-choice question with a single letter (A, B, C, D, or E).\n\nQuestion: An astronaut drops a 1.0 kg object and a 5.0 kg object on the Moon. Both objects fall a total distance of 2.0 m vertically. Which of the following best describes the objects after they have fallen a distance of 1.0 m?\nChoices:\nA. They have each lost kinetic energy.\nB. They have each gained the same amount of potential energy.\nC. They have each lost the same amount of potential energy.\nD. They have each gained one-half of their maximum kinetic energy.\n\nFinal answer:",
+      "raw_output": "A",
+      "predicted_label": "A",
+      "answer_key": "D",
+      "correct": false
+    }
+  ]
+}
