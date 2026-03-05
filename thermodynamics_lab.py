@@ -121,7 +121,7 @@ class ThermodynamicsLab:
         try:
             V_solution = fsolve(vdw_equation, V_ideal)[0]
             return V_solution
-        except:
+        except Exception:
             return V_ideal
 
     def peng_robinson(self, T: float, P: float, component: Component,
