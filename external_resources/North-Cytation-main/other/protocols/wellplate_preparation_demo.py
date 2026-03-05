@@ -264,7 +264,7 @@ while i < len(samples_df): #for each sample in samples_df
                 #print(samples_df["Type"][i])
                 
                 if curr_dispense_type.lower() == "drop" or curr_dispense_type.lower() == "drop-touch":
-                    nr.c9.set_pump_speed(0, 30) #TODO: change back to 20
+                    nr.c9.set_pump_speed(0, 20)
             
                 elif curr_dispense_type.lower() == "slow":
                     nr.c9.set_pump_speed(0,15)
