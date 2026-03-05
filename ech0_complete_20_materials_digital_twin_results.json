@@ -1,0 +1,239 @@
+{
+  "campaign_type": "Complete 20 Materials Digital Twin Characterization",
+  "timestamp": "2026-03-05T00:13:01.870018",
+  "total_materials_processed": 20,
+  "total_batches": 5,
+  "stress_factors_applied": 27,
+  "batch_summaries": [
+    {
+      "batch_number": 1,
+      "materials_count": 4,
+      "material_names": [
+        "QCA-2026-DT",
+        "Ti\u2083C\u2082T\u2093-BIO-DT",
+        "PCQD-26-DT",
+        "SCGH-26-DT"
+      ],
+      "average_confidence": 1.0,
+      "top_performer": "QCA-2026-DT"
+    },
+    {
+      "batch_number": 2,
+      "materials_count": 4,
+      "material_names": [
+        "SHCMC-26-DT",
+        "NPM-26-DT",
+        "CCMOF-26-DT",
+        "QDSCE-26-DT"
+      ],
+      "average_confidence": 1.0,
+      "top_performer": "SHCMC-26-DT"
+    },
+    {
+      "batch_number": 3,
+      "materials_count": 4,
+      "material_names": [
+        "NDDV-26-DT",
+        "HTSC-26-DT",
+        "SASC-26-DT",
+        "QSC-26-DT"
+      ],
+      "average_confidence": 1.0,
+      "top_performer": "NDDV-26-DT"
+    },
+    {
+      "batch_number": 4,
+      "materials_count": 4,
+      "material_names": [
+        "BDE-26-DT",
+        "APC-26-DT",
+        "NIH-26-DT",
+        "SRS-26-DT"
+      ],
+      "average_confidence": 1.0,
+      "top_performer": "BDE-26-DT"
+    },
+    {
+      "batch_number": 5,
+      "materials_count": 4,
+      "material_names": [
+        "SACS-26-DT",
+        "PDON-26-DT",
+        "TISL-26-DT",
+        "SRPN-26-DT"
+      ],
+      "average_confidence": 1.0,
+      "top_performer": "SACS-26-DT"
+    }
+  ],
+  "consolidated_findings": {
+    "total_digital_twins": 20,
+    "overall_average_confidence": 1.0,
+    "top_performing_materials": [
+      {
+        "twin_id": "DT-QCA-2026-DT-20260305-001301",
+        "original_design": "QCA-2026-DT",
+        "category": "electromagnetic",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 4.208662983666345,
+          "bandwidth_efficiency": 0.7554047033162952,
+          "polarization_insensitive": 0.8587375007513333,
+          "reliability_score": 0.8,
+          "roi_projection": 194.4296628308457,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (high_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
+          "pressure_induced_deformation (ultra_high_pressure): High pressure may cause permanent deformation of unit cells"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      },
+      {
+        "twin_id": "DT-Ti\u2083C\u2082T\u2093-BIO-DT-20260305-001301",
+        "original_design": "Ti\u2083C\u2082T\u2093-BIO-DT",
+        "category": "mechanical",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "reliability_score": 0.7,
+          "roi_projection": 245.38903640752994,
+          "manufacturing_cost": 33.75
+        },
+        "critical_issues": [
+          "impact_damage (standard_lab): High strain rates may cause sudden failure",
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (extreme_temperature): High strain rates may cause sudden failure",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (cryogenic_temperature): High strain rates may cause sudden failure"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      },
+      {
+        "twin_id": "DT-PCQD-26-DT-20260305-001301",
+        "original_design": "PCQD-26-DT",
+        "category": "electromagnetic",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 0.4999999999999999,
+          "bandwidth_efficiency": 0.7514160150640082,
+          "polarization_insensitive": 0.8863436741441354,
+          "reliability_score": 0.8,
+          "roi_projection": 308.2035505154632,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (high_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
+          "pressure_induced_deformation (ultra_high_pressure): High pressure may cause permanent deformation of unit cells"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      },
+      {
+        "twin_id": "DT-SCGH-26-DT-20260305-001301",
+        "original_design": "SCGH-26-DT",
+        "category": "electromagnetic",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 4.01134160723702,
+          "bandwidth_efficiency": 0.8424181102450019,
+          "polarization_insensitive": 0.8705383044092692,
+          "reliability_score": 0.8,
+          "roi_projection": 87.24096283637266,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (high_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
+          "pressure_induced_deformation (ultra_high_pressure): High pressure may cause permanent deformation of unit cells"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      },
+      {
+        "twin_id": "DT-SHCMC-26-DT-20260305-001301",
+        "original_design": "SHCMC-26-DT",
+        "category": "mechanical",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "reliability_score": 0.7,
+          "roi_projection": 135.34044626649052,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "impact_damage (standard_lab): High strain rates may cause sudden failure",
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (extreme_temperature): High strain rates may cause sudden failure",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (cryogenic_temperature): High strain rates may cause sudden failure"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      }
+    ],
+    "field_distribution": {
+      "Energy Storage & Quantum Computing": 1,
+      "Biomedical Engineering": 1,
+      "Optoelectronics": 1,
+      "Superconductivity": 1,
+      "Structural Materials": 1,
+      "Neuromorphic Computing": 1,
+      "Environmental Science": 1,
+      "Renewable Energy": 2,
+      "Nanomedicine": 2,
+      "Energy Transmission": 1,
+      "Civil Engineering": 1,
+      "Quantum Sensing": 1,
+      "Transient Electronics": 1,
+      "Neural Engineering": 1,
+      "Space Materials": 1,
+      "Catalysis": 1,
+      "Quantum Materials": 1,
+      "Smart Materials": 1
+    },
+    "confidence_distribution": {
+      "high_confidence": 20,
+      "medium_confidence": 0,
+      "low_confidence": 0
+    }
+  }
+}

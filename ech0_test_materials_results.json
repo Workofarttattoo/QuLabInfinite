@@ -1,0 +1,158 @@
+{
+  "timestamp": "2026-03-05T00:10:00",
+  "materials_tested": 3,
+  "conditions_tested": [
+    "standard_lab"
+  ],
+  "results": {
+    "timestamp": "2026-03-05T00:12:34.007550",
+    "designs_characterized": 3,
+    "conditions_tested": [
+      "standard_lab"
+    ],
+    "digital_twins_created": [
+      {
+        "twin_id": "DT-QCA-2026-DT-20260305-001234",
+        "original_design": "QCA-2026-DT",
+        "category": "electromagnetic",
+        "confidence_level": 0.8775000000000001,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 4.243759942830804,
+          "bandwidth_efficiency": 0.8315561624850241,
+          "polarization_insensitive": 0.93554910491565,
+          "reliability_score": 0.775,
+          "roi_projection": 152.1110946210942,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "High ROI opportunity - proceed with prototyping"
+        ]
+      },
+      {
+        "twin_id": "DT-Ti\u2083C\u2082T\u2093-BIO-DT-20260305-001234",
+        "original_design": "Ti\u2083C\u2082T\u2093-BIO-DT",
+        "category": "mechanical",
+        "confidence_level": 0.875,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "reliability_score": 0.75,
+          "roi_projection": 220.00799802125408,
+          "manufacturing_cost": 33.75
+        },
+        "critical_issues": [
+          "impact_damage (standard_lab): High strain rates may cause sudden failure"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "Address impact_damage: Implement impact protection or limit strain rates",
+          "High ROI opportunity - proceed with prototyping"
+        ]
+      },
+      {
+        "twin_id": "DT-PCQD-26-DT-20260305-001234",
+        "original_design": "PCQD-26-DT",
+        "category": "electromagnetic",
+        "confidence_level": 0.8775000000000001,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 0.4999999999999999,
+          "bandwidth_efficiency": 0.9585964498423934,
+          "polarization_insensitive": 0.9617301585528034,
+          "reliability_score": 0.775,
+          "roi_projection": 217.36113450477282,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "High ROI opportunity - proceed with prototyping"
+        ]
+      }
+    ],
+    "campaign_summary": {
+      "total_twins": 3,
+      "average_confidence": 0.8766666666666666,
+      "categories_covered": [
+        "electromagnetic",
+        "mechanical"
+      ],
+      "validation_status_distribution": {
+        "characterized": 3
+      },
+      "top_category": "electromagnetic",
+      "critical_issues_count": 1
+    },
+    "top_performers": [
+      {
+        "twin_id": "DT-QCA-2026-DT-20260305-001234",
+        "original_design": "QCA-2026-DT",
+        "category": "electromagnetic",
+        "confidence_level": 0.8775000000000001,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 4.243759942830804,
+          "bandwidth_efficiency": 0.8315561624850241,
+          "polarization_insensitive": 0.93554910491565,
+          "reliability_score": 0.775,
+          "roi_projection": 152.1110946210942,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "High ROI opportunity - proceed with prototyping"
+        ]
+      },
+      {
+        "twin_id": "DT-PCQD-26-DT-20260305-001234",
+        "original_design": "PCQD-26-DT",
+        "category": "electromagnetic",
+        "confidence_level": 0.8775000000000001,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 0.4999999999999999,
+          "bandwidth_efficiency": 0.9585964498423934,
+          "polarization_insensitive": 0.9617301585528034,
+          "reliability_score": 0.775,
+          "roi_projection": 217.36113450477282,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "High ROI opportunity - proceed with prototyping"
+        ]
+      },
+      {
+        "twin_id": "DT-Ti\u2083C\u2082T\u2093-BIO-DT-20260305-001234",
+        "original_design": "Ti\u2083C\u2082T\u2093-BIO-DT",
+        "category": "mechanical",
+        "confidence_level": 0.875,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "reliability_score": 0.75,
+          "roi_projection": 220.00799802125408,
+          "manufacturing_cost": 33.75
+        },
+        "critical_issues": [
+          "impact_damage (standard_lab): High strain rates may cause sudden failure"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "Address impact_damage: Implement impact protection or limit strain rates",
+          "High ROI opportunity - proceed with prototyping"
+        ]
+      }
+    ],
+    "critical_findings": [
+      "Most common issue: impact_damage (standard_lab) (1 occurrences)",
+      "Confidence range: 0.88 - 0.88",
+      "Category distribution: {'electromagnetic': 2, 'mechanical': 1}"
+    ]
+  }
+}
