@@ -1,0 +1,218 @@
+{
+  "lab_name": "materials_lab",
+  "test_scenarios_run": 7,
+  "experiments": [
+    {
+      "scenario": "standard_lab_conditions",
+      "experiment_id": "materials_lab_20260305_104201_1307",
+      "success": false,
+      "environmental_impacts": [],
+      "key_results": {
+        "success": false,
+        "error": "'experiment_type' and 'material_name' are required in the experiment spec.",
+        "environmental_factors_applied": true
+      }
+    },
+    {
+      "scenario": "extreme_cold",
+      "experiment_id": "materials_lab_20260305_104201_8363",
+      "success": false,
+      "environmental_impacts": [
+        {
+          "factor": "temperature",
+          "value": 77.0,
+          "impact": "significant_thermal_effects",
+          "description": "Temperature 77.0K may affect reaction rates/kinetics"
+        },
+        {
+          "factor": "oxygen_level",
+          "value": 0.001,
+          "impact": "low_oxygen_environment",
+          "description": "Low oxygen levels may affect oxidation reactions or require inert atmosphere"
+        }
+      ],
+      "key_results": {
+        "success": false,
+        "error": "'experiment_type' and 'material_name' are required in the experiment spec.",
+        "environmental_factors_applied": true
+      }
+    },
+    {
+      "scenario": "vacuum_conditions",
+      "experiment_id": "materials_lab_20260305_104201_5151",
+      "success": false,
+      "environmental_impacts": [
+        {
+          "factor": "pressure",
+          "value": 1e-06,
+          "impact": "pressure_effects",
+          "description": "Pressure 0Pa affects gas solubility/equilibrium"
+        }
+      ],
+      "key_results": {
+        "success": false,
+        "error": "'experiment_type' and 'material_name' are required in the experiment spec.",
+        "environmental_factors_applied": true
+      }
+    },
+    {
+      "scenario": "high_humidity",
+      "experiment_id": "materials_lab_20260305_104201_2419",
+      "success": false,
+      "environmental_impacts": [
+        {
+          "factor": "temperature",
+          "value": 277.15,
+          "impact": "significant_thermal_effects",
+          "description": "Temperature 277.1K may affect reaction rates/kinetics"
+        },
+        {
+          "factor": "pressure",
+          "value": 100000000.0,
+          "impact": "pressure_effects",
+          "description": "Pressure 100000000Pa affects gas solubility/equilibrium"
+        },
+        {
+          "factor": "humidity",
+          "value": 1.0,
+          "impact": "high_humidity_effects",
+          "description": "High humidity may cause condensation or affect dry materials"
+        }
+      ],
+      "key_results": {
+        "success": false,
+        "error": "'experiment_type' and 'material_name' are required in the experiment spec.",
+        "environmental_factors_applied": true
+      }
+    },
+    {
+      "scenario": "microgravity",
+      "experiment_id": "materials_lab_20260305_104201_1326",
+      "success": false,
+      "environmental_impacts": [
+        {
+          "factor": "temperature",
+          "value": 253.15,
+          "impact": "significant_thermal_effects",
+          "description": "Temperature 253.2K may affect reaction rates/kinetics"
+        },
+        {
+          "factor": "pressure",
+          "value": 1e-12,
+          "impact": "pressure_effects",
+          "description": "Pressure 0Pa affects gas solubility/equilibrium"
+        },
+        {
+          "factor": "gravity",
+          "value": 0.0,
+          "impact": "altered_gravity_effects",
+          "description": "Gravity 0.00 m/s\u00b2 differs from Earth normal"
+        },
+        {
+          "factor": "radiation",
+          "value": 0.5,
+          "impact": "radiation_effects",
+          "description": "Elevated radiation levels may affect sensitive materials/measurements"
+        }
+      ],
+      "key_results": {
+        "success": false,
+        "error": "'experiment_type' and 'material_name' are required in the experiment spec.",
+        "environmental_factors_applied": true
+      }
+    },
+    {
+      "scenario": "electromagnetic_interference",
+      "experiment_id": "materials_lab_20260305_104201_3019",
+      "success": false,
+      "environmental_impacts": [],
+      "key_results": {
+        "success": false,
+        "error": "'experiment_type' and 'material_name' are required in the experiment spec.",
+        "environmental_factors_applied": true
+      }
+    },
+    {
+      "scenario": "radiation_exposure",
+      "experiment_id": "materials_lab_20260305_104201_4894",
+      "success": false,
+      "environmental_impacts": [
+        {
+          "factor": "temperature",
+          "value": 253.15,
+          "impact": "significant_thermal_effects",
+          "description": "Temperature 253.2K may affect reaction rates/kinetics"
+        },
+        {
+          "factor": "pressure",
+          "value": 1e-12,
+          "impact": "pressure_effects",
+          "description": "Pressure 0Pa affects gas solubility/equilibrium"
+        },
+        {
+          "factor": "gravity",
+          "value": 0.0,
+          "impact": "altered_gravity_effects",
+          "description": "Gravity 0.00 m/s\u00b2 differs from Earth normal"
+        },
+        {
+          "factor": "radiation",
+          "value": 0.5,
+          "impact": "radiation_effects",
+          "description": "Elevated radiation levels may affect sensitive materials/measurements"
+        }
+      ],
+      "key_results": {
+        "success": false,
+        "error": "'experiment_type' and 'material_name' are required in the experiment spec.",
+        "environmental_factors_applied": true
+      }
+    }
+  ],
+  "performance_summary": {
+    "overall_success_rate": 0.0,
+    "total_experiments": 7,
+    "successful_experiments": 0,
+    "scenario_performance": {
+      "standard_lab_conditions": {
+        "total": 1,
+        "success": 0
+      },
+      "extreme_cold": {
+        "total": 1,
+        "success": 0
+      },
+      "vacuum_conditions": {
+        "total": 1,
+        "success": 0
+      },
+      "high_humidity": {
+        "total": 1,
+        "success": 0
+      },
+      "microgravity": {
+        "total": 1,
+        "success": 0
+      },
+      "electromagnetic_interference": {
+        "total": 1,
+        "success": 0
+      },
+      "radiation_exposure": {
+        "total": 1,
+        "success": 0
+      }
+    }
+  },
+  "environmental_sensitivity": {
+    "temperature_sensitivity": 0.0,
+    "pressure_sensitivity": 0.0,
+    "humidity_sensitivity": 0.0,
+    "gravity_sensitivity": 0.0,
+    "radiation_sensitivity": 0.0,
+    "most_problematic_conditions": []
+  },
+  "recommendations": [
+    "Lab shows significant environmental sensitivity - consider environmental controls"
+  ]
+}

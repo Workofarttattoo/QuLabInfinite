@@ -1,0 +1,292 @@
+{
+  "batch_number": 2,
+  "timestamp": "2026-03-05T00:13:01.808534",
+  "materials_processed": 4,
+  "material_names": [
+    "SHCMC-26-DT",
+    "NPM-26-DT",
+    "CCMOF-26-DT",
+    "QDSCE-26-DT"
+  ],
+  "results": {
+    "timestamp": "2026-03-05T00:13:01.794144",
+    "designs_characterized": 4,
+    "conditions_tested": [
+      "standard_lab",
+      "extreme_temperature",
+      "cryogenic_temperature",
+      "high_temperature",
+      "high_pressure",
+      "ultra_high_pressure",
+      "vacuum_conditions",
+      "saltwater_corrosion",
+      "acid_exposure",
+      "alkaline_exposure",
+      "oxidizing_atmosphere",
+      "vibration_testing",
+      "shock_testing",
+      "fatigue_cycling",
+      "gamma_radiation",
+      "neutron_radiation",
+      "uv_exposure",
+      "electromagnetic_interference",
+      "biodegradation",
+      "humidity_cycling",
+      "thermal_shock",
+      "space_vacuum",
+      "reentry_heating",
+      "launch_vibration",
+      "chemical_plant",
+      "offshore_oil_rig",
+      "nuclear_reactor",
+      "quantum_computing",
+      "5g_6g_environment",
+      "autonomous_vehicle"
+    ],
+    "digital_twins_created": [
+      {
+        "twin_id": "DT-SHCMC-26-DT-20260305-001301",
+        "original_design": "SHCMC-26-DT",
+        "category": "mechanical",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "reliability_score": 0.7,
+          "roi_projection": 135.34044626649052,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "impact_damage (standard_lab): High strain rates may cause sudden failure",
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (extreme_temperature): High strain rates may cause sudden failure",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (cryogenic_temperature): High strain rates may cause sudden failure"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      },
+      {
+        "twin_id": "DT-NPM-26-DT-20260305-001301",
+        "original_design": "NPM-26-DT",
+        "category": "electromagnetic",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 4.338691580049705,
+          "bandwidth_efficiency": 0.9541052917446404,
+          "polarization_insensitive": 0.9693997850096097,
+          "reliability_score": 0.8,
+          "roi_projection": 343.1109734287864,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (high_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
+          "pressure_induced_deformation (ultra_high_pressure): High pressure may cause permanent deformation of unit cells"
+        ],
+        "recommendations": [
+          "Address thermal_cycling_fatigue: Implement thermal management system",
+          "Address thermal_cycling_fatigue: Implement thermal management system",
+          "Address thermal_cycling_fatigue: Implement thermal management system",
+          "Address pressure_induced_deformation: Reinforce unit cell structure or reduce operational pressure",
+          "Address pressure_induced_deformation: Reinforce unit cell structure or reduce operational pressure"
+        ]
+      },
+      {
+        "twin_id": "DT-CCMOF-26-DT-20260305-001301",
+        "original_design": "CCMOF-26-DT",
+        "category": "chemical",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "reliability_score": 0.8,
+          "roi_projection": -0.1,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (high_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
+          "pressure_induced_deformation (ultra_high_pressure): High pressure may cause permanent deformation of unit cells"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      },
+      {
+        "twin_id": "DT-QDSCE-26-DT-20260305-001301",
+        "original_design": "QDSCE-26-DT",
+        "category": "electromagnetic",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 3.9779450284522184,
+          "bandwidth_efficiency": 0.9151183285177469,
+          "polarization_insensitive": 0.8534843311293411,
+          "reliability_score": 0.8,
+          "roi_projection": 126.85177624637481,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (high_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
+          "pressure_induced_deformation (ultra_high_pressure): High pressure may cause permanent deformation of unit cells"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      }
+    ],
+    "campaign_summary": {
+      "total_twins": 4,
+      "average_confidence": 1.0,
+      "categories_covered": [
+        "mechanical",
+        "chemical",
+        "electromagnetic"
+      ],
+      "validation_status_distribution": {
+        "characterized": 4
+      },
+      "top_category": "mechanical",
+      "critical_issues_count": 20
+    },
+    "top_performers": [
+      {
+        "twin_id": "DT-SHCMC-26-DT-20260305-001301",
+        "original_design": "SHCMC-26-DT",
+        "category": "mechanical",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "reliability_score": 0.7,
+          "roi_projection": 135.34044626649052,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "impact_damage (standard_lab): High strain rates may cause sudden failure",
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (extreme_temperature): High strain rates may cause sudden failure",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (cryogenic_temperature): High strain rates may cause sudden failure"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      },
+      {
+        "twin_id": "DT-NPM-26-DT-20260305-001301",
+        "original_design": "NPM-26-DT",
+        "category": "electromagnetic",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 4.338691580049705,
+          "bandwidth_efficiency": 0.9541052917446404,
+          "polarization_insensitive": 0.9693997850096097,
+          "reliability_score": 0.8,
+          "roi_projection": 343.1109734287864,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (high_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
+          "pressure_induced_deformation (ultra_high_pressure): High pressure may cause permanent deformation of unit cells"
+        ],
+        "recommendations": [
+          "Address thermal_cycling_fatigue: Implement thermal management system",
+          "Address thermal_cycling_fatigue: Implement thermal management system",
+          "Address thermal_cycling_fatigue: Implement thermal management system",
+          "Address pressure_induced_deformation: Reinforce unit cell structure or reduce operational pressure",
+          "Address pressure_induced_deformation: Reinforce unit cell structure or reduce operational pressure"
+        ]
+      },
+      {
+        "twin_id": "DT-CCMOF-26-DT-20260305-001301",
+        "original_design": "CCMOF-26-DT",
+        "category": "chemical",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "reliability_score": 0.8,
+          "roi_projection": -0.1,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (high_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
+          "pressure_induced_deformation (ultra_high_pressure): High pressure may cause permanent deformation of unit cells"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      },
+      {
+        "twin_id": "DT-QDSCE-26-DT-20260305-001301",
+        "original_design": "QDSCE-26-DT",
+        "category": "electromagnetic",
+        "confidence_level": 1.0,
+        "validation_status": "characterized",
+        "key_metrics": {
+          "insertion_loss": 3.9779450284522184,
+          "bandwidth_efficiency": 0.9151183285177469,
+          "polarization_insensitive": 0.8534843311293411,
+          "reliability_score": 0.8,
+          "roi_projection": 126.85177624637481,
+          "manufacturing_cost": 50.0
+        },
+        "critical_issues": [
+          "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "thermal_cycling_fatigue (high_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
+          "pressure_induced_deformation (ultra_high_pressure): High pressure may cause permanent deformation of unit cells"
+        ],
+        "recommendations": [
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost",
+          "material_simplification: Reduce number of material types while maintaining performance - Lower manufacturing complexity and cost"
+        ]
+      }
+    ],
+    "critical_findings": [
+      "Most common issue: thermal_cycling_fatigue (extreme_temperature) (4 occurrences)",
+      "Most common issue: thermal_cycling_fatigue (cryogenic_temperature) (4 occurrences)",
+      "Most common issue: thermal_cycling_fatigue (high_temperature) (3 occurrences)",
+      "Confidence range: 1.00 - 1.00",
+      "Category distribution: {'mechanical': 1, 'electromagnetic': 2, 'chemical': 1}"
+    ]
+  }
+}

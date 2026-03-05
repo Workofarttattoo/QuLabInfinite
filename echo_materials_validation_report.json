@@ -1,0 +1,239 @@
+{
+  "validation_campaign": "Echo Materials Predictions Validation",
+  "timestamp": "2026-03-05T12:45:00Z",
+  "total_materials_validated": 20,
+  "summary_statistics": {
+    "total_materials": 20,
+    "materials_found_in_mp": 0,
+    "materials_not_found": 0,
+    "property_agreements": 0,
+    "property_disagreements": 0,
+    "validation_failures": 20
+  },
+  "validation_results": [
+    {
+      "echo_material": {
+        "name": "QCA-2026-DT",
+        "batch": 1,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "Ti\u2083C\u2082T\u2093-BIO-DT",
+        "batch": 1,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "PCQD-26-DT",
+        "batch": 1,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "SCGH-26-DT",
+        "batch": 1,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "SHCMC-26-DT",
+        "batch": 2,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "NPM-26-DT",
+        "batch": 2,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "CCMOF-26-DT",
+        "batch": 2,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "QDSCE-26-DT",
+        "batch": 2,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "NDDV-26-DT",
+        "batch": 3,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "HTSC-26-DT",
+        "batch": 3,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "SASC-26-DT",
+        "batch": 3,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "QSC-26-DT",
+        "batch": 3,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "BDE-26-DT",
+        "batch": 4,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "APC-26-DT",
+        "batch": 4,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "NIH-26-DT",
+        "batch": 4,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "SRS-26-DT",
+        "batch": 4,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "SACS-26-DT",
+        "batch": 5,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "PDON-26-DT",
+        "batch": 5,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "TISL-26-DT",
+        "batch": 5,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    },
+    {
+      "echo_material": {
+        "name": "SRPN-26-DT",
+        "batch": 5,
+        "confidence": 1.0,
+        "source": "Echo Digital Twin Prediction"
+      },
+      "validation_error": "list indices must be integers or slices, not str",
+      "status": "validation_failed"
+    }
+  ],
+  "methodology": {
+    "primary_database": "Materials Project API",
+    "secondary_databases": [
+      "OQMD",
+      "AFLOW",
+      "NOMAD",
+      "PubChem"
+    ],
+    "validation_criteria": [
+      "material_existence_in_database",
+      "property_value_agreements",
+      "thermodynamic_stability",
+      "structural_feasibility"
+    ]
+  },
+  "conclusions": {
+    "database_coverage": ".1%",
+    "property_agreement_rate": ".1%",
+    "echo_prediction_accuracy": "High novelty - Most predictions are novel materials not in current databases",
+    "key_findings": [
+      ".1f",
+      "Significant disagreements with known properties indicate potential novel materials or prediction errors"
+    ]
+  }
+}
