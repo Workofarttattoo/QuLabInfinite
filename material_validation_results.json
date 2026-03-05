@@ -1,0 +1,70 @@
+[
+  {
+    "material": "Quantum Carbon Aerogel",
+    "confidence": 0.6666666666666667,
+    "discrepancies": 1,
+    "theory_claims": {
+      "density": 0.15,
+      "surface_area": 1200,
+      "electrical_conductivity": 1000
+    },
+    "experimental": {
+      "material": "Carbon Aerogel",
+      "density": 0.15,
+      "surface_area": 1200,
+      "porosity": 85,
+      "thermal_conductivity": 0.025,
+      "electrical_conductivity": 150,
+      "validation_status": "simulated"
+    }
+  },
+  {
+    "material": "Plasma Titania Aerogel",
+    "confidence": 0.6666666666666667,
+    "discrepancies": 1,
+    "theory_claims": {
+      "density": 0.3,
+      "surface_area": 150,
+      "band_gap": 3.2
+    },
+    "experimental": {
+      "material": "Titania Ceramic",
+      "density": 4.23,
+      "hardness": 8.5,
+      "thermal_expansion": 8.2e-06,
+      "dielectric_constant": 85,
+      "band_gap": 3.2,
+      "validation_status": "simulated"
+    }
+  },
+  {
+    "material": "Microbial Alginate Aerogel",
+    "confidence": 1.0,
+    "discrepancies": 0,
+    "theory_claims": {
+      "density": 0.02,
+      "surface_area": 200,
+      "biocompatibility": 0.98
+    },
+    "experimental": {}
+  },
+  {
+    "material": "Ionic Liquid Carbon Aerogel",
+    "confidence": 0.33333333333333337,
+    "discrepancies": 2,
+    "theory_claims": {
+      "density": 0.2,
+      "surface_area": 1500,
+      "electrical_conductivity": 50
+    },
+    "experimental": {
+      "material": "Carbon Aerogel",
+      "density": 0.15,
+      "surface_area": 1200,
+      "porosity": 85,
+      "thermal_conductivity": 0.025,
+      "electrical_conductivity": 150,
+      "validation_status": "simulated"
+    }
+  }
+]

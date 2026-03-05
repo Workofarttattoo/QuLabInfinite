@@ -1,0 +1,23 @@
+{
+  "sample_name": "Rice_Husk_Silica_Aerogel",
+  "physical_properties": {
+    "bulk_density_g_cm3": 0.015,
+    "porosity_percent": null,
+    "volume_cm3": 10.0,
+    "dimensions_cm": [
+      2.0,
+      2.0,
+      2.5
+    ]
+  },
+  "estimated_properties": {
+    "specific_surface_area_m2_g": 800,
+    "thermal_conductivity_W_mK": 0.0058
+  },
+  "measurement_notes": [
+    "Density calculated from mass/volume measurements",
+    "Porosity assumes silica skeletal density of 2.2 g/cm\u00b3",
+    "Surface area is geometric estimate - BET recommended for accuracy",
+    "Thermal conductivity is empirical correlation - measure for precision"
+  ]
+}

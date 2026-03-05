@@ -17,24 +17,38 @@ The application is divided into specialized "Labs" (tabs) for different scientif
     *   **Visualization:** DataFrame viewer for chemical properties.
     *   **Engine:** `chemistry_lab`.
 
-3.  **Materials Lab** (New)
+3.  **Materials Lab** (Implemented)
     *   **Controls:** Search bar (filter by name, property), Property filters (Density range, etc.).
     *   **Visualization:**
         *   List/Table of materials.
-        *   Detail view for selected material (NIST data, external links).
-        *   "Add to Simulation" button.
+        *   Detail view for selected material (properties + safety lookup).
+        *   "Use In Stitch Workflow" action.
     *   **Engine:** `materials_lab.materials_database`.
 
-4.  **Stitch Workflow** (New)
+4.  **Stitch Workflow** (Implemented)
     *   **Purpose:** Connect outputs from one lab to inputs of another.
-    *   **Visualization:** Node-based graph editor (future) or linear workflow steps.
+    *   **Visualization:** Linear workflow builder with node table + JSON export preview.
+    *   **Natural Language Mode:** Free-text experiment requests are converted to workflows.
+        *   Deterministic templates are used when prompt confidence is high.
+        *   Open-ended fallback path is used for arbitrary/novel requests.
+        *   `lab_apparatus_simulator` step models beakers, burners, and lab tools from prompt context.
     *   **Example Workflow:**
         1.  Select Material (Materials Lab) -> "Titanium Alloy"
-        2.  Define Geometry (Physics Lab) -> "Turbine Blade"
-        3.  Apply Environment (Atmospheric Lab) -> "High Altitude, -50C"
-        4.  Run Simulation.
+        2.  Add workflow nodes and connect source->target edges
+        3.  Validate dataflow graph
+        4.  Execute workflow via `WorkflowEngine`.
+
+5.  **Stitch Screens** (New)
+    *   **Purpose:** Browse the provided Stitch QuLab reference screen packs.
+    *   **Visualization:**
+        *   Pack filter + screen list.
+        *   Full-size `screen.png` preview.
+        *   Paired `code.html` preview panel.
+    *   **Source:** `gui/assets/stitch_qulab/*`.
 
 ## Technical Implementation
 *   **Main Window:** `gui/main_window.py` - `QTabWidget` hosting the labs.
-*   **Materials Widget:** `gui/materials_widget.py` (Planned) - Interfaces with `MaterialsDatabase`.
-*   **Workflow Widget:** `gui/workflow_widget.py` (Planned) - Visualizes the `stitch` process.
+*   **Materials Widget:** `gui/materials_widget.py` - Interfaces with `MaterialsDatabase`.
+*   **Workflow Widget:** `gui/workflow_widget.py` - Uses `WorkflowEngine` for create/add/connect/validate/execute/export.
+*   **Stitch Screen Browser:** `gui/stitch_screens_widget.py` - Renders imported reference screens from disk.
+*   **Cross-tab Integration:** Material selection in Materials Lab updates Stitch workflow context.

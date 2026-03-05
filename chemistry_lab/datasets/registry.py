@@ -1,9 +1,3 @@
-"""
-Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
-
-registry - Part of Chemistry Lab
-"""
-
 """Dataset registry enumerating chemistry ML resources."""
 
 from __future__ import annotations

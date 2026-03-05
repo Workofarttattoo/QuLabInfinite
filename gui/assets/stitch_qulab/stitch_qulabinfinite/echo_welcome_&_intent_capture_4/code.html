@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Autonomous Execution &amp; CoT Log</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-dark": "#0a0f14",
+                        "terminal-bg": "#0d1117",
+                        "success": "#2ea44f",
+                        "danger": "#cf222e"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                background: rgba(13, 17, 23, 0.8);
+                backdrop-filter: blur(8px);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .scanline {
+                width: 100%;
+                height: 2px;
+                background: rgba(19, 127, 236, 0.1);
+                position: absolute;
+                top: 0;
+                left: 0;
+                pointer-events: none;
+            }
+            .log-gradient {
+                background: linear-gradient(to bottom, transparent, #0d1117 90%);
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(19, 127, 236, 0.2);
+            border-radius: 10px;
+        }
+    </style>
+<style>
+        body {
+            min-height: 100dvh;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-slate-300 font-display flex flex-col overflow-hidden">
+<header class="relative z-30 px-6 pt-12 pb-4 flex justify-between items-center w-full border-b border-white/5">
+<div class="text-xs font-mono font-medium tracking-wide opacity-70">09:41</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+<span class="text-[10px] font-mono tracking-widest uppercase text-success">Live: Alzheimer's Detection</span>
+</div>
+<div class="flex gap-2 items-center opacity-70">
+<span class="material-symbols-outlined text-[16px]">signal_cellular_3_bar</span>
+<span class="material-symbols-outlined text-[16px]">wifi</span>
+<span class="material-symbols-outlined text-[16px]">battery_full</span>
+</div>
+</header>
+<main class="flex-1 flex flex-col overflow-hidden relative">
+<div class="h-1/2 relative border-b border-white/5 p-4 overflow-hidden">
+<div class="absolute top-2 right-4 text-[10px] font-mono text-primary/60 uppercase">Node: port_8001</div>
+<div class="w-full h-full flex flex-col justify-center items-center">
+<div class="relative w-48 h-48 mb-4">
+<div class="absolute inset-0 border-4 border-primary/20 rounded-full border-dashed animate-[spin_10s_linear_infinite]"></div>
+<div class="absolute inset-4 border border-primary/40 rounded-full"></div>
+<div class="absolute inset-8 border-2 border-primary/10 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+<div class="absolute inset-0 flex items-center justify-center flex-col">
+<span class="text-xs text-primary/70 font-mono">TAU PROTEIN</span>
+<span class="text-2xl font-bold text-white tracking-tighter">0.842 <span class="text-xs font-normal text-success">pg/mL</span></span>
+<div class="w-24 h-1 bg-white/5 rounded-full mt-2 overflow-hidden">
+<div class="w-3/4 h-full bg-primary"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 w-full px-6">
+<div class="glass-panel p-2 rounded-lg">
+<div class="text-[8px] uppercase text-slate-500">Amyloid-β 42</div>
+<div class="text-sm font-mono text-white">412.5 <span class="text-[10px] text-primary">nm/L</span></div>
+</div>
+<div class="glass-panel p-2 rounded-lg">
+<div class="text-[8px] uppercase text-slate-500">Neurofilament</div>
+<div class="text-sm font-mono text-white">18.2 <span class="text-[10px] text-primary">pg/mL</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="h-1/2 bg-terminal-bg flex flex-col p-4 font-mono text-[11px]">
+<div class="flex justify-between items-center mb-2 border-b border-white/5 pb-1">
+<span class="text-primary text-[9px] font-bold">CHAIN OF THOUGHT EXECUTION</span>
+<span class="text-slate-600 text-[9px]">v1.0.4-stable</span>
+</div>
+<div class="flex-1 overflow-y-auto space-y-1 relative">
+<div class="text-slate-500">[2023-10-27 14:02:11] INITIATING: port 8001... <span class="text-success">OK</span></div>
+<div class="text-slate-500">[2023-10-27 14:02:12] PULLING: clinical_constants.json... <span class="text-success">OK</span></div>
+<div class="text-slate-500">[2023-10-27 14:02:13] LOADING: atn_biomarker_framework.py... <span class="text-success">OK</span></div>
+<div class="text-slate-500">[2023-10-27 14:02:15] HANDSHAKE: qulab_lab_node_01... <span class="text-success">OK</span></div>
+<div class="text-primary/80">[2023-10-27 14:02:16] ANALYZING: CSF Tau-neurodegeneration (T)...</div>
+<div class="text-slate-500">[2023-10-27 14:02:17] FETCHING: patient_volumetric_data_S8... <span class="text-success">OK</span></div>
+<div class="text-slate-500">[2023-10-27 14:02:18] CROSS_REF: NIA-AA 2018 Framework...</div>
+<div class="text-white bg-primary/10 px-1">[2023-10-27 14:02:19] THRESHOLD_MET: p-tau181 (clinical_level_3)</div>
+<div class="text-slate-500">[2023-10-27 14:02:20] CALCULATING: APOE e4 risk_factor_score...</div>
+<div class="text-slate-500 animate-pulse text-primary">&gt; PROCESSING_QUEUE_04...</div>
+<div class="sticky bottom-0 left-0 right-0 h-8 log-gradient pointer-events-none"></div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-0 left-0 right-0 z-40 px-4 pb-8 pt-4 glass-panel border-t border-white/10 rounded-t-3xl shadow-2xl">
+<div class="max-w-md mx-auto space-y-6">
+<div class="flex items-start gap-4">
+<div class="shrink-0 w-12 h-12 rounded-full border border-primary/30 overflow-hidden">
+<img alt="Echo AI Avatar" class="w-full h-full object-cover grayscale-[0.2]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAh_p6KPX7ise1moG5VVpZNieoTmwhmOPMpHVnurjnVVFUlxwReVo15jFS-FK8CNs9zfy6nhvYWm33K80J4Av4A-Zyx6RTob6dKa9MzXUmE76M4rrVtGMmzoLebOo1C5pa6sooRC54BZ8Yxu5Vghvsx8ynWtR2WN3uyzz7FsT6FR8MULptwcbtlr8eKCUpbb6Z5P9dSpDsQeVkVjTnVSN1mU_c9ULlXoMa3i8L5Z2vYCt2bVoC_4fPq4VLMZlYrZopXThLfX2HNKQ"/>
+</div>
+<div class="flex-1 bg-white/5 border border-white/5 rounded-2xl rounded-tl-none p-3 shadow-inner">
+<p class="text-xs leading-relaxed text-slate-200">
+                        "Processing CSF analysis for tau neurodegeneration... <span class="text-primary font-semibold">results are trending towards early-stage detection.</span> I've prioritized the NIA-AA validation suite."
+                    </p>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<button class="w-full bg-danger/20 border border-danger/40 hover:bg-danger/30 text-danger py-4 rounded-xl flex items-center justify-center gap-2 transition-all group">
+<span class="material-symbols-outlined fill-1">emergency</span>
+<span class="font-bold tracking-widest text-sm uppercase group-active:scale-95 transition-transform">Emergency Stop</span>
+</button>
+<div class="flex gap-2">
+<button class="flex-1 bg-white/5 border border-white/10 py-2.5 rounded-lg text-[10px] uppercase tracking-wider font-semibold text-slate-400 hover:bg-white/10 transition-colors">
+                        View Full Data
+                    </button>
+<button class="flex-1 bg-white/5 border border-white/10 py-2.5 rounded-lg text-[10px] uppercase tracking-wider font-semibold text-slate-400 hover:bg-white/10 transition-colors">
+                        Export Report
+                    </button>
+</div>
+</div>
+<div class="w-32 h-1 bg-white/20 rounded-full mx-auto mt-2"></div>
+</div>
+</div>
+
+</body></html>

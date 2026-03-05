@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bone Density Lab Visualizer</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101922; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #137fec; 
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(16, 25, 34, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Grid overlay for technical feel */
+        .tech-grid {
+            background-image: 
+                linear-gradient(to right, rgba(19, 127, 236, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(19, 127, 236, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Pulse animation for live dot */
+        @keyframes pulse-primary {
+            0% { box-shadow: 0 0 0 0 rgba(19, 127, 236, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(19, 127, 236, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(19, 127, 236, 0); }
+        }
+        .animate-pulse-ring {
+            animation: pulse-primary 2s infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display h-screen w-full overflow-hidden flex flex-col antialiased selection:bg-primary selection:text-white">
+<!-- Background Tech Grid -->
+<div class="fixed inset-0 pointer-events-none tech-grid z-0"></div>
+<!-- Top Navigation Bar (Glassmorphism) -->
+<header class="fixed top-0 w-full z-50 glass-panel border-b border-white/5">
+<div class="flex items-center justify-between px-4 py-3 max-w-lg mx-auto w-full">
+<button class="p-2 -ml-2 rounded-full hover:bg-white/5 active:bg-white/10 transition-colors">
+<span class="material-icons-round text-primary text-2xl">chevron_left</span>
+</button>
+<div class="flex flex-col items-center">
+<span class="text-xs text-slate-400 uppercase tracking-widest font-bold">Analysis</span>
+<span class="text-sm font-semibold tracking-wide">Qulab-8006</span>
+</div>
+<div class="flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse-ring"></div>
+<span class="text-[10px] font-bold text-primary tracking-wider">LIVE</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto pb-32 pt-20 px-4 max-w-lg mx-auto w-full relative z-10 space-y-4">
+<!-- Structural Integrity Visualizer (Hero) -->
+<section class="relative w-full aspect-[4/5] rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-black/40 group">
+<!-- Label Overlay -->
+<div class="absolute top-4 left-4 z-20">
+<h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Structural Integrity</h2>
+<div class="text-lg font-medium text-white">Femur Cross-Section</div>
+</div>
+<!-- 3D Visualization Placeholder -->
+<div class="absolute inset-0 z-0">
+<img alt="3D Bone Model" class="w-full h-full object-cover opacity-60 mix-blend-screen" data-alt="3D abstract rendering of bone structure with heatmap gradient" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY2ICwfFC3vabNk2NxSC_GqsTBqSP3jqMiUG7T34J-cBpUu7Z4w3l5CEi9FHIO0_Dr3ALMrQToQcIJnjY4JfQwewXz834L7Zp_BKuZALzB3R4PkkR-1ebPZG99_umK7zQ9lLFJ-Bfz47JRmzOAYt7ASwes2c6JKsFIoX9D7Bd6AQYt7Qm_aNFt2WhuNvX6XQwpYCNxRSZp6-897tKhAYgCcQNdiAzM9QPJ5CHvfi_XYdXFk3IxPJ6HRa5X_56yQltA2i7mmlCtYj8"/>
+<!-- Heatmap Gradient Overlay Simulation -->
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-90"></div>
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-purple-500/20 mix-blend-overlay"></div>
+<!-- Scanning Line Animation -->
+<div class="absolute top-0 w-full h-1 bg-primary/50 shadow-[0_0_15px_rgba(19,127,236,0.8)] animate-[scan_3s_ease-in-out_infinite]" style="top: 30%"></div>
+</div>
+<!-- Floating Clinical Constants Sidebar -->
+<div class="absolute top-20 right-4 flex flex-col gap-2 z-20">
+<div class="glass-panel p-2 rounded-lg border border-white/10 backdrop-blur-md">
+<div class="text-[10px] text-slate-400 uppercase">T-Score</div>
+<div class="text-sm font-bold text-white tabular-nums">-0.8</div>
+</div>
+<div class="glass-panel p-2 rounded-lg border border-white/10 backdrop-blur-md">
+<div class="text-[10px] text-slate-400 uppercase">Z-Score</div>
+<div class="text-sm font-bold text-primary tabular-nums">+0.2</div>
+</div>
+<div class="glass-panel p-2 rounded-lg border border-white/10 backdrop-blur-md">
+<div class="text-[10px] text-slate-400 uppercase">BMD</div>
+<div class="text-sm font-bold text-white tabular-nums">0.98 <span class="text-[10px] font-normal text-slate-400">g/cm²</span></div>
+</div>
+</div>
+<!-- Density Gradient Legend -->
+<div class="absolute bottom-4 left-4 right-4 flex items-center justify-between z-20">
+<span class="text-[10px] text-slate-400">Low Density</span>
+<div class="flex-1 mx-3 h-1.5 rounded-full bg-gradient-to-r from-blue-900 via-primary to-white opacity-80 border border-white/20"></div>
+<span class="text-[10px] text-slate-400">High Density</span>
+</div>
+<!-- Controls overlay on hover/focus (Always visible on mobile usually) -->
+<div class="absolute right-4 bottom-14 flex flex-col gap-3">
+<button class="w-8 h-8 rounded-full glass-panel flex items-center justify-center text-white hover:bg-primary/20 transition-colors">
+<span class="material-icons-round text-sm">3d_rotation</span>
+</button>
+<button class="w-8 h-8 rounded-full glass-panel flex items-center justify-center text-white hover:bg-primary/20 transition-colors">
+<span class="material-icons-round text-sm">zoom_in</span>
+</button>
+</div>
+</section>
+<!-- Echo Insight Module -->
+<div class="glass-panel rounded-xl p-4 flex items-start gap-3 border-l-2 border-l-primary relative overflow-hidden">
+<!-- Subtle background sheen -->
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
+<div class="flex-shrink-0 mt-0.5">
+<span class="material-icons-round text-primary animate-pulse">graphic_eq</span>
+</div>
+<div class="flex-1 relative z-10">
+<div class="flex justify-between items-baseline mb-1">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Echo AI Insight</span>
+<span class="text-[10px] text-slate-500">Just now</span>
+</div>
+<p class="text-sm text-slate-200 leading-relaxed font-light">
+                    Validating mineral density against the <span class="text-white font-medium">Golden Run</span> benchmark. Variance is within <span class="text-green-400 font-mono">0.002%</span>.
+                </p>
+</div>
+</div>
+<!-- Stress-Strain Graph Card -->
+<section class="glass-panel rounded-xl p-4 border border-white/5">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h3 class="text-sm font-semibold text-white">Young's Modulus</h3>
+<p class="text-[10px] text-slate-400 uppercase tracking-wider">Stress (MPa) vs Strain (%)</p>
+</div>
+<button class="text-slate-400 hover:text-white">
+<span class="material-icons-round text-sm">more_horiz</span>
+</button>
+</div>
+<!-- CSS Only Graph Representation -->
+<div class="relative h-32 w-full border-l border-b border-slate-700/50">
+<!-- Grid Lines -->
+<div class="absolute top-0 w-full h-px bg-slate-700/20" style="top: 0%"></div>
+<div class="absolute top-0 w-full h-px bg-slate-700/20" style="top: 25%"></div>
+<div class="absolute top-0 w-full h-px bg-slate-700/20" style="top: 50%"></div>
+<div class="absolute top-0 w-full h-px bg-slate-700/20" style="top: 75%"></div>
+<!-- Data Line SVG -->
+<svg class="absolute inset-0 w-full h-full overflow-visible" preserveaspectratio="none">
+<defs>
+<lineargradient id="gradientLine" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#137fec" stop-opacity="0.5"></stop>
+<stop offset="100%" stop-color="#137fec" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Area under curve -->
+<path class="opacity-20" d="M0,128 L10,120 L30,100 L50,110 L80,60 L120,70 L150,40 L190,50 L220,20 L280,30 L320,5 L320,128 Z" fill="url(#gradientLine)"></path>
+<!-- Line -->
+<path d="M0,128 L10,120 L30,100 L50,110 L80,60 L120,70 L150,40 L190,50 L220,20 L280,30 L320,5" fill="none" stroke="#137fec" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<!-- Active Point -->
+<circle class="animate-pulse shadow-[0_0_10px_#137fec]" cx="100%" cy="5" fill="white" r="3"></circle>
+</svg>
+<!-- Labels -->
+<div class="absolute -left-6 top-0 text-[8px] text-slate-500">150</div>
+<div class="absolute -left-6 top-1/2 -translate-y-1/2 text-[8px] text-slate-500">75</div>
+<div class="absolute -left-6 bottom-0 text-[8px] text-slate-500">0</div>
+<div class="absolute left-0 -bottom-4 text-[8px] text-slate-500">0</div>
+<div class="absolute left-1/2 -translate-x-1/2 -bottom-4 text-[8px] text-slate-500">2.5</div>
+<div class="absolute right-0 -bottom-4 text-[8px] text-slate-500">5.0</div>
+</div>
+<div class="mt-6 flex justify-between items-center text-xs">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-slate-300">Elastic</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-slate-600"></div>
+<span class="text-slate-500">Plastic</span>
+</div>
+<div class="text-primary font-mono font-bold">142 MPa</div>
+</div>
+</section>
+</main>
+<!-- Bottom Control Dock (Glassmorphism) -->
+<nav class="fixed bottom-6 left-4 right-4 z-50">
+<div class="glass-panel rounded-2xl px-6 py-4 flex items-center justify-between shadow-2xl shadow-black/50 border border-white/10 max-w-lg mx-auto">
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons-round text-slate-400 group-hover:text-primary transition-colors text-2xl">layers</span>
+<span class="text-[9px] font-medium text-slate-500 group-hover:text-primary uppercase tracking-wider">Slice</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons-round text-slate-400 group-hover:text-primary transition-colors text-2xl">rotate_90_degrees_ccw</span>
+<span class="text-[9px] font-medium text-slate-500 group-hover:text-primary uppercase tracking-wider">Rotate</span>
+</button>
+<!-- Main Action Button -->
+<button class="relative -top-6 bg-primary text-white rounded-xl w-14 h-14 flex items-center justify-center shadow-[0_8px_20px_-4px_rgba(19,127,236,0.5)] border border-white/20 hover:scale-105 transition-transform active:scale-95">
+<span class="material-icons-round text-3xl">play_arrow</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons-round text-slate-400 group-hover:text-primary transition-colors text-2xl">analytics</span>
+<span class="text-[9px] font-medium text-slate-500 group-hover:text-primary uppercase tracking-wider">Report</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons-round text-slate-400 group-hover:text-primary transition-colors text-2xl">restart_alt</span>
+<span class="text-[9px] font-medium text-slate-500 group-hover:text-primary uppercase tracking-wider">Reset</span>
+</button>
+</div>
+</nav>
+<style>
+        @keyframes scan {
+            0% { top: 10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 90%; opacity: 0; }
+        }
+    </style>
+</body></html>

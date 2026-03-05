@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Refined Genomics Production Suite</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-dark": "#0b5cb5",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#080c11",
+                        "accent-pink": "#ec137f",
+                        "nist-green": "#00f5a0",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.15rem",
+                        "lg": "0.35rem",
+                        "xl": "0.6rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    backdropBlur: {
+                        "heavy": "24px",
+                        "ultra": "40px",
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+            .no-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .glass-panel {
+                background: rgba(8, 12, 17, 0.85);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border: 0.5px solid rgba(255, 255, 255, 0.08);
+            }
+            .glass-card {
+                background: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 0.5px solid rgba(255, 255, 255, 0.05);
+            }
+            .micro-typo {
+                font-size: 0.6rem;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                font-weight: 600;
+            }
+            .nist-badge {
+                background: linear-gradient(90deg, #00f5a022, transparent);
+                border-left: 2px solid #00f5a0;
+            }
+            .grounded-node {
+                box-shadow: 0 0 15px rgba(19, 127, 236, 0.4);
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-slate-300 font-display antialiased h-screen overflow-hidden relative">
+<div class="absolute inset-0 z-0 overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center opacity-60 scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdcmP2Ey6-8UezmXWkkA4ykpypK5CYV8X4WFG3GxypgkgITnMShAoIU-OWtybG-aSMWxJFU1pLFfTe_WLrUKAtvlEIOanc61zyxRH0FNB7WCGCvkpkMFqFEvD_lKy6azOssWzbCOX0iwJ8pW0p9vF1QTDT4nkfSOGYj2Zni_HcngfedR-ljGqDdyJi1Gqe1keh2Xa-j-c9hd6z0Id4R9-UZX9qKn-4n9fqa5lOh4uUPEFDrov6S24me8zs1EauNps5Tj2xachO74c');"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background-dark via-background-dark/20 to-background-dark"></div>
+<div class="absolute top-[40%] left-[30%] w-6 h-6 rounded-full border border-primary/40 flex items-center justify-center animate-pulse">
+<div class="w-1.5 h-1.5 bg-primary rounded-full grounded-node"></div>
+</div>
+<div class="absolute top-[55%] right-[25%] w-6 h-6 rounded-full border border-accent-pink/40 flex items-center justify-center">
+<div class="w-1.5 h-1.5 bg-accent-pink rounded-full grounded-node"></div>
+</div>
+</div>
+<div class="relative z-10 flex flex-col h-full safe-area-inset-top">
+<header class="flex items-center justify-between px-5 pt-10 pb-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="w-1 h-3 bg-primary rounded-full"></span>
+<h1 class="text-xs font-bold tracking-[0.2em] text-white uppercase">Refined Genomics Suite</h1>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="micro-typo text-slate-500">Node ID: QULAB-8015</span>
+<span class="w-1 h-1 bg-slate-700 rounded-full"></span>
+<span class="micro-typo text-primary">Active Sequence</span>
+</div>
+</div>
+<button class="w-9 h-9 rounded-full glass-panel flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px] text-white">grid_view</span>
+</button>
+</header>
+<div class="flex-1 relative">
+<div class="absolute top-4 left-5 nist-badge px-3 py-2 flex flex-col gap-0.5">
+<span class="micro-typo text-nist-green">NIST TRACEABLE</span>
+<span class="text-[10px] text-slate-400 font-mono">ACC: 99.999984%</span>
+</div>
+<div class="absolute top-1/2 left-[35%] -translate-y-1/2 glass-panel px-3 py-2 rounded-lg border-l-2 border-primary">
+<div class="flex items-center gap-2 mb-1">
+<span class="micro-typo text-primary">Grounded Node</span>
+<span class="text-[8px] font-mono text-slate-500">#44-AT</span>
+</div>
+<div class="text-[11px] text-white font-medium">Mutation Detected</div>
+<div class="text-[9px] text-slate-400 mt-1">Locus: 12p13.31 • SNP</div>
+</div>
+</div>
+<div class="mt-auto px-4 pb-6 space-y-3">
+<div class="grid grid-cols-2 gap-3">
+<div class="glass-panel rounded-2xl p-4 flex flex-col justify-between">
+<div>
+<span class="micro-typo text-slate-500">Base-Pair Telemetry</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-2xl font-bold text-white tracking-tight">4.21</span>
+<span class="text-[10px] text-primary font-mono">Tbp/h</span>
+</div>
+</div>
+<div class="flex gap-1 mt-3">
+<div class="h-[2px] flex-1 bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-2xl p-4 flex flex-col justify-between border-t border-white/10">
+<div class="flex justify-between items-start">
+<span class="micro-typo text-slate-500">Reagent Level</span>
+<span class="material-symbols-outlined text-[14px] text-accent-pink">opacity</span>
+</div>
+<div class="mt-2">
+<div class="text-lg font-bold text-white">18.4%</div>
+<div class="flex items-center gap-1.5 mt-1">
+<div class="flex-1 h-1 bg-white/5 rounded-full">
+<div class="h-full bg-accent-pink w-[18.4%]"></div>
+</div>
+<span class="text-[8px] font-mono text-slate-500">LOW</span>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-2xl p-4 border-l-2 border-primary overflow-hidden relative">
+<div class="absolute -right-4 -top-4 w-16 h-16 bg-primary/5 blur-2xl rounded-full"></div>
+<div class="flex items-center gap-3 mb-3">
+<div class="relative">
+<img alt="Echo" class="w-10 h-10 rounded-full object-cover grayscale opacity-80 border border-white/20 shadow-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqRQ2OW-ybA8nw7l0qnUF5N-rdCOO2_-pCfnvgrgXrkIopvKbYzxqIBS_KAgTsicDCuUBTgleYL8S93HqEVe7tAHdlb_Sa0dRVyiNMVDKkJ8HqpqNqqu6mvJbInwJ2qjoUIGL1e64Wo_hEmy8WCnVHvrDUl-U01Tp9PPjLf1nAmpDeeeqWuX5lacE9jW4Op3T9mg5bYIvGgKI2VGRg5CJGRr0exPGGx4AyIFxHqbSKrvdN8OT_DfYhrlx3HQfZnj-oP6MxPca2cFA"/>
+<div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-nist-green rounded-full border-2 border-background-dark"></div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-white tracking-wide">Echo AGI</span>
+<span class="micro-typo text-primary bg-primary/10 px-1 rounded">Orchestrator</span>
+</div>
+<span class="text-[9px] text-slate-500 font-mono italic">Reasoning: Multimodal Heuristics Active</span>
+</div>
+</div>
+<div class="space-y-2">
+<p class="text-xs text-slate-300 leading-relaxed font-light">
+                    Reference <span class="text-primary font-mono text-[10px]">GRCh38</span> verification sync successful. Signal-to-noise ratio within clinical parameters.
+                </p>
+<div class="bg-white/5 rounded-lg p-2.5 border border-white/5">
+<div class="flex items-center gap-1.5 mb-1.5">
+<span class="material-symbols-outlined text-[14px] text-nist-green">bolt</span>
+<span class="micro-typo text-nist-green">Next-Best-Action</span>
+</div>
+<p class="text-[11px] text-slate-200">Initiate automated buffer injection to counteract reagent depletion and stabilize throughput drift.</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex-1 bg-white/5 hover:bg-white/10 h-12 rounded-xl flex items-center justify-center gap-2 transition-all group border border-white/5">
+<span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-white">tune</span>
+<span class="micro-typo text-slate-400 group-hover:text-white">Parameters</span>
+</button>
+<button class="flex-[1.5] bg-primary h-12 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[18px] text-white">rocket_launch</span>
+<span class="micro-typo text-white font-bold">Execute Ops</span>
+</button>
+</div>
+</div>
+</div>
+<div class="fixed inset-0 pointer-events-none z-0">
+<div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
+<div class="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-primary/10 to-transparent"></div>
+</div>
+
+</body></html>

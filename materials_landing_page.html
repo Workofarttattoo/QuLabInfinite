@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Materials Innovation | AIOS Materials</title>
+    <meta name="description" content="Revolutionary aerogel synthesis methods using alternative precursors. Open-source materials science innovation for sustainable advanced materials.">
+    <meta name="keywords" content="aerogels, advanced materials, sustainable synthesis, open-source materials, nanotechnology">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .logo span {
+            color: #764ba2;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #667eea;
+        }
+
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .material-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .material-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+
+        .material-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .material-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .material-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .material-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .learn-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .learn-more::after {
+            content: "→";
+            margin-left: 0.5rem;
+            transition: margin-left 0.3s;
+        }
+
+        .learn-more:hover::after {
+            margin-left: 1rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            background: white;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            width: calc(50% - 2rem);
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: auto;
+            margin-right: 2rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: 2rem;
+            margin-right: auto;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .timeline-item:nth-child(even)::before {
+            right: -40px;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            left: -40px;
+        }
+
+        .timeline-item h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item .date {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .contact-section h2 {
+            margin-bottom: 2rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-item h3 {
+            margin-bottom: 1rem;
+        }
+
+        .contact-item p {
+            margin-bottom: 1rem;
+        }
+
+        .contact-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .contact-link::after {
+            content: "→";
+            margin-left: 0.5rem;
+            transition: margin-left 0.3s;
+        }
+
+        .contact-link:hover::after {
+            margin-left: 1rem;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: calc(100% - 3rem);
+                margin-left: 3rem !important;
+                margin-right: 0 !important;
+            }
+
+            .timeline-item::before {
+                left: -15px !important;
+                right: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">AIOS<span>.is</span></div>
+            <ul>
+                <li><a href="#materials">Materials</a></li>
+                <li><a href="#innovation">Innovation</a></li>
+                <li><a href="#community">Community</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Advanced Materials Revolution</h1>
+            <p>Open-source aerogel synthesis methods using sustainable precursors. Democratizing access to cutting-edge materials science.</p>
+            <a href="#materials" class="cta-button">Explore Materials</a>
+        </div>
+    </section>
+
+    <section id="materials" class="section">
+        <div class="container">
+            <h2>Revolutionary Aerogel Synthesis Methods</h2>
+            <div class="materials-grid">
+                <div class="material-card">
+                    <span class="material-icon">🌾</span>
+                    <h3>Agricultural Waste Silica Aerogels</h3>
+                    <p>Transform rice husk ash into high-performance silica aerogels using sustainable waste valorization techniques.</p>
+                    <div class="material-tags">
+                        <span class="tag">Sustainable</span>
+                        <span class="tag">Low-Cost</span>
+                        <span class="tag">Thermal Insulation</span>
+                    </div>
+                    <a href="protocols/agricultural_silica_aerogel.md" class="learn-more">View Protocol</a>
+                </div>
+
+                <div class="material-card">
+                    <span class="material-icon">🦠</span>
+                    <h3>Microbial Alginate Aerogels</h3>
+                    <p>Engineered bacteria produce alginate polymers for biocompatible aerogels with self-healing properties.</p>
+                    <div class="material-tags">
+                        <span class="tag">Biocompatible</span>
+                        <span class="tag">Biodegradable</span>
+                        <span class="tag">Biomedical</span>
+                    </div>
+                    <a href="protocols/microbial_alginate_aerogel.md" class="learn-more">View Protocol</a>
+                </div>
+
+                <div class="material-card">
+                    <span class="material-icon">⚡</span>
+                    <h3>Plasma-Assisted Titania Aerogels</h3>
+                    <p>Atmospheric pressure plasma synthesis of photocatalytic titania aerogels without vacuum systems.</p>
+                    <div class="material-tags">
+                        <span class="tag">Photocatalytic</span>
+                        <span class="tag">Atmospheric</span>
+                        <span class="tag">Environmental</span>
+                    </div>
+                    <a href="protocols/plasma_titania_aerogel.md" class="learn-more">View Protocol</a>
+                </div>
+
+                <div class="material-card">
+                    <span class="material-icon">🧪</span>
+                    <h3>Ionic Liquid Carbon Aerogels</h3>
+                    <p>Tunable porosity carbon aerogels using recyclable ionic liquids as structure-directing agents.</p>
+                    <div class="material-tags">
+                        <span class="tag">High Surface Area</span>
+                        <span class="tag">Energy Storage</span>
+                        <span class="tag">Green Chemistry</span>
+                    </div>
+                    <a href="protocols/ionic_liquid_carbon_aerogel.md" class="learn-more">View Protocol</a>
+                </div>
+
+                <div class="material-card">
+                    <span class="material-icon">🔥</span>
+                    <h3>Polymer-Derived SiC Aerogels</h3>
+                    <p>High-temperature silicon carbide aerogels through polymer-to-ceramic conversion processes.</p>
+                    <div class="material-tags">
+                        <span class="tag">High-Temperature</span>
+                        <span class="tag">Ceramic</span>
+                        <span class="tag">Aerospace</span>
+                    </div>
+                    <a href="protocols/polymer_sic_aerogel.md" class="learn-more">View Protocol</a>
+                </div>
+
+                <div class="material-card">
+                    <span class="material-icon">🔬</span>
+                    <h3>Nanoparticle Metal Oxide Aerogels</h3>
+                    <p>Bottom-up assembly of multifunctional metal oxide aerogels using pre-synthesized nanoparticles.</p>
+                    <div class="material-tags">
+                        <span class="tag">Multifunctional</span>
+                        <span class="tag">Nanoparticle</span>
+                        <span class="tag">Composites</span>
+                    </div>
+                    <a href="protocols/nanoparticle_metal_oxide_aerogel.md" class="learn-more">View Protocol</a>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div>
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Novel Synthesis Methods</span>
+                </div>
+                <div>
+                    <span class="stat-number">90%</span>
+                    <span class="stat-label">Cost Reduction Potential</span>
+                </div>
+                <div>
+                    <span class="stat-number">$10B</span>
+                    <span class="stat-label">Aerogel Market Size</span>
+                </div>
+                <div>
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Innovation Potential</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="innovation" class="section">
+        <div class="container">
+            <h2>From Concept to Commercialization</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="date">Phase 1: Foundation</div>
+                    <h3>Patent Protection</h3>
+                    <p>Filed provisional patents for core synthesis methods. Established priority dates for international protection.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="date">Phase 2: Open-Source Launch</div>
+                    <h3>Community Building</h3>
+                    <p>Published detailed protocols, characterization tools, and safety guidelines. Launched sample distribution program.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="date">Phase 3: Collaboration</div>
+                    <h3>Research Partnerships</h3>
+                    <p>Established partnerships with universities, government labs, and industry for validation and optimization.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="date">Phase 4: Commercialization</div>
+                    <h3>Premium Services</h3>
+                    <p>Offering custom synthesis, advanced characterization, and consulting services for commercial applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="community" class="section">
+        <div class="container">
+            <h2>Join the Materials Revolution</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: #666;">
+                Be part of the global movement to democratize advanced materials research
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="text-align: center; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="color: #667eea; margin-bottom: 1rem;">🔬 For Researchers</h3>
+                    <p>Access free synthesis protocols, request samples, and contribute to the growing knowledge base.</p>
+                    <a href="community/sample_request.md" class="cta-button" style="margin-top: 1rem;">Request Samples</a>
+                </div>
+
+                <div style="text-align: center; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="color: #667eea; margin-bottom: 1rem;">🏭 For Industry</h3>
+                    <p>Partner with us for custom formulations, process optimization, and commercial licensing opportunities.</p>
+                    <a href="mailto:business@aios.is" class="cta-button" style="margin-top: 1rem;">Business Inquiry</a>
+                </div>
+
+                <div style="text-align: center; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="color: #667eea; margin-bottom: 1rem;">🎓 For Academia</h3>
+                    <p>Educational resources, collaboration opportunities, and research partnerships.</p>
+                    <a href="community/CONTRIBUTING.md" class="cta-button" style="margin-top: 1rem;">Get Involved</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <h2>Ready to Innovate?</h2>
+            <p style="margin-bottom: 3rem; font-size: 1.2rem;">Connect with our global community of materials scientists and researchers</p>
+
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3>📧 Email</h3>
+                    <p>Get in touch for collaborations, samples, or technical questions</p>
+                    <a href="mailto:info@aios.is" class="contact-link">info@aios.is</a>
+                </div>
+
+                <div class="contact-item">
+                    <h3>🐙 GitHub</h3>
+                    <p>Access protocols, contribute code, and join discussions</p>
+                    <a href="https://github.com/aios-materials/aerogel-commons" class="contact-link">github.com/aios-materials</a>
+                </div>
+
+                <div class="contact-item">
+                    <h3>🔬 ResearchGate</h3>
+                    <p>Academic collaborations and publication sharing</p>
+                    <a href="https://researchgate.net/groups/aios-materials" class="contact-link">ResearchGate Group</a>
+                </div>
+
+                <div class="contact-item">
+                    <h3>💬 Discord</h3>
+                    <p>Real-time discussions with the materials community</p>
+                    <a href="https://discord.gg/aios-materials" class="contact-link">Join Discord</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <p>&copy; 2026 AIOS.is Materials Division. All rights reserved.</p>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">
+                        Patent Pending: Novel Aerogel Synthesis Methods
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <a href="#materials">Materials</a>
+                    <a href="#innovation">Innovation</a>
+                    <a href="#community">Community</a>
+                    <a href="privacy.html">Privacy</a>
+                    <a href="terms.html">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe material cards
+        document.querySelectorAll('.material-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Observe timeline items
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-20px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>

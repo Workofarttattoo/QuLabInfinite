@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Echo Refinement &amp; Goal Alignment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#0a0f14",
+                        "card-dark": "#161e27",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .glass-panel {
+                @apply bg-[#0d141c]/90 backdrop-blur-xl border-t border-white/10;
+            }
+            .chat-bubble-user {
+                @apply bg-primary/20 border border-primary/30 text-white rounded-2xl rounded-tr-none py-3 px-4 max-w-[85%] self-end shadow-lg;
+            }
+            .chat-bubble-echo {
+                @apply bg-card-dark border border-white/5 text-slate-200 rounded-2xl rounded-tl-none py-3 px-4 max-w-[85%] self-start shadow-xl;
+            }
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        .industrial-bg {
+            background-image: radial-gradient(circle at 50% 50%, rgba(19, 127, 236, 0.05) 0%, transparent 100%);
+        }
+    </style>
+<style>
+        body {
+            min-height: max(844px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-white font-display min-h-screen flex flex-col relative overflow-hidden industrial-bg">
+<div class="absolute inset-0 z-0 opacity-40">
+<img alt="Futuristic industrial laboratory background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgvj3uNMagtDRPQSlp2Rxb4M72d-7LJby-GbvPFIrMCs7dmhWruLadHLCNQd8qjv8erQTCUq6RCX_rpfOLKW7WsOPXo2VuvfPTLD8JUfPKPZbZZ9PVkH-uC-8VyJ7X2tOn0yjJv-6Nff2pfRN_wBa1FfGdumJ7ChK45VEVjXRfrEqDCpibGOgHNZcXxigF69_t5tFTPqyZZ2HhJKbfs_JWg3mTt3KqRtzQk7RqgaDnpzMExbIJux9Y29avZ1kBf00ncxBqAoHjGLE"/>
+</div>
+<header class="relative z-20 px-6 pt-12 pb-2 flex justify-between items-center w-full">
+<div class="text-xs font-medium tracking-wide opacity-70">09:41</div>
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[12px]">science</span>
+</div>
+<span class="text-xs font-semibold tracking-wider uppercase">Qulab<span class="text-primary">Infinite</span></span>
+</div>
+<div class="flex gap-1.5 items-center opacity-70">
+<span class="material-symbols-outlined text-[14px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[14px]">wifi</span>
+<span class="material-symbols-outlined text-[14px]">battery_full</span>
+</div>
+</header>
+<div class="relative z-20 flex flex-col items-center pt-2 pb-6">
+<div class="relative">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary/40 shadow-[0_0_15px_rgba(19,127,236,0.3)]">
+<img alt="Echo AI avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAh_p6KPX7ise1moG5VVpZNieoTmwhmOPMpHVnurjnVVFUlxwReVo15jFS-FK8CNs9zfy6nhvYWm33K80J4Av4A-Zyx6RTob6dKa9MzXUmE76M4rrVtGMmzoLebOo1C5pa6sooRC54BZ8Yxu5Vghvsx8ynWtR2WN3uyzz7FsT6FR8MULptwcbtlr8eKCUpbb6Z5P9dSpDsQeVkVjTnVSN1mU_c9ULlXoMa3i8L5Z2vYCt2bVoC_4fPq4VLMZlYrZopXThLfX2HNKQ"/>
+</div>
+<div class="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-background-dark border border-primary/50 px-2 py-0.5 rounded-full flex items-center gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[8px] font-bold text-primary tracking-tighter uppercase">Echo</span>
+</div>
+</div>
+</div>
+<main class="relative z-20 flex-1 flex flex-col px-4 pb-48 overflow-y-auto space-y-6">
+<div class="flex flex-col items-end animate-in slide-in-from-right duration-500">
+<div class="chat-bubble-user">
+<p class="text-sm font-medium leading-relaxed">
+                I want to test a new compound for Alzheimer's early detection.
+            </p>
+</div>
+<span class="text-[10px] text-white/30 mt-1 mr-1 uppercase tracking-widest">Delivered</span>
+</div>
+<div class="flex flex-col items-start animate-in slide-in-from-left duration-500 delay-300">
+<div class="chat-bubble-echo">
+<p class="text-sm font-medium leading-relaxed">
+                I've identified the <span class="text-primary">Alzheimer's Early Detection port (8001)</span> as the primary site. 
+                <br/><br/>
+                Should we include cross-diagnostic validation with the <span class="text-primary">Parkinson's Progression Predictor on port 8002</span>?
+            </p>
+</div>
+<div class="flex items-center gap-1.5 mt-2 ml-1 text-primary/80">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">System Ready</span>
+</div>
+</div>
+</main>
+<div class="fixed bottom-0 left-0 right-0 z-30 glass-panel rounded-t-[2.5rem] pb-8 pt-8 px-6 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
+<div class="w-full max-w-md mx-auto flex flex-col gap-6">
+<div class="flex gap-3 justify-center">
+<button class="px-5 py-3 rounded-xl bg-primary text-white shadow-lg shadow-primary/20 hover:bg-blue-600 transition-all text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+                Yes, include both
+            </button>
+<button class="px-5 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-bold text-white/80 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">close</span>
+                No, just Alzheimer's
+            </button>
+</div>
+<div class="flex flex-col items-center gap-6 mt-2">
+<div class="w-full relative">
+<input class="w-full bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-2xl py-4 pl-5 pr-14 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-all font-light text-sm" placeholder="Ask for more details..." type="text"/>
+<div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+<button class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-xl">mic</span>
+</button>
+</div>
+</div>
+</div>
+<div class="w-32 h-1 bg-white/20 rounded-full mx-auto mt-2"></div>
+</div>
+</div>
+
+</body></html>

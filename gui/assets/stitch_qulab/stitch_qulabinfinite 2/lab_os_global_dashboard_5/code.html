@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Idea Stream | Echo AGI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6366f1",
+                        "background-dark": "#05070a",
+                        "card-dark": "#12141c",
+                        "echo-purple": "#a855f7",
+                        "notion-black": "#1a1a1a",
+                        "code-bg": "#0f1117",
+                        "accent-cyan": "#22d3ee"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .stream-gradient {
+            background: radial-gradient(circle at 50% -20%, rgba(168, 85, 247, 0.15), transparent 60%);
+        }
+        .card-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        body {
+            min-height: 100dvh;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-slate-100 font-display antialiased stream-gradient pb-24">
+<div class="fixed bottom-28 right-4 z-[70] flex flex-col items-end gap-3 pointer-events-none">
+<div class="bg-card-dark/90 card-blur border border-echo-purple/40 rounded-2xl p-4 max-w-[260px] shadow-[0_10px_40px_-10px_rgba(168,85,247,0.3)] transform transition-all duration-500 scale-100 opacity-100 pointer-events-auto">
+<div class="flex flex-col gap-3">
+<div class="flex items-start gap-2">
+<div class="w-6 h-6 rounded-full bg-echo-purple/20 border border-echo-purple/40 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[14px] text-echo-purple">auto_awesome</span>
+</div>
+<p class="text-[11px] leading-relaxed italic text-purple-200">"The current neural net fork by @Dr_Vance shows a 12% improvement in latency. Should we integrate this into the main branch?"</p>
+</div>
+</div>
+</div>
+<button class="relative group pointer-events-auto active:scale-95 transition-transform">
+<div class="absolute inset-0 bg-echo-purple blur-2xl opacity-40"></div>
+<div class="relative w-16 h-16 rounded-full bg-black border-2 border-echo-purple/50 flex items-center justify-center shadow-[0_0_30px_rgba(168,85,247,0.6)]">
+<div class="absolute inset-0 bg-gradient-to-tr from-echo-purple/40 to-transparent animate-pulse"></div>
+<span class="material-symbols-outlined text-echo-purple text-3xl">waves</span>
+</div>
+</button>
+</div>
+<header class="sticky top-0 z-50 bg-background-dark/60 card-blur px-4 pt-4 pb-2 border-b border-white/5">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-echo-purple flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-lg">hub</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Idea Stream</h1>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+<span class="material-symbols-outlined text-slate-400">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM-8LtQYcCrUS51Q22aD69DMVCwiq4tViY-QX2nJUguyKhyDKpORYzme0Wu23hqSFA0vVST8GdnDVX8saatBTDsi6j3NXm7bvGGxi3d7qf5AkxxipdFQgWOBVkYiajxiEthC5Bl5SB6W9DZ3Imo1Qm51fT_ma3XVIA95LLUIleaYXYKjgWXNSE3pCvADClkK4N5HCTbMwGCTu3nyG1x9WWxMTUKg92n5Y8qLYYYhKFU4IsNQm7Finm14sY-1eXRvJ-4OkksNOxIYw"/>
+</div>
+</div>
+</div>
+<div class="relative mb-2">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-echo-purple text-xl">temp_preferences_custom</span>
+</div>
+<input class="w-full bg-card-dark border-white/10 rounded-2xl py-3.5 pl-12 pr-4 text-sm focus:ring-1 focus:ring-echo-purple/50 focus:border-echo-purple/50 placeholder-slate-500" placeholder="Echo, suggest a solution for..." type="text"/>
+</div>
+<div class="flex gap-2 overflow-x-auto hide-scroll py-2">
+<button class="px-5 py-1.5 rounded-full bg-primary text-white text-[11px] font-bold uppercase tracking-wider whitespace-nowrap">Live Stream</button>
+<button class="px-5 py-1.5 rounded-full bg-white/5 text-slate-400 text-[11px] font-bold uppercase tracking-wider whitespace-nowrap">Collaborators</button>
+<button class="px-5 py-1.5 rounded-full bg-white/5 text-slate-400 text-[11px] font-bold uppercase tracking-wider whitespace-nowrap">Codebase</button>
+<button class="px-5 py-1.5 rounded-full bg-white/5 text-slate-400 text-[11px] font-bold uppercase tracking-wider whitespace-nowrap">Archived</button>
+</div>
+</header>
+<main class="px-4 py-4 space-y-6">
+<article class="bg-card-dark border border-white/5 rounded-2xl overflow-hidden shadow-2xl relative">
+<div class="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+<span class="material-symbols-outlined text-emerald-500 text-sm">code</span>
+</div>
+<div>
+<h3 class="text-sm font-bold">@sarah_dev contributed:</h3>
+<p class="text-[10px] text-slate-500">24 mins ago • Optimized Batch Processor</p>
+</div>
+</div>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-card-dark bg-slate-700 overflow-hidden">
+<img alt="Collab" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANc1srMCzCv6icUGUoqXDFRPMKJWeSvtE63znzTAe_i7JC_y_WOhLog4crG-rn9wWfFy2Wzdd487lwzja66x8C9NflZlXPqviE5P2f9t4KiPF7i6O6It7fV2EyVUd_LZFXmEBjm8Kb5BOrt1hsu0NxkM7PZ4HTiTT1ykNwp4U-R6Xasjz9Oh8oqZj2Fib3Euuu-Z2VzrO5GMKRpsIxJfPbATJKQQJXnte-REJhzfljfWxEQwUTMpF-KHrDI-ZvkUYzACsQMiwAzOw"/>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-card-dark bg-primary flex items-center justify-center text-[10px] text-white font-bold">+3</div>
+</div>
+</div>
+<div class="p-4">
+<p class="text-sm text-slate-300 mb-4 leading-relaxed">Refactored the main ingest pipeline to use async workers. Seeing significant reduction in memory overhead during peak loads.</p>
+<div class="bg-code-bg rounded-lg p-3 font-mono text-[11px] border border-white/5 mb-4 text-emerald-300">
+<span class="text-slate-500">async</span> <span class="text-blue-400">def</span> <span class="text-accent-cyan">process_stream</span>(data):<br/>
+                      <span class="text-slate-500"># New concurrent worker logic</span><br/>
+                      tasks = [worker(item) <span class="text-slate-500">for</span> item <span class="text-slate-500">in</span> data]<br/>
+                      <span class="text-slate-500">return await</span> asyncio.<span class="text-accent-cyan">gather</span>(*tasks)
+                </div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary/10 border border-primary/20 text-primary py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-sm">fork_right</span>
+                        Fork Idea
+                    </button>
+<button class="flex-1 bg-white/5 border border-white/10 text-slate-300 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-sm text-echo-purple">inventory_2</span>
+                        To Notion
+                    </button>
+</div>
+</div>
+</article>
+<div class="py-2">
+<div class="bg-gradient-to-r from-echo-purple/20 to-transparent border-l-2 border-echo-purple px-4 py-3 rounded-r-xl">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-echo-purple text-lg">lightbulb</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-echo-purple">Echo Insight</span>
+</div>
+<p class="text-sm text-slate-200">The team is currently focused on <strong>Scalability</strong>. Sarah's code above aligns with our Q3 goals. Recommended next step: <span class="text-accent-cyan underline underline-offset-4">Run Simulation</span></p>
+</div>
+</div>
+<article class="bg-card-dark border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+<div class="relative h-32 w-full overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-card-dark z-10"></div>
+<img alt="AI Research" class="w-full h-full object-cover opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5wfhPyjiig3Ob7-8sbO4V4FS1yCrjm-RNF3cwPR22nEqT4KdugushTj1kpQvHNOw9fpTw7XvBT-4qMCIhGCSqQYRHF2ti5QhbNBlGWx7sHTJ6IoPnJ5eOSU-A3jYe2CRrOHP90EhePI7i6MPsSEfu5SMqzmZS21_gDMB4L-5NruBXesWO8zSW4HKYoGXjjGVgAzDX81Ckmn7QvheLeRs7XUOUHAMI61-2TKKYMaw0MtXw5KvtjW6gtV_CvpAudLdnX1wAPwUxV_4"/>
+<div class="absolute bottom-4 left-4 z-20">
+<span class="px-2 py-0.5 rounded-full bg-accent-cyan/20 text-accent-cyan text-[10px] font-bold uppercase border border-accent-cyan/30">Reading Now</span>
+</div>
+</div>
+<div class="p-4 pt-0 -mt-2 relative z-20">
+<h3 class="text-lg font-bold mb-2">Neural Link Architecture 2.0</h3>
+<p class="text-xs text-slate-400 mb-4 line-clamp-2">A deep dive into cross-platform synchronization protocols for autonomous labs and collaborative brainstorming...</p>
+<div class="flex items-center justify-between pt-2 border-t border-white/5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500 text-sm">groups</span>
+<span class="text-[11px] text-slate-500">12 people discussing</span>
+</div>
+<button class="bg-white text-black px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors flex items-center gap-2">
+                        Join Discussion
+                        <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<article class="bg-card-dark border border-white/5 rounded-2xl p-4 shadow-2xl bg-gradient-to-br from-card-dark to-primary/5">
+<div class="flex items-start gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-orange-500">rocket_launch</span>
+</div>
+<div>
+<h3 class="text-sm font-bold">@marco_lead proposed:</h3>
+<p class="text-[10px] text-slate-500">1 hour ago</p>
+</div>
+</div>
+<h4 class="text-base font-bold text-white mb-2 leading-tight">Decentralized Asset Management for Lab-14</h4>
+<p class="text-sm text-slate-300 mb-4">What if we use the Notion API to track live inventory while running our local codebase as the source of truth for robot actions?</p>
+<div class="grid grid-cols-2 gap-2">
+<div class="p-3 bg-black/40 rounded-xl border border-white/5">
+<div class="text-[10px] text-slate-500 uppercase font-bold mb-1">Pros</div>
+<p class="text-[11px] text-emerald-400">• High visibility<br/>• Zero sync lag</p>
+</div>
+<div class="p-3 bg-black/40 rounded-xl border border-white/5">
+<div class="text-[10px] text-slate-500 uppercase font-bold mb-1">Cons</div>
+<p class="text-[11px] text-rose-400">• API Latency<br/>• Rate limits</p>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<button class="flex-1 py-2.5 rounded-xl bg-notion-black border border-white/10 text-white text-xs font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+                    Open in Notion
+                </button>
+<button class="w-12 py-2.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400 text-lg">thumb_up</span>
+</button>
+</div>
+</article>
+<div class="flex justify-center py-6">
+<div class="w-2 h-2 rounded-full bg-slate-700 mx-1"></div>
+<div class="w-2 h-2 rounded-full bg-slate-700 mx-1"></div>
+<div class="w-2 h-2 rounded-full bg-slate-700 mx-1"></div>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 w-full bg-background-dark/90 card-blur border-t border-white/10 pb-6 pt-3 px-8 z-50">
+<ul class="flex justify-between items-center max-w-md mx-auto">
+<li class="flex flex-col items-center gap-1 group">
+<button class="p-1.5 rounded-xl text-primary bg-primary/10">
+<span class="material-symbols-outlined text-2xl">dynamic_feed</span>
+</button>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-primary">Stream</span>
+</li>
+<li class="flex flex-col items-center gap-1 group">
+<button class="p-1.5 rounded-xl text-slate-500">
+<span class="material-symbols-outlined text-2xl">terminal</span>
+</button>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-slate-500">Run</span>
+</li>
+<li class="-mt-10">
+<button class="w-16 h-16 rounded-full bg-gradient-to-tr from-primary to-echo-purple text-white shadow-[0_10px_30px_rgba(99,102,241,0.5)] flex items-center justify-center transform active:scale-90 transition-all border-4 border-background-dark">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</li>
+<li class="flex flex-col items-center gap-1 group">
+<button class="p-1.5 rounded-xl text-slate-500">
+<span class="material-symbols-outlined text-2xl">share</span>
+</button>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-slate-500">Collab</span>
+</li>
+<li class="flex flex-col items-center gap-1 group">
+<button class="p-1.5 rounded-xl text-slate-500">
+<span class="material-symbols-outlined text-2xl">monitoring</span>
+</button>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-slate-500">Health</span>
+</li>
+</ul>
+</nav>
+
+</body></html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QulabInfinite Live Lab Wall</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glow-primary {
+            box-shadow: 0 0 15px rgba(19, 127, 236, 0.3);
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(19, 127, 236, 0.6);
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col pb-32">
+<!-- Top HUD Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between p-4 glass-dark border-b border-white/5">
+<div class="flex items-center gap-3">
+<div class="bg-primary/20 p-2 rounded-lg border border-primary/30">
+<span class="material-symbols-outlined text-primary text-2xl">rocket_launch</span>
+</div>
+<div>
+<h1 class="text-lg font-bold tracking-tight">QulabInfinite</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-primary/80 font-semibold leading-none">Fleet Operations</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right hidden sm:block">
+<p class="text-[10px] text-slate-400 uppercase tracking-wider">System Sync</p>
+<p class="text-xs font-mono">0.002ms LAG</p>
+</div>
+<button class="relative glass p-2 rounded-full hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-slate-100">notifications</span>
+<span class="absolute top-1 right-1 size-2 bg-primary rounded-full glow-primary"></span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-4 py-6 space-y-8">
+<!-- Active Production Fleet Section -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="size-2 bg-green-500 rounded-full animate-pulse"></span>
+<h2 class="text-xl font-bold">Active Production Fleet</h2>
+</div>
+<span class="text-xs font-medium text-slate-400">4 Labs Online</span>
+</div>
+<!-- Active Cards Horizontal Scroll -->
+<div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory">
+<!-- Qulab-8001 -->
+<div class="relative flex-shrink-0 w-[85vw] max-w-sm aspect-[4/5] rounded-xl overflow-hidden snap-center border border-white/10 group">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img alt="Laboratory interior with blue lighting" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="High-tech laboratory interior with blue accent lighting and glowing hardware" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGjswwR02lP51nxezT0Xi1TDmm9kMRz9RE69bNodbVBbccCvnpcYKA6bOC1xhH0H5lCekh7M7gQP9JJCh4wVI6XkegD1K-EVuMrYv1rtfxyObQebqbSnXBAlzJFzhp7Uf9u1jao_3gsaXVEe8F_1hGdLfZ8mhI0MQJbLHPH_xxZGk0LiI6yXWDNKCxdvp95r2Ul52XwXcauhTCnWbksFmWr3ForV9RYuPgL9Zqi0h0A6b4J_oNVY4ytMv8q7GxniE3lKFasC9pTNU"/>
+<!-- Floating Badge -->
+<div class="absolute top-4 left-4 z-20 glass px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-400 text-sm">verified</span>
+<span class="text-[10px] font-bold tracking-widest uppercase">Golden Run</span>
+</div>
+<!-- Data Overlay -->
+<div class="absolute bottom-0 left-0 right-0 p-5 z-20 space-y-3">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-2xl font-bold">Qulab-8001</h3>
+<p class="text-sm text-slate-300">Deep Learning Optimization</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-primary font-bold uppercase tracking-tighter">NIST LATENCY</p>
+<p class="text-lg font-mono leading-none">0.4ms</p>
+</div>
+</div>
+<div class="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[98%] glow-primary"></div>
+</div>
+</div>
+</div>
+<!-- Qulab-8006 -->
+<div class="relative flex-shrink-0 w-[85vw] max-w-sm aspect-[4/5] rounded-xl overflow-hidden snap-center border border-white/10 group">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-10"></div>
+<img alt="Quantum computer chips" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Close-up of golden quantum processor circuitry in a dark environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArJd2RXw-pRHr1jsHcF2jPYPIUV-0K4W-5v1lJyit10TCl9qiIkaDmv7Y9_kM0z_ok3u8OMgk-PdwPoWHG9UlsZNPMzhexVD7jshXGaIInChpxMCKvY1LTv6F1iAWNi9O11M2hp34eISOBWYLk9yVtxUyqViFYnBEgqqcrQ5ekVhjAzPosyDOtJKgOLE9OpEW2R503QJPb4jpBmUpWL_fENwNWNQq7lhsLV52esyMn5wgRJTxOHq2utMPS65-17oe7vBupmSp7jVg"/>
+<div class="absolute top-4 left-4 z-20 glass px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-400 text-sm">verified</span>
+<span class="text-[10px] font-bold tracking-widest uppercase">Golden Run</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-5 z-20 space-y-3">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-2xl font-bold">Qulab-8006</h3>
+<p class="text-sm text-slate-300">Stability Verification</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-primary font-bold uppercase tracking-tighter">STABILITY</p>
+<p class="text-lg font-mono leading-none text-green-400">99.9%</p>
+</div>
+</div>
+<div class="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[99%] glow-primary"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Quarantine & Future R&D Section -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="size-2 bg-amber-500 rounded-full"></span>
+<h2 class="text-xl font-bold">Quarantine &amp; Future R&amp;D</h2>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Quarantine Card 1 -->
+<div class="glass p-4 rounded-xl space-y-4 opacity-80 border-l-4 border-l-amber-500/50">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-bold text-slate-100">Qulab-RD-012</h4>
+<p class="text-xs text-slate-400">Phase: Stability Testing</p>
+</div>
+<span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-500 border border-amber-500/20">QUARANTINED</span>
+</div>
+<div class="space-y-2">
+<p class="text-[10px] uppercase tracking-wider font-semibold text-slate-500">Missing Dependencies</p>
+<ul class="space-y-1.5">
+<li class="flex items-center gap-2 text-xs text-slate-300">
+<span class="material-symbols-outlined text-sm text-amber-500/70">warning</span>
+                                    Port 8099: Awaiting Sensor Calibration
+                                </li>
+<li class="flex items-center gap-2 text-xs text-slate-300">
+<span class="material-symbols-outlined text-sm text-amber-500/70">warning</span>
+                                    Thermal Seal Integrity Check
+                                </li>
+</ul>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] text-slate-400 uppercase font-bold">
+<span>What's Left</span>
+<span>65% Complete</span>
+</div>
+<div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary/40 w-[65%]"></div>
+</div>
+</div>
+</div>
+<!-- Quarantine Card 2 -->
+<div class="glass p-4 rounded-xl space-y-4 opacity-80 border-l-4 border-l-primary/50">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-bold text-slate-100">Qulab-RD-015</h4>
+<p class="text-xs text-slate-400">Phase: Coming Soon</p>
+</div>
+<span class="text-[10px] px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">PRE-STAGING</span>
+</div>
+<div class="space-y-2">
+<p class="text-[10px] uppercase tracking-wider font-semibold text-slate-500">Missing Dependencies</p>
+<ul class="space-y-1.5">
+<li class="flex items-center gap-2 text-xs text-slate-300">
+<span class="material-symbols-outlined text-sm text-primary/70">pending</span>
+                                    NIST Compliance Audit
+                                </li>
+</ul>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-[10px] text-slate-400 uppercase font-bold">
+<span>What's Left</span>
+<span>88% Complete</span>
+</div>
+<div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary/60 w-[88%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Echo Floating Orb & Summary -->
+<div class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] w-[90%] max-w-md">
+<div class="glass p-4 rounded-2xl flex items-center gap-4 shadow-2xl border border-white/10">
+<div class="relative shrink-0">
+<div class="absolute -inset-1 bg-primary/30 rounded-full blur-sm animate-pulse"></div>
+<div class="relative size-12 rounded-full overflow-hidden border-2 border-primary bg-background-dark">
+<img alt="AI persona portrait" class="w-full h-full object-cover" data-alt="Modern stylish female portrait representing Echo, the AI persona" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB68_6uUsS8YsYxlhaSEHBSUcwCGUFq1DaRC5gK3L7LcxgfIeYGsPppN1bCmperEYLgn_1qEVnCRwU7wIKNBcfqclIN9yvKodWadcGoAcjVSu01QUqhFguINbow8vBP3DKEOuPwnkQtTZqKiXU1bg_Kcd0ugTv1V_QJY8hGf5Vrp9b1aZ65DxpF11wX772kQnpLiBJMzLhxe195mb8Em30P6xfYFXh5bc6PT-DyNeXB0GoPx4JJt1Ud5J0VvltJ7Cs0rC2g7gPtWV4"/>
+</div>
+</div>
+<div class="space-y-0.5">
+<p class="text-[10px] font-bold text-primary uppercase tracking-widest leading-none">Echo Overview</p>
+<p class="text-xs text-slate-200 leading-tight">"We have 4 labs at peak production; 12 are in stability testing."</p>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-4 left-4 right-4 z-[70] h-16 glass rounded-2xl flex items-center justify-around px-2 border border-white/10">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">dashboard</span>
+<span class="text-[10px] font-medium">Fleet</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-medium">Analytics</span>
+</a>
+<div class="size-10 bg-primary rounded-full flex items-center justify-center glow-primary -mt-8 shadow-lg">
+<span class="material-symbols-outlined text-white">add</span>
+</div>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">science</span>
+<span class="text-[10px] font-medium">R&amp;D</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</a>
+</nav>
+</div>
+</body></html>

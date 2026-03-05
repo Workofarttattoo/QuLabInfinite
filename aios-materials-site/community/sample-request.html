@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Request | AIOS.is Materials</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item input {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .requirements {
+            background: #e8f4fd;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .requirements h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-link">← Back to Materials</a>
+
+    <div class="header">
+        <h1>🔬 Aerogel Sample Request</h1>
+        <p>Request free aerogel samples for qualified research institutions</p>
+    </div>
+
+    <div class="content">
+        <div class="requirements">
+            <h3>Eligibility Requirements</h3>
+            <ul>
+                <li>Academic researchers, post-doctoral fellows, or graduate students</li>
+                <li>Government research institutions</li>
+                <li>Qualified startup companies with technical backgrounds</li>
+                <li>Clear research proposal demonstrating need</li>
+                <li>Commitment to acknowledge AIOS.is in publications</li>
+            </ul>
+        </div>
+
+        <form action="mailto:materials@aios.is" method="post" enctype="text/plain">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="institution">Institution/Organization *</label>
+                <input type="text" id="institution" name="institution" required>
+            </div>
+
+            <div class="form-group">
+                <label for="position">Position/Title *</label>
+                <input type="text" id="position" name="position" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Research Category *</label>
+                <select id="category" name="category" required>
+                    <option value="">Select your research category</option>
+                    <option value="academic">Academic Research</option>
+                    <option value="government">Government Research</option>
+                    <option value="industry">Industry R&D</option>
+                    <option value="startup">Startup Company</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Requested Aerogel Types *</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="silica" name="materials[]" value="agricultural_silica">
+                        <label for="silica">Agricultural Silica Aerogel</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="alginate" name="materials[]" value="microbial_alginate">
+                        <label for="alginate">Microbial Alginate Aerogel</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="titania" name="materials[]" value="plasma_titania">
+                        <label for="titania">Plasma Titania Aerogel</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="carbon" name="materials[]" value="ionic_liquid_carbon">
+                        <label for="carbon">Ionic Liquid Carbon Aerogel</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="sic" name="materials[]" value="polymer_sic">
+                        <label for="sic">Polymer SiC Aerogel</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="nanoparticle" name="materials[]" value="nanoparticle_assembly">
+                        <label for="nanoparticle">Nanoparticle Assembly Aerogel</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Requested Quantity</label>
+                <select id="quantity" name="quantity">
+                    <option value="1-5g">1-5 grams (Standard research sample)</option>
+                    <option value="5-10g">5-10 grams (Extended research)</option>
+                    <option value="custom">Custom amount (specify in proposal)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="research_proposal">Research Proposal *</label>
+                <textarea id="research_proposal" name="research_proposal" placeholder="Describe your research project, why you need aerogel samples, and how they will be used. Include your methodology and expected outcomes." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="timeline">Project Timeline</label>
+                <input type="text" id="timeline" name="timeline" placeholder="Expected duration of research project">
+            </div>
+
+            <div class="form-group">
+                <label for="publications">Publication Plan</label>
+                <textarea id="publications" name="publications" placeholder="Will this research lead to publications? If so, please describe."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="references">References/Links</label>
+                <textarea id="references" name="references" placeholder="Links to your research group's website, Google Scholar profile, or relevant publications."></textarea>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="acknowledgment" name="acknowledgment" required>
+                    <label for="acknowledgment">I agree to acknowledge AIOS.is Materials in any publications resulting from this research *</label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">📤 Submit Sample Request</button>
+        </form>
+
+        <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+            <h3>📞 Alternative Contact</h3>
+            <p>If the form doesn't work, you can also email your request directly to <a href="mailto:materials@aios.is">materials@aios.is</a> with the same information.</p>
+
+            <h3>⏱️ Response Time</h3>
+            <p>Applications are typically reviewed within 1-2 weeks. Approved researchers will receive samples via express shipping.</p>
+        </div>
+    </div>
+</body>
+</html>

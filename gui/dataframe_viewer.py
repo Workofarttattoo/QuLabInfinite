@@ -36,12 +36,19 @@ class DataFrameViewer(QTableView):
     """A QTableView specialized for displaying pandas DataFrames."""
     def __init__(self, df: pd.DataFrame = pd.DataFrame()):
         super().__init__()
-        self.setModel(DataFrameModel(df))
+        super().setModel(DataFrameModel(df))
         self.setSortingEnabled(True)
         self.setAlternatingRowColors(True)
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
-    def setModel(self, df: pd.DataFrame):
-        """Set a new DataFrame to be displayed."""
-        model = DataFrameModel(df)
-        super().setModel(model)
+    def setModel(self, model_or_df):
+        """
+        Accept either a pandas DataFrame or a Qt model.
+
+        This keeps compatibility with existing calls that pass DataFrames while
+        preserving the base QTableView.setModel behavior for Qt model objects.
+        """
+        if isinstance(model_or_df, pd.DataFrame):
+            super().setModel(DataFrameModel(model_or_df))
+            return
+        super().setModel(model_or_df)

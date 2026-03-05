@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden max-w-[430px] mx-auto border-x border-slate-200 dark:border-slate-800">
+<!-- Header -->
+<div class="sticky top-0 z-50 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 pb-2 justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="text-primary flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-primary/10 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-10">R&amp;D Pipeline</h2>
+</div>
+<!-- Roadmap Update Card (Echo) -->
+<div class="p-4 @container">
+<div class="flex flex-col gap-4 rounded-xl border border-primary/20 bg-primary/5 p-5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm">rocket_launch</span>
+</div>
+<p class="text-primary text-base font-bold leading-tight">Echo Roadmap Update</p>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-normal leading-relaxed">
+                    The Protein Folding Lab on 8020 is currently in the refinement stage. We are targeting Q3 for production readiness.
+                </p>
+<a class="text-sm font-bold leading-normal flex items-center gap-2 text-primary group" href="#">
+                    View Full Roadmap
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="px-4 pt-4">
+<h3 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">Quarantined / Coming Soon</h3>
+<p class="text-slate-500 text-sm mt-1">Ports 8011 - 8020</p>
+</div>
+<!-- Labs List -->
+<div class="p-4 space-y-4">
+<!-- Lab Card 1 -->
+<div class="flex flex-col overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+<div class="w-full aspect-[21/9] bg-slate-200 dark:bg-slate-800 flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent"></div>
+<span class="material-symbols-outlined text-4xl text-slate-400 dark:text-slate-600">biotech</span>
+<div class="absolute top-3 right-3 bg-red-500/10 text-red-500 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider border border-red-500/20">
+                        Port 8020: Offline
+                    </div>
+</div>
+<div class="p-4">
+<p class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight">Protein Folding Lab</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Intended Metric: Molecular stability analysis</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1 uppercase tracking-widest">
+<span class="material-symbols-outlined text-[14px]">lock</span> Status: Locked
+                        </span>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-bold leading-normal transition-all cursor-not-allowed">
+                            Awaiting Simulation Link
+                        </button>
+</div>
+</div>
+</div>
+<!-- Lab Card 2 -->
+<div class="flex flex-col overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 opacity-75">
+<div class="w-full aspect-[21/9] bg-slate-200 dark:bg-slate-800 flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent"></div>
+<span class="material-symbols-outlined text-4xl text-slate-400 dark:text-slate-600">health_metrics</span>
+<div class="absolute top-3 right-3 bg-red-500/10 text-red-500 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider border border-red-500/20">
+                        Port 8012: Offline
+                    </div>
+</div>
+<div class="p-4">
+<p class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight">Sepsis Risk Predictor</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Intended Metric: Early warning for septic shock</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1 uppercase tracking-widest">
+<span class="material-symbols-outlined text-[14px]">history</span> Stage: Queued
+                        </span>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-bold leading-normal transition-all cursor-not-allowed">
+                            Simulation Pending
+                        </button>
+</div>
+</div>
+</div>
+<!-- Lab Card 3 -->
+<div class="flex flex-col overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 opacity-60">
+<div class="w-full aspect-[21/9] bg-slate-200 dark:bg-slate-800 flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent"></div>
+<span class="material-symbols-outlined text-4xl text-slate-400 dark:text-slate-600">neurology</span>
+<div class="absolute top-3 right-3 bg-red-500/10 text-red-500 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider border border-red-500/20">
+                        Port 8011: Offline
+                    </div>
+</div>
+<div class="p-4">
+<p class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight">Neural Synapse Mapping</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Intended Metric: Synaptic plasticity scoring</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1 uppercase tracking-widest">
+<span class="material-symbols-outlined text-[14px]">construction</span> Dev Phase
+                        </span>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-bold leading-normal transition-all cursor-not-allowed">
+                            Awaiting Uplink
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="p-8 text-center border-t border-slate-200 dark:border-slate-800 mt-auto">
+<p class="text-[10px] text-slate-500 dark:text-slate-500 leading-relaxed uppercase tracking-widest">
+                Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light).<br/>Patent Pending.
+            </p>
+</footer>
+<!-- Bottom Navigation Bar -->
+<div class="sticky bottom-0 z-50 flex gap-2 border-t border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg px-4 pb-8 pt-3">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">science</span>
+<p class="text-[10px] font-bold uppercase tracking-tight">Labs</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined filled-icon">plumbing</span>
+<p class="text-[10px] font-bold uppercase tracking-tight">Pipeline</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">memory</span>
+<p class="text-[10px] font-bold uppercase tracking-tight">Sims</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<p class="text-[10px] font-bold uppercase tracking-tight">Profile</p>
+</a>
+</div>
+</div>
+</body></html>

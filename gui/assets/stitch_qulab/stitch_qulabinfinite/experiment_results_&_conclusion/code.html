@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Experiment Results &amp; Conclusion - QulabInfinite</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-dark": "#0f6bd0",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-dark": "#182430",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for data table */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Pulse animation for Echo AGI */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        
+        /* Chart specific styles */
+        .conic-gradient {
+            background: conic-gradient(var(--tw-gradient-from) 0% 98%, var(--tw-gradient-to) 98% 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-white min-h-screen flex justify-center overflow-hidden">
+<!-- Mobile Container -->
+<div class="w-full max-w-md h-screen relative flex flex-col bg-background-light dark:bg-background-dark shadow-2xl overflow-hidden">
+<!-- Status Bar Area (Visual Only) -->
+<div class="h-12 w-full flex justify-between items-center px-6 pt-2 z-20">
+<span class="text-xs font-medium opacity-80">9:41</span>
+<div class="flex gap-1.5 items-center">
+<span class="material-icons text-sm opacity-80">signal_cellular_alt</span>
+<span class="material-icons text-sm opacity-80">wifi</span>
+<span class="material-icons text-sm opacity-80">battery_full</span>
+</div>
+</div>
+<!-- Top Notification Banner -->
+<div class="absolute top-14 left-4 right-4 z-30 animate-fade-in-down">
+<div class="bg-primary/10 backdrop-blur-md border border-primary/20 rounded-lg p-3 flex items-center gap-3 shadow-lg shadow-primary/5">
+<div class="bg-primary/20 rounded-full p-1">
+<span class="material-icons text-primary text-sm">check_circle</span>
+</div>
+<span class="text-sm font-medium text-primary-dark dark:text-blue-100">Analysis complete. The results are in.</span>
+</div>
+</div>
+<!-- Header -->
+<header class="px-6 py-4 mt-12 flex items-center justify-between z-10">
+<button class="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons text-slate-600 dark:text-slate-300">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Experiment Results</h1>
+<button class="p-2 -mr-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons text-slate-600 dark:text-slate-300">more_vert</span>
+</button>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto no-scrollbar px-6 pb-24 relative">
+<!-- Echo AGI Section -->
+<div class="flex flex-col items-center mb-8 mt-2">
+<!-- Avatar -->
+<div class="relative w-20 h-20 flex items-center justify-center mb-4">
+<div class="absolute inset-0 bg-primary/20 rounded-full pulse-ring"></div>
+<div class="absolute inset-2 bg-primary/30 rounded-full pulse-ring" style="animation-delay: 0.5s"></div>
+<div class="relative w-16 h-16 bg-gradient-to-br from-primary to-blue-600 rounded-full shadow-lg shadow-primary/40 overflow-hidden border-2 border-white/10 flex items-center justify-center">
+<img alt="Abstract AI waveform visualization glowing blue" class="w-full h-full object-cover opacity-80 mix-blend-overlay" data-alt="Abstract AI waveform visualization glowing blue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6NPf3zGr6jVO16YR-8xjx95Q8vVB2SuMMomJEIVtMozVAo6HWaWDKHLe8bVJF-tnvLiOZTikXMCxdELI1F-uFobtSlimXg5xRndRJBqVstrFK6jWiwT0J_quBfvt10lE-_6dKpJ7CFhpbNsV0pd6bdYNkOIN4xTLczgpw_308fFIJm3T944lSN-GHC_ZLlMdlmrC13P0-qFawj-abe6d43tB4apT6xxE0X_L2NkoneTbonvCGYLUfQlW8ZMMp5eFYnZLclMCVOaE"/>
+<span class="material-icons text-white absolute text-3xl">graphic_eq</span>
+</div>
+<!-- Online Dot -->
+<div class="absolute bottom-1 right-1 w-4 h-4 bg-emerald-400 border-2 border-background-dark rounded-full"></div>
+</div>
+<!-- Dialogue -->
+<div class="bg-surface-dark/50 dark:bg-surface-dark border border-white/5 rounded-xl p-4 w-full relative backdrop-blur-sm">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-surface-dark/50 dark:bg-surface-dark border-l border-t border-white/5 rotate-45"></div>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-center">
+                        "The compound shows <span class="text-primary font-bold">98% purity</span>. Should we proceed to mass synthesis or refine the formula?"
+                    </p>
+</div>
+</div>
+<!-- Main Data Visualization Card -->
+<div class="bg-white dark:bg-surface-dark rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-white/5 mb-6">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Synthesized Compound</h3>
+<div class="text-2xl font-bold">QX-249 Beta</div>
+</div>
+<div class="bg-emerald-500/10 text-emerald-500 text-xs font-bold px-2 py-1 rounded border border-emerald-500/20">
+                        SUCCESS
+                    </div>
+</div>
+<!-- Donut Chart -->
+<div class="relative w-48 h-48 mx-auto mb-6">
+<!-- Background Circle -->
+<div class="absolute inset-0 rounded-full border-[12px] border-slate-100 dark:border-white/5"></div>
+<!-- Progress Circle (Simulated with Conic Gradient) -->
+<div class="absolute inset-0 rounded-full" style="background: conic-gradient(#137fec 0% 98%, transparent 98% 100%); mask: radial-gradient(transparent 62%, black 63%); -webkit-mask: radial-gradient(transparent 62%, black 63%);">
+</div>
+<!-- Inner Content -->
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-bold text-slate-800 dark:text-white">98<span class="text-xl text-slate-400">%</span></span>
+<span class="text-xs text-slate-500 dark:text-slate-400 mt-1">Purity Level</span>
+</div>
+</div>
+<!-- Secondary Metrics Grid -->
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-white/5">
+<div class="flex flex-col gap-1">
+<span class="text-xs text-slate-400">Yield</span>
+<div class="flex items-end gap-1">
+<span class="text-lg font-semibold">92.4</span>
+<span class="text-xs text-slate-500 mb-1">%</span>
+</div>
+<div class="w-full h-1 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-400 w-[92%]"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-slate-400">Reaction Time</span>
+<div class="flex items-end gap-1">
+<span class="text-lg font-semibold">4m 12s</span>
+</div>
+<div class="w-full h-1 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[70%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Analysis Section -->
+<div class="space-y-4 mb-6">
+<h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider px-1">Molecular Breakdown</h3>
+<!-- Breakdown Item 1 -->
+<div class="bg-white dark:bg-surface-dark p-4 rounded-xl flex items-center justify-between border border-slate-200 dark:border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center">
+<span class="material-icons text-indigo-400 text-sm">science</span>
+</div>
+<div>
+<div class="text-sm font-semibold">Stability Score</div>
+<div class="text-xs text-slate-500">Optimal Range</div>
+</div>
+</div>
+<span class="text-indigo-400 font-bold">9.8/10</span>
+</div>
+<!-- Breakdown Item 2 -->
+<div class="bg-white dark:bg-surface-dark p-4 rounded-xl flex items-center justify-between border border-slate-200 dark:border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center">
+<span class="material-icons text-orange-400 text-sm">thermostat</span>
+</div>
+<div>
+<div class="text-sm font-semibold">Max Temp</div>
+<div class="text-xs text-slate-500">Peak reaction</div>
+</div>
+</div>
+<span class="text-orange-400 font-bold">450°C</span>
+</div>
+<!-- Breakdown Item 3: Molecular Structure Map/Preview -->
+<div class="bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 relative h-32 group">
+<img alt="3D molecular structure visualization dark background" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="3D molecular structure visualization dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKsZqubwKR11TfXcIu-kCL0wQd5sUY_P9GrhK6F6pruJ4p9CcF9HEptJT-MWSRP8UBq2AotbysXZPG1Wfvg-9cKZv59Fftns-WmgbfhBy1UwYygrf5od6ahQkW0wA4EyKlWbPrj1M5ICc8ChqNJTQsA9H2aum-P-2XLW4UbZznoOUzzeakL-c7A_Cqnk0iPSo2VYFs1WNoe-EEUhAGmnTMOt-Y7rWVCMTQaZpLs1a3AtXDhLALUI5KqDu7fAtZkmsXJHuZi1h46y4"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background-dark/90 to-transparent p-4 flex flex-col justify-center">
+<div class="text-sm font-semibold text-white">Structure Map</div>
+<div class="text-xs text-slate-300 mb-2">3D Lattice Preview</div>
+<button class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-xs py-1 px-3 rounded-lg self-start border border-white/20 transition-colors">View Details</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Footer Actions -->
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-background-light/80 dark:bg-background-dark/90 backdrop-blur-lg border-t border-slate-200 dark:border-white/5 z-20">
+<div class="flex gap-3">
+<button class="flex-1 py-3.5 px-4 rounded-xl border border-slate-300 dark:border-white/20 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-white/5 transition-colors active:scale-95 transform duration-100">
+                    Refine Formula
+                </button>
+<button class="flex-[1.5] py-3.5 px-4 rounded-xl bg-primary text-white font-semibold text-sm shadow-lg shadow-primary/30 hover:bg-primary-dark transition-colors flex items-center justify-center gap-2 active:scale-95 transform duration-100">
+<span class="material-icons text-sm">file_download</span>
+                    Export Data
+                </button>
+</div>
+<div class="w-full flex justify-center mt-6 mb-1">
+<div class="w-1/3 h-1 bg-slate-300 dark:bg-slate-700 rounded-full"></div>
+</div>
+</div>
+</div>
+</body></html>

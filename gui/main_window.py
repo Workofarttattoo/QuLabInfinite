@@ -4,8 +4,13 @@ Main window for the QuLabInfinite GUI.
 
 import sys
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
-    QMenuBar, QStatusBar, QTabWidget, QLabel
+    QApplication,
+    QMainWindow,
+    QWidget,
+    QHBoxLayout,
+    QMenuBar,
+    QStatusBar,
+    QTabWidget,
 )
 from PySide6.QtCore import QThread, Signal, QObject
 
@@ -13,6 +18,9 @@ from gui.physics_controls import PhysicsControls
 from gui.pyvista_visualizer import PyVistaVisualizer
 from gui.chemistry_controls import ChemistryControls
 from gui.dataframe_viewer import DataFrameViewer
+from gui.materials_widget import MaterialsWidget
+from gui.workflow_widget import WorkflowWidget
+from gui.stitch_screens_widget import StitchScreensWidget
 from physics_engine.physics_core import create_benchmark_simulation, PhysicsCore
 from chemistry_lab.datasets.registry import get_dataset
 import numpy as np
@@ -63,19 +71,17 @@ class MainWindow(QMainWindow):
         chemistry_layout.addWidget(self.dataframe_viewer)
         self.tabs.addTab(chemistry_tab, "Chemistry Lab")
 
-        # --- Materials Lab Tab (New) ---
-        materials_tab = QWidget()
-        materials_layout = QVBoxLayout(materials_tab)
-        materials_label = QLabel("Materials Database View - Coming Soon")
-        materials_layout.addWidget(materials_label)
-        self.tabs.addTab(materials_tab, "Materials Lab")
+        # --- Materials Lab Tab ---
+        self.materials_widget = MaterialsWidget()
+        self.tabs.addTab(self.materials_widget, "Materials Lab")
 
-        # --- Stitch Workflow Tab (New) ---
-        stitch_tab = QWidget()
-        stitch_layout = QVBoxLayout(stitch_tab)
-        stitch_label = QLabel("Stitch Workflow Engine - Integrating Labs")
-        stitch_layout.addWidget(stitch_label)
-        self.tabs.addTab(stitch_tab, "Stitch Workflow")
+        # --- Stitch Workflow Tab ---
+        self.workflow_widget = WorkflowWidget()
+        self.tabs.addTab(self.workflow_widget, "Stitch Workflow")
+
+        # --- Stitch Screens Tab ---
+        self.stitch_screens_widget = StitchScreensWidget()
+        self.tabs.addTab(self.stitch_screens_widget, "Stitch Screens")
 
         # Menu and status bar
         self.setMenuBar(QMenuBar())
@@ -85,6 +91,9 @@ class MainWindow(QMainWindow):
         # Wire up signals
         self.physics_controls.run_button.clicked.connect(self.run_simulation)
         self.chemistry_controls.load_button.clicked.connect(self.load_dataset)
+        self.materials_widget.material_selected.connect(self.workflow_widget.set_material_context)
+        self.materials_widget.status_message.connect(self.statusBar().showMessage)
+        self.workflow_widget.status_message.connect(self.statusBar().showMessage)
 
         # Thread management
         self.thread = None
@@ -109,7 +118,7 @@ class MainWindow(QMainWindow):
             
         try:
             df = descriptor.load_dataframe(files[0])
-            self.dataframe_viewer.setModel(df) # We need to implement setModel in DataFrameViewer
+            self.dataframe_viewer.setModel(df)
             self.statusBar().showMessage(f"Successfully loaded {len(df)} rows from {files[0].name}", 5000)
         except Exception as e:
             self.statusBar().showMessage(f"Error loading data: {e}", 10000)

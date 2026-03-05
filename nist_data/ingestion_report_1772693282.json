@@ -1,0 +1,16 @@
+{
+  "ingestion_timestamp": 1772693282.091824,
+  "databases_ingested": [
+    "chemistry_webbook",
+    "materials_genome",
+    "crystallography",
+    "atomic_spectra",
+    "fluid_properties"
+  ],
+  "data_directory": "nist_data",
+  "total_files_ingested": 7,
+  "data_categories": {
+    "chemistry_webbook": 7
+  },
+  "errors": []
+}

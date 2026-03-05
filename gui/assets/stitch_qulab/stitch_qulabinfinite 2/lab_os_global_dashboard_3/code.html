@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project War Room | Echo AGI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff3e00",
+                        "war-black": "#050505",
+                        "war-gray": "#1a1a1a",
+                        "war-accent": "#00f2ff",
+                        "echo-purple": "#bc13fe",
+                        "code-green": "#00ff41"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "none": "0",
+                        "sm": "2px",
+                        "DEFAULT": "4px",
+                        "md": "8px",
+                        "lg": "12px",
+                        "xl": "16px",
+                        "2xl": "24px",
+                        "full": "9999px"
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .war-pod {
+            @apply bg-war-gray border-2 border-white/5 relative overflow-hidden transition-all duration-300;
+            box-shadow: 4px 4px 0px 0px rgba(255,255,255,0.05);
+        }
+        .war-pod:hover {
+            @apply border-war-accent/50;
+            box-shadow: 4px 4px 0px 0px theme('colors.war-accent');
+            transform: translate(-2px, -2px);
+        }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 242, 255, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-war-black text-white font-display antialiased selection:bg-war-accent selection:text-black pb-24 min-h-screen">
+<header class="sticky top-0 z-50 bg-war-black/90 backdrop-blur-xl border-b-2 border-white/10 px-4 py-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 flex items-center justify-center bg-primary text-white font-bold text-xl">W</div>
+<div>
+<h1 class="text-[10px] font-black uppercase tracking-[0.2em] text-war-accent">Tactical Overlay</h1>
+<div class="flex items-center gap-2">
+<span class="text-lg font-bold tracking-tight">PROJECT WAR ROOM</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="text-right hidden sm:block">
+<p class="text-[10px] text-white/40 uppercase">System Status</p>
+<p class="text-[10px] font-mono text-code-green">READY_FOR_DEPLOY</p>
+</div>
+<button class="w-10 h-10 border-2 border-white/10 flex items-center justify-center hover:bg-white/5">
+<span class="material-icons-outlined text-white">grid_view</span>
+</button>
+</div>
+</div>
+<div class="mt-4 relative group">
+<div class="absolute inset-y-0 left-3 flex items-center text-war-accent">
+<span class="material-icons-outlined text-sm">terminal</span>
+</div>
+<input class="w-full bg-white/5 border-2 border-white/10 py-3 pl-10 pr-4 text-xs font-mono focus:border-war-accent focus:ring-0 placeholder-white/20 uppercase tracking-widest" placeholder="EXECUTE COMMAND OR SEARCH CODEBASE..." type="text"/>
+<div class="absolute inset-y-0 right-3 flex items-center gap-2">
+<span class="text-[10px] font-mono text-white/30">CMD+K</span>
+</div>
+</div>
+</header>
+<main class="px-4 pt-6 space-y-6">
+<section class="grid grid-cols-1 gap-4">
+<div class="war-pod p-5 border-l-4 border-l-primary">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="text-[10px] font-black text-white/40 uppercase tracking-tighter">Current Iteration</h2>
+<h3 class="text-xl font-bold">SPRINT_BRAVO_04</h3>
+</div>
+<span class="px-2 py-1 bg-primary/10 border border-primary text-primary text-[10px] font-bold">CRITICAL</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[10px] font-mono text-white/60">
+<span>VELOCITY</span>
+<span>84% COMPLETED</span>
+</div>
+<div class="w-full h-1 bg-white/5 overflow-hidden">
+<div class="bg-primary h-full" style="width: 84%"></div>
+</div>
+</div>
+<div class="mt-6 p-3 bg-echo-purple/10 border border-echo-purple/30 rounded-lg flex gap-3">
+<div class="shrink-0 w-8 h-8 rounded-full bg-echo-purple/20 flex items-center justify-center">
+<span class="material-icons-outlined text-echo-purple text-lg">psychology</span>
+</div>
+<div>
+<p class="text-[11px] font-bold text-echo-purple uppercase mb-1">Echo AGI Summary</p>
+<p class="text-xs text-white/80 leading-relaxed italic">
+                            "Team, current blockages in Lab-089 codebase are stalling the Alpha-9 unit deployment. Recommend pushing the latest 'Auth-fix' to the crowd-colab app immediately."
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-2 gap-4">
+<a class="war-pod p-4 group flex flex-col justify-between aspect-square" href="#">
+<div class="flex justify-between items-start">
+<span class="material-icons-outlined text-war-accent group-hover:scale-110 transition-transform">auto_stories</span>
+<span class="text-[10px] font-mono text-white/30">EXTERNAL</span>
+</div>
+<div>
+<h3 class="text-sm font-bold uppercase tracking-widest">Notion Workspace</h3>
+<p class="text-[10px] text-white/40 mt-1">Shared Docs &amp; Knowledge Base</p>
+</div>
+</a>
+<div class="war-pod p-4 group flex flex-col justify-between aspect-square">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-code-green">terminal</span>
+<div class="w-2 h-2 rounded-full bg-code-green animate-pulse"></div>
+</div>
+<div>
+<h3 class="text-sm font-bold uppercase tracking-widest">Code Sandbox</h3>
+<p class="text-[10px] text-white/40 mt-1">Full codebase execution environment</p>
+</div>
+</div>
+<div class="war-pod p-4 group flex flex-col justify-between aspect-square col-span-2 bg-gradient-to-br from-war-gray to-war-black border-dashed border-white/20">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2">
+<span class="material-icons-outlined text-primary">groups</span>
+<h3 class="text-sm font-bold uppercase tracking-widest">Crowd Colab App</h3>
+</div>
+<button class="bg-primary text-black px-3 py-1 text-[10px] font-black uppercase">Sync All</button>
+</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between text-[10px] border-b border-white/5 pb-2">
+<span class="text-white/60">Active Collaborators</span>
+<span class="text-war-accent font-mono">14 ONLINE</span>
+</div>
+<div class="flex items-center justify-between text-[10px] border-b border-white/5 pb-2">
+<span class="text-white/60">Latest Commit</span>
+<span class="text-code-green font-mono">FIX_LAB_18_ANOMALY</span>
+</div>
+<p class="text-[10px] text-white/40 italic mt-2">Upload your entire codebase here for others to run and interact with the logic live.</p>
+</div>
+</div>
+</section>
+<section class="war-pod p-4">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xs font-black uppercase tracking-widest">Sub-System Grid</h2>
+<div class="flex gap-1">
+<div class="w-3 h-3 bg-code-green/40"></div>
+<div class="w-3 h-3 bg-primary/40"></div>
+<div class="w-3 h-3 bg-war-accent/40"></div>
+</div>
+</div>
+<div class="grid grid-cols-8 gap-1">
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-code-green/40"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-primary"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-code-green/10 border border-white/10"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-war-accent animate-pulse"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-code-green"></div>
+<div class="aspect-square bg-code-green"></div>
+</div>
+<p class="text-[9px] font-mono text-white/30 mt-4 uppercase tracking-tighter">Visualizing node health and workflow distribution</p>
+</section>
+</main>
+<div class="fixed bottom-24 right-4 z-[70] flex flex-col items-end gap-3 pointer-events-none">
+<div class="bg-war-black/95 border-2 border-echo-purple/50 p-4 rounded-xl max-w-[280px] shadow-[0_0_30px_rgba(188,19,254,0.3)] pointer-events-auto">
+<div class="space-y-3">
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-sm bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-icons-outlined text-[14px] text-white/50">account_circle</span>
+</div>
+<p class="text-[11px] text-white/60 italic leading-snug">"Echo, what is the status of the sample prep in Lab 18?"</p>
+</div>
+<div class="flex items-start gap-3 pl-4 border-l-2 border-echo-purple/30">
+<div class="w-6 h-6 rounded-sm bg-echo-purple/20 flex items-center justify-center shrink-0">
+<span class="material-icons-outlined text-[14px] text-echo-purple">blur_on</span>
+</div>
+<p class="text-[11px] text-white font-medium leading-snug">"Lab 18 is at 85% completion, no anomalies detected."</p>
+</div>
+</div>
+</div>
+<button class="pointer-events-auto relative group">
+<div class="absolute inset-0 bg-echo-purple blur-2xl opacity-40 group-hover:opacity-80 transition-opacity"></div>
+<div class="relative w-16 h-16 rounded-full bg-war-black border-2 border-echo-purple/50 flex items-center justify-center overflow-hidden shadow-[0_0_25px_rgba(188,19,254,0.6)]">
+<div class="absolute inset-0 bg-gradient-to-tr from-echo-purple/40 to-transparent"></div>
+<div class="z-10 flex items-end gap-[2px] h-6">
+<div class="w-1 bg-echo-purple h-2 animate-[pulse_1.2s_infinite]"></div>
+<div class="w-1 bg-echo-purple h-6 animate-[pulse_0.8s_infinite]"></div>
+<div class="w-1 bg-echo-purple h-4 animate-[pulse_1s_infinite]"></div>
+<div class="w-1 bg-echo-purple h-2 animate-[pulse_1.5s_infinite]"></div>
+</div>
+<div class="absolute inset-0 border-2 border-dashed border-echo-purple/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
+</div>
+</button>
+</div>
+<nav class="fixed bottom-0 left-0 w-full bg-war-black/95 backdrop-blur-md border-t-2 border-white/10 pt-3 pb-6 px-8 z-50">
+<ul class="flex justify-between items-center max-w-lg mx-auto">
+<li class="flex flex-col items-center gap-1">
+<button class="p-2 text-war-accent">
+<span class="material-icons-outlined text-2xl">window</span>
+</button>
+<span class="text-[9px] font-black uppercase tracking-widest text-war-accent">DASH</span>
+</li>
+<li class="flex flex-col items-center gap-1 opacity-40 hover:opacity-100 transition-opacity">
+<button class="p-2 text-white">
+<span class="material-icons-outlined text-2xl">hub</span>
+</button>
+<span class="text-[9px] font-black uppercase tracking-widest">NETWORK</span>
+</li>
+<li class="-mt-12">
+<button class="w-16 h-16 bg-white text-black shadow-[0_10px_30px_rgba(255,255,255,0.2)] flex items-center justify-center hover:scale-110 transition-transform rotate-45 group">
+<span class="material-icons-outlined text-3xl -rotate-45">add</span>
+</button>
+</li>
+<li class="flex flex-col items-center gap-1 opacity-40 hover:opacity-100 transition-opacity">
+<button class="p-2 text-white">
+<span class="material-icons-outlined text-2xl">code</span>
+</button>
+<span class="text-[9px] font-black uppercase tracking-widest">IDEAS</span>
+</li>
+<li class="flex flex-col items-center gap-1 opacity-40 hover:opacity-100 transition-opacity">
+<button class="p-2 text-white">
+<span class="material-icons-outlined text-2xl">tune</span>
+</button>
+<span class="text-[9px] font-black uppercase tracking-widest">CONFIG</span>
+</li>
+</ul>
+</nav>
+
+</body></html>

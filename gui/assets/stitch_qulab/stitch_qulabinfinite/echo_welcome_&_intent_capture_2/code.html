@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Echo Welcome &amp; Intent Capture</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom styles for specific effects not covered by Tailwind utilities */
+        .glass-panel {
+            background: rgba(16, 25, 34, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .mic-glow {
+            box-shadow: 0 0 30px rgba(19, 127, 236, 0.4);
+        }
+
+        .avatar-glow {
+            background: radial-gradient(circle at center, rgba(19, 127, 236, 0.15) 0%, transparent 70%);
+        }
+        
+        /* Hide scrollbar for clean mobile look */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-white font-display min-h-screen flex flex-col relative overflow-hidden">
+<!-- Background Layer -->
+<!-- Futuristic Lobby Background -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-background-dark/80 z-10"></div> <!-- Overlay for contrast -->
+<img alt="Futuristic glass and steel enterprise lobby background" class="w-full h-full object-cover filter blur-sm" data-alt="Futuristic glass and steel enterprise lobby background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgvj3uNMagtDRPQSlp2Rxb4M72d-7LJby-GbvPFIrMCs7dmhWruLadHLCNQd8qjv8erQTCUq6RCX_rpfOLKW7WsOPXo2VuvfPTLD8JUfPKPZbZZ9PVkH-uC-8VyJ7X2tOn0yjJv-6Nff2pfRN_wBa1FfGdumJ7ChK45VEVjXRfrEqDCpibGOgHNZcXxigF69_t5tFTPqyZZ2HhJKbfs_JWg3mTt3KqRtzQk7RqgaDnpzMExbIJux9Y29avZ1kBf00ncxBqAoHjGLE"/>
+</div>
+<!-- Header / Status Area -->
+<header class="relative z-20 px-6 pt-14 pb-4 flex justify-between items-center w-full">
+<!-- Mock Status Icons -->
+<div class="text-xs font-medium tracking-wide opacity-70">09:41</div>
+<!-- Logo -->
+<div class="flex items-center gap-2 opacity-90">
+<div class="w-6 h-6 rounded-full bg-gradient-to-tr from-primary to-blue-400 flex items-center justify-center">
+<span class="material-icons text-white text-[14px]">science</span>
+</div>
+<span class="text-sm font-semibold tracking-wider uppercase text-white/90">Qulab<span class="text-primary">Infinite</span></span>
+</div>
+<div class="flex gap-1.5 items-center opacity-70">
+<span class="material-icons text-xs">signal_cellular_alt</span>
+<span class="material-icons text-xs">wifi</span>
+<span class="material-icons text-xs">battery_full</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="relative z-20 flex-1 flex flex-col items-center justify-center w-full max-w-md mx-auto px-4 pb-32">
+<!-- Avatar Section -->
+<div class="relative w-full flex flex-col items-center justify-center mb-8 animate-float">
+<!-- Glow behind avatar -->
+<div class="absolute inset-0 w-64 h-64 mx-auto rounded-full avatar-glow blur-2xl z-0"></div>
+<!-- Avatar Image -->
+<div class="relative z-10 w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-primary/30 shadow-2xl">
+<img alt="Professional blonde woman in business attire" class="w-full h-full object-cover" data-alt="Professional blonde woman in business attire looking friendly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAh_p6KPX7ise1moG5VVpZNieoTmwhmOPMpHVnurjnVVFUlxwReVo15jFS-FK8CNs9zfy6nhvYWm33K80J4Av4A-Zyx6RTob6dKa9MzXUmE76M4rrVtGMmzoLebOo1C5pa6sooRC54BZ8Yxu5Vghvsx8ynWtR2WN3uyzz7FsT6FR8MULptwcbtlr8eKCUpbb6Z5P9dSpDsQeVkVjTnVSN1mU_c9ULlXoMa3i8L5Z2vYCt2bVoC_4fPq4VLMZlYrZopXThLfX2HNKQ"/>
+</div>
+<!-- AI Indicator -->
+<div class="absolute bottom-0 z-20 bg-background-dark/90 backdrop-blur border border-primary/40 px-3 py-1 rounded-full flex items-center gap-2 shadow-lg transform translate-y-1/2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-xs font-medium text-primary tracking-widest uppercase">Echo Active</span>
+</div>
+</div>
+<!-- Dialogue Bubble -->
+<div class="relative z-20 mt-6 w-full max-w-xs mx-auto">
+<div class="bg-white/10 dark:bg-gray-800/40 backdrop-blur-md border border-white/10 p-5 rounded-2xl rounded-tr-sm shadow-xl text-center">
+<h1 class="text-lg md:text-xl font-medium leading-relaxed text-white">
+                    "Welcome to QulabInfinite. I am Echo. <br/><span class="text-primary font-bold">What would you like to invent or test today?</span>"
+                </h1>
+</div>
+<!-- Bubble tail -->
+<div class="absolute -top-2 right-0 w-4 h-4 bg-white/10 dark:bg-gray-800/40 backdrop-blur-md border-t border-l border-white/10 transform rotate-45 translate-x-[-20px] translate-y-[10px] -z-10"></div>
+</div>
+</main>
+<!-- Bottom Interaction Sheet -->
+<div class="fixed bottom-0 left-0 right-0 z-30 glass-panel rounded-t-3xl pb-8 pt-6 px-6 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+<div class="w-full max-w-md mx-auto flex flex-col gap-6">
+<!-- Quick Actions Chips (Horizontal Scroll) -->
+<div class="flex gap-3 overflow-x-auto pb-2 -mx-2 px-2 snap-x">
+<button class="snap-start shrink-0 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-primary/20 hover:border-primary/50 transition-colors text-sm font-medium text-gray-300 whitespace-nowrap">
+                    Synthesize Molecule
+                </button>
+<button class="snap-start shrink-0 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-primary/20 hover:border-primary/50 transition-colors text-sm font-medium text-gray-300 whitespace-nowrap">
+                    Run Diagnostics
+                </button>
+<button class="snap-start shrink-0 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-primary/20 hover:border-primary/50 transition-colors text-sm font-medium text-gray-300 whitespace-nowrap">
+                    Analyze Data
+                </button>
+</div>
+<!-- Input Controls -->
+<div class="flex flex-col items-center gap-5">
+<!-- Mic Button -->
+<div class="relative group cursor-pointer">
+<!-- Ripple/Pulse Effect -->
+<div class="absolute inset-0 bg-primary/30 rounded-full animate-ping opacity-75"></div>
+<div class="absolute inset-[-4px] bg-primary/20 rounded-full animate-pulse-slow"></div>
+<button class="relative z-10 w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white shadow-lg mic-glow transition-transform transform active:scale-95 hover:scale-105">
+<span class="material-icons text-3xl">mic</span>
+</button>
+</div>
+<span class="text-xs font-medium text-primary/80 uppercase tracking-widest animate-pulse">Tap to Speak</span>
+<!-- Text Input Field -->
+<div class="w-full relative group">
+<input class="w-full bg-background-dark/50 border border-gray-700 text-white placeholder-gray-500 rounded-xl py-4 pl-5 pr-12 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-inner font-light" placeholder="Describe your experiment..." type="text"/>
+<button class="absolute right-2 top-2 bottom-2 aspect-square rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-white flex items-center justify-center transition-colors">
+<span class="material-icons text-xl transform -rotate-45 ml-1">send</span>
+</button>
+</div>
+</div>
+<!-- Home Indicator (iOS style) -->
+<div class="w-32 h-1 bg-gray-600 rounded-full mx-auto mt-2 opacity-50"></div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Echo Code Garden - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#34d399",
+                        "background-dark": "#050a0f",
+                        "node-blue": "#38bdf8",
+                        "garden-pink": "#f472b6",
+                        "garden-gold": "#fbbf24",
+                        "echo-purple": "#818cf8",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        :root {
+            --garden-gradient: radial-gradient(circle at 50% 50%, #111827 0%, #050a0f 100%);
+        }
+        .garden-bg {
+            background: var(--garden-gradient);
+        }
+        .node-line {
+            background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.2), transparent);
+        }
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="garden-bg text-white font-display antialiased selection:bg-primary selection:text-black pb-32 min-h-screen relative overflow-x-hidden">
+<div class="fixed bottom-28 right-4 z-[60] flex flex-col items-end gap-3 pointer-events-none">
+<div class="glass rounded-2xl p-4 max-w-[260px] shadow-2xl border-echo-purple/20 pointer-events-auto">
+<div class="flex flex-col gap-3">
+<div class="flex items-start justify-end gap-2">
+<p class="text-[11px] text-slate-400 text-right leading-relaxed italic">"Echo, how's the 'Neuro-Sync' branch growing today?"</p>
+<div class="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center shrink-0 border border-white/10">
+<span class="material-icons-outlined text-[12px] text-slate-400">person</span>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<div class="w-6 h-6 rounded-full bg-echo-purple/20 border border-echo-purple/40 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[14px] text-echo-purple">psychology</span>
+</div>
+<p class="text-[11px] text-slate-200 leading-relaxed">"The branch is blooming! 85% sync. I suggest a <strong>Collaborative Pruning</strong> quest on Replit to reach 100%."</p>
+</div>
+</div>
+</div>
+<button class="relative pointer-events-auto">
+<div class="absolute inset-0 bg-echo-purple blur-2xl opacity-30"></div>
+<div class="relative w-16 h-16 rounded-full bg-slate-950 border border-echo-purple/50 flex items-center justify-center shadow-2xl">
+<div class="w-10 h-10 rounded-full border border-echo-purple/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-echo-purple text-3xl">fluid</span>
+</div>
+</div>
+</button>
+</div>
+<header class="sticky top-0 z-50 px-6 py-6 flex items-center justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold tracking-[0.2em] text-primary uppercase">Code Garden v2.4</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight">Eco-System</h1>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full glass flex items-center justify-center">
+<span class="material-icons-outlined text-xl text-slate-300">search</span>
+</button>
+<button class="w-10 h-10 rounded-full glass flex items-center justify-center border-garden-pink/30">
+<span class="material-icons-outlined text-xl text-garden-pink">notifications</span>
+</button>
+</div>
+</header>
+<main class="px-6 space-y-8">
+<section>
+<div class="relative glass rounded-2xl p-1 flex items-center border-white/5 shadow-inner">
+<div class="pl-4 text-echo-purple">
+<span class="material-symbols-outlined text-xl">temp_preferences_custom</span>
+</div>
+<input class="w-full bg-transparent border-none py-4 px-3 text-sm focus:ring-0 placeholder-slate-500 font-medium" placeholder="Whisper a quest to Echo..." type="text"/>
+<button class="mr-1 w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">bolt</span>
+</button>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Active Quests</h2>
+<span class="text-[10px] font-bold text-garden-gold bg-garden-gold/10 px-2 py-0.5 rounded-full border border-garden-gold/20">3 AVAILABLE</span>
+</div>
+<div class="flex gap-4 overflow-x-auto hide-scroll -mx-6 px-6">
+<div class="min-w-[240px] glass p-5 rounded-2xl relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-20 h-20 bg-primary/10 rounded-full blur-2xl"></div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">schema</span>
+</div>
+<span class="text-[10px] font-bold text-primary/80 uppercase">Structural Quest</span>
+</div>
+<h3 class="font-bold text-sm mb-1">Integrate with Notion</h3>
+<p class="text-xs text-slate-400 mb-4 leading-relaxed">Sync your lab brainstorming notes with the main codebase nodes.</p>
+<button class="w-full py-2 bg-primary text-black text-[10px] font-black uppercase tracking-wider rounded-lg">Accept Quest</button>
+</div>
+<div class="min-w-[240px] glass p-5 rounded-2xl relative overflow-hidden group border-echo-purple/30">
+<div class="absolute -right-4 -top-4 w-20 h-20 bg-echo-purple/10 rounded-full blur-2xl"></div>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-8 h-8 rounded-lg bg-echo-purple/20 flex items-center justify-center text-echo-purple">
+<span class="material-symbols-outlined text-lg">hub</span>
+</div>
+<span class="text-[10px] font-bold text-echo-purple/80 uppercase">Crowd Harvest</span>
+</div>
+<h3 class="font-bold text-sm mb-1">Deploy to Replit</h3>
+<p class="text-xs text-slate-400 mb-4 leading-relaxed">Let the community run and interact with the latest codebase.</p>
+<button class="w-full py-2 bg-echo-purple text-white text-[10px] font-black uppercase tracking-wider rounded-lg">Sync Now</button>
+</div>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Node Branches</h2>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-slate-500 text-sm">filter_vintage</span>
+<span class="material-symbols-outlined text-slate-500 text-sm">grid_view</span>
+</div>
+</div>
+<div class="relative glass rounded-3xl p-6 h-[340px] overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="z-10 w-20 h-20 rounded-full bg-slate-900 border-2 border-primary flex flex-col items-center justify-center shadow-[0_0_30px_rgba(52,211,153,0.3)]">
+<span class="material-symbols-outlined text-primary mb-1">nest_eco_leaf</span>
+<span class="text-[8px] font-bold text-primary tracking-widest uppercase">CORE</span>
+</div>
+<div class="absolute w-[2px] h-32 bg-gradient-to-t from-primary/40 to-transparent top-12 left-1/2 -translate-x-1/2"></div>
+<div class="absolute w-[2px] h-32 bg-gradient-to-b from-primary/40 to-transparent bottom-12 left-1/2 -translate-x-1/2"></div>
+<div class="absolute h-[2px] w-24 bg-gradient-to-r from-primary/40 to-transparent left-[58%] top-1/2"></div>
+<div class="absolute top-8 left-1/2 -translate-x-1/2 group">
+<div class="w-12 h-12 rounded-full glass border-primary/40 flex items-center justify-center hover:scale-110 transition-transform">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center animate-pulse">
+<span class="material-symbols-outlined text-primary text-sm">code</span>
+</div>
+</div>
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+<span class="text-[10px] font-bold text-white bg-slate-800 px-2 py-0.5 rounded border border-white/10 shadow-xl">Auth Engine</span>
+</div>
+</div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 group">
+<div class="w-10 h-10 rounded-full glass border-node-blue/40 flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-node-blue text-sm">data_object</span>
+</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
+<span class="text-[10px] font-bold text-slate-400">Data Models</span>
+</div>
+</div>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 group">
+<div class="w-14 h-14 rounded-full glass border-garden-pink/40 flex items-center justify-center hover:scale-110 transition-transform">
+<div class="relative">
+<span class="material-symbols-outlined text-garden-pink">auto_awesome</span>
+<svg class="absolute -inset-2 w-12 h-12 -rotate-90">
+<circle class="text-white/5" cx="24" cy="24" fill="transparent" r="22" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-garden-pink" cx="24" cy="24" fill="transparent" r="22" stroke="currentColor" stroke-dasharray="138" stroke-dashoffset="40" stroke-width="2"></circle>
+</svg>
+</div>
+</div>
+<div class="absolute top-1/2 -right-24 -translate-y-1/2 whitespace-nowrap">
+<span class="text-[10px] font-bold text-garden-pink">UI Components</span>
+<div class="text-[8px] text-slate-500">72% Optimized</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 flex gap-3">
+<div class="flex items-center gap-1.5">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="text-[8px] text-slate-400 uppercase font-black">Stable</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-1.5 h-1.5 rounded-full bg-garden-pink"></div>
+<span class="text-[8px] text-slate-400 uppercase font-black">Growing</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-1.5 h-1.5 rounded-full bg-garden-gold"></div>
+<span class="text-[8px] text-slate-400 uppercase font-black">Needs Pruning</span>
+</div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-2 gap-4">
+<div class="glass p-5 rounded-2xl relative overflow-hidden">
+<h3 class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-3 flex justify-between items-center">
+                Contributors
+                <span class="material-symbols-outlined text-xs text-primary">group</span>
+</h3>
+<div class="flex -space-x-2 mb-3">
+<div class="w-7 h-7 rounded-full bg-slate-800 border border-slate-900 flex items-center justify-center text-[10px]">JD</div>
+<div class="w-7 h-7 rounded-full bg-primary/20 border border-slate-900 flex items-center justify-center text-[10px] text-primary">AM</div>
+<div class="w-7 h-7 rounded-full bg-echo-purple/20 border border-slate-900 flex items-center justify-center text-[10px] text-echo-purple">E</div>
+<div class="w-7 h-7 rounded-full glass border border-slate-900 flex items-center justify-center text-[14px] text-slate-400">
+<span class="material-icons-outlined text-xs">add</span>
+</div>
+</div>
+<p class="text-[10px] text-slate-400 leading-tight">4 new branches merged by crowd today.</p>
+</div>
+<button class="glass p-5 rounded-2xl border-dashed border-white/20 flex flex-col justify-center items-center gap-2 group hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">cloud_upload</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-slate-300">Push Codebase</span>
+</button>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 w-full glass border-t border-white/5 pb-8 pt-3 px-8 z-50">
+<ul class="flex justify-between items-center">
+<li class="flex flex-col items-center gap-1">
+<button class="p-1 rounded-lg text-primary">
+<span class="material-symbols-outlined text-2xl">outdoor_garden</span>
+</button>
+<span class="text-[9px] font-bold text-primary uppercase">Garden</span>
+</li>
+<li class="flex flex-col items-center gap-1 group">
+<button class="p-1 rounded-lg text-slate-500 group-hover:text-white">
+<span class="material-symbols-outlined text-2xl">trophy</span>
+</button>
+<span class="text-[9px] font-bold text-slate-500 group-hover:text-slate-300 uppercase">Quests</span>
+</li>
+<li class="-mt-12">
+<div class="p-1.5 rounded-full bg-slate-950/50 backdrop-blur-xl border border-white/10">
+<button class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-node-blue text-black shadow-[0_0_20px_rgba(52,211,153,0.4)] flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl font-bold">add</span>
+</button>
+</div>
+</li>
+<li class="flex flex-col items-center gap-1 group">
+<button class="p-1 rounded-lg text-slate-500 group-hover:text-white">
+<span class="material-symbols-outlined text-2xl">terminal</span>
+</button>
+<span class="text-[9px] font-bold text-slate-500 group-hover:text-slate-300 uppercase">Lab</span>
+</li>
+<li class="flex flex-col items-center gap-1 group">
+<button class="p-1 rounded-lg text-slate-500 group-hover:text-white">
+<span class="material-symbols-outlined text-2xl">settings_account_box</span>
+</button>
+<span class="text-[9px] font-bold text-slate-500 group-hover:text-slate-300 uppercase">Profile</span>
+</li>
+</ul>
+</nav>
+<div class="h-8"></div>
+
+</body></html>

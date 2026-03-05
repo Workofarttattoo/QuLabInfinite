@@ -1,0 +1,90 @@
+{
+  "silica_precursors": [
+    {
+      "compound": "SiO2",
+      "data_type": "thermo",
+      "url": "https://webbook.nist.gov/cgi/cbook.cgi?Name=SiO2&Units=SI",
+      "status": "found",
+      "timestamp": 1772693269.9615302,
+      "local_file": "nist_data/chemistry_webbook/chemistry_webbook_SiO2_thermo_1772693269.html"
+    },
+    {
+      "compound": "Si(OH)4",
+      "data_type": "thermo",
+      "url": "https://webbook.nist.gov/cgi/cbook.cgi?Name=Si(OH)4&Units=SI",
+      "status": "found",
+      "timestamp": 1772693271.06829,
+      "local_file": "nist_data/chemistry_webbook/chemistry_webbook_Si(OH)4_thermo_1772693271.html"
+    },
+    {
+      "compound": "Si(OC2H5)4",
+      "data_type": "thermo",
+      "url": "https://webbook.nist.gov/cgi/cbook.cgi?Name=Si(OC2H5)4&Units=SI",
+      "status": "found",
+      "timestamp": 1772693272.1913369,
+      "local_file": "nist_data/chemistry_webbook/chemistry_webbook_Si(OC2H5)4_thermo_1772693272.html"
+    },
+    {
+      "compound": "Si(OCH3)4",
+      "data_type": "thermo",
+      "url": "https://webbook.nist.gov/cgi/cbook.cgi?Name=Si(OCH3)4&Units=SI",
+      "status": "found",
+      "timestamp": 1772693273.315045,
+      "local_file": "nist_data/chemistry_webbook/chemistry_webbook_Si(OCH3)4_thermo_1772693273.html"
+    }
+  ],
+  "solvent_properties": [
+    {
+      "compound": "ethanol",
+      "property": "density",
+      "error": "400 Client Error: Bad Request for url: https://webbook.nist.gov/cgi/fluid.cgi?Action=Data&Wide=on&ID=ethanol&Type=density&Digits=5&PLow=0.01&PHigh=10&PInc=1&TLow=200&THigh=400&TInc=50&RefState=DEF",
+      "timestamp": 1772693274.4112792
+    },
+    {
+      "compound": "methanol",
+      "property": "density",
+      "error": "400 Client Error: Bad Request for url: https://webbook.nist.gov/cgi/fluid.cgi?Action=Data&Wide=on&ID=methanol&Type=density&Digits=5&PLow=0.01&PHigh=10&PInc=1&TLow=200&THigh=400&TInc=50&RefState=DEF",
+      "timestamp": 1772693275.515266
+    },
+    {
+      "compound": "acetone",
+      "property": "density",
+      "error": "400 Client Error: Bad Request for url: https://webbook.nist.gov/cgi/fluid.cgi?Action=Data&Wide=on&ID=acetone&Type=density&Digits=5&PLow=0.01&PHigh=10&PInc=1&TLow=200&THigh=400&TInc=50&RefState=DEF",
+      "timestamp": 1772693276.617606
+    },
+    {
+      "compound": "CO2",
+      "property": "density",
+      "error": "400 Client Error: Bad Request for url: https://webbook.nist.gov/cgi/fluid.cgi?Action=Data&Wide=on&ID=CO2&Type=density&Digits=5&PLow=0.01&PHigh=10&PInc=1&TLow=200&THigh=400&TInc=50&RefState=DEF",
+      "timestamp": 1772693277.715522
+    }
+  ],
+  "thermal_properties": [
+    {
+      "compound": "SiO2",
+      "data_type": "thermo",
+      "url": "https://webbook.nist.gov/cgi/cbook.cgi?Name=SiO2&Units=SI",
+      "status": "found",
+      "timestamp": 1772693278.8336031,
+      "local_file": "nist_data/chemistry_webbook/chemistry_webbook_SiO2_thermo_1772693278.html"
+    },
+    {
+      "compound": "Al2O3",
+      "data_type": "thermo",
+      "url": "https://webbook.nist.gov/cgi/cbook.cgi?Name=Al2O3&Units=SI",
+      "status": "found",
+      "timestamp": 1772693279.958295,
+      "local_file": "nist_data/chemistry_webbook/chemistry_webbook_Al2O3_thermo_1772693279.html"
+    },
+    {
+      "compound": "TiO2",
+      "data_type": "thermo",
+      "url": "https://webbook.nist.gov/cgi/cbook.cgi?Name=TiO2&Units=SI",
+      "status": "found",
+      "timestamp": 1772693281.085717,
+      "local_file": "nist_data/chemistry_webbook/chemistry_webbook_TiO2_thermo_1772693281.html"
+    }
+  ],
+  "surface_chemistry": [],
+  "mechanical_properties": []
+}

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QulabInfinite Lab Monitor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922", // As per theme config
+                        "card-dark": "#182430", // Slightly lighter for cards
+                        "danger": "#ef4444",
+                        "success": "#22c55e",
+                        "warning": "#eab308",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>.scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .log-gradient {
+            background: linear-gradient(to top, rgba(16, 25, 34, 1) 0%, rgba(16, 25, 34, 0) 100%);
+        }
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(19, 127, 236, 0.3);
+            animation: scan 3s linear infinite;
+            top: 0;
+            z-index: 10;
+            pointer-events: none;
+        }
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .glass-panel {
+            background: rgba(24, 36, 48, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200 min-h-screen antialiased overflow-hidden">
+<div class="max-w-md mx-auto h-screen relative flex flex-col bg-background-light dark:bg-background-dark overflow-hidden shadow-2xl">
+<header class="pt-12 pb-4 px-6 flex items-center justify-between z-20 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md sticky top-0 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-4">
+<button class="p-2 -ml-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400">
+<span class="material-icons-outlined">arrow_back</span>
+</button>
+<div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em] text-primary mb-0.5">QulabInfinite OS</span>
+<div class="flex items-center gap-2">
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">UNIT-142</h1>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-success/20 text-success border border-success/30">Active</span>
+</div>
+</div>
+</div>
+</div>
+<button class="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 relative">
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="material-icons-outlined">notifications</span>
+</button>
+</header>
+<main class="flex-1 overflow-y-auto pb-32 px-4 space-y-4">
+<div class="relative w-full rounded-xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800 group mt-4 h-56 bg-black">
+<img alt="Close up of a robotic arm handling test tubes in a laboratory" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" data-alt="Robotic arm operating in lab environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvQPXmIz3JIdA3ne_cHSyJtdFe4__L9nsvtkVEwUL5sd0QXmpu04zioLarvA5cMJR7ZgTzpbUJIjbtl2CA5HkMrl4vSV_oOsJ2s_AnVmhweW4D3v724mBWoeiQ4vdHjHG-6ERGwxIUniHJqEBhvcozsK-vPMlfttGh1jWKbqP8VLUMlNaJRbzF9qOYH2L2091MASnmssYVV1FQBQ0X_HGmRrY7v_y3-Rxnch9RNh1ROrAgdzKJF7HbFMLrzLeBZJqbUEcKhSBjA2Q"/>
+<div class="scan-line"></div>
+<div class="absolute top-3 left-3 flex items-center gap-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded border border-white/10">
+<span class="w-2 h-2 rounded-full bg-danger animate-pulse"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-white">Live Feed</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 to-transparent flex justify-between items-end">
+<div class="text-[10px] font-mono text-slate-400">
+                        CAM_01 • QulabInfinite Vision • 1080p<br/>
+<span class="text-primary">REC • 04:12:33</span>
+</div>
+<button class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 backdrop-blur text-white transition">
+<span class="material-icons-outlined text-lg">fullscreen</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="glass-panel p-3 rounded-xl flex flex-col justify-between h-24 dark:bg-card-dark bg-white border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-start">
+<span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Temp</span>
+<span class="material-icons-outlined text-sm text-primary">thermostat</span>
+</div>
+<div>
+<span class="text-xl font-bold text-slate-800 dark:text-white">22.4°</span>
+<div class="h-1 w-full bg-slate-200 dark:bg-slate-700 rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-primary w-[60%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-3 rounded-xl flex flex-col justify-between h-24 dark:bg-card-dark bg-white border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-start">
+<span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Humid</span>
+<span class="material-icons-outlined text-sm text-primary">water_drop</span>
+</div>
+<div>
+<span class="text-xl font-bold text-slate-800 dark:text-white">45%</span>
+<div class="h-1 w-full bg-slate-200 dark:bg-slate-700 rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-primary/60 w-[45%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-3 rounded-xl flex flex-col justify-between h-24 dark:bg-card-dark bg-white border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-start">
+<span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Press</span>
+<span class="material-icons-outlined text-sm text-primary">speed</span>
+</div>
+<div>
+<span class="text-xl font-bold text-slate-800 dark:text-white">101<span class="text-xs font-normal text-slate-400">kPa</span></span>
+<div class="flex gap-0.5 mt-1">
+<div class="h-1 w-1/3 bg-success rounded-full"></div>
+<div class="h-1 w-1/3 bg-success rounded-full"></div>
+<div class="h-1 w-1/3 bg-slate-700 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-xl dark:bg-card-dark bg-white border border-slate-200 dark:border-slate-800 relative overflow-hidden">
+<div class="flex justify-between items-center mb-4 relative z-10">
+<h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Robotic Arm Status</h3>
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-warning animate-pulse"></span>
+<span class="text-xs font-medium text-warning">Idle - Awaiting</span>
+</div>
+</div>
+<div class="flex gap-4 relative z-10">
+<div class="w-1/3 h-24 bg-slate-100 dark:bg-slate-800/50 rounded-lg flex items-center justify-center border border-dashed border-slate-300 dark:border-slate-700">
+<span class="material-icons-outlined text-4xl text-slate-300 dark:text-slate-600">precision_manufacturing</span>
+</div>
+<div class="flex-1 grid grid-cols-2 gap-y-2 gap-x-4">
+<div>
+<div class="text-[10px] text-slate-400 mb-0.5">Axis X</div>
+<div class="text-sm font-mono font-bold text-slate-700 dark:text-slate-200">142.5mm</div>
+</div>
+<div>
+<div class="text-[10px] text-slate-400 mb-0.5">Axis Y</div>
+<div class="text-sm font-mono font-bold text-slate-700 dark:text-slate-200">-88.2mm</div>
+</div>
+<div>
+<div class="text-[10px] text-slate-400 mb-0.5">Axis Z</div>
+<div class="text-sm font-mono font-bold text-slate-700 dark:text-slate-200">330.1mm</div>
+</div>
+<div>
+<div class="text-[10px] text-slate-400 mb-0.5">Grip Pressure</div>
+<div class="text-sm font-mono font-bold text-primary">12N</div>
+</div>
+</div>
+</div>
+<div class="absolute right-0 bottom-0 opacity-5 pointer-events-none">
+<span class="material-icons-outlined text-[120px]">settings</span>
+</div>
+</div>
+<div class="rounded-xl bg-slate-900 border border-slate-800 p-4 h-48 flex flex-col font-mono text-xs relative overflow-hidden shadow-inner">
+<div class="flex justify-between items-center mb-2 pb-2 border-b border-slate-800">
+<span class="text-slate-400 uppercase tracking-widest text-[10px]">QulabInfinite SysLog</span>
+<span class="flex items-center gap-1 text-[10px] text-success"><span class="w-1 h-1 bg-success rounded-full"></span> Online</span>
+</div>
+<div class="overflow-y-auto space-y-1.5 flex-1 scrollbar-hide text-slate-300 pb-4">
+<div class="flex gap-2 opacity-50">
+<span class="text-slate-500">[14:01:45]</span>
+<span>Auth handshake complete. User ID: 8821</span>
+</div>
+<div class="flex gap-2 opacity-70">
+<span class="text-slate-500">[14:02:00]</span>
+<span>Init seq. start: Protein Synthesis A-4</span>
+</div>
+<div class="flex gap-2">
+<span class="text-primary">[14:02:11]</span>
+<span><span class="text-primary">&gt;&gt;</span> Reagent A added (50ml)</span>
+</div>
+<div class="flex gap-2">
+<span class="text-primary">[14:02:35]</span>
+<span><span class="text-primary">&gt;&gt;</span> Centrifuge spun up to 2000rpm</span>
+</div>
+<div class="flex gap-2">
+<span class="text-primary">[14:03:01]</span>
+<span><span class="text-primary">&gt;&gt;</span> Temp stabilized at 22.4°C</span>
+</div>
+<div class="flex gap-2 border-l-2 border-warning pl-2 bg-warning/5 py-0.5">
+<span class="text-warning">[14:03:15]</span>
+<span class="text-warning">Notice: Minor vibration detected in Axis-Z</span>
+</div>
+<div class="flex gap-2 animate-pulse">
+<span class="text-slate-500">[14:03:18]</span>
+<span class="text-slate-200">Awaiting user input...</span>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 right-0 h-8 log-gradient pointer-events-none"></div>
+</div>
+</main>
+<div class="absolute bottom-0 left-0 right-0 p-4 pb-8 z-30 bg-background-light/90 dark:bg-background-dark/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
+<div class="flex gap-3">
+<button class="flex-1 flex flex-col items-center justify-center p-3 rounded-lg bg-slate-200 dark:bg-slate-800 active:bg-slate-300 dark:active:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all border border-transparent hover:border-slate-400 dark:hover:border-slate-600">
+<span class="material-icons-round mb-1">pause_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Pause</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center p-3 rounded-lg bg-primary/10 active:bg-primary/20 text-primary transition-all border border-primary/30 hover:bg-primary hover:text-white group">
+<span class="material-icons-outlined mb-1 group-hover:text-white">tune</span>
+<span class="text-[10px] font-bold uppercase tracking-wider group-hover:text-white">Override</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center p-3 rounded-lg bg-danger/10 text-danger border border-danger/30 hover:bg-danger hover:text-white active:bg-danger active:scale-95 transition-all shadow-lg shadow-danger/10 group relative overflow-hidden">
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNCIgaGVpZ2h0PSI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-icons-round mb-1">gpp_bad</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">E-Stop</span>
+</button>
+</div>
+<div class="w-32 h-1 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mt-4"></div>
+</div>
+</div>
+
+</body></html>

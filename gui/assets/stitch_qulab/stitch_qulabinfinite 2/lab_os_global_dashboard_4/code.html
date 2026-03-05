@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Echo AGI - Conversational Innovation Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.symbols.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#8b5cf6",
+                        "background-dark": "#05070a",
+                        "card-dark": "#0f1218",
+                        "echo-purple": "#a855f7",
+                        "innovation-blue": "#3b82f6",
+                        "notion-black": "#1f1f1f",
+                        "lab-green": "#00ff9d",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .chat-gradient {
+            background: linear-gradient(180deg, rgba(5,7,10,0) 0%, rgba(5,7,10,1) 100%);
+        }
+        .glow-purple {
+            box-shadow: 0 0 25px -5px rgba(168,85,247,0.4);
+        }
+        .orb-mesh {
+            background-image: radial-gradient(circle at 30% 30%, #a855f7 0%, transparent 70%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-slate-100 font-display antialiased selection:bg-echo-purple selection:text-white pb-24 min-h-screen overflow-x-hidden">
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-xl border-b border-white/5 px-6 py-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-echo-purple to-innovation-blue p-[1px]">
+<div class="w-full h-full rounded-xl bg-background-dark flex items-center justify-center">
+<span class="material-icons-outlined text-echo-purple">auto_awesome</span>
+</div>
+</div>
+<div>
+<h1 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Innovation Hub</h1>
+<div class="flex items-center gap-2">
+<span class="text-lg font-bold">Echo AGI</span>
+<span class="px-2 py-0.5 rounded-full bg-lab-green/10 text-[10px] text-lab-green font-mono uppercase tracking-tighter border border-lab-green/20">Thinking</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-full bg-white/5 border border-white/10">
+<span class="material-icons-outlined text-slate-400 text-xl">history</span>
+</button>
+<button class="p-2 rounded-full bg-white/5 border border-white/10 relative">
+<span class="material-icons-outlined text-slate-400 text-xl">account_circle</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-echo-purple rounded-full border border-background-dark"></span>
+</button>
+</div>
+</div>
+</header>
+<main class="px-4 py-6 space-y-8">
+<section>
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-echo-purple/40 to-innovation-blue/40 rounded-2xl blur-lg opacity-30 group-focus-within:opacity-100 transition duration-500"></div>
+<div class="relative bg-card-dark/80 border border-white/10 rounded-2xl flex items-center p-1 backdrop-blur-md">
+<div class="pl-4 text-echo-purple">
+<span class="material-icons-outlined">search</span>
+</div>
+<input class="w-full bg-transparent border-none py-4 px-3 text-base focus:ring-0 placeholder-slate-600" placeholder="Invoke a workflow or ideate..." type="text"/>
+<div class="flex gap-1 pr-2">
+<button class="p-2 rounded-xl bg-echo-purple/20 text-echo-purple">
+<span class="material-icons-outlined">mic</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section class="space-y-6">
+<div class="flex justify-end pr-2">
+<div class="bg-slate-800/50 rounded-2xl rounded-tr-sm p-4 max-w-[85%] border border-white/5">
+<p class="text-sm text-slate-300 leading-relaxed">Echo, what's the status of the Lab 18 sample prep? I'm thinking about pivoting the workflow to a crowd-sourced model.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="shrink-0 w-8 h-8 rounded-full bg-echo-purple/20 border border-echo-purple/30 flex items-center justify-center self-end mb-2">
+<span class="material-icons-outlined text-sm text-echo-purple">graphic_eq</span>
+</div>
+<div class="flex flex-col gap-3 max-w-[90%]">
+<div class="bg-card-dark border border-white/10 rounded-2xl rounded-tl-sm p-4 shadow-xl">
+<p class="text-sm text-white leading-relaxed mb-4">
+                        Lab 18 is at 85% completion. No anomalies. Regarding the pivot: a <span class="text-echo-purple font-bold">Crowd Brainstorming Colab</span> would be ideal for this codebase. 
+                    </p>
+<div class="bg-slate-900/50 border border-white/5 rounded-xl p-3 space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-notion-black flex items-center justify-center shrink-0 border border-white/10">
+<span class="material-icons-outlined text-white">description</span>
+</div>
+<div class="flex-1">
+<h4 class="text-xs font-bold">Notion Integration</h4>
+<p class="text-[10px] text-slate-400">Sync all lab notes &amp; codebase architecture</p>
+</div>
+<button class="px-3 py-1.5 bg-white text-black text-[10px] font-bold rounded-lg hover:bg-slate-200 transition-colors uppercase">
+                                Connect
+                            </button>
+</div>
+</div>
+</div>
+<div class="bg-gradient-to-br from-echo-purple/20 to-innovation-blue/20 border border-echo-purple/20 rounded-2xl p-4 glow-purple">
+<h3 class="text-xs font-bold uppercase tracking-wider text-echo-purple mb-2">Proactive Insight</h3>
+<p class="text-sm text-slate-200 mb-4 font-medium italic">"I've identified 4 modules in the current codebase that could be safely opened for community interaction. Should I prepare a public sandbox?"</p>
+<div class="grid grid-cols-2 gap-2">
+<button class="flex items-center justify-center gap-2 py-2.5 bg-echo-purple/30 rounded-xl border border-echo-purple/40 text-xs font-bold">
+<span class="material-icons-outlined text-sm">rocket_launch</span>
+                            Build Sandbox
+                        </button>
+<button class="flex items-center justify-center gap-2 py-2.5 bg-slate-800/50 rounded-xl border border-white/10 text-xs font-bold">
+<span class="material-icons-outlined text-sm">visibility</span>
+                            Review Code
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2 py-4">
+<div class="h-px w-12 bg-slate-800"></div>
+<p class="text-[10px] text-slate-500 font-mono uppercase tracking-[0.2em]">New Interaction Request</p>
+<div class="w-full bg-card-dark border border-white/10 rounded-2xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-700">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJp7gjSTiCBqaT3UNKJhnOaItUaHqtJIq868vDF6AD-2a1mOS1sjc8HESYUrWBBT8bQbCkj7BWc1faT9K_c_EUeUp8aX4QVbRTFQyYf2xP510OPiRaf3Ho4adgQDEwEpA7XJfINcoVvfMcNjduRyjLY9FQPTsdOrVXBfF1gjzjJ0skLnx31PCCZ3PEYRIPdeKqg4RCySq_3--3D_2zdsI_yjfJVEW4UQDiM_m-ug_sawt-VkfP0kylap7-u6ZcRDp7GfHEn1FS5Ps"/>
+</div>
+<div>
+<h4 class="text-sm font-bold">Dr. Aris V.</h4>
+<p class="text-xs text-slate-400">Proposed change to <span class="text-innovation-blue">main.py:442</span></p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-lg bg-lab-green/10 text-lab-green flex items-center justify-center border border-lab-green/20">
+<span class="material-icons-outlined text-sm">check</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center border border-red-500/20">
+<span class="material-icons-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-card-dark/40 rounded-3xl p-6 border border-white/5">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-500">Live Lab Pulse</h2>
+<div class="flex items-center gap-2 px-3 py-1 bg-lab-green/10 border border-lab-green/20 rounded-full">
+<div class="w-1.5 h-1.5 rounded-full bg-lab-green shadow-[0_0_8px_#00ff9d] animate-pulse"></div>
+<span class="text-[10px] font-bold text-lab-green uppercase">Syncing</span>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-3">
+<div class="aspect-square rounded-2xl bg-white/5 border border-white/5 flex flex-col items-center justify-center gap-1 group hover:border-echo-purple/40 transition-colors">
+<span class="text-xl font-bold font-mono">142</span>
+<span class="text-[9px] text-slate-500 uppercase tracking-tighter">Experiments</span>
+</div>
+<div class="aspect-square rounded-2xl bg-white/5 border border-white/5 flex flex-col items-center justify-center gap-1">
+<span class="text-xl font-bold font-mono text-lab-green">98.4</span>
+<span class="text-[9px] text-slate-500 uppercase tracking-tighter">Robot Eff.</span>
+</div>
+<div class="aspect-square rounded-2xl bg-white/5 border border-white/5 flex flex-col items-center justify-center gap-1">
+<span class="text-xl font-bold font-mono text-amber-500">68</span>
+<span class="text-[9px] text-slate-500 uppercase tracking-tighter">Reagents</span>
+</div>
+<div class="aspect-square rounded-2xl bg-gradient-to-br from-echo-purple to-innovation-blue p-[1px]">
+<div class="w-full h-full bg-background-dark rounded-2xl flex flex-col items-center justify-center gap-1">
+<span class="material-icons-outlined text-echo-purple text-xl">share</span>
+<span class="text-[9px] text-slate-300 uppercase tracking-tighter">Collaborate</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div class="fixed bottom-28 right-6 z-[60]">
+<button class="relative group">
+<div class="absolute inset-0 bg-echo-purple blur-2xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
+<div class="relative w-16 h-16 rounded-full bg-black border border-white/20 flex items-center justify-center shadow-2xl overflow-hidden">
+<div class="absolute inset-0 orb-mesh opacity-40 animate-pulse"></div>
+<div class="flex items-end gap-[2px] h-4">
+<div class="w-1 bg-echo-purple rounded-full h-3 animate-bounce"></div>
+<div class="w-1 bg-innovation-blue rounded-full h-6 animate-pulse"></div>
+<div class="w-1 bg-white rounded-full h-4 animate-bounce"></div>
+<div class="w-1 bg-echo-purple rounded-full h-7 animate-pulse"></div>
+<div class="w-1 bg-innovation-blue rounded-full h-2 animate-bounce"></div>
+</div>
+</div>
+</button>
+</div>
+<nav class="fixed bottom-0 left-0 w-full bg-background-dark/90 backdrop-blur-2xl border-t border-white/5 pb-8 pt-4 px-8 z-50">
+<ul class="flex justify-between items-center">
+<li class="flex flex-col items-center gap-1.5">
+<button class="text-echo-purple">
+<span class="material-icons-outlined text-2xl">chat_bubble</span>
+</button>
+<span class="text-[10px] font-bold text-echo-purple tracking-widest uppercase">Echo</span>
+</li>
+<li class="flex flex-col items-center gap-1.5 opacity-40">
+<button class="text-slate-400">
+<span class="material-icons-outlined text-2xl">hub</span>
+</button>
+<span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase">Workflow</span>
+</li>
+<li class="-mt-12">
+<button class="w-16 h-16 rounded-3xl bg-white text-black shadow-2xl flex items-center justify-center rotate-45 transform active:scale-95 transition-all">
+<span class="material-icons-outlined text-3xl -rotate-45">add</span>
+</button>
+</li>
+<li class="flex flex-col items-center gap-1.5 opacity-40">
+<button class="text-slate-400">
+<span class="material-icons-outlined text-2xl">code</span>
+</button>
+<span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase">Ideate</span>
+</li>
+<li class="flex flex-col items-center gap-1.5 opacity-40">
+<button class="text-slate-400">
+<span class="material-icons-outlined text-2xl">settings_input_component</span>
+</button>
+<span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase">Units</span>
+</li>
+</ul>
+</nav>
+
+</body></html>

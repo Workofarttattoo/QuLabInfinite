@@ -1,9 +1,3 @@
-"""
-Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
-
-base - Part of Chemistry Lab
-"""
-
 """Dataset descriptor definitions for chemistry machine learning resources."""
 
 from __future__ import annotations

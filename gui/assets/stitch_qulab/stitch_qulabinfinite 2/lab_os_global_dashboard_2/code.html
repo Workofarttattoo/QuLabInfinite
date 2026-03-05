@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lab OS - Creative Canvas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f0f2f5",
+                        "background-dark": "#0a0a0f",
+                        "canvas-grid": "rgba(255, 255, 255, 0.03)",
+                        "sticky-yellow": "#fef08a",
+                        "sticky-blue": "#bfdbfe",
+                        "sticky-pink": "#fbcfe8",
+                        "echo-purple": "#a855f7",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        :root {
+            --canvas-bg: #0a0a0f;
+            --dot-color: rgba(255, 255, 255, 0.1);
+        }
+        .infinite-canvas {
+            background-image: radial-gradient(var(--dot-color) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .sticky-note {
+            transform: rotate(-1deg);
+            transition: transform 0.2s;
+        }
+        .sticky-note:nth-child(even) {
+            transform: rotate(1.5deg);
+        }
+        body {
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-slate-100 font-display antialiased selection:bg-primary selection:text-white pb-24 relative infinite-canvas">
+<header class="sticky top-0 z-50 bg-background-dark/60 backdrop-blur-xl border-b border-white/5 px-4 py-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-echo-purple to-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div>
+<h1 class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Workspace Alpha</h1>
+<div class="flex items-center gap-2">
+<span class="text-lg font-bold leading-none">Idea Canvas</span>
+<span class="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-echo-purple font-mono uppercase">Live Edit</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">share</span>
+</button>
+<button class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center relative">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-echo-purple rounded-full"></span>
+</button>
+</div>
+</div>
+</header>
+<main class="relative px-4 pt-4 min-h-screen">
+<div class="mb-8 relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-echo-purple/20 to-primary/20 rounded-2xl blur-lg"></div>
+<div class="relative bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-black flex items-center justify-center border border-echo-purple/50 shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+<span class="material-symbols-outlined text-echo-purple animate-pulse">graphic_eq</span>
+</div>
+<div class="flex-1">
+<input class="w-full bg-transparent border-none p-0 text-sm focus:ring-0 placeholder-slate-500" placeholder="Echo, remix this codebase for..." type="text"/>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pb-32">
+<div class="col-span-2 p-6 rounded-3xl bg-slate-900/50 border-2 border-dashed border-white/10 flex flex-col items-center justify-center text-center gap-3">
+<div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-2">
+<span class="material-symbols-outlined text-4xl">terminal</span>
+</div>
+<h3 class="font-bold text-lg">Upload Entire Codebase</h3>
+<p class="text-xs text-slate-400 max-w-[200px]">Let others run, fork, and interact with your logic in real-time.</p>
+<button class="mt-2 px-6 py-2.5 bg-primary rounded-full text-sm font-bold shadow-lg shadow-primary/30">Select Repository</button>
+</div>
+<div class="sticky-note p-4 bg-sticky-yellow text-slate-900 rounded-sm shadow-xl min-h-[140px] flex flex-col justify-between">
+<p class="text-sm font-medium leading-tight">Need to optimize the DNA sequencer logic for low-power mode. 🧬</p>
+<div class="flex justify-between items-center mt-4">
+<span class="text-[10px] font-bold opacity-50">#PROTOCOL</span>
+<div class="flex -space-x-2">
+<div class="w-5 h-5 rounded-full bg-slate-400 border border-sticky-yellow"></div>
+<div class="w-5 h-5 rounded-full bg-slate-600 border border-sticky-yellow"></div>
+</div>
+</div>
+</div>
+<div class="sticky-note p-4 bg-sticky-blue text-slate-900 rounded-sm shadow-xl min-h-[140px] flex flex-col justify-between">
+<p class="text-sm font-medium leading-tight">Integration test for Lab 18 automated prep. Check anomalies!</p>
+<div class="flex justify-between items-center mt-4 text-[10px] font-bold opacity-50">
+<span>#URGENT</span>
+<span class="material-symbols-outlined text-sm">attach_file</span>
+</div>
+</div>
+<div class="col-span-2">
+<button class="w-full group relative overflow-hidden bg-white text-black p-4 rounded-2xl flex items-center justify-between shadow-2xl transition-all active:scale-95">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-black rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white">description</span>
+</div>
+<div class="text-left">
+<span class="block text-xs font-bold uppercase tracking-tighter opacity-40">Sync Workspace</span>
+<span class="block font-bold">Add to Notion</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-2xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="col-span-2 p-4 bg-slate-900 border border-white/10 rounded-2xl font-mono text-[11px] leading-relaxed shadow-lg overflow-hidden relative">
+<div class="flex items-center justify-between mb-3 border-b border-white/5 pb-2">
+<span class="text-slate-500">main.py</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-red-500/50"></div>
+<div class="w-2 h-2 rounded-full bg-amber-500/50"></div>
+<div class="w-2 h-2 rounded-full bg-green-500/50"></div>
+</div>
+</div>
+<div class="space-y-1">
+<p><span class="text-echo-purple">def</span> <span class="text-primary">run_sequencer</span>(lab_id):</p>
+<p class="pl-4 text-slate-400">status = echo_agi.query(lab_id)</p>
+<p class="pl-4 text-slate-400"><span class="text-echo-purple">if</span> status.completion &gt; <span class="text-lab-amber">85</span>:</p>
+<p class="pl-8 text-slate-400 text-lab-green">return "SUCCESS"</p>
+</div>
+<div class="absolute bottom-2 right-2 flex gap-2">
+<button class="px-2 py-1 bg-white/10 rounded text-[9px] uppercase font-bold">Copy</button>
+<button class="px-2 py-1 bg-echo-purple/20 text-echo-purple rounded text-[9px] uppercase font-bold">Run</button>
+</div>
+</div>
+<div class="col-span-1 aspect-square bg-slate-800/50 border border-white/5 rounded-3xl p-4 flex flex-col justify-center items-center gap-2">
+<div class="w-full h-1 bg-white/20 rounded-full rotate-45"></div>
+<div class="w-3/4 h-1 bg-white/20 rounded-full -rotate-12"></div>
+<div class="w-1/2 h-1 bg-white/20 rounded-full rotate-90"></div>
+<span class="text-[10px] font-bold text-slate-500 mt-2">Doodle #402</span>
+</div>
+<div class="sticky-note p-4 bg-sticky-pink text-slate-900 rounded-sm shadow-xl min-h-[140px] flex flex-col justify-between">
+<p class="text-sm font-medium leading-tight text-center italic">"What if the lab could dream?"</p>
+<div class="flex justify-center items-center mt-4">
+<span class="material-symbols-outlined text-xl">auto_fix_high</span>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-24 right-4 z-[60] flex flex-col items-end gap-2">
+<div class="bg-slate-900/90 backdrop-blur-md border border-echo-purple/30 rounded-2xl p-4 max-w-[280px] shadow-2xl mb-2 transform transition-all">
+<div class="flex flex-col gap-2">
+<div class="flex items-start justify-end gap-2">
+<p class="text-[11px] text-slate-300 text-right">"Echo, what is the status of the sample prep in Lab 18?"</p>
+<div class="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[12px] text-slate-400">person</span>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<div class="w-5 h-5 rounded-full bg-echo-purple/20 border border-echo-purple/40 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[12px] text-echo-purple">graphic_eq</span>
+</div>
+<p class="text-[11px] text-white">"Lab 18 is at 85% completion, no anomalies detected."</p>
+</div>
+</div>
+</div>
+<button class="relative group">
+<div class="absolute inset-0 bg-echo-purple blur-2xl opacity-40 animate-pulse"></div>
+<div class="relative w-16 h-16 rounded-full bg-gradient-to-br from-slate-900 to-black border-2 border-echo-purple/50 flex items-center justify-center shadow-2xl overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-echo-purple/30 to-transparent"></div>
+<span class="material-symbols-outlined text-echo-purple text-3xl">waves</span>
+</div>
+</button>
+</div>
+<nav class="fixed bottom-0 left-0 w-full bg-background-dark/80 backdrop-blur-2xl border-t border-white/10 pb-6 pt-3 px-8 z-50">
+<ul class="flex justify-between items-center max-w-md mx-auto">
+<li class="flex flex-col items-center gap-1">
+<button class="p-1 text-echo-purple">
+<span class="material-symbols-outlined text-2xl">grid_view</span>
+</button>
+<span class="text-[9px] font-bold uppercase tracking-tighter text-echo-purple">Canvas</span>
+</li>
+<li class="flex flex-col items-center gap-1 group opacity-50">
+<button class="p-1 text-slate-400">
+<span class="material-symbols-outlined text-2xl">hub</span>
+</button>
+<span class="text-[9px] font-bold uppercase tracking-tighter text-slate-500">Flows</span>
+</li>
+<li class="-mt-12">
+<button class="w-16 h-16 rounded-full bg-gradient-to-tr from-primary to-echo-purple text-white shadow-2xl flex items-center justify-center hover:scale-110 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</li>
+<li class="flex flex-col items-center gap-1 group opacity-50">
+<button class="p-1 text-slate-400">
+<span class="material-symbols-outlined text-2xl">groups</span>
+</button>
+<span class="text-[9px] font-bold uppercase tracking-tighter text-slate-500">Crowd</span>
+</li>
+<li class="flex flex-col items-center gap-1 group opacity-50">
+<button class="p-1 text-slate-400">
+<span class="material-symbols-outlined text-2xl">settings_input_component</span>
+</button>
+<span class="text-[9px] font-bold uppercase tracking-tighter text-slate-500">System</span>
+</li>
+</ul>
+</nav>
+
+</body></html>

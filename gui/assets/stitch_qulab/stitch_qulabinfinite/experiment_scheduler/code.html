@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NIST-Certified Precision Monitor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "ios-blue": "#007AFF",
+                        "ios-green": "#34C759",
+                        "ios-gold": "#FFD60A",
+                        "glass-bg": "rgba(255, 255, 255, 0.05)",
+                        "glass-border": "rgba(255, 255, 255, 0.12)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .glass-card {
+                @apply bg-glass-bg backdrop-blur-3xl border border-glass-border shadow-[0_8px_32px_0_rgba(0,0,0,0.5)];
+                box-shadow: inset 0 0 20px 0 rgba(255, 255, 255, 0.03);
+            }
+            .glass-bubble {
+                @apply bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[2.5rem] px-6 py-4;
+            }
+            .micro-grid {
+                background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), 
+                                  linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+                background-size: 15px 15px;
+            }
+            .deep-gradient-bg {
+                background: radial-gradient(circle at 50% 0%, #1c1c2e 0%, #050508 100%);
+            }
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+        }
+        body {
+            height: 100dvh;
+            overflow: hidden;
+        }
+        .progress-ring-svg {
+            transform: rotate(-90deg);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="deep-gradient-bg font-display text-white selection:bg-ios-blue selection:text-white micro-grid">
+<div class="h-12 w-full flex justify-between items-center px-8 pt-4">
+<span class="text-sm font-bold">9:41</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-lg">wifi</span>
+<span class="material-symbols-outlined text-lg rotate-90">battery_full</span>
+</div>
+</div>
+<header class="px-6 pt-4 pb-2 flex justify-between items-center">
+<div>
+<h1 class="text-2xl font-bold tracking-tight">NIST-Certified Monitor</h1>
+<p class="text-[10px] text-ios-gold flex items-center gap-1.5 font-bold uppercase tracking-widest">
+<span class="w-2 h-2 rounded-full bg-ios-gold shadow-[0_0_8px_#FFD60A]"></span>
+            Standard SRM-1968 Verified
+        </p>
+</div>
+<div class="flex gap-2">
+<div class="glass-card w-10 h-10 rounded-xl flex items-center justify-center border-white/20">
+<span class="material-symbols-outlined text-xl">qr_code_scanner</span>
+</div>
+</div>
+</header>
+<main class="flex-1 px-5 pt-4 pb-32 overflow-y-auto no-scrollbar space-y-5">
+<div class="glass-card rounded-[2.5rem] p-6 relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-1.5 py-0.5 rounded-sm bg-ios-gold/10 border border-ios-gold/30 text-ios-gold text-[8px] font-black uppercase tracking-tighter">NIST-Traceable</span>
+<span class="text-[10px] uppercase tracking-widest text-white/40 font-bold">Lab Unit 04-A</span>
+</div>
+<h2 class="text-xl font-bold">Bio-Sequence Replicator</h2>
+</div>
+<div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-white/40">settings_input_component</span>
+</div>
+</div>
+<div class="relative flex justify-center items-center py-6">
+<div class="absolute w-64 h-64 bg-ios-blue/5 rounded-full blur-3xl"></div>
+<div class="relative w-56 h-56 flex items-center justify-center">
+<svg class="progress-ring-svg w-full h-full absolute">
+<circle class="text-white/5" cx="112" cy="112" fill="transparent" r="106" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-ios-blue" cx="112" cy="112" fill="transparent" r="106" stroke="currentColor" stroke-dasharray="666" stroke-dashoffset="166" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 border border-white/5 rounded-full pointer-events-none"></div>
+<div class="absolute inset-4 border border-white/5 rounded-full pointer-events-none"></div>
+<div class="w-[180px] h-[180px] rounded-full overflow-hidden border border-white/20 shadow-2xl relative">
+<img alt="Robotic Lab Automation" class="absolute inset-0 w-full h-full object-cover grayscale brightness-50 scale-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOXBLWcJzogJvvMfXDTHgIXcVoSY-Dni7PIcXZku0jOen6WvUWOvJX8FXDfNogWtiMgQxyvZmX8Ncum63qChs6MPBmoZ-acsqMDFYtlk3xr9orD6SWF1nsR3qsa_42PTIjijTJ1uPZYQ9JQGOJaGmVx60NMm0iRxCI-JeZEYokpuFZxgL-p8IwlqkZmrdSx7L2n-QTVoZ8QwsvPErN4Gaz9ttzyWAa8OvNTf3H1YeRDejP_PH2uY1D5wPX2W_r870EU5y-l1Tceb4"/>
+<div class="absolute inset-0 bg-ios-blue/10 mix-blend-overlay"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
+<span class="text-[10px] font-mono text-ios-gold mb-1">PRECISION FLOW</span>
+<span class="text-2xl font-mono font-bold">22.000482</span>
+<span class="text-[10px] font-mono text-white/40 mt-1">ml/sec</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 mt-2">
+<div class="bg-white/5 rounded-2xl p-4 border border-white/10 flex flex-col">
+<span class="text-[9px] text-white/40 uppercase font-bold mb-1">Thermal Stability</span>
+<span class="text-sm font-mono font-bold text-ios-green">37.000042°C</span>
+<div class="w-full h-1 bg-white/10 rounded-full mt-2 overflow-hidden">
+<div class="w-full h-full bg-ios-green"></div>
+</div>
+</div>
+<div class="bg-white/5 rounded-2xl p-4 border border-white/10 flex flex-col">
+<span class="text-[9px] text-white/40 uppercase font-bold mb-1">Pressure Variance</span>
+<span class="text-sm font-mono font-bold text-ios-blue">1.002931 atm</span>
+<div class="w-full h-1 bg-white/10 rounded-full mt-2 overflow-hidden">
+<div class="w-3/4 h-full bg-ios-blue"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-[2rem] p-5 border-ios-gold/20">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-ios-gold text-sm">verified_user</span>
+<h3 class="text-[10px] font-black uppercase tracking-widest text-white/80">Calibration Metrics</h3>
+</div>
+<span class="text-[9px] font-mono text-ios-gold/60">REF: NIST-2024-X1</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<div>
+<span class="text-[9px] text-white/40 block mb-0.5 uppercase">Uncertainty Budget</span>
+<span class="text-xs font-mono">± 0.000004 k=2</span>
+</div>
+<div class="text-right">
+<span class="text-[9px] text-white/40 block mb-0.5 uppercase">Last Cal</span>
+<span class="text-xs font-mono">0.024s ago</span>
+</div>
+</div>
+<div class="relative h-20 w-full flex items-end gap-1 px-1">
+<div class="absolute inset-0 flex flex-col justify-between opacity-20 border-y border-white/10 pointer-events-none">
+<div class="w-full h-[1px] bg-white"></div>
+<div class="w-full h-[1px] bg-white"></div>
+<div class="w-full h-[1px] bg-white"></div>
+</div>
+<div class="flex-1 bg-ios-blue/40 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[80%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-gold/60 h-[95%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[70%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[65%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[30%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-ios-blue/40 h-[55%] rounded-t-sm"></div>
+</div>
+<div class="flex justify-between">
+<span class="text-[8px] text-white/30 font-mono">Accuracy Variance (240ms Window)</span>
+<span class="text-[8px] text-ios-gold font-mono">σ = 0.00018</span>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-[2rem] p-5">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-ios-blue text-sm">analytics</span>
+<h3 class="text-[10px] font-bold uppercase tracking-widest text-white/60">Execution Metadata</h3>
+</div>
+<div class="space-y-3 max-h-[120px] overflow-hidden">
+<div class="flex gap-3 opacity-40">
+<div class="text-[9px] font-mono text-white/30 pt-1">09:41:02</div>
+<div class="text-[10px] leading-relaxed font-mono">PULL: Calibration parameters from NIST cloud...</div>
+</div>
+<div class="flex gap-3">
+<div class="text-[9px] font-mono text-ios-blue pt-1">09:42:01</div>
+<div class="text-[10px] leading-relaxed font-mono">CORR: Environmental fluctuation compensation active. Applying Δ0.00042 factor.</div>
+</div>
+</div>
+<div class="h-8 -mt-8 bg-gradient-to-t from-glass-bg to-transparent pointer-events-none rounded-b-[2rem]"></div>
+</div>
+</main>
+<div class="fixed bottom-10 left-0 right-0 px-6 z-50">
+<div class="glass-bubble flex items-center gap-4 shadow-2xl border-ios-blue/30">
+<div class="w-10 h-10 rounded-full bg-ios-blue flex items-center justify-center flex-shrink-0 shadow-[0_0_20px_rgba(0,122,255,0.6)]">
+<span class="material-symbols-outlined text-white">psychology</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<span class="text-[10px] text-ios-blue font-bold uppercase block tracking-widest mb-0.5">Echo Reasoning</span>
+<p class="text-[10px] text-white/90 leading-tight">Adjusting nozzle pressure by 0.000015 bar to match density protocols. <span class="text-ios-green font-bold block mt-1">Validating against NIST SRM-1968 benchmarks... Verified.</span></p>
+</div>
+<span class="material-symbols-outlined text-white/40 text-lg">unfold_more</span>
+</div>
+</div>
+<div class="fixed bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full"></div>
+<div class="fixed top-[15%] right-[-15%] w-80 h-80 bg-ios-blue/10 rounded-full blur-[100px] -z-10"></div>
+<div class="fixed bottom-[15%] left-[-15%] w-96 h-96 bg-ios-gold/5 rounded-full blur-[120px] -z-10"></div>
+<div class="fixed inset-0 pointer-events-none border-[20px] border-white/[0.02] -z-20"></div>
+
+</body></html>

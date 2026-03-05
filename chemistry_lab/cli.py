@@ -2,9 +2,6 @@
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
 cli - Part of Chemistry Lab
-"""
-
-"""
 Command line interface for the chemistry laboratory utilities.
 
 Usage examples:
