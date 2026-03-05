@@ -156,9 +156,8 @@ class ProteomicsLab:
         num_bins = int(max_mz / bin_size) + 1
 
         exp_binned = np.zeros(num_bins)
-        for mz, intensity in zip(experimental_mz, experimental_intensity):
-            bin_idx = int(mz / bin_size)
-            exp_binned[bin_idx] = max(exp_binned[bin_idx], intensity)
+        bin_indices = (np.asarray(experimental_mz) / bin_size).astype(int)
+        np.maximum.at(exp_binned, bin_indices, experimental_intensity)
 
         # Normalize experimental spectrum
         exp_binned = exp_binned / (np.max(exp_binned) + 1e-10)
@@ -486,13 +485,12 @@ class ProteomicsLab:
                              rt_sample2: np.ndarray,
                              mz_common: np.ndarray) -> np.ndarray:
         """Align retention times between samples using dynamic time warping."""
+        rt_sample1 = np.asarray(rt_sample1)
+        rt_sample2 = np.asarray(rt_sample2)
+
         # Create distance matrix
         n, m = len(rt_sample1), len(rt_sample2)
-        dist_matrix = np.zeros((n, m))
-
-        for i in range(n):
-            for j in range(m):
-                dist_matrix[i, j] = abs(rt_sample1[i] - rt_sample2[j])
+        dist_matrix = np.abs(rt_sample1[:, np.newaxis] - rt_sample2)
 
         # Dynamic time warping
         dtw_matrix = np.full((n + 1, m + 1), np.inf)
