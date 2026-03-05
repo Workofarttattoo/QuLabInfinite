@@ -1,5 +1,5 @@
 import os
-from typing import List, Sequence
+from typing import List, Sequence, Optional
 
 # Blocked keys that should never be used in production
 DEFAULT_BLOCKLIST = {
@@ -58,3 +58,17 @@ def load_api_keys_from_env(
         )
 
     return keys
+
+
+def get_allowed_origins() -> List[str]:
+    """Load allowed origins from environment with sane defaults."""
+    raw_origins = os.environ.get(
+        "QULAB_ALLOWED_ORIGINS",
+        "https://qulab.ai,https://api.qulab.ai"
+    )
+    origins = [
+        origin.strip()
+        for origin in raw_origins.split(",")
+        if origin.strip() and origin.strip() != "*"
+    ]
+    return origins or ["https://qulab.ai"]
