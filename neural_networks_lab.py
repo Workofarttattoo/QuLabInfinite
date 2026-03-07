@@ -163,9 +163,9 @@ class SpikingNeuralNetwork:
                                            p_ei * conn_prob[:self.n_exc, self.n_exc:])
 
             # Inhibitory connections (negative weights)
-            W[self.n_exc:, :self.n_exc] = -(np.random.rand(self.n_inh, self.n_exc) <
+            W[self.n_exc:, :self.n_exc] = -1 * (np.random.rand(self.n_inh, self.n_exc) <
                                             p_ie * conn_prob[self.n_exc:, :self.n_exc])
-            W[self.n_exc:, self.n_exc:] = -(np.random.rand(self.n_inh, self.n_inh) <
+            W[self.n_exc:, self.n_exc:] = -1 * (np.random.rand(self.n_inh, self.n_inh) <
                                             p_ii * conn_prob[self.n_exc:, self.n_exc:])
 
             # Scale weights
@@ -587,12 +587,10 @@ class NeuralOscillator:
 
     def kuramoto_dynamics(self, dt: float = 0.1) -> np.ndarray:
         """Kuramoto model dynamics for phase coupling."""
-        # Phase dynamics
-        coupling = np.zeros(self.n_oscillators)
-        for i in range(self.n_oscillators):
-            for j in range(self.n_oscillators):
-                if i != j:
-                    coupling[i] += self.K[i, j] * np.sin(self.phase[j] - self.phase[i])
+        # Phase dynamics (Vectorized O(n^2) over Python loops)
+        # diff[i, j] = phase[j] - phase[i]
+        diff = self.phase - self.phase[:, np.newaxis]
+        coupling = np.sum(self.K * np.sin(diff), axis=1)
 
         dphase = self.omega + coupling / self.n_oscillators
         self.phase += dphase * dt
