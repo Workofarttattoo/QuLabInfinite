@@ -1,0 +1,3 @@
+## 2025-10-30 - Custom Input Wrappers Keyboard Accessibility
+**Learning:** Custom-styled input wrappers (like `.lab-search` and `.prompt-bar` that contain an input with `outline: none`) strip the default browser focus ring, making keyboard navigation invisible and confusing for accessibility users.
+**Action:** When creating custom wrappers, ensure the wrapper element itself implements a `:focus-within` state to render an explicit visual focus indicator, and add `:focus-visible` to interactive elements (like custom buttons) to restore focus tracking. Also, ensure dynamic content containers that populate via JavaScript (like `#labChat` or `#labStory`) have `aria-live="polite"` so screen readers will announce the changes.
