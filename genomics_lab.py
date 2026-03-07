@@ -537,12 +537,10 @@ class GWASAnalysis:
         with np.errstate(divide='ignore', invalid='ignore'):
             betas = numerator / denominator
 
-            # Calculate standard errors
-            # y_hat_centered = betas * G_centered
-            # residuals = y_centered - y_hat_centered
-            y_hat_centered = G_centered * betas
-            residuals = y[:, np.newaxis] - y_hat_centered
-            rss = np.sum(residuals**2, axis=0)
+            # ⚡ Bolt Optimization: Replace O(N*M) residual matrix calculation with O(M) vector math
+            # Instead of computing the full residual matrix y_hat_centered and then squaring,
+            # we can compute RSS algebraically: sum(y^2) - beta * sum(x*y)
+            rss = np.sum(y**2) - betas * numerator
 
             sigma_sq = rss / (n_samples - 2)
             se = np.sqrt(sigma_sq / denominator)
@@ -552,27 +550,30 @@ class GWASAnalysis:
             # 2-sided p-value
             p_values = 2 * (1 - stats.t.cdf(np.abs(t_stats), df=n_samples - 2))
 
-        # Compile results
-        results = []
-        valid_idx = 0
-        for i in range(n_snps):
-            if valid_snps[i]:
-                res = {
-                    'p_value': float(p_values[valid_idx]) if not np.isnan(p_values[valid_idx]) else 1.0,
-                    'beta': float(betas[valid_idx]) if not np.isnan(betas[valid_idx]) else 0.0,
-                    'se': float(se[valid_idx]) if not np.isnan(se[valid_idx]) else float('inf'),
-                    't_statistic': float(t_stats[valid_idx]) if not np.isnan(t_stats[valid_idx]) else 0.0,
-                    'maf': float(mafs[i])
-                }
-                valid_idx += 1
-            else:
-                res = {
-                    'p_value': 1.0,
-                    'beta': 0.0,
-                    'se': float('inf'),
-                    'maf': float(mafs[i])
-                }
-            results.append(res)
+        # ⚡ Bolt Optimization: Vectorized result compilation
+        # Replace slow python loop with vectorized arrays and list comprehension
+        full_p_values = np.ones(n_snps, dtype=float)
+        full_betas = np.zeros(n_snps, dtype=float)
+        full_se = np.full(n_snps, float('inf'))
+        full_t_stats = np.zeros(n_snps, dtype=float)
+
+        if np.any(valid_snps):
+            # Fill valid positions and handle NaNs efficiently
+            full_p_values[valid_snps] = np.where(np.isnan(p_values), 1.0, p_values)
+            full_betas[valid_snps] = np.where(np.isnan(betas), 0.0, betas)
+            full_se[valid_snps] = np.where(np.isnan(se), float('inf'), se)
+            full_t_stats[valid_snps] = np.where(np.isnan(t_stats), 0.0, t_stats)
+
+        results = [
+            {
+                'p_value': float(p),
+                'beta': float(b),
+                'se': float(s),
+                't_statistic': float(t),
+                'maf': float(m)
+            }
+            for p, b, s, t, m in zip(full_p_values, full_betas, full_se, full_t_stats, mafs)
+        ]
 
         return results
 
