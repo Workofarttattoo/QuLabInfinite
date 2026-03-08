@@ -587,12 +587,10 @@ class NeuralOscillator:
 
     def kuramoto_dynamics(self, dt: float = 0.1) -> np.ndarray:
         """Kuramoto model dynamics for phase coupling."""
-        # Phase dynamics
-        coupling = np.zeros(self.n_oscillators)
-        for i in range(self.n_oscillators):
-            for j in range(self.n_oscillators):
-                if i != j:
-                    coupling[i] += self.K[i, j] * np.sin(self.phase[j] - self.phase[i])
+        # Phase dynamics (Vectorized)
+        # self.phase[j] - self.phase[i] for all pairs
+        phase_diff = self.phase - self.phase[:, np.newaxis]
+        coupling = np.sum(self.K * np.sin(phase_diff), axis=1)
 
         dphase = self.omega + coupling / self.n_oscillators
         self.phase += dphase * dt
