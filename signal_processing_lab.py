@@ -515,17 +515,33 @@ class SignalProcessor:
         """
         freqs, magnitude = self.compute_fft(signal_data, window='hann')
 
-        # Find fundamental peak
-        fund_idx = np.argmin(np.abs(freqs - fundamental_freq))
-        fund_power = magnitude[fund_idx] ** 2
+        # ⚡ Bolt: Vectorize THD calculation by replacing O(M) loop with O(1) array operations
+        # Since rfftfreq returns uniformly spaced frequencies, we can compute indices directly
+        # instead of searching for them, replacing O(N*M) search with O(1) index computation
 
-        # Find harmonic peaks
-        harmonic_power = 0
-        for n in range(2, num_harmonics + 2):
-            harmonic_freq = n * fundamental_freq
-            if harmonic_freq < self.nyquist_freq:
-                harmonic_idx = np.argmin(np.abs(freqs - harmonic_freq))
-                harmonic_power += magnitude[harmonic_idx] ** 2
+        # Calculate target frequencies for fundamental and harmonics
+        target_freqs = np.arange(1, num_harmonics + 2) * fundamental_freq
+
+        # Only keep frequencies below Nyquist
+        valid_freqs = target_freqs[target_freqs < self.nyquist_freq]
+
+        if len(valid_freqs) < 2:
+            return 0.0  # No harmonics available
+
+        # Compute indices directly (freqs[i] = i * df)
+        df = freqs[1] - freqs[0]
+        indices = np.round(valid_freqs / df).astype(int)
+
+        # Clip to valid range just in case
+        indices = np.clip(indices, 0, len(freqs) - 1)
+
+        powers = magnitude[indices] ** 2
+
+        fund_power = powers[0]
+        harmonic_power = np.sum(powers[1:])
+
+        if fund_power == 0:
+            return np.inf
 
         thd = np.sqrt(harmonic_power / fund_power) * 100
         return thd
