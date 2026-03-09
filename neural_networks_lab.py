@@ -163,9 +163,9 @@ class SpikingNeuralNetwork:
                                            p_ei * conn_prob[:self.n_exc, self.n_exc:])
 
             # Inhibitory connections (negative weights)
-            W[self.n_exc:, :self.n_exc] = -(np.random.rand(self.n_inh, self.n_exc) <
+            W[self.n_exc:, :self.n_exc] = -1 * (np.random.rand(self.n_inh, self.n_exc) <
                                             p_ie * conn_prob[self.n_exc:, :self.n_exc])
-            W[self.n_exc:, self.n_exc:] = -(np.random.rand(self.n_inh, self.n_inh) <
+            W[self.n_exc:, self.n_exc:] = -1 * (np.random.rand(self.n_inh, self.n_inh) <
                                             p_ii * conn_prob[self.n_exc:, self.n_exc:])
 
             # Scale weights
@@ -346,10 +346,10 @@ class SpikingNeuralNetwork:
         I_syn += self.W.T @ self.synaptic_traces[:, 0]
 
         # NMDA (slow excitatory, voltage-dependent)
-        for i in range(self.n_neurons):
-            V = self.neurons[i].V
-            mg_block = 1 / (1 + np.exp(-0.062 * V) * 0.33)  # Mg2+ block
-            I_syn[i] += mg_block * (self.W[:, i] @ self.synaptic_traces[:, 1])
+        # Vectorized optimization: extract voltages and compute mg_block for all neurons at once
+        V = np.array([neuron.V for neuron in self.neurons])
+        mg_block = 1 / (1 + np.exp(-0.062 * V) * 0.33)  # Mg2+ block
+        I_syn += mg_block * (self.W.T @ self.synaptic_traces[:, 1])
 
         # GABA-A (fast inhibitory)
         I_syn += self.W.T @ self.synaptic_traces[:, 2]
