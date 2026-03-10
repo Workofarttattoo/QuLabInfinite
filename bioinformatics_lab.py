@@ -94,28 +94,40 @@ class BioinformaticsLab:
 
     def find_orfs(self, sequence: str, min_length: int = 100) -> List[Tuple[int, int, str]]:
         """Find all open reading frames in a DNA sequence."""
+        # Performance optimization: use native string searching (str.find)
+        # instead of inefficient O(N) nested Python loops and slicing
         orfs = []
         dna = sequence.upper().replace('U', 'T')
 
         for frame in range(3):
             i = frame
             while i < len(dna) - 2:
-                codon = dna[i:i+3]
-                if codon == 'ATG':  # Start codon
-                    start = i
-                    orf_seq = codon
-                    i += 3
+                start = dna.find('ATG', i)
+                if start == -1:
+                    break
 
-                    while i < len(dna) - 2:
-                        codon = dna[i:i+3]
-                        orf_seq += codon
-                        if codon in ['TAA', 'TAG', 'TGA']:  # Stop codons
-                            if len(orf_seq) >= min_length:
-                                orfs.append((start, i+3, orf_seq))
-                            break
-                        i += 3
+                if (start - frame) % 3 != 0:
+                    i = start + 1
+                    continue
+
+                # Found a start codon in the correct frame
+                # Now find the first stop codon in the same frame
+                nearest_stop = -1
+                for stop_codon in ['TAA', 'TAG', 'TGA']:
+                    stop = dna.find(stop_codon, start + 3)
+                    while stop != -1 and (stop - start) % 3 != 0:
+                        stop = dna.find(stop_codon, stop + 1)
+
+                    if stop != -1 and (nearest_stop == -1 or stop < nearest_stop):
+                        nearest_stop = stop
+
+                if nearest_stop != -1:
+                    end = nearest_stop + 3
+                    if end - start >= min_length:
+                        orfs.append((start, end, dna[start:end]))
+                    i = end # Resume after the stop codon
                 else:
-                    i += 3
+                    break # No stop codon found, rest of frame is invalid
 
         return orfs
 
