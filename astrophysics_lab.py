@@ -176,15 +176,14 @@ class AstrophysicsLab:
         vel = velocities.copy()
 
         def compute_accelerations(positions, masses):
-            acc = np.zeros_like(positions)
-            for i in range(n):
-                for j in range(n):
-                    if i != j:
-                        r_vec = positions[j] - positions[i]
-                        r_mag = np.linalg.norm(r_vec)
-                        if r_mag > 0:
-                            acc[i] += self.G * masses[j] * r_vec / r_mag**3
-            return acc
+            # Vectorized O(N^2) to O(1) acceleration computation using numpy broadcasting
+            # diff shape: (n, n, 3) where diff[i, j] = positions[j] - positions[i]
+            diff = positions[np.newaxis, :, :] - positions[:, np.newaxis, :]
+            r_sq = np.sum(diff**2, axis=-1)
+            np.fill_diagonal(r_sq, np.inf)
+            r_cubed = r_sq**1.5
+            F_ij = masses[np.newaxis, :] / r_cubed
+            return self.G * np.sum(diff * F_ij[:, :, np.newaxis], axis=1)
 
         # Verlet integration
         for step in range(steps):
@@ -201,12 +200,16 @@ class AstrophysicsLab:
 
             # Calculate total energy
             KE = 0.5 * np.sum(masses[:, np.newaxis] * vel**2)
-            PE = 0
-            for i in range(n):
-                for j in range(i+1, n):
-                    r = np.linalg.norm(pos[i] - pos[j])
-                    if r > 0:
-                        PE -= self.G * masses[i] * masses[j] / r
+
+            # Vectorized potential energy calculation
+            diff = pos[:, np.newaxis, :] - pos[np.newaxis, :, :]
+            r = np.sqrt(np.sum(diff**2, axis=-1))
+            np.fill_diagonal(r, np.inf)
+            # Upper triangle mask to avoid double counting and self-interaction
+            mask = np.triu(np.ones((n, n), dtype=bool), k=1)
+            pe_matrix = -self.G * (masses[:, np.newaxis] * masses[np.newaxis, :]) / r
+            PE = np.sum(pe_matrix[mask])
+
             energy_history[step] = KE + PE
 
         return {
