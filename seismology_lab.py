@@ -310,16 +310,19 @@ class SeismologyLab:
 
         # Transfer function (simplified)
         amplification = np.ones_like(frequency)
-        for i, f in enumerate(frequency):
-            if f < 0.1:
-                amplification[i] = fv
-            elif f > 10:
-                amplification[i] = fa
-            else:
-                # Resonance at fundamental frequency
-                Q = 20  # Quality factor for soil
-                amplification[i] = 1 + (fa - 1) * fundamental_freq ** 2 / \
-                                  (fundamental_freq ** 2 + (f - fundamental_freq) ** 2 / Q ** 2)
+
+        mask_low = frequency < 0.1
+        mask_high = frequency > 10
+        mask_mid = ~(mask_low | mask_high)
+
+        amplification[mask_low] = fv
+        amplification[mask_high] = fa
+
+        # Resonance at fundamental frequency
+        Q = 20  # Quality factor for soil
+        f_mid = frequency[mask_mid]
+        amplification[mask_mid] = 1 + (fa - 1) * fundamental_freq ** 2 / \
+                                 (fundamental_freq ** 2 + (f_mid - fundamental_freq) ** 2 / Q ** 2)
 
         # Apply amplification to input motion
         output_motion = input_motion * np.mean(amplification)
@@ -698,52 +701,41 @@ class SeismologyLab:
         vp2 = vs2 * 1.73
 
         # Rayleigh wave dispersion (simplified)
-        rayleigh_velocities = []
-        for T in periods:
-            wavelength = T * vs1  # Approximate wavelength
+        # Vectorized operations
+        wavelengths = periods * vs1
 
-            if wavelength < h1:
-                # Short period - sensitive to shallow layer
-                c_rayleigh = 0.92 * vs1
-            elif wavelength > 4 * h1:
-                # Long period - sensitive to deeper layer
-                c_rayleigh = 0.92 * vs2
-            else:
-                # Transition zone
-                weight = (wavelength - h1) / (3 * h1)
-                c_rayleigh = 0.92 * (vs1 * (1 - weight) + vs2 * weight)
+        mask_short = wavelengths < h1
+        mask_long = wavelengths > 4 * h1
+        mask_trans = ~(mask_short | mask_long)
 
-            rayleigh_velocities.append(c_rayleigh)
+        weights = (wavelengths[mask_trans] - h1) / (3 * h1)
+        trans_velocities = vs1 * (1 - weights) + vs2 * weights
+
+        rayleigh_velocities = np.zeros_like(periods, dtype=float)
+        rayleigh_velocities[mask_short] = 0.92 * vs1
+        rayleigh_velocities[mask_long] = 0.92 * vs2
+        rayleigh_velocities[mask_trans] = 0.92 * trans_velocities
 
         # Love wave dispersion
-        love_velocities = []
-        for T in periods:
-            wavelength = T * vs1
-
-            if wavelength < h1:
-                c_love = vs1
-            elif wavelength > 4 * h1:
-                c_love = vs2
-            else:
-                weight = (wavelength - h1) / (3 * h1)
-                c_love = vs1 * (1 - weight) + vs2 * weight
-
-            love_velocities.append(c_love)
+        love_velocities = np.zeros_like(periods, dtype=float)
+        love_velocities[mask_short] = vs1
+        love_velocities[mask_long] = vs2
+        love_velocities[mask_trans] = trans_velocities
 
         # Group velocities (simplified - typically 0.9 * phase velocity)
-        rayleigh_group = [0.9 * c for c in rayleigh_velocities]
-        love_group = [0.9 * c for c in love_velocities]
+        rayleigh_group = 0.9 * rayleigh_velocities
+        love_group = 0.9 * love_velocities
 
         # Penetration depth (approximately λ/3 for Rayleigh waves)
-        penetration_depths = [T * c / 3 for T, c in zip(periods, rayleigh_velocities)]
+        penetration_depths = periods * rayleigh_velocities / 3
 
         return {
             'periods': periods.tolist(),
-            'rayleigh_phase_velocity': rayleigh_velocities,
-            'rayleigh_group_velocity': rayleigh_group,
-            'love_phase_velocity': love_velocities,
-            'love_group_velocity': love_group,
-            'penetration_depths': penetration_depths,
+            'rayleigh_phase_velocity': rayleigh_velocities.tolist(),
+            'rayleigh_group_velocity': rayleigh_group.tolist(),
+            'love_phase_velocity': love_velocities.tolist(),
+            'love_group_velocity': love_group.tolist(),
+            'penetration_depths': penetration_depths.tolist(),
             'layer_model': layer_model
         }
 
