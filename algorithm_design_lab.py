@@ -224,15 +224,15 @@ class AlgorithmDesignLab:
     def floyd_warshall(self, adj_matrix: np.ndarray) -> np.ndarray:
         """
         Floyd-Warshall all-pairs shortest path algorithm.
-        Time: O(V³), Space: O(V²)
+        Time: O(V³) operations, Space: O(V²)
+        Optimized to use NumPy broadcasting for inner loops, reducing Python overhead.
         """
         n = len(adj_matrix)
         dist = adj_matrix.copy()
 
         for k in range(n):
-            for i in range(n):
-                for j in range(n):
-                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+            # Vectorized O(V^2) update for the entire dist matrix for a given intermediate vertex k
+            dist = np.minimum(dist, dist[:, k:k+1] + dist[k:k+1, :])
 
         return dist
 
