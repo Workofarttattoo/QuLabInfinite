@@ -86,6 +86,11 @@
             background: rgba(8, 12, 20, 0.9);
             margin-bottom: 16px;
             color: #9dc1ff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .lab-search:focus-within {
+            border-color: rgba(88, 166, 255, 0.8);
+            box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
         }
         .lab-search input {
             flex: 1;
@@ -112,11 +117,13 @@
             transition: all 0.25s ease;
         }
         .lab-button:hover,
-        .lab-button.active {
+        .lab-button.active,
+        .lab-button:focus-visible {
             border-color: rgba(0, 255, 136, 0.8);
             background: rgba(0, 255, 136, 0.15);
             box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
             transform: translateY(-1px);
+            outline: none;
         }
         .lab-button small {
             display: block;
@@ -226,6 +233,11 @@
             border-radius: 16px;
             border: 1px solid rgba(88, 166, 255, 0.3);
             background: rgba(9, 14, 24, 0.9);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .prompt-bar:focus-within {
+            border-color: rgba(88, 166, 255, 0.8);
+            box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
         }
         .prompt-bar input {
             flex: 1;
@@ -244,6 +256,13 @@
             font-weight: bold;
             font-family: inherit;
             cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .prompt-bar button:hover,
+        .prompt-bar button:focus-visible {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+            outline: none;
         }
         .lab-story {
             padding: 18px;
@@ -306,7 +325,7 @@
                 </div>
 
                 <div id="labFrame" class="lab-frame">
-                    <div class="lab-chat" id="labChat"></div>
+                    <div class="lab-chat" id="labChat" aria-live="polite"></div>
                     <div class="prompt-bar">
                         <input type="text" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’">
                         <button type="button">Send</button>
