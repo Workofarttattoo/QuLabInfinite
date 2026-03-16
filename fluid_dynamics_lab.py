@@ -85,15 +85,18 @@ class FluidDynamicsLab:
                 (vn[2:, 1:-1] - 2*vn[1:-1, 1:-1] + vn[0:-2, 1:-1]) / dy**2
             )
 
+            # Pressure Poisson equation source term (constant across pressure iterations)
+            b = 0.25 * dx * dy / dt * (
+                (u[1:-1, 2:] - u[1:-1, 0:-2]) / (2*dx) +
+                (v[2:, 1:-1] - v[0:-2, 1:-1]) / (2*dy)
+            )
+
             # Pressure Poisson equation (simplified)
             for _ in range(20):  # Iterations for pressure
                 pn = p.copy()
                 p[1:-1, 1:-1] = 0.25 * (
                     pn[1:-1, 2:] + pn[1:-1, 0:-2] + pn[2:, 1:-1] + pn[0:-2, 1:-1]
-                ) - 0.25 * dx * dy / dt * (
-                    (u[1:-1, 2:] - u[1:-1, 0:-2]) / (2*dx) +
-                    (v[2:, 1:-1] - v[0:-2, 1:-1]) / (2*dy)
-                )
+                ) - b
 
             # Apply boundary conditions
             u[0, :] = 0  # Bottom
@@ -150,7 +153,7 @@ class FluidDynamicsLab:
         C_f = 0.664 / np.sqrt(Re_x)
 
         # Blasius similarity solution
-        def blasius_ode(eta, f):
+        def blasius_ode(f, eta):
             # f'' + 0.5 * f * f'' = 0
             return [f[1], f[2], -0.5 * f[0] * f[2]]
 
