@@ -225,14 +225,15 @@ class AlgorithmDesignLab:
         """
         Floyd-Warshall all-pairs shortest path algorithm.
         Time: O(V³), Space: O(V²)
+        Optimized implementation using NumPy vectorization.
         """
         n = len(adj_matrix)
         dist = adj_matrix.copy()
 
+        # Vectorized implementation replaces the inner two loops
+        # This calculates min(dist[i,j], dist[i,k] + dist[k,j]) for all i,j simultaneously
         for k in range(n):
-            for i in range(n):
-                for j in range(n):
-                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+            dist = np.minimum(dist, dist[:, k:k+1] + dist[k:k+1, :])
 
         return dist
 
