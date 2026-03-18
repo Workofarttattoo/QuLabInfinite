@@ -494,26 +494,23 @@ class NaturalLanguageProcessingLab:
         """
         m, n = len(str1), len(str2)
 
-        # Initialize DP table
-        dp = np.zeros((m + 1, n + 1), dtype=int)
+        # Optimize memory to O(min(M, N)) and avoid heavy NumPy scalar assignments
+        if m < n:
+            str1, str2 = str2, str1
+            m, n = n, m
 
-        # Base cases
-        for i in range(m + 1):
-            dp[i][0] = i
-        for j in range(n + 1):
-            dp[0][j] = j
+        previous_row = list(range(n + 1))
 
-        # Fill DP table
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                if str1[i-1] == str2[j-1]:
-                    dp[i][j] = dp[i-1][j-1]
-                else:
-                    dp[i][j] = 1 + min(dp[i-1][j],      # Deletion
-                                      dp[i][j-1],      # Insertion
-                                      dp[i-1][j-1])    # Substitution
+        for i, c1 in enumerate(str1):
+            current_row = [i + 1]
+            for j, c2 in enumerate(str2):
+                insertions = previous_row[j + 1] + 1
+                deletions = current_row[j] + 1
+                substitutions = previous_row[j] + (c1 != c2)
+                current_row.append(min(insertions, deletions, substitutions))
+            previous_row = current_row
 
-        return dp[m][n]
+        return previous_row[n]
 
     def cosine_similarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
         """Calculate cosine similarity between two vectors."""
