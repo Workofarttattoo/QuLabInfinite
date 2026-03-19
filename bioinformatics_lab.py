@@ -291,57 +291,42 @@ class BioinformaticsLab:
         if n <= 2:
             return dist_matrix
 
-        # Calculate Q matrix
-        q_matrix = np.zeros((n, n))
-        for i in range(n):
-            for j in range(n):
-                if i != j:
-                    row_sum = np.sum(dist_matrix[i, :])
-                    col_sum = np.sum(dist_matrix[:, j])
-                    q_matrix[i, j] = (n - 2) * dist_matrix[i, j] - row_sum - col_sum
+        # ⚡ Bolt: Vectorize Q matrix calculation to replace O(N^2) loop
+        row_sums = np.sum(dist_matrix, axis=1)
+        q_matrix = (n - 2) * dist_matrix - row_sums[:, np.newaxis] - row_sums[np.newaxis, :]
+        np.fill_diagonal(q_matrix, float('inf'))
 
-        # Find minimum Q value
-        min_val = float('inf')
-        min_pair = (0, 1)
-        for i in range(n):
-            for j in range(i + 1, n):
-                if q_matrix[i, j] < min_val:
-                    min_val = q_matrix[i, j]
-                    min_pair = (i, j)
+        # Find minimum Q value (masking lower triangle to prevent duplicate pairs and self-loops)
+        mask = np.tril(np.ones((n, n), dtype=bool))
+        q_matrix_masked = np.where(mask, float('inf'), q_matrix)
 
-        # Join the pair with minimum Q value
-        i, j = min_pair
+        min_idx = np.argmin(q_matrix_masked)
+        i, j = divmod(min_idx, n)
+        min_pair = (i, j)
 
         # Calculate branch lengths
-        sum_i = np.sum(dist_matrix[i, :])
-        sum_j = np.sum(dist_matrix[j, :])
+        sum_i = row_sums[i]
+        sum_j = row_sums[j]
 
         branch_i = 0.5 * dist_matrix[i, j] + (sum_i - sum_j) / (2 * (n - 2))
         branch_j = dist_matrix[i, j] - branch_i
 
-        # Create new distance matrix
+        # ⚡ Bolt: Create new distance matrix using boolean masking instead of O(N^2) loops
         new_n = n - 1
         new_dist = np.zeros((new_n, new_n))
 
-        # Copy unchanged distances
-        row_idx = 0
-        for r in range(n):
-            if r in min_pair:
-                continue
-            col_idx = 0
-            for c in range(n):
-                if c in min_pair:
-                    continue
-                new_dist[row_idx, col_idx] = dist_matrix[r, c]
-                col_idx += 1
-            row_idx += 1
+        # Mask to select all indices except i and j
+        keep_mask = np.ones(n, dtype=bool)
+        keep_mask[[i, j]] = False
+
+        # Extract the submatrix for unchanged distances
+        kept_dist = dist_matrix[keep_mask][:, keep_mask]
+        new_dist[:-1, :-1] = kept_dist
 
         # Calculate distances to new node
-        for k in range(n):
-            if k not in min_pair:
-                new_dist_val = 0.5 * (dist_matrix[i, k] + dist_matrix[j, k] - dist_matrix[i, j])
-                idx = sum(1 for x in range(k) if x not in min_pair)
-                new_dist[new_n-1, idx] = new_dist[idx, new_n-1] = new_dist_val
+        dist_to_new = 0.5 * (dist_matrix[i, keep_mask] + dist_matrix[j, keep_mask] - dist_matrix[i, j])
+        new_dist[-1, :-1] = dist_to_new
+        new_dist[:-1, -1] = dist_to_new
 
         return new_dist
 
