@@ -485,6 +485,10 @@ class NaturalLanguageProcessingLab:
         """
         Calculate Levenshtein edit distance between two strings.
 
+        Optimized by replacing an O(M*N) 2D NumPy array with an O(min(M, N)) 1D pure
+        Python list array. This avoids heavy scalar assignment overhead during nested
+        loop execution and reduces memory complexity.
+
         Args:
             str1: First string
             str2: Second string
@@ -494,26 +498,28 @@ class NaturalLanguageProcessingLab:
         """
         m, n = len(str1), len(str2)
 
-        # Initialize DP table
-        dp = np.zeros((m + 1, n + 1), dtype=int)
+        # Ensure str1 is the shorter string to minimize array size
+        if m > n:
+            str1, str2 = str2, str1
+            m, n = n, m
 
-        # Base cases
-        for i in range(m + 1):
-            dp[i][0] = i
-        for j in range(n + 1):
-            dp[0][j] = j
+        # Use pure Python lists for O(min(M, N)) space complexity
+        prev_row = list(range(m + 1))
+        curr_row = [0] * (m + 1)
 
-        # Fill DP table
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
+        for j in range(1, n + 1):
+            curr_row[0] = j
+            for i in range(1, m + 1):
                 if str1[i-1] == str2[j-1]:
-                    dp[i][j] = dp[i-1][j-1]
+                    curr_row[i] = prev_row[i-1]
                 else:
-                    dp[i][j] = 1 + min(dp[i-1][j],      # Deletion
-                                      dp[i][j-1],      # Insertion
-                                      dp[i-1][j-1])    # Substitution
+                    curr_row[i] = 1 + min(curr_row[i-1],      # Deletion
+                                          prev_row[i],        # Insertion
+                                          prev_row[i-1])      # Substitution
+            # Swap rows instead of allocating new ones
+            prev_row, curr_row = curr_row, prev_row
 
-        return dp[m][n]
+        return prev_row[m]
 
     def cosine_similarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
         """Calculate cosine similarity between two vectors."""
