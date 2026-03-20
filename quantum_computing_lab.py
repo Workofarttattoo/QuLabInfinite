@@ -397,33 +397,31 @@ class QuantumComputingLab:
                          phase: float) -> np.ndarray:
         """Apply controlled phase gate."""
         n_qubits = int(np.log2(len(state)))
-        dim = 2**n_qubits
-        cp_gate = np.eye(dim, dtype=complex)
+        c_bit = n_qubits - 1 - control
+        t_bit = n_qubits - 1 - target
 
-        for idx in range(dim):
-            binary = format(idx, f'0{n_qubits}b')
-            if binary[control] == '1' and binary[target] == '1':
-                cp_gate[idx, idx] = np.exp(1j * phase)
+        idx = np.arange(len(state))
+        mask = ((idx >> c_bit) & 1) & ((idx >> t_bit) & 1)
 
-        return cp_gate @ state
+        new_state = state.copy()
+        new_state[mask == 1] *= np.exp(1j * phase)
+        return new_state
 
     def _swap_qubits(self, state: np.ndarray, qubit1: int, qubit2: int) -> np.ndarray:
         """Swap two qubits."""
         n_qubits = int(np.log2(len(state)))
-        dim = 2**n_qubits
-        swap = np.eye(dim, dtype=complex)
+        q1_bit = n_qubits - 1 - qubit1
+        q2_bit = n_qubits - 1 - qubit2
 
-        for idx in range(dim):
-            binary = list(format(idx, f'0{n_qubits}b'))
-            # Swap bits
-            new_binary = binary.copy()
-            new_binary[qubit1], new_binary[qubit2] = binary[qubit2], binary[qubit1]
-            new_idx = int(''.join(new_binary), 2)
-            swap[new_idx, idx] = 1
-            if new_idx != idx:
-                swap[idx, idx] = 0
+        idx = np.arange(len(state))
+        b1 = (idx >> q1_bit) & 1
+        b2 = (idx >> q2_bit) & 1
 
-        return swap @ state
+        new_idx = idx - (b1 << q1_bit) - (b2 << q2_bit) + (b1 << q2_bit) + (b2 << q1_bit)
+
+        new_state = np.zeros_like(state)
+        new_state[new_idx] = state
+        return new_state
 
     def quantum_error_correction_3qubit(self, state: np.ndarray,
                                        error_type: str = 'bit_flip') -> np.ndarray:
@@ -494,14 +492,15 @@ class QuantumComputingLab:
     def _measure_parity(self, state: np.ndarray, qubit1: int, qubit2: int) -> int:
         """Measure parity of two qubits (0 if same, 1 if different)."""
         n_qubits = int(np.log2(len(state)))
-        parity = 0
-        prob_different = 0
+        q1_bit = n_qubits - 1 - qubit1
+        q2_bit = n_qubits - 1 - qubit2
 
-        for idx in range(len(state)):
-            if abs(state[idx])**2 > 1e-10:
-                binary = format(idx, f'0{n_qubits}b')
-                if binary[qubit1] != binary[qubit2]:
-                    prob_different += abs(state[idx])**2
+        idx = np.arange(len(state))
+        b1 = (idx >> q1_bit) & 1
+        b2 = (idx >> q2_bit) & 1
+
+        diff_mask = b1 != b2
+        prob_different = np.sum(np.abs(state[diff_mask])**2)
 
         return 1 if prob_different > 0.5 else 0
 
