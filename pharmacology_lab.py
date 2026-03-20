@@ -110,6 +110,7 @@ class PharmacologyLab:
                              k21: float, v1: float, time: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
         Two-compartment PK model (central and peripheral compartments).
+        Optimized with O(1) vectorized analytical mathematical solution.
 
         Args:
             dose: Drug dose in mg
@@ -122,22 +123,30 @@ class PharmacologyLab:
         Returns:
             Tuple of (central concentrations, peripheral concentrations) in mg/L
         """
-        def two_comp_ode(y, t, k10, k12, k21):
-            """ODE system for two-compartment model"""
-            a1, a2 = y  # Amounts in compartments
-            da1dt = -k10 * a1 - k12 * a1 + k21 * a2
-            da2dt = k12 * a1 - k21 * a2
-            return [da1dt, da2dt]
+        # Calculate macro constants (roots of characteristic equation)
+        alpha_plus_beta = k10 + k12 + k21
+        alpha_times_beta = k10 * k21
 
-        # Initial conditions: all drug in central compartment
-        y0 = [dose, 0]
+        sqrt_disc = np.sqrt(alpha_plus_beta**2 - 4 * alpha_times_beta)
 
-        # Solve ODE system
-        solution = odeint(two_comp_ode, y0, time, args=(k10, k12, k21))
+        alpha = (alpha_plus_beta + sqrt_disc) / 2.0
+        beta = (alpha_plus_beta - sqrt_disc) / 2.0
 
-        # Convert amounts to concentrations
-        central_conc = solution[:, 0] / v1
-        peripheral_conc = solution[:, 1] / (v1 * k12 / k21)  # V2 = V1 * k12/k21
+        # Calculate coefficients for the exact solution
+        alpha_minus_beta = alpha - beta
+
+        A = dose * (alpha - k21) / (v1 * alpha_minus_beta)
+        B = dose * (k21 - beta) / (v1 * alpha_minus_beta)
+
+        # Exact solution for central compartment concentration
+        central_conc = A * np.exp(-alpha * time) + B * np.exp(-beta * time)
+
+        # Exact solution for peripheral compartment concentration
+        # V2 = V1 * k12 / k21
+        # C2(t) = (dose * k12 / V2) / (alpha - beta) * (exp(-beta*t) - exp(-alpha*t))
+        # which simplifies to:
+        coeff_peripheral = dose * k21 / (v1 * alpha_minus_beta)
+        peripheral_conc = coeff_peripheral * (np.exp(-beta * time) - np.exp(-alpha * time))
 
         return central_conc, peripheral_conc
 
