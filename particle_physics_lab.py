@@ -510,6 +510,8 @@ class ParticlePhysicsLab:
                       R: float = 0.4, algorithm: str = 'antikt') -> List[List[FourVector]]:
         """
         Simple jet clustering algorithm.
+        ⚡ Bolt: Optimized by replacing O(N^3) explicit Python loops with O(N^2) vectorized NumPy operations
+        to calculate pairwise particle distances (eta, phi, d_ij) simultaneously.
 
         Args:
             particles: List of particle four-vectors
@@ -527,69 +529,85 @@ class ParticlePhysicsLab:
                 jets.append([remaining[0]])
                 break
 
-            # Find minimum distance
-            min_dist = np.inf
-            min_pair = (0, 0)
-            is_beam = False
+            # Vectorize kinematics extraction
+            px = np.array([p.px for p in remaining])
+            py = np.array([p.py for p in remaining])
+            pz = np.array([p.pz for p in remaining])
 
-            for i in range(len(remaining)):
-                # Distance to beam
-                pt_i = self.transverse_momentum(remaining[i].px, remaining[i].py)
+            # Calculate pT
+            pt2 = px**2 + py**2
+            pt = np.sqrt(pt2)
 
-                if algorithm == 'kt':
-                    d_iB = pt_i**2
-                elif algorithm == 'antikt':
-                    d_iB = 1 / pt_i**2 if pt_i > 0 else np.inf
-                else:  # Cambridge/Aachen
-                    d_iB = 1
+            # Distance to beam
+            if algorithm == 'kt':
+                d_iB = pt2
+            elif algorithm == 'antikt':
+                d_iB = np.zeros_like(pt2)
+                d_iB[pt > 0] = 1 / pt2[pt > 0]
+                d_iB[pt == 0] = np.inf
+            else:  # Cambridge/Aachen
+                d_iB = np.ones_like(pt2)
 
-                if d_iB < min_dist:
-                    min_dist = d_iB
-                    min_pair = (i, -1)
-                    is_beam = True
+            min_iB_idx = int(np.argmin(d_iB))
+            min_iB_val = d_iB[min_iB_idx]
 
-                # Distance between particles
-                for j in range(i + 1, len(remaining)):
-                    pt_j = self.transverse_momentum(remaining[j].px, remaining[j].py)
+            # Calculate pseudorapidity
+            p = np.sqrt(px**2 + py**2 + pz**2)
+            cos_theta = np.zeros_like(p)
+            nonzero_p = p > 0
+            cos_theta[nonzero_p] = pz[nonzero_p] / p[nonzero_p]
 
-                    # Calculate ΔR
-                    eta_i = self.pseudorapidity(remaining[i].px, remaining[i].py, remaining[i].pz)
-                    eta_j = self.pseudorapidity(remaining[j].px, remaining[j].py, remaining[j].pz)
-                    phi_i = np.arctan2(remaining[i].py, remaining[i].px)
-                    phi_j = np.arctan2(remaining[j].py, remaining[j].px)
+            # Avoid division by zero / log(0)
+            cos_theta = np.clip(cos_theta, -1 + 1e-15, 1 - 1e-15)
+            theta = np.arccos(cos_theta)
+            eta = -np.log(np.tan(theta / 2))
 
-                    delta_eta = eta_i - eta_j
-                    delta_phi = phi_i - phi_j
-                    if delta_phi > np.pi:
-                        delta_phi -= 2 * np.pi
-                    if delta_phi < -np.pi:
-                        delta_phi += 2 * np.pi
+            # Calculate phi
+            phi = np.arctan2(py, px)
 
-                    delta_R2 = delta_eta**2 + delta_phi**2
+            # Calculate pairwise distance using broadcasting
+            eta_diff = eta[:, np.newaxis] - eta[np.newaxis, :]
+            phi_diff = phi[:, np.newaxis] - phi[np.newaxis, :]
 
-                    if algorithm == 'kt':
-                        d_ij = min(pt_i**2, pt_j**2) * delta_R2 / R**2
-                    elif algorithm == 'antikt':
-                        d_ij = min(1/pt_i**2, 1/pt_j**2) * delta_R2 / R**2
-                    else:  # Cambridge/Aachen
-                        d_ij = delta_R2 / R**2
+            # Wrap phi to [-pi, pi]
+            phi_diff = (phi_diff + np.pi) % (2 * np.pi) - np.pi
 
-                    if d_ij < min_dist:
-                        min_dist = d_ij
-                        min_pair = (i, j)
-                        is_beam = False
+            delta_R2 = eta_diff**2 + phi_diff**2
+
+            if algorithm == 'kt':
+                pt2_min = np.minimum(pt2[:, np.newaxis], pt2[np.newaxis, :])
+                d_ij = pt2_min * delta_R2 / R**2
+            elif algorithm == 'antikt':
+                inv_pt2 = np.zeros_like(pt2)
+                inv_pt2[pt > 0] = 1 / pt2[pt > 0]
+                inv_pt2[pt == 0] = np.inf
+                inv_pt2_min = np.minimum(inv_pt2[:, np.newaxis], inv_pt2[np.newaxis, :])
+                d_ij = inv_pt2_min * delta_R2 / R**2
+            else:  # Cambridge/Aachen
+                d_ij = delta_R2 / R**2
+
+            # Ignore self-distances
+            np.fill_diagonal(d_ij, np.inf)
+
+            # Find min pair
+            min_idx_1d = np.argmin(d_ij)
+            min_i, min_j = np.unravel_index(min_idx_1d, d_ij.shape)
+            min_ij_val = d_ij[min_i, min_j]
 
             # Perform clustering
-            if is_beam or min_pair[1] == -1:
+            if min_iB_val < min_ij_val:
                 # Promote to jet
-                jets.append([remaining[min_pair[0]]])
-                remaining.pop(min_pair[0])
+                jets.append([remaining[min_iB_idx]])
+                remaining.pop(min_iB_idx)
             else:
                 # Merge particles
-                i, j = min_pair
-                merged = remaining[i] + remaining[j]
-                remaining[i] = merged
-                remaining.pop(j)
+                # Ensure we pop the higher index first to not shift the lower index
+                if min_i > min_j:
+                    min_i, min_j = min_j, min_i
+
+                merged = remaining[min_i] + remaining[min_j]
+                remaining[min_i] = merged
+                remaining.pop(min_j)
 
         return jets
 
