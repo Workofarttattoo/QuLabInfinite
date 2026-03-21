@@ -112,11 +112,16 @@
             transition: all 0.25s ease;
         }
         .lab-button:hover,
+        .lab-button:focus-visible,
         .lab-button.active {
             border-color: rgba(0, 255, 136, 0.8);
             background: rgba(0, 255, 136, 0.15);
             box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
             transform: translateY(-1px);
+            outline: none;
+        }
+        .lab-button:focus:not(:focus-visible) {
+            outline: none;
         }
         .lab-button small {
             display: block;
