@@ -291,14 +291,10 @@ class BioinformaticsLab:
         if n <= 2:
             return dist_matrix
 
-        # Calculate Q matrix
-        q_matrix = np.zeros((n, n))
-        for i in range(n):
-            for j in range(n):
-                if i != j:
-                    row_sum = np.sum(dist_matrix[i, :])
-                    col_sum = np.sum(dist_matrix[:, j])
-                    q_matrix[i, j] = (n - 2) * dist_matrix[i, j] - row_sum - col_sum
+        # Calculate Q matrix using vectorized broadcasting (O(N^2) instead of O(N^3))
+        row_sums = np.sum(dist_matrix, axis=1)
+        q_matrix = (n - 2) * dist_matrix - row_sums[:, np.newaxis] - row_sums[np.newaxis, :]
+        np.fill_diagonal(q_matrix, 0)
 
         # Find minimum Q value
         min_val = float('inf')
