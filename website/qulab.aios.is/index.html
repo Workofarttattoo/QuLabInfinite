@@ -118,6 +118,16 @@
             box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
             transform: translateY(-1px);
         }
+        .lab-button:focus-visible {
+            outline: none;
+            border-color: rgba(0, 255, 136, 0.8);
+            background: rgba(0, 255, 136, 0.15);
+            box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.25);
+            transform: translateY(-1px);
+        }
+        .lab-button:focus:not(:focus-visible) {
+            outline: none;
+        }
         .lab-button small {
             display: block;
             margin-top: 6px;
