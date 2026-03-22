@@ -350,16 +350,40 @@ class MachineLearningLab:
             best_threshold = None
             best_mse = float('inf')
 
+            n_samples_node = len(y)
             for feature in features:
-                thresholds = np.unique(X[:, feature])
-                for threshold in thresholds:
-                    mask = X[:, feature] <= threshold
-                    if np.sum(mask) == 0 or np.sum(~mask) == 0:
-                        continue
+                # ⚡ Bolt: Replace O(N^2) loop with O(N log N) sorting and O(N) cumsum
+                # Optimization reduces decision tree build time drastically by scanning
+                # thresholds sequentially and updating variance stats using prefix sums
+                sort_indices = np.argsort(X[:, feature])
+                x_sorted = X[sort_indices, feature]
+                y_sorted = y[sort_indices]
 
-                    left_mse = np.var(y[mask]) * np.sum(mask)
-                    right_mse = np.var(y[~mask]) * np.sum(~mask)
-                    mse = (left_mse + right_mse) / len(y)
+                unique_indices = np.where(np.diff(x_sorted) != 0)[0]
+                if len(unique_indices) == 0:
+                    continue
+
+                sum_y = np.cumsum(y_sorted)
+                sum_y_sq = np.cumsum(y_sorted ** 2)
+
+                total_sum = sum_y[-1]
+                total_sum_sq = sum_y_sq[-1]
+
+                for i in unique_indices:
+                    threshold = x_sorted[i]
+
+                    n_left = i + 1
+                    n_right = n_samples_node - n_left
+
+                    sum_left = sum_y[i]
+                    sum_right = total_sum - sum_left
+
+                    sum_sq_left = sum_y_sq[i]
+                    sum_sq_right = total_sum_sq - sum_sq_left
+
+                    left_mse = sum_sq_left - (sum_left ** 2) / n_left
+                    right_mse = sum_sq_right - (sum_right ** 2) / n_right
+                    mse = (left_mse + right_mse) / n_samples_node
 
                     if mse < best_mse:
                         best_mse = mse
