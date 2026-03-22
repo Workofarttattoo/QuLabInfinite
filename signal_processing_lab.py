@@ -515,16 +515,27 @@ class SignalProcessor:
         """
         freqs, magnitude = self.compute_fft(signal_data, window='hann')
 
+        # Helper for O(log N) search in sorted frequency array
+        def _get_nearest_idx(target_freq: float) -> int:
+            idx = np.searchsorted(freqs, target_freq)
+            if idx == 0:
+                return 0
+            if idx == len(freqs):
+                return len(freqs) - 1
+            if np.abs(freqs[idx - 1] - target_freq) < np.abs(freqs[idx] - target_freq):
+                return idx - 1
+            return idx
+
         # Find fundamental peak
-        fund_idx = np.argmin(np.abs(freqs - fundamental_freq))
+        fund_idx = _get_nearest_idx(fundamental_freq)
         fund_power = magnitude[fund_idx] ** 2
 
         # Find harmonic peaks
-        harmonic_power = 0
+        harmonic_power = 0.0
         for n in range(2, num_harmonics + 2):
             harmonic_freq = n * fundamental_freq
             if harmonic_freq < self.nyquist_freq:
-                harmonic_idx = np.argmin(np.abs(freqs - harmonic_freq))
+                harmonic_idx = _get_nearest_idx(harmonic_freq)
                 harmonic_power += magnitude[harmonic_idx] ** 2
 
         thd = np.sqrt(harmonic_power / fund_power) * 100
