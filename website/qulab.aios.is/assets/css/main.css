@@ -587,9 +587,16 @@ nav.scrolled {
   border: 1px solid var(--border);
 }
 
-.lab-card:hover {
+.lab-card:hover,
+.lab-card:focus-visible {
   transform: translateY(-8px) scale(1.02);
   box-shadow: var(--shadow-2xl);
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+.lab-card:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .lab-header {
