@@ -5,3 +5,7 @@
 ## 2025-05-22 - Test Gaps and Bugs
 **Learning:** Found a critical bug (immutable sparse matrix assignment) in `thermodynamics_grid.py` only because I wrote a benchmark script. The existing test suite did not cover this module.
 **Action:** When optimizing, if no specific test exists for the target module, write a reproduction/benchmark script first to verify it works at all.
+
+## 2025-05-22 - O(N log N) variance calculation for tree splits
+**Learning:** Iterating over all possible thresholds and recomputing variance with boolean masks results in an O(N^2) complexity for decision tree splits.
+**Action:** By sorting the features and using `np.cumsum` to maintain prefix sums, we can compute the variance of all potential splits sequentially in O(N log N) time, eliminating the O(N^2) loop.

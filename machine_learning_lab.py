@@ -350,21 +350,48 @@ class MachineLearningLab:
             best_threshold = None
             best_mse = float('inf')
 
+            n_samples_node = len(y)
             for feature in features:
-                thresholds = np.unique(X[:, feature])
-                for threshold in thresholds:
-                    mask = X[:, feature] <= threshold
-                    if np.sum(mask) == 0 or np.sum(~mask) == 0:
-                        continue
+                # ⚡ Bolt Optimization: Replace O(N^2) explicit loop over unique thresholds
+                # with an O(N log N) approach using sorting and prefix sums (cumsum).
+                # This sequentially computes left/right variance across all splits in O(N).
+                sort_idx = np.argsort(X[:, feature])
+                X_f = X[sort_idx, feature]
+                y_f = y[sort_idx]
 
-                    left_mse = np.var(y[mask]) * np.sum(mask)
-                    right_mse = np.var(y[~mask]) * np.sum(~mask)
-                    mse = (left_mse + right_mse) / len(y)
+                # Identify indices where the feature value changes (potential split points)
+                is_diff = X_f[1:] != X_f[:-1]
+                split_indices = np.where(is_diff)[0]
 
-                    if mse < best_mse:
-                        best_mse = mse
-                        best_feature = feature
-                        best_threshold = threshold
+                if len(split_indices) == 0:
+                    continue
+
+                # Compute prefix sums of y and y^2 for efficient variance calculation
+                y_cumsum = np.cumsum(y_f)
+                y_sq_cumsum = np.cumsum(y_f ** 2)
+
+                left_sums = y_cumsum[split_indices]
+                left_sq_sums = y_sq_cumsum[split_indices]
+                left_counts = split_indices + 1
+
+                total_sum = y_cumsum[-1]
+                total_sq_sum = y_sq_cumsum[-1]
+
+                right_sums = total_sum - left_sums
+                right_sq_sums = total_sq_sum - left_sq_sums
+                right_counts = n_samples_node - left_counts
+
+                # Variance * count = sum_sq - (sum^2) / count
+                left_var_scaled = left_sq_sums - (left_sums ** 2) / left_counts
+                right_var_scaled = right_sq_sums - (right_sums ** 2) / right_counts
+
+                mse_all = (left_var_scaled + right_var_scaled) / n_samples_node
+
+                min_idx = np.argmin(mse_all)
+                if mse_all[min_idx] < best_mse:
+                    best_mse = mse_all[min_idx]
+                    best_feature = feature
+                    best_threshold = X_f[split_indices[min_idx]]
 
             if best_feature is None:
                 return DecisionNode(value=np.mean(y))
