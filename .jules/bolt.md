@@ -5,3 +5,6 @@
 ## 2025-05-22 - Test Gaps and Bugs
 **Learning:** Found a critical bug (immutable sparse matrix assignment) in `thermodynamics_grid.py` only because I wrote a benchmark script. The existing test suite did not cover this module.
 **Action:** When optimizing, if no specific test exists for the target module, write a reproduction/benchmark script first to verify it works at all.
+## 2025-05-18 - [Vectorization for Network Motifs]
+**Learning:** The nested Python loops for motif analysis in `analyze_network_motifs` are a huge performance bottleneck.
+**Action:** Replacing O(N³) explicit nested loops with vectorized O(N^ω) NumPy matrix multiplications (`A @ A` and `np.trace`) significantly improves performance.
