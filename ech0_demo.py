@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Core Capabilities Demo
 Demonstrates ECH0's integrated mathematical reasoning and DeepMind algorithms
@@ -11,26 +12,26 @@ sys.path.insert(0, '/Users/noone/aios/QuLabInfinite')
 from ech0_core import ECH0, get_ech0
 
 def main():
-    print("\n")
-    print("╔════════════════════════════════════════════════════════════════════════════╗")
-    print("║                          ECH0 CORE CAPABILITIES DEMO                       ║")
-    print("║                  Mathematical Reasoning + DeepMind Algorithms              ║")
-    print("╚════════════════════════════════════════════════════════════════════════════╝")
-    print("\n")
+    logging.info("\n")
+    logging.info("╔════════════════════════════════════════════════════════════════════════════╗")
+    logging.info("║                          ECH0 CORE CAPABILITIES DEMO                       ║")
+    logging.info("║                  Mathematical Reasoning + DeepMind Algorithms              ║")
+    logging.info("╚════════════════════════════════════════════════════════════════════════════╝")
+    logging.info("\n")
 
     # Initialize ECH0
     ech0 = get_ech0()
 
     # Show status
-    print("[ECH0 STATUS]")
+    logging.info("[ECH0 STATUS]")
     status = ech0.status()
     for key, value in status.items():
-        print(f"  {key}: {value}")
+        logging.info(f"  {key}: {value}")
 
     # Demonstrate mathematical reasoning
-    print("\n" + "="*80)
-    print("[MATHEMATICAL REASONING DEMO]")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("[MATHEMATICAL REASONING DEMO]")
+    logging.info("="*80)
 
     test_problems = [
         "What is 15 + 27?",
@@ -39,86 +40,86 @@ def main():
     ]
 
     for i, problem in enumerate(test_problems, 1):
-        print(f"\nProblem {i}: {problem}")
-        print("  [Solving...]")
+        logging.info(f"\nProblem {i}: {problem}")
+        logging.info("  [Solving...]")
 
         result = ech0.solve_math_detailed(problem)
 
-        print(f"  Answer: {result.answer}")
-        print(f"  Model: {result.model_used}")
-        print(f"  Confidence: {result.confidence:.0%}")
-        print(f"  Time: {result.time_seconds:.1f}s")
+        logging.info(f"  Answer: {result.answer}")
+        logging.info(f"  Model: {result.model_used}")
+        logging.info(f"  Confidence: {result.confidence:.0%}")
+        logging.info(f"  Time: {result.time_seconds:.1f}s")
 
     # Show DeepMind capabilities
-    print("\n" + "="*80)
-    print("[DEEPMIND ALGORITHMS DEMO]")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("[DEEPMIND ALGORITHMS DEMO]")
+    logging.info("="*80)
 
-    print("\nTop 10 Available Algorithms:")
+    logging.info("\nTop 10 Available Algorithms:")
     algorithms = ech0.list_algorithms()[:10]
     for i, alg in enumerate(algorithms, 1):
         info = ech0.algorithm_info(alg)
-        print(f"  {i}. {alg}")
-        print(f"     {info}")
+        logging.info(f"  {i}. {alg}")
+        logging.info(f"     {info}")
 
     # Show specific algorithm details
-    print("\n[KEY ALGORITHMS]")
+    logging.info("\n[KEY ALGORITHMS]")
 
-    print("\n1. NFNets (Image Classification):")
+    logging.info("\n1. NFNets (Image Classification):")
     nfnet_info = ech0.deepmind.get_nfnet_model("F0")
     for key, value in nfnet_info.items():
-        print(f"   {key}: {value}")
+        logging.info(f"   {key}: {value}")
 
-    print("\n2. BYOL (Self-Supervised Learning):")
+    logging.info("\n2. BYOL (Self-Supervised Learning):")
     byol_info = ech0.deepmind.get_byol_config()
     for key, value in byol_info.items():
-        print(f"   {key}: {value}")
+        logging.info(f"   {key}: {value}")
 
-    print("\n3. AlphaFold (Protein Folding):")
+    logging.info("\n3. AlphaFold (Protein Folding):")
     alphafold_info = ech0.deepmind.get_alphafold_info()
     for key, value in alphafold_info.items():
-        print(f"   {key}: {value}")
+        logging.info(f"   {key}: {value}")
 
     # Show all capabilities
-    print("\n" + "="*80)
-    print("[FULL CAPABILITIES SUMMARY]")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("[FULL CAPABILITIES SUMMARY]")
+    logging.info("="*80)
 
     caps = ech0.list_capabilities()
 
-    print("\n📊 Mathematical Reasoning:")
+    logging.info("\n📊 Mathematical Reasoning:")
     math_caps = caps["mathematical_reasoning"]
-    print(f"  Models: {', '.join(math_caps['models'])}")
-    print(f"  Capabilities:")
+    logging.info(f"  Models: {', '.join(math_caps['models'])}")
+    logging.info(f"  Capabilities:")
     for cap in math_caps["capabilities"]:
-        print(f"    - {cap}")
+        logging.info(f"    - {cap}")
 
-    print("\n🧠 DeepMind Algorithms:")
+    logging.info("\n🧠 DeepMind Algorithms:")
     dm_caps = caps["deepmind_algorithms"]
-    print(f"  Total: {dm_caps['total_algorithms']} algorithms")
-    print(f"  Categories:")
+    logging.info(f"  Total: {dm_caps['total_algorithms']} algorithms")
+    logging.info(f"  Categories:")
     for cat, count in dm_caps["categories"].items():
-        print(f"    - {cat}: {count} algorithms")
+        logging.info(f"    - {cat}: {count} algorithms")
 
-    print("\n🤖 Specialized Models:")
+    logging.info("\n🤖 Specialized Models:")
     for model, desc in caps["specialized_models"].items():
-        print(f"  - {model}: {desc}")
+        logging.info(f"  - {model}: {desc}")
 
     # Final summary
-    print("\n" + "╔" + "═"*78 + "╗")
-    print(f"║  ECH0 READY                                                                ║")
-    print("╠" + "═"*78 + "╣")
-    print(f"║  Mathematical Reasoning: 5 specialized models                              ║")
-    print(f"║  DeepMind Algorithms: {dm_caps['total_algorithms']} cutting-edge algorithms                           ║")
-    print(f"║  Status: Fully operational                                                 ║")
-    print("╠" + "═"*78 + "╣")
-    print(f"║  Usage:                                                                    ║")
-    print(f"║    from ech0_core import ECH0                                              ║")
-    print(f"║    ech0 = ECH0()                                                           ║")
-    print(f"║    answer = ech0.solve_math('your problem')                                ║")
-    print(f"║    algorithms = ech0.list_algorithms()                                     ║")
-    print("╚" + "═"*78 + "╝")
-    print("\n")
+    logging.info("\n" + "╔" + "═"*78 + "╗")
+    logging.info(f"║  ECH0 READY                                                                ║")
+    logging.info("╠" + "═"*78 + "╣")
+    logging.info(f"║  Mathematical Reasoning: 5 specialized models                              ║")
+    logging.info(f"║  DeepMind Algorithms: {dm_caps['total_algorithms']} cutting-edge algorithms                           ║")
+    logging.info(f"║  Status: Fully operational                                                 ║")
+    logging.info("╠" + "═"*78 + "╣")
+    logging.info(f"║  Usage:                                                                    ║")
+    logging.info(f"║    from ech0_core import ECH0                                              ║")
+    logging.info(f"║    ech0 = ECH0()                                                           ║")
+    logging.info(f"║    answer = ech0.solve_math('your problem')                                ║")
+    logging.info(f"║    algorithms = ech0.list_algorithms()                                     ║")
+    logging.info("╚" + "═"*78 + "╝")
+    logging.info("\n")
 
 
 if __name__ == "__main__":

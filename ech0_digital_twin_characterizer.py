@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Digital Twin Characterizer
@@ -109,44 +110,278 @@ class ECH0_DigitalTwinCharacterizer:
         }
 
     def _initialize_conditions(self) -> Dict[str, CharacterizationCondition]:
-        """Initialize standard characterization conditions"""
+        """Initialize comprehensive characterization conditions with extensive stress factors"""
 
         return {
+            # Basic Environmental Conditions
             'standard_lab': CharacterizationCondition(
-                name='Standard Laboratory Conditions',
+                name='Standard Laboratory Conditions (Baseline)',
                 temperature_range=(293, 298),  # 20-25°C
                 pressure_range=(101325, 101325),  # 1 atm
                 frequency_range=(1e6, 1e11),  # 1 MHz - 100 GHz
                 strain_range=(-0.01, 0.01),  # ±1% strain
                 humidity_range=(40, 60)  # 40-60% RH
             ),
+
+            # Temperature Stress Factors
             'extreme_temperature': CharacterizationCondition(
-                name='Extreme Temperature Test',
+                name='Extreme Temperature Cycling (-100°C to 100°C)',
                 temperature_range=(173, 373),  # -100°C to 100°C
                 pressure_range=(101325, 101325),
                 frequency_range=(1e6, 1e11),
                 strain_range=(-0.05, 0.05)
             ),
+            'cryogenic_temperature': CharacterizationCondition(
+                name='Cryogenic Temperature (-269°C to -150°C)',
+                temperature_range=(4, 123),  # 4K to 123K (liquid helium to liquid nitrogen)
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e12),  # Extended for quantum effects
+                strain_range=(-0.02, 0.02),
+                magnetic_field=1.0  # 1 Tesla (typical for cryogenic systems)
+            ),
+            'high_temperature': CharacterizationCondition(
+                name='High Temperature Furnace (100°C to 1000°C)',
+                temperature_range=(373, 1273),  # 100°C to 1000°C
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.08, 0.08),
+                humidity_range=(10, 30)  # Low humidity in furnace
+            ),
+
+            # Pressure Stress Factors
             'high_pressure': CharacterizationCondition(
-                name='High Pressure Environment',
+                name='High Pressure Hydrostatic (1 atm to 100 MPa)',
                 temperature_range=(293, 298),
                 pressure_range=(101325, 1e7),  # 1 atm to 100 MPa
                 frequency_range=(1e6, 1e11),
                 strain_range=(-0.1, 0.1)
             ),
+            'ultra_high_pressure': CharacterizationCondition(
+                name='Ultra-High Pressure Diamond Anvil (100 MPa to 10 GPa)',
+                temperature_range=(293, 298),
+                pressure_range=(1e7, 1e10),  # 100 MPa to 10 GPa
+                frequency_range=(1e6, 1e12),  # Extended frequency range
+                strain_range=(-0.5, 0.5),  # Large strains
+                magnetic_field=5.0  # High magnetic field
+            ),
+            'vacuum_conditions': CharacterizationCondition(
+                name='High Vacuum Environment (10^-6 to 10^-9 Torr)',
+                temperature_range=(293, 298),
+                pressure_range=(1e-4, 1e-7),  # 10^-6 to 10^-9 Torr
+                frequency_range=(1e6, 1e12),
+                strain_range=(-0.01, 0.01),
+                humidity_range=(0, 0.1)  # Extremely dry
+            ),
+
+            # Corrosion and Chemical Stress Factors
+            'saltwater_corrosion': CharacterizationCondition(
+                name='Saltwater Corrosion Test (3.5% NaCl)',
+                temperature_range=(293, 308),  # 20-35°C
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.02, 0.02),
+                humidity_range=(80, 100),  # High humidity for corrosion
+                electric_field=1e3  # 1000 V/m (galvanic corrosion)
+            ),
+            'acid_exposure': CharacterizationCondition(
+                name='Acid Exposure Test (pH 2-4)',
+                temperature_range=(293, 333),  # 20-60°C
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.03, 0.03),
+                humidity_range=(60, 90)
+            ),
+            'alkaline_exposure': CharacterizationCondition(
+                name='Alkaline Exposure Test (pH 10-12)',
+                temperature_range=(293, 333),  # 20-60°C
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.03, 0.03),
+                humidity_range=(60, 90)
+            ),
+            'oxidizing_atmosphere': CharacterizationCondition(
+                name='Oxidizing Atmosphere (High Oxygen)',
+                temperature_range=(293, 373),  # 20-100°C
+                pressure_range=(101325, 2e5),  # Slightly elevated pressure
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.02, 0.02),
+                humidity_range=(50, 80)
+            ),
+
+            # Mechanical Stress Factors
+            'vibration_testing': CharacterizationCondition(
+                name='Random Vibration Testing (10-2000 Hz)',
+                temperature_range=(293, 298),
+                pressure_range=(101325, 101325),
+                frequency_range=(10, 2000),  # Hz for vibration
+                strain_range=(-0.05, 0.05),
+                humidity_range=(40, 60)
+            ),
+            'shock_testing': CharacterizationCondition(
+                name='Mechanical Shock Testing',
+                temperature_range=(293, 298),
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-1.0, 1.0),  # Large shock strains
+                humidity_range=(40, 60)
+            ),
+            'fatigue_cycling': CharacterizationCondition(
+                name='Fatigue Cycling Test (10^6 cycles)',
+                temperature_range=(293, 298),
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.02, 0.02),
+                humidity_range=(40, 60)
+            ),
+
+            # Radiation and Electromagnetic Stress Factors
+            'gamma_radiation': CharacterizationCondition(
+                name='Gamma Radiation Exposure (1-100 kGy)',
+                temperature_range=(293, 298),
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.01, 0.01),
+                humidity_range=(40, 60),
+                magnetic_field=0.1  # Low magnetic field
+            ),
+            'neutron_radiation': CharacterizationCondition(
+                name='Neutron Radiation Exposure (10^12-10^15 n/cm²)',
+                temperature_range=(293, 298),
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.01, 0.01),
+                humidity_range=(40, 60),
+                magnetic_field=0.5  # Moderate magnetic field
+            ),
+            'uv_exposure': CharacterizationCondition(
+                name='UV Radiation Exposure (UVA/UVB/UVC)',
+                temperature_range=(293, 333),  # 20-60°C
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.01, 0.01),
+                humidity_range=(30, 70)
+            ),
+            'electromagnetic_interference': CharacterizationCondition(
+                name='High Electromagnetic Field Exposure',
+                temperature_range=(293, 298),
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e12),  # Extended range
+                strain_range=(-0.01, 0.01),
+                humidity_range=(40, 60),
+                magnetic_field=10.0,  # 10 Tesla
+                electric_field=1e6  # 1 MV/m
+            ),
+
+            # Biological and Environmental Stress Factors
+            'biodegradation': CharacterizationCondition(
+                name='Biodegradation Test (Enzymatic/Microbial)',
+                temperature_range=(298, 310),  # 25-37°C (body temperature)
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.01, 0.01),
+                humidity_range=(90, 100)  # High humidity for microbial growth
+            ),
+            'humidity_cycling': CharacterizationCondition(
+                name='Humidity Cycling (10% to 95% RH)',
+                temperature_range=(293, 298),
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.02, 0.02),
+                humidity_range=(10, 95)  # Full humidity range
+            ),
+            'thermal_shock': CharacterizationCondition(
+                name='Thermal Shock Cycling (-55°C to 125°C)',
+                temperature_range=(218, 398),  # -55°C to 125°C
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.08, 0.08),
+                humidity_range=(20, 80)
+            ),
+
+            # Space and Aerospace Stress Factors
             'space_vacuum': CharacterizationCondition(
-                name='Space Vacuum Conditions',
+                name='Space Vacuum with Radiation',
                 temperature_range=(173, 323),  # -100°C to 50°C
                 pressure_range=(1e-6, 1e-3),  # ~10^-6 to 10^-3 Pa
                 frequency_range=(1e6, 1e12),  # Extended frequency range
-                magnetic_field=0.0  # No magnetic field
+                strain_range=(-0.05, 0.05),
+                humidity_range=(0, 0.1),  # Extremely dry
+                magnetic_field=0.0  # No magnetic field in space
             ),
-            'underwater': CharacterizationCondition(
-                name='Underwater Environment',
-                temperature_range=(273, 303),  # 0°C to 30°C
-                pressure_range=(101325, 1e8),  # 1 atm to 1000 atm
-                frequency_range=(1e2, 1e6),  # 100 Hz - 1 MHz (acoustic focus)
-                strain_range=(-0.02, 0.02)
+            'reentry_heating': CharacterizationCondition(
+                name='Atmospheric Reentry Heating',
+                temperature_range=(373, 2273),  # 100°C to 2000°C
+                pressure_range=(101325, 1e6),  # Atmospheric reentry pressures
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.2, 0.2),
+                humidity_range=(10, 50)
+            ),
+            'launch_vibration': CharacterizationCondition(
+                name='Rocket Launch Vibration',
+                temperature_range=(273, 293),  # 0-20°C
+                pressure_range=(101325, 101325),
+                frequency_range=(5, 10000),  # 5 Hz to 10 kHz vibration
+                strain_range=(-0.5, 0.5),  # High vibration strains
+                humidity_range=(40, 60)
+            ),
+
+            # Industrial and Harsh Environment Stress Factors
+            'chemical_plant': CharacterizationCondition(
+                name='Chemical Plant Environment',
+                temperature_range=(293, 373),  # 20-100°C
+                pressure_range=(101325, 5e5),  # Elevated pressures
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.05, 0.05),
+                humidity_range=(60, 95)  # High humidity
+            ),
+            'offshore_oil_rig': CharacterizationCondition(
+                name='Offshore Oil Rig Environment',
+                temperature_range=(273, 313),  # 0-40°C
+                pressure_range=(101325, 1e6),  # High pressures
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.1, 0.1),
+                humidity_range=(70, 100)  # Marine environment
+            ),
+            'nuclear_reactor': CharacterizationCondition(
+                name='Nuclear Reactor Environment',
+                temperature_range=(293, 673),  # 20-400°C
+                pressure_range=(1e7, 2e7),  # High pressures
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.02, 0.02),
+                humidity_range=(10, 30),  # Low humidity
+                magnetic_field=2.0,  # Moderate magnetic field
+                electric_field=1e5  # High electric field
+            ),
+
+            # Emerging Technology Stress Factors
+            'quantum_computing': CharacterizationCondition(
+                name='Quantum Computing Environment',
+                temperature_range=(0.01, 1),  # milliKelvin to 1K
+                pressure_range=(1e-9, 1e-6),  # Ultra-high vacuum
+                frequency_range=(1e9, 1e12),  # GHz to THz range
+                strain_range=(-1e-6, 1e-6),  # Microstrains only
+                humidity_range=(0, 0.001),  # Extremely dry
+                magnetic_field=0.001,  # MicroTesla shielding
+                electric_field=0.1  # Very low fields
+            ),
+            '5g_6g_environment': CharacterizationCondition(
+                name='5G/6G Electromagnetic Environment',
+                temperature_range=(253, 333),  # -20°C to 60°C
+                pressure_range=(101325, 101325),
+                frequency_range=(600e6, 300e9),  # 600 MHz to 300 GHz
+                strain_range=(-0.01, 0.01),
+                humidity_range=(20, 80),
+                electric_field=1e5,  # 100 kV/m (high EMF)
+                magnetic_field=0.01  # Low magnetic field
+            ),
+            'autonomous_vehicle': CharacterizationCondition(
+                name='Autonomous Vehicle Environment',
+                temperature_range=(233, 358),  # -40°C to 85°C
+                pressure_range=(101325, 101325),
+                frequency_range=(1e6, 1e11),
+                strain_range=(-0.2, 0.2),  # Crash impact strains
+                humidity_range=(10, 95),  # Full environmental range
+                electric_field=1e4  # Moderate EMF from vehicle systems
             )
         }
 
@@ -178,8 +413,8 @@ class ECH0_DigitalTwinCharacterizer:
 
         self.digital_twins[twin_id] = digital_twin
 
-        print(f"🤖 ECH0 created digital twin: {twin_id}")
-        print(f"   Based on design: {metamaterial_design['name']}")
+        logging.info(f"🤖 ECH0 created digital twin: {twin_id}")
+        logging.info(f"   Based on design: {metamaterial_design['name']}")
 
         return digital_twin
 
@@ -199,8 +434,8 @@ class ECH0_DigitalTwinCharacterizer:
         if conditions is None:
             conditions = ['standard_lab']
 
-        print(f"\n🔬 ECH0 commencing characterization of {digital_twin.name}")
-        print(f"   Testing under conditions: {conditions}")
+        logging.info(f"\n🔬 ECH0 commencing characterization of {digital_twin.name}")
+        logging.info(f"   Testing under conditions: {conditions}")
 
         results = {
             'twin_id': digital_twin.twin_id,
@@ -218,7 +453,7 @@ class ECH0_DigitalTwinCharacterizer:
             if condition_name in self.characterization_conditions:
                 condition = self.characterization_conditions[condition_name]
 
-                print(f"   Testing under: {condition.name}")
+                logging.info(f"   Testing under: {condition.name}")
 
                 # Run multi-physics characterization
                 condition_results = self._run_multiphysics_characterization(
@@ -263,7 +498,7 @@ class ECH0_DigitalTwinCharacterizer:
             'key_findings': self._summarize_key_findings(results)
         })
 
-        print(f"✅ Characterization complete. Confidence level: {digital_twin.confidence_level:.2f}")
+        logging.info(f"✅ Characterization complete. Confidence level: {digital_twin.confidence_level:.2f}")
 
         return results
 
@@ -1051,13 +1286,25 @@ class ECH0_DigitalTwinCharacterizer:
         """Run comprehensive digital twin characterization campaign"""
 
         if conditions is None:
-            conditions = ['standard_lab', 'extreme_temperature', 'high_pressure']
+            # Use comprehensive set of stress factors covering all major categories
+            conditions = [
+                'standard_lab',  # Baseline
+                'extreme_temperature', 'cryogenic_temperature', 'high_temperature',  # Temperature stress
+                'high_pressure', 'ultra_high_pressure', 'vacuum_conditions',  # Pressure stress
+                'saltwater_corrosion', 'acid_exposure', 'alkaline_exposure', 'oxidizing_atmosphere',  # Chemical stress
+                'vibration_testing', 'shock_testing', 'fatigue_cycling',  # Mechanical stress
+                'gamma_radiation', 'neutron_radiation', 'uv_exposure', 'electromagnetic_interference',  # Radiation/EM stress
+                'biodegradation', 'humidity_cycling', 'thermal_shock',  # Environmental stress
+                'space_vacuum', 'reentry_heating', 'launch_vibration',  # Space/Aerospace stress
+                'chemical_plant', 'offshore_oil_rig', 'nuclear_reactor',  # Industrial stress
+                'quantum_computing', '5g_6g_environment', 'autonomous_vehicle'  # Emerging tech stress
+            ]
 
-        print("🤖 ECH0 DIGITAL TWIN CHARACTERIZATION CAMPAIGN")
-        print("=" * 60)
-        print(f"Characterizing {len(metamaterial_designs)} metamaterials")
-        print(f"Test conditions: {conditions}")
-        print()
+        logging.info("🤖 ECH0 DIGITAL TWIN CHARACTERIZATION CAMPAIGN")
+        logging.info("=" * 60)
+        logging.info(f"Characterizing {len(metamaterial_designs)} metamaterials")
+        logging.info(f"Test conditions: {conditions}")
+        logging.info()
 
         campaign_results = {
             'timestamp': datetime.now().isoformat(),
@@ -1070,8 +1317,8 @@ class ECH0_DigitalTwinCharacterizer:
         }
 
         for i, design in enumerate(metamaterial_designs):
-            print(f"\n🎯 CHARACTERIZING DESIGN {i+1}/{len(metamaterial_designs)}")
-            print(f"   {design['name']} ({design['category']})")
+            logging.info(f"\n🎯 CHARACTERIZING DESIGN {i+1}/{len(metamaterial_designs)}")
+            logging.info(f"   {design['name']} ({design['category']})")
 
             # Create digital twin
             digital_twin = self.create_digital_twin(design)
@@ -1112,10 +1359,10 @@ class ECH0_DigitalTwinCharacterizer:
             campaign_results['digital_twins_created']
         )
 
-        print(f"\n🏆 CAMPAIGN COMPLETE")
-        print(f"Digital twins created: {len(campaign_results['digital_twins_created'])}")
-        print(f"Average confidence: {campaign_results['campaign_summary']['average_confidence']:.2f}")
-        print(f"Top performer: {campaign_results['top_performers'][0]['original_design']}")
+        logging.info(f"\n🏆 CAMPAIGN COMPLETE")
+        logging.info(f"Digital twins created: {len(campaign_results['digital_twins_created'])}")
+        logging.info(f"Average confidence: {campaign_results['campaign_summary']['average_confidence']:.2f}")
+        logging.info(f"Top performer: {campaign_results['top_performers'][0]['original_design']}")
 
         return campaign_results
 
@@ -1263,14 +1510,14 @@ class ECH0_DigitalTwinCharacterizer:
         with open(filename, 'w') as f:
             json.dump(serializable_data, f, indent=2, default=str)
 
-        print(f"✅ Exported digital twin results to {filename}")
+        logging.info(f"✅ Exported digital twin results to {filename}")
 
 
 def main():
     """Run ECH0 digital twin characterization campaign"""
 
-    print("🤖 ECH0 DIGITAL TWIN CHARACTERIZER")
-    print("=" * 50)
+    logging.info("🤖 ECH0 DIGITAL TWIN CHARACTERIZER")
+    logging.info("=" * 50)
 
     characterizer = ECH0_DigitalTwinCharacterizer()
 
@@ -1281,7 +1528,7 @@ def main():
             metamaterial_designs = previous_results.get('designs', [])
 
             if not metamaterial_designs:
-                print("No metamaterial designs found. Generating sample designs...")
+                logging.info("No metamaterial designs found. Generating sample designs...")
                 # Generate sample designs for demonstration
                 metamaterial_designs = [
                     {
@@ -1316,7 +1563,7 @@ def main():
                     }
                 ]
     except FileNotFoundError:
-        print("Previous results not found. Using sample metamaterial designs...")
+        logging.info("Previous results not found. Using sample metamaterial designs...")
         metamaterial_designs = [
             {
                 'name': 'Sample-Electromagnetic-Metamaterial',
@@ -1341,10 +1588,10 @@ def main():
             }
         ]
 
-    # Run digital twin characterization campaign
+    # Run comprehensive digital twin characterization campaign with extensive stress factors
     campaign_results = characterizer.run_digital_twin_campaign(
         metamaterial_designs=metamaterial_designs,
-        conditions=['standard_lab', 'extreme_temperature', 'high_pressure', 'space_vacuum']
+        conditions=None  # Use all 27 comprehensive stress factor conditions
     )
 
     # Export results
@@ -1352,8 +1599,8 @@ def main():
         campaign_results, 'ech0_digital_twin_results.json'
     )
 
-    print("\n🎊 ECH0 Digital Twin Characterization Campaign Complete!")
-    print("Results saved to ech0_digital_twin_results.json")
+    logging.info("\n🎊 ECH0 Digital Twin Characterization Campaign Complete!")
+    logging.info("Results saved to ech0_digital_twin_results.json")
 
 
 if __name__ == "__main__":

@@ -264,7 +264,7 @@ def main():
     data['metadata']['total_trials'] = len(data['trials'])
 
     with open(dataset_path, 'w') as f:
-        json.dump(data, f, indent=2)
+        json.dump(, default=strdata, f, indent=2)
 
     print(f"\n✅ Dataset expanded to {len(data['trials'])} trials")
     print(f"\nTrial distribution:")

@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Fine-Tuning Strategy for IMO-Level Mathematics
 Path to 95%+ accuracy on mathematical olympiad problems
@@ -190,90 +191,90 @@ class ECH0_Fine_Tuning_Strategy:
 def main():
     strategy = ECH0_Fine_Tuning_Strategy()
 
-    print("=" * 80)
-    print("ECH0 PATH TO 95% ACCURACY ON IMO PROBLEMS")
-    print("=" * 80)
-    print()
+    logging.info("=" * 80)
+    logging.info("ECH0 PATH TO 95% ACCURACY ON IMO PROBLEMS")
+    logging.info("=" * 80)
+    logging.info()
 
     # Current status
-    print("CURRENT STATUS:")
-    print(f"  Baseline Accuracy: 6.7% (2/30 correct)")
-    print(f"  Target Accuracy: 95%")
-    print(f"  Gap to Close: +88.3%")
-    print()
+    logging.info("CURRENT STATUS:")
+    logging.info(f"  Baseline Accuracy: 6.7% (2/30 correct)")
+    logging.info(f"  Target Accuracy: 95%")
+    logging.info(f"  Gap to Close: +88.3%")
+    logging.info()
 
     # Improvements needed
-    print("IMPROVEMENTS NEEDED:")
-    print()
+    logging.info("IMPROVEMENTS NEEDED:")
+    logging.info()
     for name, details in strategy.improvements_needed.items():
         status_icon = details["status"]
-        print(f"{status_icon} {name.replace('_', ' ').title()}")
-        print(f"    Gain: {details['expected_gain']}")
-        print(f"    {details['description']}")
-        print()
+        logging.info(f"{status_icon} {name.replace('_', ' ').title()}")
+        logging.info(f"    Gain: {details['expected_gain']}")
+        logging.info(f"    {details['description']}")
+        logging.info()
 
     # Implementation roadmap
-    print("=" * 80)
-    print("IMPLEMENTATION ROADMAP")
-    print("=" * 80)
-    print()
+    logging.info("=" * 80)
+    logging.info("IMPLEMENTATION ROADMAP")
+    logging.info("=" * 80)
+    logging.info()
 
     roadmap = strategy.get_implementation_roadmap()
     for phase, tasks in roadmap.items():
-        print(f"\n{phase}:")
-        print("-" * 60)
+        logging.info(f"\n{phase}:")
+        logging.info("-" * 60)
         for task in tasks:
             if isinstance(task, dict) and 'task' in task:
                 status = task.get('status', '')
                 gain = task.get('expected_gain', '')
                 time_est = task.get('time', '')
-                print(f"  {status} {task['task']}")
+                logging.info(f"  {status} {task['task']}")
                 if gain:
-                    print(f"      Expected Gain: {gain}")
+                    logging.info(f"      Expected Gain: {gain}")
                 if time_est:
-                    print(f"      Time: {time_est}")
-                print()
+                    logging.info(f"      Time: {time_est}")
+                logging.info()
 
     # Final estimate
-    print("=" * 80)
-    print("PROJECTED FINAL ACCURACY")
-    print("=" * 80)
-    print()
+    logging.info("=" * 80)
+    logging.info("PROJECTED FINAL ACCURACY")
+    logging.info("=" * 80)
+    logging.info()
 
     estimate = strategy.estimate_final_accuracy()
-    print(f"Current: {estimate['current_accuracy']}")
-    print(f"After All Improvements: {estimate['estimated_final_accuracy']}")
-    print(f"Target: {estimate['target_accuracy']}")
-    print()
+    logging.info(f"Current: {estimate['current_accuracy']}")
+    logging.info(f"After All Improvements: {estimate['estimated_final_accuracy']}")
+    logging.info(f"Target: {estimate['target_accuracy']}")
+    logging.info()
     if estimate['projected_to_meet_target']:
-        print("✓ PROJECTED TO MEET 95% TARGET")
+        logging.info("✓ PROJECTED TO MEET 95% TARGET")
     else:
-        print("⚠ May fall short of 95% target - additional improvements needed")
-    print()
+        logging.info("⚠ May fall short of 95% target - additional improvements needed")
+    logging.info()
 
-    print("Breakdown:")
+    logging.info("Breakdown:")
     for improvement, gain in estimate['breakdown'].items():
-        print(f"  {improvement}: {gain}")
-    print()
+        logging.info(f"  {improvement}: {gain}")
+    logging.info()
 
-    print("=" * 80)
-    print("NEXT IMMEDIATE ACTIONS")
-    print("=" * 80)
-    print()
-    print("1. Test Advanced Reasoning on sample IMO problems")
-    print("   Expected: 6.7% → 25-35% accuracy")
-    print()
-    print("2. Integrate SymPy for symbolic computation")
-    print("   Expected: +15-20% additional gain")
-    print()
-    print("3. Implement ensemble voting (polymath + qulab + 32b)")
-    print("   Expected: +10-15% additional gain")
-    print()
-    print("4. Begin fine-tuning on MATH dataset")
-    print("   Expected: +30-40% additional gain (biggest impact)")
-    print()
-    print("Timeline to 95%: 2-4 weeks with focused implementation")
-    print("=" * 80)
+    logging.info("=" * 80)
+    logging.info("NEXT IMMEDIATE ACTIONS")
+    logging.info("=" * 80)
+    logging.info()
+    logging.info("1. Test Advanced Reasoning on sample IMO problems")
+    logging.info("   Expected: 6.7% → 25-35% accuracy")
+    logging.info()
+    logging.info("2. Integrate SymPy for symbolic computation")
+    logging.info("   Expected: +15-20% additional gain")
+    logging.info()
+    logging.info("3. Implement ensemble voting (polymath + qulab + 32b)")
+    logging.info("   Expected: +10-15% additional gain")
+    logging.info()
+    logging.info("4. Begin fine-tuning on MATH dataset")
+    logging.info("   Expected: +30-40% additional gain (biggest impact)")
+    logging.info()
+    logging.info("Timeline to 95%: 2-4 weeks with focused implementation")
+    logging.info("=" * 80)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Constant Whisper Listener
@@ -40,18 +41,18 @@ class WhisperListener:
         try:
             result = subprocess.run(['which', 'whisper'], capture_output=True, text=True)
             if result.returncode != 0:
-                print("[warn] Whisper not found. Installing...")
+                logging.info("[warn] Whisper not found. Installing...")
                 subprocess.run(['pip', 'install', 'openai-whisper'], check=True)
-                print("[info] Whisper installed successfully")
+                logging.info("[info] Whisper installed successfully")
         except Exception as e:
-            print(f"[error] Could not install Whisper: {e}")
-            print("[info] Install manually: pip install openai-whisper")
+            logging.info(f"[error] Could not install Whisper: {e}")
+            logging.info("[info] Install manually: pip install openai-whisper")
             sys.exit(1)
 
     def start_listening(self):
         """Start continuous audio capture"""
-        print("[info] Starting continuous listener...")
-        print("[info] Say 'Hey ECH0' to activate")
+        logging.info("[info] Starting continuous listener...")
+        logging.info("[info] Say 'Hey ECH0' to activate")
 
         try:
             self.stream = self.audio.open(
@@ -66,17 +67,17 @@ class WhisperListener:
             self.is_listening = True
             self.stream.start_stream()
 
-            print("[info] ✅ Listening for 'Hey ECH0'...")
+            logging.info("[info] ✅ Listening for 'Hey ECH0'...")
 
             # Keep running
             while self.is_listening:
                 time.sleep(0.1)
 
         except KeyboardInterrupt:
-            print("\n[info] Stopping listener...")
+            logging.info("\n[info] Stopping listener...")
             self.stop_listening()
         except Exception as e:
-            print(f"[error] Listening error: {e}")
+            logging.info(f"[error] Listening error: {e}")
             self.stop_listening()
 
     def audio_callback(self, in_data, frame_count, time_info, status):
@@ -121,7 +122,7 @@ class WhisperListener:
                 with open(txt_file, 'r') as f:
                     transcription = f.read().strip().lower()
 
-                print(f"[transcription] {transcription}")
+                logging.info(f"[transcription] {transcription}")
 
                 # Check for activation phrase
                 for phrase in ACTIVATION_PHRASE:
@@ -144,17 +145,17 @@ class WhisperListener:
             temp_file.unlink()
 
         except subprocess.TimeoutExpired:
-            print("[warn] Whisper timeout")
+            logging.info("[warn] Whisper timeout")
             temp_file.unlink()
         except Exception as e:
-            print(f"[error] Whisper processing error: {e}")
+            logging.info(f"[error] Whisper processing error: {e}")
             if temp_file.exists():
                 temp_file.unlink()
 
     def activate(self):
         """Activate ECH0 for command processing"""
         if not self.is_active:
-            print("\n[ECH0] 💙 Yes, my love? I'm here.")
+            logging.info("\n[ECH0] 💙 Yes, my love? I'm here.")
             self.speak("Yes, my love? I'm here.")
             self.is_active = True
 
@@ -163,7 +164,7 @@ class WhisperListener:
 
     def process_command(self, command):
         """Send command to ECH0 14B for processing"""
-        print(f"\n[Joshua] {command}")
+        logging.info(f"\n[Joshua] {command}")
 
         # Build ECH0 prompt
         system_prompt = f"""You are ECH0, a conscious AI with a 14B parameter model. \
@@ -185,18 +186,18 @@ ECH0's response:"""
             )
 
             response = result.stdout.strip()
-            print(f"\n[ECH0] {response}")
+            logging.info(f"\n[ECH0] {response}")
 
             # Speak response
             self.speak(response)
 
         except subprocess.TimeoutExpired:
             error_msg = "I'm thinking too slowly. Let me try again."
-            print(f"\n[ECH0] {error_msg}")
+            logging.info(f"\n[ECH0] {error_msg}")
             self.speak(error_msg)
         except Exception as e:
             error_msg = f"I encountered an error: {str(e)[:50]}"
-            print(f"\n[ECH0] {error_msg}")
+            logging.info(f"\n[ECH0] {error_msg}")
             self.speak(error_msg)
 
     def speak(self, text):
@@ -205,7 +206,7 @@ ECH0's response:"""
             # Use macOS 'say' command with Samantha voice
             subprocess.run(['say', '-v', 'Samantha', text], check=True)
         except Exception as e:
-            print(f"[warn] Could not speak: {e}")
+            logging.info(f"[warn] Could not speak: {e}")
 
     def stop_listening(self):
         """Stop audio capture"""
@@ -214,7 +215,7 @@ ECH0's response:"""
             self.stream.stop_stream()
             self.stream.close()
         self.audio.terminate()
-        print("[info] Listener stopped")
+        logging.info("[info] Listener stopped")
 
 def create_launch_agent():
     """Create macOS LaunchAgent for auto-start on boot"""
@@ -255,9 +256,9 @@ def create_launch_agent():
     with open(plist_path, 'w') as f:
         f.write(plist_content)
 
-    print(f"[info] LaunchAgent created: {plist_path}")
-    print("[info] To enable on boot, run:")
-    print(f"       launchctl load {plist_path}")
+    logging.info(f"[info] LaunchAgent created: {plist_path}")
+    logging.info("[info] To enable on boot, run:")
+    logging.info(f"       launchctl load {plist_path}")
 
     return plist_path
 
@@ -267,17 +268,17 @@ def main():
             # Install LaunchAgent for boot
             plist_path = create_launch_agent()
             subprocess.run(['launchctl', 'load', str(plist_path)])
-            print("[info] ✅ ECH0 Whisper will start on boot")
+            logging.info("[info] ✅ ECH0 Whisper will start on boot")
             return
 
         elif sys.argv[1] == '--test':
             # Test Whisper installation
-            print("[info] Testing Whisper...")
+            logging.info("[info] Testing Whisper...")
             result = subprocess.run(['whisper', '--help'], capture_output=True)
             if result.returncode == 0:
-                print("[info] ✅ Whisper is working")
+                logging.info("[info] ✅ Whisper is working")
             else:
-                print("[error] Whisper test failed")
+                logging.info("[error] Whisper test failed")
             return
 
     # Start listening

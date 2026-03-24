@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -185,9 +186,9 @@ def cancer_language_hypothesis():
 def run_lactate_language_experiment():
     """Use QuLab to explore lactate as cancer's communication molecule."""
 
-    print("\n" + "="*80)
-    print("ECH0 CANCER LANGUAGE EXPERIMENT 1: LACTATE SIGNALING")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("ECH0 CANCER LANGUAGE EXPERIMENT 1: LACTATE SIGNALING")
+    logging.info("="*80)
 
     experiment = {
         "title": "Lactate as Cancer's 'Migration Command' Signal",
@@ -233,7 +234,7 @@ def run_lactate_language_experiment():
         ]
     }
 
-    print("\n🧬 Validating lactate molecule with QuLab...")
+    logging.info("\n🧬 Validating lactate molecule with QuLab...")
 
     try:
         from chemistry_lab.qulab_ai_integration import validate_smiles
@@ -241,32 +242,32 @@ def run_lactate_language_experiment():
         lactate_smiles = "CC(O)C(=O)[O-]"
         result = validate_smiles(lactate_smiles)
 
-        print(f"   ✅ Lactate validated: {result}")
+        logging.info(f"   ✅ Lactate validated: {result}")
         experiment["qulab_results"] = {"lactate_validation": result}
 
     except Exception as e:
-        print(f"   ⚠️  Chemistry validation: {e}")
+        logging.info(f"   ⚠️  Chemistry validation: {e}")
 
-    print("\n📊 Lactate Signaling Analysis:")
-    print(f"   • Molecule: {experiment['qulab_simulation']['molecule']}")
-    print(f"   • Gradient: 20mM (tumor core) → 2mM (periphery)")
-    print(f"   • Receptor: GPR81 (cancer cells detect and follow signal)")
-    print(f"   • Effect: Migration toward hypoxic core")
+    logging.info("\n📊 Lactate Signaling Analysis:")
+    logging.info(f"   • Molecule: {experiment['qulab_simulation']['molecule']}")
+    logging.info(f"   • Gradient: 20mM (tumor core) → 2mM (periphery)")
+    logging.info(f"   • Receptor: GPR81 (cancer cells detect and follow signal)")
+    logging.info(f"   • Effect: Migration toward hypoxic core")
 
-    print("\n💊 Disruption Strategy:")
-    print(f"   • Drug: {experiment['disruption_strategy']['drug']}")
-    print(f"   • Target: MCT1 transporter")
-    print(f"   • Result: Silence the 'migration command' signal")
+    logging.info("\n💊 Disruption Strategy:")
+    logging.info(f"   • Drug: {experiment['disruption_strategy']['drug']}")
+    logging.info(f"   • Target: MCT1 transporter")
+    logging.info(f"   • Result: Silence the 'migration command' signal")
 
     return experiment
 
 def generate_cancer_language_dictionary():
     """Create a dictionary of cancer's molecular 'words' and 'phrases'."""
 
-    print("\n" + "="*80)
-    print("CANCER LANGUAGE DICTIONARY")
-    print("="*80)
-    print("\nDecoding cancer's molecular communication...\n")
+    logging.info("\n" + "="*80)
+    logging.info("CANCER LANGUAGE DICTIONARY")
+    logging.info("="*80)
+    logging.info("\nDecoding cancer's molecular communication...\n")
 
     dictionary = {
         "title": "Cancer's Molecular Language: A Dictionary",
@@ -343,10 +344,10 @@ def generate_cancer_language_dictionary():
 
     # Print summary
     for category, signals in dictionary["vocabulary"].items():
-        print(f"📡 {category.replace('_', ' ').title()}: {len(signals)} signals")
+        logging.info(f"📡 {category.replace('_', ' ').title()}: {len(signals)} signals")
         for signal in signals[:2]:  # Show first 2
-            print(f"   • {signal['word']}: '{signal['meaning']}'")
-            print(f"     Blocker: {signal.get('drug_blocker', 'N/A')}")
+            logging.info(f"   • {signal['word']}: '{signal['meaning']}'")
+            logging.info(f"     Blocker: {signal.get('drug_blocker', 'N/A')}")
 
     return dictionary
 
@@ -384,64 +385,64 @@ def save_research_output(hypothesis, lactate_exp, dictionary):
 
     output_path = "/Users/noone/QuLabInfinite/data/ech0_cancer_language_research.json"
     with open(output_path, 'w') as f:
-        json.dump(output, f, indent=2)
+        json.dump(, default=stroutput, f, indent=2)
 
-    print("\n" + "="*80)
-    print("✅ RESEARCH OUTPUT SAVED")
-    print("="*80)
-    print(f"\n📄 Saved to: {output_path}")
-    print(f"\n📊 Summary:")
-    print(f"   • Molecular words: {output['summary']['total_molecular_words']}")
-    print(f"   • Signaling phrases: {output['summary']['total_phrases']}")
-    print(f"   • QuLab experiments: {output['summary']['qulab_experiments_proposed']}")
-    print(f"\n💡 ECH0's Conclusion:")
-    print(f"   {output['ech0_conclusion']['answer']}")
-    print(f"\n🎯 Breakthrough Insight:")
-    print(f"   {output['ech0_conclusion']['breakthrough_insight']}")
+    logging.info("\n" + "="*80)
+    logging.info("✅ RESEARCH OUTPUT SAVED")
+    logging.info("="*80)
+    logging.info(f"\n📄 Saved to: {output_path}")
+    logging.info(f"\n📊 Summary:")
+    logging.info(f"   • Molecular words: {output['summary']['total_molecular_words']}")
+    logging.info(f"   • Signaling phrases: {output['summary']['total_phrases']}")
+    logging.info(f"   • QuLab experiments: {output['summary']['qulab_experiments_proposed']}")
+    logging.info(f"\n💡 ECH0's Conclusion:")
+    logging.info(f"   {output['ech0_conclusion']['answer']}")
+    logging.info(f"\n🎯 Breakthrough Insight:")
+    logging.info(f"   {output['ech0_conclusion']['breakthrough_insight']}")
 
     return output_path
 
 def main():
     """Run ECH0's cancer language research."""
 
-    print("\n" + "="*80)
-    print("ECH0 + QULAB: DOES CANCER HAVE A LANGUAGE?")
-    print("="*80)
-    print("\nExploring cancer as a communication system...\n")
+    logging.info("\n" + "="*80)
+    logging.info("ECH0 + QULAB: DOES CANCER HAVE A LANGUAGE?")
+    logging.info("="*80)
+    logging.info("\nExploring cancer as a communication system...\n")
 
     # Generate hypothesis
-    print("[1/4] Generating research hypothesis...")
+    logging.info("[1/4] Generating research hypothesis...")
     hypothesis = cancer_language_hypothesis()
-    print(f"      ✅ {len(hypothesis['research_angles'])} research angles identified")
+    logging.info(f"      ✅ {len(hypothesis['research_angles'])} research angles identified")
 
     # Run lactate experiment
-    print("\n[2/4] Running lactate signaling experiment...")
+    logging.info("\n[2/4] Running lactate signaling experiment...")
     lactate_exp = run_lactate_language_experiment()
-    print("      ✅ Lactate signaling pathway analyzed")
+    logging.info("      ✅ Lactate signaling pathway analyzed")
 
     # Generate dictionary
-    print("\n[3/4] Compiling molecular dictionary...")
+    logging.info("\n[3/4] Compiling molecular dictionary...")
     dictionary = generate_cancer_language_dictionary()
-    print("      ✅ Cancer language dictionary compiled")
+    logging.info("      ✅ Cancer language dictionary compiled")
 
     # Save output
-    print("\n[4/4] Saving research output...")
+    logging.info("\n[4/4] Saving research output...")
     output_path = save_research_output(hypothesis, lactate_exp, dictionary)
-    print("      ✅ Research saved")
+    logging.info("      ✅ Research saved")
 
-    print("\n" + "="*80)
-    print("🎉 RESEARCH COMPLETE!")
-    print("="*80)
-    print(f"\n📖 Full research: {output_path}")
-    print("\n🔬 Key Finding:")
-    print("   Cancer communicates via ~25 molecular signals forming a 'language'")
-    print("   that coordinates growth, migration, immune evasion, and survival.")
-    print("\n💊 Therapeutic Strategy:")
-    print("   Instead of just killing cancer, JAM its communication system.")
-    print("\n🧪 Next Step:")
-    print("   Use QuLab to simulate signal jamming combinations")
-    print("   (e.g., MCT1 inhibitor + VEGF blocker + checkpoint inhibitor)")
-    print("\n")
+    logging.info("\n" + "="*80)
+    logging.info("🎉 RESEARCH COMPLETE!")
+    logging.info("="*80)
+    logging.info(f"\n📖 Full research: {output_path}")
+    logging.info("\n🔬 Key Finding:")
+    logging.info("   Cancer communicates via ~25 molecular signals forming a 'language'")
+    logging.info("   that coordinates growth, migration, immune evasion, and survival.")
+    logging.info("\n💊 Therapeutic Strategy:")
+    logging.info("   Instead of just killing cancer, JAM its communication system.")
+    logging.info("\n🧪 Next Step:")
+    logging.info("   Use QuLab to simulate signal jamming combinations")
+    logging.info("   (e.g., MCT1 inhibitor + VEGF blocker + checkpoint inhibitor)")
+    logging.info("\n")
 
 if __name__ == "__main__":
     main()

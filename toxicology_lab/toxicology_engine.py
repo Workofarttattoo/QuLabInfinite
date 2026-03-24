@@ -501,6 +501,6 @@ if __name__ == '__main__':
 
     # Save results
     with open('toxicology_lab_results.json', 'w') as f:
-        json.dump(results, f, indent=2)
+        json.dump(results, f, indent=2, default=str)
 
     print("\nResults saved to: toxicology_lab_results.json")

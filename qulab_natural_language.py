@@ -1,3 +1,5 @@
+# TODO: Refactor long functions identified in code quality analysis
+import logging
 #!/usr/bin/env python3
 """
 QuLab Natural Language Interface
@@ -21,21 +23,21 @@ try:
     materials_lab_available = True
 except ImportError:
     materials_lab_available = False
-    print("Materials lab not available")
+    logging.info("Materials lab not available")
 
 try:
     from chemistry_lab.chemistry_lab import ChemistryLaboratory
     chemistry_lab_available = True
 except ImportError:
     chemistry_lab_available = False
-    print("Chemistry lab not available")
+    logging.info("Chemistry lab not available")
 
 try:
     from quantum_lab.quantum_simulator import QuantumSimulator
     quantum_lab_available = True
 except ImportError:
     quantum_lab_available = False
-    print("Quantum lab not available")
+    logging.info("Quantum lab not available")
 
 @dataclass
 class ExperimentRequest:
@@ -59,23 +61,23 @@ class QuLabNaturalLanguage:
         if materials_lab_available:
             try:
                 self.materials_lab = MaterialsLab()
-                print("✓ Materials Lab initialized")
+                logging.info("✓ Materials Lab initialized")
             except Exception as e:
-                print(f"✗ Materials Lab failed: {e}")
+                logging.info(f"✗ Materials Lab failed: {e}")
 
         if chemistry_lab_available:
             try:
                 self.chemistry_lab = ChemistryLaboratory()
-                print("✓ Chemistry Lab initialized")
+                logging.info("✓ Chemistry Lab initialized")
             except Exception as e:
-                print(f"✗ Chemistry Lab failed: {e}")
+                logging.info(f"✗ Chemistry Lab failed: {e}")
 
         if quantum_lab_available:
             try:
                 self.quantum_lab = QuantumSimulator(num_qubits=4)
-                print("✓ Quantum Lab initialized")
+                logging.info("✓ Quantum Lab initialized")
             except Exception as e:
-                print(f"✗ Quantum Lab failed: {e}")
+                logging.info(f"✗ Quantum Lab failed: {e}")
 
     def parse_query(self, query: str) -> ExperimentRequest:
         """Parse natural language query into experiment parameters"""
@@ -163,7 +165,7 @@ class QuLabNaturalLanguage:
         try:
             if request.experiment_type == 'analysis' and self.materials_lab:
                 # Materials analysis
-                print(f"Running materials analysis for {request.material_type}...")
+                logging.info(f"Running materials analysis for {request.material_type}...")
 
                 if request.material_type == 'carbon':
                     # Simulate carbon aerogel analysis
@@ -191,7 +193,7 @@ class QuLabNaturalLanguage:
 
             elif request.experiment_type == 'synthesis' and self.chemistry_lab:
                 # Chemistry synthesis
-                print(f"Running synthesis simulation for {request.material_type}...")
+                logging.info(f"Running synthesis simulation for {request.material_type}...")
 
                 results['results'] = {
                     'synthesis_method': 'Sol-gel process',
@@ -204,7 +206,7 @@ class QuLabNaturalLanguage:
 
             elif request.experiment_type == 'quantum' and self.quantum_lab:
                 # Quantum analysis
-                print(f"Running quantum analysis for {request.material_type}...")
+                logging.info(f"Running quantum analysis for {request.material_type}...")
 
                 # Simple quantum simulation
                 results['results'] = {
@@ -233,7 +235,7 @@ class QuLabNaturalLanguage:
     def validate_material_theory(self, material_name: str, theory_claims: Dict[str, Any]) -> Dict[str, Any]:
         """Validate material theory claims using QuLab experiments"""
 
-        print(f"🔬 Validating {material_name} theory claims...")
+        logging.info(f"🔬 Validating {material_name} theory claims...")
 
         validation_results = {
             'material': material_name,
@@ -282,20 +284,20 @@ def main():
     """Main function for natural language QuLab interaction"""
 
     if len(sys.argv) < 2:
-        print("Usage: python qulab_natural_language.py 'your natural language query'")
-        print("\nExamples:")
-        print("  'analyze carbon aerogel properties'")
-        print("  'synthesize titanium dioxide ceramic'")
-        print("  'test quantum dot electronic properties'")
-        print("  'validate superconducting material theory'")
+        logging.info("Usage: python qulab_natural_language.py 'your natural language query'")
+        logging.info("\nExamples:")
+        logging.info("  'analyze carbon aerogel properties'")
+        logging.info("  'synthesize titanium dioxide ceramic'")
+        logging.info("  'test quantum dot electronic properties'")
+        logging.info("  'validate superconducting material theory'")
         return
 
     query = sys.argv[1]
 
-    print("🧪 QuLab Natural Language Interface")
-    print("=" * 50)
-    print(f"Query: '{query}'")
-    print()
+    logging.info("🧪 QuLab Natural Language Interface")
+    logging.info("=" * 50)
+    logging.info(f"Query: '{query}'")
+    logging.info()
 
     # Initialize labs
     qulab_nl = QuLabNaturalLanguage()
@@ -303,25 +305,25 @@ def main():
 
     # Parse and execute query
     request = qulab_nl.parse_query(query)
-    print(f"Parsed Request:")
-    print(f"  Material: {request.material_type}")
-    print(f"  Experiment: {request.experiment_type}")
-    print(f"  Properties: {request.properties}")
-    print(f"  Conditions: {request.conditions}")
-    print()
+    logging.info(f"Parsed Request:")
+    logging.info(f"  Material: {request.material_type}")
+    logging.info(f"  Experiment: {request.experiment_type}")
+    logging.info(f"  Properties: {request.properties}")
+    logging.info(f"  Conditions: {request.conditions}")
+    logging.info()
 
     # Run experiment
     results = qulab_nl.run_experiment(request)
 
-    print("Results:")
-    print(json.dumps(results, indent=2))
+    logging.info("Results:")
+    logging.info(json.dumps(results, indent=2))
 
     # Save results
     output_file = f"qulab_query_results_{int(time.time())}.json"
     with open(output_file, 'w') as f:
-        json.dump(results, f, indent=2)
+        json.dump(results, f, indent=2, default=str)
 
-    print(f"\n📄 Results saved to: {output_file}")
+    logging.info(f"\n📄 Results saved to: {output_file}")
 
 
 if __name__ == "__main__":

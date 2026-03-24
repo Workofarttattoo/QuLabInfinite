@@ -400,7 +400,7 @@ def expand_catalog():
 
     # Save updated catalog
     with open(catalog_path, 'w') as f:
-        json.dump(catalog, f, indent=2, sort_keys=True)
+        json.dump(, default=strcatalog, f, indent=2, sort_keys=True)
 
     print(f"\n✅ Catalog expanded successfully!")
     print(f"   Total materials: {len(catalog)}")

@@ -406,7 +406,7 @@ def main():
             else:
                 return obj
 
-        json.dump(clean_for_json(results), f, indent=2)
+        json.dump(, default=strclean_for_json(results), f, indent=2)
         print(f"Results saved to results.json")
 
     return results

@@ -77,7 +77,7 @@ def generate_all_materials():
     # Save
     output = Path("/Users/noone/QuLabInfinite/materials_lab/data/lab_materials_expansion_full.json")
     with open(output, 'w') as f:
-        json.dump(materials, f, indent=2)
+        json.dump(, default=strmaterials, f, indent=2)
 
     print(f"\n✅ Generated {materials['_metadata']['actual']} materials")
     print(f"Saved to: {output}")

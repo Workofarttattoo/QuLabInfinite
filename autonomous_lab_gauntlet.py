@@ -111,7 +111,7 @@ def write_reports(runs: List[Run]) -> None:
         "runs": [asdict(r) for r in runs]
     }
     with open("reports/autonomous_gauntlet_results.json","w") as f:
-        json.dump(payload, f, indent=2)
+        json.dump(, default=strpayload, f, indent=2)
     with open("AUTONOMOUS_GAUNTLET_RESULTS.md","w") as f:
         f.write("# Autonomous Lab Gauntlet\n\n")
         for r in runs:

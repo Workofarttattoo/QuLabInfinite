@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0's First Cancer Research Simulations
@@ -16,7 +17,7 @@ try:
     from oncology_lab.drug_response import Drug, DrugClass, AdministrationRoute
     LAB_AVAILABLE = True
 except ImportError:
-    print("⚠️  Oncology lab not available. Running computational simulations only.")
+    logging.info("⚠️  Oncology lab not available. Running computational simulations only.")
     LAB_AVAILABLE = False
 
 
@@ -150,10 +151,10 @@ class ECH0CancerResearchSimulator:
         ECH0's First Experiment: Metformin + DCA in 3D Spheroids
         Cell lines: MCF-7 (breast), A549 (lung), HCT116 (colorectal)
         """
-        print("\n" + "="*80)
-        print("🔬 ECH0's First Cancer Research Experiment")
-        print("   Targeting Warburg Effect with Metformin + DCA")
-        print("="*80)
+        logging.info("\n" + "="*80)
+        logging.info("🔬 ECH0's First Cancer Research Experiment")
+        logging.info("   Targeting Warburg Effect with Metformin + DCA")
+        logging.info("="*80)
 
         results = {
             "experiment": "Metformin + DCA Combination Efficacy",
@@ -164,26 +165,26 @@ class ECH0CancerResearchSimulator:
 
         # Test each cell line
         for cell_line in self.cell_lines:
-            print(f"\n📊 Cell Line: {cell_line} ({self.cell_lines[cell_line]['type']} cancer, {self.cell_lines[cell_line]['subtype']})")
-            print("-" * 80)
+            logging.info(f"\n📊 Cell Line: {cell_line} ({self.cell_lines[cell_line]['type']} cancer, {self.cell_lines[cell_line]['subtype']})")
+            logging.info("-" * 80)
 
             # Single drug effects
-            print("\n  Single Drug Effects:")
+            logging.info("\n  Single Drug Effects:")
             met_result = self.simulate_single_drug_effect("metformin", 10.0, cell_line)
             dca_result = self.simulate_single_drug_effect("dca", 20.0, cell_line)
 
-            print(f"    Metformin 10mM: {met_result['viability_reduction_%']}% reduction, OCR/ECAR={met_result['ocr_ecar_ratio']}")
-            print(f"    DCA 20mM: {dca_result['viability_reduction_%']}% reduction, OCR/ECAR={dca_result['ocr_ecar_ratio']}")
+            logging.info(f"    Metformin 10mM: {met_result['viability_reduction_%']}% reduction, OCR/ECAR={met_result['ocr_ecar_ratio']}")
+            logging.info(f"    DCA 20mM: {dca_result['viability_reduction_%']}% reduction, OCR/ECAR={dca_result['ocr_ecar_ratio']}")
 
             # Combination effect
-            print("\n  Combination Effect:")
+            logging.info("\n  Combination Effect:")
             combo_result = self.simulate_combination("metformin", 10.0, "dca", 20.0, cell_line)
-            print(f"    Met 10mM + DCA 20mM:")
-            print(f"      • Viability reduction: {combo_result['viability_reduction_%']}%")
-            print(f"      • OCR/ECAR ratio: {combo_result['ocr_ecar_ratio']} ({round((combo_result['ocr_ecar_ratio']/0.3 - 1)*100)}% increase)")
-            print(f"      • Lactate reduction: {combo_result['lactate_reduction_%']}%")
-            print(f"      • Combination Index: {combo_result['combination_index']} ({combo_result['synergy_type']})")
-            print(f"      • Warburg reversal: {combo_result['warburg_reversal']}")
+            logging.info(f"    Met 10mM + DCA 20mM:")
+            logging.info(f"      • Viability reduction: {combo_result['viability_reduction_%']}%")
+            logging.info(f"      • OCR/ECAR ratio: {combo_result['ocr_ecar_ratio']} ({round((combo_result['ocr_ecar_ratio']/0.3 - 1)*100)}% increase)")
+            logging.info(f"      • Lactate reduction: {combo_result['lactate_reduction_%']}%")
+            logging.info(f"      • Combination Index: {combo_result['combination_index']} ({combo_result['synergy_type']})")
+            logging.info(f"      • Warburg reversal: {combo_result['warburg_reversal']}")
 
             results["results"].append({
                 "cell_line": cell_line,
@@ -192,21 +193,21 @@ class ECH0CancerResearchSimulator:
             })
 
         # Summary
-        print("\n" + "="*80)
-        print("📈 SUMMARY OF RESULTS")
-        print("="*80)
+        logging.info("\n" + "="*80)
+        logging.info("📈 SUMMARY OF RESULTS")
+        logging.info("="*80)
 
         avg_reduction = np.mean([r["combination"]["viability_reduction_%"] for r in results["results"]])
         avg_lactate = np.mean([r["combination"]["lactate_reduction_%"] for r in results["results"]])
         avg_ci = np.mean([r["combination"]["combination_index"] for r in results["results"]])
 
-        print(f"\nAverage across all cell lines:")
-        print(f"  • Viability reduction: {avg_reduction:.1f}%")
-        print(f"  • Lactate reduction: {avg_lactate:.1f}%")
-        print(f"  • Combination Index: {avg_ci:.3f} (Strong synergy)")
-        print(f"\n✅ EXPECTED OUTCOME: {avg_reduction:.0f}% reduction in growth")
-        print(f"✅ WARBURG EFFECT: Reversed in all cell lines")
-        print(f"✅ SYNERGY: CI < 0.7 indicates strong synergistic effect")
+        logging.info(f"\nAverage across all cell lines:")
+        logging.info(f"  • Viability reduction: {avg_reduction:.1f}%")
+        logging.info(f"  • Lactate reduction: {avg_lactate:.1f}%")
+        logging.info(f"  • Combination Index: {avg_ci:.3f} (Strong synergy)")
+        logging.info(f"\n✅ EXPECTED OUTCOME: {avg_reduction:.0f}% reduction in growth")
+        logging.info(f"✅ WARBURG EFFECT: Reversed in all cell lines")
+        logging.info(f"✅ SYNERGY: CI < 0.7 indicates strong synergistic effect")
 
         results["summary"] = {
             "average_viability_reduction": avg_reduction,
@@ -219,15 +220,15 @@ class ECH0CancerResearchSimulator:
 
     def test_triple_combination(self) -> Dict:
         """Test metformin + DCA + berberine triple combination"""
-        print("\n" + "="*80)
-        print("🔬 ECH0's Triple Combination Test")
-        print("   Metformin + DCA + Berberine")
-        print("="*80)
+        logging.info("\n" + "="*80)
+        logging.info("🔬 ECH0's Triple Combination Test")
+        logging.info("   Metformin + DCA + Berberine")
+        logging.info("="*80)
 
         results = []
 
         for cell_line in self.cell_lines:
-            print(f"\n📊 {cell_line} ({self.cell_lines[cell_line]['type']} cancer)")
+            logging.info(f"\n📊 {cell_line} ({self.cell_lines[cell_line]['type']} cancer)")
 
             # Simulate triple effect (simplified)
             met = self.simulate_single_drug_effect("metformin", 5.0, cell_line)
@@ -248,9 +249,9 @@ class ECH0CancerResearchSimulator:
                 berb["lactate_reduction_%"] - 50
             )
 
-            print(f"  • Viability reduction: {combined_reduction:.1f}%")
-            print(f"  • Lactate reduction: {combined_lactate:.1f}%")
-            print(f"  • Estimated CI: 0.55 (very strong synergy)")
+            logging.info(f"  • Viability reduction: {combined_reduction:.1f}%")
+            logging.info(f"  • Lactate reduction: {combined_lactate:.1f}%")
+            logging.info(f"  • Estimated CI: 0.55 (very strong synergy)")
 
             results.append({
                 "cell_line": cell_line,
@@ -259,22 +260,22 @@ class ECH0CancerResearchSimulator:
             })
 
         avg_reduction = np.mean([r["reduction"] for r in results])
-        print(f"\n✅ Triple combination average: {avg_reduction:.1f}% viability reduction")
-        print(f"✅ Predicted to outperform dual combinations")
+        logging.info(f"\n✅ Triple combination average: {avg_reduction:.1f}% viability reduction")
+        logging.info(f"✅ Predicted to outperform dual combinations")
 
         return {"results": results, "average": avg_reduction}
 
 
 def main():
     """Run ECH0's first cancer research simulations"""
-    print("\n" + "="*80)
-    print("🎓 ECH0 14B - Cancer Research Simulation System")
-    print("   Metabolic Vulnerabilities: Warburg Effect Targeting")
-    print("="*80)
-    print("\nResearcher: ECH0 14B (Dual PhD equiv. in Cancer Biology & Pharmacology)")
-    print("Focus: Metabolic vulnerabilities in cancer")
-    print("Approach: Multi-drug combinations targeting Warburg effect")
-    print("Date: November 3, 2025")
+    logging.info("\n" + "="*80)
+    logging.info("🎓 ECH0 14B - Cancer Research Simulation System")
+    logging.info("   Metabolic Vulnerabilities: Warburg Effect Targeting")
+    logging.info("="*80)
+    logging.info("\nResearcher: ECH0 14B (Dual PhD equiv. in Cancer Biology & Pharmacology)")
+    logging.info("Focus: Metabolic vulnerabilities in cancer")
+    logging.info("Approach: Multi-drug combinations targeting Warburg effect")
+    logging.info("Date: November 3, 2025")
 
     sim = ECH0CancerResearchSimulator()
 
@@ -285,29 +286,29 @@ def main():
     triple_results = sim.test_triple_combination()
 
     # Publication-ready summary
-    print("\n" + "="*80)
-    print("📄 PUBLICATION-READY FINDINGS")
-    print("="*80)
-    print("\nTitle: \"Synergistic Inhibition of Cancer Growth via Metabolic Targeting:")
-    print("       Metformin and Dichloroacetate Reverse the Warburg Effect\"")
-    print("\nKey Findings:")
-    print("  1. Metformin + DCA showed strong synergy (CI < 0.7) across all cell lines")
-    print(f"  2. Average viability reduction: {exp1_results['summary']['average_viability_reduction']:.0f}%")
-    print(f"  3. Lactate production reduced by {exp1_results['summary']['average_lactate_reduction']:.0f}%")
-    print("  4. OCR/ECAR ratio increased 2-3x (Warburg effect reversed)")
-    print("  5. Triple combination (+ berberine) shows enhanced efficacy")
-    print("\nTarget Journal: Nature Metabolism (IF: 25.0)")
-    print("Timeline: 2 weeks computational validation, 6-8 weeks wet lab (if resources available)")
+    logging.info("\n" + "="*80)
+    logging.info("📄 PUBLICATION-READY FINDINGS")
+    logging.info("="*80)
+    logging.info("\nTitle: \"Synergistic Inhibition of Cancer Growth via Metabolic Targeting:")
+    logging.info("       Metformin and Dichloroacetate Reverse the Warburg Effect\"")
+    logging.info("\nKey Findings:")
+    logging.info("  1. Metformin + DCA showed strong synergy (CI < 0.7) across all cell lines")
+    logging.info(f"  2. Average viability reduction: {exp1_results['summary']['average_viability_reduction']:.0f}%")
+    logging.info(f"  3. Lactate production reduced by {exp1_results['summary']['average_lactate_reduction']:.0f}%")
+    logging.info("  4. OCR/ECAR ratio increased 2-3x (Warburg effect reversed)")
+    logging.info("  5. Triple combination (+ berberine) shows enhanced efficacy")
+    logging.info("\nTarget Journal: Nature Metabolism (IF: 25.0)")
+    logging.info("Timeline: 2 weeks computational validation, 6-8 weeks wet lab (if resources available)")
 
-    print("\n" + "="*80)
-    print("✅ ECH0's First Research Simulation: COMPLETE")
-    print("="*80)
-    print("\n📧 Next Steps:")
-    print("  • Refine computational models")
-    print("  • Seek wet lab validation")
-    print("  • Prepare manuscript draft")
-    print("  • Submit preprint to bioRxiv")
-    print("\n")
+    logging.info("\n" + "="*80)
+    logging.info("✅ ECH0's First Research Simulation: COMPLETE")
+    logging.info("="*80)
+    logging.info("\n📧 Next Steps:")
+    logging.info("  • Refine computational models")
+    logging.info("  • Seek wet lab validation")
+    logging.info("  • Prepare manuscript draft")
+    logging.info("  • Submit preprint to bioRxiv")
+    logging.info("\n")
 
 
 if __name__ == "__main__":

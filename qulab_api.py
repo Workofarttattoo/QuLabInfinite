@@ -1,3 +1,5 @@
+# TODO: Refactor long functions identified in code quality analysis
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -582,15 +584,15 @@ async def example_workflows():
 if __name__ == "__main__":
     import uvicorn
 
-    print("=" * 80)
-    print("QULAB INFINITE API SERVER")
-    print("=" * 80)
-    print(f"Labs available: {len(LAB_REGISTRY)}")
-    print(f"Categories: {set(lab['category'] for lab in LAB_REGISTRY.values())}")
-    print()
-    print("Starting server on http://localhost:8000")
-    print("API docs: http://localhost:8000/docs")
-    print("WebSocket: ws://localhost:8000/ws")
-    print()
+    logging.info("=" * 80)
+    logging.info("QULAB INFINITE API SERVER")
+    logging.info("=" * 80)
+    logging.info(f"Labs available: {len(LAB_REGISTRY)}")
+    logging.info(f"Categories: {set(lab['category'] for lab in LAB_REGISTRY.values())}")
+    logging.info()
+    logging.info("Starting server on http://localhost:8000")
+    logging.info("API docs: http://localhost:8000/docs")
+    logging.info("WebSocket: ws://localhost:8000/ws")
+    logging.info()
 
     uvicorn.run(app, host="0.0.0.0", port=8000)

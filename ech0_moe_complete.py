@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Complete Mixture of Experts System
 Combines Dynamic Loading + RAG + Pre-Compression for maximum efficiency
@@ -41,7 +42,7 @@ class ECH0_MoE_Complete:
             enable_compression: Use prompt compression
             compression_ratio: Target compression ratio (0.3 = 70% reduction)
         """
-        print("Initializing ECH0 Complete MoE...")
+        logging.info("Initializing ECH0 Complete MoE...")
 
         self.moe = ECH0_MoE_DynamicExperts(max_loaded_size_b)
         self.optimizer = ECH0_PreCompressionRAG()
@@ -53,12 +54,12 @@ class ECH0_MoE_Complete:
         total_capacity = sum(e.size_b for e in self.moe.experts)
         efficiency = total_capacity / max_loaded_size_b
 
-        print(f"✓ Complete MoE Ready")
-        print(f"  Total Capacity: {total_capacity}B parameters")
-        print(f"  Memory Footprint: {max_loaded_size_b}B parameters")
-        print(f"  Memory Efficiency: {efficiency:.1f}x")
-        print(f"  RAG: {'Enabled' if enable_rag else 'Disabled'}")
-        print(f"  Compression: {'Enabled' if enable_compression else 'Disabled'}")
+        logging.info(f"✓ Complete MoE Ready")
+        logging.info(f"  Total Capacity: {total_capacity}B parameters")
+        logging.info(f"  Memory Footprint: {max_loaded_size_b}B parameters")
+        logging.info(f"  Memory Efficiency: {efficiency:.1f}x")
+        logging.info(f"  RAG: {'Enabled' if enable_rag else 'Disabled'}")
+        logging.info(f"  Compression: {'Enabled' if enable_compression else 'Disabled'}")
 
     def solve(self, problem: str, mode: str = "optimized") -> Dict:
         """
@@ -156,10 +157,10 @@ class ECH0_MoE_Complete:
         modes = ["optimized", "fast", "basic"]
         results = {mode: [] for mode in modes}
 
-        print(f"Benchmarking on {len(problems)} problems...")
+        logging.info(f"Benchmarking on {len(problems)} problems...")
 
         for i, problem in enumerate(problems, 1):
-            print(f"  [{i}/{len(problems)}] {problem[:50]}...")
+            logging.info(f"  [{i}/{len(problems)}] {problem[:50]}...")
 
             for mode in modes:
                 result = self.solve(problem, mode=mode)
@@ -187,11 +188,11 @@ class ECH0_MoE_Complete:
 
 
 def main():
-    print("=" * 80)
-    print("ECH0 COMPLETE MIXTURE OF EXPERTS SYSTEM")
-    print("Dynamic Loading + RAG + Pre-Compression")
-    print("=" * 80)
-    print()
+    logging.info("=" * 80)
+    logging.info("ECH0 COMPLETE MIXTURE OF EXPERTS SYSTEM")
+    logging.info("Dynamic Loading + RAG + Pre-Compression")
+    logging.info("=" * 80)
+    logging.info()
 
     # Initialize system
     moe = ECH0_MoE_Complete(
@@ -201,10 +202,10 @@ def main():
         compression_ratio=0.3
     )
 
-    print()
-    print("=" * 80)
-    print("EXAMPLE 1: Optimized Mode (Full Pipeline)")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("EXAMPLE 1: Optimized Mode (Full Pipeline)")
+    logging.info("=" * 80)
 
     result = moe.solve(
         """
@@ -215,105 +216,105 @@ def main():
         mode="optimized"
     )
 
-    print(f"Problem: {result['problem'][:100]}...")
-    print(f"Expert: {result['expert_used']} ({result['expert_domain']})")
-    print(f"Confidence: {result['expert_confidence']:.2f}")
-    print()
-    print(f"Optimization:")
-    print(f"  Original Length: {result['original_length']} chars")
-    print(f"  Optimized Length: {result['optimized_length']} chars")
-    print(f"  Compression: {result['compression_ratio']:.1%}")
-    print(f"  Retrieved Contexts: {result['retrieved_contexts']}")
-    print()
-    print(f"Performance:")
-    print(f"  Total Time: {result['total_time_seconds']:.2f}s")
-    print(f"  Optimization: {result['optimization_time_seconds']:.3f}s")
-    print(f"  Expert Query: {result['expert_query_time_seconds']:.2f}s")
-    print()
-    print(f"Solution: {result['solution'][:200]}...")
+    logging.info(f"Problem: {result['problem'][:100]}...")
+    logging.info(f"Expert: {result['expert_used']} ({result['expert_domain']})")
+    logging.info(f"Confidence: {result['expert_confidence']:.2f}")
+    logging.info()
+    logging.info(f"Optimization:")
+    logging.info(f"  Original Length: {result['original_length']} chars")
+    logging.info(f"  Optimized Length: {result['optimized_length']} chars")
+    logging.info(f"  Compression: {result['compression_ratio']:.1%}")
+    logging.info(f"  Retrieved Contexts: {result['retrieved_contexts']}")
+    logging.info()
+    logging.info(f"Performance:")
+    logging.info(f"  Total Time: {result['total_time_seconds']:.2f}s")
+    logging.info(f"  Optimization: {result['optimization_time_seconds']:.3f}s")
+    logging.info(f"  Expert Query: {result['expert_query_time_seconds']:.2f}s")
+    logging.info()
+    logging.info(f"Solution: {result['solution'][:200]}...")
 
-    print()
-    print("=" * 80)
-    print("EXAMPLE 2: Fast Mode (Compression Only)")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("EXAMPLE 2: Fast Mode (Compression Only)")
+    logging.info("=" * 80)
 
     result = moe.solve(
         "What is the kinetic energy of a 10kg object moving at 5 m/s?",
         mode="fast"
     )
 
-    print(f"Expert: {result['expert_used']}")
-    print(f"Compression: {result['compression_ratio']:.1%}")
-    print(f"Time: {result['total_time_seconds']:.2f}s")
+    logging.info(f"Expert: {result['expert_used']}")
+    logging.info(f"Compression: {result['compression_ratio']:.1%}")
+    logging.info(f"Time: {result['total_time_seconds']:.2f}s")
 
-    print()
-    print("=" * 80)
-    print("EXAMPLE 3: Basic Mode (No Optimization)")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("EXAMPLE 3: Basic Mode (No Optimization)")
+    logging.info("=" * 80)
 
     result = moe.solve(
         "Explain the uncertainty principle in quantum mechanics",
         mode="basic"
     )
 
-    print(f"Expert: {result['expert_used']}")
-    print(f"Time: {result['total_time_seconds']:.2f}s")
+    logging.info(f"Expert: {result['expert_used']}")
+    logging.info(f"Time: {result['total_time_seconds']:.2f}s")
 
-    print()
-    print("=" * 80)
-    print("MODE COMPARISON")
-    print("=" * 80)
-    print()
-    print("OPTIMIZED MODE:")
-    print("  - Full RAG context retrieval")
-    print("  - LLM-based prompt compression")
-    print("  - Best accuracy (learned context)")
-    print("  - Slightly slower (optimization overhead)")
-    print()
-    print("FAST MODE:")
-    print("  - Prompt compression only")
-    print("  - No RAG overhead")
-    print("  - Good balance of speed and efficiency")
-    print()
-    print("BASIC MODE:")
-    print("  - No optimizations")
-    print("  - Fastest for single queries")
-    print("  - No learning between queries")
-    print()
-    print("RECOMMENDATION:")
-    print("  - Use OPTIMIZED for complex problems where accuracy matters")
-    print("  - Use FAST for quick queries or when RAG DB not yet built")
-    print("  - Use BASIC for simple one-off questions")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("MODE COMPARISON")
+    logging.info("=" * 80)
+    logging.info()
+    logging.info("OPTIMIZED MODE:")
+    logging.info("  - Full RAG context retrieval")
+    logging.info("  - LLM-based prompt compression")
+    logging.info("  - Best accuracy (learned context)")
+    logging.info("  - Slightly slower (optimization overhead)")
+    logging.info()
+    logging.info("FAST MODE:")
+    logging.info("  - Prompt compression only")
+    logging.info("  - No RAG overhead")
+    logging.info("  - Good balance of speed and efficiency")
+    logging.info()
+    logging.info("BASIC MODE:")
+    logging.info("  - No optimizations")
+    logging.info("  - Fastest for single queries")
+    logging.info("  - No learning between queries")
+    logging.info()
+    logging.info("RECOMMENDATION:")
+    logging.info("  - Use OPTIMIZED for complex problems where accuracy matters")
+    logging.info("  - Use FAST for quick queries or when RAG DB not yet built")
+    logging.info("  - Use BASIC for simple one-off questions")
+    logging.info("=" * 80)
 
-    print()
-    print("=" * 80)
-    print("ARCHITECTURE SUMMARY")
-    print("=" * 80)
-    print()
-    print("MEMORY EFFICIENCY:")
-    print("  - Total expert capacity: 56B parameters (4 x 14B)")
-    print("  - Memory footprint: 14-20B parameters (one loaded at a time)")
-    print("  - Efficiency: 2.8-4x memory reduction")
-    print("  - SCALABLE: Add more experts → 70B-320B total capacity")
-    print()
-    print("TOKEN EFFICIENCY:")
-    print("  - Pre-compression: 50-80% token reduction")
-    print("  - Faster inference: Less tokens → faster response")
-    print("  - Cost savings: Fewer tokens → lower API costs (if using APIs)")
-    print()
-    print("ACCURACY IMPROVEMENTS:")
-    print("  - RAG: Relevant context from past solutions")
-    print("  - Expert routing: Best model for each domain")
-    print("  - Learning: Knowledge base grows with use")
-    print()
-    print("FUTURE ENHANCEMENTS:")
-    print("  1. Add more domain experts (chemistry, biology, etc.)")
-    print("  2. Fine-tune experts on specialized datasets")
-    print("  3. Implement vector DB for scalable RAG (chromadb, faiss)")
-    print("  4. Add multi-expert ensemble mode")
-    print("  5. Implement automatic expert specialization")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("ARCHITECTURE SUMMARY")
+    logging.info("=" * 80)
+    logging.info()
+    logging.info("MEMORY EFFICIENCY:")
+    logging.info("  - Total expert capacity: 56B parameters (4 x 14B)")
+    logging.info("  - Memory footprint: 14-20B parameters (one loaded at a time)")
+    logging.info("  - Efficiency: 2.8-4x memory reduction")
+    logging.info("  - SCALABLE: Add more experts → 70B-320B total capacity")
+    logging.info()
+    logging.info("TOKEN EFFICIENCY:")
+    logging.info("  - Pre-compression: 50-80% token reduction")
+    logging.info("  - Faster inference: Less tokens → faster response")
+    logging.info("  - Cost savings: Fewer tokens → lower API costs (if using APIs)")
+    logging.info()
+    logging.info("ACCURACY IMPROVEMENTS:")
+    logging.info("  - RAG: Relevant context from past solutions")
+    logging.info("  - Expert routing: Best model for each domain")
+    logging.info("  - Learning: Knowledge base grows with use")
+    logging.info()
+    logging.info("FUTURE ENHANCEMENTS:")
+    logging.info("  1. Add more domain experts (chemistry, biology, etc.)")
+    logging.info("  2. Fine-tune experts on specialized datasets")
+    logging.info("  3. Implement vector DB for scalable RAG (chromadb, faiss)")
+    logging.info("  4. Add multi-expert ensemble mode")
+    logging.info("  5. Implement automatic expert specialization")
+    logging.info("=" * 80)
 
 
 if __name__ == "__main__":

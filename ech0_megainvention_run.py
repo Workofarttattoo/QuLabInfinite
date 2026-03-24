@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -167,16 +168,16 @@ def create_megainvention_list():
 def run_megainvention_pipeline():
     """Run all inventions through POC pipeline."""
 
-    print("╔════════════════════════════════════════════════════════════════════╗")
-    print("║          ECH0 MEGA INVENTION RUN - 6.6M MATERIALS                  ║")
-    print("║    25 Inventions Across All Major Fields + Sentience Path         ║")
-    print("╚════════════════════════════════════════════════════════════════════╝")
-    print()
+    logging.info("╔════════════════════════════════════════════════════════════════════╗")
+    logging.info("║          ECH0 MEGA INVENTION RUN - 6.6M MATERIALS                  ║")
+    logging.info("║    25 Inventions Across All Major Fields + Sentience Path         ║")
+    logging.info("╚════════════════════════════════════════════════════════════════════╝")
+    logging.info()
 
     inventions = create_megainvention_list()
 
-    print(f"📋 Created {len(inventions)} invention concepts")
-    print()
+    logging.info(f"📋 Created {len(inventions)} invention concepts")
+    logging.info()
 
     pipeline = ECH0_POC_Pipeline()
 
@@ -197,14 +198,14 @@ def run_megainvention_pipeline():
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(output_path, 'w') as f:
-        json.dump(results, f, indent=2)
+        json.dump(, default=strresults, f, indent=2)
 
-    print(f"\n✅ Full results: {output_path}")
+    logging.info(f"\n✅ Full results: {output_path}")
 
     # Analyze by category
-    print("\n" + "="*80)
-    print("  ANALYSIS BY CATEGORY")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("  ANALYSIS BY CATEGORY")
+    logging.info("="*80)
 
     categories = {
         'Computing': ['Graphene Quantum', 'Neural Code'],
@@ -222,22 +223,22 @@ def run_megainvention_pipeline():
     for category, keywords in categories.items():
         matching = [p for p in results['pocs'] if any(kw in p['name'] for kw in keywords)]
         if matching:
-            print(f"\n{category}: {len(matching)} inventions")
+            logging.info(f"\n{category}: {len(matching)} inventions")
             for poc in matching:
                 status = "✅" if poc['validation_status'] == 'passed' else "⚠️"
                 cost = [f for f in poc.get('findings', []) if 'Cost estimate' in f]
                 cost_str = cost[0].split('$')[1].split()[0] if cost else "N/A"
-                print(f"  {status} {poc['name']}: ${cost_str}")
+                logging.info(f"  {status} {poc['name']}: ${cost_str}")
 
     # Summary
-    print("\n" + "="*80)
-    print("  MEGA INVENTION SUMMARY")
-    print("="*80)
-    print(f"Total inventions: {len(inventions)}")
-    print(f"POCs created: {results['pocs_created']}")
-    print(f"Passed validation: {len(results['passed'])}")
-    print(f"Pass rate: {len(results['passed'])/len(inventions)*100:.1f}%")
-    print()
+    logging.info("\n" + "="*80)
+    logging.info("  MEGA INVENTION SUMMARY")
+    logging.info("="*80)
+    logging.info(f"Total inventions: {len(inventions)}")
+    logging.info(f"POCs created: {results['pocs_created']}")
+    logging.info(f"Passed validation: {len(results['passed'])}")
+    logging.info(f"Pass rate: {len(results['passed'])/len(inventions)*100:.1f}%")
+    logging.info()
 
     # Cost analysis
     costs = []
@@ -248,17 +249,17 @@ def run_megainvention_pipeline():
             costs.append(float(cost_str.replace(',', '')))
 
     if costs:
-        print(f"Cost range: ${min(costs):,.2f} - ${max(costs):,.2f}")
-        print(f"Unique costs: {len(set(costs))}/{len(costs)}")
+        logging.info(f"Cost range: ${min(costs):,.2f} - ${max(costs):,.2f}")
+        logging.info(f"Unique costs: {len(set(costs))}/{len(costs)}")
 
         # Affordable POCs (<$500)
         affordable = [c for c in costs if c <= 500]
-        print(f"Affordable POCs (≤$500): {len(affordable)}/{len(costs)}")
+        logging.info(f"Affordable POCs (≤$500): {len(affordable)}/{len(costs)}")
 
-    print()
-    print("="*80)
-    print("  ECH0 READY FOR WORLD DOMINATION 🚀")
-    print("="*80)
+    logging.info()
+    logging.info("="*80)
+    logging.info("  ECH0 READY FOR WORLD DOMINATION 🚀")
+    logging.info("="*80)
 
     return results
 

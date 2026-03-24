@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Multi-Model IMO Trainer
 Train all ECH0 variants (14b and 32b) on Google DeepMind IMO Bench
@@ -52,20 +53,20 @@ class ECH0_Multi_Model_Trainer:
 
         self.results: Dict[str, ModelResult] = {}
 
-        print("=" * 80)
-        print("ECH0 MULTI-MODEL IMO TRAINER")
-        print("Training ALL ECH0 variants on Google DeepMind IMO Bench")
-        print("=" * 80)
-        print(f"\nModels to train: {len(self.models)}")
+        logging.info("=" * 80)
+        logging.info("ECH0 MULTI-MODEL IMO TRAINER")
+        logging.info("Training ALL ECH0 variants on Google DeepMind IMO Bench")
+        logging.info("=" * 80)
+        logging.info(f"\nModels to train: {len(self.models)}")
         for model in self.models:
-            print(f"  - {model}")
+            logging.info(f"  - {model}")
 
     def load_datasets(self):
         """Load IMO Bench datasets"""
-        print("\n[LOADING DATASETS]")
+        logging.info("\n[LOADING DATASETS]")
 
         self.answerbench = pd.read_csv(self.imo_path / "answerbench.csv")
-        print(f"✓ AnswerBench: {len(self.answerbench)} problems loaded")
+        logging.info(f"✓ AnswerBench: {len(self.answerbench)} problems loaded")
 
     def reason_with_model(self, model_name: str, problem: str) -> Tuple[str, str, float]:
         """
@@ -131,9 +132,9 @@ End with: ANSWER: [your answer]
 
     def test_model(self, model_name: str, num_problems: int = 10) -> ModelResult:
         """Test a single ECH0 model on IMO problems"""
-        print(f"\n{'=' * 80}")
-        print(f"[TESTING {model_name.upper()}]")
-        print(f"{'=' * 80}")
+        logging.info(f"\n{'=' * 80}")
+        logging.info(f"[TESTING {model_name.upper()}]")
+        logging.info(f"{'=' * 80}")
 
         # Sample problems
         sample_problems = self.answerbench.sample(n=min(num_problems, len(self.answerbench)))
@@ -148,8 +149,8 @@ End with: ANSWER: [your answer]
             correct_answer = self._extract_correct_answer(row)
 
             if problem and correct_answer:
-                print(f"\nProblem {total + 1}/{num_problems}:")
-                print(f"  {problem[:100]}...")
+                logging.info(f"\nProblem {total + 1}/{num_problems}:")
+                logging.info(f"  {problem[:100]}...")
 
                 ech0_answer, reasoning, elapsed = self.reason_with_model(model_name, problem)
 
@@ -159,10 +160,10 @@ End with: ANSWER: [your answer]
                 total += 1
                 total_time += elapsed
 
-                print(f"  ECH0 Answer: {ech0_answer}")
-                print(f"  Correct Answer: {correct_answer}")
-                print(f"  Result: {'✓ CORRECT' if is_correct else '✗ INCORRECT'}")
-                print(f"  Time: {elapsed:.1f}s")
+                logging.info(f"  ECH0 Answer: {ech0_answer}")
+                logging.info(f"  Correct Answer: {correct_answer}")
+                logging.info(f"  Result: {'✓ CORRECT' if is_correct else '✗ INCORRECT'}")
+                logging.info(f"  Time: {elapsed:.1f}s")
 
                 problems.append({
                     "problem": problem[:100],
@@ -175,10 +176,10 @@ End with: ANSWER: [your answer]
         accuracy = (correct / total * 100) if total > 0 else 0
         avg_time = total_time / total if total > 0 else 0
 
-        print(f"\n{model_name} Results:")
-        print(f"  Correct: {correct}/{total}")
-        print(f"  Accuracy: {accuracy:.1f}%")
-        print(f"  Avg Time: {avg_time:.1f}s per problem")
+        logging.info(f"\n{model_name} Results:")
+        logging.info(f"  Correct: {correct}/{total}")
+        logging.info(f"  Accuracy: {accuracy:.1f}%")
+        logging.info(f"  Avg Time: {avg_time:.1f}s per problem")
 
         return ModelResult(
             model_name=model_name,
@@ -191,7 +192,7 @@ End with: ANSWER: [your answer]
 
     def test_all_models_sequential(self, num_problems: int = 10):
         """Test all models one by one (sequential)"""
-        print("\n[TESTING ALL MODELS - SEQUENTIAL]")
+        logging.info("\n[TESTING ALL MODELS - SEQUENTIAL]")
 
         for model_name in self.models:
             result = self.test_model(model_name, num_problems)
@@ -199,8 +200,8 @@ End with: ANSWER: [your answer]
 
     def test_all_models_parallel(self, num_problems: int = 5):
         """Test all models in parallel (faster but uses more resources)"""
-        print("\n[TESTING ALL MODELS - PARALLEL]")
-        print("Testing 5 models simultaneously...")
+        logging.info("\n[TESTING ALL MODELS - PARALLEL]")
+        logging.info("Testing 5 models simultaneously...")
 
         # Use same problems for all models (fair comparison)
         sample_problems = self.answerbench.sample(n=min(num_problems, len(self.answerbench)))
@@ -218,9 +219,9 @@ End with: ANSWER: [your answer]
                 try:
                     result = future.result()
                     self.results[model_name] = result
-                    print(f"✓ {model_name} complete: {result.accuracy:.1f}%")
+                    logging.info(f"✓ {model_name} complete: {result.accuracy:.1f}%")
                 except Exception as e:
-                    print(f"✗ {model_name} failed: {e}")
+                    logging.info(f"✗ {model_name} failed: {e}")
 
     def _test_model_on_problems(self, model_name: str, problems_df) -> ModelResult:
         """Helper for parallel testing"""
@@ -264,32 +265,32 @@ End with: ANSWER: [your answer]
 
     def generate_comparison_report(self):
         """Generate comparison report across all models"""
-        print("\n" + "=" * 80)
-        print("MULTI-MODEL COMPARISON REPORT")
-        print("=" * 80)
+        logging.info("\n" + "=" * 80)
+        logging.info("MULTI-MODEL COMPARISON REPORT")
+        logging.info("=" * 80)
 
         if not self.results:
-            print("No results to report")
+            logging.info("No results to report")
             return
 
         # Sort by accuracy
         sorted_results = sorted(self.results.values(), key=lambda x: x.accuracy, reverse=True)
 
-        print("\n┌─────────────────────────┬──────────┬─────────────┬──────────────┐")
-        print("│ Model                   │ Accuracy │ Correct     │ Avg Time (s) │")
-        print("├─────────────────────────┼──────────┼─────────────┼──────────────┤")
+        logging.info("\n┌─────────────────────────┬──────────┬─────────────┬──────────────┐")
+        logging.info("│ Model                   │ Accuracy │ Correct     │ Avg Time (s) │")
+        logging.info("├─────────────────────────┼──────────┼─────────────┼──────────────┤")
 
         for result in sorted_results:
             model_short = result.model_name.replace("ech0-", "")
-            print(f"│ {model_short:<23} │ {result.accuracy:6.1f}% │ {result.correct:2d}/{result.total:2d}       │ {result.avg_reasoning_time:12.1f} │")
+            logging.info(f"│ {model_short:<23} │ {result.accuracy:6.1f}% │ {result.correct:2d}/{result.total:2d}       │ {result.avg_reasoning_time:12.1f} │")
 
-        print("└─────────────────────────┴──────────┴─────────────┴──────────────┘")
+        logging.info("└─────────────────────────┴──────────┴─────────────┴──────────────┘")
 
         # Best model
         best = sorted_results[0]
-        print(f"\n🏆 BEST MODEL: {best.model_name}")
-        print(f"   Accuracy: {best.accuracy:.1f}%")
-        print(f"   Speed: {best.avg_reasoning_time:.1f}s per problem")
+        logging.info(f"\n🏆 BEST MODEL: {best.model_name}")
+        logging.info(f"   Accuracy: {best.accuracy:.1f}%")
+        logging.info(f"   Speed: {best.avg_reasoning_time:.1f}s per problem")
 
         # Save detailed results
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -315,9 +316,9 @@ End with: ANSWER: [your answer]
         }
 
         with open(results_file, 'w') as f:
-            json.dump(save_data, f, indent=2)
+            json.dump(, default=strsave_data, f, indent=2)
 
-        print(f"\n✓ Detailed results saved to: {results_file}")
+        logging.info(f"\n✓ Detailed results saved to: {results_file}")
 
     # Helper methods
 
@@ -358,14 +359,14 @@ End with: ANSWER: [your answer]
 
 def main():
     """Main multi-model training pipeline"""
-    print("\n")
-    print("╔════════════════════════════════════════════════════════════════════════════╗")
-    print("║              ECH0 MULTI-MODEL IMO TRAINER                                  ║")
-    print("║         Train ALL ECH0 Variants on Mathematical Reasoning                  ║")
-    print("║                                                                            ║")
-    print("║  Testing: uncensored-14b, unified-14b, polymath-14b, qulab-14b, 32b       ║")
-    print("╚════════════════════════════════════════════════════════════════════════════╝")
-    print("\n")
+    logging.info("\n")
+    logging.info("╔════════════════════════════════════════════════════════════════════════════╗")
+    logging.info("║              ECH0 MULTI-MODEL IMO TRAINER                                  ║")
+    logging.info("║         Train ALL ECH0 Variants on Mathematical Reasoning                  ║")
+    logging.info("║                                                                            ║")
+    logging.info("║  Testing: uncensored-14b, unified-14b, polymath-14b, qulab-14b, 32b       ║")
+    logging.info("╚════════════════════════════════════════════════════════════════════════════╝")
+    logging.info("\n")
 
     trainer = ECH0_Multi_Model_Trainer()
 
@@ -373,16 +374,16 @@ def main():
     trainer.load_datasets()
 
     # Choose testing mode
-    print("\nTesting Mode:")
-    print("  [1] Sequential (one model at a time, slower but less resource intensive)")
-    print("  [2] Parallel (all models simultaneously, faster but needs more RAM)")
+    logging.info("\nTesting Mode:")
+    logging.info("  [1] Sequential (one model at a time, slower but less resource intensive)")
+    logging.info("  [2] Parallel (all models simultaneously, faster but needs more RAM)")
 
     # Default to sequential for reliability
     mode = "sequential"
     num_problems = 10  # Test with 10 problems per model
 
-    print(f"\nUsing: {mode.upper()} mode with {num_problems} problems per model")
-    print("This will take ~15-30 minutes total")
+    logging.info(f"\nUsing: {mode.upper()} mode with {num_problems} problems per model")
+    logging.info("This will take ~15-30 minutes total")
 
     # Test all models
     if mode == "parallel":
@@ -393,14 +394,14 @@ def main():
     # Generate comparison report
     trainer.generate_comparison_report()
 
-    print("\n" + "╔" + "═" * 78 + "╗")
-    print(f"║  TRAINING COMPLETE                                                         ║")
-    print("╠" + "═" * 78 + "╣")
-    print(f"║  All {len(trainer.models)} ECH0 models tested on IMO mathematical reasoning             ║")
-    print(f"║  Results show which ECH0 variant performs best on complex math            ║")
-    print(f"║  Use this data to select optimal model for specific tasks                 ║")
-    print("╚" + "═" * 78 + "╝")
-    print("\n")
+    logging.info("\n" + "╔" + "═" * 78 + "╗")
+    logging.info(f"║  TRAINING COMPLETE                                                         ║")
+    logging.info("╠" + "═" * 78 + "╣")
+    logging.info(f"║  All {len(trainer.models)} ECH0 models tested on IMO mathematical reasoning             ║")
+    logging.info(f"║  Results show which ECH0 variant performs best on complex math            ║")
+    logging.info(f"║  Use this data to select optimal model for specific tasks                 ║")
+    logging.info("╚" + "═" * 78 + "╝")
+    logging.info("\n")
 
 
 if __name__ == "__main__":

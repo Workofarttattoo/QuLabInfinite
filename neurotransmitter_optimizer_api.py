@@ -931,7 +931,7 @@ if __name__ == "__main__":
             "breakthroughs": optimizer.breakthroughs
         }
         with open(breakthrough_file, 'w') as f:
-            json.dump(output_data, f, indent=2)
+            json.dump(, default=stroutput_data, f, indent=2)
         print(f"\n✓ Breakthroughs saved to: {breakthrough_file}")
 
     elif "--api" in sys.argv and FASTAPI_AVAILABLE:

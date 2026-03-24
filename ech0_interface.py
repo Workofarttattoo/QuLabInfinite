@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -481,37 +482,37 @@ def ech0_design_selector(application: str, budget_per_kg: float = 100.0) -> str:
 # ========== EXAMPLE USAGE ==========
 
 if __name__ == "__main__":
-    print("="*70)
-    print("  ECH0 INTERFACE TO QULAB INFINITE")
-    print("="*70)
+    logging.info("="*70)
+    logging.info("  ECH0 INTERFACE TO QULAB INFINITE")
+    logging.info("="*70)
 
     interface = ECH0_QuLabInterface()
 
     # Test materials database
-    print("\n1. Database Statistics:")
+    logging.info("\n1. Database Statistics:")
     stats = interface.get_database_stats()
-    print(f"   Total materials: {stats['total_materials']}")
-    print(f"   Categories: {list(stats['categories'].keys())}")
+    logging.info(f"   Total materials: {stats['total_materials']}")
+    logging.info(f"   Categories: {list(stats['categories'].keys())}")
 
     # Test material search
-    print("\n2. Search for aerospace materials:")
+    logging.info("\n2. Search for aerospace materials:")
     materials = interface.search_materials(
         min_strength=1000,
         max_density=3000
     )
-    print(f"   Found {len(materials)} materials")
+    logging.info(f"   Found {len(materials)} materials")
     for mat in materials[:3]:
-        print(f"   - {mat['name']}: {mat['tensile_strength']:.0f} MPa, {mat['density']:.0f} kg/m³")
+        logging.info(f"   - {mat['name']}: {mat['tensile_strength']:.0f} MPa, {mat['density']:.0f} kg/m³")
 
     # Test recommendation
-    print("\n3. Material recommendation for aerospace:")
+    logging.info("\n3. Material recommendation for aerospace:")
     rec = interface.recommend_material('aerospace')
-    print(f"   {rec['material']}")
-    print(f"   {rec['reason']}")
+    logging.info(f"   {rec['material']}")
+    logging.info(f"   {rec['reason']}")
 
     # Test convenience functions
-    print("\n4. ECH0 Material Analysis:")
+    logging.info("\n4. ECH0 Material Analysis:")
     analysis = ech0_analyze_material('Graphene (Single Layer)')
-    print(analysis)
+    logging.info(analysis)
 
-    print("\n✅ ECH0 Interface Ready!")
+    logging.info("\n✅ ECH0 Interface Ready!")

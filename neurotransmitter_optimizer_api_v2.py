@@ -587,5 +587,5 @@ if __name__ == "__main__":
     # Save breakthroughs
     output_file = "/Users/noone/QuLabInfinite/neurotransmitter_breakthroughs_v2.json"
     with open(output_file, 'w') as f:
-        json.dump(optimizer.breakthroughs, f, indent=2)
+        json.dump(, default=stroptimizer.breakthroughs, f, indent=2)
     print(f"\n✓ Breakthroughs saved to: {output_file}")

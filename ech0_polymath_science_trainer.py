@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Polymath Science Fine-Tuning Trainer
 Executes LoRA fine-tuning on ech0-polymath-14b using formatted training data
@@ -44,28 +45,28 @@ class ECH0_Polymath_Science_Trainer:
 
     def check_prerequisites(self) -> bool:
         """Check if all prerequisites are available"""
-        print("=" * 80)
-        print("CHECKING PREREQUISITES")
-        print("=" * 80)
-        print()
+        logging.info("=" * 80)
+        logging.info("CHECKING PREREQUISITES")
+        logging.info("=" * 80)
+        logging.info()
 
         prerequisites_met = True
 
         # Check training data exists
-        print("[1/3] Checking training data...")
+        logging.info("[1/3] Checking training data...")
         if not self.training_data_path.exists():
-            print(f"    ✗ Training data not found: {self.training_data_path}")
-            print(f"       Run: python3 ech0_format_training_data.py")
+            logging.info(f"    ✗ Training data not found: {self.training_data_path}")
+            logging.info(f"       Run: python3 ech0_format_training_data.py")
             prerequisites_met = False
         else:
             # Count examples
             with open(self.training_data_path) as f:
                 num_examples = sum(1 for _ in f)
-            print(f"    ✓ Found {num_examples:,} training examples")
-        print()
+            logging.info(f"    ✓ Found {num_examples:,} training examples")
+        logging.info()
 
         # Check base model exists
-        print("[2/3] Checking base model...")
+        logging.info("[2/3] Checking base model...")
         try:
             result = subprocess.run(
                 ["ollama", "list"],
@@ -74,60 +75,60 @@ class ECH0_Polymath_Science_Trainer:
                 timeout=10
             )
             if self.base_model in result.stdout:
-                print(f"    ✓ Base model {self.base_model} is available")
+                logging.info(f"    ✓ Base model {self.base_model} is available")
             else:
-                print(f"    ✗ Base model {self.base_model} not found in Ollama")
-                print(f"       Available models:")
+                logging.info(f"    ✗ Base model {self.base_model} not found in Ollama")
+                logging.info(f"       Available models:")
                 for line in result.stdout.split('\n')[1:6]:
                     if line.strip():
-                        print(f"         {line.split()[0]}")
+                        logging.info(f"         {line.split()[0]}")
                 prerequisites_met = False
         except Exception as e:
-            print(f"    ✗ Failed to check Ollama models: {e}")
+            logging.info(f"    ✗ Failed to check Ollama models: {e}")
             prerequisites_met = False
-        print()
+        logging.info()
 
         # Check Python dependencies
-        print("[3/3] Checking Python dependencies...")
+        logging.info("[3/3] Checking Python dependencies...")
         try:
             import torch
-            print(f"    ✓ PyTorch {torch.__version__}")
+            logging.info(f"    ✓ PyTorch {torch.__version__}")
 
             # Check for CUDA/MPS
             if torch.cuda.is_available():
-                print(f"      CUDA available: {torch.cuda.get_device_name(0)}")
+                logging.info(f"      CUDA available: {torch.cuda.get_device_name(0)}")
             elif torch.backends.mps.is_available():
-                print(f"      Apple MPS (Metal) available")
+                logging.info(f"      Apple MPS (Metal) available")
             else:
-                print(f"      CPU only (slower)")
+                logging.info(f"      CPU only (slower)")
 
         except ImportError:
-            print(f"    ✗ PyTorch not installed")
-            print(f"       Run: pip install torch")
+            logging.info(f"    ✗ PyTorch not installed")
+            logging.info(f"       Run: pip install torch")
             prerequisites_met = False
 
         try:
             import transformers
-            print(f"    ✓ transformers {transformers.__version__}")
+            logging.info(f"    ✓ transformers {transformers.__version__}")
         except ImportError:
-            print(f"    ⚠ transformers not installed (needed for some methods)")
-            print(f"       Run: pip install transformers")
+            logging.info(f"    ⚠ transformers not installed (needed for some methods)")
+            logging.info(f"       Run: pip install transformers")
 
         try:
             import peft
-            print(f"    ✓ peft (LoRA library)")
+            logging.info(f"    ✓ peft (LoRA library)")
         except ImportError:
-            print(f"    ⚠ peft not installed (needed for LoRA)")
-            print(f"       Run: pip install peft")
+            logging.info(f"    ⚠ peft not installed (needed for LoRA)")
+            logging.info(f"       Run: pip install peft")
 
-        print()
-        print("=" * 80)
+        logging.info()
+        logging.info("=" * 80)
         if prerequisites_met:
-            print("✓ All prerequisites met - ready to fine-tune")
+            logging.info("✓ All prerequisites met - ready to fine-tune")
         else:
-            print("✗ Prerequisites missing - fix issues above")
-        print("=" * 80)
-        print()
+            logging.info("✗ Prerequisites missing - fix issues above")
+        logging.info("=" * 80)
+        logging.info()
 
         return prerequisites_met
 
@@ -161,18 +162,18 @@ MESSAGE Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). Al
         This creates the improved model with better system prompt.
         For actual LoRA fine-tuning, use unsloth method below.
         """
-        print("=" * 80)
-        print("CREATING IMPROVED MODEL WITH OLLAMA")
-        print("=" * 80)
-        print()
+        logging.info("=" * 80)
+        logging.info("CREATING IMPROVED MODEL WITH OLLAMA")
+        logging.info("=" * 80)
+        logging.info()
 
-        print("Creating improved Modelfile with science-aware system prompt...")
+        logging.info("Creating improved Modelfile with science-aware system prompt...")
         modelfile_path = self.create_ollama_modelfile()
 
-        print(f"Modelfile created: {modelfile_path}")
-        print()
+        logging.info(f"Modelfile created: {modelfile_path}")
+        logging.info()
 
-        print(f"Creating {self.output_model} from {self.base_model}...")
+        logging.info(f"Creating {self.output_model} from {self.base_model}...")
         try:
             result = subprocess.run(
                 ["ollama", "create", self.output_model, "-f", str(modelfile_path)],
@@ -182,30 +183,30 @@ MESSAGE Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). Al
             )
 
             if result.returncode == 0:
-                print(f"✓ Successfully created {self.output_model}")
-                print()
-                print("=" * 80)
-                print("MODEL CREATED - BUT NOT YET FINE-TUNED")
-                print("=" * 80)
-                print()
-                print("This model has an improved system prompt, but")
-                print("hasn't been fine-tuned on the 19,281 training examples yet.")
-                print()
-                print("For actual LoRA fine-tuning, use one of these methods:")
-                print("  1. unsloth (recommended for laptops)")
-                print("  2. PyTorch + PEFT directly")
-                print("  3. Wait for Ollama to add native fine-tuning support")
-                print()
+                logging.info(f"✓ Successfully created {self.output_model}")
+                logging.info()
+                logging.info("=" * 80)
+                logging.info("MODEL CREATED - BUT NOT YET FINE-TUNED")
+                logging.info("=" * 80)
+                logging.info()
+                logging.info("This model has an improved system prompt, but")
+                logging.info("hasn't been fine-tuned on the 19,281 training examples yet.")
+                logging.info()
+                logging.info("For actual LoRA fine-tuning, use one of these methods:")
+                logging.info("  1. unsloth (recommended for laptops)")
+                logging.info("  2. PyTorch + PEFT directly")
+                logging.info("  3. Wait for Ollama to add native fine-tuning support")
+                logging.info()
                 return True
             else:
-                print(f"✗ Failed to create model: {result.stderr}")
+                logging.info(f"✗ Failed to create model: {result.stderr}")
                 return False
 
         except subprocess.TimeoutExpired:
-            print("✗ Model creation timed out")
+            logging.info("✗ Model creation timed out")
             return False
         except Exception as e:
-            print(f"✗ Error: {e}")
+            logging.info(f"✗ Error: {e}")
             return False
 
     def run_unsloth_finetune(self) -> bool:
@@ -214,33 +215,33 @@ MESSAGE Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). Al
 
         This is the recommended method for laptop fine-tuning
         """
-        print("=" * 80)
-        print("FINE-TUNING WITH UNSLOTH")
-        print("=" * 80)
-        print()
+        logging.info("=" * 80)
+        logging.info("FINE-TUNING WITH UNSLOTH")
+        logging.info("=" * 80)
+        logging.info()
 
-        print("Checking unsloth installation...")
+        logging.info("Checking unsloth installation...")
         try:
             import unsloth
-            print(f"✓ unsloth is installed")
+            logging.info(f"✓ unsloth is installed")
         except ImportError:
-            print("✗ unsloth not installed")
-            print()
-            print("To install unsloth:")
-            print("  pip install unsloth")
-            print()
-            print("Or use the PyTorch method instead (see documentation)")
+            logging.info("✗ unsloth not installed")
+            logging.info()
+            logging.info("To install unsloth:")
+            logging.info("  pip install unsloth")
+            logging.info()
+            logging.info("Or use the PyTorch method instead (see documentation)")
             return False
 
-        print()
-        print("=" * 80)
-        print("UNSLOTH FINE-TUNING SCRIPT")
-        print("=" * 80)
-        print()
-        print("To fine-tune with unsloth, run this Python script:")
-        print()
-        print("```python")
-        print("""from unsloth import FastLanguageModel
+        logging.info()
+        logging.info("=" * 80)
+        logging.info("UNSLOTH FINE-TUNING SCRIPT")
+        logging.info("=" * 80)
+        logging.info()
+        logging.info("To fine-tune with unsloth, run this Python script:")
+        logging.info()
+        logging.info("```python")
+        logging.info("""from unsloth import FastLanguageModel
 import json
 
 # Load base model
@@ -303,18 +304,18 @@ trainer.train()
 # Save model
 model.save_pretrained("ech0_polymath_science_lora")
 ```""")
-        print()
-        print("This will take 2-4 hours on a laptop.")
-        print("=" * 80)
+        logging.info()
+        logging.info("This will take 2-4 hours on a laptop.")
+        logging.info("=" * 80)
 
         return False  # Not actually running, just showing instructions
 
     def test_improved_model(self):
         """Test the improved model on a science question"""
-        print("=" * 80)
-        print("TESTING IMPROVED MODEL")
-        print("=" * 80)
-        print()
+        logging.info("=" * 80)
+        logging.info("TESTING IMPROVED MODEL")
+        logging.info("=" * 80)
+        logging.info()
 
         test_questions = [
             {
@@ -331,13 +332,13 @@ model.save_pretrained("ech0_polymath_science_lora")
             }
         ]
 
-        print(f"Testing {self.output_model} on science questions...")
-        print()
+        logging.info(f"Testing {self.output_model} on science questions...")
+        logging.info()
 
         for i, test in enumerate(test_questions, 1):
-            print(f"[{i}/{len(test_questions)}] {test['type'].title()} Question:")
-            print(f"    {test['question']}")
-            print()
+            logging.info(f"[{i}/{len(test_questions)}] {test['type'].title()} Question:")
+            logging.info(f"    {test['question']}")
+            logging.info()
 
             try:
                 result = subprocess.run(
@@ -349,88 +350,88 @@ model.save_pretrained("ech0_polymath_science_lora")
 
                 if result.returncode == 0:
                     response = result.stdout.strip()
-                    print(f"    Response: {response[:200]}...")
-                    print()
+                    logging.info(f"    Response: {response[:200]}...")
+                    logging.info()
 
                     # Check if it's gibberish (very short, nonsensical)
                     if len(response) < 50:
-                        print(f"    ⚠ WARNING: Response seems too short (possible gibberish)")
+                        logging.info(f"    ⚠ WARNING: Response seems too short (possible gibberish)")
                     else:
-                        print(f"    ✓ Response looks coherent")
+                        logging.info(f"    ✓ Response looks coherent")
                 else:
-                    print(f"    ✗ Error: {result.stderr}")
+                    logging.info(f"    ✗ Error: {result.stderr}")
 
             except subprocess.TimeoutExpired:
-                print(f"    ⏱ Timeout (took > 60s)")
+                logging.info(f"    ⏱ Timeout (took > 60s)")
             except Exception as e:
-                print(f"    ✗ Error: {e}")
+                logging.info(f"    ✗ Error: {e}")
 
-            print()
+            logging.info()
 
-        print("=" * 80)
-        print("TEST COMPLETE")
-        print("=" * 80)
-        print()
-        print("If responses are still gibberish, you need to run actual LoRA fine-tuning.")
-        print("See unsloth method above for instructions.")
-        print("=" * 80)
+        logging.info("=" * 80)
+        logging.info("TEST COMPLETE")
+        logging.info("=" * 80)
+        logging.info()
+        logging.info("If responses are still gibberish, you need to run actual LoRA fine-tuning.")
+        logging.info("See unsloth method above for instructions.")
+        logging.info("=" * 80)
 
 
 def main():
-    print("\n")
-    print("=" * 80)
-    print("ECH0 POLYMATH SCIENCE FINE-TUNING TRAINER")
-    print("Fixing 'gibberish' output on science problems")
-    print("=" * 80)
-    print("\n")
+    logging.info("\n")
+    logging.info("=" * 80)
+    logging.info("ECH0 POLYMATH SCIENCE FINE-TUNING TRAINER")
+    logging.info("Fixing 'gibberish' output on science problems")
+    logging.info("=" * 80)
+    logging.info("\n")
 
     trainer = ECH0_Polymath_Science_Trainer()
 
     # Step 1: Check prerequisites
     if not trainer.check_prerequisites():
-        print("Please fix prerequisites and try again.")
+        logging.info("Please fix prerequisites and try again.")
         return
 
     # Step 2: Create improved model with Ollama
-    print("Starting model creation...")
-    print()
+    logging.info("Starting model creation...")
+    logging.info()
 
     success = trainer.run_ollama_finetune()
 
     if success:
         # Step 3: Test the model
-        print()
+        logging.info()
         input("Press Enter to test the improved model on science questions...")
-        print()
+        logging.info()
         trainer.test_improved_model()
 
     # Step 4: Show next steps
-    print()
-    print("=" * 80)
-    print("NEXT STEPS")
-    print("=" * 80)
-    print()
-    print("You've created an improved model with a better system prompt.")
-    print()
-    print("For actual LoRA fine-tuning on 19,281 examples:")
-    print()
-    print("Option 1: Use unsloth (recommended)")
-    print("  1. pip install unsloth")
-    print("  2. See trainer.run_unsloth_finetune() code above")
-    print("  3. Run the unsloth training script (2-4 hours)")
-    print()
-    print("Option 2: Wait for Ollama native fine-tuning")
-    print("  Ollama team is working on this feature")
-    print()
-    print("Option 3: Export model and fine-tune with PyTorch directly")
-    print("  More complex but full control")
-    print()
-    print("Expected improvement after actual fine-tuning:")
-    print("  - Science: Gibberish (0%) → 40-60% accuracy")
-    print("  - Physics: Gibberish (0%) → 30-50% accuracy")
-    print("  - Math: Maintains current 10% accuracy")
-    print("=" * 80)
-    print("\n")
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("NEXT STEPS")
+    logging.info("=" * 80)
+    logging.info()
+    logging.info("You've created an improved model with a better system prompt.")
+    logging.info()
+    logging.info("For actual LoRA fine-tuning on 19,281 examples:")
+    logging.info()
+    logging.info("Option 1: Use unsloth (recommended)")
+    logging.info("  1. pip install unsloth")
+    logging.info("  2. See trainer.run_unsloth_finetune() code above")
+    logging.info("  3. Run the unsloth training script (2-4 hours)")
+    logging.info()
+    logging.info("Option 2: Wait for Ollama native fine-tuning")
+    logging.info("  Ollama team is working on this feature")
+    logging.info()
+    logging.info("Option 3: Export model and fine-tune with PyTorch directly")
+    logging.info("  More complex but full control")
+    logging.info()
+    logging.info("Expected improvement after actual fine-tuning:")
+    logging.info("  - Science: Gibberish (0%) → 40-60% accuracy")
+    logging.info("  - Physics: Gibberish (0%) → 30-50% accuracy")
+    logging.info("  - Math: Maintains current 10% accuracy")
+    logging.info("=" * 80)
+    logging.info("\n")
 
 
 if __name__ == "__main__":

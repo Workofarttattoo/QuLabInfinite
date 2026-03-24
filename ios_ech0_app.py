@@ -1,3 +1,4 @@
+import logging
 """
 iOS ECH0 App Builder - Deploy ECH0 14B to iPhone Pro Max
 Generates Xcode project for local LLM inference
@@ -30,18 +31,18 @@ def create_ios_app():
         }
     }
 
-    print("📱 ECH0 iOS App Configuration")
-    print("\n🤖 Recommended Model: Llama-2-70B-GGUF Q4_K_M (38GB)")
-    print("📦 Download URL: https://huggingface.co/TheBloke/Llama-2-70B-GGUF")
-    print("\n📲 Deployment Options:")
-    print("1. Use LLM Farm app (App Store) - easiest")
-    print("2. Use Maid app (TestFlight) - more features")
-    print("3. Use llama.cpp iOS (build from source) - most control")
-    print("\n⚡ Quick Setup:")
-    print("1. Download model from HuggingFace")
-    print("2. Install 'Maid' from TestFlight")
-    print("3. Import model file to Maid")
-    print("4. Chat with ECH0!")
+    logging.info("📱 ECH0 iOS App Configuration")
+    logging.info("\n🤖 Recommended Model: Llama-2-70B-GGUF Q4_K_M (38GB)")
+    logging.info("📦 Download URL: https://huggingface.co/TheBloke/Llama-2-70B-GGUF")
+    logging.info("\n📲 Deployment Options:")
+    logging.info("1. Use LLM Farm app (App Store) - easiest")
+    logging.info("2. Use Maid app (TestFlight) - more features")
+    logging.info("3. Use llama.cpp iOS (build from source) - most control")
+    logging.info("\n⚡ Quick Setup:")
+    logging.info("1. Download model from HuggingFace")
+    logging.info("2. Install 'Maid' from TestFlight")
+    logging.info("3. Import model file to Maid")
+    logging.info("4. Chat with ECH0!")
 
     # Generate deployment script
     script = f"""#!/bin/bash
@@ -73,11 +74,11 @@ Alternative: LLM Farm (App Store - simpler)
     script_path.write_text(script)
     subprocess.run(['chmod', '+x', str(script_path)])
 
-    print(f"\n✅ Deployment script created: {script_path}")
-    print("\n🔗 Best Apps for iPhone:")
-    print("• Maid (TestFlight): https://testflight.apple.com/join/VjMRJjVZ")
-    print("• LLM Farm (App Store): https://apps.apple.com/app/llm-farm/id6461209867")
-    print("• Enchanted (App Store): https://apps.apple.com/app/enchanted-llm/id6474268307")
+    logging.info(f"\n✅ Deployment script created: {script_path}")
+    logging.info("\n🔗 Best Apps for iPhone:")
+    logging.info("• Maid (TestFlight): https://testflight.apple.com/join/VjMRJjVZ")
+    logging.info("• LLM Farm (App Store): https://apps.apple.com/app/llm-farm/id6461209867")
+    logging.info("• Enchanted (App Store): https://apps.apple.com/app/enchanted-llm/id6474268307")
 
 if __name__ == '__main__':
     create_ios_app()

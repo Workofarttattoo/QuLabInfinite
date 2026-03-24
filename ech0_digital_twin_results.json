@@ -1,94 +1,120 @@
 {
-  "export_timestamp": "2026-03-05T00:05:05.099967",
+  "export_timestamp": "2026-03-05T00:08:21.526476",
   "campaign_results": {
-    "timestamp": "2026-03-05T00:05:05.098378",
+    "timestamp": "2026-03-05T00:08:21.517804",
     "designs_characterized": 3,
     "conditions_tested": [
       "standard_lab",
       "extreme_temperature",
+      "cryogenic_temperature",
+      "high_temperature",
       "high_pressure",
-      "space_vacuum"
+      "ultra_high_pressure",
+      "vacuum_conditions",
+      "saltwater_corrosion",
+      "acid_exposure",
+      "alkaline_exposure",
+      "oxidizing_atmosphere",
+      "vibration_testing",
+      "shock_testing",
+      "fatigue_cycling",
+      "gamma_radiation",
+      "neutron_radiation",
+      "uv_exposure",
+      "electromagnetic_interference",
+      "biodegradation",
+      "humidity_cycling",
+      "thermal_shock",
+      "space_vacuum",
+      "reentry_heating",
+      "launch_vibration",
+      "chemical_plant",
+      "offshore_oil_rig",
+      "nuclear_reactor",
+      "quantum_computing",
+      "5g_6g_environment",
+      "autonomous_vehicle"
     ],
     "digital_twins_created": [
       {
-        "twin_id": "DT-Sample-Electromagnetic-Metamaterial-20260305-000505",
+        "twin_id": "DT-Sample-Electromagnetic-Metamaterial-20260305-000821",
         "original_design": "Sample-Electromagnetic-Metamaterial",
         "category": "electromagnetic",
         "confidence_level": 1.0,
         "validation_status": "characterized",
         "key_metrics": {
           "insertion_loss": 9.942941296646119,
-          "bandwidth_efficiency": 0.787435561247174,
-          "polarization_insensitive": 0.9750069353842242,
-          "reliability_score": 0.825,
-          "roi_projection": 40.26815814280024,
+          "bandwidth_efficiency": 0.7721562893852849,
+          "polarization_insensitive": 0.9243138503428401,
+          "reliability_score": 0.8,
+          "roi_projection": 64.94936013010678,
           "manufacturing_cost": 260.0
         },
         "critical_issues": [
           "oxidation_corrosion (standard_lab): Copper oxidation may degrade electromagnetic performance",
           "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
           "oxidation_corrosion (extreme_temperature): Copper oxidation may degrade electromagnetic performance",
-          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
-          "oxidation_corrosion (high_pressure): Copper oxidation may degrade electromagnetic performance"
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "oxidation_corrosion (cryogenic_temperature): Copper oxidation may degrade electromagnetic performance"
         ],
         "recommendations": [
           "Address oxidation_corrosion: Apply protective coating or operate in inert atmosphere",
           "Address thermal_cycling_fatigue: Implement thermal management system",
           "Address oxidation_corrosion: Apply protective coating or operate in inert atmosphere",
-          "Address pressure_induced_deformation: Reinforce unit cell structure or reduce operational pressure",
+          "Address thermal_cycling_fatigue: Implement thermal management system",
           "Address oxidation_corrosion: Apply protective coating or operate in inert atmosphere"
         ]
       },
       {
-        "twin_id": "DT-Sample-Acoustic-Metamaterial-20260305-000505",
+        "twin_id": "DT-Sample-Acoustic-Metamaterial-20260305-000821",
         "original_design": "Sample-Acoustic-Metamaterial",
         "category": "acoustic",
         "confidence_level": 1.0,
         "validation_status": "characterized",
         "key_metrics": {
-          "reliability_score": 0.825,
-          "roi_projection": 35.03218773379965,
+          "reliability_score": 0.8,
+          "roi_projection": 55.71173411464037,
           "manufacturing_cost": 51.00000000000001
         },
         "critical_issues": [
           "acoustic_fatigue (standard_lab): High-intensity acoustic waves may cause material fatigue",
           "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
           "acoustic_fatigue (extreme_temperature): High-intensity acoustic waves may cause material fatigue",
-          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
-          "acoustic_fatigue (high_pressure): High-intensity acoustic waves may cause material fatigue"
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "acoustic_fatigue (cryogenic_temperature): High-intensity acoustic waves may cause material fatigue"
         ],
         "recommendations": [
           "Address acoustic_fatigue: Reduce acoustic power or implement periodic inspection",
           "Address thermal_cycling_fatigue: Implement thermal management system",
           "Address acoustic_fatigue: Reduce acoustic power or implement periodic inspection",
-          "Address pressure_induced_deformation: Reinforce unit cell structure or reduce operational pressure",
+          "Address thermal_cycling_fatigue: Implement thermal management system",
           "Address acoustic_fatigue: Reduce acoustic power or implement periodic inspection"
         ]
       },
       {
-        "twin_id": "DT-Sample-Mechanical-Metamaterial-20260305-000505",
+        "twin_id": "DT-Sample-Mechanical-Metamaterial-20260305-000821",
         "original_design": "Sample-Mechanical-Metamaterial",
         "category": "mechanical",
         "confidence_level": 1.0,
         "validation_status": "characterized",
         "key_metrics": {
-          "reliability_score": 0.725,
-          "roi_projection": 43.627491015376535,
+          "reliability_score": 0.7,
+          "roi_projection": 72.87867748075904,
           "manufacturing_cost": 81.25
         },
         "critical_issues": [
           "impact_damage (standard_lab): High strain rates may cause sudden failure",
           "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
           "impact_damage (extreme_temperature): High strain rates may cause sudden failure",
-          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
-          "impact_damage (high_pressure): High strain rates may cause sudden failure"
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (cryogenic_temperature): High strain rates may cause sudden failure"
         ],
         "recommendations": [
           "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
           "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
           "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
           "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
-          "Address impact_damage: Implement impact protection or limit strain rates"
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials"
         ]
       }
     ],
@@ -108,90 +134,90 @@
     },
     "top_performers": [
       {
-        "twin_id": "DT-Sample-Electromagnetic-Metamaterial-20260305-000505",
+        "twin_id": "DT-Sample-Electromagnetic-Metamaterial-20260305-000821",
         "original_design": "Sample-Electromagnetic-Metamaterial",
         "category": "electromagnetic",
         "confidence_level": 1.0,
         "validation_status": "characterized",
         "key_metrics": {
           "insertion_loss": 9.942941296646119,
-          "bandwidth_efficiency": 0.787435561247174,
-          "polarization_insensitive": 0.9750069353842242,
-          "reliability_score": 0.825,
-          "roi_projection": 40.26815814280024,
+          "bandwidth_efficiency": 0.7721562893852849,
+          "polarization_insensitive": 0.9243138503428401,
+          "reliability_score": 0.8,
+          "roi_projection": 64.94936013010678,
           "manufacturing_cost": 260.0
         },
         "critical_issues": [
           "oxidation_corrosion (standard_lab): Copper oxidation may degrade electromagnetic performance",
           "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
           "oxidation_corrosion (extreme_temperature): Copper oxidation may degrade electromagnetic performance",
-          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
-          "oxidation_corrosion (high_pressure): Copper oxidation may degrade electromagnetic performance"
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "oxidation_corrosion (cryogenic_temperature): Copper oxidation may degrade electromagnetic performance"
         ],
         "recommendations": [
           "Address oxidation_corrosion: Apply protective coating or operate in inert atmosphere",
           "Address thermal_cycling_fatigue: Implement thermal management system",
           "Address oxidation_corrosion: Apply protective coating or operate in inert atmosphere",
-          "Address pressure_induced_deformation: Reinforce unit cell structure or reduce operational pressure",
+          "Address thermal_cycling_fatigue: Implement thermal management system",
           "Address oxidation_corrosion: Apply protective coating or operate in inert atmosphere"
         ]
       },
       {
-        "twin_id": "DT-Sample-Acoustic-Metamaterial-20260305-000505",
+        "twin_id": "DT-Sample-Acoustic-Metamaterial-20260305-000821",
         "original_design": "Sample-Acoustic-Metamaterial",
         "category": "acoustic",
         "confidence_level": 1.0,
         "validation_status": "characterized",
         "key_metrics": {
-          "reliability_score": 0.825,
-          "roi_projection": 35.03218773379965,
+          "reliability_score": 0.8,
+          "roi_projection": 55.71173411464037,
           "manufacturing_cost": 51.00000000000001
         },
         "critical_issues": [
           "acoustic_fatigue (standard_lab): High-intensity acoustic waves may cause material fatigue",
           "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
           "acoustic_fatigue (extreme_temperature): High-intensity acoustic waves may cause material fatigue",
-          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
-          "acoustic_fatigue (high_pressure): High-intensity acoustic waves may cause material fatigue"
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "acoustic_fatigue (cryogenic_temperature): High-intensity acoustic waves may cause material fatigue"
         ],
         "recommendations": [
           "Address acoustic_fatigue: Reduce acoustic power or implement periodic inspection",
           "Address thermal_cycling_fatigue: Implement thermal management system",
           "Address acoustic_fatigue: Reduce acoustic power or implement periodic inspection",
-          "Address pressure_induced_deformation: Reinforce unit cell structure or reduce operational pressure",
+          "Address thermal_cycling_fatigue: Implement thermal management system",
           "Address acoustic_fatigue: Reduce acoustic power or implement periodic inspection"
         ]
       },
       {
-        "twin_id": "DT-Sample-Mechanical-Metamaterial-20260305-000505",
+        "twin_id": "DT-Sample-Mechanical-Metamaterial-20260305-000821",
         "original_design": "Sample-Mechanical-Metamaterial",
         "category": "mechanical",
         "confidence_level": 1.0,
         "validation_status": "characterized",
         "key_metrics": {
-          "reliability_score": 0.725,
-          "roi_projection": 43.627491015376535,
+          "reliability_score": 0.7,
+          "roi_projection": 72.87867748075904,
           "manufacturing_cost": 81.25
         },
         "critical_issues": [
           "impact_damage (standard_lab): High strain rates may cause sudden failure",
           "thermal_cycling_fatigue (extreme_temperature): Repeated thermal expansion/contraction may cause material fatigue",
           "impact_damage (extreme_temperature): High strain rates may cause sudden failure",
-          "pressure_induced_deformation (high_pressure): High pressure may cause permanent deformation of unit cells",
-          "impact_damage (high_pressure): High strain rates may cause sudden failure"
+          "thermal_cycling_fatigue (cryogenic_temperature): Repeated thermal expansion/contraction may cause material fatigue",
+          "impact_damage (cryogenic_temperature): High strain rates may cause sudden failure"
         ],
         "recommendations": [
           "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
           "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
           "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
           "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials",
-          "Address impact_damage: Implement impact protection or limit strain rates"
+          "topology_optimization: Optimize unit cell topology for strength-to-weight ratio - Lighter, more efficient mechanical metamaterials"
         ]
       }
     ],
     "critical_findings": [
       "Most common issue: thermal_cycling_fatigue (extreme_temperature) (3 occurrences)",
-      "Most common issue: pressure_induced_deformation (high_pressure) (3 occurrences)",
+      "Most common issue: thermal_cycling_fatigue (cryogenic_temperature) (3 occurrences)",
       "Most common issue: oxidation_corrosion (standard_lab) (1 occurrences)",
       "Confidence range: 1.00 - 1.00",
       "Category distribution: {'electromagnetic': 1, 'acoustic': 1, 'mechanical': 1}"

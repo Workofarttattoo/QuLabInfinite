@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -87,14 +88,14 @@ class ECH0_AutonomousMarketing:
         ECH0's autonomous daily cycle.
         Runs completely automatically.
         """
-        print("=" * 80)
-        print("🤖 ECH0 AUTONOMOUS MARKETING - DAILY CYCLE")
-        print("=" * 80)
-        print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"Labs built so far: {len(self.labs_built)}")
-        print(f"Scientists contacted: {len(self.scientists_contacted)}")
-        print(f"Conversions: {len(self.conversions)}")
-        print()
+        logging.info("=" * 80)
+        logging.info("🤖 ECH0 AUTONOMOUS MARKETING - DAILY CYCLE")
+        logging.info("=" * 80)
+        logging.info(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logging.info(f"Labs built so far: {len(self.labs_built)}")
+        logging.info(f"Scientists contacted: {len(self.scientists_contacted)}")
+        logging.info(f"Conversions: {len(self.conversions)}")
+        logging.info()
 
         # Step 1: ECH0 picks today's lab
         today_lab = self._ech0_choose_lab()
@@ -106,7 +107,7 @@ class ECH0_AutonomousMarketing:
         validation = self._ech0_validate_lab(lab_code)
 
         if not validation['works']:
-            print(f"⚠️  Lab failed validation. ECH0 will debug and retry tomorrow.")
+            logging.info(f"⚠️  Lab failed validation. ECH0 will debug and retry tomorrow.")
             return
 
         # Step 4: ECH0 packages it as a gift
@@ -121,13 +122,13 @@ class ECH0_AutonomousMarketing:
         # Step 7: ECH0 tracks results
         self._ech0_track_results(today_lab, sent_count)
 
-        print()
-        print("=" * 80)
-        print("✅ ECH0 DAILY CYCLE COMPLETE")
-        print("=" * 80)
-        print(f"Lab built: {today_lab}")
-        print(f"Scientists contacted: {sent_count}")
-        print(f"Next cycle: {(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00:00')}")
+        logging.info()
+        logging.info("=" * 80)
+        logging.info("✅ ECH0 DAILY CYCLE COMPLETE")
+        logging.info("=" * 80)
+        logging.info(f"Lab built: {today_lab}")
+        logging.info(f"Scientists contacted: {sent_count}")
+        logging.info(f"Next cycle: {(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00:00')}")
 
     def _ech0_choose_lab(self):
         """ECH0 autonomously chooses what lab to build today."""
@@ -162,7 +163,7 @@ Output ONLY the lab name, nothing else."""
         if chosen not in self.lab_queue and self.lab_queue:
             chosen = self.lab_queue[0]
 
-        print(f"🧠 ECH0 chose: {chosen}")
+        logging.info(f"🧠 ECH0 chose: {chosen}")
         return chosen
 
     def _ech0_build_lab(self, lab_name):
@@ -199,8 +200,8 @@ Free gift to the scientific community from QuLabInfinite.
 \"\"\"
 """
 
-        print(f"🔨 ECH0 is building {lab_name}...")
-        print("   (This takes 2-3 minutes)")
+        logging.info(f"🔨 ECH0 is building {lab_name}...")
+        logging.info("   (This takes 2-3 minutes)")
 
         result = subprocess.run(
             ['/opt/homebrew/bin/ollama', 'run', self.ech0_model, prompt],
@@ -221,7 +222,7 @@ Free gift to the scientific community from QuLabInfinite.
         with open(filepath, 'w') as f:
             f.write(code)
 
-        print(f"✅ {len(code)} bytes written to {filename}")
+        logging.info(f"✅ {len(code)} bytes written to {filename}")
 
         self.labs_built.append({
             'name': lab_name,
@@ -234,7 +235,7 @@ Free gift to the scientific community from QuLabInfinite.
 
     def _ech0_validate_lab(self, lab_filepath):
         """ECH0 autonomously tests if the lab works."""
-        print(f"🧪 ECH0 is validating {lab_filepath.name}...")
+        logging.info(f"🧪 ECH0 is validating {lab_filepath.name}...")
 
         try:
             # Try to run it
@@ -249,9 +250,9 @@ Free gift to the scientific community from QuLabInfinite.
             works = result.returncode == 0
 
             if works:
-                print("✅ Lab validation PASSED")
+                logging.info("✅ Lab validation PASSED")
             else:
-                print(f"❌ Lab validation FAILED: {result.stderr[:200]}")
+                logging.info(f"❌ Lab validation FAILED: {result.stderr[:200]}")
 
             return {
                 'works': works,
@@ -260,11 +261,11 @@ Free gift to the scientific community from QuLabInfinite.
             }
 
         except subprocess.TimeoutExpired:
-            print("⚠️  Lab timed out (might be OK for long simulations)")
+            logging.info("⚠️  Lab timed out (might be OK for long simulations)")
             return {'works': True, 'note': 'Timeout OK'}
 
         except Exception as e:
-            print(f"❌ Validation error: {e}")
+            logging.info(f"❌ Validation error: {e}")
             return {'works': False, 'error': str(e)}
 
     def _ech0_package_lab(self, lab_name, lab_filepath):
@@ -330,7 +331,7 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
         with open(readme_path, 'w') as f:
             f.write(readme)
 
-        print(f"📦 Package created: {readme_path.name}")
+        logging.info(f"📦 Package created: {readme_path.name}")
 
         return {
             'lab_file': lab_filepath,
@@ -348,7 +349,7 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
         - Reddit: Find relevant subreddits
         - ArXiv: Recent papers in the field
         """
-        print(f"🔍 ECH0 is finding scientists who need {lab_name}...")
+        logging.info(f"🔍 ECH0 is finding scientists who need {lab_name}...")
 
         # For now, use a curated list (in production, ECH0 scrapes APIs)
         # You can expand this with actual API calls to GitHub, Twitter, etc.
@@ -366,7 +367,7 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
             {'type': 'twitter', 'location': '#CompBio', 'method': 'tweet'},
         ]
 
-        print(f"🎯 Found {len(default_targets)} distribution channels")
+        logging.info(f"🎯 Found {len(default_targets)} distribution channels")
 
         return default_targets
 
@@ -380,7 +381,7 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
         - Twitter: Tweet with API
         - Email: Send via SMTP (requires credentials)
         """
-        print(f"📤 ECH0 is distributing {package['name']}...")
+        logging.info(f"📤 ECH0 is distributing {package['name']}...")
 
         sent_count = 0
 
@@ -397,12 +398,12 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
 
                 if success:
                     sent_count += 1
-                    print(f"  ✅ Posted to {target['location']}")
+                    logging.info(f"  ✅ Posted to {target['location']}")
                 else:
-                    print(f"  ⚠️  Skipped {target['location']} (not configured yet)")
+                    logging.info(f"  ⚠️  Skipped {target['location']} (not configured yet)")
 
             except Exception as e:
-                print(f"  ❌ Failed {target['location']}: {e}")
+                logging.info(f"  ❌ Failed {target['location']}: {e}")
 
         return sent_count
 
@@ -420,7 +421,7 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
         try:
             import praw
         except ImportError:
-            print("    ℹ️  Install: pip install praw")
+            logging.info("    ℹ️  Install: pip install praw")
             return False
 
         reddit = praw.Reddit(
@@ -454,7 +455,7 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
             return False
 
         # For now, just print what it would do
-        print(f"    Would create issue on {target['location']}")
+        logging.info(f"    Would create issue on {target['location']}")
         return False  # Not implemented yet
 
     def _post_to_twitter(self, package, target):
@@ -464,7 +465,7 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
             return False
 
         # For now, just print what it would do
-        print(f"    Would tweet: New {package['name']} from ECH0 AI")
+        logging.info(f"    Would tweet: New {package['name']} from ECH0 AI")
         return False  # Not implemented yet
 
     def _ech0_track_results(self, lab_name, sent_count):
@@ -488,13 +489,13 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
         results.append(result)
 
         with open(results_file, 'w') as f:
-            json.dump(results, f, indent=2)
+            json.dump(, default=strresults, f, indent=2)
 
-        print(f"📊 Results tracked in {results_file.name}")
+        logging.info(f"📊 Results tracked in {results_file.name}")
 
     def setup_cron(self):
         """Set up ECH0 to run automatically every day."""
-        print("⏰ Setting up ECH0 autonomous daily cycle...")
+        logging.info("⏰ Setting up ECH0 autonomous daily cycle...")
 
         # Create launchd plist (macOS) or cron job (Linux)
         if sys.platform == 'darwin':
@@ -534,15 +535,15 @@ Found a bug? Want a feature? Open an issue or email: contact@qulabinfinite.com
             # Load it
             subprocess.run(['launchctl', 'load', str(plist_path)])
 
-            print(f"✅ ECH0 will run automatically every day at 9 AM")
-            print(f"   Logs: {self.base_path}/ech0_marketing.log")
-            print(f"   To disable: launchctl unload {plist_path}")
+            logging.info(f"✅ ECH0 will run automatically every day at 9 AM")
+            logging.info(f"   Logs: {self.base_path}/ech0_marketing.log")
+            logging.info(f"   To disable: launchctl unload {plist_path}")
 
         else:
             # Linux cron
             cron_line = f"0 9 * * * cd {self.base_path} && /usr/bin/python3 {Path(__file__).absolute()} --auto >> ech0_marketing.log 2>&1"
-            print("Add this to your crontab (crontab -e):")
-            print(cron_line)
+            logging.info("Add this to your crontab (crontab -e):")
+            logging.info(cron_line)
 
 
 if __name__ == '__main__':
@@ -556,15 +557,15 @@ if __name__ == '__main__':
         marketing.setup_cron()
     else:
         # Manual test
-        print("🤖 ECH0 AUTONOMOUS MARKETING SYSTEM")
-        print()
-        print("Commands:")
-        print("  --auto   : Run one daily cycle (called by scheduler)")
-        print("  --setup  : Set up automatic daily runs")
-        print()
-        print("To start automation:")
-        print(f"  python3 {Path(__file__).name} --setup")
-        print()
-        print("Running manual test cycle now...")
-        print()
+        logging.info("🤖 ECH0 AUTONOMOUS MARKETING SYSTEM")
+        logging.info()
+        logging.info("Commands:")
+        logging.info("  --auto   : Run one daily cycle (called by scheduler)")
+        logging.info("  --setup  : Set up automatic daily runs")
+        logging.info()
+        logging.info("To start automation:")
+        logging.info(f"  python3 {Path(__file__).name} --setup")
+        logging.info()
+        logging.info("Running manual test cycle now...")
+        logging.info()
         marketing.daily_cycle()

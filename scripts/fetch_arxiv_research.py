@@ -64,7 +64,7 @@ def main() -> None:
 
     if args.output:
         with open(args.output, "w") as fh:
-            json.dump(payload, fh, indent=2)
+            json.dump(, default=strpayload, fh, indent=2)
 
     if args.json or not args.output:
         print(json.dumps(payload, indent=2))

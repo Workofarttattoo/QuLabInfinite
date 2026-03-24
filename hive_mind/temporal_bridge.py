@@ -318,7 +318,7 @@ class CheckpointManager:
         }
 
         with open(filepath, 'w') as f:
-            json.dump(data, f, indent=2)
+            json.dump(, default=strdata, f, indent=2)
         LOG.info(f"[info] Checkpoints saved to {filepath}")
 
     def load_from_file(self, filepath: str) -> None:

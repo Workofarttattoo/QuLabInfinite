@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -49,12 +50,12 @@ class ECH0_QuantumInventionFilter:
         num_qubits = int(np.ceil(np.log2(num_options)))
 
         if num_qubits > self.max_qubits:
-            print(f"⚠️  {num_options} options requires {num_qubits} qubits, exceeds max {self.max_qubits}")
-            print(f"   Falling back to classical evaluation")
+            logging.info(f"⚠️  {num_options} options requires {num_qubits} qubits, exceeds max {self.max_qubits}")
+            logging.info(f"   Falling back to classical evaluation")
             return self._classical_explore(options, scoring_function, num_top)
 
         # Quantum superposition: evaluate all options in parallel
-        print(f"🔬 Quantum exploring {num_options} options using {num_qubits} qubits...")
+        logging.info(f"🔬 Quantum exploring {num_options} options using {num_qubits} qubits...")
 
         # Create superposition state
         amplitude = 1.0 / np.sqrt(2**num_qubits)
@@ -69,7 +70,7 @@ class ECH0_QuantumInventionFilter:
         # Sort by score
         scored_options.sort(key=lambda x: x[1], reverse=True)
 
-        print(f"✅ Explored {num_options} options in quantum superposition")
+        logging.info(f"✅ Explored {num_options} options in quantum superposition")
         return scored_options[:num_top]
 
     def _classical_explore(self,
@@ -101,8 +102,8 @@ class ECH0_QuantumInventionFilter:
         current_design = initial_design
         current_score = scoring_function(current_design)
 
-        print(f"🌀 Starting quantum tunneling optimization...")
-        print(f"   Initial score: {current_score:.4f}")
+        logging.info(f"🌀 Starting quantum tunneling optimization...")
+        logging.info(f"   Initial score: {current_score:.4f}")
 
         for i in range(iterations):
             # Generate mutations
@@ -119,10 +120,10 @@ class ECH0_QuantumInventionFilter:
                 if neighbor_score > current_score or np.random.random() < tunnel_prob:
                     current_design = neighbor
                     current_score = neighbor_score
-                    print(f"   Iteration {i+1}: score = {current_score:.4f} {'(tunnel)' if neighbor_score < current_score else ''}")
+                    logging.info(f"   Iteration {i+1}: score = {current_score:.4f} {'(tunnel)' if neighbor_score < current_score else ''}")
                     break
 
-        print(f"✅ Optimization complete. Final score: {current_score:.4f}")
+        logging.info(f"✅ Optimization complete. Final score: {current_score:.4f}")
         return current_design
 
 
@@ -147,7 +148,7 @@ class ECH0_QuantumMaterialDiscovery:
         Returns:
             Dict with predicted properties
         """
-        print(f"⚛️  Running quantum chemistry simulation for {composition}...")
+        logging.info(f"⚛️  Running quantum chemistry simulation for {composition}...")
 
         # Simulate VQE calculation for ground state energy
         # In production, this would call actual quantum chemistry code
@@ -155,7 +156,7 @@ class ECH0_QuantumMaterialDiscovery:
 
         properties = self._estimate_properties(composition)
 
-        print(f"✅ Properties predicted for {composition}")
+        logging.info(f"✅ Properties predicted for {composition}")
         return properties
 
     def _estimate_properties(self, composition: str) -> Dict[str, float]:
@@ -204,7 +205,7 @@ class ECH0_QuantumMaterialDiscovery:
         Returns:
             Best composition or None
         """
-        print(f"🔍 Searching for composition with {target_property} ≈ {target_value}...")
+        logging.info(f"🔍 Searching for composition with {target_property} ≈ {target_value}...")
 
         best_composition = None
         best_error = float('inf')
@@ -224,7 +225,7 @@ class ECH0_QuantumMaterialDiscovery:
                     best_composition = comp
 
         if best_composition:
-            print(f"✅ Found: {best_composition} (error: {best_error:.4f})")
+            logging.info(f"✅ Found: {best_composition} (error: {best_error:.4f})")
 
         return best_composition
 
@@ -273,7 +274,7 @@ class ECH0_QuantumDecisionTree:
         Returns:
             Dict with overall score and detailed results
         """
-        print(f"🌳 Quantum decision tree evaluating invention...")
+        logging.info(f"🌳 Quantum decision tree evaluating invention...")
 
         results = {
             'invention': invention.get('name', 'Unnamed'),
@@ -318,7 +319,7 @@ class ECH0_QuantumDecisionTree:
             'failed': results['failed']
         })
 
-        print(f"✅ Evaluation complete: {results['overall_score']*100:.1f}% ({results['passed']}/{len(criteria)} criteria passed)")
+        logging.info(f"✅ Evaluation complete: {results['overall_score']*100:.1f}% ({results['passed']}/{len(criteria)} criteria passed)")
 
         return results
 
@@ -404,13 +405,13 @@ def ech0_optimize_design(design: Dict,
 # ========== EXAMPLE USAGE ==========
 
 if __name__ == "__main__":
-    print("="*70)
-    print("  ECH0 QUANTUM TOOLS DEMONSTRATION")
-    print("="*70)
+    logging.info("="*70)
+    logging.info("  ECH0 QUANTUM TOOLS DEMONSTRATION")
+    logging.info("="*70)
 
     # Example 1: Invention filtering
-    print("\n1. QUANTUM INVENTION FILTERING")
-    print("-" * 70)
+    logging.info("\n1. QUANTUM INVENTION FILTERING")
+    logging.info("-" * 70)
 
     inventions = [
         {'name': 'Aerogel Insulation', 'feasibility': 0.9, 'impact': 0.7, 'cost': 200},
@@ -422,22 +423,22 @@ if __name__ == "__main__":
 
     top_inventions = ech0_filter_inventions(inventions, top_n=3)
 
-    print(f"\nTop 3 inventions:")
+    logging.info(f"\nTop 3 inventions:")
     for i, inv in enumerate(top_inventions, 1):
-        print(f"{i}. {inv['name']}")
-        print(f"   Feasibility: {inv['feasibility']}, Impact: {inv['impact']}, Cost: ${inv['cost']}")
+        logging.info(f"{i}. {inv['name']}")
+        logging.info(f"   Feasibility: {inv['feasibility']}, Impact: {inv['impact']}, Cost: ${inv['cost']}")
 
     # Example 2: Material discovery
-    print("\n\n2. QUANTUM MATERIAL DISCOVERY")
-    print("-" * 70)
+    logging.info("\n\n2. QUANTUM MATERIAL DISCOVERY")
+    logging.info("-" * 70)
 
     discovery = ECH0_QuantumMaterialDiscovery()
 
     # Predict properties
     props = discovery.predict_properties("GaN")
-    print(f"\nGaN properties:")
+    logging.info(f"\nGaN properties:")
     for key, value in props.items():
-        print(f"  {key}: {value}")
+        logging.info(f"  {key}: {value}")
 
     # Discover novel material
     novel = discovery.discover_novel_composition(
@@ -447,11 +448,11 @@ if __name__ == "__main__":
     )
 
     if novel:
-        print(f"\nNovel composition targeting 2.5 eV band gap: {novel}")
+        logging.info(f"\nNovel composition targeting 2.5 eV band gap: {novel}")
 
     # Example 3: Quantum decision tree
-    print("\n\n3. QUANTUM DECISION TREE")
-    print("-" * 70)
+    logging.info("\n\n3. QUANTUM DECISION TREE")
+    logging.info("-" * 70)
 
     tree = ECH0_QuantumDecisionTree()
 
@@ -482,8 +483,8 @@ if __name__ == "__main__":
 
     result = tree.evaluate_invention(invention, criteria)
 
-    print(f"\nEvaluation results:")
-    print(f"Overall score: {result['overall_score']*100:.1f}%")
-    print(f"Passed: {result['passed']}/{len(criteria)} criteria")
+    logging.info(f"\nEvaluation results:")
+    logging.info(f"Overall score: {result['overall_score']*100:.1f}%")
+    logging.info(f"Passed: {result['passed']}/{len(criteria)} criteria")
 
-    print("\n✅ ECH0 Quantum Tools Ready!")
+    logging.info("\n✅ ECH0 Quantum Tools Ready!")

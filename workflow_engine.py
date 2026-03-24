@@ -569,7 +569,7 @@ async def main():
     # Export workflow
     export_data = engine.export_workflow(drug_wf)
     with open("drug_workflow.json", "w") as f:
-        json.dump(export_data, f, indent=2)
+        json.dump(, default=strexport_data, f, indent=2)
     print("✅ Workflow exported to drug_workflow.json")
 
     # Batch processing demo

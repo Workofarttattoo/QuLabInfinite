@@ -289,7 +289,7 @@ def main():
 
     # Save report
     with open('/Users/noone/QuLabInfinite/fix_report.json', 'w') as f:
-        json.dump({
+        json.dump(, default=str{
             "total_errors": len(error_labs),
             "fixed": fixed,
             "still_broken": still_errors,

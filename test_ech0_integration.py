@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -9,68 +10,68 @@ Uses ORIGINAL database to avoid 14GB load
 import sys
 import time
 
-print("="*70)
-print("  ECH0 INTEGRATION TEST")
-print("="*70)
-print()
+logging.info("="*70)
+logging.info("  ECH0 INTEGRATION TEST")
+logging.info("="*70)
+logging.info()
 
 # Test 1: ECH0 Interface imports
-print("TEST 1: Import ECH0 Tools")
-print("-" * 70)
+logging.info("TEST 1: Import ECH0 Tools")
+logging.info("-" * 70)
 
 try:
     from ech0_interface import ECH0_QuLabInterface
-    print("✅ ECH0_QuLabInterface imported")
+    logging.info("✅ ECH0_QuLabInterface imported")
 
     from ech0_quantum_tools import ECH0_QuantumInventionFilter
-    print("✅ ECH0_QuantumInventionFilter imported")
+    logging.info("✅ ECH0_QuantumInventionFilter imported")
 
     from ech0_invention_accelerator import ECH0_InventionAccelerator, InventionConcept
-    print("✅ ECH0_InventionAccelerator imported")
+    logging.info("✅ ECH0_InventionAccelerator imported")
 
 except Exception as e:
-    print(f"❌ Import failed: {e}")
+    logging.info(f"❌ Import failed: {e}")
     sys.exit(1)
 
-print()
+logging.info()
 
 # Test 2: Initialize ECH0 interface with ORIGINAL database
-print("TEST 2: Initialize ECH0 Interface")
-print("-" * 70)
+logging.info("TEST 2: Initialize ECH0 Interface")
+logging.info("-" * 70)
 
 try:
     interface = ECH0_QuLabInterface()
-    print(f"✅ Interface initialized")
-    print(f"   Materials loaded: {len(interface.materials_db.materials):,}")
+    logging.info(f"✅ Interface initialized")
+    logging.info(f"   Materials loaded: {len(interface.materials_db.materials):,}")
 
 except Exception as e:
-    print(f"❌ Initialization failed: {e}")
+    logging.info(f"❌ Initialization failed: {e}")
     sys.exit(1)
 
-print()
+logging.info()
 
 # Test 3: Material search
-print("TEST 3: Material Search")
-print("-" * 70)
+logging.info("TEST 3: Material Search")
+logging.info("-" * 70)
 
 try:
     # Search for metals
     metals = interface.search_materials(category='metal')
-    print(f"✅ Search successful")
-    print(f"   Metals found: {len(metals):,}")
+    logging.info(f"✅ Search successful")
+    logging.info(f"   Metals found: {len(metals):,}")
 
     # Search with constraints
     strong_materials = interface.search_materials(min_strength=1000)
-    print(f"   Strong materials (>1000 MPa): {len(strong_materials):,}")
+    logging.info(f"   Strong materials (>1000 MPa): {len(strong_materials):,}")
 
 except Exception as e:
-    print(f"❌ Search failed: {e}")
+    logging.info(f"❌ Search failed: {e}")
 
-print()
+logging.info()
 
 # Test 4: Material recommendation
-print("TEST 4: Material Recommendation")
-print("-" * 70)
+logging.info("TEST 4: Material Recommendation")
+logging.info("-" * 70)
 
 try:
     rec = interface.recommend_material(
@@ -78,18 +79,18 @@ try:
         constraints={'max_cost': 100}
     )
 
-    print(f"✅ Recommendation successful")
-    print(f"   Recommended: {rec['material']}")
-    print(f"   Reason: {rec['reason']}")
+    logging.info(f"✅ Recommendation successful")
+    logging.info(f"   Recommended: {rec['material']}")
+    logging.info(f"   Reason: {rec['reason']}")
 
 except Exception as e:
-    print(f"❌ Recommendation failed: {e}")
+    logging.info(f"❌ Recommendation failed: {e}")
 
-print()
+logging.info()
 
 # Test 5: Quantum tools
-print("TEST 5: Quantum Invention Filter")
-print("-" * 70)
+logging.info("TEST 5: Quantum Invention Filter")
+logging.info("-" * 70)
 
 try:
     filter = ECH0_QuantumInventionFilter(max_qubits=25)
@@ -104,18 +105,18 @@ try:
     from ech0_quantum_tools import ech0_filter_inventions
     top_inventions = ech0_filter_inventions(test_inventions, top_n=2)
 
-    print(f"✅ Quantum filtering successful")
-    print(f"   Filtered {len(test_inventions)} → {len(top_inventions)} inventions")
-    print(f"   Top invention: {top_inventions[0]['name']}")
+    logging.info(f"✅ Quantum filtering successful")
+    logging.info(f"   Filtered {len(test_inventions)} → {len(top_inventions)} inventions")
+    logging.info(f"   Top invention: {top_inventions[0]['name']}")
 
 except Exception as e:
-    print(f"❌ Quantum filtering failed: {e}")
+    logging.info(f"❌ Quantum filtering failed: {e}")
 
-print()
+logging.info()
 
 # Test 6: Invention accelerator
-print("TEST 6: Invention Accelerator Pipeline")
-print("-" * 70)
+logging.info("TEST 6: Invention Accelerator Pipeline")
+logging.info("-" * 70)
 
 try:
     accelerator = ECH0_InventionAccelerator()
@@ -133,46 +134,46 @@ try:
 
     result = accelerator.accelerate_invention(concept, requirements)
 
-    print(f"✅ Acceleration successful")
-    print(f"   Recommended: {result['final_recommendation']['recommend']}")
-    print(f"   Quantum score: {concept.quantum_score*100:.1f}%")
-    print(f"   Materials selected: {len(concept.required_materials)}")
+    logging.info(f"✅ Acceleration successful")
+    logging.info(f"   Recommended: {result['final_recommendation']['recommend']}")
+    logging.info(f"   Quantum score: {concept.quantum_score*100:.1f}%")
+    logging.info(f"   Materials selected: {len(concept.required_materials)}")
 
 except Exception as e:
-    print(f"❌ Acceleration failed: {e}")
+    logging.info(f"❌ Acceleration failed: {e}")
 
-print()
+logging.info()
 
 # Test 7: Database statistics
-print("TEST 7: Database Statistics")
-print("-" * 70)
+logging.info("TEST 7: Database Statistics")
+logging.info("-" * 70)
 
 try:
     stats = interface.get_database_stats()
-    print(f"✅ Statistics retrieved")
-    print(f"   Total materials: {stats['total_materials']:,}")
-    print(f"   Categories:")
+    logging.info(f"✅ Statistics retrieved")
+    logging.info(f"   Total materials: {stats['total_materials']:,}")
+    logging.info(f"   Categories:")
     for cat, count in sorted(stats['categories'].items(), key=lambda x: x[1], reverse=True):
-        print(f"      {cat}: {count:,}")
+        logging.info(f"      {cat}: {count:,}")
 
 except Exception as e:
-    print(f"❌ Statistics failed: {e}")
+    logging.info(f"❌ Statistics failed: {e}")
 
-print()
+logging.info()
 
 # Summary
-print("="*70)
-print("  ECH0 INTEGRATION TEST SUMMARY")
-print("="*70)
-print()
-print("✅ All ECH0 tools functional")
-print("✅ Material search working")
-print("✅ Recommendations working")
-print("✅ Quantum filtering working")
-print("✅ Invention acceleration working")
-print()
-print("🎉 ECH0 READY FOR AUTONOMOUS INVENTION!")
-print()
-print("NOTE: Tested with original 1.6K database")
-print("      Expanded 6.6M database will work with same API")
-print()
+logging.info("="*70)
+logging.info("  ECH0 INTEGRATION TEST SUMMARY")
+logging.info("="*70)
+logging.info()
+logging.info("✅ All ECH0 tools functional")
+logging.info("✅ Material search working")
+logging.info("✅ Recommendations working")
+logging.info("✅ Quantum filtering working")
+logging.info("✅ Invention acceleration working")
+logging.info()
+logging.info("🎉 ECH0 READY FOR AUTONOMOUS INVENTION!")
+logging.info()
+logging.info("NOTE: Tested with original 1.6K database")
+logging.info("      Expanded 6.6M database will work with same API")
+logging.info()

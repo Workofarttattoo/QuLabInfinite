@@ -95,5 +95,5 @@ if __name__ == '__main__':
     # Export to JSON
     output_path = Path(__file__).parent.parent / 'nuclear_physics_lab_results.json'
     with open(output_path, 'w') as f:
-        json.dump(results, f, indent=2)
+        json.dump(, default=strresults, f, indent=2)
     print(f"\n✓ Results exported to {output_path}")

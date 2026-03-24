@@ -450,6 +450,6 @@ if __name__ == '__main__':
 
     # Save results
     with open('/Users/noone/QuLabInfinite/metabolomics_lab_results.json', 'w') as f:
-        json.dump(results, f, indent=2)
+        json.dump(, default=strresults, f, indent=2)
 
     print("\nResults saved to: metabolomics_lab_results.json")

@@ -210,7 +210,7 @@ def main():
         
         # Save progress
         with open('/Users/noone/QuLabInfinite/lab_build_progress.json', 'w') as f:
-            json.dump({
+            json.dump(, default=str{
                 "started": datetime.now().isoformat(),
                 "total_fields": len(LAB_FIELDS),
                 "completed": i,
@@ -237,7 +237,7 @@ def main():
     
     # Save final report
     with open('/Users/noone/QuLabInfinite/lab_build_final_report.json', 'w') as f:
-        json.dump({
+        json.dump(, default=str{
             "completed": datetime.now().isoformat(),
             "total_fields": len(LAB_FIELDS),
             "success": success,

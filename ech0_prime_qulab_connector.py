@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0-PRIME QuLab Infinite Connector
@@ -353,18 +354,18 @@ class Ech0PrimeQuLabResearcher:
     ) -> Dict:
         """Run autonomous research loop."""
         if verbose:
-            print("=" * 60)
-            print("ECH0-PRIME × QuLab Infinite")
-            print("Autonomous Scientific Research System")
-            print("=" * 60)
-            print(f"\nResearch Question: {research_question}\n")
+            logging.info("=" * 60)
+            logging.info("ECH0-PRIME × QuLab Infinite")
+            logging.info("Autonomous Scientific Research System")
+            logging.info("=" * 60)
+            logging.info(f"\nResearch Question: {research_question}\n")
 
         # Check QuLab availability
         if not self.qulab.health_check():
-            print("[WARN] QuLab Infinite not running.")
+            logging.info("[WARN] QuLab Infinite not running.")
             repo_root = Path(__file__).resolve().parent
-            print(f"[INFO] Start with: cd {repo_root} && python master_qulab_api.py")
-            print("[INFO] Continuing in theory-only mode...\n")
+            logging.info(f"[INFO] Start with: cd {repo_root} && python master_qulab_api.py")
+            logging.info("[INFO] Continuing in theory-only mode...\n")
 
         # Initial query
         initial_prompt = f"""Research Question: {research_question}
@@ -378,19 +379,19 @@ Design an experiment using QuLab Infinite to test this. Provide:
         response = self.query_llm(initial_prompt)
 
         if verbose:
-            print(f"[ECH0-PRIME] Initial Analysis:\n{response[:800]}...\n")
+            logging.info(f"[ECH0-PRIME] Initial Analysis:\n{response[:800]}...\n")
 
         # Research loop
         for iteration in range(max_iterations):
             if verbose:
-                print(f"\n--- Iteration {iteration + 1}/{max_iterations} ---\n")
+                logging.info(f"\n--- Iteration {iteration + 1}/{max_iterations} ---\n")
 
             experiment = self.extract_experiment(response)
 
             if experiment:
                 if verbose:
-                    print(f"[EXPERIMENT] Lab: {experiment.get('lab')}")
-                    print(f"[EXPERIMENT] Type: {experiment.get('experiment_type')}")
+                    logging.info(f"[EXPERIMENT] Lab: {experiment.get('lab')}")
+                    logging.info(f"[EXPERIMENT] Type: {experiment.get('experiment_type')}")
 
                 # Run on QuLab
                 results = self.run_experiment(experiment)
@@ -405,10 +406,10 @@ Design an experiment using QuLab Infinite to test this. Provide:
 
                 if verbose:
                     if "error" in results:
-                        print(f"[ERROR] {results['error']}")
+                        logging.info(f"[ERROR] {results['error']}")
                     else:
                         results_str = json.dumps(results, indent=2)
-                        print(f"[RESULTS] {results_str[:600]}...")
+                        logging.info(f"[RESULTS] {results_str[:600]}...")
 
                 # Feed back to LLM
                 analysis_prompt = f"""Experiment Results:
@@ -423,7 +424,7 @@ Analyze these results:
                 response = self.query_llm(analysis_prompt)
 
                 if verbose:
-                    print(f"\n[ECH0-PRIME] Analysis:\n{response[:600]}...\n")
+                    logging.info(f"\n[ECH0-PRIME] Analysis:\n{response[:600]}...\n")
 
                 if "final conclusion" in response.lower() or "no more experiments" in response.lower():
                     break
@@ -448,7 +449,7 @@ Analyze these results:
         path = Path(filepath)
         path.parent.mkdir(parents=True, exist_ok=True)
         with path.open("w") as f:
-            json.dump({
+            json.dump(, default=str{
                 "experiments": self.experiment_log,
                 "conversation": self.conversation_history,
                 "timestamp": datetime.now().isoformat()
@@ -466,10 +467,10 @@ Analyze these results:
 def main():
     import sys
 
-    print("\n" + "=" * 60)
-    print("ECH0-PRIME × QuLab Infinite")
-    print("1046B Polymath + 20+ Scientific Labs")
-    print("=" * 60 + "\n")
+    logging.info("\n" + "=" * 60)
+    logging.info("ECH0-PRIME × QuLab Infinite")
+    logging.info("1046B Polymath + 20+ Scientific Labs")
+    logging.info("=" * 60 + "\n")
 
     researcher = Ech0PrimeQuLabResearcher()
 
@@ -479,21 +480,21 @@ def main():
 
         filepath = researcher.build_session_filepath()
         researcher.save_session(filepath)
-        print(f"\nSession saved to: {filepath}")
+        logging.info(f"\nSession saved to: {filepath}")
 
     else:
-        print("Commands:")
-        print("  'research <question>' - Start research session")
-        print("  'single <question>'   - Single query")
-        print("  'labs'                - List available labs")
-        print("  'quit'                - Exit")
-        print()
+        logging.info("Commands:")
+        logging.info("  'research <question>' - Start research session")
+        logging.info("  'single <question>'   - Single query")
+        logging.info("  'labs'                - List available labs")
+        logging.info("  'quit'                - Exit")
+        logging.info()
 
         while True:
             try:
                 user_input = input(">>> ").strip()
             except (EOFError, KeyboardInterrupt):
-                print("\nExiting.")
+                logging.info("\nExiting.")
                 break
 
             if not user_input:
@@ -505,11 +506,11 @@ def main():
             elif user_input.lower() == "labs":
                 labs = researcher.qulab.list_labs()
                 if labs:
-                    print("\nAvailable Labs:")
+                    logging.info("\nAvailable Labs:")
                     for lab in labs:
-                        print(f"  - {lab}")
+                        logging.info(f"  - {lab}")
                 else:
-                    print("\n[INFO] QuLab API not running or no labs returned")
+                    logging.info("\n[INFO] QuLab API not running or no labs returned")
 
             elif user_input.lower().startswith("research "):
                 question = user_input[9:]
@@ -517,16 +518,16 @@ def main():
 
                 filepath = researcher.build_session_filepath()
                 researcher.save_session(filepath)
-                print(f"\nSession saved to: {filepath}")
+                logging.info(f"\nSession saved to: {filepath}")
 
             elif user_input.lower().startswith("single "):
                 question = user_input[7:]
                 response = researcher.query_llm(question)
-                print(f"\n[ECH0-PRIME]\n{response}\n")
+                logging.info(f"\n[ECH0-PRIME]\n{response}\n")
 
             else:
                 response = researcher.query_llm(user_input)
-                print(f"\n[ECH0-PRIME]\n{response}\n")
+                logging.info(f"\n[ECH0-PRIME]\n{response}\n")
 
 
 if __name__ == "__main__":

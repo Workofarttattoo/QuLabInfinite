@@ -61,7 +61,7 @@ def create_elemental_database():
 
     # Write to JSON file
     with open(output_path, 'w') as f:
-        json.dump(elements_data, f, indent=2, sort_keys=True)
+        json.dump(, default=strelements_data, f, indent=2, sort_keys=True)
 
     print(f"\nSuccessfully processed {len(elements_data)} elements.")
     print(f"Saved elemental database to: {output_path}")

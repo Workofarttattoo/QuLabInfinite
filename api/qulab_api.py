@@ -1,3 +1,4 @@
+import logging
 """QuLabInfinite simulation orchestrator.
 
 This module stitches together a workable subset of the QuLabInfinite codebase
@@ -601,7 +602,7 @@ class QuLabSimulator:
 def main() -> None:
     simulator = QuLabSimulator()
     demo_payload = simulator.demo()
-    print(json.dumps(demo_payload, indent=2))
+    logging.info(json.dumps(demo_payload, indent=2))
 
 
 if __name__ == "__main__":

@@ -189,7 +189,7 @@ class NISTDataIngester:
             filepath.parent.mkdir(exist_ok=True)
 
             with open(filepath, 'w', encoding='utf-8') as f:
-                json.dump(datasets, f, indent=2)
+                json.dump(, default=strdatasets, f, indent=2)
 
             logger.info(f"Saved {len(datasets)} datasets from Materials Genome")
             return datasets
@@ -393,7 +393,7 @@ class NISTDataIngester:
         filepath = self.data_dir / filename
 
         with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(datasets, f, indent=2)
+            json.dump(, default=strdatasets, f, indent=2)
 
         logger.info(f"Saved aerogel datasets to {filepath}")
         return datasets
@@ -424,7 +424,7 @@ class NISTDataIngester:
         # Save report
         report_file = self.data_dir / f"ingestion_report_{int(time.time())}.json"
         with open(report_file, 'w', encoding='utf-8') as f:
-            json.dump(report, f, indent=2)
+            json.dump(, default=strreport, f, indent=2)
 
         return report
 

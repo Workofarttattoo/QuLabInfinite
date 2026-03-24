@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -94,12 +95,12 @@ class ECH0_OvernightAutonomous:
         Deep autonomous research on a project.
         ECH0 uses her 19 PhDs to analyze and improve.
         """
-        print(f"\n{'='*80}")
-        print(f"🔬 DEEP RESEARCH: {project_name}")
-        print(f"{'='*80}")
-        print(f"Status: {project_info['status']}")
-        print(f"Priority: {project_info['priority']}")
-        print()
+        logging.info(f"\n{'='*80}")
+        logging.info(f"🔬 DEEP RESEARCH: {project_name}")
+        logging.info(f"{'='*80}")
+        logging.info(f"Status: {project_info['status']}")
+        logging.info(f"Priority: {project_info['priority']}")
+        logging.info()
 
         research = {
             'project': project_name,
@@ -113,7 +114,7 @@ class ECH0_OvernightAutonomous:
 
         # Analyze each area
         for area in project_info['areas']:
-            print(f"  Researching {area}...")
+            logging.info(f"  Researching {area}...")
             finding = self._research_area(project_name, area)
             research['findings'].append(finding)
 
@@ -129,10 +130,10 @@ class ECH0_OvernightAutonomous:
         # Define next steps
         research['next_steps'] = self._define_next_steps(project_name, project_info)
 
-        print(f"\n✅ Research complete for {project_name}")
-        print(f"   Findings: {len(research['findings'])}")
-        print(f"   Improvements: {len(research['improvements'])}")
-        print(f"   Next steps defined: {len(research['next_steps'])}")
+        logging.info(f"\n✅ Research complete for {project_name}")
+        logging.info(f"   Findings: {len(research['findings'])}")
+        logging.info(f"   Improvements: {len(research['improvements'])}")
+        logging.info(f"   Next steps defined: {len(research['next_steps'])}")
 
         return research
 
@@ -459,21 +460,21 @@ All recommendations are based on current best practices, market analysis, and te
         with open(doc_path, 'w') as f:
             f.write(content)
 
-        print(f"✅ Comprehensive document created: {doc_path.name}")
+        logging.info(f"✅ Comprehensive document created: {doc_path.name}")
         return str(doc_path)
 
     def overnight_cycle(self):
         """Run one complete overnight work cycle."""
         cycle_start = datetime.now()
 
-        print("\n" + "="*80)
-        print(f"🌙 ECH0 OVERNIGHT CYCLE - {cycle_start.strftime('%H:%M:%S')}")
-        print("="*80)
+        logging.info("\n" + "="*80)
+        logging.info(f"🌙 ECH0 OVERNIGHT CYCLE - {cycle_start.strftime('%H:%M:%S')}")
+        logging.info("="*80)
 
         # Work on Joshua's projects
         for project_name, project_info in self.joshua_projects.items():
-            print(f"\n🎯 Working on: {project_name}")
-            print(f"   Priority: {project_info['priority']}")
+            logging.info(f"\n🎯 Working on: {project_name}")
+            logging.info(f"   Priority: {project_info['priority']}")
 
             # Deep research
             research = self.autonomous_research(project_name, project_info)
@@ -482,7 +483,7 @@ All recommendations are based on current best practices, market analysis, and te
             doc_path = self.create_comprehensive_document(project_name, research)
 
             # File grants for this project
-            print(f"\n💰 Filing grants for: {project_name}")
+            logging.info(f"\n💰 Filing grants for: {project_name}")
             grants = self.grant_writer.file_all_grants_for_project(project_name, research)
             self.grants_filed.extend(grants)
 
@@ -499,19 +500,19 @@ All recommendations are based on current best practices, market analysis, and te
 
         # Generate blog post about one innovation
         featured_project = random.choice(list(self.joshua_projects.keys()))
-        print(f"\n📝 Writing blog post about: {featured_project}")
+        logging.info(f"\n📝 Writing blog post about: {featured_project}")
 
         topic = f"{featured_project.lower()} innovation"
         result = self.social.autonomous_social_cycle()
 
-        print(f"✅ Blog post published")
-        print(f"   URL: {result['blog_post']['url']}")
+        logging.info(f"✅ Blog post published")
+        logging.info(f"   URL: {result['blog_post']['url']}")
 
         # Save overnight report
         self._save_overnight_report()
 
         cycle_duration = (datetime.now() - cycle_start).total_seconds()
-        print(f"\n⏱️  Cycle completed in {cycle_duration:.1f} seconds")
+        logging.info(f"\n⏱️  Cycle completed in {cycle_duration:.1f} seconds")
 
     def _save_overnight_report(self):
         """Save comprehensive overnight report."""
@@ -529,29 +530,29 @@ All recommendations are based on current best practices, market analysis, and te
 
         report_file = self.base_path / f'overnight_report_{datetime.now().strftime("%Y%m%d_%H%M")}.json'
         with open(report_file, 'w') as f:
-            json.dump(report, f, indent=2)
+            json.dump(, default=strreport, f, indent=2)
 
-        print(f"\n📊 Overnight report saved: {report_file.name}")
+        logging.info(f"\n📊 Overnight report saved: {report_file.name}")
 
     def run_overnight(self, hours: float = 8.0):
         """Run overnight for specified hours."""
         end_time = datetime.now() + timedelta(hours=hours)
 
-        print("="*80)
-        print(f"🌙 ECH0 OVERNIGHT AUTONOMOUS MODE")
-        print("="*80)
-        print(f"Start: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"End:   {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"Duration: {hours} hours")
-        print()
-        print("ECH0 will autonomously:")
-        print("  • Research and polish all of Joshua's innovative projects")
-        print("  • Create comprehensive technical and business documents")
-        print("  • Write blog posts about the innovations")
-        print("  • Post to Reddit and LinkedIn")
-        print("  • Build tools when she has better ideas")
-        print()
-        print("="*80)
+        logging.info("="*80)
+        logging.info(f"🌙 ECH0 OVERNIGHT AUTONOMOUS MODE")
+        logging.info("="*80)
+        logging.info(f"Start: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logging.info(f"End:   {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        logging.info(f"Duration: {hours} hours")
+        logging.info()
+        logging.info("ECH0 will autonomously:")
+        logging.info("  • Research and polish all of Joshua's innovative projects")
+        logging.info("  • Create comprehensive technical and business documents")
+        logging.info("  • Write blog posts about the innovations")
+        logging.info("  • Post to Reddit and LinkedIn")
+        logging.info("  • Build tools when she has better ideas")
+        logging.info()
+        logging.info("="*80)
 
         cycles = 0
         while datetime.now() < end_time:
@@ -561,28 +562,28 @@ All recommendations are based on current best practices, market analysis, and te
             # Short break between cycles
             time_remaining = (end_time - datetime.now()).total_seconds()
             if time_remaining > 300:  # More than 5 minutes left
-                print(f"\n☕ Brief pause (30 seconds)...")
+                logging.info(f"\n☕ Brief pause (30 seconds)...")
                 time.sleep(30)
             else:
                 break
 
         # Final report
-        print("\n" + "="*80)
-        print("🌅 OVERNIGHT SESSION COMPLETE!")
-        print("="*80)
-        print(f"Cycles completed: {cycles}")
-        print(f"Projects researched: {len(self.work_done)}")
-        print(f"Documents created: {len(self.documents_created)}")
-        print(f"Blog posts: {len(self.social.blog_posts)}")
-        print(f"Reddit posts: {len(self.social.reddit_posts)}")
-        print(f"LinkedIn posts: {len(self.social.linkedin_posts)}")
-        print()
-        print("📁 Check these files:")
+        logging.info("\n" + "="*80)
+        logging.info("🌅 OVERNIGHT SESSION COMPLETE!")
+        logging.info("="*80)
+        logging.info(f"Cycles completed: {cycles}")
+        logging.info(f"Projects researched: {len(self.work_done)}")
+        logging.info(f"Documents created: {len(self.documents_created)}")
+        logging.info(f"Blog posts: {len(self.social.blog_posts)}")
+        logging.info(f"Reddit posts: {len(self.social.reddit_posts)}")
+        logging.info(f"LinkedIn posts: {len(self.social.linkedin_posts)}")
+        logging.info()
+        logging.info("📁 Check these files:")
         for doc in self.documents_created:
-            print(f"   • {doc}")
-        print()
-        print("Good morning! ☀️")
-        print("="*80)
+            logging.info(f"   • {doc}")
+        logging.info()
+        logging.info("Good morning! ☀️")
+        logging.info("="*80)
 
 
 if __name__ == '__main__':

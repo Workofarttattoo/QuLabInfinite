@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Core - Central Intelligence Module
 All of ECH0's capabilities in one unified interface
@@ -76,16 +77,16 @@ class ECH0:
             "uncensored-32b": "Most powerful model (not used in ensemble)"
         }
 
-        print("=" * 80)
-        print("ECH0 CORE INITIALIZED v1.3.0")
-        print("=" * 80)
-        print(f"Mathematical Reasoning: ✓")
-        print(f"Advanced Multi-Stage Reasoning: ✓")
-        print(f"Ensemble Voting (3x 14B models): ✓")
-        print(f"Symbolic Mathematics (SymPy): ✓ NEW")
-        print(f"DeepMind Algorithms: {len(self.deepmind.available_modules)} available")
-        print(f"Active Models: {len(self.models)}")
-        print("=" * 80)
+        logging.info("=" * 80)
+        logging.info("ECH0 CORE INITIALIZED v1.3.0")
+        logging.info("=" * 80)
+        logging.info(f"Mathematical Reasoning: ✓")
+        logging.info(f"Advanced Multi-Stage Reasoning: ✓")
+        logging.info(f"Ensemble Voting (3x 14B models): ✓")
+        logging.info(f"Symbolic Mathematics (SymPy): ✓ NEW")
+        logging.info(f"DeepMind Algorithms: {len(self.deepmind.available_modules)} available")
+        logging.info(f"Active Models: {len(self.models)}")
+        logging.info("=" * 80)
 
     # Mathematical Reasoning
 

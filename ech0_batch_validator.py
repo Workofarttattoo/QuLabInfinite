@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -57,12 +58,12 @@ class ECH0_BatchValidator:
         Returns:
             List of validation results sorted by quantum_score (highest first)
         """
-        print(f"\n{'='*70}")
-        print(f"  ECH0 BATCH INVENTION VALIDATOR")
-        print(f"{'='*70}")
-        print(f"Validating {len(concepts)} invention concepts...")
-        print(f"Parallel: {parallel} | Workers: {self.max_workers if parallel else 1}")
-        print(f"{'='*70}\n")
+        logging.info(f"\n{'='*70}")
+        logging.info(f"  ECH0 BATCH INVENTION VALIDATOR")
+        logging.info(f"{'='*70}")
+        logging.info(f"Validating {len(concepts)} invention concepts...")
+        logging.info(f"Parallel: {parallel} | Workers: {self.max_workers if parallel else 1}")
+        logging.info(f"{'='*70}\n")
 
         start_time = time.time()
         results = []
@@ -80,11 +81,11 @@ class ECH0_BatchValidator:
         # Generate summary
         summary = self._generate_summary(results, elapsed)
 
-        print(f"\n{'='*70}")
-        print(f"  VALIDATION COMPLETE")
-        print(f"{'='*70}")
-        print(summary)
-        print(f"{'='*70}\n")
+        logging.info(f"\n{'='*70}")
+        logging.info(f"  VALIDATION COMPLETE")
+        logging.info(f"{'='*70}")
+        logging.info(summary)
+        logging.info(f"{'='*70}\n")
 
         return results
 
@@ -113,11 +114,11 @@ class ECH0_BatchValidator:
 
                     # Progress update
                     status = "✅ PASS" if result['passed'] else "❌ FAIL"
-                    print(f"[{completed}/{total}] {status} - {concept.name} "
+                    logging.info(f"[{completed}/{total}] {status} - {concept.name} "
                           f"(score: {result['quantum_score']:.2f})")
 
                 except Exception as exc:
-                    print(f"[{completed}/{total}] ❌ ERROR - {concept.name}: {exc}")
+                    logging.info(f"[{completed}/{total}] ❌ ERROR - {concept.name}: {exc}")
                     completed += 1
 
         return results
@@ -134,11 +135,11 @@ class ECH0_BatchValidator:
                 results.append(result)
 
                 status = "✅ PASS" if result['passed'] else "❌ FAIL"
-                print(f"[{i}/{len(concepts)}] {status} - {concept.name} "
+                logging.info(f"[{i}/{len(concepts)}] {status} - {concept.name} "
                       f"(score: {result['quantum_score']:.2f})")
 
             except Exception as exc:
-                print(f"[{i}/{len(concepts)}] ❌ ERROR - {concept.name}: {exc}")
+                logging.info(f"[{i}/{len(concepts)}] ❌ ERROR - {concept.name}: {exc}")
 
         return results
 
@@ -310,19 +311,19 @@ TOP 3 INVENTIONS:
                     filepath: str = "batch_validation_results.json"):
         """Save validation results to JSON file."""
         with open(filepath, 'w') as f:
-            json.dump({
+            json.dump(, default=str{
                 'timestamp': datetime.now().isoformat(),
                 'total_concepts': len(results),
                 'passed': sum(1 for r in results if r['passed']),
                 'results': results
             }, f, indent=2)
 
-        print(f"✅ Results saved to: {filepath}")
+        logging.info(f"✅ Results saved to: {filepath}")
 
 
 def demo_batch_validation():
     """Demo: Validate multiple invention concepts."""
-    print("\n🤖 ECH0 Batch Validation Demo\n")
+    logging.info("\n🤖 ECH0 Batch Validation Demo\n")
 
     # Create test concepts
     concepts = [
@@ -367,9 +368,9 @@ def demo_batch_validation():
 
     # Show passed inventions
     passed = [r for r in results if r['passed']]
-    print(f"\n✅ {len(passed)} INVENTIONS PASSED VALIDATION:")
+    logging.info(f"\n✅ {len(passed)} INVENTIONS PASSED VALIDATION:")
     for inv in passed:
-        print(f"  - {inv['concept_name']} (score: {inv['quantum_score']:.3f})")
+        logging.info(f"  - {inv['concept_name']} (score: {inv['quantum_score']:.3f})")
 
 
 if __name__ == "__main__":

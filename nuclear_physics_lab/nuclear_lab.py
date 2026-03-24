@@ -512,3 +512,6 @@ class NuclearPhysicsLab:
         results['lab_name'] = 'Nuclear Physics Laboratory'
 
         return results
+
+# Alias for compatibility with master API
+NuclearLab = NuclearPhysicsLab

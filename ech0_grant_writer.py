@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -151,9 +152,9 @@ class ECH0_GrantWriter:
 
     def write_grant_application(self, project_name: str, grant_info: Dict, project_research: Dict) -> Dict:
         """Write complete grant application."""
-        print(f"\n✍️  Writing grant application: {grant_info['name']}")
-        print(f"   Amount: {grant_info['amount']}")
-        print(f"   Project: {project_name}")
+        logging.info(f"\n✍️  Writing grant application: {grant_info['name']}")
+        logging.info(f"   Amount: {grant_info['amount']}")
+        logging.info(f"   Project: {project_name}")
 
         # Build grant application
         application = {
@@ -812,22 +813,22 @@ Potential to eliminate billions of kg of plastic waste annually.
         with open(filepath, 'w') as f:
             f.write(content)
 
-        print(f"✅ Grant application saved: {filename}")
+        logging.info(f"✅ Grant application saved: {filename}")
         return str(filepath)
 
     def file_all_grants_for_project(self, project_name: str, project_research: Dict) -> List[str]:
         """Research and file all relevant grants for a project."""
-        print(f"\n{'='*80}")
-        print(f"💰 GRANT FILING: {project_name}")
-        print(f"{'='*80}\n")
+        logging.info(f"\n{'='*80}")
+        logging.info(f"💰 GRANT FILING: {project_name}")
+        logging.info(f"{'='*80}\n")
 
         # Find matching grants
         matches = self.match_grants_to_project(project_name)
 
-        print(f"Found {len(matches)} relevant grant opportunities:")
+        logging.info(f"Found {len(matches)} relevant grant opportunities:")
         for match in matches:
-            print(f"  • {match['info']['name']} - {match['info']['amount']}")
-            print(f"    Relevance: {match['relevance_score']:.0%}")
+            logging.info(f"  • {match['info']['name']} - {match['info']['amount']}")
+            logging.info(f"    Relevance: {match['relevance_score']:.0%}")
 
         # File top 3-5 grants
         filed_grants = []
@@ -842,7 +843,7 @@ Potential to eliminate billions of kg of plastic waste annually.
             filepath = self.save_grant_application(application)
             filed_grants.append(filepath)
 
-        print(f"\n✅ Filed {len(filed_grants)} grant applications for {project_name}")
+        logging.info(f"\n✅ Filed {len(filed_grants)} grant applications for {project_name}")
         return filed_grants
 
 
@@ -853,6 +854,6 @@ if __name__ == '__main__':
     project_research = {}  # Would come from ech0_overnight_autonomous
     grants = grant_writer.file_all_grants_for_project("Disposable Mycelium Laptops", project_research)
 
-    print(f"\n📁 Grant applications saved:")
+    logging.info(f"\n📁 Grant applications saved:")
     for grant in grants:
-        print(f"   {grant}")
+        logging.info(f"   {grant}")

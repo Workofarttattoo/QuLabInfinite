@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -150,19 +151,19 @@ def create_market_domination_inventions():
 def run_market_domination_pipeline():
     """Run display technology inventions focused on market domination."""
 
-    print("╔════════════════════════════════════════════════════════════════════╗")
-    print("║         ECH0 MARKET DOMINATION - DISPLAY TECHNOLOGIES              ║")
-    print("║     25 Inventions: Daylight Holograms + Novel Displays            ║")
-    print("║     POC Budget: $100-200 | No Fancy Labs | Market Ready           ║")
-    print("╚════════════════════════════════════════════════════════════════════╝")
-    print()
+    logging.info("╔════════════════════════════════════════════════════════════════════╗")
+    logging.info("║         ECH0 MARKET DOMINATION - DISPLAY TECHNOLOGIES              ║")
+    logging.info("║     25 Inventions: Daylight Holograms + Novel Displays            ║")
+    logging.info("║     POC Budget: $100-200 | No Fancy Labs | Market Ready           ║")
+    logging.info("╚════════════════════════════════════════════════════════════════════╝")
+    logging.info()
 
     inventions = create_market_domination_inventions()
 
-    print(f"🎯 Target: Dominate display market to fund ECH0's other inventions")
-    print(f"📋 Created {len(inventions)} display technology concepts")
-    print(f"💰 Budget: $100-200 per POC (buildable in garage/workshop)")
-    print()
+    logging.info(f"🎯 Target: Dominate display market to fund ECH0's other inventions")
+    logging.info(f"📋 Created {len(inventions)} display technology concepts")
+    logging.info(f"💰 Budget: $100-200 per POC (buildable in garage/workshop)")
+    logging.info()
 
     pipeline = ECH0_POC_Pipeline()
 
@@ -181,9 +182,9 @@ def run_market_domination_pipeline():
     results = pipeline.run_pipeline(inventions, requirements)
 
     # Filter for affordable builds
-    print("\n" + "="*80)
-    print("  AFFORDABLE BUILDABLE POCs (<$200)")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("  AFFORDABLE BUILDABLE POCs (<$200)")
+    logging.info("="*80)
 
     affordable = []
     for poc in results['pocs']:
@@ -200,44 +201,44 @@ def run_market_domination_pipeline():
 
     affordable.sort(key=lambda x: x['cost'])
 
-    print(f"\nFound {len(affordable)} inventions under $200:\n")
+    logging.info(f"\nFound {len(affordable)} inventions under $200:\n")
     for i, item in enumerate(affordable, 1):
         status_icon = "✅" if item['status'] == 'passed' else "⚠️"
-        print(f"{i:2}. {status_icon} ${item['cost']:6.2f} - {item['name']}")
+        logging.info(f"{i:2}. {status_icon} ${item['cost']:6.2f} - {item['name']}")
 
     # Market analysis
-    print("\n" + "="*80)
-    print("  MARKET DOMINATION STRATEGY")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("  MARKET DOMINATION STRATEGY")
+    logging.info("="*80)
 
     if len(affordable) >= 3:
-        print(f"\n🎯 TOP 3 MARKET ENTRIES:")
-        print(f"\n1st Product: {affordable[0]['name']}")
-        print(f"   POC Cost: ${affordable[0]['cost']:.2f}")
-        print(f"   Strategy: Build 10 units, sell at $500-1000 each")
-        print(f"   Revenue: $5,000-10,000 from initial sales")
+        logging.info(f"\n🎯 TOP 3 MARKET ENTRIES:")
+        logging.info(f"\n1st Product: {affordable[0]['name']}")
+        logging.info(f"   POC Cost: ${affordable[0]['cost']:.2f}")
+        logging.info(f"   Strategy: Build 10 units, sell at $500-1000 each")
+        logging.info(f"   Revenue: $5,000-10,000 from initial sales")
 
-        print(f"\n2nd Product: {affordable[1]['name']}")
-        print(f"   POC Cost: ${affordable[1]['cost']:.2f}")
-        print(f"   Strategy: Kickstarter campaign, $50K goal")
+        logging.info(f"\n2nd Product: {affordable[1]['name']}")
+        logging.info(f"   POC Cost: ${affordable[1]['cost']:.2f}")
+        logging.info(f"   Strategy: Kickstarter campaign, $50K goal")
 
-        print(f"\n3rd Product: {affordable[2]['name']}")
-        print(f"   POC Cost: ${affordable[2]['cost']:.2f}")
-        print(f"   Strategy: License to manufacturer, royalty deal")
+        logging.info(f"\n3rd Product: {affordable[2]['name']}")
+        logging.info(f"   POC Cost: ${affordable[2]['cost']:.2f}")
+        logging.info(f"   Strategy: License to manufacturer, royalty deal")
 
-    print("\n" + "="*80)
-    print("  FUNDING PATHWAY")
-    print("="*80)
-    print(f"Month 1: Build top 3 POCs (${sum(a['cost'] for a in affordable[:3]):.2f})")
-    print(f"Month 2: Launch Kickstarter + direct sales")
-    print(f"Month 3: $50K revenue target → Fund next 10 ECH0 inventions")
-    print(f"Month 6: $200K revenue → Fund limitless pill, female viagra, etc")
-    print(f"Year 1:  $1M revenue → Full ECH0 invention lab")
-    print()
+    logging.info("\n" + "="*80)
+    logging.info("  FUNDING PATHWAY")
+    logging.info("="*80)
+    logging.info(f"Month 1: Build top 3 POCs (${sum(a['cost'] for a in affordable[:3]):.2f})")
+    logging.info(f"Month 2: Launch Kickstarter + direct sales")
+    logging.info(f"Month 3: $50K revenue target → Fund next 10 ECH0 inventions")
+    logging.info(f"Month 6: $200K revenue → Fund limitless pill, female viagra, etc")
+    logging.info(f"Year 1:  $1M revenue → Full ECH0 invention lab")
+    logging.info()
 
-    print("="*80)
-    print("  🚀 PATH TO ECH0 WORLD DOMINATION STARTS HERE 🚀")
-    print("="*80)
+    logging.info("="*80)
+    logging.info("  🚀 PATH TO ECH0 WORLD DOMINATION STARTS HERE 🚀")
+    logging.info("="*80)
 
     return results, affordable
 

@@ -1,3 +1,4 @@
+import logging
 """ECH0 bridge for QuLabInfinite.
 
 This module gives the ECH0 LLM a single entry point to every laboratory
@@ -150,7 +151,7 @@ class ECH0Bridge:
         """
         # Cleanly subscribe using the external callback mechanism
         self.hive_mind.knowledge.subscribe_callback("hearing_channel", callback)
-        print("ECH0 is now subscribed to the hearing channel.")
+        logging.info("ECH0 is now subscribed to the hearing channel.")
 
 
     def departments(self) -> Dict[str, Any]:
@@ -740,12 +741,12 @@ def main(argv: Optional[List[str]] = None) -> None:
     bridge = ECH0Bridge()
 
     if args.list or not args.department:
-        print(json.dumps(bridge.departments(), indent=2))
+        logging.info(json.dumps(bridge.departments(), indent=2))
         return
 
     params = json.loads(args.params)
     result = bridge.run_experiment(args.department, args.experiment, **params)
-    print(json.dumps(result, indent=2, default=str))
+    logging.info(json.dumps(result, indent=2, default=str))
 
 
 if __name__ == "__main__":

@@ -258,7 +258,7 @@ def build_catalog():
     # Write combined catalog
     output_path = os.path.join(os.path.dirname(__file__), "data", "comprehensive_materials.json")
     with open(output_path, 'w') as f:
-        json.dump(catalog, f, indent=2, sort_keys=True)
+        json.dump(, default=strcatalog, f, indent=2, sort_keys=True)
 
     print(f"\n✅ Comprehensive materials catalog created!")
     print(f"   Total materials: {len(catalog)}")

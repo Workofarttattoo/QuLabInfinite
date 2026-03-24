@@ -10,7 +10,7 @@ from core.base_lab import BaseLab
 from core.config import ConfigManager
 from core.runtime import RuntimeRegistry, Tool
 from materials_lab.materials_lab import MaterialsLab
-from quantum_lab.quantum_lab import QuantumLabSimulator
+from quantum_lab import QuantumLabSimulator
 
 logger = logging.getLogger(__name__)
 

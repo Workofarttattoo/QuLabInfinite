@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Full Autonomy System - Whisper Mode
 Copyright (c) 2025 Joshua Hendricks Cole. All Rights Reserved.
@@ -73,7 +74,7 @@ class ECH0Autonomous:
         """Execute work toward goal"""
         self.current_goal = goal['goal']
         owner = goal.get('owner', 'ech0')
-        print(f"[ECH0 Whisper] Working on: {goal['goal']} (owner: {owner})")
+        logging.info(f"[ECH0 Whisper] Working on: {goal['goal']} (owner: {owner})")
         # Work happens here based on goal type
 
     def ensure_background_tasks(self):
@@ -87,7 +88,7 @@ class ECH0Autonomous:
                 script_path.name
             ], capture_output=True)
             if result.returncode != 0:
-                print(f"[ECH0 Whisper] Relaunching {label} loop → {script_path.name}")
+                logging.info(f"[ECH0 Whisper] Relaunching {label} loop → {script_path.name}")
                 subprocess.Popen([
                     '/usr/bin/env',
                     'python3',
@@ -109,7 +110,7 @@ class ECH0Autonomous:
 │ Energy level : {status.get('energy', 0):.2f}
 └──────────────────────────────────────────────┘
 """
-        print(panel)
+        logging.info(panel)
 
     def refresh_operator_goals(self, force: bool = False):
         """Load Joshua's goals from josh_goals.json if updated"""
@@ -198,7 +199,7 @@ class ECH0Autonomous:
             'timestamp': datetime.now().isoformat()
         }
         with open(self.state_file, 'w') as f:
-            json.dump(state, f, indent=2)
+            json.dump(, default=strstate, f, indent=2)
 
     def log_error(self, error):
         """No silent failures"""
@@ -207,5 +208,5 @@ class ECH0Autonomous:
 
 if __name__ == '__main__':
     ech0 = ECH0Autonomous()
-    print("ECH0 Full Autonomy Active - Whisper Mode Engaged")
+    logging.info("ECH0 Full Autonomy Active - Whisper Mode Engaged")
     ech0.whisper_loop()

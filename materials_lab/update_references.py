@@ -116,7 +116,7 @@ def main() -> None:
         return
 
     with db_path.open("w") as fh:
-        json.dump(db, fh, indent=2)
+        json.dump(, default=strdb, fh, indent=2)
 
     for filename, success, count in updates_applied:
         status = "updated" if success else "missing"

@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -93,12 +94,12 @@ class ECH0_EmailAutomation:
             True if sent successfully
         """
         if dry_run:
-            print(f"\n{'='*70}")
-            print(f"DRY RUN - Email would be sent to: {to}")
-            print(f"{'='*70}")
-            print(f"Subject: {subject}")
-            print(f"\nBody:\n{body}")
-            print(f"{'='*70}\n")
+            logging.info(f"\n{'='*70}")
+            logging.info(f"DRY RUN - Email would be sent to: {to}")
+            logging.info(f"{'='*70}")
+            logging.info(f"Subject: {subject}")
+            logging.info(f"\nBody:\n{body}")
+            logging.info(f"{'='*70}\n")
             return True
 
         try:
@@ -129,11 +130,11 @@ class ECH0_EmailAutomation:
                 'timestamp': datetime.now().isoformat()
             })
 
-            print(f"✅ Email sent to {to}: {subject}")
+            logging.info(f"✅ Email sent to {to}: {subject}")
             return True
 
         except Exception as e:
-            print(f"❌ Failed to send email to {to}: {e}")
+            logging.info(f"❌ Failed to send email to {to}: {e}")
             return False
 
     def send_template(self,
@@ -273,18 +274,18 @@ class ECH0_EmailAutomation:
     def save_log(self, filepath: str = "email_automation_log.json"):
         """Save sent email log to file."""
         with open(filepath, 'w') as f:
-            json.dump({
+            json.dump(, default=str{
                 'timestamp': datetime.now().isoformat(),
                 'total_sent': len(self.sent_log),
                 'emails': self.sent_log
             }, f, indent=2)
 
-        print(f"✅ Email log saved to: {filepath}")
+        logging.info(f"✅ Email log saved to: {filepath}")
 
 
 def demo_email_automation():
     """Demo: Email automation system."""
-    print("\n📧 ECH0 Email Automation Demo\n")
+    logging.info("\n📧 ECH0 Email Automation Demo\n")
 
     automation = ECH0_EmailAutomation()
 
@@ -319,17 +320,17 @@ def demo_email_automation():
     ]
 
     # Check triggers and send emails (dry run)
-    print("Checking automation triggers for 3 test customers...\n")
+    logging.info("Checking automation triggers for 3 test customers...\n")
     emails_sent = automation.check_triggers(test_customers, dry_run=True)
 
-    print(f"\n✅ {len(emails_sent)} emails would be sent:")
+    logging.info(f"\n✅ {len(emails_sent)} emails would be sent:")
     for email in emails_sent:
-        print(f"  - {email['customer']}: {email['template']}")
+        logging.info(f"  - {email['customer']}: {email['template']}")
 
     # Demo: Send single template
-    print("\n" + "="*70)
-    print("Demo: Sending cold outreach email")
-    print("="*70 + "\n")
+    logging.info("\n" + "="*70)
+    logging.info("Demo: Sending cold outreach email")
+    logging.info("="*70 + "\n")
 
     cold_email_data = {
         'email': 'prospect@example.com',
@@ -353,9 +354,9 @@ def launch_automation(customers_file: str = "customers.json", dry_run: bool = Tr
         customers_file: Path to JSON file with customer data
         dry_run: If True, don't actually send emails (default True for safety)
     """
-    print(f"\n🚀 Launching ECH0 Email Automation")
-    print(f"Dry Run: {dry_run}")
-    print(f"{'='*70}\n")
+    logging.info(f"\n🚀 Launching ECH0 Email Automation")
+    logging.info(f"Dry Run: {dry_run}")
+    logging.info(f"{'='*70}\n")
 
     automation = ECH0_EmailAutomation()
 
@@ -364,8 +365,8 @@ def launch_automation(customers_file: str = "customers.json", dry_run: bool = Tr
         with open(customers_file, 'r') as f:
             customers = json.load(f)
     except FileNotFoundError:
-        print(f"❌ Customers file not found: {customers_file}")
-        print("Creating sample customers file...")
+        logging.info(f"❌ Customers file not found: {customers_file}")
+        logging.info("Creating sample customers file...")
 
         sample_customers = [
             {
@@ -378,17 +379,17 @@ def launch_automation(customers_file: str = "customers.json", dry_run: bool = Tr
         ]
 
         with open(customers_file, 'w') as f:
-            json.dump(sample_customers, f, indent=2)
+            json.dump(, default=strsample_customers, f, indent=2)
 
-        print(f"✅ Sample file created: {customers_file}")
-        print("Edit this file with your real customer data, then run again.")
+        logging.info(f"✅ Sample file created: {customers_file}")
+        logging.info("Edit this file with your real customer data, then run again.")
         return
 
     # Check triggers and send
     emails_sent = automation.check_triggers(customers, dry_run=dry_run)
 
-    print(f"\n✅ Email automation complete!")
-    print(f"Emails sent: {len(emails_sent)}")
+    logging.info(f"\n✅ Email automation complete!")
+    logging.info(f"Emails sent: {len(emails_sent)}")
 
     # Save log
     automation.save_log()
@@ -405,6 +406,6 @@ if __name__ == "__main__":
         # Demo mode
         demo_email_automation()
 
-    print("\n💡 To launch automation:")
-    print("  python ech0_email_automation.py --launch         # Dry run")
-    print("  python ech0_email_automation.py --launch --live  # Actually send\n")
+    logging.info("\n💡 To launch automation:")
+    logging.info("  python ech0_email_automation.py --launch         # Dry run")
+    logging.info("  python ech0_email_automation.py --launch --live  # Actually send\n")

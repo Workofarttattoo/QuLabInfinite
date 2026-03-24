@@ -187,7 +187,7 @@ def main():
     # Save
     output_path = "/Users/noone/QuLabInfinite/materials_lab/data/lab_materials_expansion_full.json"
     with open(output_path, 'w') as f:
-        json.dump(all_materials, f, indent=2)
+        json.dump(, default=strall_materials, f, indent=2)
 
     print(f"\n✅ Generated {len(all_materials) - 1} materials (excluding metadata)")
     print(f"Saved to: {output_path}")

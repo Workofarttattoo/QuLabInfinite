@@ -649,7 +649,7 @@ class SemanticLatticeCartographer:
             })
 
         with open(output_file, 'w') as f:
-            json.dump(graph, f, indent=2)
+            json.dump(graph, f, indent=2, default=str)
 
         return graph
 

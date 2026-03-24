@@ -632,7 +632,7 @@ class HiveMind:
         }
 
         with open(filepath, 'w') as f:
-            json.dump(state, f, indent=2)
+            json.dump(, default=strstate, f, indent=2)
         LOG.info(f"[info] Hive mind state exported to {filepath}")
 
 

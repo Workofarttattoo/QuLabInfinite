@@ -1,3 +1,5 @@
+# TODO: Refactor long functions identified in code quality analysis
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -80,21 +82,21 @@ class QuLabMCPServer:
 
     def initialize(self):
         """Initialize the MCP server by discovering and loading all labs"""
-        print("[MCP Server] Initializing QuLab MCP Server...")
+        logging.info("[MCP Server] Initializing QuLab MCP Server...")
 
         # Discover all labs using the cartographer
         lab_count = self.cartographer.discover_labs()
-        print(f"[MCP Server] Discovered {lab_count} laboratories")
+        logging.info(f"[MCP Server] Discovered {lab_count} laboratories")
 
         # Generate MCP tools from discovered capabilities
         self._generate_mcp_tools()
 
-        print(f"[MCP Server] Generated {len(self.tools)} MCP tools")
+        logging.info(f"[MCP Server] Generated {len(self.tools)} MCP tools")
 
         # Pre-load frequently used labs
         self._preload_essential_labs()
 
-        print("[MCP Server] Initialization complete")
+        logging.info("[MCP Server] Initialization complete")
 
     def _generate_mcp_tools(self):
         """Generate MCP tool definitions from discovered lab capabilities"""
@@ -168,7 +170,7 @@ class QuLabMCPServer:
                 try:
                     self._load_lab_instance(lab_name)
                 except Exception as e:
-                    print(f"[warn] Could not preload {lab_name}: {e}")
+                    logging.info(f"[warn] Could not preload {lab_name}: {e}")
 
     def _load_lab_instance(self, lab_name: str) -> Any:
         """Dynamically load and instantiate a lab"""
@@ -192,7 +194,7 @@ class QuLabMCPServer:
             return instance
 
         except Exception as e:
-            print(f"[error] Failed to load lab {lab_name}: {e}")
+            logging.info(f"[error] Failed to load lab {lab_name}: {e}")
             raise
 
     async def execute_tool(self, request: MCPRequest) -> MCPResponse:
@@ -551,15 +553,15 @@ class QuLabMCPServer:
             }
 
         with open(output_file, 'w') as f:
-            json.dump(catalog, f, indent=2)
+            json.dump(catalog, f, indent=2, default=str)
 
         return catalog
 
     async def start_server(self):
         """Start the MCP server (would integrate with actual MCP protocol)"""
-        print(f"[MCP Server] Starting on port {self.port}")
-        print(f"[MCP Server] {len(self.tools)} tools available")
-        print(f"[MCP Server] Ready to accept requests")
+        logging.info(f"[MCP Server] Starting on port {self.port}")
+        logging.info(f"[MCP Server] {len(self.tools)} tools available")
+        logging.info(f"[MCP Server] Ready to accept requests")
 
         # In production, this would:
         # - Start HTTP/WebSocket server
@@ -569,40 +571,40 @@ class QuLabMCPServer:
 
         # For now, just export the catalog
         self.export_tool_catalog()
-        print("[MCP Server] Tool catalog exported to mcp_tools_catalog.json")
+        logging.info("[MCP Server] Tool catalog exported to mcp_tools_catalog.json")
 
 
 async def main():
     """Main entry point"""
-    print("=" * 80)
-    print("QuLab MCP Server")
-    print("Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light)")
-    print("=" * 80)
+    logging.info("=" * 80)
+    logging.info("QuLab MCP Server")
+    logging.info("Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light)")
+    logging.info("=" * 80)
 
     server = QuLabMCPServer()
     server.initialize()
 
-    print("\n[Testing] Running test queries...")
+    logging.info("\n[Testing] Running test queries...")
 
     # Test semantic search
-    print("\n1. Semantic search for 'cancer drug discovery':")
+    logging.info("\n1. Semantic search for 'cancer drug discovery':")
     results = server.query_semantic_lattice('cancer drug discovery', top_k=5)
     for tool in results['recommended_tools'][:3]:
-        print(f"   - {tool['tool']} (relevance: {tool['relevance']:.2f})")
+        logging.info(f"   - {tool['tool']} (relevance: {tool['relevance']:.2f})")
 
     # Test tumor simulation
-    print("\n2. Simulating tumor growth:")
+    logging.info("\n2. Simulating tumor growth:")
     tumor_result = server.simulate_tumor_growth(
         initial_cells=1000,
         days=30,
         treatment='chemotherapy'
     )
-    print(f"   Initial cells: {tumor_result['initial_cells']}")
-    print(f"   Final cells: {tumor_result['final_cells']}")
-    print(f"   Final volume: {tumor_result['final_volume_mm3']:.2f} mm³")
+    logging.info(f"   Initial cells: {tumor_result['initial_cells']}")
+    logging.info(f"   Final cells: {tumor_result['final_cells']}")
+    logging.info(f"   Final volume: {tumor_result['final_volume_mm3']:.2f} mm³")
 
     # Test tool execution
-    print("\n3. Testing tool execution:")
+    logging.info("\n3. Testing tool execution:")
     request = MCPRequest(
         tool='nanotechnology_lab.simulate_nanoparticle_synthesis',
         parameters={'size_nm': 50.0, 'temperature_c': 120.0},
@@ -612,19 +614,19 @@ async def main():
     # Check if tool exists before trying to execute
     if 'nanotechnology_lab.simulate_nanoparticle_synthesis' in server.tools:
         response = await server.execute_tool(request)
-        print(f"   Tool: {response.tool}")
-        print(f"   Status: {response.status}")
+        logging.info(f"   Tool: {response.tool}")
+        logging.info(f"   Status: {response.status}")
         if response.status == 'success':
-            print(f"   Result: {response.result}")
+            logging.info(f"   Result: {response.result}")
     else:
-        print("   Tool not found - would need to be implemented")
+        logging.info("   Tool not found - would need to be implemented")
 
     # Start server
     await server.start_server()
 
-    print("\n" + "=" * 80)
-    print("MCP Server ready for integration")
-    print("NO fake visualizations. ONLY real science.")
+    logging.info("\n" + "=" * 80)
+    logging.info("MCP Server ready for integration")
+    logging.info("NO fake visualizations. ONLY real science.")
 
 
 if __name__ == "__main__":

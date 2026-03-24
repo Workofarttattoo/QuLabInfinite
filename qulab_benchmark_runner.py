@@ -1,3 +1,5 @@
+# TODO: Refactor long functions identified in code quality analysis
+import logging
 #!/usr/bin/env python3
 """QuLabInfinite AI lab benchmark suite for chemistry and materials experiments."""
 from __future__ import annotations
@@ -285,8 +287,8 @@ def write_outputs(results: Dict[str, object]) -> Tuple[Path, Path]:
 def main() -> None:
     results = run_suite(seed=42)
     json_path, md_path = write_outputs(results)
-    print(f"Wrote {json_path}")
-    print(f"Wrote {md_path}")
+    logging.info(f"Wrote {json_path}")
+    logging.info(f"Wrote {md_path}")
 
 
 if __name__ == "__main__":

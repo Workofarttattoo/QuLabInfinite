@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -219,12 +220,12 @@ def ech0_interactive_session(model: str = "ech0-qulab-14b"):
     Args:
         model: ECH0 model to use
     """
-    print("=" * 70)
-    print(f"ECH0 Interactive Session with QuLab AI Tools")
-    print(f"Model: {model}")
-    print("=" * 70)
-    print("Available tools: calc, units, parse_smiles, encode_spectrum")
-    print("Type 'exit' to quit\n")
+    logging.info("=" * 70)
+    logging.info(f"ECH0 Interactive Session with QuLab AI Tools")
+    logging.info(f"Model: {model}")
+    logging.info("=" * 70)
+    logging.info("Available tools: calc, units, parse_smiles, encode_spectrum")
+    logging.info("Type 'exit' to quit\n")
 
     while True:
         try:
@@ -235,23 +236,23 @@ def ech0_interactive_session(model: str = "ech0-qulab-14b"):
             result = call_ech0_with_tools(prompt, model)
 
             if result["success"]:
-                print(f"\nECH0: {result['response']}")
+                logging.info(f"\nECH0: {result['response']}")
 
                 if result["tool_calls"]:
-                    print(f"\nTool calls detected: {len(result['tool_calls'])}")
+                    logging.info(f"\nTool calls detected: {len(result['tool_calls'])}")
                     for tool_call in result["tool_calls"]:
-                        print(f"  Executing: {tool_call}")
+                        logging.info(f"  Executing: {tool_call}")
                         tool_result = execute_tool_call(tool_call)
-                        print(f"  Result: {tool_result}")
+                        logging.info(f"  Result: {tool_result}")
             else:
-                print(f"\nError: {result['error']}")
+                logging.info(f"\nError: {result['error']}")
 
-            print()
+            logging.info()
 
         except KeyboardInterrupt:
             break
 
-    print("\nSession ended.")
+    logging.info("\nSession ended.")
 
 # Example usage
 if __name__ == "__main__":
@@ -262,33 +263,33 @@ if __name__ == "__main__":
         ech0_interactive_session()
     else:
         # Demo mode
-        print("=" * 70)
-        print("ECH0 + QuLab AI Tools Demo")
-        print("=" * 70)
+        logging.info("=" * 70)
+        logging.info("ECH0 + QuLab AI Tools Demo")
+        logging.info("=" * 70)
 
         # Test calculator
-        print("\n[1] Testing calculator tool...")
+        logging.info("\n[1] Testing calculator tool...")
         result = ECH0_ToolRegistry.calc_tool("2 + 2")
-        print(f"Result: {result['result']['result']}")
+        logging.info(f"Result: {result['result']['result']}")
 
         # Test units
-        print("\n[2] Testing units tool...")
+        logging.info("\n[2] Testing units tool...")
         result = ECH0_ToolRegistry.units_tool(100, "cm", "m")
-        print(f"Conversion: {result['result']['conversion']}")
+        logging.info(f"Conversion: {result['result']['conversion']}")
 
         # Test SMILES parser
-        print("\n[3] Testing SMILES parser...")
+        logging.info("\n[3] Testing SMILES parser...")
         result = ECH0_ToolRegistry.parse_smiles_tool("CCO")
-        print(f"Molecule: {result['result']['canonical_smiles']}")
-        print(f"Atoms: {result['result']['n_atoms']}")
+        logging.info(f"Molecule: {result['result']['canonical_smiles']}")
+        logging.info(f"Atoms: {result['result']['n_atoms']}")
 
         # Test spectrum encoder
-        print("\n[4] Testing spectrum encoder...")
+        logging.info("\n[4] Testing spectrum encoder...")
         x = [1, 2, 3, 4, 5]
         y = [0.1, 0.9, 0.2, 0.8, 0.1]
         result = ECH0_ToolRegistry.encode_spectrum_tool(x, y, "test spectrum")
-        print(f"Peaks detected: {result['result']['ml_encoding']['peaks']}")
+        logging.info(f"Peaks detected: {result['result']['ml_encoding']['peaks']}")
 
-        print("\n" + "=" * 70)
-        print("All tools working! Run with 'interactive' arg for chat mode.")
-        print("=" * 70)
+        logging.info("\n" + "=" * 70)
+        logging.info("All tools working! Run with 'interactive' arg for chat mode.")
+        logging.info("=" * 70)

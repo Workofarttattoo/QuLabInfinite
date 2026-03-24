@@ -447,7 +447,7 @@ class MaterialsExpansionEngine:
         }
 
         with open(output_path, 'w') as f:
-            json.dump(data, f, indent=2)
+            json.dump(, default=strdata, f, indent=2)
 
         print(f"\n💾 Saved expanded database to {output_path}")
         print(f"   File size: {output_path.stat().st_size / 1024 / 1024:.1f} MB")

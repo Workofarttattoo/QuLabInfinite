@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -66,11 +67,11 @@ class ECH0_POC_Pipeline:
         self.qulab = ECH0_QuLabInterface()
         self.pocs = []
 
-        print("="*70)
-        print("  ECH0 INVENTION POC PIPELINE")
-        print("  Invention → QuLab Validation → POC → Test Results → Next Steps")
-        print("="*70)
-        print()
+        logging.info("="*70)
+        logging.info("  ECH0 INVENTION POC PIPELINE")
+        logging.info("  Invention → QuLab Validation → POC → Test Results → Next Steps")
+        logging.info("="*70)
+        logging.info()
 
     def run_qulab_validation(self, concept: InventionConcept) -> Dict[str, Any]:
         """
@@ -82,8 +83,8 @@ class ECH0_POC_Pipeline:
         Returns:
             Validation results dict
         """
-        print(f"\n🔬 QULAB VALIDATION: {concept.name}")
-        print("-" * 70)
+        logging.info(f"\n🔬 QULAB VALIDATION: {concept.name}")
+        logging.info("-" * 70)
 
         validation = {
             'materials_test': None,
@@ -96,7 +97,7 @@ class ECH0_POC_Pipeline:
 
         # Materials validation
         if concept.required_materials:
-            print(f"\n📦 Testing materials: {concept.required_materials}")
+            logging.info(f"\n📦 Testing materials: {concept.required_materials}")
             materials_pass = True
             materials_details = []
 
@@ -113,14 +114,14 @@ class ECH0_POC_Pipeline:
                             'cost': mat.get('cost_per_kg', 0)
                         }
                     })
-                    print(f"  ✅ {mat_name}: Available")
+                    logging.info(f"  ✅ {mat_name}: Available")
                 else:
                     materials_pass = False
                     materials_details.append({
                         'material': mat_name,
                         'found': False
                     })
-                    print(f"  ❌ {mat_name}: Not found in database")
+                    logging.info(f"  ❌ {mat_name}: Not found in database")
 
             validation['materials_test'] = {
                 'pass': materials_pass,
@@ -128,7 +129,7 @@ class ECH0_POC_Pipeline:
             }
 
         # Physics validation
-        print(f"\n⚗️  Physics simulation...")
+        logging.info(f"\n⚗️  Physics simulation...")
         physics_pass = self._simulate_physics(concept)
         validation['physics_test'] = {
             'pass': physics_pass,
@@ -136,29 +137,29 @@ class ECH0_POC_Pipeline:
         }
 
         if physics_pass:
-            print(f"  ✅ Physics validation passed")
+            logging.info(f"  ✅ Physics validation passed")
         else:
-            print(f"  ⚠️  Physics validation needs review")
+            logging.info(f"  ⚠️  Physics validation needs review")
 
         # Chemistry validation (if applicable)
         if any(keyword in concept.description.lower()
                for keyword in ['chemical', 'reaction', 'synthesis', 'catalyst']):
-            print(f"\n🧪 Chemistry analysis...")
+            logging.info(f"\n🧪 Chemistry analysis...")
             chemistry_pass = self._simulate_chemistry(concept)
             validation['chemistry_test'] = {
                 'pass': chemistry_pass,
                 'details': 'Chemical feasibility assessed'
             }
-            print(f"  {'✅' if chemistry_pass else '⚠️'} Chemistry validation")
+            logging.info(f"  {'✅' if chemistry_pass else '⚠️'} Chemistry validation")
 
         # Quantum evaluation
-        print(f"\n🌀 Quantum decision tree evaluation...")
+        logging.info(f"\n🌀 Quantum decision tree evaluation...")
         quantum_score = concept.quantum_score if concept.quantum_score > 0 else 0.7
         validation['quantum_test'] = {
             'score': quantum_score,
             'details': f'Quantum optimization score: {quantum_score*100:.1f}%'
         }
-        print(f"  Score: {quantum_score*100:.1f}%")
+        logging.info(f"  Score: {quantum_score*100:.1f}%")
 
         # Overall assessment
         tests_passed = sum([
@@ -172,10 +173,10 @@ class ECH0_POC_Pipeline:
         validation['confidence'] = tests_passed / total_tests
         validation['overall_pass'] = validation['confidence'] >= 0.75
 
-        print(f"\n{'='*70}")
-        print(f"  VALIDATION RESULT: {'✅ PASS' if validation['overall_pass'] else '⚠️  NEEDS WORK'}")
-        print(f"  Confidence: {validation['confidence']*100:.1f}%")
-        print(f"{'='*70}")
+        logging.info(f"\n{'='*70}")
+        logging.info(f"  VALIDATION RESULT: {'✅ PASS' if validation['overall_pass'] else '⚠️  NEEDS WORK'}")
+        logging.info(f"  Confidence: {validation['confidence']*100:.1f}%")
+        logging.info(f"{'='*70}")
 
         return validation
 
@@ -217,8 +218,8 @@ class ECH0_POC_Pipeline:
         Returns:
             InventionPOC with full details
         """
-        print(f"\n🎯 CREATING POC: {concept.name}")
-        print("="*70)
+        logging.info(f"\n🎯 CREATING POC: {concept.name}")
+        logging.info("="*70)
 
         poc = InventionPOC(concept.name)
         poc.test_results = validation
@@ -235,18 +236,18 @@ class ECH0_POC_Pipeline:
         self.pocs.append(poc)
 
         # Print summary
-        print(f"\n📊 POC SUMMARY")
-        print(f"{'='*70}")
-        print(f"Name: {poc.name}")
-        print(f"Status: {poc.validation_status.upper()}")
-        print(f"Feasibility: {poc.feasibility_score*100:.1f}%")
-        print(f"\n🔍 KEY FINDINGS:")
+        logging.info(f"\n📊 POC SUMMARY")
+        logging.info(f"{'='*70}")
+        logging.info(f"Name: {poc.name}")
+        logging.info(f"Status: {poc.validation_status.upper()}")
+        logging.info(f"Feasibility: {poc.feasibility_score*100:.1f}%")
+        logging.info(f"\n🔍 KEY FINDINGS:")
         for i, finding in enumerate(poc.findings, 1):
-            print(f"  {i}. {finding}")
-        print(f"\n➡️  NEXT STEPS:")
+            logging.info(f"  {i}. {finding}")
+        logging.info(f"\n➡️  NEXT STEPS:")
         for i, step in enumerate(poc.next_steps, 1):
-            print(f"  {i}. {step}")
-        print(f"{'='*70}\n")
+            logging.info(f"  {i}. {step}")
+        logging.info(f"{'='*70}\n")
 
         return poc
 
@@ -350,9 +351,9 @@ class ECH0_POC_Pipeline:
         Returns:
             Pipeline results dict
         """
-        print(f"\n{'='*70}")
-        print(f"  STARTING PIPELINE FOR {len(concepts)} INVENTIONS")
-        print(f"{'='*70}\n")
+        logging.info(f"\n{'='*70}")
+        logging.info(f"  STARTING PIPELINE FOR {len(concepts)} INVENTIONS")
+        logging.info(f"{'='*70}\n")
 
         start_time = time.time()
 
@@ -366,9 +367,9 @@ class ECH0_POC_Pipeline:
         }
 
         for i, concept in enumerate(concepts, 1):
-            print(f"\n{'#'*70}")
-            print(f"  INVENTION {i}/{len(concepts)}: {concept.name}")
-            print(f"{'#'*70}")
+            logging.info(f"\n{'#'*70}")
+            logging.info(f"  INVENTION {i}/{len(concepts)}: {concept.name}")
+            logging.info(f"{'#'*70}")
 
             # Step 1: Accelerate through QuLab
             accel_result = self.accelerator.accelerate_invention(concept, requirements)
@@ -390,26 +391,26 @@ class ECH0_POC_Pipeline:
         elapsed = time.time() - start_time
 
         # Final summary
-        print(f"\n{'='*70}")
-        print(f"  PIPELINE COMPLETE")
-        print(f"{'='*70}")
-        print(f"Total time: {elapsed:.1f}s")
-        print(f"Concepts tested: {results['concepts_tested']}")
-        print(f"POCs created: {results['pocs_created']}")
-        print(f"Passed: {len(results['passed'])}")
-        print(f"Needs work: {len(results['needs_work'])}")
+        logging.info(f"\n{'='*70}")
+        logging.info(f"  PIPELINE COMPLETE")
+        logging.info(f"{'='*70}")
+        logging.info(f"Total time: {elapsed:.1f}s")
+        logging.info(f"Concepts tested: {results['concepts_tested']}")
+        logging.info(f"POCs created: {results['pocs_created']}")
+        logging.info(f"Passed: {len(results['passed'])}")
+        logging.info(f"Needs work: {len(results['needs_work'])}")
 
         if results['passed']:
-            print(f"\n✅ PASSED INVENTIONS:")
+            logging.info(f"\n✅ PASSED INVENTIONS:")
             for name in results['passed']:
-                print(f"   • {name}")
+                logging.info(f"   • {name}")
 
         if results['needs_work']:
-            print(f"\n⚠️  NEEDS WORK:")
+            logging.info(f"\n⚠️  NEEDS WORK:")
             for name in results['needs_work']:
-                print(f"   • {name}")
+                logging.info(f"   • {name}")
 
-        print(f"{'='*70}\n")
+        logging.info(f"{'='*70}\n")
 
         return results
 
@@ -423,15 +424,15 @@ class ECH0_POC_Pipeline:
         # Export JSON
         json_file = output_path / f"poc_results_{timestamp}.json"
         with open(json_file, 'w') as f:
-            json.dump(results, f, indent=2)
+            json.dump(, default=strresults, f, indent=2)
 
-        print(f"✅ Results exported to {json_file}")
+        logging.info(f"✅ Results exported to {json_file}")
 
         # Export markdown report
         md_file = output_path / f"poc_report_{timestamp}.md"
         self._export_markdown_report(results, md_file)
 
-        print(f"✅ Report exported to {md_file}")
+        logging.info(f"✅ Report exported to {md_file}")
 
         return json_file, md_file
 
@@ -560,11 +561,11 @@ def run_ech0_alex_inventions(focus_areas: List[str] = None,
 # ========== MAIN ==========
 
 if __name__ == "__main__":
-    print("="*70)
-    print("  ECH0 INVENTION POC PIPELINE DEMONSTRATION")
-    print("  Creating POCs with QuLab validation")
-    print("="*70)
-    print()
+    logging.info("="*70)
+    logging.info("  ECH0 INVENTION POC PIPELINE DEMONSTRATION")
+    logging.info("  Creating POCs with QuLab validation")
+    logging.info("="*70)
+    logging.info()
 
     # Run pipeline
     results = run_ech0_alex_inventions(
@@ -572,5 +573,5 @@ if __name__ == "__main__":
         budget=500.0
     )
 
-    print("\n✅ POC Pipeline Complete!")
-    print(f"   Check data/pocs/ directory for detailed results")
+    logging.info("\n✅ POC Pipeline Complete!")
+    logging.info(f"   Check data/pocs/ directory for detailed results")

@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 MCP Lite - FREE Public Access (Teaser)
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -337,7 +338,7 @@ async def testimonials():
 if __name__ == "__main__":
     import uvicorn
 
-    print("""
+    logging.info("""
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║                                                                           ║
 ║              ECH0 MCP LITE - FREE PUBLIC ACCESS (TEASER)                  ║

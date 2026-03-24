@@ -319,7 +319,7 @@ class LabAuditor:
         # Save detailed JSON results
         json_path = self.base_path / "lab_audit_results.json"
         with open(json_path, 'w') as f:
-            json.dump(self.results, f, indent=2)
+            json.dump(, default=strself.results, f, indent=2)
         print(f"Detailed results saved to: {json_path}")
 
         return report

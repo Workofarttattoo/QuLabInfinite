@@ -268,7 +268,7 @@ class MaterialsProjectClient:
         cache_path = self._get_cache_path(material.mp_id)
         try:
             with open(cache_path, 'w') as f:
-                json.dump(asdict(material), f, indent=2)
+                json.dump(, default=strasdict(material), f, indent=2)
         except Exception as e:
             self.logger.warning(f"Failed to save cache for {material.mp_id}: {e}")
 

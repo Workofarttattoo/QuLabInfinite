@@ -288,7 +288,7 @@ def main():
     }
     
     with open('/Users/noone/QuLabInfinite/comprehensive_fix_report.json', 'w') as f:
-        json.dump(report, f, indent=2)
+        json.dump(, default=strreport, f, indent=2)
     
     print("Detailed report saved to: comprehensive_fix_report.json")
     print()

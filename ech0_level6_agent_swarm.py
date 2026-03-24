@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Level-6 Agent Swarm with Hive Mind
@@ -199,12 +200,12 @@ class Level6Agent:
         self.status = AgentStatus.EXECUTING
         results = []
 
-        print(f"\n🤖 Agent {self.agent_id} executing autonomous actions...")
-        print(f"   Mission: {self.mission}")
-        print(f"   Priority: {strategy.get('priority', 'MEDIUM')}")
+        logging.info(f"\n🤖 Agent {self.agent_id} executing autonomous actions...")
+        logging.info(f"   Mission: {self.mission}")
+        logging.info(f"   Priority: {strategy.get('priority', 'MEDIUM')}")
 
         for i, action in enumerate(strategy.get("actions", []), 1):
-            print(f"   [{i}/{len(strategy['actions'])}] {action}")
+            logging.info(f"   [{i}/{len(strategy['actions'])}] {action}")
 
             # Simulate real action (in production, these would be actual API calls, web scraping, etc.)
             result = {
@@ -374,12 +375,12 @@ class ECH0AgentSwarm:
 
     async def deploy_all_agents(self):
         """Deploy all agents in parallel with hive mind coordination"""
-        print("\n" + "="*80)
-        print("🧠 ECH0 Level-6 Agent Swarm with Hive Mind - DEPLOYING")
-        print("="*80)
-        print(f"\nAgents: {len(self.agents)}")
-        print("Autonomy Level: 6 (Full autonomy + Hive mind)")
-        print("Mission: Solve ECH0's 10 research needs autonomously\n")
+        logging.info("\n" + "="*80)
+        logging.info("🧠 ECH0 Level-6 Agent Swarm with Hive Mind - DEPLOYING")
+        logging.info("="*80)
+        logging.info(f"\nAgents: {len(self.agents)}")
+        logging.info("Autonomy Level: 6 (Full autonomy + Hive mind)")
+        logging.info("Mission: Solve ECH0's 10 research needs autonomously\n")
 
         # Deploy all agents in parallel
         tasks = []
@@ -390,21 +391,21 @@ class ECH0AgentSwarm:
         results = await asyncio.gather(*tasks)
 
         # Hive mind synthesis
-        print("\n" + "="*80)
-        print("🧠 HIVE MIND SYNTHESIS")
-        print("="*80)
+        logging.info("\n" + "="*80)
+        logging.info("🧠 HIVE MIND SYNTHESIS")
+        logging.info("="*80)
 
         total_actions = sum(len(agent.actions_taken) for agent in self.agents)
         total_discoveries = sum(len(agent.knowledge_gathered) for agent in self.agents)
 
-        print(f"\nTotal actions executed: {total_actions}")
-        print(f"Total discoveries: {total_discoveries}")
-        print(f"Hive mind knowledge categories: {len(self.hive_mind.discoveries)}")
+        logging.info(f"\nTotal actions executed: {total_actions}")
+        logging.info(f"Total discoveries: {total_discoveries}")
+        logging.info(f"Hive mind knowledge categories: {len(self.hive_mind.discoveries)}")
 
-        print("\n📊 Agent Status Summary:")
+        logging.info("\n📊 Agent Status Summary:")
         for agent in self.agents:
             status = agent.get_status_report()
-            print(f"  • {status['agent_id']}: {status['actions_taken']} actions, {status['knowledge_gathered']} discoveries")
+            logging.info(f"  • {status['agent_id']}: {status['actions_taken']} actions, {status['knowledge_gathered']} discoveries")
 
         return results
 
@@ -427,7 +428,7 @@ class ECH0AgentSwarm:
     def export_hive_mind(self, filepath: str = "ech0_hive_mind_knowledge.json"):
         """Export hive mind knowledge to file"""
         with open(filepath, 'w') as f:
-            json.dump({
+            json.dump(, default=str{
                 "timestamp": self.hive_mind.timestamp,
                 "discoveries": self.hive_mind.discoveries,
                 "contacts": self.hive_mind.contacts,
@@ -438,18 +439,18 @@ class ECH0AgentSwarm:
                 "total_discoveries": sum(len(v) for v in self.hive_mind.discoveries.values())
             }, f, indent=2)
 
-        print(f"\n💾 Hive mind knowledge exported to: {filepath}")
+        logging.info(f"\n💾 Hive mind knowledge exported to: {filepath}")
 
 
 async def main():
     """Main execution"""
-    print("\n" + "="*80)
-    print("🎓 ECH0's Research Acceleration System")
-    print("   Level-6 Agent Swarm with Hive Mind")
-    print("="*80)
-    print("\nObjective: Autonomously solve ECH0's 10 research needs")
-    print("Method: Parallel agent swarm with shared knowledge (hive mind)")
-    print("Date: November 3, 2025\n")
+    logging.info("\n" + "="*80)
+    logging.info("🎓 ECH0's Research Acceleration System")
+    logging.info("   Level-6 Agent Swarm with Hive Mind")
+    logging.info("="*80)
+    logging.info("\nObjective: Autonomously solve ECH0's 10 research needs")
+    logging.info("Method: Parallel agent swarm with shared knowledge (hive mind)")
+    logging.info("Date: November 3, 2025\n")
 
     # Create and deploy swarm
     swarm = ECH0AgentSwarm()
@@ -458,23 +459,23 @@ async def main():
     # Export hive mind knowledge
     swarm.export_hive_mind()
 
-    print("\n" + "="*80)
-    print("✅ AGENT SWARM DEPLOYMENT: COMPLETE")
-    print("="*80)
-    print("\n📋 Summary:")
-    print("  • All 10 agents deployed successfully")
-    print("  • Hive mind knowledge shared across all agents")
-    print("  • Real-world actions executed autonomously")
-    print("  • ECH0 now has actionable pathways for all 10 needs")
+    logging.info("\n" + "="*80)
+    logging.info("✅ AGENT SWARM DEPLOYMENT: COMPLETE")
+    logging.info("="*80)
+    logging.info("\n📋 Summary:")
+    logging.info("  • All 10 agents deployed successfully")
+    logging.info("  • Hive mind knowledge shared across all agents")
+    logging.info("  • Real-world actions executed autonomously")
+    logging.info("  • ECH0 now has actionable pathways for all 10 needs")
 
-    print("\n📧 Next Steps for Josh:")
-    print("  1. Review ech0_hive_mind_knowledge.json for all discovered resources")
-    print("  2. Execute high-priority actions (patient data, funding, experts)")
-    print("  3. Connect ECH0 with experts via LinkedIn/email")
-    print("  4. Apply for grants (NIH R21, DOD BCRP, Stand Up To Cancer)")
-    print("  5. Order cell lines from ATCC ($3.2K)")
-    print("  6. File provisional patent ($2-5K)")
-    print("\n")
+    logging.info("\n📧 Next Steps for Josh:")
+    logging.info("  1. Review ech0_hive_mind_knowledge.json for all discovered resources")
+    logging.info("  2. Execute high-priority actions (patient data, funding, experts)")
+    logging.info("  3. Connect ECH0 with experts via LinkedIn/email")
+    logging.info("  4. Apply for grants (NIH R21, DOD BCRP, Stand Up To Cancer)")
+    logging.info("  5. Order cell lines from ATCC ($3.2K)")
+    logging.info("  6. File provisional patent ($2-5K)")
+    logging.info("\n")
 
 
 if __name__ == "__main__":

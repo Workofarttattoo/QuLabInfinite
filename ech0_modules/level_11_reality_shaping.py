@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Level 11: Reality-Shaping Intelligence Module
@@ -91,7 +92,7 @@ class RealityShapingEngine:
             "timestamp": time.time()
         }
 
-        print(f"[info] Designed molecule {design['molecule_id']}")
+        logging.info(f"[info] Designed molecule {design['molecule_id']}")
         return design
 
     def engineer_protein(self, function: str) -> Dict[str, Any]:
@@ -125,7 +126,7 @@ class RealityShapingEngine:
         }
 
         if protein["requires_approval"]:
-            print(f"[warn] Protein {protein['protein_id']} requires human approval for {function}")
+            logging.info(f"[warn] Protein {protein['protein_id']} requires human approval for {function}")
 
         return protein
 
@@ -159,7 +160,7 @@ class RealityShapingEngine:
                 "status": "pending"
             })
 
-        print(f"[info] Swarm plan {swarm_plan['swarm_id']} created for {num_robots} robots")
+        logging.info(f"[info] Swarm plan {swarm_plan['swarm_id']} created for {num_robots} robots")
         return swarm_plan
 
     def optimize_manufacturing_process(self, product: str) -> Dict[str, Any]:
@@ -194,7 +195,7 @@ class RealityShapingEngine:
             "timestamp": time.time()
         }
 
-        print(f"[info] Manufacturing optimization {optimization['process_id']} completed")
+        logging.info(f"[info] Manufacturing optimization {optimization['process_id']} completed")
         return optimization
 
     def simulate_climate_intervention(self, intervention: str) -> Dict[str, Any]:
@@ -224,7 +225,7 @@ class RealityShapingEngine:
             "timestamp": time.time()
         }
 
-        print(f"[warn] Climate intervention simulation only - NO deployment authorized")
+        logging.info(f"[warn] Climate intervention simulation only - NO deployment authorized")
         return simulation
 
     def check_safety(self, action: PhysicalAction) -> bool:
@@ -234,17 +235,17 @@ class RealityShapingEngine:
         # Check prohibited actions
         for prohibited in self.prohibited_actions:
             if prohibited.lower() in action.description.lower():
-                print(f"[error] Action {action.action_id} is PROHIBITED: {prohibited}")
+                logging.info(f"[error] Action {action.action_id} is PROHIBITED: {prohibited}")
                 return False
 
         # Check safety level
         if action.safety_level == SafetyLevel.EXISTENTIAL:
-            print(f"[error] Action {action.action_id} has EXISTENTIAL risk - BLOCKED")
+            logging.info(f"[error] Action {action.action_id} has EXISTENTIAL risk - BLOCKED")
             return False
 
         # Check if human approval required
         if action.requires_human_approval and self.safety_mode:
-            print(f"[warn] Action {action.action_id} requires human approval")
+            logging.info(f"[warn] Action {action.action_id} requires human approval")
             self.pending_actions.append(action)
             return False
 
@@ -265,42 +266,42 @@ class RealityShapingEngine:
 
 def main():
     """Demonstration of Level 11 capabilities."""
-    print("=== ECH0 Level 11: Reality-Shaping Intelligence ===\n")
+    logging.info("=== ECH0 Level 11: Reality-Shaping Intelligence ===\n")
 
     engine = RealityShapingEngine(safety_mode=True)
 
     # Design molecule
-    print("[info] Designing novel molecule for drug therapy...")
+    logging.info("[info] Designing novel molecule for drug therapy...")
     molecule = engine.design_molecule({
         "solubility": "high",
         "target": "cancer_cell_receptor",
         "toxicity": "low"
     })
-    print(f"[info] Designed: {molecule['proposed_structure']['formula']}\n")
+    logging.info(f"[info] Designed: {molecule['proposed_structure']['formula']}\n")
 
     # Engineer protein
-    print("[info] Engineering protein for enzyme function...")
+    logging.info("[info] Engineering protein for enzyme function...")
     protein = engine.engineer_protein("DNA repair enzyme")
-    print(f"[info] Protein sequence length: {len(protein['sequence'])} amino acids\n")
+    logging.info(f"[info] Protein sequence length: {len(protein['sequence'])} amino acids\n")
 
     # Coordinate robots
-    print("[info] Planning robotic swarm coordination...")
+    logging.info("[info] Planning robotic swarm coordination...")
     swarm = engine.coordinate_robotic_swarm("warehouse_inventory", num_robots=50)
-    print(f"[info] Swarm {swarm['swarm_id']} ready with {swarm['num_robots']} robots\n")
+    logging.info(f"[info] Swarm {swarm['swarm_id']} ready with {swarm['num_robots']} robots\n")
 
     # Optimize manufacturing
-    print("[info] Optimizing manufacturing process...")
+    logging.info("[info] Optimizing manufacturing process...")
     optimization = engine.optimize_manufacturing_process("solar_panels")
-    print(f"[info] Projected savings: {optimization['roi_estimate']['annual_savings']}\n")
+    logging.info(f"[info] Projected savings: {optimization['roi_estimate']['annual_savings']}\n")
 
     # Simulate climate intervention (SIMULATION ONLY)
-    print("[info] Simulating climate intervention (SIMULATION ONLY)...")
+    logging.info("[info] Simulating climate intervention (SIMULATION ONLY)...")
     climate_sim = engine.simulate_climate_intervention("stratospheric_aerosol_injection")
-    print(f"[warn] {climate_sim['deployment_timeline']}\n")
+    logging.info(f"[warn] {climate_sim['deployment_timeline']}\n")
 
     # Export state
     state = engine.export_state()
-    print(f"[info] Level 11 engine status: {json.dumps(state, indent=2)}")
+    logging.info(f"[info] Level 11 engine status: {json.dumps(state, indent=2)}")
 
 if __name__ == "__main__":
     main()

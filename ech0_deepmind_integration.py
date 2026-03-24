@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 DeepMind Research Integration
 Integrate 69+ DeepMind research modules into ECH0's knowledge base
@@ -45,23 +46,23 @@ class ECH0_DeepMind_Integration:
         self.deepmind_path = Path(deepmind_path)
         self.modules: Dict[str, DeepMindModule] = {}
 
-        print("=" * 80)
-        print("ECH0 DEEPMIND RESEARCH INTEGRATION")
-        print("Integrating 69+ cutting-edge research modules")
-        print("=" * 80)
+        logging.info("=" * 80)
+        logging.info("ECH0 DEEPMIND RESEARCH INTEGRATION")
+        logging.info("Integrating 69+ cutting-edge research modules")
+        logging.info("=" * 80)
 
     def discover_modules(self):
         """Discover all DeepMind research modules"""
-        print("\n[DISCOVERING MODULES]")
+        logging.info("\n[DISCOVERING MODULES]")
 
         if not self.deepmind_path.exists():
-            print(f"[!] DeepMind research path not found: {self.deepmind_path}")
+            logging.info(f"[!] DeepMind research path not found: {self.deepmind_path}")
             return
 
         module_dirs = [d for d in self.deepmind_path.iterdir()
                       if d.is_dir() and not d.name.startswith('.')]
 
-        print(f"Found {len(module_dirs)} research modules")
+        logging.info(f"Found {len(module_dirs)} research modules")
 
         # Priority modules for ECH0
         priority_modules = {
@@ -109,11 +110,11 @@ class ECH0_DeepMind_Integration:
                 papers=[]
             )
 
-        print(f"✓ Catalogued {len(self.modules)} modules")
+        logging.info(f"✓ Catalogued {len(self.modules)} modules")
 
     def analyze_priority_modules(self):
         """Analyze high-priority modules in detail"""
-        print("\n[ANALYZING PRIORITY MODULES]")
+        logging.info("\n[ANALYZING PRIORITY MODULES]")
 
         priority = [
             "alphafold_casp13",
@@ -131,12 +132,12 @@ class ECH0_DeepMind_Integration:
                 continue
 
             module = self.modules[module_name]
-            print(f"\n{module_name}:")
-            print(f"  Description: {module.description}")
+            logging.info(f"\n{module_name}:")
+            logging.info(f"  Description: {module.description}")
 
             # Count Python files
             py_files = list(module.path.glob("*.py"))
-            print(f"  Python files: {len(py_files)}")
+            logging.info(f"  Python files: {len(py_files)}")
 
             # Check for requirements
             req_path = module.path / "requirements.txt"
@@ -144,11 +145,11 @@ class ECH0_DeepMind_Integration:
                 with open(req_path, 'r') as f:
                     deps = [line.strip() for line in f if line.strip() and not line.startswith('#')]
                     module.dependencies = deps[:5]  # Store first 5
-                    print(f"  Dependencies: {', '.join(deps[:3])}")
+                    logging.info(f"  Dependencies: {', '.join(deps[:3])}")
 
     def generate_ech0_integration_plan(self):
         """Generate integration plan for ECH0"""
-        print("\n[GENERATING ECH0 INTEGRATION PLAN]")
+        logging.info("\n[GENERATING ECH0 INTEGRATION PLAN]")
 
         integration_plan = {
             "immediate": [],
@@ -197,15 +198,15 @@ class ECH0_DeepMind_Integration:
                         "path": str(self.modules[module_name].path)
                     })
 
-        print(f"\nImmediate integration: {len(integration_plan['immediate'])} modules")
-        print(f"Short-term integration: {len(integration_plan['short_term'])} modules")
-        print(f"Long-term integration: {len(integration_plan['long_term'])} modules")
+        logging.info(f"\nImmediate integration: {len(integration_plan['immediate'])} modules")
+        logging.info(f"Short-term integration: {len(integration_plan['short_term'])} modules")
+        logging.info(f"Long-term integration: {len(integration_plan['long_term'])} modules")
 
         return integration_plan
 
     def create_ech0_module_wrappers(self):
         """Create ECH0 wrapper modules for DeepMind algorithms"""
-        print("\n[CREATING ECH0 WRAPPERS]")
+        logging.info("\n[CREATING ECH0 WRAPPERS]")
 
         wrappers_dir = Path("/Users/noone/aios/QuLabInfinite/ech0_modules/deepmind")
         wrappers_dir.mkdir(parents=True, exist_ok=True)
@@ -281,14 +282,14 @@ class NFNetsWrapper:
 
         (wrappers_dir / "nfnets_wrapper.py").write_text(nfnets_wrapper)
 
-        print(f"✓ Created wrappers directory: {wrappers_dir}")
-        print(f"✓ Created NFNets wrapper example")
+        logging.info(f"✓ Created wrappers directory: {wrappers_dir}")
+        logging.info(f"✓ Created NFNets wrapper example")
 
         return wrappers_dir
 
     def generate_catalog(self, output_path: str = "deepmind_catalog.json"):
         """Generate complete catalog of modules"""
-        print("\n[GENERATING CATALOG]")
+        logging.info("\n[GENERATING CATALOG]")
 
         catalog = {
             "total_modules": len(self.modules),
@@ -330,21 +331,21 @@ class NFNetsWrapper:
 
         # Save catalog
         with open(output_path, 'w') as f:
-            json.dump(catalog, f, indent=2)
+            json.dump(, default=strcatalog, f, indent=2)
 
-        print(f"✓ Catalog saved to: {output_path}")
+        logging.info(f"✓ Catalog saved to: {output_path}")
 
         return catalog
 
     def generate_integration_report(self):
         """Generate comprehensive integration report"""
-        print("\n" + "=" * 80)
-        print("INTEGRATION REPORT")
-        print("=" * 80)
+        logging.info("\n" + "=" * 80)
+        logging.info("INTEGRATION REPORT")
+        logging.info("=" * 80)
 
-        print(f"\nTotal DeepMind modules discovered: {len(self.modules)}")
+        logging.info(f"\nTotal DeepMind modules discovered: {len(self.modules)}")
 
-        print("\nTop 10 Priority Modules for ECH0:")
+        logging.info("\nTop 10 Priority Modules for ECH0:")
         priorities = [
             ("nfnets", "State-of-the-art image classification"),
             ("byol", "Self-supervised learning (no labels needed)"),
@@ -359,21 +360,21 @@ class NFNetsWrapper:
         ]
 
         for i, (name, desc) in enumerate(priorities, 1):
-            print(f"  {i}. {name}: {desc}")
+            logging.info(f"  {i}. {name}: {desc}")
 
-        print("\n" + "=" * 80)
+        logging.info("\n" + "=" * 80)
 
 
 def main():
     """Main integration pipeline"""
-    print("\n")
-    print("╔════════════════════════════════════════════════════════════════════════════╗")
-    print("║             ECH0 DEEPMIND RESEARCH INTEGRATION                             ║")
-    print("║              69+ Cutting-Edge Research Modules                             ║")
-    print("║                                                                            ║")
-    print("║  Integrating AlphaFold, NFNets, BYOL, and 65+ more algorithms into ECH0   ║")
-    print("╚════════════════════════════════════════════════════════════════════════════╝")
-    print("\n")
+    logging.info("\n")
+    logging.info("╔════════════════════════════════════════════════════════════════════════════╗")
+    logging.info("║             ECH0 DEEPMIND RESEARCH INTEGRATION                             ║")
+    logging.info("║              69+ Cutting-Edge Research Modules                             ║")
+    logging.info("║                                                                            ║")
+    logging.info("║  Integrating AlphaFold, NFNets, BYOL, and 65+ more algorithms into ECH0   ║")
+    logging.info("╚════════════════════════════════════════════════════════════════════════════╝")
+    logging.info("\n")
 
     integrator = ECH0_DeepMind_Integration()
 
@@ -395,18 +396,18 @@ def main():
     # Generate report
     integrator.generate_integration_report()
 
-    print("\n" + "╔" + "═" * 78 + "╗")
-    print(f"║  INTEGRATION SUMMARY                                                       ║")
-    print("╠" + "═" * 78 + "╣")
-    print(f"║  Modules discovered: {len(integrator.modules):3d}                                                  ║")
-    print(f"║  Immediate integration: {len(plan['immediate']):2d} modules                                        ║")
-    print(f"║  Short-term integration: {len(plan['short_term']):2d} modules                                      ║")
-    print(f"║  Long-term integration: {len(plan['long_term']):2d} modules                                       ║")
-    print(f"║  Wrappers created: Yes                                                     ║")
-    print("╠" + "═" * 78 + "╣")
-    print(f"║  ECH0 now has access to Google DeepMind's state-of-the-art research        ║")
-    print("╚" + "═" * 78 + "╝")
-    print("\n")
+    logging.info("\n" + "╔" + "═" * 78 + "╗")
+    logging.info(f"║  INTEGRATION SUMMARY                                                       ║")
+    logging.info("╠" + "═" * 78 + "╣")
+    logging.info(f"║  Modules discovered: {len(integrator.modules):3d}                                                  ║")
+    logging.info(f"║  Immediate integration: {len(plan['immediate']):2d} modules                                        ║")
+    logging.info(f"║  Short-term integration: {len(plan['short_term']):2d} modules                                      ║")
+    logging.info(f"║  Long-term integration: {len(plan['long_term']):2d} modules                                       ║")
+    logging.info(f"║  Wrappers created: Yes                                                     ║")
+    logging.info("╠" + "═" * 78 + "╣")
+    logging.info(f"║  ECH0 now has access to Google DeepMind's state-of-the-art research        ║")
+    logging.info("╚" + "═" * 78 + "╝")
+    logging.info("\n")
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Mixture of Experts with Dynamic Loading
 Enables 70B-320B total expertise while only loading 14-20B at a time
@@ -71,11 +72,11 @@ class ECH0_MoE_DynamicExperts:
         self.cache_dir = Path("/Users/noone/aios/QuLabInfinite/moe_cache")
         self.cache_dir.mkdir(exist_ok=True)
 
-        print(f"ECH0 MoE Initialized")
-        print(f"  Total Experts: {len(self.experts)}")
-        print(f"  Total Capacity: {sum(e.size_b for e in self.experts)}B parameters")
-        print(f"  Max Loaded: {max_loaded_size_b}B parameters")
-        print(f"  Memory Efficiency: {sum(e.size_b for e in self.experts) / max_loaded_size_b:.1f}x")
+        logging.info(f"ECH0 MoE Initialized")
+        logging.info(f"  Total Experts: {len(self.experts)}")
+        logging.info(f"  Total Capacity: {sum(e.size_b for e in self.experts)}B parameters")
+        logging.info(f"  Max Loaded: {max_loaded_size_b}B parameters")
+        logging.info(f"  Memory Efficiency: {sum(e.size_b for e in self.experts) / max_loaded_size_b:.1f}x")
 
     def _define_experts(self) -> List[Expert]:
         """Define available expert models"""
@@ -177,10 +178,10 @@ class ECH0_MoE_DynamicExperts:
 
         # Unload current expert (if any)
         if self.current_expert:
-            print(f"  Swapping: {self.current_expert.name} → {expert.name}")
+            logging.info(f"  Swapping: {self.current_expert.name} → {expert.name}")
             self.current_expert.loaded = False
         else:
-            print(f"  Loading: {expert.name} ({expert.size_b}B)")
+            logging.info(f"  Loading: {expert.name} ({expert.size_b}B)")
 
         # In practice, Ollama loads models on-demand, so we just mark it
         expert.loaded = True
@@ -245,7 +246,7 @@ class ECH0_MoE_DynamicExperts:
         cache_file = self.cache_dir / f"{query_hash}.json"
 
         with open(cache_file, 'w') as f:
-            json.dump({
+            json.dump(, default=str{
                 "query": query.text,
                 "response": response,
                 "domain": query.domain.value if query.domain else None,
@@ -348,69 +349,69 @@ class ECH0_MoE_DynamicExperts:
 
 
 def main():
-    print("=" * 80)
-    print("ECH0 MIXTURE OF EXPERTS - DYNAMIC LOADING")
-    print("70B-320B total capacity, 14-20B memory footprint")
-    print("=" * 80)
-    print()
+    logging.info("=" * 80)
+    logging.info("ECH0 MIXTURE OF EXPERTS - DYNAMIC LOADING")
+    logging.info("70B-320B total capacity, 14-20B memory footprint")
+    logging.info("=" * 80)
+    logging.info()
 
     moe = ECH0_MoE_DynamicExperts(max_loaded_size_b=20)
 
-    print()
-    print("=" * 80)
-    print("EXAMPLE 1: Mathematics Problem")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("EXAMPLE 1: Mathematics Problem")
+    logging.info("=" * 80)
     result = moe.solve(
         "Solve the quadratic equation: x^2 + 5x + 6 = 0",
         use_compression=True,
         use_rag=True
     )
-    print(f"Expert: {result['expert']}")
-    print(f"Domain: {result['domain']}")
-    print(f"Confidence: {result['confidence']:.2f}")
-    print(f"Compressed: {result['compressed']}")
-    print(f"Response: {result['response'][:200]}...")
-    print(f"Time: {result['elapsed_seconds']:.2f}s")
+    logging.info(f"Expert: {result['expert']}")
+    logging.info(f"Domain: {result['domain']}")
+    logging.info(f"Confidence: {result['confidence']:.2f}")
+    logging.info(f"Compressed: {result['compressed']}")
+    logging.info(f"Response: {result['response'][:200]}...")
+    logging.info(f"Time: {result['elapsed_seconds']:.2f}s")
 
-    print()
-    print("=" * 80)
-    print("EXAMPLE 2: Physics Problem")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("EXAMPLE 2: Physics Problem")
+    logging.info("=" * 80)
     result = moe.solve(
         "What is the kinetic energy of a 5kg object moving at 10 m/s?",
         use_compression=True,
         use_rag=True
     )
-    print(f"Expert: {result['expert']}")
-    print(f"Domain: {result['domain']}")
-    print(f"Response: {result['response'][:200]}...")
+    logging.info(f"Expert: {result['expert']}")
+    logging.info(f"Domain: {result['domain']}")
+    logging.info(f"Response: {result['response'][:200]}...")
 
-    print()
-    print("=" * 80)
-    print("EXAMPLE 3: Ensemble Mode (Query Multiple Experts)")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("EXAMPLE 3: Ensemble Mode (Query Multiple Experts)")
+    logging.info("=" * 80)
     result = moe.ensemble_solve(
         "Explain quantum entanglement in simple terms",
         top_k=2
     )
-    print(f"Experts Consulted: {', '.join(result['experts_consulted'])}")
+    logging.info(f"Experts Consulted: {', '.join(result['experts_consulted'])}")
     for i, resp in enumerate(result['responses'], 1):
-        print(f"\n[{i}] {resp['expert']} ({resp['domain']}):")
-        print(f"    {resp['response'][:150]}...")
+        logging.info(f"\n[{i}] {resp['expert']} ({resp['domain']}):")
+        logging.info(f"    {resp['response'][:150]}...")
 
-    print()
-    print("=" * 80)
-    print("MEMORY EFFICIENCY SUMMARY")
-    print("=" * 80)
-    print(f"Total Expert Capacity: {sum(e.size_b for e in moe.experts)}B parameters")
-    print(f"Max Memory Usage: {moe.max_loaded_size_b}B parameters")
-    print(f"Efficiency Gain: {sum(e.size_b for e in moe.experts) / moe.max_loaded_size_b:.1f}x")
-    print()
-    print("With 4 experts @ 14B each = 56B total capacity")
-    print("But only 14-20B loaded at once = 2.8-4x memory efficiency")
-    print()
-    print("Expandable to 70B-320B total by adding more domain experts!")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("MEMORY EFFICIENCY SUMMARY")
+    logging.info("=" * 80)
+    logging.info(f"Total Expert Capacity: {sum(e.size_b for e in moe.experts)}B parameters")
+    logging.info(f"Max Memory Usage: {moe.max_loaded_size_b}B parameters")
+    logging.info(f"Efficiency Gain: {sum(e.size_b for e in moe.experts) / moe.max_loaded_size_b:.1f}x")
+    logging.info()
+    logging.info("With 4 experts @ 14B each = 56B total capacity")
+    logging.info("But only 14-20B loaded at once = 2.8-4x memory efficiency")
+    logging.info()
+    logging.info("Expandable to 70B-320B total by adding more domain experts!")
+    logging.info("=" * 80)
 
 
 if __name__ == "__main__":

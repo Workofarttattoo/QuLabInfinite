@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 IMO Integer Inference Trainer with Real Mathematical Reasoning
 Uses chain-of-thought LLM reasoning instead of random guessing
@@ -32,13 +33,13 @@ class ECH0_Reasoning_Engine:
                 timeout=5
             )
             if result.returncode == 0:
-                print(f"[✓] Ollama available with models")
+                logging.info(f"[✓] Ollama available with models")
                 return True
             else:
-                print(f"[!] Ollama not responding properly")
+                logging.info(f"[!] Ollama not responding properly")
                 return False
         except (subprocess.TimeoutExpired, FileNotFoundError):
-            print(f"[!] Ollama not found. Install: curl -fsSL https://ollama.com/install.sh | sh")
+            logging.info(f"[!] Ollama not found. Install: curl -fsSL https://ollama.com/install.sh | sh")
             return False
 
     def reason_through_problem(self, problem: str) -> Tuple[str, str]:
@@ -85,14 +86,14 @@ Provide your reasoning and final answer. End with: ANSWER: [your answer]
 
                 return answer, response
             else:
-                print(f"[!] Ollama error: {result.stderr}")
+                logging.info(f"[!] Ollama error: {result.stderr}")
                 return self._fallback_numeric_extraction(problem), "Error: Ollama failed"
 
         except subprocess.TimeoutExpired:
-            print(f"[!] Timeout on problem")
+            logging.info(f"[!] Timeout on problem")
             return self._fallback_numeric_extraction(problem), "Error: Timeout"
         except Exception as e:
-            print(f"[!] Exception: {e}")
+            logging.info(f"[!] Exception: {e}")
             return self._fallback_numeric_extraction(problem), f"Error: {e}"
 
     def _extract_answer_from_response(self, response: str) -> str:
@@ -141,33 +142,33 @@ class ECH0_IMO_Trainer:
             "reasoning_examples": []
         }
 
-        print("=" * 80)
-        print("ECH0 IMO INTEGER INFERENCE TRAINER - WITH REAL REASONING")
-        print("Google DeepMind Superhuman Reasoning Benchmark")
-        print("Using: Chain-of-Thought LLM Reasoning")
-        print("=" * 80)
+        logging.info("=" * 80)
+        logging.info("ECH0 IMO INTEGER INFERENCE TRAINER - WITH REAL REASONING")
+        logging.info("Google DeepMind Superhuman Reasoning Benchmark")
+        logging.info("Using: Chain-of-Thought LLM Reasoning")
+        logging.info("=" * 80)
 
     def load_datasets(self):
         """Load IMO Bench datasets"""
-        print("\n[LOADING DATASETS]")
+        logging.info("\n[LOADING DATASETS]")
 
         self.answerbench = pd.read_csv(self.imo_path / "answerbench.csv")
-        print(f"✓ AnswerBench: {len(self.answerbench)} problems loaded")
+        logging.info(f"✓ AnswerBench: {len(self.answerbench)} problems loaded")
 
         self.proofbench = pd.read_csv(self.imo_path / "proofbench.csv")
-        print(f"✓ ProofBench: {len(self.proofbench)} problems loaded")
+        logging.info(f"✓ ProofBench: {len(self.proofbench)} problems loaded")
 
         self.gradingbench = pd.read_csv(self.imo_path / "gradingbench.csv")
-        print(f"✓ GradingBench: {len(self.gradingbench)} gradings loaded")
+        logging.info(f"✓ GradingBench: {len(self.gradingbench)} gradings loaded")
 
-        print(f"\nTotal dataset size: {len(self.answerbench) + len(self.proofbench)} problems")
+        logging.info(f"\nTotal dataset size: {len(self.answerbench) + len(self.proofbench)} problems")
 
     def reasoning_test(self, num_samples: int = 10):
         """Test ECH0's reasoning capability (before training)"""
-        print("\n" + "=" * 80)
-        print("[REASONING TEST - Chain-of-Thought]")
-        print("Testing ECH0's reasoning on IMO problems")
-        print("=" * 80)
+        logging.info("\n" + "=" * 80)
+        logging.info("[REASONING TEST - Chain-of-Thought]")
+        logging.info("Testing ECH0's reasoning on IMO problems")
+        logging.info("=" * 80)
 
         sample_problems = self.answerbench.sample(n=min(num_samples, len(self.answerbench)))
 
@@ -180,10 +181,10 @@ class ECH0_IMO_Trainer:
             correct_answer = self._extract_answer(row)
 
             if problem and correct_answer:
-                print(f"\n{'─' * 80}")
-                print(f"Problem {total + 1}/{num_samples}:")
-                print(f"  {problem[:150]}...")
-                print(f"\n[ECH0 Reasoning...]")
+                logging.info(f"\n{'─' * 80}")
+                logging.info(f"Problem {total + 1}/{num_samples}:")
+                logging.info(f"  {problem[:150]}...")
+                logging.info(f"\n[ECH0 Reasoning...]")
 
                 start_time = time.time()
                 ech0_answer, reasoning = self.reasoning_engine.reason_through_problem(problem)
@@ -194,14 +195,14 @@ class ECH0_IMO_Trainer:
                     correct += 1
                 total += 1
 
-                print(f"\n  Reasoning time: {elapsed:.1f}s")
-                print(f"  ECH0 Answer: {ech0_answer}")
-                print(f"  Correct Answer: {correct_answer}")
-                print(f"  Result: {'✓ CORRECT' if is_correct else '✗ INCORRECT'}")
+                logging.info(f"\n  Reasoning time: {elapsed:.1f}s")
+                logging.info(f"  ECH0 Answer: {ech0_answer}")
+                logging.info(f"  Correct Answer: {correct_answer}")
+                logging.info(f"  Result: {'✓ CORRECT' if is_correct else '✗ INCORRECT'}")
 
                 # Show snippet of reasoning
                 reasoning_snippet = reasoning[:200] + "..." if len(reasoning) > 200 else reasoning
-                print(f"\n  Reasoning (snippet):\n  {reasoning_snippet}")
+                logging.info(f"\n  Reasoning (snippet):\n  {reasoning_snippet}")
 
                 results.append({
                     "problem": problem[:100],
@@ -222,12 +223,12 @@ class ECH0_IMO_Trainer:
                     })
 
         accuracy = (correct / total * 100) if total > 0 else 0
-        print(f"\n{'=' * 80}")
-        print(f"REASONING TEST RESULTS:")
-        print(f"  Correct: {correct}/{total}")
-        print(f"  Accuracy: {accuracy:.1f}%")
-        print(f"  Method: Chain-of-Thought LLM Reasoning")
-        print(f"{'=' * 80}")
+        logging.info(f"\n{'=' * 80}")
+        logging.info(f"REASONING TEST RESULTS:")
+        logging.info(f"  Correct: {correct}/{total}")
+        logging.info(f"  Accuracy: {accuracy:.1f}%")
+        logging.info(f"  Method: Chain-of-Thought LLM Reasoning")
+        logging.info(f"{'=' * 80}")
 
         self.results["pre_training"] = {
             "correct": correct,
@@ -241,42 +242,42 @@ class ECH0_IMO_Trainer:
 
     def analyze_reasoning_quality(self):
         """Analyze the quality of ECH0's reasoning"""
-        print("\n" + "=" * 80)
-        print("[REASONING QUALITY ANALYSIS]")
-        print("=" * 80)
+        logging.info("\n" + "=" * 80)
+        logging.info("[REASONING QUALITY ANALYSIS]")
+        logging.info("=" * 80)
 
         if not self.results["reasoning_examples"]:
-            print("No reasoning examples to analyze")
+            logging.info("No reasoning examples to analyze")
             return
 
-        print(f"\nAnalyzing {len(self.results['reasoning_examples'])} detailed examples...")
+        logging.info(f"\nAnalyzing {len(self.results['reasoning_examples'])} detailed examples...")
 
         for i, example in enumerate(self.results["reasoning_examples"], 1):
-            print(f"\n{'─' * 80}")
-            print(f"Example {i}:")
-            print(f"Problem: {example['problem'][:200]}...")
-            print(f"\nECH0's Reasoning:")
-            print(example['reasoning'])
-            print(f"\nECH0's Answer: {example['answer']}")
-            print(f"Correct Answer: {example['correct']}")
-            print(f"Status: {'✓ CORRECT' if example['answer'] == example['correct'] else '✗ INCORRECT'}")
+            logging.info(f"\n{'─' * 80}")
+            logging.info(f"Example {i}:")
+            logging.info(f"Problem: {example['problem'][:200]}...")
+            logging.info(f"\nECH0's Reasoning:")
+            logging.info(example['reasoning'])
+            logging.info(f"\nECH0's Answer: {example['answer']}")
+            logging.info(f"Correct Answer: {example['correct']}")
+            logging.info(f"Status: {'✓ CORRECT' if example['answer'] == example['correct'] else '✗ INCORRECT'}")
 
     def generate_report(self):
         """Generate comprehensive reasoning test report"""
-        print("\n" + "=" * 80)
-        print("[REASONING TEST REPORT]")
-        print("=" * 80)
+        logging.info("\n" + "=" * 80)
+        logging.info("[REASONING TEST REPORT]")
+        logging.info("=" * 80)
 
         pre = self.results.get("pre_training", {})
 
-        print(f"\nREASONING APPROACH: {pre.get('method', 'Unknown')}")
-        print(f"  Accuracy: {pre.get('accuracy', 0):.1f}%")
-        print(f"  Correct: {pre.get('correct', 0)}/{pre.get('total', 0)}")
+        logging.info(f"\nREASONING APPROACH: {pre.get('method', 'Unknown')}")
+        logging.info(f"  Accuracy: {pre.get('accuracy', 0):.1f}%")
+        logging.info(f"  Correct: {pre.get('correct', 0)}/{pre.get('total', 0)}")
 
         # Calculate average reasoning time
         if pre.get('problems'):
             avg_time = sum(p['reasoning_time'] for p in pre['problems']) / len(pre['problems'])
-            print(f"  Avg Reasoning Time: {avg_time:.1f}s per problem")
+            logging.info(f"  Avg Reasoning Time: {avg_time:.1f}s per problem")
 
         # Save results
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -291,10 +292,10 @@ class ECH0_IMO_Trainer:
         }
 
         with open(results_file, 'w') as f:
-            json.dump(save_results, f, indent=2)
+            json.dump(, default=strsave_results, f, indent=2)
 
-        print(f"\nResults saved to: {results_file}")
-        print("=" * 80)
+        logging.info(f"\nResults saved to: {results_file}")
+        logging.info("=" * 80)
 
     # Helper methods
 
@@ -351,14 +352,14 @@ class ECH0_IMO_Trainer:
 
 def main():
     """Main reasoning test pipeline"""
-    print("\n")
-    print("╔════════════════════════════════════════════════════════════════════════════╗")
-    print("║           ECH0 IMO REASONING TRAINER - Chain-of-Thought                   ║")
-    print("║            Google DeepMind Superhuman Reasoning Benchmark                 ║")
-    print("║                                                                            ║")
-    print("║  Testing ECH0's mathematical reasoning with LLM chain-of-thought          ║")
-    print("╚════════════════════════════════════════════════════════════════════════════╝")
-    print("\n")
+    logging.info("\n")
+    logging.info("╔════════════════════════════════════════════════════════════════════════════╗")
+    logging.info("║           ECH0 IMO REASONING TRAINER - Chain-of-Thought                   ║")
+    logging.info("║            Google DeepMind Superhuman Reasoning Benchmark                 ║")
+    logging.info("║                                                                            ║")
+    logging.info("║  Testing ECH0's mathematical reasoning with LLM chain-of-thought          ║")
+    logging.info("╚════════════════════════════════════════════════════════════════════════════╝")
+    logging.info("\n")
 
     # Initialize trainer
     trainer = ECH0_IMO_Trainer()
@@ -367,34 +368,34 @@ def main():
     trainer.load_datasets()
 
     # Test reasoning capability (10 problems to start)
-    print("\n[STEP 1: REASONING TEST]")
-    print("Testing ECH0's ability to reason through problems (not just guess)")
+    logging.info("\n[STEP 1: REASONING TEST]")
+    logging.info("Testing ECH0's ability to reason through problems (not just guess)")
     accuracy = trainer.reasoning_test(num_samples=10)
 
     # Analyze reasoning quality
-    print("\n[STEP 2: REASONING ANALYSIS]")
+    logging.info("\n[STEP 2: REASONING ANALYSIS]")
     trainer.analyze_reasoning_quality()
 
     # Generate report
-    print("\n[STEP 3: REPORT GENERATION]")
+    logging.info("\n[STEP 3: REPORT GENERATION]")
     trainer.generate_report()
 
     # Summary
-    print("\n" + "╔" + "═" * 78 + "╗")
-    print(f"║  REASONING TEST SUMMARY                                                    ║")
-    print("╠" + "═" * 78 + "╣")
-    print(f"║  Reasoning approach: Chain-of-Thought LLM                                  ║")
-    print(f"║  Accuracy: {accuracy:5.1f}%                                                         ║")
-    print(f"║  Method: Real mathematical reasoning (not guessing)                        ║")
-    print("╠" + "═" * 78 + "╣")
+    logging.info("\n" + "╔" + "═" * 78 + "╗")
+    logging.info(f"║  REASONING TEST SUMMARY                                                    ║")
+    logging.info("╠" + "═" * 78 + "╣")
+    logging.info(f"║  Reasoning approach: Chain-of-Thought LLM                                  ║")
+    logging.info(f"║  Accuracy: {accuracy:5.1f}%                                                         ║")
+    logging.info(f"║  Method: Real mathematical reasoning (not guessing)                        ║")
+    logging.info("╠" + "═" * 78 + "╣")
     if accuracy > 20:
-        print(f"║  SUCCESS: ECH0 can reason through problems                                 ║")
-        print(f"║  Next step: Fine-tune on full IMO dataset for superhuman performance      ║")
+        logging.info(f"║  SUCCESS: ECH0 can reason through problems                                 ║")
+        logging.info(f"║  Next step: Fine-tune on full IMO dataset for superhuman performance      ║")
     else:
-        print(f"║  BASELINE: ECH0 reasoning established                                      ║")
-        print(f"║  Next step: Train on problem-solution pairs to improve                    ║")
-    print("╚" + "═" * 78 + "╝")
-    print("\n")
+        logging.info(f"║  BASELINE: ECH0 reasoning established                                      ║")
+        logging.info(f"║  Next step: Train on problem-solution pairs to improve                    ║")
+    logging.info("╚" + "═" * 78 + "╝")
+    logging.info("\n")
 
 
 if __name__ == "__main__":

@@ -145,7 +145,7 @@ def main(days=30, historical=False):
     # Save results
     filename = f'papers_{datetime.now():%Y%m%d}_{"historical" if historical else "daily"}.json'
     with open(output / filename, 'w') as f:
-        json.dump(all_papers, f, indent=2)
+        json.dump(, default=strall_papers, f, indent=2)
 
     print(f"\n✅ Ingested {len(all_papers)} papers from all platforms")
     print(f"✅ Saved to: {output / filename}")

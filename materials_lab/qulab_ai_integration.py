@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -122,14 +123,14 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         file_path = sys.argv[1]
         result = analyze_structure_with_provenance(file_path)
-        print(f"Structure parsed: {result['result'].keys()}")
-        print(f"Digest: {result['digest']}")
+        logging.info(f"Structure parsed: {result['result'].keys()}")
+        logging.info(f"Digest: {result['digest']}")
     else:
-        print("Usage: python qulab_ai_integration.py <structure_file>")
-        print("\nDatabase info:")
+        logging.info("Usage: python qulab_ai_integration.py <structure_file>")
+        logging.info("\nDatabase info:")
         try:
             info = get_materials_database_info()
-            print(f"  Total materials: {info['total_materials']}")
-            print(f"  QuLab AI integrated: {info['qulab_ai_integrated']}")
+            logging.info(f"  Total materials: {info['total_materials']}")
+            logging.info(f"  QuLab AI integrated: {info['qulab_ai_integrated']}")
         except:
-            print("  Materials database not available")
+            logging.info("  Materials database not available")

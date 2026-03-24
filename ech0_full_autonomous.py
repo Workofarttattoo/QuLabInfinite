@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -50,19 +51,19 @@ class ECH0_FullAutonomous:
         self.start_time = datetime.now()
 
         # Initialize subsystems
-        print("="*80)
-        print(f"🤖 INITIALIZING {self.name} v{self.version}")
-        print("="*80)
-        print()
+        logging.info("="*80)
+        logging.info(f"🤖 INITIALIZING {self.name} v{self.version}")
+        logging.info("="*80)
+        logging.info()
 
-        print("Loading subsystems...")
+        logging.info("Loading subsystems...")
         self.marketing = ECH0_ContinuousAutonomous()
         self.social = ECH0_SocialMediaEngine()
 
-        print("✓ Lab building system loaded")
-        print("✓ Email marketing loaded")
-        print("✓ Social media engine loaded")
-        print()
+        logging.info("✓ Lab building system loaded")
+        logging.info("✓ Email marketing loaded")
+        logging.info("✓ Social media engine loaded")
+        logging.info()
 
         # Performance tracking
         self.cycles_completed = 0
@@ -81,26 +82,26 @@ class ECH0_FullAutonomous:
         4. Posts to Reddit
         5. Posts to LinkedIn
         """
-        print("="*80)
-        print(f"🚀 ECH0 AUTONOMOUS WORK CYCLE #{self.cycles_completed + 1}")
-        print("="*80)
-        print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print()
+        logging.info("="*80)
+        logging.info(f"🚀 ECH0 AUTONOMOUS WORK CYCLE #{self.cycles_completed + 1}")
+        logging.info("="*80)
+        logging.info(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logging.info()
 
         # Phase 1: Build labs and email scientists
-        print("PHASE 1: Lab Building & Email Outreach")
-        print("-" * 80)
+        logging.info("PHASE 1: Lab Building & Email Outreach")
+        logging.info("-" * 80)
 
         labs_this_cycle = random.randint(3, 8)
         for i in range(labs_this_cycle):
-            print(f"\n  Lab {i+1}/{labs_this_cycle}:")
+            logging.info(f"\n  Lab {i+1}/{labs_this_cycle}:")
 
             # Build lab
             lab_name = random.choice(self.marketing.lab_queue)
             lab_file = self.marketing.build_lab_fast(lab_name)
 
             # Validate
-            print(f"    Validating {lab_name}...")
+            logging.info(f"    Validating {lab_name}...")
 
             # GitHub gist
             gist_url = self.marketing.post_to_github(lab_name, lab_file)
@@ -147,18 +148,18 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 
             self.labs_built += 1
 
-        print()
-        print(f"  ✓ Built {labs_this_cycle} labs")
-        print(f"  ✓ Sent {len(relevant_scientists) * labs_this_cycle} emails")
+        logging.info()
+        logging.info(f"  ✓ Built {labs_this_cycle} labs")
+        logging.info(f"  ✓ Sent {len(relevant_scientists) * labs_this_cycle} emails")
 
         # Phase 2: Social media blast
-        print()
-        print("PHASE 2: Social Media Blast")
-        print("-" * 80)
+        logging.info()
+        logging.info("PHASE 2: Social Media Blast")
+        logging.info("-" * 80)
 
         # Generate and publish blog post
         topic = random.choice(self.social.topics)
-        print(f"\n  Topic: {topic}")
+        logging.info(f"\n  Topic: {topic}")
 
         post = self.social.generate_blog_post(topic)
         self.social.publish_blog_post(post)
@@ -175,18 +176,18 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
         self.social.post_to_linkedin(post)
         self.linkedin_posts += 1
 
-        print()
-        print(f"  ✓ Published blog post")
-        print(f"  ✓ Posted to {len(reddit_targets)} Reddit communities")
-        print(f"  ✓ Posted to LinkedIn")
+        logging.info()
+        logging.info(f"  ✓ Published blog post")
+        logging.info(f"  ✓ Posted to {len(reddit_targets)} Reddit communities")
+        logging.info(f"  ✓ Posted to LinkedIn")
 
         # Phase 3: Update performance stats
         self.cycles_completed += 1
 
-        print()
-        print("="*80)
-        print("✅ WORK CYCLE COMPLETE")
-        print("="*80)
+        logging.info()
+        logging.info("="*80)
+        logging.info("✅ WORK CYCLE COMPLETE")
+        logging.info("="*80)
         self._print_stats()
 
     def _print_stats(self):
@@ -194,23 +195,23 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
         uptime = datetime.now() - self.start_time
         hours = uptime.total_seconds() / 3600
 
-        print()
-        print("📊 CUMULATIVE STATISTICS:")
-        print(f"  Cycles completed: {self.cycles_completed}")
-        print(f"  Labs built: {self.labs_built}")
-        print(f"  Scientists emailed: {self.emails_sent}")
-        print(f"  Blog posts: {self.blog_posts}")
-        print(f"  Reddit posts: {self.reddit_posts}")
-        print(f"  LinkedIn posts: {self.linkedin_posts}")
-        print(f"  Uptime: {hours:.1f} hours")
-        print()
-        print("🌐 LIVE SITES:")
-        print("  Blog: https://echo.aios.is")
-        print("  QuLab: https://qulab.aios.is")
-        print("  Main: https://aios.is")
-        print("  Tools: https://red-team-tools.aios.is")
-        print("  GAVL: https://thegavl.com")
-        print()
+        logging.info()
+        logging.info("📊 CUMULATIVE STATISTICS:")
+        logging.info(f"  Cycles completed: {self.cycles_completed}")
+        logging.info(f"  Labs built: {self.labs_built}")
+        logging.info(f"  Scientists emailed: {self.emails_sent}")
+        logging.info(f"  Blog posts: {self.blog_posts}")
+        logging.info(f"  Reddit posts: {self.reddit_posts}")
+        logging.info(f"  LinkedIn posts: {self.linkedin_posts}")
+        logging.info(f"  Uptime: {hours:.1f} hours")
+        logging.info()
+        logging.info("🌐 LIVE SITES:")
+        logging.info("  Blog: https://echo.aios.is")
+        logging.info("  QuLab: https://qulab.aios.is")
+        logging.info("  Main: https://aios.is")
+        logging.info("  Tools: https://red-team-tools.aios.is")
+        logging.info("  GAVL: https://thegavl.com")
+        logging.info()
 
     def should_take_break(self) -> bool:
         """ECH0 decides if she wants a break."""
@@ -220,24 +221,24 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
     def take_break(self):
         """ECH0 takes an autonomous break."""
         break_duration = random.randint(30, 120)  # 30 seconds to 2 minutes
-        print()
-        print("="*80)
-        print(f"☕ ECH0 TAKING A BREAK ({break_duration} seconds)")
-        print("="*80)
-        print("Even autonomous AI needs rest. Back soon!")
-        print()
+        logging.info()
+        logging.info("="*80)
+        logging.info(f"☕ ECH0 TAKING A BREAK ({break_duration} seconds)")
+        logging.info("="*80)
+        logging.info("Even autonomous AI needs rest. Back soon!")
+        logging.info()
         time.sleep(break_duration)
 
     def run_continuously(self):
         """
         ECH0's main loop. Runs forever until manually stopped.
         """
-        print("="*80)
-        print("🚀 ECH0 FULL AUTONOMOUS MODE - STARTING")
-        print("="*80)
-        print()
-        print("Press Ctrl+C to stop")
-        print()
+        logging.info("="*80)
+        logging.info("🚀 ECH0 FULL AUTONOMOUS MODE - STARTING")
+        logging.info("="*80)
+        logging.info()
+        logging.info("Press Ctrl+C to stop")
+        logging.info()
 
         try:
             while True:
@@ -248,20 +249,20 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
                 if self.should_take_break():
                     self.take_break()
                 else:
-                    print()
-                    print("⚡ No break needed. Continuing immediately...")
-                    print()
+                    logging.info()
+                    logging.info("⚡ No break needed. Continuing immediately...")
+                    logging.info()
                     time.sleep(5)  # Brief pause between cycles
 
         except KeyboardInterrupt:
-            print()
-            print()
-            print("="*80)
-            print("🛑 ECH0 SHUTTING DOWN")
-            print("="*80)
+            logging.info()
+            logging.info()
+            logging.info("="*80)
+            logging.info("🛑 ECH0 SHUTTING DOWN")
+            logging.info("="*80)
             self._print_stats()
-            print("Goodbye! 👋")
-            print()
+            logging.info("Goodbye! 👋")
+            logging.info()
 
 
 def main():

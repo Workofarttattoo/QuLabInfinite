@@ -1,3 +1,5 @@
+# TODO: Refactor long functions identified in code quality analysis
+import logging
 #!/usr/bin/env python3
 """
 QuLab Infinite - Unified Launcher
@@ -94,29 +96,29 @@ def check_pyside6_available() -> bool:
 
 def install_pyside6_bootstrap():
     """Install PySide6 using a simple terminal interface."""
-    print("\n" + "=" * 60)
-    print("  QuLab Infinite - Initial Setup")
-    print("=" * 60)
-    print("\n  PySide6 (Qt Framework) is required but not installed.")
-    print("  This is needed for the graphical interface.\n")
+    logging.info("\n" + "=" * 60)
+    logging.info("  QuLab Infinite - Initial Setup")
+    logging.info("=" * 60)
+    logging.info("\n  PySide6 (Qt Framework) is required but not installed.")
+    logging.info("  This is needed for the graphical interface.\n")
 
     response = input("  Install PySide6 now? [Y/n]: ").strip().lower()
     if response in ('', 'y', 'yes'):
-        print("\n  Installing PySide6... This may take a moment.\n")
+        logging.info("\n  Installing PySide6... This may take a moment.\n")
         try:
             subprocess.check_call([
                 sys.executable, "-m", "pip", "install",
                 "PySide6", "--quiet", "--disable-pip-version-check"
             ])
-            print("\n  PySide6 installed successfully!")
-            print("  Restarting launcher...\n")
+            logging.info("\n  PySide6 installed successfully!")
+            logging.info("  Restarting launcher...\n")
             os.execv(sys.executable, [sys.executable] + sys.argv)
         except subprocess.CalledProcessError as e:
-            print(f"\n  Error installing PySide6: {e}")
-            print("  Please install manually: pip install PySide6")
+            logging.info(f"\n  Error installing PySide6: {e}")
+            logging.info("  Please install manually: pip install PySide6")
             sys.exit(1)
     else:
-        print("\n  Cannot continue without PySide6. Exiting.")
+        logging.info("\n  Cannot continue without PySide6. Exiting.")
         sys.exit(1)
 
 
@@ -1446,6 +1448,8 @@ class QuLabLauncher:
 
 
 def main():
+    """Main function - TODO: Break into smaller functions"""
+    # TODO: Refactor this long function
     """Main entry point."""
     launcher = QuLabLauncher()
     sys.exit(launcher.run())

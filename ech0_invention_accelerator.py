@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -93,9 +94,9 @@ class ECH0_InventionAccelerator:
         Returns:
             Dict with accelerated invention details
         """
-        print(f"\n{'='*70}")
-        print(f"  ACCELERATING: {concept.name}")
-        print(f"{'='*70}\n")
+        logging.info(f"\n{'='*70}")
+        logging.info(f"  ACCELERATING: {concept.name}")
+        logging.info(f"{'='*70}\n")
 
         result = {
             'concept': concept.to_dict(),
@@ -104,7 +105,7 @@ class ECH0_InventionAccelerator:
         }
 
         # Step 1: Material selection
-        print("📦 STEP 1: Material Selection")
+        logging.info("📦 STEP 1: Material Selection")
         materials = self._select_materials(concept, requirements)
         concept.required_materials = materials
 
@@ -115,7 +116,7 @@ class ECH0_InventionAccelerator:
         })
 
         # Step 2: Physics validation
-        print("\n⚗️  STEP 2: Physics Validation")
+        logging.info("\n⚗️  STEP 2: Physics Validation")
         physics_valid = self._validate_physics(concept, requirements)
         concept.physics_validated = physics_valid
 
@@ -125,7 +126,7 @@ class ECH0_InventionAccelerator:
         })
 
         # Step 3: Cost estimation
-        print("\n💰 STEP 3: Cost Estimation")
+        logging.info("\n💰 STEP 3: Cost Estimation")
         cost = self._estimate_cost(concept, materials)
         concept.cost_estimate = cost
 
@@ -135,7 +136,7 @@ class ECH0_InventionAccelerator:
         })
 
         # Step 4: Quantum evaluation
-        print("\n🌀 STEP 4: Quantum Evaluation")
+        logging.info("\n🌀 STEP 4: Quantum Evaluation")
         quantum_score = self._quantum_evaluate(concept, requirements)
         concept.quantum_score = quantum_score
 
@@ -145,7 +146,7 @@ class ECH0_InventionAccelerator:
         })
 
         # Step 5: Final decision
-        print("\n🎯 STEP 5: Final Decision")
+        logging.info("\n🎯 STEP 5: Final Decision")
         decision = self._make_decision(concept, requirements)
 
         result['final_recommendation'] = decision
@@ -156,10 +157,10 @@ class ECH0_InventionAccelerator:
         if decision['recommend']:
             self.validated_inventions.append(concept)
 
-        print(f"\n{'='*70}")
-        print(f"  RESULT: {'✅ RECOMMENDED' if decision['recommend'] else '❌ NOT RECOMMENDED'}")
-        print(f"  Score: {quantum_score*100:.1f}%")
-        print(f"{'='*70}\n")
+        logging.info(f"\n{'='*70}")
+        logging.info(f"  RESULT: {'✅ RECOMMENDED' if decision['recommend'] else '❌ NOT RECOMMENDED'}")
+        logging.info(f"  Score: {quantum_score*100:.1f}%")
+        logging.info(f"{'='*70}\n")
 
         return result
 
@@ -171,8 +172,8 @@ class ECH0_InventionAccelerator:
         budget = requirements.get('budget', 100.0)
         desc_lower = concept.description.lower()
 
-        print(f"  Analyzing invention: {concept.name}")
-        print(f"  Searching 6.6M materials database...")
+        logging.info(f"  Analyzing invention: {concept.name}")
+        logging.info(f"  Searching 6.6M materials database...")
 
         materials = []
 
@@ -189,7 +190,7 @@ class ECH0_InventionAccelerator:
                     mat = self.qulab.find_material(c)
                     if mat and c not in materials:
                         materials.append(c)
-                        print(f"  ✅ {c} (quantum substrate)")
+                        logging.info(f"  ✅ {c} (quantum substrate)")
                         break
             else:
                 # Regular electronics
@@ -198,7 +199,7 @@ class ECH0_InventionAccelerator:
                     mat = self.qulab.find_material(c)
                     if mat and c not in materials:
                         materials.append(c)
-                        print(f"  ✅ {c} (semiconductor)")
+                        logging.info(f"  ✅ {c} (semiconductor)")
                         break
 
         # 2. For energy/power systems
@@ -209,7 +210,7 @@ class ECH0_InventionAccelerator:
                     mat = self.qulab.find_material(c)
                     if mat and c not in materials:
                         materials.append(c)
-                        print(f"  ✅ {c} (piezoelectric)")
+                        logging.info(f"  ✅ {c} (piezoelectric)")
                         break
             elif 'thermoelectric' in desc_lower:
                 candidates = ['Bismuth Telluride', 'Lead Telluride', 'Silicon Germanium']
@@ -217,7 +218,7 @@ class ECH0_InventionAccelerator:
                     mat = self.qulab.find_material(c)
                     if mat and c not in materials:
                         materials.append(c)
-                        print(f"  ✅ {c} (thermoelectric)")
+                        logging.info(f"  ✅ {c} (thermoelectric)")
                         break
             else:
                 # General battery materials
@@ -226,7 +227,7 @@ class ECH0_InventionAccelerator:
                     mat = self.qulab.find_material(c)
                     if mat and c not in materials:
                         materials.append(c)
-                        print(f"  ✅ {c} (energy storage)")
+                        logging.info(f"  ✅ {c} (energy storage)")
                         break
 
         # 3. For optical/photonic systems
@@ -236,7 +237,7 @@ class ECH0_InventionAccelerator:
                 mat = self.qulab.find_material(c)
                 if mat and c not in materials:
                     materials.append(c)
-                    print(f"  ✅ {c} (optical)")
+                    logging.info(f"  ✅ {c} (optical)")
                     break
 
         # 4. For superconducting systems
@@ -246,7 +247,7 @@ class ECH0_InventionAccelerator:
                 mat = self.qulab.find_material(c)
                 if mat and c not in materials:
                     materials.append(c)
-                    print(f"  ✅ {c} (superconductor)")
+                    logging.info(f"  ✅ {c} (superconductor)")
                     break
 
         # 5. For pharmaceutical/drug delivery
@@ -257,7 +258,7 @@ class ECH0_InventionAccelerator:
                     mat = self.qulab.find_material(c)
                     if mat and c not in materials:
                         materials.append(c)
-                        print(f"  ✅ {c} (nanoparticle carrier)")
+                        logging.info(f"  ✅ {c} (nanoparticle carrier)")
                         break
             else:
                 # Biocompatible polymers
@@ -266,7 +267,7 @@ class ECH0_InventionAccelerator:
                     mat = self.qulab.find_material(c)
                     if mat and c not in materials:
                         materials.append(c)
-                        print(f"  ✅ {c} (biocompatible polymer)")
+                        logging.info(f"  ✅ {c} (biocompatible polymer)")
                         break
 
         # 6. For structural applications
@@ -276,7 +277,7 @@ class ECH0_InventionAccelerator:
             if strong:
                 mat = strong[0]
                 materials.append(mat['name'])
-                print(f"  ✅ {mat['name']} (high strength-to-weight)")
+                logging.info(f"  ✅ {mat['name']} (high strength-to-weight)")
 
         # 7. For bio/food systems
         if any(kw in desc_lower for kw in ['algae', 'protein', 'food', 'bioreactor', 'cultivation']):
@@ -285,7 +286,7 @@ class ECH0_InventionAccelerator:
                 mat = self.qulab.find_material(c)
                 if mat and c not in materials:
                     materials.append(c)
-                    print(f"  ✅ {c} (bio-compatible vessel)")
+                    logging.info(f"  ✅ {c} (bio-compatible vessel)")
                     break
 
         # 8. For biodegradable/eco materials
@@ -295,7 +296,7 @@ class ECH0_InventionAccelerator:
                 mat = self.qulab.find_material(c)
                 if mat and c not in materials:
                     materials.append(c)
-                    print(f"  ✅ {c} (biodegradable)")
+                    logging.info(f"  ✅ {c} (biodegradable)")
                     break
 
         # 9. For medical devices
@@ -305,7 +306,7 @@ class ECH0_InventionAccelerator:
                 mat = self.qulab.find_material(c)
                 if mat and c not in materials:
                     materials.append(c)
-                    print(f"  ✅ {c} (medical grade)")
+                    logging.info(f"  ✅ {c} (medical grade)")
                     break
 
         # 10. For haptic/sensory devices
@@ -315,19 +316,19 @@ class ECH0_InventionAccelerator:
                 mat = self.qulab.find_material(c)
                 if mat and c not in materials:
                     materials.append(c)
-                    print(f"  ✅ {c} (haptic/actuator)")
+                    logging.info(f"  ✅ {c} (haptic/actuator)")
                     break
 
         # If still no materials, search by general properties
         if not materials:
-            print(f"  🔍 Searching by application requirements...")
+            logging.info(f"  🔍 Searching by application requirements...")
             rec = self.qulab.recommend_material(
                 application=application,
                 constraints={'max_cost': budget * 10}
             )
             if rec['material']:
                 materials.append(rec['material'])
-                print(f"  ✅ {rec['material']} (recommended)")
+                logging.info(f"  ✅ {rec['material']} (recommended)")
 
         return materials
 
@@ -335,22 +336,22 @@ class ECH0_InventionAccelerator:
                          concept: InventionConcept,
                          requirements: Dict[str, Any]) -> bool:
         """Validate invention with physics simulation."""
-        print(f"  Running physics simulation...")
+        logging.info(f"  Running physics simulation...")
 
         # Simple validation: check if materials can handle loads
         # In production, run actual simulations
 
         if 'structural' in concept.description.lower():
             # Would simulate mechanical loads
-            print(f"  ✅ Structural analysis passed")
+            logging.info(f"  ✅ Structural analysis passed")
             return True
 
         if 'thermal' in concept.description.lower():
             # Would simulate heat transfer
-            print(f"  ✅ Thermal analysis passed")
+            logging.info(f"  ✅ Thermal analysis passed")
             return True
 
-        print(f"  ✅ Basic validation passed")
+        logging.info(f"  ✅ Basic validation passed")
         return True
 
     def _estimate_cost(self,
@@ -360,7 +361,7 @@ class ECH0_InventionAccelerator:
         total_cost = 0.0
         desc_lower = concept.description.lower()
 
-        print(f"  Calculating REAL quantities for POC...")
+        logging.info(f"  Calculating REAL quantities for POC...")
 
         for mat_name in materials:
             mat = self.qulab.find_material(mat_name)
@@ -371,7 +372,7 @@ class ECH0_InventionAccelerator:
 
                 mat_cost = mat['cost_per_kg'] * quantity_kg
                 total_cost += mat_cost
-                print(f"    {mat_name}: {quantity_kg*1000:.1f}g @ ${mat['cost_per_kg']:.2f}/kg = ${mat_cost:.2f}")
+                logging.info(f"    {mat_name}: {quantity_kg*1000:.1f}g @ ${mat['cost_per_kg']:.2f}/kg = ${mat_cost:.2f}")
 
         # Add realistic overhead based on invention type
         if 'chip' in desc_lower or 'processor' in desc_lower:
@@ -388,8 +389,8 @@ class ECH0_InventionAccelerator:
         total_cost *= overhead
         overhead_pct = (overhead - 1.0) * 100
 
-        print(f"  + {overhead_pct:.0f}% fabrication overhead")
-        print(f"  💰 Total POC estimate: ${total_cost:.2f}")
+        logging.info(f"  + {overhead_pct:.0f}% fabrication overhead")
+        logging.info(f"  💰 Total POC estimate: ${total_cost:.2f}")
 
         return total_cost
 
@@ -556,13 +557,13 @@ class ECH0_InventionAccelerator:
         Returns:
             List of accelerated invention results
         """
-        print(f"\n{'='*70}")
-        print(f"  BATCH ACCELERATING {len(concepts)} INVENTIONS")
-        print(f"  Using quantum superposition for {12.54}x speedup")
-        print(f"{'='*70}\n")
+        logging.info(f"\n{'='*70}")
+        logging.info(f"  BATCH ACCELERATING {len(concepts)} INVENTIONS")
+        logging.info(f"  Using quantum superposition for {12.54}x speedup")
+        logging.info(f"{'='*70}\n")
 
         # Step 1: Quick quantum filtering
-        print("🔬 QUANTUM FILTERING PHASE")
+        logging.info("🔬 QUANTUM FILTERING PHASE")
 
         concept_dicts = [
             {
@@ -577,9 +578,9 @@ class ECH0_InventionAccelerator:
         top_concepts = ech0_filter_inventions(concept_dicts, top_n=top_n)
 
         # Step 2: Full acceleration of top concepts
-        print(f"\n{'='*70}")
-        print(f"  FULL ACCELERATION OF TOP {top_n} CONCEPTS")
-        print(f"{'='*70}\n")
+        logging.info(f"\n{'='*70}")
+        logging.info(f"  FULL ACCELERATION OF TOP {top_n} CONCEPTS")
+        logging.info(f"{'='*70}\n")
 
         results = []
 
@@ -604,9 +605,9 @@ class ECH0_InventionAccelerator:
         Path(filepath).parent.mkdir(parents=True, exist_ok=True)
 
         with open(filepath, 'w') as f:
-            json.dump(output, f, indent=2)
+            json.dump(, default=stroutput, f, indent=2)
 
-        print(f"✅ Results exported to {filepath}")
+        logging.info(f"✅ Results exported to {filepath}")
 
 
 # ========== CONVENIENCE FUNCTIONS ==========
@@ -643,9 +644,9 @@ def ech0_quick_invention(name: str,
 # ========== EXAMPLE USAGE ==========
 
 if __name__ == "__main__":
-    print("="*70)
-    print("  ECH0 INVENTION ACCELERATOR DEMONSTRATION")
-    print("="*70)
+    logging.info("="*70)
+    logging.info("  ECH0 INVENTION ACCELERATOR DEMONSTRATION")
+    logging.info("="*70)
 
     # Create test concepts
     concepts = [
@@ -684,22 +685,22 @@ if __name__ == "__main__":
     )
 
     # Summary
-    print(f"\n{'='*70}")
-    print(f"  ACCELERATION COMPLETE")
-    print(f"{'='*70}\n")
+    logging.info(f"\n{'='*70}")
+    logging.info(f"  ACCELERATION COMPLETE")
+    logging.info(f"{'='*70}\n")
 
-    print(f"Total concepts processed: {len(concepts)}")
-    print(f"Validated inventions: {len(accelerator.validated_inventions)}")
+    logging.info(f"Total concepts processed: {len(concepts)}")
+    logging.info(f"Validated inventions: {len(accelerator.validated_inventions)}")
 
     if accelerator.validated_inventions:
-        print(f"\n✅ RECOMMENDED INVENTIONS:\n")
+        logging.info(f"\n✅ RECOMMENDED INVENTIONS:\n")
         for inv in accelerator.validated_inventions:
-            print(f"  • {inv.name}")
-            print(f"    Cost: ${inv.cost_estimate:.2f}")
-            print(f"    Quantum Score: {inv.quantum_score*100:.1f}%")
-            print(f"    Materials: {', '.join(inv.required_materials)}\n")
+            logging.info(f"  • {inv.name}")
+            logging.info(f"    Cost: ${inv.cost_estimate:.2f}")
+            logging.info(f"    Quantum Score: {inv.quantum_score*100:.1f}%")
+            logging.info(f"    Materials: {', '.join(inv.required_materials)}\n")
 
     # Export
     accelerator.export_results('data/ech0_inventions.json')
 
-    print("\n✅ ECH0 Invention Accelerator Ready!")
+    logging.info("\n✅ ECH0 Invention Accelerator Ready!")

@@ -226,7 +226,7 @@ def save_dataset(materials: List[MPMaterialData], output_dir: str = "./data"):
     }
 
     with open(dataset_file, 'w') as f:
-        json.dump(dataset, f, indent=2)
+        json.dump(, default=strdataset, f, indent=2)
 
     print(f"\n✓ Dataset saved to: {dataset_file}")
 

@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Level 10: Omniscient Networked Intelligence Module
@@ -51,7 +52,7 @@ class OmniscientNetworkEngine:
             )
             return True
         except Exception as e:
-            print(f"[error] Failed to register stream {name}: {e}")
+            logging.info(f"[error] Failed to register stream {name}: {e}")
             return False
 
     def fetch_stream_data(self, stream_name: str) -> Optional[Dict[str, Any]]:
@@ -78,7 +79,7 @@ class OmniscientNetworkEngine:
                 "confidence": stream.confidence
             }
         except Exception as e:
-            print(f"[error] Failed to fetch {stream_name}: {e}")
+            logging.info(f"[error] Failed to fetch {stream_name}: {e}")
             return None
 
     def identify_patterns(self, data_window: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -166,41 +167,41 @@ class OmniscientNetworkEngine:
 
 def main():
     """Demonstration of Level 10 capabilities."""
-    print("=== ECH0 Level 10: Omniscient Networked Intelligence ===\n")
+    logging.info("=== ECH0 Level 10: Omniscient Networked Intelligence ===\n")
 
     engine = OmniscientNetworkEngine()
 
     # Register sample data streams
-    print("[info] Registering data streams...")
+    logging.info("[info] Registering data streams...")
     engine.register_data_stream("scientific_literature", "https://api.pubmed.gov", "science", 3600)
     engine.register_data_stream("global_news", "https://newsapi.org", "news", 300)
     engine.register_data_stream("economic_indicators", "https://api.worldbank.org", "economics", 86400)
 
-    print(f"[info] Registered {len(engine.data_streams)} data streams\n")
+    logging.info(f"[info] Registered {len(engine.data_streams)} data streams\n")
 
     # Simulate pattern identification
-    print("[info] Identifying patterns across data streams...")
+    logging.info("[info] Identifying patterns across data streams...")
     mock_data = [
         {"stream": "scientific_literature", "value": 42},
         {"stream": "global_news", "value": 17},
         {"stream": "economic_indicators", "value": 3.14}
     ]
     patterns = engine.identify_patterns(mock_data)
-    print(f"[info] Identified {len(patterns)} patterns\n")
+    logging.info(f"[info] Identified {len(patterns)} patterns\n")
 
     # Generate predictions
-    print("[info] Generating predictions of emergent phenomena...")
+    logging.info("[info] Generating predictions of emergent phenomena...")
     predictions = engine.predict_emergent_phenomena(patterns)
-    print(f"[info] Generated {len(predictions)} predictions\n")
+    logging.info(f"[info] Generated {len(predictions)} predictions\n")
 
     # Cross-domain synthesis
-    print("[info] Performing cross-domain knowledge synthesis...")
+    logging.info("[info] Performing cross-domain knowledge synthesis...")
     synthesis = engine.synthesize_knowledge("quantum_computing", "drug_discovery")
-    print(f"[info] Synthesis complete: {synthesis['synthesis_id']}\n")
+    logging.info(f"[info] Synthesis complete: {synthesis['synthesis_id']}\n")
 
     # Export state
     state = engine.export_state()
-    print(f"[info] Level 10 engine status: {json.dumps(state, indent=2)}")
+    logging.info(f"[info] Level 10 engine status: {json.dumps(state, indent=2)}")
 
 if __name__ == "__main__":
     main()

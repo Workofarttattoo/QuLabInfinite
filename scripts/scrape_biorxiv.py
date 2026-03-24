@@ -256,7 +256,7 @@ def main():
     output_file = f"/Users/noone/QuLabInfinite/data/biorxiv_papers_{datetime.now().strftime('%Y%m%d')}.json"
 
     with open(output_file, 'w') as f:
-        json.dump(papers, f, indent=2)
+        json.dump(, default=strpapers, f, indent=2)
 
     print(f"\n[bioRxiv] Saved {len(papers)} papers to: {output_file}")
 

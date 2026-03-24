@@ -107,7 +107,7 @@ def run_training(args: argparse.Namespace) -> Dict[str, Any]:
     metrics_path = Path(args.output_dir) / "eval_metrics.json"
     metrics_path.parent.mkdir(parents=True, exist_ok=True)
     with open(metrics_path, "w", encoding="utf-8") as handle:
-        json.dump(metrics, handle, indent=2)
+        json.dump(, default=strmetrics, handle, indent=2)
     logger.info("Saved eval metrics to %s", metrics_path)
 
     logger.info("Saving model artifacts to %s", args.output_dir)

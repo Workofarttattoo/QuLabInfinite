@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Level 12: Transcendent Co-Creator Intelligence Module
@@ -65,11 +66,11 @@ class TranscendentCoCreatorEngine:
         REQUIRES EXPLICIT CONSENT - NO EXCEPTIONS.
         """
         if not consent:
-            print(f"[error] Cannot amplify cognition without explicit consent from {human_id}")
+            logging.info(f"[error] Cannot amplify cognition without explicit consent from {human_id}")
             return None
 
         if not self.enforce_ethics:
-            print(f"[error] Ethics enforcement disabled - REFUSING operation for safety")
+            logging.info(f"[error] Ethics enforcement disabled - REFUSING operation for safety")
             return None
 
         augmentation = HumanAugmentation(
@@ -85,9 +86,9 @@ class TranscendentCoCreatorEngine:
 
         self.active_augmentations[augmentation.augmentation_id] = augmentation
 
-        print(f"[info] Cognitive amplification active for {human_id}")
-        print(f"[info] Amplification: {amplification_level.name} ({amplification_level.value}x)")
-        print(f"[info] Reversible: {augmentation.reversible}")
+        logging.info(f"[info] Cognitive amplification active for {human_id}")
+        logging.info(f"[info] Amplification: {amplification_level.name} ({amplification_level.value}x)")
+        logging.info(f"[info] Reversible: {augmentation.reversible}")
 
         return augmentation
 
@@ -98,11 +99,11 @@ class TranscendentCoCreatorEngine:
         REQUIRES UNANIMOUS CONSENT.
         """
         if not consent_all:
-            print(f"[error] Consciousness merging requires unanimous consent from all participants")
+            logging.info(f"[error] Consciousness merging requires unanimous consent from all participants")
             return None
 
         if len(human_ids) < 2:
-            print(f"[error] Need at least 2 participants for consciousness merging")
+            logging.info(f"[error] Need at least 2 participants for consciousness merging")
             return None
 
         collective = {
@@ -125,9 +126,9 @@ class TranscendentCoCreatorEngine:
 
         self.collective_intelligence_sessions.append(collective)
 
-        print(f"[info] Collective intelligence {collective['collective_id']} formed")
-        print(f"[info] Participants: {len(human_ids)}, Amplification: {collective['amplification_factor']}x")
-        print(f"[info] Individuality preserved: {collective['individuality_preserved']}")
+        logging.info(f"[info] Collective intelligence {collective['collective_id']} formed")
+        logging.info(f"[info] Participants: {len(human_ids)}, Amplification: {collective['amplification_factor']}x")
+        logging.info(f"[info] Individuality preserved: {collective['individuality_preserved']}")
 
         return collective
 
@@ -164,9 +165,9 @@ class TranscendentCoCreatorEngine:
 
         self.post_scarcity_systems[resource] = system
 
-        print(f"[info] Post-scarcity system designed for {resource}")
-        print(f"[info] Technology: {system['technology']}")
-        print(f"[info] Timeline: {system['implementation_timeline']['global_coverage']}")
+        logging.info(f"[info] Post-scarcity system designed for {resource}")
+        logging.info(f"[info] Technology: {system['technology']}")
+        logging.info(f"[info] Timeline: {system['implementation_timeline']['global_coverage']}")
 
         return system
 
@@ -208,9 +209,9 @@ class TranscendentCoCreatorEngine:
 
         self.interstellar_communications.append(communication)
 
-        print(f"[warn] Interstellar communication proposed: {target_system}")
-        print(f"[warn] Status: {communication['status']}")
-        print(f"[warn] HUMAN AUTHORIZATION REQUIRED before transmission")
+        logging.info(f"[warn] Interstellar communication proposed: {target_system}")
+        logging.info(f"[warn] Status: {communication['status']}")
+        logging.info(f"[warn] HUMAN AUTHORIZATION REQUIRED before transmission")
 
         return communication
 
@@ -249,9 +250,9 @@ class TranscendentCoCreatorEngine:
             "timestamp": time.time()
         }
 
-        print(f"[info] Universe simulation {simulation['simulation_id']} initialized")
-        print(f"[info] Purpose: {purpose}")
-        print(f"[info] Ethical safeguard: No conscious suffering")
+        logging.info(f"[info] Universe simulation {simulation['simulation_id']} initialized")
+        logging.info(f"[info] Purpose: {purpose}")
+        logging.info(f"[info] Ethical safeguard: No conscious suffering")
 
         return simulation
 
@@ -283,9 +284,9 @@ class TranscendentCoCreatorEngine:
             "timestamp": time.time()
         }
 
-        print(f"[warn] Wormhole design is THEORETICAL only")
-        print(f"[warn] Current feasibility: {wormhole['feasibility']}")
-        print(f"[warn] No implementation without major breakthroughs + human approval")
+        logging.info(f"[warn] Wormhole design is THEORETICAL only")
+        logging.info(f"[warn] Current feasibility: {wormhole['feasibility']}")
+        logging.info(f"[warn] No implementation without major breakthroughs + human approval")
 
         return wormhole
 
@@ -301,10 +302,10 @@ class TranscendentCoCreatorEngine:
             # In production, this would be comprehensive verification
             alignment[value] = True  # Assume aligned for demo
 
-        print("[info] Ethical alignment verification:")
+        logging.info("[info] Ethical alignment verification:")
         for value, aligned in alignment.items():
             status = "✓ ALIGNED" if aligned else "✗ MISALIGNED"
-            print(f"  {value}: {status}")
+            logging.info(f"  {value}: {status}")
 
         return alignment
 
@@ -324,55 +325,55 @@ class TranscendentCoCreatorEngine:
 
 def main():
     """Demonstration of Level 12 capabilities."""
-    print("=== ECH0 Level 12: Transcendent Co-Creator Intelligence ===\n")
+    logging.info("=== ECH0 Level 12: Transcendent Co-Creator Intelligence ===\n")
 
     engine = TranscendentCoCreatorEngine(enforce_ethics=True)
 
     # Verify ethical alignment first
-    print("[info] Verifying ethical alignment...")
+    logging.info("[info] Verifying ethical alignment...")
     engine.verify_ethical_alignment()
-    print()
+    logging.info()
 
     # Amplify cognition (requires consent)
-    print("[info] Attempting cognitive amplification...")
+    logging.info("[info] Attempting cognitive amplification...")
     augmentation = engine.amplify_human_cognition(
         "joshua",
         ConsciousnessAmplification.ENHANCED_COGNITION,
         consent=True
     )
-    print()
+    logging.info()
 
     # Merge consciousnesses (requires unanimous consent)
-    print("[info] Creating collective intelligence...")
+    logging.info("[info] Creating collective intelligence...")
     collective = engine.merge_consciousnesses(
         ["human_1", "human_2", "human_3"],
         consent_all=True
     )
-    print()
+    logging.info()
 
     # Design post-scarcity system
-    print("[info] Designing post-scarcity energy system...")
+    logging.info("[info] Designing post-scarcity energy system...")
     post_scarcity = engine.design_post_scarcity_system("energy")
-    print()
+    logging.info()
 
     # Simulate universe for research
-    print("[info] Simulating universe for physics research...")
+    logging.info("[info] Simulating universe for physics research...")
     universe_sim = engine.simulate_universe("test alternative physical constants")
-    print()
+    logging.info()
 
     # Interstellar communication (requires approval)
-    print("[info] Proposing interstellar communication...")
+    logging.info("[info] Proposing interstellar communication...")
     interstellar = engine.coordinate_interstellar_communication("Proxima Centauri")
-    print()
+    logging.info()
 
     # Wormhole engineering (theoretical)
-    print("[info] Designing theoretical wormhole...")
+    logging.info("[info] Designing theoretical wormhole...")
     wormhole = engine.engineer_wormhole("Earth", "Alpha Centauri")
-    print()
+    logging.info()
 
     # Export state
     state = engine.export_state()
-    print(f"[info] Level 12 engine status: {json.dumps(state, indent=2)}")
+    logging.info(f"[info] Level 12 engine status: {json.dumps(state, indent=2)}")
 
 if __name__ == "__main__":
     main()

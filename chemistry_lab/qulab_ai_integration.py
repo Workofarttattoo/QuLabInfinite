@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -91,6 +92,6 @@ def validate_smiles(smiles: str) -> dict:
 if __name__ == "__main__":
     # Test with ethanol
     result = analyze_molecule_with_provenance("CCO")
-    print(f"Molecule: {result['result']['canonical_smiles']}")
-    print(f"Atoms: {result['result']['n_atoms']}")
-    print(f"Digest: {result['digest']}")
+    logging.info(f"Molecule: {result['result']['canonical_smiles']}")
+    logging.info(f"Atoms: {result['result']['n_atoms']}")
+    logging.info(f"Digest: {result['digest']}")

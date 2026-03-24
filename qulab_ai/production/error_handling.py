@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -320,12 +321,12 @@ if __name__ == "__main__":
         time.sleep(0.15)
         return "Done"
 
-    print("Testing error handling...")
+    logging.info("Testing error handling...")
     try:
         result = unreliable_function()
-        print(f"Retry test: {result}")
+        logging.info(f"Retry test: {result}")
     except:
-        print("Retry test: Failed after all attempts")
+        logging.info("Retry test: Failed after all attempts")
 
-    print(f"Safe execution test: {risky_function()}")
-    print(f"Timed execution test: {slow_function()}")
+    logging.info(f"Safe execution test: {risky_function()}")
+    logging.info(f"Timed execution test: {slow_function()}")

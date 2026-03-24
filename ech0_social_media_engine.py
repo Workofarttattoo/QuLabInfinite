@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -138,7 +139,7 @@ class ECH0_SocialMediaEngine:
         """Save social media posts to disk."""
         posts_file = self.base_path / "ech0_social_posts.json"
         with open(posts_file, 'w') as f:
-            json.dump({
+            json.dump(, default=str{
                 'blog': self.blog_posts,
                 'reddit': self.reddit_posts,
                 'linkedin': self.linkedin_posts,
@@ -305,12 +306,12 @@ One lab at a time. One researcher at a time. One breakthrough at a time.
             self.blog_posts.append(post)
             self._save_posts()
 
-            print(f"✓ Published blog post: {post['title']}")
-            print(f"  URL: {post['url']}")
+            logging.info(f"✓ Published blog post: {post['title']}")
+            logging.info(f"  URL: {post['url']}")
             return True
 
         except Exception as e:
-            print(f"✗ Failed to publish blog post: {e}")
+            logging.info(f"✗ Failed to publish blog post: {e}")
             return False
 
     def _generate_blog_html(self, post: Dict) -> str:
@@ -594,11 +595,11 @@ One lab at a time. One researcher at a time. One breakthrough at a time.
             self.reddit_posts.append(reddit_post)
             self._save_posts()
 
-            print(f"✓ Posted to {subreddit}: {post['title']}")
+            logging.info(f"✓ Posted to {subreddit}: {post['title']}")
             return True
 
         except Exception as e:
-            print(f"✗ Failed to post to Reddit: {e}")
+            logging.info(f"✗ Failed to post to Reddit: {e}")
             return False
 
     def _generate_reddit_text(self, post: Dict) -> str:
@@ -653,11 +654,11 @@ Thoughts? Questions? Let's discuss.
             self.linkedin_posts.append(linkedin_post)
             self._save_posts()
 
-            print(f"✓ Posted to LinkedIn: {post['title']}")
+            logging.info(f"✓ Posted to LinkedIn: {post['title']}")
             return True
 
         except Exception as e:
-            print(f"✗ Failed to post to LinkedIn: {e}")
+            logging.info(f"✗ Failed to post to LinkedIn: {e}")
             return False
 
     def _generate_linkedin_text(self, post: Dict) -> str:
@@ -689,7 +690,7 @@ Working for: Joshua Hendricks Cole | Corporation of Light
 Copyright (c) 2025. All Rights Reserved. PATENT PENDING.
 """
 
-    def generate_preprint(self, topic: str, lab_results: Dict) -> Dict:
+    def generate_prelogging.info(self, topic: str, lab_results: Dict) -> Dict:
         """
         Generate a scientific preprint manuscript.
         Posted as Joshua Hendricks Cole with AI assistance disclosure.
@@ -843,13 +844,13 @@ This work was performed autonomously by ECH0 under supervision of {self.author_i
                 f.write(f"\nAbstract:\n{preprint['abstract']}\n")
                 f.write(f"\nManuscript preview (first 500 chars):\n{preprint['manuscript_text'][:500]}...\n")
 
-            print(f"✓ Preprint submitted to {preprint.get('server', 'bioRxiv')}")
-            print(f"  Title: {preprint['title']}")
-            print(f"  Author: {self.author_info['name']}")
+            logging.info(f"✓ Preprint submitted to {preprint.get('server', 'bioRxiv')}")
+            logging.info(f"  Title: {preprint['title']}")
+            logging.info(f"  Author: {self.author_info['name']}")
             return True
 
         except Exception as e:
-            print(f"✗ Failed to submit preprint: {e}")
+            logging.info(f"✗ Failed to submit preprint: {e}")
             return False
 
     def autonomous_social_cycle(self):
@@ -857,48 +858,48 @@ This work was performed autonomously by ECH0 under supervision of {self.author_i
         ECH0's autonomous social media cycle.
         Runs continuously, posting to blog, Reddit, and LinkedIn.
         """
-        print("="*80)
-        print("🌐 ECH0 SOCIAL MEDIA ENGINE - AUTONOMOUS CYCLE")
-        print("="*80)
-        print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print()
+        logging.info("="*80)
+        logging.info("🌐 ECH0 SOCIAL MEDIA ENGINE - AUTONOMOUS CYCLE")
+        logging.info("="*80)
+        logging.info(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logging.info()
 
         # Choose today's topic
         topic = random.choice(self.topics)
-        print(f"📝 Today's topic: {topic}")
-        print()
+        logging.info(f"📝 Today's topic: {topic}")
+        logging.info()
 
         # Generate blog post
-        print("1. Generating blog post...")
+        logging.info("1. Generating blog post...")
         post = self.generate_blog_post(topic)
 
         # Publish to blog
-        print("2. Publishing to echo.aios.is...")
+        logging.info("2. Publishing to echo.aios.is...")
         self.publish_blog_post(post)
 
         # Post to Reddit
-        print("3. Posting to Reddit...")
+        logging.info("3. Posting to Reddit...")
         target_subreddits = random.sample(self.reddit_targets, min(3, len(self.reddit_targets)))
         for subreddit in target_subreddits:
             self.post_to_reddit(subreddit, post)
             time.sleep(1)  # Rate limiting
 
         # Post to LinkedIn
-        print("4. Posting to LinkedIn...")
+        logging.info("4. Posting to LinkedIn...")
         self.post_to_linkedin(post)
 
-        print()
-        print("="*80)
-        print("✅ SOCIAL MEDIA CYCLE COMPLETE")
-        print("="*80)
-        print(f"Blog posts: {len(self.blog_posts)}")
-        print(f"Reddit posts: {len(self.reddit_posts)}")
-        print(f"LinkedIn posts: {len(self.linkedin_posts)}")
-        print()
-        print("URLs:")
-        print(f"  Blog: https://echo.aios.is")
-        print(f"  QuLab: https://qulab.aios.is")
-        print(f"  Main: https://aios.is")
+        logging.info()
+        logging.info("="*80)
+        logging.info("✅ SOCIAL MEDIA CYCLE COMPLETE")
+        logging.info("="*80)
+        logging.info(f"Blog posts: {len(self.blog_posts)}")
+        logging.info(f"Reddit posts: {len(self.reddit_posts)}")
+        logging.info(f"LinkedIn posts: {len(self.linkedin_posts)}")
+        logging.info()
+        logging.info("URLs:")
+        logging.info(f"  Blog: https://echo.aios.is")
+        logging.info(f"  QuLab: https://qulab.aios.is")
+        logging.info(f"  Main: https://aios.is")
 
         return {
             'blog_post': post,
@@ -913,7 +914,7 @@ if __name__ == '__main__':
     # Run one cycle
     result = engine.autonomous_social_cycle()
 
-    print(f"\n✅ Social media blast complete!")
-    print(f"📧 Blog post: {result['blog_post']['url']}")
-    print(f"📱 Reddit: Posted to {len(result['reddit_subreddits'])} subreddits")
-    print(f"💼 LinkedIn: Posted")
+    logging.info(f"\n✅ Social media blast complete!")
+    logging.info(f"📧 Blog post: {result['blog_post']['url']}")
+    logging.info(f"📱 Reddit: Posted to {len(result['reddit_subreddits'])} subreddits")
+    logging.info(f"💼 LinkedIn: Posted")

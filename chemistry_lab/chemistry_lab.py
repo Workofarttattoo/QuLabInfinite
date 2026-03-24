@@ -755,3 +755,6 @@ if __name__ == "__main__":
     print("\n" + "=" * 80)
     print("All tests completed successfully!")
     print("=" * 80)
+
+# Alias for compatibility with master API
+ChemistryLab = ChemistryLaboratory

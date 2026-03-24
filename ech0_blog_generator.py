@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """ECH0 Blog Generation System - Production Ready
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light)"""
@@ -54,7 +55,7 @@ def create_blog_index(posts):
 def main():
     posts = []
     for i, topic in enumerate(TOPICS, 1):
-        print(f"[{i}/{len(TOPICS)}] Generating: {topic}")
+        logging.info(f"[{i}/{len(TOPICS)}] Generating: {topic}")
         content = generate_blog_post(topic, i)
 
         filename = f"post_{i:02d}_{datetime.now():%Y%m%d}.md"
@@ -68,14 +69,14 @@ def main():
             'file': filename,
             'date': datetime.now().strftime('%Y-%m-%d')
         })
-        print(f"✅ Saved: {filepath}")
+        logging.info(f"✅ Saved: {filepath}")
 
     # Create index
     with open(BLOG_DIR / 'index.md', 'w') as f:
         f.write(create_blog_index(posts))
 
-    print(f"\n✅ Created {len(posts)} blog posts + index")
-    print(f"📂 Location: {BLOG_DIR}")
+    logging.info(f"\n✅ Created {len(posts)} blog posts + index")
+    logging.info(f"📂 Location: {BLOG_DIR}")
 
 if __name__ == '__main__':
     main()

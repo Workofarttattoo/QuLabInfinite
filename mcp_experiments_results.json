@@ -1,0 +1,6 @@
+{
+  "superconductors_analyzed": 0,
+  "error_correction_results": {
+    "lattice_size": 5,
+    "errors_introduced": 2,
+    "errors_detected": 

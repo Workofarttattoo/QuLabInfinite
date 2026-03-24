@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -531,43 +532,43 @@ class QuLabExtended(QuLabSimulator):
                 })
 
             with open(filepath, 'w') as f:
-                json.dump(data, f, indent=2)
+                json.dump(, default=strdata, f, indent=2)
 
             return True
 
         except Exception as e:
-            print(f"Export failed: {e}")
+            logging.info(f"Export failed: {e}")
             return False
 
 
 def demo_extended_features():
     """Demonstrate extended QuLab features."""
-    print("=" * 70)
-    print("QuLabInfinite Extended API - Demo")
-    print("=" * 70)
+    logging.info("=" * 70)
+    logging.info("QuLabInfinite Extended API - Demo")
+    logging.info("=" * 70)
 
     api = QuLabExtended()
 
     # 1. Material Comparison
-    print("\n1. Comparing materials for aerospace application...")
-    print("-" * 70)
+    logging.info("\n1. Comparing materials for aerospace application...")
+    logging.info("-" * 70)
 
     comparison = api.compare_materials(
         material_names=["Al 6061-T6", "Ti-6Al-4V", "SS 304"],
         optimization_goal="strength_to_weight"
     )
 
-    print(f"Recommendation: {comparison.recommendation}")
-    print(f"Confidence: {comparison.confidence*100:.1f}%")
-    print(f"Analysis: {comparison.analysis}")
+    logging.info(f"Recommendation: {comparison.recommendation}")
+    logging.info(f"Confidence: {comparison.confidence*100:.1f}%")
+    logging.info(f"Analysis: {comparison.analysis}")
 
-    print("\nRankings (Strength-to-Weight):")
+    logging.info("\nRankings (Strength-to-Weight):")
     for i, (mat, score) in enumerate(comparison.rankings["strength_to_weight"], 1):
-        print(f"  {i}. {mat}: {score:.1f}")
+        logging.info(f"  {i}. {mat}: {score:.1f}")
 
     # 2. Fatigue Analysis
-    print("\n\n2. Fatigue Life Analysis...")
-    print("-" * 70)
+    logging.info("\n\n2. Fatigue Life Analysis...")
+    logging.info("-" * 70)
 
     fatigue_result = api.analyze_fatigue_life(
         material_name="Al 6061-T6",
@@ -577,15 +578,15 @@ def demo_extended_features():
     )
 
     if fatigue_result["success"]:
-        print(f"Material: {fatigue_result['material']}")
-        print(f"Fatigue Limit: {fatigue_result['fatigue_limit_MPa']:.1f} MPa")
-        print(f"Safety Factor: {fatigue_result['safety_factor']:.2f}")
-        print(f"Safe for 1M cycles: {fatigue_result['safe_for_target']}")
-        print(f"Analysis: {fatigue_result['analysis']}")
+        logging.info(f"Material: {fatigue_result['material']}")
+        logging.info(f"Fatigue Limit: {fatigue_result['fatigue_limit_MPa']:.1f} MPa")
+        logging.info(f"Safety Factor: {fatigue_result['safety_factor']:.2f}")
+        logging.info(f"Safe for 1M cycles: {fatigue_result['safe_for_target']}")
+        logging.info(f"Analysis: {fatigue_result['analysis']}")
 
     # 3. Thermal Cycling
-    print("\n\n3. Thermal Cycling Analysis...")
-    print("-" * 70)
+    logging.info("\n\n3. Thermal Cycling Analysis...")
+    logging.info("-" * 70)
 
     thermal_result = api.thermal_cycling_analysis(
         material_name="SS 304",
@@ -594,20 +595,20 @@ def demo_extended_features():
         cycles=10000
     )
 
-    print(f"Temperature Range: {thermal_result['temperature_range_C']}°C")
-    print(f"Risk Level: {thermal_result['risk_level']}")
-    print(f"Recommendation: {thermal_result['recommendation']}")
+    logging.info(f"Temperature Range: {thermal_result['temperature_range_C']}°C")
+    logging.info(f"Risk Level: {thermal_result['risk_level']}")
+    logging.info(f"Recommendation: {thermal_result['recommendation']}")
 
     # 4. Generate Report
-    print("\n\n4. Generating Comparison Report...")
-    print("-" * 70)
+    logging.info("\n\n4. Generating Comparison Report...")
+    logging.info("-" * 70)
 
     report = api.generate_comparison_report(comparison)
-    print(report[:500] + "...\n[truncated]")
+    logging.info(report[:500] + "...\n[truncated]")
 
-    print("\n" + "=" * 70)
-    print("Demo complete! Extended features working.")
-    print("=" * 70)
+    logging.info("\n" + "=" * 70)
+    logging.info("Demo complete! Extended features working.")
+    logging.info("=" * 70)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Ensemble Reasoning Module
 Combines multiple 14B models for consensus-based answers (excludes 32B to avoid performance issues)
@@ -65,22 +66,22 @@ class ECH0_Ensemble_Reasoning:
         votes = []
         total_time = 0.0
 
-        print(f"\n[ENSEMBLE VOTING]")
-        print(f"Running problem through {len(self.ensemble_models)} models...")
-        print()
+        logging.info(f"\n[ENSEMBLE VOTING]")
+        logging.info(f"Running problem through {len(self.ensemble_models)} models...")
+        logging.info()
 
         # Get vote from each model
         for i, model in enumerate(self.ensemble_models, 1):
-            print(f"  [{i}/{len(self.ensemble_models)}] Querying {model}...")
+            logging.info(f"  [{i}/{len(self.ensemble_models)}] Querying {model}...")
 
             vote = self._get_model_vote(model, problem, timeout_per_model)
             votes.append(vote)
             total_time += vote.time_seconds
 
-            print(f"      Answer: {vote.answer}")
-            print(f"      Confidence: {vote.confidence:.0%}")
-            print(f"      Time: {vote.time_seconds:.1f}s")
-            print()
+            logging.info(f"      Answer: {vote.answer}")
+            logging.info(f"      Confidence: {vote.confidence:.0%}")
+            logging.info(f"      Time: {vote.time_seconds:.1f}s")
+            logging.info()
 
         # Count votes and determine consensus
         consensus_answer, agreement_score, winning_models = self._determine_consensus(votes)

@@ -536,7 +536,7 @@ def cmd_run(suite_paths: List[str], engine: str, out_dir: str | None) -> int:
         # Write result JSON
         result_path = os.path.join(out_abs, f"{test_id}_result.json")
         with open(result_path, "w", encoding="utf-8") as f:
-            json.dump(result, indent=2, fp=f)
+            json.dump(, default=strresult, indent=2, fp=f)
         results_written += 1
         
         status_emoji = {"pass": "✓", "fail": "✗", "error": "!"}.get(result["status"], "?")

@@ -196,7 +196,7 @@ def main():
 
         # Save report
         with open(f"{sample.name}_report.json", 'w') as f:
-            json.dump(report, f, indent=2)
+            json.dump(, default=strreport, f, indent=2)
 
     print("
 📊 Reports saved as JSON files"    print("📈 To create comparison plots, run:"    print("   analyzer.plot_comparison('density')")

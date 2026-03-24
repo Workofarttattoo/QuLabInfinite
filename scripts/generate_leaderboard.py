@@ -167,7 +167,7 @@ def main():
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(output, indent=2, fp=f)
+        json.dump(, default=stroutput, indent=2, fp=f)
     
     print(f"Generated leaderboard with {len(leaderboard)} engines", file=sys.stderr)
     print(f"  Gold: {sum(1 for e in leaderboard if e.get('certification_level') == 'gold')}", file=sys.stderr)

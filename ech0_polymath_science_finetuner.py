@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Polymath Fine-Tuning on Math AND Science
 Fixes "gibberish" output on science problems by training on both domains
@@ -65,41 +66,41 @@ class ECH0_Polymath_Science_Finetuner:
         """Download all datasets (math + science)"""
         from datasets import load_dataset
 
-        print("=" * 80)
-        print("DOWNLOADING DATASETS")
-        print("=" * 80)
-        print()
+        logging.info("=" * 80)
+        logging.info("DOWNLOADING DATASETS")
+        logging.info("=" * 80)
+        logging.info()
 
         downloaded_datasets = {}
 
         # Download MATH dataset
-        print(f"[1/3] Downloading {self.datasets['math']['name']}...")
+        logging.info(f"[1/3] Downloading {self.datasets['math']['name']}...")
         try:
             math_ds = load_dataset(self.datasets['math']['name'], split="train")
             self.datasets['math']['status'] = "ready"
             self.datasets['math']['size'] = len(math_ds)
             downloaded_datasets['math'] = math_ds
-            print(f"✓ Downloaded {len(math_ds)} math problems")
+            logging.info(f"✓ Downloaded {len(math_ds)} math problems")
         except Exception as e:
-            print(f"✗ Failed to download math dataset: {e}")
+            logging.info(f"✗ Failed to download math dataset: {e}")
             self.datasets['math']['status'] = "failed"
             return False
 
         # Download Science QA dataset
-        print(f"\n[2/3] Downloading {self.datasets['science']['name']}...")
+        logging.info(f"\n[2/3] Downloading {self.datasets['science']['name']}...")
         try:
             sci_ds = load_dataset(self.datasets['science']['name'], split="train")
             self.datasets['science']['status'] = "ready"
             self.datasets['science']['size'] = len(sci_ds)
             downloaded_datasets['science'] = sci_ds
-            print(f"✓ Downloaded {len(sci_ds)} science questions")
+            logging.info(f"✓ Downloaded {len(sci_ds)} science questions")
         except Exception as e:
-            print(f"✗ Failed to download science dataset: {e}")
+            logging.info(f"✗ Failed to download science dataset: {e}")
             self.datasets['science']['status'] = "failed"
             # Continue anyway - we can train on just MATH if needed
 
         # Download MMLU Physics subset
-        print(f"\n[3/3] Downloading {self.datasets['physics']['name']} (physics subset)...")
+        logging.info(f"\n[3/3] Downloading {self.datasets['physics']['name']} (physics subset)...")
         try:
             physics_ds = load_dataset(
                 self.datasets['physics']['name'],
@@ -109,20 +110,20 @@ class ECH0_Polymath_Science_Finetuner:
             self.datasets['physics']['status'] = "ready"
             self.datasets['physics']['size'] = len(physics_ds)
             downloaded_datasets['physics'] = physics_ds
-            print(f"✓ Downloaded {len(physics_ds)} physics problems")
+            logging.info(f"✓ Downloaded {len(physics_ds)} physics problems")
         except Exception as e:
-            print(f"✗ Failed to download physics dataset: {e}")
+            logging.info(f"✗ Failed to download physics dataset: {e}")
             self.datasets['physics']['status'] = "failed"
 
-        print()
-        print("=" * 80)
-        print("DATASET DOWNLOAD SUMMARY")
-        print("=" * 80)
+        logging.info()
+        logging.info("=" * 80)
+        logging.info("DATASET DOWNLOAD SUMMARY")
+        logging.info("=" * 80)
         for name, info in self.datasets.items():
             status_icon = "✓" if info['status'] == "ready" else "✗"
             size = info.get('size', 0)
-            print(f"{status_icon} {name.title()}: {info['status']} ({size} examples)")
-        print()
+            logging.info(f"{status_icon} {name.title()}: {info['status']} ({size} examples)")
+        logging.info()
 
         return len(downloaded_datasets) > 0
 
@@ -136,7 +137,7 @@ class ECH0_Polymath_Science_Finetuner:
 
         # Format MATH dataset
         if 'math' in datasets and self.datasets['math']['status'] == "ready":
-            print(f"Formatting {self.datasets['math']['size']} math problems...")
+            logging.info(f"Formatting {self.datasets['math']['size']} math problems...")
             for example in datasets['math']:
                 training_examples.append({
                     "prompt": f"Solve this math problem step-by-step:\n\n{example['problem']}",
@@ -146,7 +147,7 @@ class ECH0_Polymath_Science_Finetuner:
 
         # Format Science QA dataset
         if 'science' in datasets and self.datasets['science']['status'] == "ready":
-            print(f"Formatting {self.datasets['science']['size']} science questions...")
+            logging.info(f"Formatting {self.datasets['science']['size']} science questions...")
             for example in datasets['science']:
                 # SciQ format: question, correct_answer, support
                 prompt = f"Answer this science question with reasoning:\n\n{example['question']}"
@@ -159,7 +160,7 @@ class ECH0_Polymath_Science_Finetuner:
 
         # Format MMLU Physics dataset
         if 'physics' in datasets and self.datasets['physics']['status'] == "ready":
-            print(f"Formatting {self.datasets['physics']['size']} physics problems...")
+            logging.info(f"Formatting {self.datasets['physics']['size']} physics problems...")
             for example in datasets['physics']:
                 # MMLU format: question, choices, answer
                 choices_str = "\n".join([f"{chr(65+i)}. {choice}"
@@ -172,17 +173,17 @@ class ECH0_Polymath_Science_Finetuner:
                     "domain": "physics"
                 })
 
-        print(f"\n✓ Total training examples: {len(training_examples)}")
+        logging.info(f"\n✓ Total training examples: {len(training_examples)}")
 
         # Show domain breakdown
         math_count = sum(1 for ex in training_examples if ex['domain'] == 'mathematics')
         sci_count = sum(1 for ex in training_examples if ex['domain'] == 'science')
         phys_count = sum(1 for ex in training_examples if ex['domain'] == 'physics')
 
-        print(f"  - Mathematics: {math_count}")
-        print(f"  - Science: {sci_count}")
-        print(f"  - Physics: {phys_count}")
-        print()
+        logging.info(f"  - Mathematics: {math_count}")
+        logging.info(f"  - Science: {sci_count}")
+        logging.info(f"  - Physics: {phys_count}")
+        logging.info()
 
         return training_examples
 
@@ -222,18 +223,18 @@ PARAMETER top_k 40
         Note: As of 2025, Ollama doesn't have native LoRA fine-tuning
         This is a placeholder for when it becomes available
         """
-        print("=" * 80)
-        print("FINE-TUNING WITH OLLAMA")
-        print("=" * 80)
-        print()
-        print("⚠ NOTE: Native Ollama fine-tuning not yet available")
-        print("Alternative approaches:")
-        print("  1. Export model → Fine-tune with PyTorch → Import back to Ollama")
-        print("  2. Use unsloth library for efficient fine-tuning")
-        print("  3. Use Ollama's GGUF format with custom adapters")
-        print()
-        print("For now, we'll prepare the training data in the correct format.")
-        print()
+        logging.info("=" * 80)
+        logging.info("FINE-TUNING WITH OLLAMA")
+        logging.info("=" * 80)
+        logging.info()
+        logging.info("⚠ NOTE: Native Ollama fine-tuning not yet available")
+        logging.info("Alternative approaches:")
+        logging.info("  1. Export model → Fine-tune with PyTorch → Import back to Ollama")
+        logging.info("  2. Use unsloth library for efficient fine-tuning")
+        logging.info("  3. Use Ollama's GGUF format with custom adapters")
+        logging.info()
+        logging.info("For now, we'll prepare the training data in the correct format.")
+        logging.info()
 
         return False  # Will implement full fine-tuning in next version
 
@@ -242,10 +243,10 @@ PARAMETER top_k 40
         Prepare everything needed for fine-tuning
         Returns paths and configs
         """
-        print("=" * 80)
-        print("PREPARING FINE-TUNING PACKAGE")
-        print("=" * 80)
-        print()
+        logging.info("=" * 80)
+        logging.info("PREPARING FINE-TUNING PACKAGE")
+        logging.info("=" * 80)
+        logging.info()
 
         # Download datasets
         success = self.download_datasets()
@@ -269,54 +270,54 @@ PARAMETER top_k 40
             ]
         }
 
-        print("✓ Fine-tuning package prepared")
-        print()
-        print("Next Steps:")
+        logging.info("✓ Fine-tuning package prepared")
+        logging.info()
+        logging.info("Next Steps:")
         for step in package['next_steps']:
-            print(f"  {step}")
-        print()
+            logging.info(f"  {step}")
+        logging.info()
 
         return package
 
 
 def main():
-    print("\n")
-    print("=" * 80)
-    print("ECH0 POLYMATH SCIENCE FINE-TUNING")
-    print("Fixing 'gibberish' output on science problems")
-    print("=" * 80)
-    print("\n")
+    logging.info("\n")
+    logging.info("=" * 80)
+    logging.info("ECH0 POLYMATH SCIENCE FINE-TUNING")
+    logging.info("Fixing 'gibberish' output on science problems")
+    logging.info("=" * 80)
+    logging.info("\n")
 
     finetuner = ECH0_Polymath_Science_Finetuner()
 
     # Prepare fine-tuning
     package = finetuner.prepare_finetuning_package()
 
-    print("=" * 80)
-    print("SUMMARY")
-    print("=" * 80)
-    print()
-    print("Problem: ech0-polymath-14b gives gibberish on science questions")
-    print("Solution: Fine-tune on BOTH math AND science datasets")
-    print()
-    print(f"Datasets Downloaded:")
+    logging.info("=" * 80)
+    logging.info("SUMMARY")
+    logging.info("=" * 80)
+    logging.info()
+    logging.info("Problem: ech0-polymath-14b gives gibberish on science questions")
+    logging.info("Solution: Fine-tune on BOTH math AND science datasets")
+    logging.info()
+    logging.info(f"Datasets Downloaded:")
     for name, info in finetuner.datasets.items():
         status = info['status']
         size = info.get('size', 'N/A')
-        print(f"  - {name.title()}: {status} ({size} examples)")
-    print()
-    print("To complete fine-tuning:")
-    print("  1. Install unsloth: pip install unsloth")
-    print("  2. Run fine-tuning script (next file)")
-    print("  3. Import fine-tuned model back to Ollama")
-    print()
-    print("Expected improvement:")
-    print("  - Mathematics: Maintains current 10% accuracy")
-    print("  - Science: From gibberish → 40-60% accuracy")
-    print("  - Physics: From gibberish → 30-50% accuracy")
-    print()
-    print("=" * 80)
-    print("\n")
+        logging.info(f"  - {name.title()}: {status} ({size} examples)")
+    logging.info()
+    logging.info("To complete fine-tuning:")
+    logging.info("  1. Install unsloth: pip install unsloth")
+    logging.info("  2. Run fine-tuning script (next file)")
+    logging.info("  3. Import fine-tuned model back to Ollama")
+    logging.info()
+    logging.info("Expected improvement:")
+    logging.info("  - Mathematics: Maintains current 10% accuracy")
+    logging.info("  - Science: From gibberish → 40-60% accuracy")
+    logging.info("  - Physics: From gibberish → 30-50% accuracy")
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("\n")
 
 
 if __name__ == "__main__":

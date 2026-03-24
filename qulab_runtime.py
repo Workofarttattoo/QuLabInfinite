@@ -1,3 +1,4 @@
+import logging
 """Canonical runtime entrypoint for QuLabInfinite."""
 
 import argparse
@@ -25,11 +26,11 @@ def main() -> None:
     simulator = get_simulator()
 
     if args.command == "list":
-        print(json.dumps(simulator.list_labs(), sort_keys=True, indent=2))
+        logging.info(json.dumps(simulator.list_labs(), sort_keys=True, indent=2))
         return
 
     payload: Dict[str, Any] = json.loads(args.payload)
-    print(simulator.run_simulation_artifact(args.tool, payload))
+    logging.info(simulator.run_simulation_artifact(args.tool, payload))
 
 
 if __name__ == "__main__":

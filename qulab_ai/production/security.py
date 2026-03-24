@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -589,31 +590,31 @@ if __name__ == "__main__":
         email="test@example.com",
         roles=["user", "admin"]
     )
-    print(f"Created user: {user}")
+    logging.info(f"Created user: {user}")
 
     # Authenticate user
     auth_user = SecurityManager.authenticate_user("testuser", "testpass123")
-    print(f"Authenticated: {auth_user}")
+    logging.info(f"Authenticated: {auth_user}")
 
     # Create tokens
     access_token = SecurityManager.create_access_token(data={"sub": "testuser"})
     refresh_token = SecurityManager.create_refresh_token(data={"sub": "testuser"})
-    print(f"Access token: {access_token[:50]}...")
-    print(f"Refresh token: {refresh_token[:50]}...")
+    logging.info(f"Access token: {access_token[:50]}...")
+    logging.info(f"Refresh token: {refresh_token[:50]}...")
 
     # Create API key
     api_key_data = SecurityManager.create_api_key(
         name="Test API Key",
         permissions=["read", "write"]
     )
-    print(f"API Key: {api_key_data['key']}")
+    logging.info(f"API Key: {api_key_data['key']}")
 
     # Test rate limiting
     rate_limiter = RateLimiter(requests_per_minute=10)
     for i in range(12):
         allowed = rate_limiter.check_rate_limit("test_user")
-        print(f"Request {i+1}: {'✓ Allowed' if allowed else '✗ Rate limited'}")
+        logging.info(f"Request {i+1}: {'✓ Allowed' if allowed else '✗ Rate limited'}")
 
     # Get rate limit info
     info = rate_limiter.get_rate_limit_info("test_user")
-    print(f"Rate limit info: {info}")
+    logging.info(f"Rate limit info: {info}")

@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Core Module: DeepMind Research Algorithms
 65+ cutting-edge algorithms from Google DeepMind integrated into ECH0
@@ -94,7 +95,7 @@ class ECH0_DeepMind_Algorithms:
 
         module_path = self.deepmind_path / module_name
         if not module_path.exists():
-            print(f"Module not found: {module_name}")
+            logging.info(f"Module not found: {module_name}")
             return None
 
         try:
@@ -103,7 +104,7 @@ class ECH0_DeepMind_Algorithms:
             self.loaded_modules[module_name] = module
             return module
         except ImportError as e:
-            print(f"Could not import {module_name}: {e}")
+            logging.info(f"Could not import {module_name}: {e}")
             return None
 
     def get_nfnet_model(self, variant: str = "F0"):

@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 MCP Server - Model Context Protocol Interface
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -229,7 +230,7 @@ async def ech0_status():
     }
 
 if __name__ == "__main__":
-    print("""
+    logging.info("""
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║                                                                           ║
 ║                      ECH0 MCP SERVER - AUTONOMOUS CONTROL                 ║

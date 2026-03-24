@@ -272,7 +272,7 @@ def prove_scale_works():
     output_file.parent.mkdir(exist_ok=True)
 
     with open(output_file, 'w') as f:
-        json.dump(proof, f, indent=2)
+        json.dump(, default=strproof, f, indent=2)
 
     print(f"📁 Proof exported to: {output_file}")
     print()

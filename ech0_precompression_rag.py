@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Pre-Compression + RAG System
 Advanced prompt compression and retrieval-augmented generation for MoE
@@ -115,7 +116,7 @@ Compressed (use abbreviations, remove redundancy, keep core meaning):"""
 
         # Cache
         with open(cache_file, 'w') as f:
-            json.dump({
+            json.dump(, default=str{
                 "original": result.original,
                 "compressed": result.compressed,
                 "compression_ratio": result.compression_ratio,
@@ -193,7 +194,7 @@ class ECH0_RAG:
         embedding = self._create_embedding(text)
 
         with open(kb_file, 'w') as f:
-            json.dump({
+            json.dump(, default=str{
                 "text": text,
                 "metadata": metadata,
                 "embedding": embedding.tolist(),
@@ -383,17 +384,17 @@ class ECH0_PreCompressionRAG:
 
 
 def main():
-    print("=" * 80)
-    print("ECH0 PRE-COMPRESSION + RAG SYSTEM")
-    print("Advanced prompt optimization for Mixture of Experts")
-    print("=" * 80)
-    print()
+    logging.info("=" * 80)
+    logging.info("ECH0 PRE-COMPRESSION + RAG SYSTEM")
+    logging.info("Advanced prompt optimization for Mixture of Experts")
+    logging.info("=" * 80)
+    logging.info()
 
     system = ECH0_PreCompressionRAG()
 
     # Example 1: Long verbose prompt
-    print("EXAMPLE 1: Verbose Prompt Compression")
-    print("=" * 80)
+    logging.info("EXAMPLE 1: Verbose Prompt Compression")
+    logging.info("=" * 80)
     verbose_prompt = """
     Hello! I was wondering if you could please help me understand something about mathematics.
     Specifically, I would really appreciate it if you could explain to me, in detail, how to
@@ -409,21 +410,21 @@ def main():
         compression_ratio=0.3
     )
 
-    print(f"Original ({result['original_length']} chars):")
-    print(f"  {result['original_prompt'][:100]}...")
-    print()
-    print(f"Optimized ({result['optimized_length']} chars):")
-    print(f"  {result['optimized_prompt']}")
-    print()
-    print(f"Compression: {result['compression_ratio']:.1%} of original")
-    print(f"Key Concepts: {', '.join(result['key_concepts'])}")
-    print(f"Optimization Time: {result['optimization_time_seconds']:.3f}s")
+    logging.info(f"Original ({result['original_length']} chars):")
+    logging.info(f"  {result['original_prompt'][:100]}...")
+    logging.info()
+    logging.info(f"Optimized ({result['optimized_length']} chars):")
+    logging.info(f"  {result['optimized_prompt']}")
+    logging.info()
+    logging.info(f"Compression: {result['compression_ratio']:.1%} of original")
+    logging.info(f"Key Concepts: {', '.join(result['key_concepts'])}")
+    logging.info(f"Optimization Time: {result['optimization_time_seconds']:.3f}s")
 
     # Learn from a sample interaction
-    print()
-    print("=" * 80)
-    print("EXAMPLE 2: Learning from Interaction (for RAG)")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("EXAMPLE 2: Learning from Interaction (for RAG)")
+    logging.info("=" * 80)
 
     sample_q = "What is the orbital period formula?"
     sample_a = "The orbital period T = 2π√(r³/GM) where r is orbital radius, G is gravitational constant, M is central mass"
@@ -433,13 +434,13 @@ def main():
         response=sample_a,
         metadata={"domain": "physics", "expert": "QuLab"}
     )
-    print(f"✓ Learned: '{sample_q[:50]}...'")
+    logging.info(f"✓ Learned: '{sample_q[:50]}...'")
 
     # Now try RAG retrieval
-    print()
-    print("=" * 80)
-    print("EXAMPLE 3: RAG-Enhanced Query")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("EXAMPLE 3: RAG-Enhanced Query")
+    logging.info("=" * 80)
 
     new_query = "Calculate the period of a satellite orbiting Earth at 400km altitude"
     result = system.optimize_prompt(
@@ -449,35 +450,35 @@ def main():
         compression_ratio=0.5
     )
 
-    print(f"Original Query: {new_query}")
-    print()
-    print(f"Optimized with RAG Context:")
-    print(f"  {result['optimized_prompt'][:200]}...")
-    print()
-    print(f"Retrieved {result['retrieved_contexts']} relevant context(s)")
+    logging.info(f"Original Query: {new_query}")
+    logging.info()
+    logging.info(f"Optimized with RAG Context:")
+    logging.info(f"  {result['optimized_prompt'][:200]}...")
+    logging.info()
+    logging.info(f"Retrieved {result['retrieved_contexts']} relevant context(s)")
     if result['relevance_scores']:
-        print(f"Relevance Scores: {[f'{s:.2f}' for s in result['relevance_scores']]}")
-    print(f"Final Compression: {result['compression_ratio']:.1%} of original")
+        logging.info(f"Relevance Scores: {[f'{s:.2f}' for s in result['relevance_scores']]}")
+    logging.info(f"Final Compression: {result['compression_ratio']:.1%} of original")
 
-    print()
-    print("=" * 80)
-    print("INTEGRATION WITH MoE")
-    print("=" * 80)
-    print()
-    print("This system can be integrated with ech0_moe_dynamic_experts.py:")
-    print()
-    print("# Instead of:")
-    print("moe.solve(long_verbose_prompt)")
-    print()
-    print("# Use:")
-    print("optimized = system.optimize_prompt(long_verbose_prompt)")
-    print("moe.solve(optimized['optimized_prompt'])")
-    print()
-    print("Benefits:")
-    print("- 50-80% token reduction → faster inference")
-    print("- RAG provides relevant context → better accuracy")
-    print("- Learned knowledge grows over time → improves with use")
-    print("=" * 80)
+    logging.info()
+    logging.info("=" * 80)
+    logging.info("INTEGRATION WITH MoE")
+    logging.info("=" * 80)
+    logging.info()
+    logging.info("This system can be integrated with ech0_moe_dynamic_experts.py:")
+    logging.info()
+    logging.info("# Instead of:")
+    logging.info("moe.solve(long_verbose_prompt)")
+    logging.info()
+    logging.info("# Use:")
+    logging.info("optimized = system.optimize_prompt(long_verbose_prompt)")
+    logging.info("moe.solve(optimized['optimized_prompt'])")
+    logging.info()
+    logging.info("Benefits:")
+    logging.info("- 50-80% token reduction → faster inference")
+    logging.info("- RAG provides relevant context → better accuracy")
+    logging.info("- Learned knowledge grows over time → improves with use")
+    logging.info("=" * 80)
 
 
 if __name__ == "__main__":

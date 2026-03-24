@@ -1,3 +1,4 @@
+import logging
 """
 QuLab Unified GUI - Natural Language Interface for All 20 Labs
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -305,7 +306,7 @@ async def get_lab_info(lab_id: str):
     return LAB_REGISTRY[lab_id]
 
 if __name__ == "__main__":
-    print("🚀 QuLab Unified GUI starting on http://localhost:8000")
-    print("📊 20 production labs available")
-    print("💬 Natural language interface active")
+    logging.info("🚀 QuLab Unified GUI starting on http://localhost:8000")
+    logging.info("📊 20 production labs available")
+    logging.info("💬 Natural language interface active")
     uvicorn.run(app, host="0.0.0.0", port=8000)

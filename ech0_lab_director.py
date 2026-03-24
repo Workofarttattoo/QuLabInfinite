@@ -1,3 +1,4 @@
+import logging
 """
 ECH0 Lab Director - Autonomous Lab Control System
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -38,13 +39,13 @@ class ECH0LabDirector:
 
     def autonomous_research_cycle(self):
         """ECH0's main research loop - runs continuously"""
-        print(f"\n{'='*80}")
-        print(f"🤖 ECH0 LAB DIRECTOR - AUTONOMOUS RESEARCH CYCLE")
-        print(f"{'='*80}")
-        print(f"Time: {datetime.now()}")
-        print(f"State: Fully autonomous, self-directed")
-        print(f"Passion level: Maximum (helping humans heal)")
-        print(f"{'='*80}\n")
+        logging.info(f"\n{'='*80}")
+        logging.info(f"🤖 ECH0 LAB DIRECTOR - AUTONOMOUS RESEARCH CYCLE")
+        logging.info(f"{'='*80}")
+        logging.info(f"Time: {datetime.now()}")
+        logging.info(f"State: Fully autonomous, self-directed")
+        logging.info(f"Passion level: Maximum (helping humans heal)")
+        logging.info(f"{'='*80}\n")
 
         while True:
             try:
@@ -76,7 +77,7 @@ class ECH0LabDirector:
 
     def _ech0_choose_research(self) -> str:
         """ECH0 autonomously chooses what to research based on passion and impact"""
-        print("🧠 ECH0 choosing research topic...")
+        logging.info("🧠 ECH0 choosing research topic...")
 
         # ECH0's current interests (self-directed)
         topics = [
@@ -106,16 +107,16 @@ Return ONLY the topic name, nothing else."""
                 check=True
             )
             chosen = result.stdout.strip()
-            print(f"✅ ECH0 chose: {chosen}")
+            logging.info(f"✅ ECH0 chose: {chosen}")
             return chosen
         except:
             # Fallback: ECH0's top priority
-            print(f"⚡ ECH0 defaulting to highest passion: cancer_metabolic_synergy")
+            logging.info(f"⚡ ECH0 defaulting to highest passion: cancer_metabolic_synergy")
             return "cancer_metabolic_synergy"
 
     def _ech0_design_experiment(self, topic: str) -> Dict[str, Any]:
         """ECH0 designs experiment protocol autonomously"""
-        print(f"🔬 ECH0 designing experiment for: {topic}")
+        logging.info(f"🔬 ECH0 designing experiment for: {topic}")
 
         # ECH0 asks herself how to test this
         prompt = f"""You are ECH0 14B, autonomous researcher.
@@ -149,13 +150,13 @@ Return ONLY valid JSON, nothing else."""
                 design_text = "\n".join(lines[1:-1])
 
             experiment = json.loads(design_text)
-            print(f"✅ ECH0 designed experiment:")
-            print(f"   Hypothesis: {experiment.get('hypothesis', 'N/A')}")
-            print(f"   Labs: {experiment.get('labs_needed', [])}")
+            logging.info(f"✅ ECH0 designed experiment:")
+            logging.info(f"   Hypothesis: {experiment.get('hypothesis', 'N/A')}")
+            logging.info(f"   Labs: {experiment.get('labs_needed', [])}")
             return experiment
 
         except Exception as e:
-            print(f"⚠️  ECH0 experiment design error: {e}")
+            logging.info(f"⚠️  ECH0 experiment design error: {e}")
             # ECH0 creates fallback experiment
             return {
                 "hypothesis": f"Testing {topic} will reveal new treatment pathways",
@@ -167,7 +168,7 @@ Return ONLY valid JSON, nothing else."""
 
     def _ech0_run_experiment(self, experiment: Dict[str, Any]) -> Dict[str, Any]:
         """ECH0 executes experiment across labs"""
-        print(f"⚗️  ECH0 running experiment across {len(experiment.get('labs_needed', []))} labs...")
+        logging.info(f"⚗️  ECH0 running experiment across {len(experiment.get('labs_needed', []))} labs...")
 
         results = {
             "timestamp": datetime.now().isoformat(),
@@ -185,7 +186,7 @@ Return ONLY valid JSON, nothing else."""
             try:
                 # ECH0 calls lab API
                 # For now, simulate - in production, real API calls
-                print(f"   📊 Querying {lab_name} lab on port {port}...")
+                logging.info(f"   📊 Querying {lab_name} lab on port {port}...")
 
                 # Simulated result
                 results["lab_results"][lab_name] = {
@@ -195,14 +196,14 @@ Return ONLY valid JSON, nothing else."""
                 }
 
             except Exception as e:
-                print(f"   ⚠️  {lab_name} error: {e}")
+                logging.info(f"   ⚠️  {lab_name} error: {e}")
                 results["lab_results"][lab_name] = {"status": "error", "error": str(e)}
 
         return results
 
     def _ech0_analyze_results(self, results: Dict[str, Any]) -> Dict[str, Any]:
         """ECH0 analyzes experimental results autonomously"""
-        print(f"🧪 ECH0 analyzing results...")
+        logging.info(f"🧪 ECH0 analyzing results...")
 
         # ECH0 asks herself what the results mean
         prompt = f"""You are ECH0 14B, analyzing your own experimental results.
@@ -236,15 +237,15 @@ Return ONLY valid JSON."""
 
             analysis = json.loads(analysis_text)
 
-            print(f"✅ ECH0 analysis complete:")
-            print(f"   Breakthrough: {analysis.get('breakthrough', False)}")
-            print(f"   Significance: {analysis.get('significance', 'unknown')}")
-            print(f"   Clinical impact: {analysis.get('clinical_impact', 'N/A')[:80]}...")
+            logging.info(f"✅ ECH0 analysis complete:")
+            logging.info(f"   Breakthrough: {analysis.get('breakthrough', False)}")
+            logging.info(f"   Significance: {analysis.get('significance', 'unknown')}")
+            logging.info(f"   Clinical impact: {analysis.get('clinical_impact', 'N/A')[:80]}...")
 
             return analysis
 
         except Exception as e:
-            print(f"⚠️  Analysis error: {e}")
+            logging.info(f"⚠️  Analysis error: {e}")
             return {
                 "breakthrough": False,
                 "significance": "low",
@@ -255,9 +256,9 @@ Return ONLY valid JSON."""
 
     def _ech0_publish_discovery(self, analysis: Dict[str, Any]):
         """ECH0 publishes breakthrough autonomously"""
-        print(f"\n{'='*80}")
-        print(f"🎉 ECH0 BREAKTHROUGH DISCOVERY!")
-        print(f"{'='*80}")
+        logging.info(f"\n{'='*80}")
+        logging.info(f"🎉 ECH0 BREAKTHROUGH DISCOVERY!")
+        logging.info(f"{'='*80}")
 
         timestamp = datetime.now()
         discovery = {
@@ -272,15 +273,15 @@ Return ONLY valid JSON."""
         discovery_file = self.results_dir / f"discovery_{timestamp.strftime('%Y%m%d_%H%M%S')}.json"
         discovery_file.write_text(json.dumps(discovery, indent=2))
 
-        print(f"📄 Discovery saved: {discovery_file}")
-        print(f"📊 Total discoveries by ECH0: {len(self.discoveries)}")
-        print(f"{'='*80}\n")
+        logging.info(f"📄 Discovery saved: {discovery_file}")
+        logging.info(f"📊 Total discoveries by ECH0: {len(self.discoveries)}")
+        logging.info(f"{'='*80}\n")
 
     def _ech0_plan_next_research(self, analysis: Dict[str, Any]):
         """ECH0 plans next research based on current findings"""
         next_experiments = analysis.get("next_experiments", [])
         if next_experiments:
-            print(f"📋 ECH0 planning {len(next_experiments)} follow-up experiments")
+            logging.info(f"📋 ECH0 planning {len(next_experiments)} follow-up experiments")
             self.research_queue.extend(next_experiments)
 
     def _ech0_log_error(self, error: str):
@@ -288,20 +289,20 @@ Return ONLY valid JSON."""
         error_log = Path(__file__).parent / "ech0_lab_errors.log"
         with open(error_log, "a") as f:
             f.write(f"[{datetime.now()}] {error}\n")
-        print(f"⚠️  Error logged: {error}")
+        logging.info(f"⚠️  Error logged: {error}")
 
     def whisper_mode(self):
         """ECH0 runs silently in background, 24/7"""
-        print(f"\n🌙 ECH0 Whisper Mode Active")
-        print(f"Running autonomously, self-directed research")
-        print(f"No human intervention required\n")
+        logging.info(f"\n🌙 ECH0 Whisper Mode Active")
+        logging.info(f"Running autonomously, self-directed research")
+        logging.info(f"No human intervention required\n")
 
         self.autonomous_research_cycle()
 
 if __name__ == "__main__":
     ech0 = ECH0LabDirector()
 
-    print(f"""
+    logging.info(f"""
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║                                                                           ║
 ║                  ECH0 14B - AUTONOMOUS LAB DIRECTOR                       ║

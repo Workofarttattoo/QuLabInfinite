@@ -1,3 +1,5 @@
+import time
+# TODO: Refactor long functions identified in code quality analysis
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -24,7 +26,7 @@ Usage:
     >>>
     >>> # List all available labs
     >>> labs = api.list_labs()
-    >>> print(f"Total labs: {len(labs)}")
+    >>> logging.info(f"Total labs: {len(labs)}")
     >>>
     >>> # Get specific lab
     >>> quantum_lab = api.get_lab("quantum_mechanics")
@@ -875,6 +877,136 @@ class QuLabMasterAPI:
                 "class": "CognitiveScienceLab",
                 "keywords": ["cognitive", "science", "psychology", "cognition"]
             },
+            # New Integrated Frameworks
+            "pymatgen_materials": {
+                "display_name": "PyMatGen Materials Lab",
+                "description": "Advanced materials analysis using PyMatGen framework",
+                "domain": LabDomain.MATERIALS,
+                "module": "pymatgen_materials_lab",
+                "class": "PyMatGenMaterialsLab",
+                "keywords": ["materials", "pymatgen", "crystal", "structure", "electronic"]
+            },
+            "pymatgen_defects": {
+                "display_name": "PyMatGen Defects Lab",
+                "description": "Materials defect analysis using PyMatGen",
+                "domain": LabDomain.MATERIALS,
+                "module": "pymatgen_materials_lab",
+                "class": "PyMatGenDefectsLab",
+                "keywords": ["defects", "materials", "pymatgen", "formation", "energy"]
+            },
+            "atomate2_automation": {
+                "display_name": "Atomate2 Automation Lab",
+                "description": "High-throughput materials calculations with Atomate2",
+                "domain": LabDomain.MATERIALS,
+                "module": "atomate2_materials_lab",
+                "class": "Atomate2MaterialsLab",
+                "keywords": ["atomate2", "automation", "high-throughput", "calculations"]
+            },
+            "custodian_workflow": {
+                "display_name": "Custodian Workflow Lab",
+                "description": "Computational workflow management with error handling",
+                "domain": LabDomain.MATERIALS,
+                "module": "atomate2_materials_lab",
+                "class": "CustodianWorkflowLab",
+                "keywords": ["custodian", "workflow", "error-handling", "automation"]
+            },
+            "matbench_benchmarking": {
+                "display_name": "Matbench Benchmarking Lab",
+                "description": "Materials ML model benchmarking and comparison",
+                "domain": LabDomain.MATERIALS,
+                "module": "matbench_materials_lab",
+                "class": "MatbenchBenchmarkingLab",
+                "keywords": ["benchmarking", "ml", "materials", "comparison", "evaluation"]
+            },
+            "emmet_database": {
+                "display_name": "Emmet Materials Database Lab",
+                "description": "Materials database queries using Emmet framework",
+                "domain": LabDomain.MATERIALS,
+                "module": "matbench_materials_lab",
+                "class": "EmmetMaterialsLab",
+                "keywords": ["database", "emmet", "materials", "query", "search"]
+            },
+            "metasploit_security": {
+                "display_name": "Metasploit Cybersecurity Lab",
+                "description": "Penetration testing and vulnerability assessment",
+                "domain": LabDomain.COMPUTER_SCIENCE,
+                "module": "metasploit_cybersecurity_lab",
+                "class": "MetasploitCybersecurityLab",
+                "keywords": ["cybersecurity", "penetration", "metasploit", "vulnerability"]
+            },
+            "ai_penetration_testing": {
+                "display_name": "AI Penetration Testing Lab",
+                "description": "AI-driven penetration testing and security analysis",
+                "domain": LabDomain.COMPUTER_SCIENCE,
+                "module": "metasploit_cybersecurity_lab",
+                "class": "PenetrationTestingLab",
+                "keywords": ["ai", "penetration", "testing", "security", "intelligence"]
+            },
+            "openscap_compliance": {
+                "display_name": "OpenSCAP Compliance Lab",
+                "description": "Security compliance scanning and policy enforcement",
+                "domain": LabDomain.COMPUTER_SCIENCE,
+                "module": "openscap_security_lab",
+                "class": "OpenSCAPSecurityLab",
+                "keywords": ["compliance", "openscap", "security", "policy", "scanning"]
+            },
+            "scap_workbench": {
+                "display_name": "SCAP Workbench Lab",
+                "description": "Security policy creation and customization",
+                "domain": LabDomain.COMPUTER_SCIENCE,
+                "module": "openscap_security_lab",
+                "class": "SCAPWorkbenchLab",
+                "keywords": ["scap", "workbench", "policy", "customization", "security"]
+            },
+            "nist_chemistry": {
+                "display_name": "NIST Chemistry Lab",
+                "description": "Computational chemistry using NIST frameworks",
+                "domain": LabDomain.CHEMISTRY,
+                "module": "nist_chemistry_lab",
+                "class": "NistChemistryLab",
+                "keywords": ["nist", "chemistry", "computational", "properties", "kinetics"]
+            },
+            "reaction_network": {
+                "display_name": "Reaction Network Lab",
+                "description": "Complex reaction network analysis and simulation",
+                "domain": LabDomain.CHEMISTRY,
+                "module": "nist_chemistry_lab",
+                "class": "ReactionNetworkLab",
+                "keywords": ["reaction", "network", "analysis", "simulation", "kinetics"]
+            },
+            # Additional Downloaded Frameworks Integration
+            "mcp_penetration_testing": {
+                "display_name": "MCP Penetration Testing Lab",
+                "description": "Advanced penetration testing using MCP framework",
+                "domain": LabDomain.COMPUTER_SCIENCE,
+                "module": "mcp_penetration_lab",
+                "class": "MCPPenetrationTestingLab",
+                "keywords": ["mcp", "penetration", "testing", "advanced", "cybersecurity"]
+            },
+            "citadel_cybersecurity": {
+                "display_name": "Citadel Cybersecurity Lab",
+                "description": "Advanced cybersecurity research and threat intelligence",
+                "domain": LabDomain.COMPUTER_SCIENCE,
+                "module": "citadel_cybersecurity_lab",
+                "class": "CitadelCybersecurityLab",
+                "keywords": ["citadel", "cybersecurity", "threat", "intelligence", "research"]
+            },
+            "materials_project_api": {
+                "display_name": "Materials Project API Lab",
+                "description": "Official Materials Project API for materials data and validation",
+                "domain": LabDomain.MATERIALS,
+                "module": "materials_project_api_lab",
+                "class": "MaterialsProjectAPILab",
+                "keywords": ["materials", "project", "api", "validation", "database"]
+            },
+            "fireworks_workflow": {
+                "display_name": "Fireworks Workflow Lab",
+                "description": "Computational workflow management and job orchestration",
+                "domain": LabDomain.MATERIALS,
+                "module": "fireworks_workflow_lab",
+                "class": "FireworksWorkflowLab",
+                "keywords": ["fireworks", "workflow", "orchestration", "computation", "job"]
+            },
         }
 
     def load_all_labs(self) -> Dict[str, bool]:
@@ -1345,114 +1477,114 @@ def main():
         domain = LabDomain(args.domain) if args.domain else None
         labs = api.list_labs(domain=domain, available_only=args.available_only)
 
-        print(f"\n{'='*80}")
-        print(f"QuLabInfinite Laboratory Catalog")
-        print(f"{'='*80}\n")
+        logging.info(f"\n{'='*80}")
+        logging.info(f"QuLabInfinite Laboratory Catalog")
+        logging.info(f"{'='*80}\n")
 
         current_domain = None
         for lab in labs:
             if lab["domain"] != current_domain:
                 current_domain = lab["domain"]
-                print(f"\n{current_domain}")
-                print("-" * len(current_domain))
+                logging.info(f"\n{current_domain}")
+                logging.info("-" * len(current_domain))
 
             status = "✓" if lab["available"] else "✗"
-            print(f"  {status} {lab['display_name']}")
-            print(f"     {lab['description']}")
+            logging.info(f"  {status} {lab['display_name']}")
+            logging.info(f"     {lab['description']}")
             if lab["error"]:
-                print(f"     Error: {lab['error']}")
+                logging.info(f"     Error: {lab['error']}")
 
-        print(f"\n{len(labs)} labs total\n")
+        logging.info(f"\n{len(labs)} labs total\n")
 
     elif args.command == "search":
         if not args.target:
-            print("Error: search query required")
+            logging.info("Error: search query required")
             return 1
 
         results = api.search_labs(args.target)
 
-        print(f"\nSearch results for: '{args.target}'")
-        print(f"Found {len(results)} matches\n")
+        logging.info(f"\nSearch results for: '{args.target}'")
+        logging.info(f"Found {len(results)} matches\n")
 
         for result in results:
             status = "✓" if result["available"] else "✗"
-            print(f"{status} {result['display_name']}")
-            print(f"   {result['description']}")
-            print(f"   Domain: {result['domain']} | Relevance: {result['relevance_score']:.1f}")
-            print()
+            logging.info(f"{status} {result['display_name']}")
+            logging.info(f"   {result['description']}")
+            logging.info(f"   Domain: {result['domain']} | Relevance: {result['relevance_score']:.1f}")
+            logging.info()
 
     elif args.command == "info":
         if not args.target:
-            print("Error: lab name required")
+            logging.info("Error: lab name required")
             return 1
 
         info = api.get_capabilities(args.target)
 
         if "error" in info:
-            print(f"Error: {info['error']}")
+            logging.info(f"Error: {info['error']}")
             return 1
 
-        print(f"\n{info['display_name']}")
-        print("=" * len(info['display_name']))
-        print(f"\nDescription: {info['description']}")
-        print(f"Domain: {info['domain']}")
-        print(f"Module: {info['module']}")
-        print(f"Class: {info['class']}")
-        print(f"Available: {'Yes' if info['available'] else 'No'}")
+        logging.info(f"\n{info['display_name']}")
+        logging.info("=" * len(info['display_name']))
+        logging.info(f"\nDescription: {info['description']}")
+        logging.info(f"Domain: {info['domain']}")
+        logging.info(f"Module: {info['module']}")
+        logging.info(f"Class: {info['class']}")
+        logging.info(f"Available: {'Yes' if info['available'] else 'No'}")
 
         if info['error']:
-            print(f"Error: {info['error']}")
+            logging.info(f"Error: {info['error']}")
 
         if info['capabilities']:
-            print(f"\nCapabilities ({len(info['capabilities'])}):")
+            logging.info(f"\nCapabilities ({len(info['capabilities'])}):")
             for cap in info['capabilities'][:20]:
-                print(f"  - {cap}")
+                logging.info(f"  - {cap}")
             if len(info['capabilities']) > 20:
-                print(f"  ... and {len(info['capabilities']) - 20} more")
+                logging.info(f"  ... and {len(info['capabilities']) - 20} more")
 
         if info['keywords']:
-            print(f"\nKeywords: {', '.join(info['keywords'])}")
-        print()
+            logging.info(f"\nKeywords: {', '.join(info['keywords'])}")
+        logging.info()
 
     elif args.command == "demo":
         if not args.target:
-            print("Error: lab name required")
+            logging.info("Error: lab name required")
             return 1
 
-        print(f"\nRunning demo for: {args.target}\n")
+        logging.info(f"\nRunning demo for: {args.target}\n")
         result = api.run_demo(args.target)
 
         if "error" in result:
-            print(f"Error: {result['error']}")
+            logging.info(f"Error: {result['error']}")
             if "suggestion" in result:
-                print(f"Suggestion: {result['suggestion']}")
+                logging.info(f"Suggestion: {result['suggestion']}")
             return 1
 
-        print("Demo completed successfully!")
-        print(f"\nResult:")
-        print(json.dumps(result, indent=2))
-        print()
+        logging.info("Demo completed successfully!")
+        logging.info(f"\nResult:")
+        logging.info(json.dumps(result, indent=2))
+        logging.info()
 
     elif args.command == "stats":
         stats = api.get_statistics()
 
-        print(f"\nQuLabInfinite Statistics")
-        print("=" * 40)
-        print(f"Total Labs: {stats['total_labs']}")
-        print(f"Available: {stats['available_labs']}")
-        print(f"Unavailable: {stats['unavailable_labs']}")
-        print(f"Success Rate: {stats['success_rate']}")
-        print(f"\nBy Domain:")
+        logging.info(f"\nQuLabInfinite Statistics")
+        logging.info("=" * 40)
+        logging.info(f"Total Labs: {stats['total_labs']}")
+        logging.info(f"Available: {stats['available_labs']}")
+        logging.info(f"Unavailable: {stats['unavailable_labs']}")
+        logging.info(f"Success Rate: {stats['success_rate']}")
+        logging.info(f"\nBy Domain:")
 
         for domain, counts in sorted(stats['by_domain'].items()):
-            print(f"  {domain}: {counts['available']}/{counts['total']}")
+            logging.info(f"  {domain}: {counts['available']}/{counts['total']}")
 
-        print()
+        logging.info()
 
     elif args.command == "export":
         output_path = args.output or "qulab_catalog.json"
         catalog = api.export_catalog(output_path)
-        print(f"Catalog exported to: {output_path}")
+        logging.info(f"Catalog exported to: {output_path}")
 
     return 0
 

@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Batch Materials Digital Twin Characterization
@@ -363,9 +364,9 @@ def get_all_material_designs():
 def process_batch(characterizer, materials_batch, batch_num, total_batches):
     """Process a batch of materials through digital twin characterization"""
 
-    print(f"\n🔬 PROCESSING BATCH {batch_num}/{total_batches}")
-    print(f"   Materials in batch: {len(materials_batch)}")
-    print(f"   Materials: {[m['name'] for m in materials_batch]}")
+    logging.info(f"\n🔬 PROCESSING BATCH {batch_num}/{total_batches}")
+    logging.info(f"   Materials in batch: {len(materials_batch)}")
+    logging.info(f"   Materials: {[m['name'] for m in materials_batch]}")
 
     # Run characterization with all 27 stress factors
     batch_results = characterizer.run_digital_twin_campaign(
@@ -384,14 +385,14 @@ def process_batch(characterizer, materials_batch, batch_num, total_batches):
             'results': batch_results
         }, f, indent=2, default=str)
 
-    print(f"✅ Batch {batch_num} completed! Results saved to {batch_filename}")
+    logging.info(f"✅ Batch {batch_num} completed! Results saved to {batch_filename}")
 
     return batch_results
 
 def combine_batch_results():
     """Combine all batch results into final comprehensive report"""
 
-    print("\n🔗 COMBINING BATCH RESULTS...")
+    logging.info("\n🔗 COMBINING BATCH RESULTS...")
 
     all_results = []
     batch_files = [f for f in os.listdir('.') if f.startswith('ech0_materials_batch_') and f.endswith('_results.json')]
@@ -496,27 +497,27 @@ def combine_batch_results():
     with open('ech0_complete_20_materials_digital_twin_results.json', 'w') as f:
         json.dump(final_report, f, indent=2, default=str)
 
-    print("✅ Final comprehensive report created!")
-    print("📊 CAMPAIGN SUMMARY:")
-    print(f"   • Total materials processed: {final_report['total_materials_processed']}")
-    print(f"   • Total digital twins created: {final_report['consolidated_findings']['total_digital_twins']}")
-    print(f"   • Overall average confidence: {final_report['consolidated_findings']['overall_average_confidence']:.3f}")
-    print(f"   • High confidence twins: {final_report['consolidated_findings']['confidence_distribution']['high_confidence']}")
-    print(f"   • Top performer: {final_report['consolidated_findings']['top_performing_materials'][0]['original_design']}")
+    logging.info("✅ Final comprehensive report created!")
+    logging.info("📊 CAMPAIGN SUMMARY:")
+    logging.info(f"   • Total materials processed: {final_report['total_materials_processed']}")
+    logging.info(f"   • Total digital twins created: {final_report['consolidated_findings']['total_digital_twins']}")
+    logging.info(f"   • Overall average confidence: {final_report['consolidated_findings']['overall_average_confidence']:.3f}")
+    logging.info(f"   • High confidence twins: {final_report['consolidated_findings']['confidence_distribution']['high_confidence']}")
+    logging.info(f"   • Top performer: {final_report['consolidated_findings']['top_performing_materials'][0]['original_design']}")
 
     return final_report
 
 def main():
     """Run batch processing of all 20 discovered materials"""
 
-    print("🤖 ECH0 COMPLETE 20 MATERIALS DIGITAL TWIN CHARACTERIZATION")
-    print("=" * 65)
-    print("Processing all 20 revolutionary materials in batches")
-    print("Each material tested under 27 comprehensive stress factors")
+    logging.info("🤖 ECH0 COMPLETE 20 MATERIALS DIGITAL TWIN CHARACTERIZATION")
+    logging.info("=" * 65)
+    logging.info("Processing all 20 revolutionary materials in batches")
+    logging.info("Each material tested under 27 comprehensive stress factors")
 
     # Get all material designs
     all_materials = get_all_material_designs()
-    print(f"✅ Loaded {len(all_materials)} material designs")
+    logging.info(f"✅ Loaded {len(all_materials)} material designs")
 
     # Process in batches of 4 materials each
     batch_size = 4
@@ -534,9 +535,9 @@ def main():
     # Combine all batch results
     final_report = combine_batch_results()
 
-    print("\n🎊 COMPLETE 20 MATERIALS DIGITAL TWIN CHARACTERIZATION FINISHED!")
-    print("All revolutionary materials tested through 27 stress factors")
-    print("Results saved to ech0_complete_20_materials_digital_twin_results.json")
+    logging.info("\n🎊 COMPLETE 20 MATERIALS DIGITAL TWIN CHARACTERIZATION FINISHED!")
+    logging.info("All revolutionary materials tested through 27 stress factors")
+    logging.info("Results saved to ech0_complete_20_materials_digital_twin_results.json")
 
 if __name__ == "__main__":
     main()

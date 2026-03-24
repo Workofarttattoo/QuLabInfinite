@@ -25,7 +25,7 @@ def convert_jsonl_to_json(jsonl_path: str, json_path: str):
                     materials_dict[material_name] = record
     
     with open(json_path, 'w') as f_out:
-        json.dump(materials_dict, f_out, indent=2)
+        json.dump(, default=strmaterials_dict, f_out, indent=2)
 
     print(f"Successfully converted {jsonl_path} to {json_path}")
 

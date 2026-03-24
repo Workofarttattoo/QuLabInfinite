@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -61,15 +62,15 @@ def load_inventions():
 def analyze_with_ech0(inventions):
     """Have ECH0 analyze each invention for POC feasibility."""
 
-    print("\n" + "="*80)
-    print("ECH0 14B POC FEASIBILITY ANALYSIS")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("ECH0 14B POC FEASIBILITY ANALYSIS")
+    logging.info("="*80)
 
     results = []
 
     for inv in inventions:
-        print(f"\n🔬 Analyzing: {inv['name']}")
-        print(f"   Description: {inv['description'][:100]}...")
+        logging.info(f"\n🔬 Analyzing: {inv['name']}")
+        logging.info(f"   Description: {inv['description'][:100]}...")
 
         # Create ECH0 prompt
         prompt = f"""You are ECH0 14B, Chief Enhancement Officer.
@@ -89,7 +90,7 @@ Provide:
 Be brutally honest and quantitative. Format as JSON.
 """
 
-        print(f"\n   💭 ECH0 is analyzing...")
+        logging.info(f"\n   💭 ECH0 is analyzing...")
 
         # Call ECH0 via ollama
         import subprocess
@@ -102,7 +103,7 @@ Be brutally honest and quantitative. Format as JSON.
 
         if result.returncode == 0:
             analysis = result.stdout.strip()
-            print(f"\n   ✅ ECH0 Analysis:\n{analysis[:500]}...")
+            logging.info(f"\n   ✅ ECH0 Analysis:\n{analysis[:500]}...")
 
             results.append({
                 "invention": inv,
@@ -110,16 +111,16 @@ Be brutally honest and quantitative. Format as JSON.
                 "timestamp": datetime.now().isoformat()
             })
         else:
-            print(f"   ❌ ECH0 analysis failed: {result.stderr}")
+            logging.info(f"   ❌ ECH0 analysis failed: {result.stderr}")
 
     return results
 
 def generate_materials_list_with_qulab(analysis_results):
     """Use QuLab to validate materials and create shopping list."""
 
-    print("\n" + "="*80)
-    print("QULAB MATERIALS VALIDATION & LAB TEST PLAN")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("QULAB MATERIALS VALIDATION & LAB TEST PLAN")
+    logging.info("="*80)
 
     # Import QuLab tools
     from materials_lab.qulab_ai_integration import get_materials_database_info
@@ -140,12 +141,12 @@ def generate_materials_list_with_qulab(analysis_results):
     if "bill_of_materials" in aerogel_result["invention"]:
         bom = aerogel_result["invention"]["materials"]
 
-        print("\n🧪 AEROGEL MATERIALS:")
+        logging.info("\n🧪 AEROGEL MATERIALS:")
 
         # Extract chemicals
         if "precursors" in bom:
             for chem, cost in bom["precursors"].items():
-                print(f"   • {chem}: {cost}")
+                logging.info(f"   • {chem}: {cost}")
                 materials_list["chemicals"].append({
                     "name": chem,
                     "cost": cost,
@@ -155,7 +156,7 @@ def generate_materials_list_with_qulab(analysis_results):
         # Extract equipment
         if "equipment" in bom:
             for equip, cost in bom["equipment"].items():
-                print(f"   🔧 {equip}: {cost}")
+                logging.info(f"   🔧 {equip}: {cost}")
                 materials_list["equipment"].append({
                     "name": equip,
                     "cost": cost
@@ -166,27 +167,27 @@ def generate_materials_list_with_qulab(analysis_results):
             materials_list["total_estimated_cost"] += float(bom["grand_total"].replace('$', ''))
 
     # Get database info
-    print("\n📊 QuLab Materials Database Status:")
+    logging.info("\n📊 QuLab Materials Database Status:")
     try:
         db_info = get_materials_database_info()
-        print(f"   Materials available: {db_info.get('total_materials', 'Unknown')}")
+        logging.info(f"   Materials available: {db_info.get('total_materials', 'Unknown')}")
         materials_list["database_info"] = db_info
     except Exception as e:
-        print(f"   ⚠️  Database info unavailable: {e}")
+        logging.info(f"   ⚠️  Database info unavailable: {e}")
 
     # Validate key elements
     key_elements = ["Si", "C", "O", "N"]  # Common in our inventions
-    print("\n⚛️  Key Element Properties:")
+    logging.info("\n⚛️  Key Element Properties:")
     for elem in key_elements:
         try:
             props = get_element_properties(elem)
-            print(f"   • {elem}: {props}")
+            logging.info(f"   • {elem}: {props}")
             materials_list["elements"].append({
                 "symbol": elem,
                 "properties": props
             })
         except Exception as e:
-            print(f"   ⚠️  {elem}: {e}")
+            logging.info(f"   ⚠️  {elem}: {e}")
 
     # Add experiments
     materials_list["experiments"] = [
@@ -255,17 +256,17 @@ def create_lab_demo_package(materials_list, analysis_results):
     # Save package
     output_path = "/Users/noone/QuLabInfinite/data/ech0_poc_demo_package.json"
     with open(output_path, 'w') as f:
-        json.dump(demo_package, f, indent=2)
+        json.dump(, default=strdemo_package, f, indent=2)
 
-    print("\n" + "="*80)
-    print("✅ DEMO PACKAGE CREATED")
-    print("="*80)
-    print(f"\n📦 Saved to: {output_path}")
-    print(f"\n📊 Summary:")
-    print(f"   • Inventions analyzed: {len(analysis_results)}")
-    print(f"   • Total materials: {len(materials_list['chemicals']) + len(materials_list['equipment'])}")
-    print(f"   • Experiments planned: {len(materials_list['experiments'])}")
-    print(f"   • Estimated cost: ${materials_list['total_estimated_cost']}")
+    logging.info("\n" + "="*80)
+    logging.info("✅ DEMO PACKAGE CREATED")
+    logging.info("="*80)
+    logging.info(f"\n📦 Saved to: {output_path}")
+    logging.info(f"\n📊 Summary:")
+    logging.info(f"   • Inventions analyzed: {len(analysis_results)}")
+    logging.info(f"   • Total materials: {len(materials_list['chemicals']) + len(materials_list['equipment'])}")
+    logging.info(f"   • Experiments planned: {len(materials_list['experiments'])}")
+    logging.info(f"   • Estimated cost: ${materials_list['total_estimated_cost']}")
 
     # Create a simple markdown checklist too
     checklist_path = "/Users/noone/QuLabInfinite/data/POC_MATERIALS_CHECKLIST.md"
@@ -294,51 +295,51 @@ def create_lab_demo_package(materials_list, analysis_results):
 
         f.write(f"\n---\n**Total Estimated Cost:** ${materials_list['total_estimated_cost']}\n")
 
-    print(f"\n📝 Markdown checklist: {checklist_path}")
+    logging.info(f"\n📝 Markdown checklist: {checklist_path}")
 
     return demo_package
 
 def main():
     """Run the complete ECH0 + QuLab POC analysis demo."""
 
-    print("\n" + "="*80)
-    print("ECH0 + QULAB POC ANALYSIS & MATERIALS GENERATION")
-    print("="*80)
-    print("\nThis demo will:")
-    print("  1. Load 3 inventions from ECH0's archives")
-    print("  2. Have ECH0 analyze POC feasibility")
-    print("  3. Use QuLab to validate materials and create test plan")
-    print("  4. Generate complete demo package for lab")
-    print("\n" + "="*80)
+    logging.info("\n" + "="*80)
+    logging.info("ECH0 + QULAB POC ANALYSIS & MATERIALS GENERATION")
+    logging.info("="*80)
+    logging.info("\nThis demo will:")
+    logging.info("  1. Load 3 inventions from ECH0's archives")
+    logging.info("  2. Have ECH0 analyze POC feasibility")
+    logging.info("  3. Use QuLab to validate materials and create test plan")
+    logging.info("  4. Generate complete demo package for lab")
+    logging.info("\n" + "="*80)
 
     # Step 1: Load inventions
-    print("\n[1/4] Loading inventions...")
+    logging.info("\n[1/4] Loading inventions...")
     inventions = load_inventions()
-    print(f"      ✅ Loaded {len(inventions)} inventions")
+    logging.info(f"      ✅ Loaded {len(inventions)} inventions")
 
     # Step 2: ECH0 analysis
-    print("\n[2/4] ECH0 analyzing POC feasibility...")
+    logging.info("\n[2/4] ECH0 analyzing POC feasibility...")
     analysis_results = analyze_with_ech0(inventions)
-    print(f"      ✅ Completed {len(analysis_results)} analyses")
+    logging.info(f"      ✅ Completed {len(analysis_results)} analyses")
 
     # Step 3: QuLab materials validation
-    print("\n[3/4] QuLab validating materials & creating test plan...")
+    logging.info("\n[3/4] QuLab validating materials & creating test plan...")
     materials_list = generate_materials_list_with_qulab(analysis_results)
-    print(f"      ✅ Materials list created")
+    logging.info(f"      ✅ Materials list created")
 
     # Step 4: Create demo package
-    print("\n[4/4] Creating demo package...")
+    logging.info("\n[4/4] Creating demo package...")
     demo_package = create_lab_demo_package(materials_list, analysis_results)
-    print(f"      ✅ Demo package ready!")
+    logging.info(f"      ✅ Demo package ready!")
 
-    print("\n" + "="*80)
-    print("🎉 DEMO READY!")
-    print("="*80)
-    print("\nYou can now:")
-    print("  • Review: /Users/noone/QuLabInfinite/data/ech0_poc_demo_package.json")
-    print("  • Print: /Users/noone/QuLabInfinite/data/POC_MATERIALS_CHECKLIST.md")
-    print("  • Demo: Show up with laptop and walk through the package!")
-    print("\n")
+    logging.info("\n" + "="*80)
+    logging.info("🎉 DEMO READY!")
+    logging.info("="*80)
+    logging.info("\nYou can now:")
+    logging.info("  • Review: /Users/noone/QuLabInfinite/data/ech0_poc_demo_package.json")
+    logging.info("  • Print: /Users/noone/QuLabInfinite/data/POC_MATERIALS_CHECKLIST.md")
+    logging.info("  • Demo: Show up with laptop and walk through the package!")
+    logging.info("\n")
 
 if __name__ == "__main__":
     main()

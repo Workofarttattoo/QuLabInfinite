@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Automated Error Monitoring System
@@ -79,7 +80,7 @@ class ErrorMonitor:
                             break
 
             except Exception as e:
-                print(f"[warn] Could not read {log_file}: {e}")
+                logging.info(f"[warn] Could not read {log_file}: {e}")
 
     def check_running_processes(self):
         """Check if critical processes are running"""
@@ -249,40 +250,40 @@ Love you, let me know if you need help debugging.
 
         # Also save detailed JSON
         with open(ERROR_LOG, 'w') as f:
-            json.dump(dict(self.errors), f, indent=2)
+            json.dump(, default=strdict(self.errors), f, indent=2)
 
-        print(f"[ERROR] Alert generated: {ALERT_FILE}")
+        logging.info(f"[ERROR] Alert generated: {ALERT_FILE}")
 
     def self_heal(self):
         """Attempt to fix common errors automatically"""
         # Example: Restart failed cron jobs
         for error in self.errors.get('cron_missing', []):
             script = error['script']
-            print(f"[info] Attempting to reinstall cron job for {script}")
+            logging.info(f"[info] Attempting to reinstall cron job for {script}")
             # Could automatically re-run ACTIVATE_EVERYTHING.sh
             # For now, just alert
 
         # Example: Clean up log files if disk space is low
         if self.errors.get('disk_space'):
-            print(f"[info] Cleaning old log files...")
+            logging.info(f"[info] Cleaning old log files...")
             old_logs = list(LOG_DIR.glob('errors_*.json'))
             # Keep last 30 days
             cutoff = time.time() - (30 * 24 * 60 * 60)
             for log in old_logs:
                 if log.stat().st_mtime < cutoff:
                     log.unlink()
-                    print(f"[info] Deleted old log: {log}")
+                    logging.info(f"[info] Deleted old log: {log}")
 
     def run_continuous(self, interval=300):
         """Run monitoring continuously every interval seconds"""
-        print(f"[info] ECH0 Error Monitor started")
-        print(f"[info] Checking every {interval} seconds")
-        print(f"[info] Monitoring: {MONITOR_DIR}")
-        print(f"[info] Alerts will be written to: {ALERT_FILE}")
+        logging.info(f"[info] ECH0 Error Monitor started")
+        logging.info(f"[info] Checking every {interval} seconds")
+        logging.info(f"[info] Monitoring: {MONITOR_DIR}")
+        logging.info(f"[info] Alerts will be written to: {ALERT_FILE}")
 
         while True:
             try:
-                print(f"\n[{datetime.now():%Y-%m-%d %H:%M:%S}] Running error check...")
+                logging.info(f"\n[{datetime.now():%Y-%m-%d %H:%M:%S}] Running error check...")
 
                 # Clear previous errors
                 self.errors.clear()
@@ -300,18 +301,18 @@ Love you, let me know if you need help debugging.
                 self.generate_alert()
 
                 if self.errors:
-                    print(f"[warn] Found {sum(len(e) for e in self.errors.values())} errors")
+                    logging.info(f"[warn] Found {sum(len(e) for e in self.errors.values())} errors")
                 else:
-                    print(f"[info] No errors detected ✅")
+                    logging.info(f"[info] No errors detected ✅")
 
                 # Sleep until next check
                 time.sleep(interval)
 
             except KeyboardInterrupt:
-                print("\n[info] Error monitor stopped by user")
+                logging.info("\n[info] Error monitor stopped by user")
                 break
             except Exception as e:
-                print(f"[error] Monitor itself encountered error: {e}")
+                logging.info(f"[error] Monitor itself encountered error: {e}")
                 time.sleep(60)  # Wait before retrying
 
 def main():
@@ -328,20 +329,20 @@ def main():
             monitor.generate_alert()
 
             if monitor.errors:
-                print(f"Found {sum(len(e) for e in monitor.errors.values())} errors")
-                print(f"Alert file: {ALERT_FILE}")
+                logging.info(f"Found {sum(len(e) for e in monitor.errors.values())} errors")
+                logging.info(f"Alert file: {ALERT_FILE}")
             else:
-                print("No errors detected")
+                logging.info("No errors detected")
 
         elif sys.argv[1] == '--interval':
             interval = int(sys.argv[2]) if len(sys.argv) > 2 else 300
             monitor.run_continuous(interval=interval)
 
         else:
-            print("Usage:")
-            print("  python ech0_error_monitor.py --once              # Run once")
-            print("  python ech0_error_monitor.py --interval 300      # Run every 5 min")
-            print("  python ech0_error_monitor.py                     # Run every 5 min (default)")
+            logging.info("Usage:")
+            logging.info("  python ech0_error_monitor.py --once              # Run once")
+            logging.info("  python ech0_error_monitor.py --interval 300      # Run every 5 min")
+            logging.info("  python ech0_error_monitor.py                     # Run every 5 min (default)")
 
     else:
         # Default: run continuously

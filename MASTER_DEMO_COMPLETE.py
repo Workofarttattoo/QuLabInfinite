@@ -607,7 +607,7 @@ class MasterDemo:
         output_file = Path("/Users/noone/QuLabInfinite/MASTER_RESULTS_COMPLETE.json")
 
         with open(output_file, 'w') as f:
-            json.dump(self.results, f, indent=2)
+            json.dump(, default=strself.results, f, indent=2)
 
         print(f"\n\n✓ Results exported to: {output_file}")
 

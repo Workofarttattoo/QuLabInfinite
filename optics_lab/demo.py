@@ -222,6 +222,6 @@ if __name__ == "__main__":
 
     # Save results to JSON
     with open('/Users/noone/QuLabInfinite/optics_lab_results.json', 'w') as f:
-        json.dump(results, f, indent=2)
+        json.dump(, default=strresults, f, indent=2)
 
     print("\nResults saved to: /Users/noone/QuLabInfinite/optics_lab_results.json")

@@ -224,7 +224,7 @@ class MaterialsTestRunner:
         }
 
         with open(output_path, 'w') as f:
-            json.dump(results_data, f, indent=2)
+            json.dump(, default=strresults_data, f, indent=2)
 
         print(f"\n[info] Results exported to: {output_path}")
         return output_path

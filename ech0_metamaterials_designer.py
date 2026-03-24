@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Metamaterials Designer
@@ -117,8 +118,8 @@ class ECH0_MetamaterialsDesigner:
         the metamaterials design space for optimal property combinations.
         """
 
-        print(f"🤖 ECH0 commencing {category} metamaterials design exploration...")
-        print(f"🎯 Target properties: {target_properties}")
+        logging.info(f"🤖 ECH0 commencing {category} metamaterials design exploration...")
+        logging.info(f"🎯 Target properties: {target_properties}")
 
         designs = []
 
@@ -143,7 +144,7 @@ class ECH0_MetamaterialsDesigner:
         optimized_designs = self._optimize_design_population(designs, target_properties)
         designs = optimized_designs
 
-        print(f"✅ ECH0 generated {len(designs)} {category} metamaterial designs")
+        logging.info(f"✅ ECH0 generated {len(designs)} {category} metamaterial designs")
 
         return designs
 
@@ -433,7 +434,7 @@ class ECH0_MetamaterialsDesigner:
         designs.sort(key=fitness, reverse=True)
         optimized_designs = designs[:max(5, len(designs) // 2)]  # Keep top 50% or at least 5
 
-        print(f"🤖 ECH0 optimized {len(designs)} designs down to {len(optimized_designs)} high-performance candidates")
+        logging.info(f"🤖 ECH0 optimized {len(designs)} designs down to {len(optimized_designs)} high-performance candidates")
 
         return optimized_designs
 
@@ -443,7 +444,7 @@ class ECH0_MetamaterialsDesigner:
         validated_designs = []
 
         for design in designs:
-            print(f"🔬 Validating {design.name}...")
+            logging.info(f"🔬 Validating {design.name}...")
 
             # Use QuLab to validate material properties
             validation_score = 0.0
@@ -496,8 +497,8 @@ class ECH0_MetamaterialsDesigner:
 
             validated_designs.append(design)
 
-            print(f"  Validation score: {validation_score:.2f}")
-            print(f"  Status: {design.validation_status}")
+            logging.info(f"  Validation score: {validation_score:.2f}")
+            logging.info(f"  Status: {design.validation_status}")
 
         return validated_designs
 
@@ -506,12 +507,12 @@ class ECH0_MetamaterialsDesigner:
                                       num_generations: int = 3) -> Dict[str, Any]:
         """Complete ECH0 metamaterials design campaign"""
 
-        print("🚀 ECH0 METAMATERIALS DESIGN CAMPAIGN COMMENCING")
-        print("=" * 60)
-        print(f"Categories: {categories}")
-        print(f"Target Properties: {target_properties}")
-        print(f"Generations: {num_generations}")
-        print()
+        logging.info("🚀 ECH0 METAMATERIALS DESIGN CAMPAIGN COMMENCING")
+        logging.info("=" * 60)
+        logging.info(f"Categories: {categories}")
+        logging.info(f"Target Properties: {target_properties}")
+        logging.info(f"Generations: {num_generations}")
+        logging.info()
 
         campaign_results = {
             'timestamp': datetime.now().isoformat(),
@@ -522,13 +523,13 @@ class ECH0_MetamaterialsDesigner:
         }
 
         for generation in range(num_generations):
-            print(f"\n🎯 GENERATION {generation + 1}/{num_generations}")
-            print("-" * 40)
+            logging.info(f"\n🎯 GENERATION {generation + 1}/{num_generations}")
+            logging.info("-" * 40)
 
             generation_designs = []
 
             for category in categories:
-                print(f"Designing {category} metamaterials...")
+                logging.info(f"Designing {category} metamaterials...")
 
                 # ECH0 autonomous design
                 designs = self.ech0_design_exploration(category, target_properties)
@@ -551,9 +552,9 @@ class ECH0_MetamaterialsDesigner:
 
             campaign_results['generations'].append(generation_summary)
 
-            print(f"Generation {generation + 1} complete:")
-            print(f"  Designs: {generation_summary['designs_created']}")
-            print(f"  Avg Confidence: {generation_summary['average_confidence']:.2f}")
+            logging.info(f"Generation {generation + 1} complete:")
+            logging.info(f"  Designs: {generation_summary['designs_created']}")
+            logging.info(f"  Avg Confidence: {generation_summary['average_confidence']:.2f}")
 
         # Final selection
         all_designs = []
@@ -575,9 +576,9 @@ class ECH0_MetamaterialsDesigner:
             for d in final_designs[:10]  # Top 10 designs
         ]
 
-        print(f"\n🏆 CAMPAIGN COMPLETE")
-        print(f"Final designs: {len(campaign_results['final_designs'])}")
-        print(f"Best confidence: {max(d['confidence'] for d in campaign_results['final_designs']):.2f}")
+        logging.info(f"\n🏆 CAMPAIGN COMPLETE")
+        logging.info(f"Final designs: {len(campaign_results['final_designs'])}")
+        logging.info(f"Best confidence: {max(d['confidence'] for d in campaign_results['final_designs']):.2f}")
 
         return campaign_results
 
@@ -606,14 +607,14 @@ class ECH0_MetamaterialsDesigner:
         with open(filename, 'w') as f:
             json.dump(export_data, f, indent=2, default=str)
 
-        print(f"✅ Exported {len(designs)} designs to {filename}")
+        logging.info(f"✅ Exported {len(designs)} designs to {filename}")
 
 
 def main():
     """Run ECH0 metamaterials design campaign"""
 
-    print("🤖 ECH0 METAMATERIALS DESIGNER")
-    print("=" * 50)
+    logging.info("🤖 ECH0 METAMATERIALS DESIGNER")
+    logging.info("=" * 50)
 
     designer = ECH0_MetamaterialsDesigner()
 
@@ -639,8 +640,8 @@ def main():
         'ech0_metamaterials_results.json'
     )
 
-    print("\n🎊 ECH0 Metamaterials Design Campaign Complete!")
-    print("Results saved to ech0_metamaterials_results.json")
+    logging.info("\n🎊 ECH0 Metamaterials Design Campaign Complete!")
+    logging.info("Results saved to ech0_metamaterials_results.json")
 
 
 

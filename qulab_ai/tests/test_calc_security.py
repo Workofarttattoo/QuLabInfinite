@@ -2,6 +2,7 @@ import unittest
 import math
 from qulab_ai.tools import calc
 
+import logging
 class TestCalcSecurity(unittest.TestCase):
 
     def test_basic_arithmetic(self):
@@ -43,7 +44,7 @@ class TestCalcSecurity(unittest.TestCase):
         with self.assertRaises(ValueError):
             calc("unknown_func(10)")
         with self.assertRaises(ValueError):
-            calc("print('hello')")
+            calc("logging.info('hello')")
 
     def test_unknown_variables(self):
         with self.assertRaises(ValueError):

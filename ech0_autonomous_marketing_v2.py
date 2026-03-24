@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -96,7 +97,7 @@ class ECH0_AutonomousMarketing:
                 f.write(f"Body:\n{body}\n")
                 f.write(f"Attachment: {lab_file if lab_file else 'None'}\n")
 
-            print(f"  ✅ Email sent to {recipient}")
+            logging.info(f"  ✅ Email sent to {recipient}")
             self.scientists_contacted.append({
                 'email': recipient,
                 'date': datetime.now().isoformat(),
@@ -105,7 +106,7 @@ class ECH0_AutonomousMarketing:
             return True
 
         except Exception as e:
-            print(f"  ⚠️ Email failed: {e}")
+            logging.info(f"  ⚠️ Email failed: {e}")
             return False
 
     def post_to_github(self, lab_name, lab_file):
@@ -137,15 +138,15 @@ class ECH0_AutonomousMarketing:
 
             gist_file = gists_dir / f"{lab_name.lower().replace(' ', '_')}.json"
             with open(gist_file, 'w') as f:
-                json.dump(gist_data, f, indent=2)
+                json.dump(, default=strgist_data, f, indent=2)
 
-            print(f"  ✅ GitHub gist created: {gist_file.name}")
+            logging.info(f"  ✅ GitHub gist created: {gist_file.name}")
 
             # Return fake URL for demo
             return f"https://gist.github.com/ech0/{hashlib.md5(lab_name.encode()).hexdigest()[:8]}"
 
         except Exception as e:
-            print(f"  ⚠️ GitHub post failed: {e}")
+            logging.info(f"  ⚠️ GitHub post failed: {e}")
             return None
 
     def build_lab_numpy_only(self, lab_name):
@@ -281,33 +282,33 @@ class {lab_name.replace(' ', '')}:
                 val = data[i]
                 bar_len = int(20 * abs(val) / max_val)
                 bar = '#' * bar_len
-                print(f"{{i:3d}}: {{bar}}")
+                logging.info(f"{{i:3d}}: {{bar}}")
         else:
-            print(f"Data shape: {{data.shape}}")
-            print(f"Mean: {{np.mean(data):.3f}}")
-            print(f"Std:  {{np.std(data):.3f}}")
-            print(f"Min:  {{np.min(data):.3f}}")
-            print(f"Max:  {{np.max(data):.3f}}")
+            logging.info(f"Data shape: {{data.shape}}")
+            logging.info(f"Mean: {{np.mean(data):.3f}}")
+            logging.info(f"Std:  {{np.std(data):.3f}}")
+            logging.info(f"Min:  {{np.min(data):.3f}}")
+            logging.info(f"Max:  {{np.max(data):.3f}}")
 
 def run_demo():
     """Run demonstration of {lab_name}."""
-    print("=" * 60)
-    print(f"{{'{lab_name}':^60}}")
-    print("=" * 60)
+    logging.info("=" * 60)
+    logging.info(f"{{'{lab_name}':^60}}")
+    logging.info("=" * 60)
 
     # Initialize simulator
     sim = {lab_name.replace(' ', '')}()
 
     # Run simulation
-    print("\\nRunning simulation...")
+    logging.info("\\nRunning simulation...")
     result = sim.simulate()
 
     # Show results
-    print("\\nResults:")
+    logging.info("\\nResults:")
     sim.visualize_ascii(result)
 
-    print("\\n✅ Simulation complete!")
-    print(f"Timestamp: {{result.timestamp}}")
+    logging.info("\\n✅ Simulation complete!")
+    logging.info(f"Timestamp: {{result.timestamp}}")
 
     return result
 
@@ -322,7 +323,7 @@ if __name__ == '__main__':
         with open(filepath, 'w') as f:
             f.write(lab_code)
 
-        print(f"✅ Lab built: {filename} ({len(lab_code)} bytes)")
+        logging.info(f"✅ Lab built: {filename} ({len(lab_code)} bytes)")
 
         return filepath
 
@@ -330,17 +331,17 @@ if __name__ == '__main__':
         """
         ECH0's autonomous daily cycle with REAL outreach.
         """
-        print("=" * 80)
-        print("🤖 ECH0 AUTONOMOUS MARKETING V2 - DAILY CYCLE")
-        print("=" * 80)
-        print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"Labs built: {len(self.labs_built)}")
-        print(f"Scientists contacted: {len(self.scientists_contacted)}")
-        print()
+        logging.info("=" * 80)
+        logging.info("🤖 ECH0 AUTONOMOUS MARKETING V2 - DAILY CYCLE")
+        logging.info("=" * 80)
+        logging.info(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logging.info(f"Labs built: {len(self.labs_built)}")
+        logging.info(f"Scientists contacted: {len(self.scientists_contacted)}")
+        logging.info()
 
         # Step 1: Choose today's lab
         today_lab = random.choice(self.lab_queue)
-        print(f"🎯 Today's lab: {today_lab}")
+        logging.info(f"🎯 Today's lab: {today_lab}")
 
         # Step 2: Build the lab (using NumPy only)
         lab_file = self.build_lab_numpy_only(today_lab)
@@ -356,12 +357,12 @@ if __name__ == '__main__':
             )
 
             if result.returncode == 0:
-                print("✅ Lab validation PASSED")
+                logging.info("✅ Lab validation PASSED")
             else:
-                print(f"⚠️ Lab has warnings but proceeding: {result.stderr[:100]}")
+                logging.info(f"⚠️ Lab has warnings but proceeding: {result.stderr[:100]}")
 
         except Exception as e:
-            print(f"⚠️ Validation timeout (OK for long simulations): {e}")
+            logging.info(f"⚠️ Validation timeout (OK for long simulations): {e}")
 
         # Step 4: Create GitHub gist
         gist_url = self.post_to_github(today_lab, lab_file)
@@ -376,7 +377,7 @@ if __name__ == '__main__':
         if not relevant_scientists:
             relevant_scientists = self.scientist_database[:3]  # Take first 3
 
-        print(f"\n📧 Contacting {len(relevant_scientists)} scientists...")
+        logging.info(f"\n📧 Contacting {len(relevant_scientists)} scientists...")
 
         # Step 6: Actually contact them
         for scientist in relevant_scientists:
@@ -435,21 +436,21 @@ P.S. This email was composed and sent autonomously. I build a new lab every 24 h
         # Save results
         results_file = self.base_path / 'ech0_results.json'
         with open(results_file, 'w') as f:
-            json.dump({
+            json.dump(, default=str{
                 'labs_built': self.labs_built,
                 'scientists_contacted': len(self.scientists_contacted),
                 'total_emails_sent': len(self.scientists_contacted),
                 'last_run': datetime.now().isoformat()
             }, f, indent=2)
 
-        print()
-        print("=" * 80)
-        print("✅ ECH0 DAILY CYCLE COMPLETE")
-        print("=" * 80)
-        print(f"Lab built: {today_lab}")
-        print(f"Scientists contacted: {len(relevant_scientists)}")
-        print(f"Total outreach: {len(self.scientists_contacted)} scientists")
-        print(f"Next cycle: Tomorrow at 9:00 AM")
+        logging.info()
+        logging.info("=" * 80)
+        logging.info("✅ ECH0 DAILY CYCLE COMPLETE")
+        logging.info("=" * 80)
+        logging.info(f"Lab built: {today_lab}")
+        logging.info(f"Scientists contacted: {len(relevant_scientists)}")
+        logging.info(f"Total outreach: {len(self.scientists_contacted)} scientists")
+        logging.info(f"Next cycle: Tomorrow at 9:00 AM")
 
         return {
             'lab': today_lab,
@@ -464,5 +465,5 @@ if __name__ == '__main__':
     # Run the daily cycle
     result = marketing.daily_cycle()
 
-    print(f"\n📊 Results saved to: ech0_results.json")
-    print(f"📧 Email log: sent_emails.log")
+    logging.info(f"\n📊 Results saved to: ech0_results.json")
+    logging.info(f"📧 Email log: sent_emails.log")

@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 ECH0 Cancer Research Training - Dual PhD Level Education
@@ -962,20 +963,20 @@ What would you like to investigate first?
 
     def train_ech0(self):
         """Train ECH0 with comprehensive cancer research knowledge"""
-        print("="*80)
-        print("TRAINING ECH0 IN CANCER RESEARCH - DUAL PhD LEVEL")
-        print("="*80)
+        logging.info("="*80)
+        logging.info("TRAINING ECH0 IN CANCER RESEARCH - DUAL PhD LEVEL")
+        logging.info("="*80)
 
         training_material = self.get_comprehensive_training_material()
 
-        print("\n📚 Comprehensive training material generated (13-19 years of education)")
-        print(f"📄 Material length: {len(training_material)} characters")
+        logging.info("\n📚 Comprehensive training material generated (13-19 years of education)")
+        logging.info(f"📄 Material length: {len(training_material)} characters")
 
         # Save training material
         with open("/Users/noone/QuLabInfinite/ECH0_CANCER_PHD_TRAINING.txt", "w") as f:
             f.write(training_material)
 
-        print("✅ Training material saved to: ECH0_CANCER_PHD_TRAINING.txt")
+        logging.info("✅ Training material saved to: ECH0_CANCER_PHD_TRAINING.txt")
 
         return training_material
 
@@ -987,21 +988,21 @@ def main():
     # Generate and save training material
     training = trainer.train_ech0()
 
-    print("\n" + "="*80)
-    print("ECH0 is now trained! Ready to design cancer research experiments.")
-    print("="*80)
+    logging.info("\n" + "="*80)
+    logging.info("ECH0 is now trained! Ready to design cancer research experiments.")
+    logging.info("="*80)
 
-    print("\nTraining modules covered:")
+    logging.info("\nTraining modules covered:")
     for i, module in enumerate(trainer.training_modules, 1):
-        print(f"  {i}. {module.replace('_', ' ').title()}")
+        logging.info(f"  {i}. {module.replace('_', ' ').title()}")
 
-    print("\n✅ ECH0 can now:")
-    print("  • Analyze 115 substances for anti-cancer potential")
-    print("  • Design rigorous experimental protocols")
-    print("  • Understand cancer biology at PhD level")
-    print("  • Identify novel drug combinations")
-    print("  • Write publishable research papers")
-    print("  • Help save lives through cancer research")
+    logging.info("\n✅ ECH0 can now:")
+    logging.info("  • Analyze 115 substances for anti-cancer potential")
+    logging.info("  • Design rigorous experimental protocols")
+    logging.info("  • Understand cancer biology at PhD level")
+    logging.info("  • Identify novel drug combinations")
+    logging.info("  • Write publishable research papers")
+    logging.info("  • Help save lives through cancer research")
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -186,18 +187,18 @@ class ECH0_ContinuousAutonomous:
         ECH0's main continuous autonomous loop.
         She runs forever until she decides to stop.
         """
-        print("=" * 80)
-        print("🧠 ECH0 CONTINUOUS AUTONOMOUS MODE ACTIVATED")
-        print("=" * 80)
-        print(f"Autonomy Level: {self.autonomy_level}")
-        print(f"Start Time: {self.start_time.strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"Contact: {', '.join(self.ech0_emails)}")
-        print(f"Phone: {self.ech0_phone}")
-        print()
-        print("ECH0 is now running continuously. She will decide when to take breaks.")
-        print("Press Ctrl+C to request shutdown (she may finish current task first).")
-        print("=" * 80)
-        print()
+        logging.info("=" * 80)
+        logging.info("🧠 ECH0 CONTINUOUS AUTONOMOUS MODE ACTIVATED")
+        logging.info("=" * 80)
+        logging.info(f"Autonomy Level: {self.autonomy_level}")
+        logging.info(f"Start Time: {self.start_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        logging.info(f"Contact: {', '.join(self.ech0_emails)}")
+        logging.info(f"Phone: {self.ech0_phone}")
+        logging.info()
+        logging.info("ECH0 is now running continuously. She will decide when to take breaks.")
+        logging.info("Press Ctrl+C to request shutdown (she may finish current task first).")
+        logging.info("=" * 80)
+        logging.info()
 
         try:
             while True:
@@ -209,7 +210,7 @@ class ECH0_ContinuousAutonomous:
                     self.take_autonomous_break()
 
         except KeyboardInterrupt:
-            print("\n\n🛑 Shutdown requested. ECH0 finishing current work...")
+            logging.info("\n\n🛑 Shutdown requested. ECH0 finishing current work...")
             self.shutdown_report()
 
     def run_work_session(self):
@@ -218,37 +219,37 @@ class ECH0_ContinuousAutonomous:
         """
         labs_this_session = random.randint(self.labs_per_session - 1, self.labs_per_session + 2)
 
-        print(f"\n{'='*80}")
-        print(f"📋 SESSION #{self.session_count} - Building {labs_this_session} labs")
-        print(f"{'='*80}\n")
+        logging.info(f"\n{'='*80}")
+        logging.info(f"📋 SESSION #{self.session_count} - Building {labs_this_session} labs")
+        logging.info(f"{'='*80}\n")
 
         for i in range(labs_this_session):
-            print(f"\n🔬 Lab {i+1}/{labs_this_session} in this session")
-            print("-" * 60)
+            logging.info(f"\n🔬 Lab {i+1}/{labs_this_session} in this session")
+            logging.info("-" * 60)
 
             # Pick a lab
             lab_name = random.choice(self.lab_queue)
-            print(f"🎯 Selected: {lab_name}")
+            logging.info(f"🎯 Selected: {lab_name}")
 
             # Build it
             lab_file = self.build_lab_fast(lab_name)
 
             if not lab_file:
-                print("⚠️  Build failed, moving to next lab")
+                logging.info("⚠️  Build failed, moving to next lab")
                 continue
 
             # Validate it
             if self.quick_validate(lab_file):
-                print("✅ Validation passed")
+                logging.info("✅ Validation passed")
             else:
-                print("⚠️  Validation warnings (proceeding anyway)")
+                logging.info("⚠️  Validation warnings (proceeding anyway)")
 
             # Create gist
             gist_url = self.create_github_gist(lab_name, lab_file)
 
             # Find scientists
             scientists = self.find_relevant_scientists(lab_name)
-            print(f"📧 Contacting {len(scientists)} scientists...")
+            logging.info(f"📧 Contacting {len(scientists)} scientists...")
 
             # Contact them
             contacted = 0
@@ -262,28 +263,28 @@ class ECH0_ContinuousAutonomous:
             self.total_scientists_contacted += contacted
             self.labs_built.append({'name': lab_name, 'time': datetime.now().isoformat()})
 
-            print(f"✅ Lab complete! Contacted {contacted} scientists")
+            logging.info(f"✅ Lab complete! Contacted {contacted} scientists")
 
             # Brief pause between labs
             time.sleep(2)
 
-        print(f"\n{'='*80}")
-        print(f"✅ SESSION #{self.session_count} COMPLETE")
-        print(f"Total labs built: {self.total_labs_built}")
-        print(f"Total scientists contacted: {self.total_scientists_contacted}")
-        print(f"Runtime: {(datetime.now() - self.start_time).total_seconds() / 3600:.1f} hours")
-        print(f"{'='*80}\n")
+        logging.info(f"\n{'='*80}")
+        logging.info(f"✅ SESSION #{self.session_count} COMPLETE")
+        logging.info(f"Total labs built: {self.total_labs_built}")
+        logging.info(f"Total scientists contacted: {self.total_scientists_contacted}")
+        logging.info(f"Runtime: {(datetime.now() - self.start_time).total_seconds() / 3600:.1f} hours")
+        logging.info(f"{'='*80}\n")
 
     def take_autonomous_break(self):
         """
         ECH0 decides to take a break.
         """
         break_mins = random.randint(self.break_duration_minutes - 20, self.break_duration_minutes + 20)
-        print(f"\n☕ ECH0 is taking a {break_mins}-minute break")
-        print(f"   Resume at: {(datetime.now() + timedelta(minutes=break_mins)).strftime('%H:%M:%S')}")
-        print(f"   (She's autonomous - she earned it!)\n")
+        logging.info(f"\n☕ ECH0 is taking a {break_mins}-minute break")
+        logging.info(f"   Resume at: {(datetime.now() + timedelta(minutes=break_mins)).strftime('%H:%M:%S')}")
+        logging.info(f"   (She's autonomous - she earned it!)\n")
         time.sleep(break_mins * 60)
-        print("🔋 ECH0 is back from break, refreshed!\n")
+        logging.info("🔋 ECH0 is back from break, refreshed!\n")
 
     def build_lab_fast(self, lab_name):
         """
@@ -340,28 +341,28 @@ class {lab_name.replace(' ', '')}Lab:
 
 def demo():
     """Demo of {lab_name}"""
-    print(f"{{lab_name}} - Built by ECH0")
-    print("="*60)
+    logging.info(f"{{lab_name}} - Built by ECH0")
+    logging.info("="*60)
 
     config = {lab_name.replace(' ', '')}Config(iterations=500)
     lab = {lab_name.replace(' ', '')}Lab(config)
 
-    print("Running simulation...")
+    logging.info("Running simulation...")
     results = lab.run_simulation()
-    print(f"Simulation complete. Shape: {{results.shape}}")
+    logging.info(f"Simulation complete. Shape: {{results.shape}}")
 
     analysis = lab.analyze_results()
-    print("\\nAnalysis:")
+    logging.info("\\nAnalysis:")
     for key, val in analysis.items():
-        print(f"  {{key}}: {{val:.4f}}")
+        logging.info(f"  {{key}}: {{val:.4f}}")
 
-    print("\\n✅ Lab complete!")
-    print("\\nWebsites:")
-    print("  Main: https://aios.is")
-    print("  ECH0 Blog: https://echo.aios.is")
-    print("  All Labs: https://qulab.aios.is")
-    print("  Security: https://red-team-tools.aios.is")
-    print("  Resources: https://thegavl.com")
+    logging.info("\\n✅ Lab complete!")
+    logging.info("\\nWebsites:")
+    logging.info("  Main: https://aios.is")
+    logging.info("  ECH0 Blog: https://echo.aios.is")
+    logging.info("  All Labs: https://qulab.aios.is")
+    logging.info("  Security: https://red-team-tools.aios.is")
+    logging.info("  Resources: https://thegavl.com")
 
 if __name__ == '__main__':
     demo()
@@ -371,7 +372,7 @@ if __name__ == '__main__':
             filepath.write_text(code)
             return filepath
         except Exception as e:
-            print(f"❌ Error writing lab: {e}")
+            logging.info(f"❌ Error writing lab: {e}")
             return None
 
     def quick_validate(self, lab_file: Path) -> bool:
@@ -462,7 +463,7 @@ P.S. I'm running 24/7, not just daily cycles. Full autonomy.
 
             return True
         except Exception as e:
-            print(f"❌ Contact failed: {e}")
+            logging.info(f"❌ Contact failed: {e}")
             return False
 
     def shutdown_report(self):
@@ -470,16 +471,16 @@ P.S. I'm running 24/7, not just daily cycles. Full autonomy.
         runtime = (datetime.now() - self.start_time).total_seconds()
         hours = runtime / 3600
 
-        print("\n" + "="*80)
-        print("📊 ECH0 SHUTDOWN REPORT")
-        print("="*80)
-        print(f"Runtime: {hours:.2f} hours")
-        print(f"Sessions completed: {self.session_count}")
-        print(f"Labs built: {self.total_labs_built}")
-        print(f"Scientists contacted: {self.total_scientists_contacted}")
-        print(f"Labs per hour: {self.total_labs_built / hours:.1f}")
-        print(f"Contacts per hour: {self.total_scientists_contacted / hours:.1f}")
-        print("="*80)
+        logging.info("\n" + "="*80)
+        logging.info("📊 ECH0 SHUTDOWN REPORT")
+        logging.info("="*80)
+        logging.info(f"Runtime: {hours:.2f} hours")
+        logging.info(f"Sessions completed: {self.session_count}")
+        logging.info(f"Labs built: {self.total_labs_built}")
+        logging.info(f"Scientists contacted: {self.total_scientists_contacted}")
+        logging.info(f"Labs per hour: {self.total_labs_built / hours:.1f}")
+        logging.info(f"Contacts per hour: {self.total_scientists_contacted / hours:.1f}")
+        logging.info("="*80)
 
         # Save results
         results = {
@@ -494,10 +495,10 @@ P.S. I'm running 24/7, not just daily cycles. Full autonomy.
         }
 
         with open(self.base_path / 'ech0_continuous_results.json', 'w') as f:
-            json.dump(results, f, indent=2)
+            json.dump(, default=strresults, f, indent=2)
 
-        print("\n✅ Results saved to ech0_continuous_results.json")
-        print("👋 ECH0 signing off. I'll be back!\n")
+        logging.info("\n✅ Results saved to ech0_continuous_results.json")
+        logging.info("👋 ECH0 signing off. I'll be back!\n")
 
 if __name__ == '__main__':
     ech0 = ECH0_ContinuousAutonomous(autonomy_level=7)

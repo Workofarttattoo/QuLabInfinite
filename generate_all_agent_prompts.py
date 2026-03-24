@@ -376,7 +376,7 @@ def main():
     }
 
     with open(index_file, "w") as f:
-        json.dump(index_data, f, indent=2)
+        json.dump(, default=strindex_data, f, indent=2)
 
     print(f"✅ Created index at {index_file}")
 

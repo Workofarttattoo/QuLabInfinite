@@ -1800,7 +1800,7 @@ class MaterialsDatabase:
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         data = {name: props.to_dict() for name, props in self.materials.items()}
         with open(self.db_path, 'w') as f:
-            json.dump(data, f, indent=2)
+            json.dump(data, f, indent=2, default=str)
         print(f"[info] Saved {len(self.materials)} materials to {self.db_path}")
 
     def get_count(self) -> int:

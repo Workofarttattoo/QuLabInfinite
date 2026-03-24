@@ -1,3 +1,4 @@
+import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
@@ -166,18 +167,18 @@ if __name__ == "__main__":
         jcamp_path = sys.argv[1]
         caption = sys.argv[2] if len(sys.argv) > 2 else "test spectrum"
         result = analyze_spectrum_with_encoding(jcamp_path, caption)
-        print(f"Spectrum analyzed:")
-        print(f"  Peaks: {result['result']['ml_encoding']['peaks']}")
-        print(f"  Centroid: {result['result']['ml_encoding']['centroid']:.2f}")
-        print(f"  Digest: {result['digest']}")
+        logging.info(f"Spectrum analyzed:")
+        logging.info(f"  Peaks: {result['result']['ml_encoding']['peaks']}")
+        logging.info(f"  Centroid: {result['result']['ml_encoding']['centroid']:.2f}")
+        logging.info(f"  Digest: {result['digest']}")
         if 'alignment' in result['result']:
-            print(f"  Alignment score: {result['result']['alignment']['score']:.4f}")
+            logging.info(f"  Alignment score: {result['result']['alignment']['score']:.4f}")
     else:
         # Demo with synthetic data
-        print("Demo: Encoding synthetic XRD pattern")
+        logging.info("Demo: Encoding synthetic XRD pattern")
         x = [10, 20, 30, 40, 50, 60, 70, 80, 90]
         y = [0.1, 0.8, 0.3, 1.0, 0.2, 0.6, 0.1, 0.4, 0.1]
         result = encode_spectrum_array(x, y, "crystalline silicon diffraction")
-        print(f"  Peaks: {result['ml_encoding']['peaks']}")
-        print(f"  Centroid: {result['ml_encoding']['centroid']:.2f}°")
-        print(f"  Alignment: {result['alignment']['score']:.4f}")
+        logging.info(f"  Peaks: {result['ml_encoding']['peaks']}")
+        logging.info(f"  Centroid: {result['ml_encoding']['centroid']:.2f}°")
+        logging.info(f"  Alignment: {result['alignment']['score']:.4f}")

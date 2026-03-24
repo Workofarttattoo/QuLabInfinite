@@ -1,3 +1,4 @@
+import logging
 #!/usr/bin/env python3
 """
 Wisdom Ingestion Pipeline - ECH0
@@ -96,10 +97,10 @@ def main():
     # Ensure memory_data has a marker so autonomy status shows Memory ACTIVE
     (memory_data_dir / ".memory_active").write_text(datetime.now(timezone.utc).isoformat(), encoding="utf-8")
 
-    print(f"Wisdom ingestion complete. Knowledge path: {knowledge_path}")
-    print(f"Memory data dir: {memory_data_dir} (memory will show ACTIVE)")
+    logging.info(f"Wisdom ingestion complete. Knowledge path: {knowledge_path}")
+    logging.info(f"Memory data dir: {memory_data_dir} (memory will show ACTIVE)")
     if merged_count:
-        print(f"Merged {merged_count} items from {args.merge_dir}")
+        logging.info(f"Merged {merged_count} items from {args.merge_dir}")
     return 0
 
 
