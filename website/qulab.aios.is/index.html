@@ -464,6 +464,16 @@
 
         .waitlist-form input::placeholder { color: var(--text-dim); }
 
+        /* Accessibility */
+        a:focus-visible, button:focus-visible, input:focus-visible, .btn:focus-visible, .btn-primary:focus-visible, .btn-ghost:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        a:focus:not(:focus-visible), button:focus:not(:focus-visible), input:focus:not(:focus-visible), .btn:focus:not(:focus-visible), .btn-primary:focus:not(:focus-visible), .btn-ghost:focus:not(:focus-visible) {
+            outline: none;
+        }
+
         .waitlist-count {
             font-size: 0.85rem;
             color: var(--text-dim);
