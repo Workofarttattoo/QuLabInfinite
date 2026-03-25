@@ -841,13 +841,19 @@ class OptimizationTheoryLab:
         """
         Compute gradient numerically using finite differences
         """
+        # ⚡ OPTIMIZATION: Replaced O(N) full array copies with in-place scalar modifications
+        # to avoid massive memory allocation overhead.
         grad = np.zeros_like(x)
         for i in range(len(x)):
-            x_plus = x.copy()
-            x_minus = x.copy()
-            x_plus[i] += epsilon
-            x_minus[i] -= epsilon
-            grad[i] = (f(x_plus) - f(x_minus)) / (2 * epsilon)
+            orig_xi = x[i]
+            x[i] = orig_xi + epsilon
+            f_plus = f(x)
+
+            x[i] = orig_xi - epsilon
+            f_minus = f(x)
+
+            x[i] = orig_xi
+            grad[i] = (f_plus - f_minus) / (2 * epsilon)
         return grad
 
     def _numerical_hessian(self, f: Callable, x: np.ndarray,
@@ -855,27 +861,46 @@ class OptimizationTheoryLab:
         """
         Compute Hessian numerically using finite differences
         """
+        # ⚡ OPTIMIZATION: Replaced 4 O(N^2) array copies with in-place scalar modifications
+        # of the input array `x` that are safely reverted. Avoids O(N^3) memory allocation overhead.
+        # Uses standard 1D 2nd derivative finite difference for the i == j case.
         n = len(x)
         H = np.zeros((n, n))
+        f_c = f(x)
 
         for i in range(n):
             for j in range(i, n):
-                x_pp = x.copy()
-                x_pm = x.copy()
-                x_mp = x.copy()
-                x_mm = x.copy()
+                if i == j:
+                    orig_xi = x[i]
+                    x[i] = orig_xi + epsilon
+                    f_p = f(x)
+                    x[i] = orig_xi - epsilon
+                    f_m = f(x)
+                    x[i] = orig_xi
+                    H[i, i] = (f_p - 2*f_c + f_m) / (epsilon**2)
+                else:
+                    orig_xi = x[i]
+                    orig_xj = x[j]
 
-                x_pp[i] += epsilon
-                x_pp[j] += epsilon
-                x_pm[i] += epsilon
-                x_pm[j] -= epsilon
-                x_mp[i] -= epsilon
-                x_mp[j] += epsilon
-                x_mm[i] -= epsilon
-                x_mm[j] -= epsilon
+                    x[i] = orig_xi + epsilon
+                    x[j] = orig_xj + epsilon
+                    f_pp = f(x)
 
-                H[i, j] = (f(x_pp) - f(x_pm) - f(x_mp) + f(x_mm)) / (4 * epsilon**2)
-                H[j, i] = H[i, j]
+                    x[j] = orig_xj - epsilon
+                    f_pm = f(x)
+
+                    x[i] = orig_xi - epsilon
+                    x[j] = orig_xj + epsilon
+                    f_mp = f(x)
+
+                    x[j] = orig_xj - epsilon
+                    f_mm = f(x)
+
+                    x[i] = orig_xi
+                    x[j] = orig_xj
+
+                    H[i, j] = (f_pp - f_pm - f_mp + f_mm) / (4 * epsilon**2)
+                    H[j, i] = H[i, j]
 
         return H
 
