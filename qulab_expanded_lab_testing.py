@@ -1,6 +1,5 @@
-# TODO: Refactor long functions identified in code quality analysis
-import logging
 #!/usr/bin/env python3
+import logging
 """
 QuLab Expanded Lab Testing Framework
 ====================================
@@ -75,7 +74,16 @@ class QuLabExpandedLabTester:
 
         suites = {}
 
-        # Physics Labs
+        self._add_physics_suites(suites)
+        self._add_chemistry_suites(suites)
+        self._add_biology_suites(suites)
+        self._add_materials_suites(suites)
+        self._add_other_suites(suites)
+
+        return suites
+
+    def _add_physics_suites(self, suites: Dict[str, LabTestSuite]) -> None:
+        """Add physics lab test suites to the provided dictionary"""
         physics_labs = [
             'quantum_mechanics_lab', 'quantum_lab', 'quantum_computing_lab', 'particle_physics_lab',
             'nuclear_physics_lab', 'plasma_physics_lab', 'condensed_matter_physics_lab',
@@ -90,7 +98,8 @@ class QuLabExpandedLabTester:
                 else:
                     suites[lab_name] = self._create_physics_lab_suite(lab_name)
 
-        # Chemistry Labs
+    def _add_chemistry_suites(self, suites: Dict[str, LabTestSuite]) -> None:
+        """Add chemistry lab test suites to the provided dictionary"""
         chemistry_labs = [
             'chemistry_lab', 'organic_chemistry_lab', 'inorganic_chemistry_lab',
             'physical_chemistry_lab', 'analytical_chemistry_lab', 'computational_chemistry_lab',
@@ -102,7 +111,8 @@ class QuLabExpandedLabTester:
             if lab_name in self.digital_twin_simulator.digital_twins:
                 suites[lab_name] = self._create_chemistry_lab_suite(lab_name)
 
-        # Biology Labs
+    def _add_biology_suites(self, suites: Dict[str, LabTestSuite]) -> None:
+        """Add biology lab test suites to the provided dictionary"""
         biology_labs = [
             'molecular_biology_lab', 'cell_biology_lab', 'genetics_lab',
             'genomics_lab', 'bioinformatics_lab', 'microbiology_lab',
@@ -117,7 +127,8 @@ class QuLabExpandedLabTester:
             if lab_name in self.digital_twin_simulator.digital_twins:
                 suites[lab_name] = self._create_biology_lab_suite(lab_name)
 
-        # Materials Labs
+    def _add_materials_suites(self, suites: Dict[str, LabTestSuite]) -> None:
+        """Add materials lab test suites to the provided dictionary"""
         materials_labs = [
             'materials_lab', 'materials_science_lab', 'materials_chemistry_lab',
             'nanotechnology_lab', 'biomedical_engineering_lab', 'mechanical_engineering_lab',
@@ -129,7 +140,8 @@ class QuLabExpandedLabTester:
             if lab_name in self.digital_twin_simulator.digital_twins:
                 suites[lab_name] = self._create_materials_lab_suite(lab_name)
 
-        # Other Labs
+    def _add_other_suites(self, suites: Dict[str, LabTestSuite]) -> None:
+        """Add other lab test suites to the provided dictionary"""
         other_labs = [
             'robotics_lab', 'control_systems_lab', 'signal_processing_lab',
             'computer_vision_lab', 'machine_learning_lab', 'neural_networks_lab',
@@ -145,8 +157,6 @@ class QuLabExpandedLabTester:
         for lab_name in other_labs:
             if lab_name in self.digital_twin_simulator.digital_twins:
                 suites[lab_name] = self._create_general_lab_suite(lab_name)
-
-        return suites
 
     def _create_physics_lab_suite(self, lab_name: str) -> LabTestSuite:
         """Create test suite for physics laboratories"""
