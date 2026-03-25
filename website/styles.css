@@ -88,6 +88,16 @@ body {
     color: var(--primary);
 }
 
+/* Accessibility */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
 /* Buttons */
 .btn-primary, .btn-secondary {
     padding: 12px 24px;

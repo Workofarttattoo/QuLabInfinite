@@ -38,6 +38,16 @@
             overflow-x: hidden;
         }
 
+        /* Accessibility */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
         /* Navigation */
         nav {
             position: fixed;
