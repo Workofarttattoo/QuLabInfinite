@@ -673,3 +673,12 @@ pre {
         font-size: 14px;
     }
 }
+
+/* Keyboard Focus Accessibility */
+a:focus-visible, button:focus-visible, .btn-primary:focus-visible, .btn-secondary:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+a:focus:not(:focus-visible), button:focus:not(:focus-visible) {
+    outline: none;
+}
