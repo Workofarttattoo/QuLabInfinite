@@ -32,26 +32,25 @@ class SystemsBiologyLab:
         
     def analyze_network_motifs(self, adjacency_matrix: np.ndarray) -> Dict:
         """Identify network motifs"""
-        n = len(adjacency_matrix)
+        # Optimize motif analysis using vectorized matrix multiplication
+        # Reduces O(N^3) explicit nested loops to O(N^2.8) matrix ops (via BLAS)
+        A = np.array(adjacency_matrix, dtype=bool).astype(int)
+        np.fill_diagonal(A, 0)
         
-        # Count simple motifs
-        feed_forward = 0
-        feedback = 0
+        # A2[i,j] contains number of paths of length 2 from i to j
+        A2 = A @ A
+
+        # Feed-forward loop: A path of length 2 from i to j AND a direct edge from i to j
+        feed_forward = int(np.sum(A2 * A))
+
+        # Feedback loop: A path of length 2 from i to j AND a direct edge from j to i
+        # Equivalently, the trace of A2 @ A (or A^3) computes the number of 3-cycles
+        feedback = int(np.trace(A2 @ A))
         
-        for i in range(n):
-            for j in range(n):
-                if i != j and adjacency_matrix[i,j]:
-                    for k in range(n):
-                        if k != i and k != j:
-                            if adjacency_matrix[j,k] and adjacency_matrix[i,k]:
-                                feed_forward += 1
-                            if adjacency_matrix[j,k] and adjacency_matrix[k,i]:
-                                feedback += 1
-                                
         return {
             'feed_forward_loops': feed_forward,
             'feedback_loops': feedback,
-            'total_edges': adjacency_matrix.sum()
+            'total_edges': int(adjacency_matrix.sum())
         }
         
     def predict_cell_fate(self, initial_state: np.ndarray) -> str:
