@@ -291,23 +291,20 @@ class BioinformaticsLab:
         if n <= 2:
             return dist_matrix
 
-        # Calculate Q matrix
-        q_matrix = np.zeros((n, n))
-        for i in range(n):
-            for j in range(n):
-                if i != j:
-                    row_sum = np.sum(dist_matrix[i, :])
-                    col_sum = np.sum(dist_matrix[:, j])
-                    q_matrix[i, j] = (n - 2) * dist_matrix[i, j] - row_sum - col_sum
+        # ⚡ Bolt Optimization: Vectorized Q matrix calculation
+        # Replacing O(N^3) explicit nested loops with O(N^2) NumPy broadcasting
+        # This significantly improves performance on large matrices
+        row_sums = np.sum(dist_matrix, axis=1)
 
-        # Find minimum Q value
-        min_val = float('inf')
-        min_pair = (0, 1)
-        for i in range(n):
-            for j in range(i + 1, n):
-                if q_matrix[i, j] < min_val:
-                    min_val = q_matrix[i, j]
-                    min_pair = (i, j)
+        # Calculate full Q matrix using broadcasting
+        q_matrix = (n - 2) * dist_matrix - row_sums[:, np.newaxis] - row_sums[np.newaxis, :]
+
+        # Mask the diagonal to prevent selecting self-pairs
+        np.fill_diagonal(q_matrix, np.inf)
+
+        # Find minimum Q value index using argmin
+        flat_min_idx = np.argmin(q_matrix)
+        min_pair = np.unravel_index(flat_min_idx, q_matrix.shape)
 
         # Join the pair with minimum Q value
         i, j = min_pair
