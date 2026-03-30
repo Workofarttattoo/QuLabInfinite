@@ -86,6 +86,18 @@
             cursor: pointer;
             border: none;
             font-family: var(--font);
+            outline: none;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         .btn-primary {
@@ -457,10 +469,15 @@
             font-size: 0.95rem;
             font-family: var(--font);
             outline: none;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .waitlist-form input:focus { border-color: var(--accent); }
+
+        .waitlist-form input:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 1px;
+        }
 
         .waitlist-form input::placeholder { color: var(--text-dim); }
 
@@ -824,8 +841,8 @@
     </p>
 
     <form class="waitlist-form" id="waitlistForm" onsubmit="handleSubmit(event)">
-        <input type="email" id="emailInput" placeholder="you@company.com" required>
-        <button type="submit" class="btn btn-primary btn-large">Request Access</button>
+        <input type="email" id="emailInput" placeholder="you@company.com" aria-label="Email address for early access" required>
+        <button type="submit" id="submitBtn" class="btn btn-primary btn-large">Request Access</button>
     </form>
 
     <p class="waitlist-count">
@@ -862,17 +879,31 @@
     // Waitlist form
     function handleSubmit(e) {
         e.preventDefault();
-        const email = document.getElementById('emailInput').value;
+        const emailInput = document.getElementById('emailInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const email = emailInput.value;
         const toast = document.getElementById('toast');
 
-        // Store locally (replace with real backend endpoint)
-        const waitlist = JSON.parse(localStorage.getItem('qulab_waitlist') || '[]');
-        waitlist.push({ email, timestamp: new Date().toISOString() });
-        localStorage.setItem('qulab_waitlist', JSON.stringify(waitlist));
+        // Set loading state
+        submitBtn.disabled = true;
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Requesting...';
 
-        document.getElementById('emailInput').value = '';
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
+        // Simulate async network request
+        setTimeout(() => {
+            // Store locally (replace with real backend endpoint)
+            const waitlist = JSON.parse(localStorage.getItem('qulab_waitlist') || '[]');
+            waitlist.push({ email, timestamp: new Date().toISOString() });
+            localStorage.setItem('qulab_waitlist', JSON.stringify(waitlist));
+
+            // Reset form and show success
+            emailInput.value = '';
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }, 800);
     }
 </script>
 
