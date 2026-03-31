@@ -107,13 +107,14 @@ class ComputerVisionLab:
         out_h = (h - kh) // stride + 1
         out_w = (w - kw) // stride + 1
 
-        output = np.zeros((out_h, out_w), dtype=np.float64)
+        # Optimization: Use vectorized sliding_window_view and tensordot instead of explicit O(N^3) nested loops
+        # This keeps operations entirely in C and avoids significant Python overhead
+        windows = np.lib.stride_tricks.sliding_window_view(image, (kh, kw))
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.sum(image[y:y+kh, x:x+kw] * kernel)
+        # Apply stride by slicing the window view
+        windows_strided = windows[::stride, ::stride, :, :]
+
+        output = np.tensordot(windows_strided, kernel, axes=((2, 3), (0, 1)))
 
         return output
 
@@ -146,13 +147,12 @@ class ComputerVisionLab:
         h, w = image.shape
         out_h = (h - pool_size) // stride + 1
         out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.max(image[y:y+pool_size, x:x+pool_size])
+        # Optimization: Use vectorized sliding_window_view instead of explicit Python loops
+        # This keeps operations in C and eliminates O(N^2) looping overhead
+        windows = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size))
+        windows_strided = windows[::stride, ::stride, :, :]
+        output = np.max(windows_strided, axis=(2, 3))
 
         return output
 
@@ -175,13 +175,12 @@ class ComputerVisionLab:
         h, w = image.shape
         out_h = (h - pool_size) // stride + 1
         out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.mean(image[y:y+pool_size, x:x+pool_size])
+        # Optimization: Use vectorized sliding_window_view instead of explicit Python loops
+        # This keeps operations in C and eliminates O(N^2) looping overhead
+        windows = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size))
+        windows_strided = windows[::stride, ::stride, :, :]
+        output = np.mean(windows_strided, axis=(2, 3))
 
         return output
 
