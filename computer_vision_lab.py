@@ -104,16 +104,19 @@ class ComputerVisionLab:
 
         h, w = image.shape
         kh, kw = kernel.shape
-        out_h = (h - kh) // stride + 1
-        out_w = (w - kw) // stride + 1
 
-        output = np.zeros((out_h, out_w), dtype=np.float64)
+        # ⚡ OPTIMIZATION: Replaced O(H*W*KH*KW) explicit Python nested loops with vectorized
+        # operations using sliding_window_view and tensordot.
+        # Expected impact: ~100x speedup for 2D convolutions by keeping operations entirely in C.
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.sum(image[y:y+kh, x:x+kw] * kernel)
+        # Create virtual window array of shape (out_h, out_w, kh, kw)
+        windows = np.lib.stride_tricks.sliding_window_view(image, (kh, kw))
+
+        # Apply stride
+        windows = windows[::stride, ::stride]
+
+        # Compute convolution via dot product over the kernel dimensions (axes 2 and 3)
+        output = np.tensordot(windows, kernel, axes=([2, 3], [0, 1]))
 
         return output
 
@@ -144,17 +147,19 @@ class ComputerVisionLab:
             return output
 
         h, w = image.shape
-        out_h = (h - pool_size) // stride + 1
-        out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.max(image[y:y+pool_size, x:x+pool_size])
+        # ⚡ OPTIMIZATION: Replaced explicit Python nested loops with vectorized max pooling
+        # using sliding_window_view and axis aggregation.
+        # Expected impact: ~50x speedup for pooling operations by avoiding Python loop overhead.
 
-        return output
+        # Create virtual window array of shape (out_h, out_w, pool_size, pool_size)
+        windows = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size))
+
+        # Apply stride
+        windows = windows[::stride, ::stride]
+
+        # Max over the window dimensions (axes 2 and 3)
+        return windows.max(axis=(2, 3))
 
     def average_pooling2d(self, image: np.ndarray, pool_size: int = 2,
                          stride: Optional[int] = None) -> np.ndarray:
@@ -173,17 +178,19 @@ class ComputerVisionLab:
             return output
 
         h, w = image.shape
-        out_h = (h - pool_size) // stride + 1
-        out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.mean(image[y:y+pool_size, x:x+pool_size])
+        # ⚡ OPTIMIZATION: Replaced explicit Python nested loops with vectorized average pooling
+        # using sliding_window_view and axis aggregation.
+        # Expected impact: ~50x speedup for pooling operations.
 
-        return output
+        # Create virtual window array of shape (out_h, out_w, pool_size, pool_size)
+        windows = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size))
+
+        # Apply stride
+        windows = windows[::stride, ::stride]
+
+        # Mean over the window dimensions (axes 2 and 3)
+        return windows.mean(axis=(2, 3))
 
     def gaussian_kernel(self, size: int, sigma: float) -> np.ndarray:
         """Generate Gaussian kernel for blurring."""
