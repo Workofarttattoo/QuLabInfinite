@@ -107,13 +107,14 @@ class ComputerVisionLab:
         out_h = (h - kh) // stride + 1
         out_w = (w - kw) // stride + 1
 
-        output = np.zeros((out_h, out_w), dtype=np.float64)
+        # Use stride_tricks to create a virtual array of sliding windows
+        # shape: (out_h, out_w, kh, kw)
+        shape = (out_h, out_w, kh, kw)
+        strides = (image.strides[0] * stride, image.strides[1] * stride, image.strides[0], image.strides[1])
+        windows = np.lib.stride_tricks.as_strided(image, shape=shape, strides=strides)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.sum(image[y:y+kh, x:x+kw] * kernel)
+        # Vectorized multiplication and sum
+        output = np.tensordot(windows, kernel, axes=((2, 3), (0, 1)))
 
         return output
 
@@ -146,13 +147,12 @@ class ComputerVisionLab:
         h, w = image.shape
         out_h = (h - pool_size) // stride + 1
         out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.max(image[y:y+pool_size, x:x+pool_size])
+        shape = (out_h, out_w, pool_size, pool_size)
+        strides = (image.strides[0] * stride, image.strides[1] * stride, image.strides[0], image.strides[1])
+        windows = np.lib.stride_tricks.as_strided(image, shape=shape, strides=strides)
+
+        output = np.max(windows, axis=(2, 3))
 
         return output
 
@@ -175,13 +175,12 @@ class ComputerVisionLab:
         h, w = image.shape
         out_h = (h - pool_size) // stride + 1
         out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.mean(image[y:y+pool_size, x:x+pool_size])
+        shape = (out_h, out_w, pool_size, pool_size)
+        strides = (image.strides[0] * stride, image.strides[1] * stride, image.strides[0], image.strides[1])
+        windows = np.lib.stride_tricks.as_strided(image, shape=shape, strides=strides)
+
+        output = np.mean(windows, axis=(2, 3))
 
         return output
 
