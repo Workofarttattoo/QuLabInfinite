@@ -91,31 +91,21 @@ class ComputerVisionLab:
         Returns:
             Convolved image
         """
+        kh, kw = kernel.shape
+
         if len(image.shape) == 3:
             # Apply convolution to each channel
-            result = np.zeros_like(image)
-            for c in range(image.shape[2]):
-                result[:, :, c] = self.convolution2d(image[:, :, c], kernel, stride, padding)
-            return result
+            if padding > 0:
+                image = np.pad(image, ((padding, padding), (padding, padding), (0, 0)), mode='constant')
+            windows = np.lib.stride_tricks.sliding_window_view(image, (kh, kw), axis=(0, 1))
+            return np.tensordot(windows[::stride, ::stride, :], kernel, axes=((3, 4), (0, 1)))
 
         # Add padding
         if padding > 0:
             image = np.pad(image, padding, mode='constant')
 
-        h, w = image.shape
-        kh, kw = kernel.shape
-        out_h = (h - kh) // stride + 1
-        out_w = (w - kw) // stride + 1
-
-        output = np.zeros((out_h, out_w), dtype=np.float64)
-
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.sum(image[y:y+kh, x:x+kw] * kernel)
-
-        return output
+        windows = np.lib.stride_tricks.sliding_window_view(image, (kh, kw))
+        return np.tensordot(windows[::stride, ::stride], kernel, axes=((2, 3), (0, 1)))
 
     def max_pooling2d(self, image: np.ndarray, pool_size: int = 2,
                      stride: Optional[int] = None) -> np.ndarray:
@@ -134,27 +124,11 @@ class ComputerVisionLab:
             stride = pool_size
 
         if len(image.shape) == 3:
-            h, w, c = image.shape
-            out_h = (h - pool_size) // stride + 1
-            out_w = (w - pool_size) // stride + 1
-            output = np.zeros((out_h, out_w, c), dtype=np.float64)
+            windows = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size), axis=(0, 1))
+            return windows[::stride, ::stride, :].max(axis=(3, 4))
 
-            for ch in range(c):
-                output[:, :, ch] = self.max_pooling2d(image[:, :, ch], pool_size, stride)
-            return output
-
-        h, w = image.shape
-        out_h = (h - pool_size) // stride + 1
-        out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
-
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.max(image[y:y+pool_size, x:x+pool_size])
-
-        return output
+        windows = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size))
+        return windows[::stride, ::stride].max(axis=(2, 3))
 
     def average_pooling2d(self, image: np.ndarray, pool_size: int = 2,
                          stride: Optional[int] = None) -> np.ndarray:
@@ -163,27 +137,11 @@ class ComputerVisionLab:
             stride = pool_size
 
         if len(image.shape) == 3:
-            h, w, c = image.shape
-            out_h = (h - pool_size) // stride + 1
-            out_w = (w - pool_size) // stride + 1
-            output = np.zeros((out_h, out_w, c), dtype=np.float64)
+            windows = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size), axis=(0, 1))
+            return windows[::stride, ::stride, :].mean(axis=(3, 4))
 
-            for ch in range(c):
-                output[:, :, ch] = self.average_pooling2d(image[:, :, ch], pool_size, stride)
-            return output
-
-        h, w = image.shape
-        out_h = (h - pool_size) // stride + 1
-        out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
-
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.mean(image[y:y+pool_size, x:x+pool_size])
-
-        return output
+        windows = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size))
+        return windows[::stride, ::stride].mean(axis=(2, 3))
 
     def gaussian_kernel(self, size: int, sigma: float) -> np.ndarray:
         """Generate Gaussian kernel for blurring."""
