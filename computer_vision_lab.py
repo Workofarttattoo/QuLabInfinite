@@ -7,6 +7,7 @@ Free gift to the scientific community from QuLabInfinite.
 """
 
 import numpy as np
+from numpy.lib.stride_tricks import sliding_window_view
 from typing import Tuple, List, Dict, Optional, Any
 from dataclasses import dataclass, field
 import warnings
@@ -104,16 +105,16 @@ class ComputerVisionLab:
 
         h, w = image.shape
         kh, kw = kernel.shape
-        out_h = (h - kh) // stride + 1
-        out_w = (w - kw) // stride + 1
 
-        output = np.zeros((out_h, out_w), dtype=np.float64)
+        # Create overlapping windows of shape (out_h, out_w, kh, kw)
+        windows = sliding_window_view(image, (kh, kw))
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.sum(image[y:y+kh, x:x+kw] * kernel)
+        # Apply stride if necessary
+        if stride > 1:
+            windows = windows[::stride, ::stride]
+
+        # Compute convolution via tensordot over the kernel dimensions
+        output = np.tensordot(windows, kernel, axes=([2, 3], [0, 1]))
 
         return output
 
@@ -144,15 +145,16 @@ class ComputerVisionLab:
             return output
 
         h, w = image.shape
-        out_h = (h - pool_size) // stride + 1
-        out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.max(image[y:y+pool_size, x:x+pool_size])
+        # Create overlapping windows of shape (out_h, out_w, pool_size, pool_size)
+        windows = sliding_window_view(image, (pool_size, pool_size))
+
+        # Apply stride if necessary
+        if stride > 1:
+            windows = windows[::stride, ::stride]
+
+        # Compute max over the window dimensions
+        output = windows.max(axis=(2, 3))
 
         return output
 
@@ -173,15 +175,16 @@ class ComputerVisionLab:
             return output
 
         h, w = image.shape
-        out_h = (h - pool_size) // stride + 1
-        out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.mean(image[y:y+pool_size, x:x+pool_size])
+        # Create overlapping windows of shape (out_h, out_w, pool_size, pool_size)
+        windows = sliding_window_view(image, (pool_size, pool_size))
+
+        # Apply stride if necessary
+        if stride > 1:
+            windows = windows[::stride, ::stride]
+
+        # Compute mean over the window dimensions
+        output = windows.mean(axis=(2, 3))
 
         return output
 
