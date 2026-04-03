@@ -824,8 +824,8 @@
     </p>
 
     <form class="waitlist-form" id="waitlistForm" onsubmit="handleSubmit(event)">
-        <input type="email" id="emailInput" placeholder="you@company.com" required>
-        <button type="submit" class="btn btn-primary btn-large">Request Access</button>
+        <input type="email" id="emailInput" placeholder="you@company.com" required aria-label="Email address for early access">
+        <button type="submit" class="btn btn-primary btn-large" id="submitBtn">Request Access</button>
     </form>
 
     <p class="waitlist-count">
@@ -864,15 +864,33 @@
         e.preventDefault();
         const email = document.getElementById('emailInput').value;
         const toast = document.getElementById('toast');
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.textContent;
 
-        // Store locally (replace with real backend endpoint)
-        const waitlist = JSON.parse(localStorage.getItem('qulab_waitlist') || '[]');
-        waitlist.push({ email, timestamp: new Date().toISOString() });
-        localStorage.setItem('qulab_waitlist', JSON.stringify(waitlist));
+        // Visual loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Requesting...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'not-allowed';
 
-        document.getElementById('emailInput').value = '';
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
+        // Simulate async operation for better UX
+        setTimeout(() => {
+            // Store locally (replace with real backend endpoint)
+            const waitlist = JSON.parse(localStorage.getItem('qulab_waitlist') || '[]');
+            waitlist.push({ email, timestamp: new Date().toISOString() });
+            localStorage.setItem('qulab_waitlist', JSON.stringify(waitlist));
+
+            document.getElementById('emailInput').value = '';
+            toast.classList.add('show');
+
+            // Restore button state
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            submitBtn.style.opacity = '';
+            submitBtn.style.cursor = '';
+
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }, 600);
     }
 </script>
 
