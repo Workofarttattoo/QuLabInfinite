@@ -107,13 +107,11 @@ class ComputerVisionLab:
         out_h = (h - kh) // stride + 1
         out_w = (w - kw) // stride + 1
 
-        output = np.zeros((out_h, out_w), dtype=np.float64)
+        # Use sliding window view for vectorized convolution
+        view = np.lib.stride_tricks.sliding_window_view(image, (kh, kw))
+        strided_view = view[::stride, ::stride, :, :]
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.sum(image[y:y+kh, x:x+kw] * kernel)
+        output = np.tensordot(strided_view, kernel, axes=([2, 3], [0, 1]))
 
         return output
 
@@ -146,13 +144,11 @@ class ComputerVisionLab:
         h, w = image.shape
         out_h = (h - pool_size) // stride + 1
         out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.max(image[y:y+pool_size, x:x+pool_size])
+        # Use sliding window view for vectorized max pooling
+        view = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size))
+        strided_view = view[::stride, ::stride, :, :]
+        output = strided_view.max(axis=(2, 3))
 
         return output
 
@@ -175,13 +171,11 @@ class ComputerVisionLab:
         h, w = image.shape
         out_h = (h - pool_size) // stride + 1
         out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.mean(image[y:y+pool_size, x:x+pool_size])
+        # Use sliding window view for vectorized average pooling
+        view = np.lib.stride_tricks.sliding_window_view(image, (pool_size, pool_size))
+        strided_view = view[::stride, ::stride, :, :]
+        output = strided_view.mean(axis=(2, 3))
 
         return output
 
