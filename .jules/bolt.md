@@ -8,3 +8,7 @@
 ## 2025-03-05 - Avoid Full Array Copies in Iterative Finite Differences
 **Learning:** In nested loops computing numerical derivatives (like gradients or Hessians), full array copies (`x.copy()`) inside the inner loops scale horribly (e.g. O(N^3) memory allocation overhead for Hessians). Even if true NumPy vectorization is impossible due to the black-box scalar nature of the function `f(x)`, massive performance gains can be achieved through simple in-place scalar modification of the array.
 **Action:** When computing multi-variable finite differences element-by-element, modify the specific coordinate `x[i] += epsilon`, call `f(x)`, and immediately restore `x[i] -= epsilon` instead of creating `N` copies of the array.
+
+## 2024-04-05 - Avoid explicit O(N^3) nested loops for NumPy sliding-window pooling
+**Learning:** Native Python nested loops over NumPy arrays create hidden O(N^3) bottlenecks due to Python overhead, especially when performing slice sums or aggregations inside the loop. For sliding-window image operations over NumPy arrays (such as pooling in `computer_vision_lab.py`), explicit pure Python nested loops introduce massive overhead.
+**Action:** Always prefer vectorized operations for sliding-window views. Use `np.lib.stride_tricks.as_strided` (or `sliding_window_view`) to create virtual window arrays combined with vectorized axis aggregations (e.g., `.max(axis=(2, 3))`) to keep operations entirely in C.

@@ -133,28 +133,30 @@ class ComputerVisionLab:
         if stride is None:
             stride = pool_size
 
-        if len(image.shape) == 3:
-            h, w, c = image.shape
-            out_h = (h - pool_size) // stride + 1
-            out_w = (w - pool_size) // stride + 1
-            output = np.zeros((out_h, out_w, c), dtype=np.float64)
-
-            for ch in range(c):
-                output[:, :, ch] = self.max_pooling2d(image[:, :, ch], pool_size, stride)
-            return output
-
-        h, w = image.shape
+        h, w = image.shape[:2]
         out_h = (h - pool_size) // stride + 1
         out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.max(image[y:y+pool_size, x:x+pool_size])
-
-        return output
+        # Optimization: Use np.lib.stride_tricks.as_strided to create a virtual window
+        # array over the image, completely avoiding O(N^3) Python loop overhead and
+        # pushing operations entirely to C.
+        if len(image.shape) == 2:
+            view = np.lib.stride_tricks.as_strided(
+                image,
+                shape=(out_h, out_w, pool_size, pool_size),
+                strides=(image.strides[0]*stride, image.strides[1]*stride, image.strides[0], image.strides[1])
+            )
+            # Maintain backward compatibility by returning float64 to match previous np.zeros behavior
+            return view.max(axis=(2, 3)).astype(np.float64)
+        else:
+            c = image.shape[2]
+            view = np.lib.stride_tricks.as_strided(
+                image,
+                shape=(out_h, out_w, c, pool_size, pool_size),
+                strides=(image.strides[0]*stride, image.strides[1]*stride, image.strides[2], image.strides[0], image.strides[1])
+            )
+            # Maintain backward compatibility by returning float64 to match previous np.zeros behavior
+            return view.max(axis=(3, 4)).astype(np.float64)
 
     def average_pooling2d(self, image: np.ndarray, pool_size: int = 2,
                          stride: Optional[int] = None) -> np.ndarray:
@@ -162,28 +164,30 @@ class ComputerVisionLab:
         if stride is None:
             stride = pool_size
 
-        if len(image.shape) == 3:
-            h, w, c = image.shape
-            out_h = (h - pool_size) // stride + 1
-            out_w = (w - pool_size) // stride + 1
-            output = np.zeros((out_h, out_w, c), dtype=np.float64)
-
-            for ch in range(c):
-                output[:, :, ch] = self.average_pooling2d(image[:, :, ch], pool_size, stride)
-            return output
-
-        h, w = image.shape
+        h, w = image.shape[:2]
         out_h = (h - pool_size) // stride + 1
         out_w = (w - pool_size) // stride + 1
-        output = np.zeros((out_h, out_w), dtype=np.float64)
 
-        for i in range(out_h):
-            for j in range(out_w):
-                y = i * stride
-                x = j * stride
-                output[i, j] = np.mean(image[y:y+pool_size, x:x+pool_size])
-
-        return output
+        # Optimization: Use np.lib.stride_tricks.as_strided to create a virtual window
+        # array over the image, avoiding O(N^3) Python loop overhead and
+        # pushing operations entirely to C.
+        if len(image.shape) == 2:
+            view = np.lib.stride_tricks.as_strided(
+                image,
+                shape=(out_h, out_w, pool_size, pool_size),
+                strides=(image.strides[0]*stride, image.strides[1]*stride, image.strides[0], image.strides[1])
+            )
+            # Output of mean is natively float64 by default, maintaining backward compatibility
+            return view.mean(axis=(2, 3)).astype(np.float64)
+        else:
+            c = image.shape[2]
+            view = np.lib.stride_tricks.as_strided(
+                image,
+                shape=(out_h, out_w, c, pool_size, pool_size),
+                strides=(image.strides[0]*stride, image.strides[1]*stride, image.strides[2], image.strides[0], image.strides[1])
+            )
+            # Output of mean is natively float64 by default, maintaining backward compatibility
+            return view.mean(axis=(3, 4)).astype(np.float64)
 
     def gaussian_kernel(self, size: int, sigma: float) -> np.ndarray:
         """Generate Gaussian kernel for blurring."""
