@@ -92,7 +92,7 @@ function App() {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance, onNodeDataChange],
+    [reactFlowInstance, onNodeDataChange, setNodes],
   );
 
   const onRunWorkflow = useCallback(() => {
