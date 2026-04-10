@@ -1,0 +1,5 @@
+🧪 [Add tests for create_lab_documentation]
+
+🎯 **What:** Adds missing test coverage for the `create_lab_documentation` function in `create_mcp_docs.py` to ensure reliable generation of HTML documentation for lab MCP tools.
+📊 **Coverage:** Covered happy path (rendering fully-populated tool correctly), fallback/edge-cases for missing optional parameters (parameters, examples, refs, etc.), different tool status values (working, partial, placeholder, unknown), and an empty tool list.
+✨ **Result:** Enhanced the codebase's test reliability and coverage, providing a safety net against future regressions.
