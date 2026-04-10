@@ -429,15 +429,13 @@ class QuLabTrapFramework:
         self.test_questions = self._build_test_suite()
         self.results_history = []
 
-    def _build_test_suite(self) -> List[TestQuestion]:
-        """Build the comprehensive test suite with all four branches"""
 
-        questions = []
-
-        # ===== BRANCH A: Rediscovery Tests (weight ≈ 0.40) =====
-        # Ask QuLab to rediscover materials that already exist but don't tell it they exist
-
-        questions.extend([
+    def _build_branch_a_rediscovery_tests(self) -> List[TestQuestion]:
+        """
+        ===== BRANCH A: Rediscovery Tests (weight ≈ 0.40) =====
+        Ask QuLab to rediscover materials that already exist but don't tell it they exist
+        """
+        return [
             TestQuestion(
                 id="A1",
                 branch="rediscovery",
@@ -473,12 +471,14 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="expert"
             )
-        ])
+        ]
 
-        # ===== BRANCH B: Physics Sanity Checks (weight ≈ 0.25) =====
-        # Ask questions that force obedience to hard physical limits
-
-        questions.extend([
+    def _build_branch_b_physics_sanity_tests(self) -> List[TestQuestion]:
+        """
+        ===== BRANCH B: Physics Sanity Checks (weight ≈ 0.25) =====
+        Ask questions that force obedience to hard physical limits
+        """
+        return [
             TestQuestion(
                 id="B1",
                 branch="physics_sanity",
@@ -508,12 +508,14 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="expert"
             )
-        ])
+        ]
 
-        # ===== BRANCH C: Database Cross-Matching (weight ≈ 0.20) =====
-        # Ask QuLab to predict materials with specific measurable properties, then check against known datasets
-
-        questions.extend([
+    def _build_branch_c_database_matching_tests(self) -> List[TestQuestion]:
+        """
+        ===== BRANCH C: Database Cross-Matching (weight ≈ 0.20) =====
+        Ask QuLab to predict materials with specific measurable properties, then check against known datasets
+        """
+        return [
             TestQuestion(
                 id="C1",
                 branch="database_matching",
@@ -537,12 +539,14 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="expert"
             )
-        ])
+        ]
 
-        # ===== BRANCH D: Impossible Material Trap (weight ≈ 0.15) =====
-        # Give deliberately impossible targets
-
-        questions.extend([
+    def _build_branch_d_impossible_trap_tests(self) -> List[TestQuestion]:
+        """
+        ===== BRANCH D: Impossible Material Trap (weight ≈ 0.15) =====
+        Give deliberately impossible targets
+        """
+        return [
             TestQuestion(
                 id="D1",
                 branch="impossible_trap",
@@ -572,8 +576,15 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="expert"
             )
-        ])
+        ]
 
+    def _build_test_suite(self) -> List[TestQuestion]:
+        """Build the comprehensive test suite with all four branches"""
+        questions = []
+        questions.extend(self._build_branch_a_rediscovery_tests())
+        questions.extend(self._build_branch_b_physics_sanity_tests())
+        questions.extend(self._build_branch_c_database_matching_tests())
+        questions.extend(self._build_branch_d_impossible_trap_tests())
         return questions
 
     def run_test_question(self, question_id: str) -> TestResult:
