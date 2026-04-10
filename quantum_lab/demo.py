@@ -10,8 +10,8 @@ Shows all quantum lab features with ECH0 integration examples
 import sys
 import time
 from quantum_lab import QuantumLabSimulator, SimulationBackend, create_bell_pair, create_ghz_state
-from quantum_chemistry import Molecule
-from quantum_validation import QuantumValidation
+from quantum_lab.quantum_chemistry import Molecule
+from quantum_lab.quantum_validation import QuantumValidation
 
 
 def print_section(title):
