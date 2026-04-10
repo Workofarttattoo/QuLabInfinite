@@ -158,31 +158,27 @@ class GenomicsLaboratory:
         error_rate = 0.005
 
         # Generate reads with Poisson-distributed coverage
-        seq_len = len(sequence)
-        num_reads = int(seq_len * coverage / 150)  # 150bp reads
+        num_reads = int(len(sequence) * coverage / 150)  # 150bp reads
 
         reads = []
         quality_scores = []
 
-        # Pre-generate random start positions
-        max_start = max(1, seq_len - 150)
-        starts = np.random.randint(0, max_start, size=num_reads)
+        for i in range(num_reads):
+            # Random start position
+            start = np.random.randint(0, max(1, len(sequence) - 150))
+            end = min(start + 150, len(sequence))
 
-        for start in starts:
-            end = min(start + 150, seq_len)
             read = list(sequence[start:end])
-            read_len = len(read)
 
             # Introduce sequencing errors
-            error_mask = np.random.random(read_len) < error_rate
-            if error_mask.any():
-                for idx in np.where(error_mask)[0]:
+            for j in range(len(read)):
+                if np.random.random() < error_rate:
                     bases = ['A', 'T', 'C', 'G']
-                    bases.remove(read[idx])
-                    read[idx] = np.random.choice(bases)
+                    bases.remove(read[j])
+                    read[j] = np.random.choice(bases)
 
             # Generate Phred quality scores (Q30 = 99.9% accuracy)
-            q_scores = np.random.normal(35, 5, read_len)
+            q_scores = np.random.normal(35, 5, len(read))
             q_scores = np.clip(q_scores, 10, 40)
 
             reads.append(''.join(read))
