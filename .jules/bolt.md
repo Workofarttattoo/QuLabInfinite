@@ -6,6 +6,6 @@
 **Learning:** Found a critical bug (immutable sparse matrix assignment) in `thermodynamics_grid.py` only because I wrote a benchmark script. The existing test suite did not cover this module.
 **Action:** When optimizing, if no specific test exists for the target module, write a reproduction/benchmark script first to verify it works at all.
 
-## 2025-05-22 - Quantum Gate Vectorization
-**Learning:** Dense matrix allocations (e.g. `np.eye(2**N)`) and string-based index parsing in quantum simulation methods scale terribly in both execution time and memory (O(4^N)). By vectorizing qubit manipulation using NumPy bitwise operations (`(idx >> bit) & 1`) and boolean masking on the O(2^N) state vector directly, execution times for large qubit operations (like QFT) dropped drastically (e.g. ~5s to ~1.1s for 12 qubits) without changing the mathematical outcome.
-**Action:** When implementing quantum logic or large discrete state-space simulations, always replace explicit dense matrix construction and iterative string parsing with vectorized bitwise arithmetic and array masking on the state vector itself.
+## 2023-10-27 - Vectorized Sequence Mutation Operations
+**Learning:** Simulating DNA sequencing reads with per-base random error insertion using `np.random.random()` inside a nested Python loop is severely slow.
+**Action:** Always pre-calculate starting points in bulk with `np.random.randint(..., size=N)` and use boolean mask vectorization (`error_mask = np.random.random(read_len) < error_rate`) with `np.where` for per-character mutation steps.
