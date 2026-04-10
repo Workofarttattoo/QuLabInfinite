@@ -221,6 +221,8 @@ async def apply_for_lab(request: InstitutionRequest):
     else:
         requests = []
 
+    lab_info = LAB_CATALOG[request.lab_requested]
+
     application = {
         "timestamp": datetime.now().isoformat(),
         "institution": request.institution_name,
@@ -231,11 +233,11 @@ async def apply_for_lab(request: InstitutionRequest):
             "email": request.contact_email
         },
         "lab_requested": request.lab_requested,
-        "lab_name": LAB_CATALOG[request.lab_requested]["name"],
+        "lab_name": lab_info["name"],
         "use_case": request.use_case,
         "estimated_patients": request.estimated_patients,
         "status": "pending_review",
-        "commercial_value": LAB_CATALOG[request.lab_requested]["value"]
+        "commercial_value": lab_info["value"]
     }
 
     requests.append(application)
@@ -244,7 +246,7 @@ async def apply_for_lab(request: InstitutionRequest):
     return {
         "status": "Application received!",
         "institution": request.institution_name,
-        "lab_requested": LAB_CATALOG[request.lab_requested]["name"],
+        "lab_requested": lab_info["name"],
         "next_steps": [
             "We'll review your application within 2-3 business days",
             "Upon approval, you'll receive:",
@@ -260,7 +262,7 @@ async def apply_for_lab(request: InstitutionRequest):
             "Estimated patient impact",
             "Department fit with lab specialty"
         ],
-        "commercial_value_received": LAB_CATALOG[request.lab_requested]["value"],
+        "commercial_value_received": lab_info["value"],
         "contact": "Questions? contact@qulabinfinite.com"
     }
 
