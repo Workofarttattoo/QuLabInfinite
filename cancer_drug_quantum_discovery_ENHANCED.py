@@ -635,5 +635,5 @@ if __name__ == "__main__":
     import json
     output_file = "/Users/noone/QuLabInfinite/quantum_drug_results.json"
     with open(output_file, 'w') as f:
-        json.dump(, default=strresults, f, indent=2)
+        json.dump(results, f, indent=2, default=str)
     print(f"\n💾 Results saved to: {output_file}")
