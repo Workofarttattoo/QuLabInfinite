@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - O(N³) Bottlenecks in Distance Matrices
+**Learning:** Pure Python nested loops over 2D numpy arrays combined with `np.sum(dist_matrix[i, :])` called repeatedly inside the loop creates massive O(N^3) bottlenecks due to repeated calculations and Python loop overhead.
+**Action:** When calculating row/col sums for a matrix, always hoist `np.sum(matrix, axis=1)` outside the loop. Use NumPy broadcasting to replace the entire nested loop over the matrix, reducing time by >200x.
