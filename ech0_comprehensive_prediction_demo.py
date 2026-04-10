@@ -1,11 +1,5 @@
-import logging
-#!/usr/bin/env python3
-"""
-ECH0 Comprehensive Prediction Capabilities Demonstration
-Demonstrates all 10 advanced prediction capabilities of the digital twin system
-"""
-
 import json
+import logging
 from datetime import datetime
 from ech0_advanced_digital_twin_predictor import ECH0_AdvancedDigitalTwinPredictor
 
@@ -61,6 +55,272 @@ def create_demo_digital_twins(predictor):
 
     return twin_ids
 
+def _demonstrate_basic_characterization(demo_results):
+    logging.info("1. ✅ BASIC CHARACTERIZATION (27 Stress Factors)")
+    logging.info("   - Temperature: -269°C to 1000°C")
+    logging.info("   - Pressure: 10^-9 Torr to 10 GPa")
+    logging.info("   - Chemical: Saltwater, acid, alkaline, oxidizing")
+    logging.info("   - Mechanical: Vibration, shock, fatigue")
+    logging.info("   - Radiation: Gamma, neutron, UV, electromagnetic")
+    logging.info("   - Environmental: Biodegradation, humidity, thermal shock")
+    logging.info("   - Space/Aerospace: Vacuum, reentry, launch")
+    logging.info("   - Industrial: Chemical plant, offshore, nuclear")
+    logging.info("   - Emerging: Quantum computing, 5G/6G, autonomous vehicles")
+    demo_results['capabilities_demonstrated'].append({
+        'capability': 'Basic Characterization',
+        'status': 'completed',
+        'description': '27 comprehensive environmental stress factors',
+        'key_output': 'Performance under extreme conditions'
+    })
+    logging.info()
+
+def _demonstrate_lifecycle_performance(predictor, twin_id, demo_results):
+    logging.info("2. ✅ LIFECYCLE PERFORMANCE PREDICTION")
+    try:
+        lifecycle_pred = predictor.predict_lifecycle_performance(twin_id, time_horizon=10)
+        logging.info(f"   - 10-year degradation profile: {len(lifecycle_pred.degradation_profile['performance'])} data points")
+        logging.info(f"   - Maintenance schedule: {len(lifecycle_pred.maintenance_schedule)} events")
+        logging.info(f"   - End-of-life scenarios: {len(lifecycle_pred.end_of_life_scenarios)} options")
+        logging.info(".2f")
+        logging.info(".2f")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Lifecycle Performance Prediction',
+            'status': 'completed',
+            'description': '10-year lifespan analysis with maintenance planning',
+            'key_output': f'Total cost of ownership: ${lifecycle_pred.cost_of_ownership["total_cost_npv"]:,.0f} NPV'
+        })
+    except Exception as e:
+        logging.info(f"   - Error: {e}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Lifecycle Performance Prediction',
+            'status': 'error',
+            'description': str(e)
+        })
+    logging.info()
+
+def _demonstrate_scalability_performance(predictor, twin_id, demo_results):
+    logging.info("3. ✅ SCALABILITY PERFORMANCE ANALYSIS")
+    try:
+        scalability_pred = predictor.predict_scalability_performance(twin_id)
+        logging.info(".2f")
+        logging.info(f"   - Risk level: {scalability_pred.risk_assessment.get('risk_level', 'unknown')}")
+        logging.info(f"   - Recommendations: {len(scalability_pred.recommendations)} strategies")
+        logging.info("   - Key challenges: Lab-to-pilot yield loss, quality control at scale")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Scalability Performance Analysis',
+            'status': 'completed',
+            'description': 'Scale-up challenges from lab to industrial production',
+            'key_output': f'High scalability risk requiring mitigation strategies'
+        })
+    except Exception as e:
+        logging.info(f"   - Error: {e}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Scalability Performance Analysis',
+            'status': 'error',
+            'description': str(e)
+        })
+    logging.info()
+
+def _demonstrate_market_adoption(predictor, twin_id, demo_results):
+    logging.info("4. ✅ MARKET ADOPTION FORECASTING")
+    try:
+        market_pred = predictor.predict_market_adoption(twin_id)
+        market_share = market_pred.key_findings[0].split(':')[1].strip()
+        time_to_peak = market_pred.key_findings[0].split('at year')[1].strip()
+        logging.info(f"   - Peak market share: {market_share}")
+        logging.info(f"   - Time to peak adoption: {time_to_peak} years")
+        logging.info(f"   - Competitive advantages: Technology leadership in quantum materials")
+        logging.info(f"   - Risk level: {market_pred.key_findings[4].split(':')[1].strip()}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Market Adoption Forecasting',
+            'status': 'completed',
+            'description': 'Market penetration trajectory and competitive positioning',
+            'key_output': f'Peak market share: {market_share} at {time_to_peak} years'
+        })
+    except Exception as e:
+        logging.info(f"   - Error: {e}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Market Adoption Forecasting',
+            'status': 'error',
+            'description': str(e)
+        })
+    logging.info()
+
+def _demonstrate_system_integration(predictor, twin_ids, demo_results):
+    logging.info("5. ✅ SYSTEM INTEGRATION PERFORMANCE")
+    try:
+        integration_pred = predictor.predict_system_integration(twin_ids)
+        compatibility = integration_pred.key_findings[0].split(':')[1].strip()
+        challenges = integration_pred.key_findings[1].split(':')[1].split()[0]
+        performance_mult = integration_pred.key_findings[2].split(':')[1].strip()
+        logging.info(f"   - Material compatibility: {compatibility}")
+        logging.info(f"   - Integration challenges: {challenges} identified")
+        logging.info(f"   - System performance multiplier: {performance_mult}")
+        logging.info("   - Strategy: Hybrid integration approach recommended")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'System Integration Performance',
+            'status': 'completed',
+            'description': 'Multi-material system compatibility and performance',
+            'key_output': f'{challenges} integration challenges requiring hybrid approach'
+        })
+    except Exception as e:
+        logging.info(f"   - Error: {e}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'System Integration Performance',
+            'status': 'error',
+            'description': str(e)
+        })
+    logging.info()
+
+def _demonstrate_environmental_impact(predictor, twin_id, demo_results):
+    logging.info("6. 🔄 ENVIRONMENTAL IMPACT MODELING")
+    try:
+        env_pred = predictor.predict_environmental_impact(twin_id)
+        carbon_fp = env_pred.key_findings[0].split(':')[1].strip()
+        resource_eff = env_pred.key_findings[1].split(':')[1].strip()
+        circular_econ = env_pred.key_findings[2].split(':')[1].strip()
+        regulatory_comp = env_pred.key_findings[3].split(':')[1].strip()
+        logging.info(f"   - Carbon footprint: {carbon_fp} kg CO2/kg material")
+        logging.info(f"   - Resource efficiency: {resource_eff}")
+        logging.info(f"   - Circular economy score: {circular_econ}")
+        logging.info(f"   - Regulatory compliance: {regulatory_comp}")
+        logging.info("   - Recommendations: Carbon emission reduction, recycling development")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Environmental Impact Modeling',
+            'status': 'completed',
+            'description': 'Carbon footprint, resource efficiency, and sustainability assessment',
+            'key_output': f'Carbon footprint: {carbon_fp}, regulatory compliance: {regulatory_comp}'
+        })
+    except Exception as e:
+        logging.info(f"   - Error: {e}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Environmental Impact Modeling',
+            'status': 'error',
+            'description': str(e)
+        })
+    logging.info()
+
+def _demonstrate_supply_chain_risks(predictor, twin_id, demo_results):
+    logging.info("7. 🔄 SUPPLY CHAIN RISK ANALYSIS")
+    try:
+        supply_pred = predictor.predict_supply_chain_risks(twin_id)
+        risk_level = supply_pred.key_findings[0].split('(')[1].split(')')[0]
+        material_avail = supply_pred.key_findings[1].split(':')[1].strip()
+        geopol_risk = supply_pred.key_findings[2].split(':')[1].strip()
+        cost_vol = supply_pred.key_findings[3].split(':')[1].strip()
+        supplier_conc = supply_pred.key_findings[4].split(':')[1].strip()
+        logging.info(f"   - Overall risk level: {risk_level}")
+        logging.info(f"   - Material availability: {material_avail}")
+        logging.info(f"   - Geopolitical risk: {geopol_risk}")
+        logging.info(f"   - Cost volatility: {cost_vol}")
+        logging.info(f"   - Supplier concentration: {supplier_conc}")
+        logging.info("   - Mitigation: Diversify sourcing, strategic inventory")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Supply Chain Risk Analysis',
+            'status': 'completed',
+            'description': 'Supply chain vulnerabilities and risk mitigation strategies',
+            'key_output': f'Overall risk level: {risk_level} with geopolitical and cost volatility concerns'
+        })
+    except Exception as e:
+        logging.info(f"   - Error: {e}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Supply Chain Risk Analysis',
+            'status': 'error',
+            'description': str(e)
+        })
+    logging.info()
+
+def _demonstrate_human_factors(predictor, twin_id, demo_results):
+    logging.info("8. 🔄 HUMAN FACTORS INTEGRATION")
+    try:
+        human_pred = predictor.predict_human_factors(twin_id)
+        safety_rating = human_pred.key_findings[0].split(':')[1].strip()
+        ergonomics = human_pred.key_findings[1].split(':')[1].strip()
+        acceptance_prob = human_pred.key_findings[2].split(':')[1].strip()
+        training_level = human_pred.key_findings[3].split(':')[1].strip()
+        accessibility = human_pred.key_findings[4].split(':')[1].strip()
+        logging.info(f"   - Operator safety rating: {safety_rating}")
+        logging.info(f"   - Ergonomics score: {ergonomics}")
+        logging.info(f"   - User acceptance probability: {acceptance_prob}")
+        logging.info(f"   - Training requirement level: {training_level}")
+        logging.info(f"   - Accessibility compliance: {accessibility}")
+        logging.info("   - Recommendations: Safety training, user interface design")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Human Factors Integration',
+            'status': 'completed',
+            'description': 'Safety, ergonomics, and human interaction analysis',
+            'key_output': f'User acceptance: {acceptance_prob}, safety: {safety_rating}'
+        })
+    except Exception as e:
+        logging.info(f"   - Error: {e}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Human Factors Integration',
+            'status': 'error',
+            'description': str(e)
+        })
+    logging.info()
+
+def _demonstrate_failure_propagation(predictor, twin_id, demo_results):
+    logging.info("9. 🔄 FAILURE PROPAGATION MODELING")
+    try:
+        failure_pred = predictor.predict_failure_propagation(twin_id)
+        failure_modes = failure_pred.key_findings[0].split(':')[1].split()[0]
+        prop_paths = failure_pred.key_findings[1].split(':')[1].split()[0]
+        resilience = failure_pred.key_findings[2].split(':')[1].strip()
+        severity = failure_pred.key_findings[3].split(':')[1].strip()
+        vuln_comp = failure_pred.key_findings[4].split(':')[1].strip()
+        logging.info(f"   - Failure modes identified: {failure_modes}")
+        logging.info(f"   - Critical propagation paths: {prop_paths}")
+        logging.info(f"   - System resilience score: {resilience}")
+        logging.info(f"   - Cascading effect severity: {severity}")
+        logging.info(f"   - Most vulnerable component: {vuln_comp}")
+        logging.info("   - Mitigation: Redundant systems, monitoring, fail-safes")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Failure Propagation Modeling',
+            'status': 'completed',
+            'description': 'Cascading failure analysis and system resilience assessment',
+            'key_output': f'{failure_modes} failure modes, resilience: {resilience}'
+        })
+    except Exception as e:
+        logging.info(f"   - Error: {e}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Failure Propagation Modeling',
+            'status': 'error',
+            'description': str(e)
+        })
+    logging.info()
+
+def _demonstrate_economic_optimization(predictor, twin_id, demo_results):
+    logging.info("10. 🔄 ECONOMIC OPTIMIZATION MODELING")
+    try:
+        economic_pred = predictor.predict_economic_optimization(twin_id)
+        break_even = economic_pred.key_findings[0].split(':')[1].strip()
+        price_range = economic_pred.key_findings[1].split(':')[1].strip()
+        payback = economic_pred.key_findings[2].split(':')[1].strip()
+        market_share = economic_pred.key_findings[3].split(':')[1].strip()
+        comp_advantage = economic_pred.key_findings[4].split(':')[1].strip()
+        logging.info(f"   - Break-even volume: {break_even} units")
+        logging.info(f"   - Optimal pricing range: {price_range}")
+        logging.info(f"   - Investment payback period: {payback}")
+        logging.info(f"   - Market share potential: {market_share}")
+        logging.info(f"   - Competitive advantage score: {comp_advantage}")
+        logging.info("   - Strategy: Dynamic pricing, economies of scale optimization")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Economic Optimization Modeling',
+            'status': 'completed',
+            'description': 'Cost-volume-profit analysis and investment optimization',
+            'key_output': f'Break-even: {break_even}, payback: {payback}, market share: {market_share}'
+        })
+    except Exception as e:
+        logging.info(f"   - Error: {e}")
+        demo_results['capabilities_demonstrated'].append({
+            'capability': 'Economic Optimization Modeling',
+            'status': 'error',
+            'description': str(e)
+        })
+    logging.info()
+
+
 def demonstrate_all_prediction_capabilities():
     """Demonstrate all 10 advanced prediction capabilities"""
 
@@ -89,270 +349,16 @@ def demonstrate_all_prediction_capabilities():
         'results_summary': {}
     }
 
-    # 1. Basic Characterization (Already demonstrated)
-    logging.info("1. ✅ BASIC CHARACTERIZATION (27 Stress Factors)")
-    logging.info("   - Temperature: -269°C to 1000°C")
-    logging.info("   - Pressure: 10^-9 Torr to 10 GPa")
-    logging.info("   - Chemical: Saltwater, acid, alkaline, oxidizing")
-    logging.info("   - Mechanical: Vibration, shock, fatigue")
-    logging.info("   - Radiation: Gamma, neutron, UV, electromagnetic")
-    logging.info("   - Environmental: Biodegradation, humidity, thermal shock")
-    logging.info("   - Space/Aerospace: Vacuum, reentry, launch")
-    logging.info("   - Industrial: Chemical plant, offshore, nuclear")
-    logging.info("   - Emerging: Quantum computing, 5G/6G, autonomous vehicles")
-    demo_results['capabilities_demonstrated'].append({
-        'capability': 'Basic Characterization',
-        'status': 'completed',
-        'description': '27 comprehensive environmental stress factors',
-        'key_output': 'Performance under extreme conditions'
-    })
-    logging.info()
-
-    # 2. Lifecycle Performance Prediction (Implemented)
-    logging.info("2. ✅ LIFECYCLE PERFORMANCE PREDICTION")
-    try:
-        lifecycle_pred = predictor.predict_lifecycle_performance(twin_ids[0], time_horizon=10)
-        logging.info(f"   - 10-year degradation profile: {len(lifecycle_pred.degradation_profile['performance'])} data points")
-        logging.info(f"   - Maintenance schedule: {len(lifecycle_pred.maintenance_schedule)} events")
-        logging.info(f"   - End-of-life scenarios: {len(lifecycle_pred.end_of_life_scenarios)} options")
-        logging.info(".2f")
-        logging.info(".2f")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Lifecycle Performance Prediction',
-            'status': 'completed',
-            'description': '10-year lifespan analysis with maintenance planning',
-            'key_output': f'Total cost of ownership: ${lifecycle_pred.cost_of_ownership["total_cost_npv"]:,.0f} NPV'
-        })
-    except Exception as e:
-        logging.info(f"   - Error: {e}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Lifecycle Performance Prediction',
-            'status': 'error',
-            'description': str(e)
-        })
-    logging.info()
-
-    # 3. Scalability Performance Analysis (Implemented)
-    logging.info("3. ✅ SCALABILITY PERFORMANCE ANALYSIS")
-    try:
-        scalability_pred = predictor.predict_scalability_performance(twin_ids[0])
-        logging.info(".2f")
-        logging.info(f"   - Risk level: {scalability_pred.risk_assessment.get('risk_level', 'unknown')}")
-        logging.info(f"   - Recommendations: {len(scalability_pred.recommendations)} strategies")
-        logging.info("   - Key challenges: Lab-to-pilot yield loss, quality control at scale")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Scalability Performance Analysis',
-            'status': 'completed',
-            'description': 'Scale-up challenges from lab to industrial production',
-            'key_output': f'High scalability risk requiring mitigation strategies'
-        })
-    except Exception as e:
-        logging.info(f"   - Error: {e}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Scalability Performance Analysis',
-            'status': 'error',
-            'description': str(e)
-        })
-    logging.info()
-
-    # 4. Market Adoption Forecasting (Implemented)
-    logging.info("4. ✅ MARKET ADOPTION FORECASTING")
-    try:
-        market_pred = predictor.predict_market_adoption(twin_ids[0])
-        market_share = market_pred.key_findings[0].split(':')[1].strip()
-        time_to_peak = market_pred.key_findings[0].split('at year')[1].strip()
-        logging.info(f"   - Peak market share: {market_share}")
-        logging.info(f"   - Time to peak adoption: {time_to_peak} years")
-        logging.info(f"   - Competitive advantages: Technology leadership in quantum materials")
-        logging.info(f"   - Risk level: {market_pred.key_findings[4].split(':')[1].strip()}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Market Adoption Forecasting',
-            'status': 'completed',
-            'description': 'Market penetration trajectory and competitive positioning',
-            'key_output': f'Peak market share: {market_share} at {time_to_peak} years'
-        })
-    except Exception as e:
-        logging.info(f"   - Error: {e}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Market Adoption Forecasting',
-            'status': 'error',
-            'description': str(e)
-        })
-    logging.info()
-
-    # 5. System Integration Performance (Implemented)
-    logging.info("5. ✅ SYSTEM INTEGRATION PERFORMANCE")
-    try:
-        integration_pred = predictor.predict_system_integration(twin_ids)
-        compatibility = integration_pred.key_findings[0].split(':')[1].strip()
-        challenges = integration_pred.key_findings[1].split(':')[1].split()[0]
-        performance_mult = integration_pred.key_findings[2].split(':')[1].strip()
-        logging.info(f"   - Material compatibility: {compatibility}")
-        logging.info(f"   - Integration challenges: {challenges} identified")
-        logging.info(f"   - System performance multiplier: {performance_mult}")
-        logging.info("   - Strategy: Hybrid integration approach recommended")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'System Integration Performance',
-            'status': 'completed',
-            'description': 'Multi-material system compatibility and performance',
-            'key_output': f'{challenges} integration challenges requiring hybrid approach'
-        })
-    except Exception as e:
-        logging.info(f"   - Error: {e}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'System Integration Performance',
-            'status': 'error',
-            'description': str(e)
-        })
-    logging.info()
-
-    # 6. Environmental Impact Modeling (Newly Implemented)
-    logging.info("6. 🔄 ENVIRONMENTAL IMPACT MODELING")
-    try:
-        env_pred = predictor.predict_environmental_impact(twin_ids[0])
-        carbon_fp = env_pred.key_findings[0].split(':')[1].strip()
-        resource_eff = env_pred.key_findings[1].split(':')[1].strip()
-        circular_econ = env_pred.key_findings[2].split(':')[1].strip()
-        regulatory_comp = env_pred.key_findings[3].split(':')[1].strip()
-        logging.info(f"   - Carbon footprint: {carbon_fp} kg CO2/kg material")
-        logging.info(f"   - Resource efficiency: {resource_eff}")
-        logging.info(f"   - Circular economy score: {circular_econ}")
-        logging.info(f"   - Regulatory compliance: {regulatory_comp}")
-        logging.info("   - Recommendations: Carbon emission reduction, recycling development")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Environmental Impact Modeling',
-            'status': 'completed',
-            'description': 'Carbon footprint, resource efficiency, and sustainability assessment',
-            'key_output': f'Carbon footprint: {carbon_fp}, regulatory compliance: {regulatory_comp}'
-        })
-    except Exception as e:
-        logging.info(f"   - Error: {e}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Environmental Impact Modeling',
-            'status': 'error',
-            'description': str(e)
-        })
-    logging.info()
-
-    # 7. Supply Chain Risk Analysis (Newly Implemented)
-    logging.info("7. 🔄 SUPPLY CHAIN RISK ANALYSIS")
-    try:
-        supply_pred = predictor.predict_supply_chain_risks(twin_ids[0])
-        risk_level = supply_pred.key_findings[0].split('(')[1].split(')')[0]
-        material_avail = supply_pred.key_findings[1].split(':')[1].strip()
-        geopol_risk = supply_pred.key_findings[2].split(':')[1].strip()
-        cost_vol = supply_pred.key_findings[3].split(':')[1].strip()
-        supplier_conc = supply_pred.key_findings[4].split(':')[1].strip()
-        logging.info(f"   - Overall risk level: {risk_level}")
-        logging.info(f"   - Material availability: {material_avail}")
-        logging.info(f"   - Geopolitical risk: {geopol_risk}")
-        logging.info(f"   - Cost volatility: {cost_vol}")
-        logging.info(f"   - Supplier concentration: {supplier_conc}")
-        logging.info("   - Mitigation: Diversify sourcing, strategic inventory")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Supply Chain Risk Analysis',
-            'status': 'completed',
-            'description': 'Supply chain vulnerabilities and risk mitigation strategies',
-            'key_output': f'Overall risk level: {risk_level} with geopolitical and cost volatility concerns'
-        })
-    except Exception as e:
-        logging.info(f"   - Error: {e}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Supply Chain Risk Analysis',
-            'status': 'error',
-            'description': str(e)
-        })
-    logging.info()
-
-    # 8. Human Factors Integration (Newly Implemented)
-    logging.info("8. 🔄 HUMAN FACTORS INTEGRATION")
-    try:
-        human_pred = predictor.predict_human_factors(twin_ids[0])
-        safety_rating = human_pred.key_findings[0].split(':')[1].strip()
-        ergonomics = human_pred.key_findings[1].split(':')[1].strip()
-        acceptance_prob = human_pred.key_findings[2].split(':')[1].strip()
-        training_level = human_pred.key_findings[3].split(':')[1].strip()
-        accessibility = human_pred.key_findings[4].split(':')[1].strip()
-        logging.info(f"   - Operator safety rating: {safety_rating}")
-        logging.info(f"   - Ergonomics score: {ergonomics}")
-        logging.info(f"   - User acceptance probability: {acceptance_prob}")
-        logging.info(f"   - Training requirement level: {training_level}")
-        logging.info(f"   - Accessibility compliance: {accessibility}")
-        logging.info("   - Recommendations: Safety training, user interface design")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Human Factors Integration',
-            'status': 'completed',
-            'description': 'Safety, ergonomics, and human interaction analysis',
-            'key_output': f'User acceptance: {acceptance_prob}, safety: {safety_rating}'
-        })
-    except Exception as e:
-        logging.info(f"   - Error: {e}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Human Factors Integration',
-            'status': 'error',
-            'description': str(e)
-        })
-    logging.info()
-
-    # 9. Failure Propagation Modeling (Newly Implemented)
-    logging.info("9. 🔄 FAILURE PROPAGATION MODELING")
-    try:
-        failure_pred = predictor.predict_failure_propagation(twin_ids[0])
-        failure_modes = failure_pred.key_findings[0].split(':')[1].split()[0]
-        prop_paths = failure_pred.key_findings[1].split(':')[1].split()[0]
-        resilience = failure_pred.key_findings[2].split(':')[1].strip()
-        severity = failure_pred.key_findings[3].split(':')[1].strip()
-        vuln_comp = failure_pred.key_findings[4].split(':')[1].strip()
-        logging.info(f"   - Failure modes identified: {failure_modes}")
-        logging.info(f"   - Critical propagation paths: {prop_paths}")
-        logging.info(f"   - System resilience score: {resilience}")
-        logging.info(f"   - Cascading effect severity: {severity}")
-        logging.info(f"   - Most vulnerable component: {vuln_comp}")
-        logging.info("   - Mitigation: Redundant systems, monitoring, fail-safes")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Failure Propagation Modeling',
-            'status': 'completed',
-            'description': 'Cascading failure analysis and system resilience assessment',
-            'key_output': f'{failure_modes} failure modes, resilience: {resilience}'
-        })
-    except Exception as e:
-        logging.info(f"   - Error: {e}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Failure Propagation Modeling',
-            'status': 'error',
-            'description': str(e)
-        })
-    logging.info()
-
-    # 10. Economic Optimization Modeling (Newly Implemented)
-    logging.info("10. 🔄 ECONOMIC OPTIMIZATION MODELING")
-    try:
-        economic_pred = predictor.predict_economic_optimization(twin_ids[0])
-        break_even = economic_pred.key_findings[0].split(':')[1].strip()
-        price_range = economic_pred.key_findings[1].split(':')[1].strip()
-        payback = economic_pred.key_findings[2].split(':')[1].strip()
-        market_share = economic_pred.key_findings[3].split(':')[1].strip()
-        comp_advantage = economic_pred.key_findings[4].split(':')[1].strip()
-        logging.info(f"   - Break-even volume: {break_even} units")
-        logging.info(f"   - Optimal pricing range: {price_range}")
-        logging.info(f"   - Investment payback period: {payback}")
-        logging.info(f"   - Market share potential: {market_share}")
-        logging.info(f"   - Competitive advantage score: {comp_advantage}")
-        logging.info("   - Strategy: Dynamic pricing, economies of scale optimization")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Economic Optimization Modeling',
-            'status': 'completed',
-            'description': 'Cost-volume-profit analysis and investment optimization',
-            'key_output': f'Break-even: {break_even}, payback: {payback}, market share: {market_share}'
-        })
-    except Exception as e:
-        logging.info(f"   - Error: {e}")
-        demo_results['capabilities_demonstrated'].append({
-            'capability': 'Economic Optimization Modeling',
-            'status': 'error',
-            'description': str(e)
-        })
-    logging.info()
+    _demonstrate_basic_characterization(demo_results)
+    _demonstrate_lifecycle_performance(predictor, twin_ids[0], demo_results)
+    _demonstrate_scalability_performance(predictor, twin_ids[0], demo_results)
+    _demonstrate_market_adoption(predictor, twin_ids[0], demo_results)
+    _demonstrate_system_integration(predictor, twin_ids, demo_results)
+    _demonstrate_environmental_impact(predictor, twin_ids[0], demo_results)
+    _demonstrate_supply_chain_risks(predictor, twin_ids[0], demo_results)
+    _demonstrate_human_factors(predictor, twin_ids[0], demo_results)
+    _demonstrate_failure_propagation(predictor, twin_ids[0], demo_results)
+    _demonstrate_economic_optimization(predictor, twin_ids[0], demo_results)
 
     # Generate comprehensive summary
     demo_results['results_summary'] = generate_demonstration_summary(demo_results)
@@ -367,6 +373,7 @@ def demonstrate_all_prediction_capabilities():
     logging.info(f"🔄 Newly implemented: 6 advanced prediction capabilities")
     logging.info(f"📊 Demonstration material: Quantum Carbon Aerogel (QCA-2026)")
     logging.info("📁 Results exported to ech0_comprehensive_prediction_demonstration.json")
+
 def generate_demonstration_summary(demo_results):
     """Generate comprehensive demonstration summary"""
 

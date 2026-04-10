@@ -1166,7 +1166,7 @@ class ECH0_AdvancedDigitalTwinPredictor:
 
         return prediction
 
-    def _calculate_carbon_footlogging.info(self, twin) -> Dict[str, float]:
+    def _calculate_carbon_footprint(self, twin) -> Dict[str, float]:
         """Calculate comprehensive carbon footprint"""
 
         material_composition = twin.original_design.get('material_composition', {})
