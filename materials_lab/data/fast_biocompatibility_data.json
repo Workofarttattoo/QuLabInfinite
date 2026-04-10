@@ -1,0 +1,318 @@
+{
+    "Ti-6Al-4V": {
+        "name": "Ti-6Al-4V (Titanium alloy)",
+        "polymer_type": "metal",
+        "degradable": false,
+        "surface_energy": 45.0,
+        "elastic_modulus": 110.0,
+        "yield_strength": 880.0,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 50,
+        "common_applications": [
+            "orthopedic implants",
+            "dental implants",
+            "bone plates"
+        ]
+    },
+    "SS 316L": {
+        "name": "SS 316L (Surgical stainless steel)",
+        "polymer_type": "metal",
+        "degradable": false,
+        "surface_energy": 40.0,
+        "elastic_modulus": 193.0,
+        "yield_strength": 290.0,
+        "cytotoxicity_score": 1,
+        "inflammatory_response": "slight",
+        "fda_approved": true,
+        "years_clinical_use": 70,
+        "common_applications": [
+            "surgical instruments",
+            "temporary implants",
+            "bone screws"
+        ]
+    },
+    "CoCrMo": {
+        "name": "CoCrMo (Cobalt-chromium alloy)",
+        "polymer_type": "metal",
+        "degradable": false,
+        "surface_energy": 42.0,
+        "elastic_modulus": 210.0,
+        "yield_strength": 450.0,
+        "cytotoxicity_score": 1,
+        "inflammatory_response": "slight",
+        "fda_approved": true,
+        "years_clinical_use": 60,
+        "common_applications": [
+            "hip replacements",
+            "knee replacements",
+            "dental prosthetics"
+        ]
+    },
+    "PEEK": {
+        "name": "PEEK (Polyetheretherketone)",
+        "polymer_type": "polyether",
+        "degradable": false,
+        "surface_energy": 38.0,
+        "contact_angle": 85.0,
+        "elastic_modulus": 3.6,
+        "yield_strength": 90.0,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 30,
+        "common_applications": [
+            "spinal implants",
+            "cranial implants",
+            "dental abutments"
+        ]
+    },
+    "UHMWPE": {
+        "name": "UHMWPE (Ultra-high molecular weight polyethylene)",
+        "polymer_type": "polyolefin",
+        "degradable": false,
+        "surface_energy": 33.0,
+        "elastic_modulus": 0.8,
+        "yield_strength": 21.0,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 50,
+        "common_applications": [
+            "joint replacements",
+            "acetabular cups",
+            "tibial inserts"
+        ]
+    },
+    "PMMA_Bone_Cement": {
+        "name": "PMMA Bone Cement",
+        "polymer_type": "acrylic",
+        "degradable": false,
+        "surface_energy": 39.0,
+        "elastic_modulus": 2.5,
+        "cytotoxicity_score": 1,
+        "inflammatory_response": "slight",
+        "fda_approved": true,
+        "years_clinical_use": 60,
+        "common_applications": [
+            "bone cement",
+            "vertebroplasty",
+            "joint fixation"
+        ]
+    },
+    "Silicone_Medical": {
+        "name": "Medical-grade silicone",
+        "polymer_type": "silicone",
+        "degradable": false,
+        "surface_energy": 21.0,
+        "contact_angle": 110.0,
+        "elastic_modulus": 0.001,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 60,
+        "common_applications": [
+            "breast implants",
+            "catheters",
+            "tubing",
+            "soft tissue"
+        ]
+    },
+    "Hydroxyapatite": {
+        "name": "Hydroxyapatite (Ca10(PO4)6(OH)2)",
+        "polymer_type": "ceramic",
+        "degradable": true,
+        "degradation_products": [
+            "Ca2+",
+            "PO4^3-"
+        ],
+        "surface_energy": 55.0,
+        "elastic_modulus": 80.0,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 40,
+        "common_applications": [
+            "bone grafts",
+            "coatings for implants",
+            "dental applications"
+        ]
+    },
+    "Tricalcium_Phosphate": {
+        "name": "β-Tricalcium Phosphate (β-TCP)",
+        "polymer_type": "ceramic",
+        "degradable": true,
+        "degradation_products": [
+            "Ca2+",
+            "PO4^3-"
+        ],
+        "surface_energy": 52.0,
+        "elastic_modulus": 50.0,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 30,
+        "common_applications": [
+            "bone void fillers",
+            "tissue scaffolds",
+            "dental"
+        ]
+    },
+    "Bioglass_45S5": {
+        "name": "Bioglass 45S5",
+        "polymer_type": "bioactive_glass",
+        "degradable": true,
+        "degradation_products": [
+            "Ca2+",
+            "PO4^3-",
+            "Si(OH)4"
+        ],
+        "surface_energy": 58.0,
+        "elastic_modulus": 35.0,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 25,
+        "common_applications": [
+            "bone regeneration",
+            "periodontal repair",
+            "coatings"
+        ]
+    },
+    "PLGA_50-50": {
+        "name": "PLGA 50:50 (Poly(lactic-co-glycolic acid))",
+        "polymer_type": "polyester",
+        "degradable": true,
+        "degradation_products": [
+            "lactic acid",
+            "glycolic acid"
+        ],
+        "surface_energy": 42.0,
+        "elastic_modulus": 2.0,
+        "yield_strength": 50.0,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 30,
+        "common_applications": [
+            "drug delivery",
+            "sutures",
+            "tissue scaffolds"
+        ]
+    },
+    "PCL": {
+        "name": "PCL (Polycaprolactone)",
+        "polymer_type": "polyester",
+        "degradable": true,
+        "degradation_products": [
+            "6-hydroxycaproic acid"
+        ],
+        "surface_energy": 35.0,
+        "elastic_modulus": 0.4,
+        "yield_strength": 16.0,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 25,
+        "common_applications": [
+            "drug delivery",
+            "tissue scaffolds",
+            "long-term implants"
+        ]
+    },
+    "PLA": {
+        "name": "PLA (Polylactic acid)",
+        "polymer_type": "polyester",
+        "degradable": true,
+        "degradation_products": [
+            "lactic acid"
+        ],
+        "surface_energy": 43.0,
+        "elastic_modulus": 3.5,
+        "yield_strength": 60.0,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 30,
+        "common_applications": [
+            "sutures",
+            "bone screws",
+            "drug delivery"
+        ]
+    },
+    "PEG_Hydrogel": {
+        "name": "PEG Hydrogel (Polyethylene glycol)",
+        "polymer_type": "polyether_hydrogel",
+        "degradable": false,
+        "surface_energy": 61.0,
+        "elastic_modulus": 0.001,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 20,
+        "common_applications": [
+            "drug delivery",
+            "wound dressings",
+            "cell encapsulation"
+        ]
+    },
+    "Alginate_Sodium": {
+        "name": "Sodium Alginate",
+        "polymer_type": "polysaccharide",
+        "degradable": true,
+        "degradation_products": [
+            "glucuronic acid",
+            "mannuronic acid"
+        ],
+        "surface_energy": 60.0,
+        "elastic_modulus": 0.01,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 30,
+        "common_applications": [
+            "wound dressings",
+            "cell encapsulation",
+            "tissue engineering"
+        ]
+    },
+    "Chitosan": {
+        "name": "Chitosan",
+        "polymer_type": "polysaccharide",
+        "degradable": true,
+        "degradation_products": [
+            "glucosamine"
+        ],
+        "surface_energy": 55.0,
+        "elastic_modulus": 0.5,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 20,
+        "common_applications": [
+            "wound healing",
+            "drug delivery",
+            "antibacterial coatings"
+        ]
+    },
+    "Collagen_Type_I": {
+        "name": "Collagen Type I",
+        "polymer_type": "protein",
+        "degradable": true,
+        "degradation_products": [
+            "amino acids"
+        ],
+        "surface_energy": 58.0,
+        "elastic_modulus": 0.002,
+        "cytotoxicity_score": 0,
+        "inflammatory_response": "minimal",
+        "fda_approved": true,
+        "years_clinical_use": 40,
+        "common_applications": [
+            "tissue scaffolds",
+            "wound dressings",
+            "sutures"
+        ]
+    }
+}
