@@ -18,8 +18,6 @@ try:
     from core.base_lab import BaseLab
 except ImportError:
     # This is a fallback for script execution
-    import sys
-    import os
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
     from core.base_lab import BaseLab
 
@@ -439,22 +437,45 @@ class QuantumLabSimulator(BaseLab):
 
     def _apply_mps_two_qubit_gate(self, gate_name: str, q1: int, q2: int):
         """
-        Apply a two-qubit gate to adjacent qubits in an MPS.
-        This implementation uses tensor contraction followed by SVD.
+        Apply a two-qubit gate to qubits in an MPS.
+        If qubits are non-adjacent, SWAP networks are used to route them together.
         """
-        # Ensure qubits are adjacent for simplicity
-        if abs(q1 - q2) != 1:
-            raise NotImplementedError("Two-qubit gates are only supported for adjacent qubits in this MPS implementation.")
-        
-        # Ensure q1 is the lower index
+        if abs(q1 - q2) > 1:
+            # Use SWAP gates to bring q2 adjacent to q1
+            direction = 1 if q2 > q1 else -1
+            current_q2 = q2
+            swaps = []
+            while abs(q1 - current_q2) > 1:
+                next_q2 = current_q2 - direction
+                self._apply_mps_two_qubit_gate('SWAP', current_q2, next_q2)
+                swaps.append((current_q2, next_q2))
+                current_q2 = next_q2
+
+            # Apply the desired gate now that they are adjacent
+            self._apply_mps_two_qubit_gate(gate_name, q1, current_q2)
+
+            # SWAP them back to their original positions
+            for swap in reversed(swaps):
+                self._apply_mps_two_qubit_gate('SWAP', swap[0], swap[1])
+            return
+
+        # Ensure q1 is the lower index, but keep track to adjust CNOT
+        is_flipped = False
         if q1 > q2:
             q1, q2 = q2, q1
+            is_flipped = True
 
         # Get the gate matrix
         if gate_name == 'CNOT':
-            gate = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]], dtype=np.complex128).reshape(2, 2, 2, 2)
+            if is_flipped:
+                # Target is now the first qubit, Control is the second
+                gate = np.array([[1, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0]], dtype=np.complex128).reshape(2, 2, 2, 2)
+            else:
+                gate = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]], dtype=np.complex128).reshape(2, 2, 2, 2)
         elif gate_name == 'CZ':
             gate = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, -1]], dtype=np.complex128).reshape(2, 2, 2, 2)
+        elif gate_name == 'SWAP':
+            gate = np.array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]], dtype=np.complex128).reshape(2, 2, 2, 2)
         else:
             raise ValueError(f"Unknown two-qubit gate: {gate_name}")
 
@@ -484,10 +505,10 @@ class QuantumLabSimulator(BaseLab):
 
         # 4. SVD and truncate
         U, S, Vh = np.linalg.svd(reshaped_tensor, full_matrices=False)
-        
+
         # Truncate to the original bond dimension
         new_bond_dim = min(len(S), self.bond_dimension)
-        
+
         U = U[:, :new_bond_dim]
         S = np.diag(S[:new_bond_dim])
         Vh = Vh[:new_bond_dim, :]
@@ -495,7 +516,7 @@ class QuantumLabSimulator(BaseLab):
         # 5. Reshape back into two tensors
         # New tensor for q1
         new_tensor1 = U.reshape(tensor1.shape[0], tensor1.shape[1], new_bond_dim)
-        
+
         # New tensor for q2 (needs to absorb S and Vh)
         # First, combine S and Vh
         svh = S @ Vh
@@ -612,7 +633,7 @@ class QuantumLabSimulator(BaseLab):
                 combined = np.einsum('pli,qij->pqlj', t0, t1) # p,q = physical; l,j = outer bonds
                 # Trace out the outer bond dimensions to get the reduced density matrix for first 2 qubits
                 density_matrix = np.einsum('pqlj,rslj->pqrs', combined, combined.conj())
-                
+
                 probs = {}
                 for i in range(2):
                     for j in range(2):
@@ -621,7 +642,7 @@ class QuantumLabSimulator(BaseLab):
                            # This only gives diagonal elements, which is what we need for probabilities
                            bitstring = f"{i}{j}"
                            probs[bitstring] = prob
-                
+
                 # Normalize because we traced out the rest of the chain
                 total_prob = sum(probs.values())
                 if total_prob > 0:
