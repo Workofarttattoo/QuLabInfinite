@@ -22,7 +22,7 @@ from algorithms.quantum_optimization import (
 from simulation.fmo_complex import FMOComplex, AIControlledFMO
 from hardware.coherence_protection import CoherenceProtectionSystem
 from experimental.spectroscopy_2d import TwoDElectronicSpectroscopy
-from benchmarks.quantum_benchmark import QuantumComputingBenchmark
+from biological_quantum.benchmarks.quantum_benchmark import QuantumComputingBenchmark
 
 
 class BiologicalQuantumLab:
