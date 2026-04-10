@@ -1,17 +1,3 @@
-#!/usr/bin/env python3
-"""
-Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
-
-QuLabInfinite Oncology Lab - Comprehensive Consistency Validation
-
-Run this script whenever you modify:
-1. Intervention deltas (ten_field_controller.py)
-2. Growth multipliers (oncology_lab.py)
-3. Drug response parameters (drug_response.py)
-
-This ensures all downstream behavior remains consistent.
-"""
-
 import sys
 import subprocess
 from pathlib import Path
@@ -24,97 +10,7 @@ YELLOW = '\033[93m'
 BLUE = '\033[94m'
 RESET = '\033[0m'
 
-
-def print_header(title: str, color: str = BLUE):
-    """Print formatted header"""
-    print(f"\n{color}{'=' * 80}")
-    print(f"  {title}")
-    print(f"{'=' * 80}{RESET}\n")
-
-
-def run_test(name: str, command: List[str], timeout: int = 120) -> Tuple[bool, str]:
-    """
-    Run a test command and capture results
-
-    Args:
-        name: Test name
-        command: Command to run
-        timeout: Timeout in seconds
-
-    Returns:
-        (success, output)
-    """
-    print(f"{BLUE}▶ Running: {name}{RESET}")
-    print(f"  Command: {' '.join(command)}")
-
-    try:
-        result = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            cwd=Path(__file__).parent
-        )
-
-        success = result.returncode == 0
-        output = result.stdout + result.stderr
-
-        if success:
-            print(f"  {GREEN}✓ PASSED{RESET}")
-        else:
-            print(f"  {RED}✗ FAILED (exit code {result.returncode}){RESET}")
-
-        return success, output
-
-    except subprocess.TimeoutExpired:
-        print(f"  {RED}✗ TIMEOUT (>{timeout}s){RESET}")
-        return False, f"Test timed out after {timeout} seconds"
-    except Exception as e:
-        print(f"  {RED}✗ ERROR: {e}{RESET}")
-        return False, str(e)
-
-
-def main():
-    """Main validation runner"""
-    print_header("QuLabInfinite Oncology Lab - Consistency Validation Suite", BLUE)
-
-    print("This script validates that all oncology lab components work together")
-    print("consistently after parameter changes.\n")
-
-    print(f"{YELLOW}Key parameters to track:{RESET}")
-    print("  • Intervention deltas (ten_field_controller.py:311-383)")
-    print("  • Growth multipliers (oncology_lab.py:333-392)")
-    print("  • Drug response curves (drug_response.py)")
-
-    # Track all test results
-    results = []
-
-    # Test 1: Basic smoke test
-    print_header("Test 1: Basic Smoke Test", BLUE)
-    success, output = run_test(
-        "Basic oncology lab smoke test",
-        ["python", "test_oncology_lab.py"],
-        timeout=60
-    )
-    results.append(("Basic Smoke Test", success))
-    if not success:
-        print(f"\n{RED}Output:{RESET}")
-        print(output[-2000:])  # Last 2000 chars
-
-    # Test 2: Validation helpers
-    print_header("Test 2: Validation Helpers", BLUE)
-    success, output = run_test(
-        "Clinical validation helpers",
-        ["python", "oncology_lab/validation.py"],
-        timeout=30
-    )
-    results.append(("Validation Helpers", success))
-
-    # Test 3: Import check
-    print_header("Test 3: Import Consistency", BLUE)
-    success, output = run_test(
-        "Import all oncology modules",
-        ["python", "-c", """
+SCRIPT_IMPORT_CONSISTENCY = """
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd()))
@@ -124,19 +20,9 @@ from oncology_lab.drug_response import DRUG_DATABASE
 from oncology_lab.ten_field_controller import TenFieldController
 from oncology_lab.validation import DrugResponseValidator
 print('✓ All imports successful')
-"""],
-        timeout=10
-    )
-    results.append(("Import Consistency", success))
-    if not success:
-        print(f"\n{RED}Output:{RESET}")
-        print(output)
+"""
 
-    # Test 4: Parameter sanity checks
-    print_header("Test 4: Parameter Sanity Checks", BLUE)
-    success, output = run_test(
-        "Validate parameter ranges",
-        ["python", "-c", """
+SCRIPT_PARAMETER_SANITY = """
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd()))
@@ -158,19 +44,9 @@ print(f'✓ Validated {len(TumorType) * len(CancerStage)} tumor/stage combinatio
 print('✓ All growth rates positive')
 print('✓ All carrying capacities positive')
 print('✓ All drug sensitivities in range [0.4, 1.4]')
-"""],
-        timeout=30
-    )
-    results.append(("Parameter Sanity", success))
-    if not success:
-        print(f"\n{RED}Output:{RESET}")
-        print(output)
+"""
 
-    # Test 5: Field intervention deltas
-    print_header("Test 5: Field Intervention Deltas", BLUE)
-    success, output = run_test(
-        "Validate intervention effect ranges",
-        ["python", "-c", """
+SCRIPT_FIELD_DELTAS = """
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd()))
@@ -195,19 +71,9 @@ chemo = create_standard_chemotherapy_protocol()
 print(f'\\n✓ Chemo protocol has {len(chemo.interventions)} interventions')
 
 print('✓ All intervention deltas within reasonable ranges')
-"""],
-        timeout=30
-    )
-    results.append(("Field Deltas", success))
-    if not success:
-        print(f"\n{RED}Output:{RESET}")
-        print(output)
+"""
 
-    # Test 6: Drug database integrity
-    print_header("Test 6: Drug Database Integrity", BLUE)
-    success, output = run_test(
-        "Validate drug parameters",
-        ["python", "-c", """
+SCRIPT_DRUG_DATABASE = """
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd()))
@@ -231,19 +97,9 @@ for drug_name, drug in DRUG_DATABASE.items():
     print(f'  ✓ {drug.name}: IC50={drug.ic50}µM, t½={drug.pk_model.half_life}h')
 
 print('\\n✓ All drug parameters validated')
-"""],
-        timeout=30
-    )
-    results.append(("Drug Database", success))
-    if not success:
-        print(f"\n{RED}Output:{RESET}")
-        print(output)
+"""
 
-    # Test 7: End-to-end simulation
-    print_header("Test 7: End-to-End Simulation", BLUE)
-    success, output = run_test(
-        "Run complete experiment simulation",
-        ["python", "-c", """
+SCRIPT_END_TO_END = """
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd()))
@@ -287,15 +143,55 @@ print(f'✓ Simulation completed: {len(results["time_hours"])} time points')
 print(f'✓ Glucose changed from {glucose_start:.2f} to {glucose_end:.2f} mM')
 print(f'✓ Final cell count: {results["cell_counts"][-1]}')
 print('✓ All result fields present')
-"""],
-        timeout=90
-    )
-    results.append(("End-to-End", success))
-    if not success:
-        print(f"\n{RED}Output:{RESET}")
-        print(output[-2000:])
+"""
+def print_header(title: str, color: str = BLUE):
+    """Print formatted header"""
+    print(f"\n{color}{'=' * 80}")
+    print(f"  {title}")
+    print(f"{'=' * 80}{RESET}\n")
 
-    # Final summary
+def run_test(name: str, command: List[str], timeout: int = 120) -> Tuple[bool, str]:
+    """
+    Run a test command and capture results
+
+    Args:
+        name: Test name
+        command: Command to run
+        timeout: Timeout in seconds
+
+    Returns:
+        (success, output)
+    """
+    print(f"{BLUE}▶ Running: {name}{RESET}")
+    print(f"  Command: {' '.join(command)}")
+
+    try:
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            cwd=Path(__file__).parent
+        )
+
+        success = result.returncode == 0
+        output = result.stdout + result.stderr
+
+        if success:
+            print(f"  {GREEN}✓ PASSED{RESET}")
+        else:
+            print(f"  {RED}✗ FAILED (exit code {result.returncode}){RESET}")
+
+        return success, output
+
+    except subprocess.TimeoutExpired:
+        print(f"  {RED}✗ TIMEOUT (>{timeout}s){RESET}")
+        return False, f"Test timed out after {timeout} seconds"
+    except Exception as e:
+        print(f"  {RED}✗ ERROR: {e}{RESET}")
+        return False, str(e)
+def print_summary(results: List[Tuple[str, bool]]) -> int:
+    """Print the final validation summary and return exit code."""
     print_header("Validation Summary", BLUE)
 
     total = len(results)
@@ -331,6 +227,103 @@ print('✓ All result fields present')
         print()
         return 1
 
+def main():
+    """Main validation runner"""
+    print_header("QuLabInfinite Oncology Lab - Consistency Validation Suite", BLUE)
+
+    print("This script validates that all oncology lab components work together")
+    print("consistently after parameter changes.\n")
+
+    print(f"{YELLOW}Key parameters to track:{RESET}")
+    print("  • Intervention deltas (ten_field_controller.py:311-383)")
+    print("  • Growth multipliers (oncology_lab.py:333-392)")
+    print("  • Drug response curves (drug_response.py)")
+
+    results = []
+
+    test_configs = [
+        (
+            "Test 1: Basic Smoke Test",
+            "Basic oncology lab smoke test",
+            ["python", "test_oncology_lab.py"],
+            60,
+            True # Always print last 2000 chars on failure
+        ),
+        (
+            "Test 2: Validation Helpers",
+            "Clinical validation helpers",
+            ["python", "oncology_lab/validation.py"],
+            30,
+            False # No special failure printing
+        ),
+        (
+            "Test 3: Import Consistency",
+            "Import all oncology modules",
+            ["python", "-c", SCRIPT_IMPORT_CONSISTENCY],
+            10,
+            False # Print all output on failure
+        ),
+        (
+            "Test 4: Parameter Sanity Checks",
+            "Validate parameter ranges",
+            ["python", "-c", SCRIPT_PARAMETER_SANITY],
+            30,
+            False
+        ),
+        (
+            "Test 5: Field Intervention Deltas",
+            "Validate intervention effect ranges",
+            ["python", "-c", SCRIPT_FIELD_DELTAS],
+            30,
+            False
+        ),
+        (
+            "Test 6: Drug Database Integrity",
+            "Validate drug parameters",
+            ["python", "-c", SCRIPT_DRUG_DATABASE],
+            30,
+            False
+        ),
+        (
+            "Test 7: End-to-End Simulation",
+            "Run complete experiment simulation",
+            ["python", "-c", SCRIPT_END_TO_END],
+            90,
+            True # Print last 2000 chars
+        )
+    ]
+
+    for header, name, command, timeout, truncate_output in test_configs:
+        print_header(header, BLUE)
+        success, output = run_test(name, command, timeout=timeout)
+
+        # Need to parse original name logic to keep result array the same name
+        result_name = name
+        if "smoke test" in name:
+            result_name = "Basic Smoke Test"
+        elif "Clinical validation" in name:
+            result_name = "Validation Helpers"
+        elif "Import all" in name:
+            result_name = "Import Consistency"
+        elif "parameter ranges" in name:
+            result_name = "Parameter Sanity"
+        elif "intervention effect" in name:
+            result_name = "Field Deltas"
+        elif "Validate drug" in name:
+            result_name = "Drug Database"
+        elif "experiment simulation" in name:
+            result_name = "End-to-End"
+
+        results.append((result_name, success))
+
+        if not success:
+            print(f"\n{RED}Output:{RESET}")
+            if truncate_output:
+                print(output[-2000:])
+            else:
+                print(output)
+
+    return print_summary(results)
 
 if __name__ == "__main__":
     sys.exit(main())
