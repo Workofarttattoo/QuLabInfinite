@@ -28,22 +28,22 @@ try:
         NanoparticleSynthesis, QuantumDotSimulator,
         DrugDeliverySystem, NanomaterialProperties
     )
-except:
+except Exception:
     pass
 
 try:
     from QuLabInfinite.quantum_lab.quantum_core import QuantumSimulator
-except:
+except Exception:
     pass
 
 try:
     from QuLabInfinite.materials_lab.materials_lab.materials_engine import MaterialsEngine
-except:
+except Exception:
     pass
 
 try:
     from QuLabInfinite.renewable_energy_lab.renewable_core import RenewableEnergySimulator
-except:
+except Exception:
     pass
 
 
@@ -1003,7 +1003,7 @@ class ExperimentalValidator:
         report = self.generate_report()
 
         # Save to file
-        report_path = "/Users/noone/aios/QuLabInfinite/EXPERIMENTAL_VALIDATION_REPORT.md"
+        report_path = "/app/EXPERIMENTAL_VALIDATION_REPORT.md"
         with open(report_path, 'w') as f:
             f.write(report)
 
