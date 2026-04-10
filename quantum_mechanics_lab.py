@@ -11,7 +11,6 @@ import numpy as np
 from scipy import constants, special, integrate, linalg
 from scipy.sparse import diags
 from typing import Tuple, Callable, Optional, List
-import warnings
 
 # Physical constants
 HBAR = constants.hbar  # Reduced Planck constant (J·s)
@@ -69,7 +68,7 @@ class QuantumMechanicsLab:
 
         # Normalize wavefunctions
         for i in range(n_states):
-            norm = np.sqrt(np.trapz(np.abs(wavefunctions[i])**2, x))
+            norm = np.sqrt(np.trapezoid(np.abs(wavefunctions[i])**2, x))
             wavefunctions[i] /= norm
 
         return x, energies, wavefunctions
@@ -215,7 +214,7 @@ class QuantumMechanicsLab:
         R_nl = norm_R * np.exp(-rho / 2) * rho**l * L(rho)
 
         # Angular part (spherical harmonics)
-        Y_lm = special.sph_harm(m, l, Phi, Theta)
+        Y_lm = special.sph_harm_y(m, l, Phi, Theta)
 
         # Total wavefunction
         psi = R_nl * Y_lm
@@ -247,7 +246,7 @@ class QuantumMechanicsLab:
         k2 = np.sqrt(2 * mass * (barrier_height - particle_energy)) / HBAR
 
         # Transmission coefficient using WKB approximation
-        if k2 * barrier_width >> 1:
+        if k2 * barrier_width > 1:
             # Thick barrier approximation
             T = 16 * (particle_energy / barrier_height) * \
                 (1 - particle_energy / barrier_height) * \
