@@ -160,18 +160,50 @@ LAB_REGISTRY = {
     }
 }
 
+# Build inverted index for O(1) keyword lookup
+KEYWORD_INDEX = {}
+for lab_id, lab_info in LAB_REGISTRY.items():
+    for keyword in lab_info["keywords"]:
+        if keyword not in KEYWORD_INDEX:
+            KEYWORD_INDEX[keyword] = []
+        KEYWORD_INDEX[keyword].append(lab_id)
+
 def parse_natural_language(query: str) -> Dict[str, Any]:
     """Convert natural language to lab routing"""
     query_lower = query.lower()
 
-    # Score each lab
-    scores = {}
-    for lab_id, lab_info in LAB_REGISTRY.items():
-        score = 0
-        for keyword in lab_info["keywords"]:
-            if keyword in query_lower:
-                score += 1
-        scores[lab_id] = score
+    # Score each lab using O(1) token lookups
+    scores = {lab_id: 0 for lab_id in LAB_REGISTRY}
+
+    # Fast word tokenization
+    words = query_lower.split()
+    matched_keywords = set()
+
+    for i, w in enumerate(words):
+        # Clean punctuation from token
+        word = w.strip('.,?!()[]{}";:')
+        if not word: continue
+
+        # O(1) exact match lookup
+        if word in KEYWORD_INDEX:
+            matched_keywords.add(word)
+        # O(1) heuristic lookup for plurals or appended digits (e.g., brca1 -> brca)
+        elif word.endswith('s') and word[:-1] in KEYWORD_INDEX:
+            matched_keywords.add(word[:-1])
+        elif word[-1].isdigit() and word[:-1] in KEYWORD_INDEX:
+            matched_keywords.add(word[:-1])
+
+        # O(1) bigram lookup (e.g., "stem cell")
+        if i < len(words) - 1:
+            next_word = words[i+1].strip('.,?!()[]{}";:')
+            bigram = f"{word} {next_word}"
+            if bigram in KEYWORD_INDEX:
+                matched_keywords.add(bigram)
+
+    # Calculate scores from matched keywords mapping to labs
+    for kw in matched_keywords:
+        for lab_id in KEYWORD_INDEX[kw]:
+            scores[lab_id] += 1
 
     # Get best match
     if max(scores.values()) > 0:
