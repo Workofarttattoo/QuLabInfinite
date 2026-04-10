@@ -245,10 +245,6 @@ else: #enough solution, TODO: could include more error checks for the csv file..
             elif curr_dispense_type.lower() == "slow":
                 nr.c9.set_pump_speed(0,15)
 
-        # if "nan" in curr_vial_name.lower():
-        #     print('break!') #TODO: Remove later
-        #     break
-        
         curr_vial_num = get_non_empty_vial_num(curr_vial_name, vial_df) #see how to fix up for multiple vials...
         print("Vial num", curr_vial_num)
 
