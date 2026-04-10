@@ -467,6 +467,19 @@ class AstrophysicsLab:
         M = 3 * velocity_dispersion**2 * r_m / self.G
         return M / self.M_sun
 
+    class OrbitalMechanics:
+        """Tools for orbital calculations."""
+
+        def calculate_orbital_period(self, semi_major_axis: float, primary_mass: float) -> float:
+            """
+            Calculate orbital period using Kepler's Third Law.
+            semi_major_axis in meters, primary_mass in kg.
+            Returns period in seconds.
+            """
+            import numpy as np
+            from scipy.constants import G
+            return 2 * np.pi * np.sqrt((semi_major_axis**3) / (G * primary_mass))
+
     def demonstrate(self):
         """Demonstrate all astrophysics calculations"""
         print("=" * 70)
