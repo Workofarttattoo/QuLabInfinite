@@ -7,10 +7,6 @@
     box-sizing: border-box;
 }
 
-:focus:not(:focus-visible) {
-    outline: none;
-}
-
 :root {
     --primary: #6366f1;
     --primary-dark: #4f46e5;
@@ -88,12 +84,8 @@ body {
     transition: color 0.2s;
 }
 
-.nav-menu a:hover,
-.nav-menu a:focus-visible {
+.nav-menu a:hover {
     color: var(--primary);
-    outline: 2px solid var(--primary);
-    outline-offset: 4px;
-    border-radius: 4px;
 }
 
 /* Buttons */
@@ -113,12 +105,9 @@ body {
     color: white;
 }
 
-.btn-primary:hover,
-.btn-primary:focus-visible {
+.btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-    outline: 2px solid var(--primary);
-    outline-offset: 4px;
 }
 
 .btn-secondary {
@@ -127,12 +116,9 @@ body {
     color: var(--primary);
 }
 
-.btn-secondary:hover,
-.btn-secondary:focus-visible {
+.btn-secondary:hover {
     background: var(--primary);
     color: white;
-    outline: 2px solid var(--primary);
-    outline-offset: 4px;
 }
 
 .btn-large {
@@ -321,14 +307,6 @@ body {
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
-    transition: all 0.2s;
-}
-
-.copy-btn:hover,
-.copy-btn:focus-visible {
-    background: var(--primary-dark);
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
 }
 
 code {
@@ -537,13 +515,10 @@ pre {
     transition: all 0.3s;
 }
 
-.doc-card:hover,
-.doc-card:focus-visible {
+.doc-card:hover {
     transform: translateY(-4px);
     border-color: var(--primary);
     box-shadow: 0 12px 24px var(--shadow);
-    outline: 2px solid var(--primary);
-    outline-offset: 4px;
 }
 
 .doc-card h3 {
@@ -697,4 +672,65 @@ pre {
         gap: 16px;
         font-size: 14px;
     }
+}
+
+/* Focus Visible Styles for Keyboard Navigation */
+a:focus:not(:focus-visible), button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.nav-menu a:focus-visible {
+    color: var(--primary);
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.btn-primary:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+.btn-secondary:focus-visible {
+    background: var(--primary);
+    color: white;
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+.feature-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+    box-shadow: 0 12px 24px var(--shadow);
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+.doc-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+    box-shadow: 0 12px 24px var(--shadow);
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+.contact-cta .btn-primary:focus-visible {
+    background: var(--text);
+    outline: 2px solid white;
+    outline-offset: 4px;
+}
+
+.contact-cta .btn-secondary:focus-visible {
+    background: white;
+    color: var(--primary);
+    outline: 2px solid white;
+    outline-offset: 4px;
+}
+
+.footer-section a:focus-visible {
+    color: var(--primary);
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }
