@@ -322,6 +322,26 @@ class QuLabMCPServer:
 
     async def chain_tools(self, workflow: List[Dict]) -> List[MCPResponse]:
         """Execute a chain of tools in sequence, passing results between them"""
+        # Pre-validate all tools in the workflow to avoid wasted execution time
+        # (resolves O(N) sequential iteration bottleneck when a late tool is invalid)
+        for i, step in enumerate(workflow):
+            if 'tool' not in step:
+                return [MCPResponse(
+                    request_id="chain_error",
+                    tool="unknown",
+                    status='error',
+                    result=None,
+                    error=f"Step {i} missing 'tool' key"
+                )]
+            if step['tool'] not in self.tools:
+                return [MCPResponse(
+                    request_id="chain_error",
+                    tool=step['tool'],
+                    status='error',
+                    result=None,
+                    error=f"Tool {step['tool']} not found during pre-validation"
+                )]
+
         responses = []
         previous_result = None
 
