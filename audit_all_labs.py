@@ -162,7 +162,7 @@ class LabAuditor:
                         # Check if it's defined as a constant
                         if not re.search(rf'{num}\s*#.*(?:m/s|J|K|Pa|N|kg|mol)', content):
                             audit['hardcoded_values'].append(f"{filename}: {num}")
-            except:
+            except Exception:
                 pass
 
         # Check for pseudoscience keywords
