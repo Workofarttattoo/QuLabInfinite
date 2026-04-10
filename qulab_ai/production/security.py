@@ -23,7 +23,7 @@ from qulab_ai.production.logging_config import get_logger
 logger = get_logger("security")
 
 # Security configuration
-SECRET_KEY = os.environ.get("QULAB_SECRET_KEY", secrets.token_urlsafe(32))
+SECRET_KEY = os.environ.get("SECRET_KEY", secrets.token_urlsafe(32))
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 REFRESH_TOKEN_EXPIRE_DAYS = 7
