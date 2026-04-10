@@ -259,13 +259,7 @@ class BioinformaticsLab:
 
     def find_motifs(self, sequence: str, motif_pattern: str) -> List[int]:
         """Find all occurrences of a motif pattern in a sequence using regex."""
-        positions = []
-        pattern = _compile_motif_pattern(motif_pattern)
-
-        for match in pattern.finditer(sequence):
-            positions.append(match.start())
-
-        return positions
+        return [match.start() for match in _compile_motif_pattern(motif_pattern).finditer(sequence)]
 
     def build_phylogenetic_tree(self, sequences: List[str]) -> np.ndarray:
         """Build a phylogenetic tree using neighbor-joining method."""
