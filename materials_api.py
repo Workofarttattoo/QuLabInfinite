@@ -176,7 +176,8 @@ async def search(
         query += " AND melting_point <= ? AND melting_point > 0"
         params.append(max_melting_point)
 
-    query += f" LIMIT {limit}"
+    query += " LIMIT ?"
+    params.append(limit)
 
     cursor.execute(query, params)
 
@@ -298,7 +299,8 @@ async def recommend(
         query += " AND cost_per_kg > 0 AND cost_per_kg <= ?"
         params.append(constraint_cost_max)
 
-    query += f" ORDER BY {order_by} LIMIT {limit}"
+    query += f" ORDER BY {order_by} LIMIT ?"
+    params.append(limit)
 
     cursor.execute(query, params)
 
