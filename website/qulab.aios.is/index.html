@@ -824,7 +824,7 @@
     </p>
 
     <form class="waitlist-form" id="waitlistForm" onsubmit="handleSubmit(event)">
-        <input type="email" id="emailInput" placeholder="you@company.com" required>
+        <input type="email" id="emailInput" placeholder="you@company.com" aria-label="Email address" required>
         <button type="submit" class="btn btn-primary btn-large">Request Access</button>
     </form>
 
@@ -862,17 +862,27 @@
     // Waitlist form
     function handleSubmit(e) {
         e.preventDefault();
+        const form = e.target;
+        const button = form.querySelector('button[type="submit"]');
+        const originalText = button.textContent;
         const email = document.getElementById('emailInput').value;
         const toast = document.getElementById('toast');
 
-        // Store locally (replace with real backend endpoint)
-        const waitlist = JSON.parse(localStorage.getItem('qulab_waitlist') || '[]');
-        waitlist.push({ email, timestamp: new Date().toISOString() });
-        localStorage.setItem('qulab_waitlist', JSON.stringify(waitlist));
+        button.textContent = 'Requesting...';
+        button.disabled = true;
 
-        document.getElementById('emailInput').value = '';
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
+        setTimeout(() => {
+            // Store locally (replace with real backend endpoint)
+            const waitlist = JSON.parse(localStorage.getItem('qulab_waitlist') || '[]');
+            waitlist.push({ email, timestamp: new Date().toISOString() });
+            localStorage.setItem('qulab_waitlist', JSON.stringify(waitlist));
+
+            document.getElementById('emailInput').value = '';
+            button.textContent = originalText;
+            button.disabled = false;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }, 600);
     }
 </script>
 
