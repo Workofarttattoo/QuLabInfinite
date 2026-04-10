@@ -9,6 +9,7 @@ import numpy as np
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import List, Dict, Optional
+from dataclasses import dataclass
 from enum import Enum
 import json
 
@@ -88,6 +89,19 @@ class AlzheimersRiskReport(BaseModel):
     progression_risk_10yr: float = Field(..., description="10-year progression risk (%)")
     recommendations: List[str]
     clinical_notes: str
+
+
+@dataclass
+class RiskFactors:
+    """Grouped risk factors for composite score calculation"""
+    a_positive: bool
+    a_confidence: float
+    t_positive: bool
+    t_confidence: float
+    n_positive: bool
+    n_confidence: float
+    genetic_multiplier: float
+    age: int
 
 class AlzheimersDetectionEngine:
     """Clinical-grade Alzheimer's risk assessment using NIA-AA criteria"""
@@ -294,27 +308,24 @@ class AlzheimersDetectionEngine:
 
         return CognitiveStatus.NORMAL
 
-    def calculate_composite_risk_score(self, a_positive: bool, a_confidence: float,
-                                       t_positive: bool, t_confidence: float,
-                                       n_positive: bool, n_confidence: float,
-                                       genetic_multiplier: float, age: int) -> float:
+    def calculate_composite_risk_score(self, factors: RiskFactors) -> float:
         """Calculate composite risk score (0-100)"""
         # Weighted components
-        amyloid_score = 35.0 if a_positive else 0.0
-        tau_score = 30.0 if t_positive else 0.0
-        neuro_score = 25.0 if n_positive else 0.0
+        amyloid_score = 35.0 if factors.a_positive else 0.0
+        tau_score = 30.0 if factors.t_positive else 0.0
+        neuro_score = 25.0 if factors.n_positive else 0.0
 
         # Confidence weighting
-        amyloid_score *= a_confidence
-        tau_score *= t_confidence
-        neuro_score *= n_confidence
+        amyloid_score *= factors.a_confidence
+        tau_score *= factors.t_confidence
+        neuro_score *= factors.n_confidence
 
         # Base biomarker score
         biomarker_score = amyloid_score + tau_score + neuro_score
 
         # Genetic and age adjustment
-        genetic_factor = min(1.5, genetic_multiplier / 3.0)
-        age_factor = min(1.3, 1.0 + (max(0, age - 65) * 0.015))
+        genetic_factor = min(1.5, factors.genetic_multiplier / 3.0)
+        age_factor = min(1.3, 1.0 + (max(0, factors.age - 65) * 0.015))
 
         final_score = min(100.0, biomarker_score * genetic_factor * age_factor)
 
@@ -388,10 +399,13 @@ class AlzheimersDetectionEngine:
         cognitive_status = self.determine_cognitive_status(data.mmse_score, data.moca_score)
 
         # Composite risk score
-        risk_score = self.calculate_composite_risk_score(
-            a_positive, a_confidence, t_positive, t_confidence,
-            n_positive, n_confidence, genetic_multiplier, data.age
+        factors = RiskFactors(
+            a_positive=a_positive, a_confidence=a_confidence,
+            t_positive=t_positive, t_confidence=t_confidence,
+            n_positive=n_positive, n_confidence=n_confidence,
+            genetic_multiplier=genetic_multiplier, age=data.age
         )
+        risk_score = self.calculate_composite_risk_score(factors)
 
         # Risk category
         if risk_score >= 70:
