@@ -13,10 +13,8 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 """
 
 import subprocess
-import json
-import time
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 
 class BBBWorkflow5SystemAnalysis:
@@ -313,7 +311,7 @@ Integration Layer
             f.write(f"# {analysis_data['title']}\n\n")
             f.write(f"**Question**: {analysis_data['question']}\n\n")
             f.write(f"**Generated**: {output_file}\n\n")
-            f.write(f"**Copyright**: (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.\n\n")
+            f.write("**Copyright**: (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.\n\n")
             f.write("=" * 80 + "\n\n")
             f.write("## Analysis Result\n\n")
             f.write(result)
@@ -328,7 +326,7 @@ Integration Layer
             f.write("# BBB WORKFLOW 4+ (with System Cartographer): COMPLETE SYSTEM ANALYSIS\n\n")
             f.write("**Analysis Framework**: Function Cartography → Semantic Lattice → Echo Vision → Prediction Oracle → System Cartographer\n\n")
             f.write(f"**Generated**: {output_file}\n\n")
-            f.write(f"**Copyright**: (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.\n\n")
+            f.write("**Copyright**: (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.\n\n")
             f.write("=" * 80 + "\n\n")
 
             analysis_order = ["function_cartography", "semantic_lattice", "echo_vision", "prediction_oracle", "system_cartographer"]
@@ -344,7 +342,7 @@ Integration Layer
 
 def main():
     analyzer = BBBWorkflow5SystemAnalysis()
-    results = analyzer.run_all_analyses()
+    analyzer.run_all_analyses()
 
     print()
     print("SUCCESS! BBB system has been analyzed through all 5 analytical lenses.")
