@@ -9,7 +9,7 @@ Provides:
 - Integration with lab experiments
 """
 
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, Query, HTTPException, Depends
 from fastapi.responses import JSONResponse
 import sqlite3
 import json
@@ -114,71 +114,88 @@ async def get_stats():
     }
 
 
+class SearchParams:
+    def __init__(
+        self,
+        formula: Optional[str] = Query(None, description="Chemical formula (partial match)"),
+        category: Optional[str] = Query(None, description="Material category (metal, ceramic, polymer, etc)"),
+        min_density: Optional[float] = Query(None, description="Minimum density (g/cm³)"),
+        max_density: Optional[float] = Query(None, description="Maximum density (g/cm³)"),
+        min_band_gap: Optional[float] = Query(None, description="Minimum band gap (eV)"),
+        max_band_gap: Optional[float] = Query(None, description="Maximum band gap (eV)"),
+        min_cost: Optional[float] = Query(None, description="Minimum cost ($/kg)"),
+        max_cost: Optional[float] = Query(None, description="Maximum cost ($/kg)"),
+        min_melting_point: Optional[float] = Query(None, description="Minimum melting point (K)"),
+        max_melting_point: Optional[float] = Query(None, description="Maximum melting point (K)"),
+        limit: int = Query(100, ge=1, le=10000, description="Max results to return")
+    ):
+        self.formula = formula
+        self.category = category
+        self.min_density = min_density
+        self.max_density = max_density
+        self.min_band_gap = min_band_gap
+        self.max_band_gap = max_band_gap
+        self.min_cost = min_cost
+        self.max_cost = max_cost
+        self.min_melting_point = min_melting_point
+        self.max_melting_point = max_melting_point
+        self.limit = limit
+
+
 @app.get("/search")
-async def search(
-    formula: Optional[str] = Query(None, description="Chemical formula (partial match)"),
-    category: Optional[str] = Query(None, description="Material category (metal, ceramic, polymer, etc)"),
-    min_density: Optional[float] = Query(None, description="Minimum density (g/cm³)"),
-    max_density: Optional[float] = Query(None, description="Maximum density (g/cm³)"),
-    min_band_gap: Optional[float] = Query(None, description="Minimum band gap (eV)"),
-    max_band_gap: Optional[float] = Query(None, description="Maximum band gap (eV)"),
-    min_cost: Optional[float] = Query(None, description="Minimum cost ($/kg)"),
-    max_cost: Optional[float] = Query(None, description="Maximum cost ($/kg)"),
-    min_melting_point: Optional[float] = Query(None, description="Minimum melting point (K)"),
-    max_melting_point: Optional[float] = Query(None, description="Maximum melting point (K)"),
-    limit: int = Query(100, ge=1, le=10000, description="Max results to return")
-):
+async def search(params: SearchParams = Depends()):
     """Search materials by properties"""
     conn = get_db()
     cursor = conn.cursor()
 
     query = "SELECT * FROM materials WHERE 1=1"
-    params = []
+    query_params = []
 
     # Build query dynamically
-    if formula:
+    if params.formula:
         query += " AND formula LIKE ?"
-        params.append(f"%{formula}%")
+        query_params.append(f"%{params.formula}%")
 
-    if category:
+    if params.category:
         query += " AND category = ?"
-        params.append(category)
+        query_params.append(params.category)
 
-    if min_density is not None:
+    if params.min_density is not None:
         query += " AND density >= ? AND density > 0"
-        params.append(min_density)
+        query_params.append(params.min_density)
 
-    if max_density is not None:
+    if params.max_density is not None:
         query += " AND density <= ? AND density > 0"
-        params.append(max_density)
+        query_params.append(params.max_density)
 
-    if min_band_gap is not None:
+    if params.min_band_gap is not None:
         query += " AND band_gap >= ? AND band_gap > 0"
-        params.append(min_band_gap)
+        query_params.append(params.min_band_gap)
 
-    if max_band_gap is not None:
+    if params.max_band_gap is not None:
         query += " AND band_gap <= ? AND band_gap > 0"
-        params.append(max_band_gap)
+        query_params.append(params.max_band_gap)
 
-    if min_cost is not None:
+    if params.min_cost is not None:
         query += " AND cost_per_kg >= ? AND cost_per_kg > 0"
-        params.append(min_cost)
+        query_params.append(params.min_cost)
 
-    if max_cost is not None:
+    if params.max_cost is not None:
         query += " AND cost_per_kg <= ? AND cost_per_kg > 0"
-        params.append(max_cost)
+        query_params.append(params.max_cost)
 
-    if min_melting_point is not None:
+    if params.min_melting_point is not None:
         query += " AND melting_point >= ? AND melting_point > 0"
-        params.append(min_melting_point)
+        query_params.append(params.min_melting_point)
 
-    if max_melting_point is not None:
+    if params.max_melting_point is not None:
         query += " AND melting_point <= ? AND melting_point > 0"
-        params.append(max_melting_point)
+        query_params.append(params.max_melting_point)
 
-    query += f" LIMIT {limit}"
+    query += " LIMIT ?"
+    query_params.append(params.limit)
 
-    cursor.execute(query, params)
+    cursor.execute(query, query_params)
 
     results = []
     for row in cursor.fetchall():
@@ -193,10 +210,10 @@ async def search(
 
     return {
         "query": {
-            "formula": formula,
-            "category": category,
-            "density": {"min": min_density, "max": max_density},
-            "band_gap": {"min": min_band_gap, "max": max_band_gap}
+            "formula": params.formula,
+            "category": params.category,
+            "density": {"min": params.min_density, "max": params.max_density},
+            "band_gap": {"min": params.min_band_gap, "max": params.max_band_gap}
         },
         "results": results,
         "count": len(results)
@@ -298,7 +315,8 @@ async def recommend(
         query += " AND cost_per_kg > 0 AND cost_per_kg <= ?"
         params.append(constraint_cost_max)
 
-    query += f" ORDER BY {order_by} LIMIT {limit}"
+    query += f" ORDER BY {order_by} LIMIT ?"
+    params.append(limit)
 
     cursor.execute(query, params)
 
