@@ -11,7 +11,6 @@ import numpy as np
 from scipy import constants, special, integrate, linalg
 from scipy.sparse import diags
 from typing import Tuple, Callable, Optional, List
-import warnings
 
 # Physical constants
 HBAR = constants.hbar  # Reduced Planck constant (J·s)
