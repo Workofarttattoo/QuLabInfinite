@@ -185,7 +185,7 @@ class QuLabInfiniteClient:
         try:
             response = requests.get(f"{self.base_url}/health", timeout=5)
             return response.status_code == 200
-        except:
+        except Exception:
             return False
 
     def list_labs(self) -> List[Dict]:
@@ -197,7 +197,7 @@ class QuLabInfiniteClient:
                 timeout=10
             )
             return response.json()
-        except:
+        except Exception:
             return []
 
     def run_experiment(self, lab: str, experiment_type: str, parameters: Dict) -> Dict:
@@ -333,7 +333,7 @@ class Ech0PrimeQuLabResearcher:
             if start != -1 and end > start:
                 json_str = response[start:end]
                 return json.loads(json_str)
-        except:
+        except Exception:
             pass
         return None
 
