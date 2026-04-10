@@ -88,6 +88,15 @@ body {
     color: var(--primary);
 }
 
+/* Accessibility */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
 /* Buttons */
 .btn-primary, .btn-secondary {
     padding: 12px 24px;
@@ -110,15 +119,6 @@ body {
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
 }
 
-.btn-primary:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
-}
-
-.btn-primary:focus:not(:focus-visible) {
-    outline: none;
-}
-
 .btn-secondary {
     background: transparent;
     border: 2px solid var(--primary);
@@ -128,15 +128,6 @@ body {
 .btn-secondary:hover {
     background: var(--primary);
     color: white;
-}
-
-.btn-secondary:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
-}
-
-.btn-secondary:focus:not(:focus-visible) {
-    outline: none;
 }
 
 .btn-large {
