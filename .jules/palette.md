@@ -1,0 +1,3 @@
+## 2025-04-10 - Consistent keyboard focus indicators across UI
+**Learning:** Found an accessibility gap where interactive elements (buttons, links, inputs) lacked explicit `:focus-visible` styles, making keyboard navigation difficult. Conversely, adding plain `:focus` styles created redundant outlines for mouse users, which can detract from the visual design. Using `:focus-visible` ensures keyboard accessibility without compromising mouse/touch UX.
+**Action:** When styling interactive elements in the `website/` frontend, always apply `:focus-visible` styles to ensure keyboard navigation accessibility, and use `:focus:not(:focus-visible)` to suppress redundant browser outlines. This pattern was applied to global CSS files and inline `<style>` blocks.

@@ -50,6 +50,16 @@
         .hero-visual img { width: 100%; height: auto; display: block; }
         .section-visual { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 12px 24px var(--shadow); }
         .section-visual img { width: 100%; height: auto; display: block; }
+
+        /* Accessibility: Focus visible styles */
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+            outline: 2px solid var(--accent, var(--primary, #ec4899));
+            outline-offset: 2px;
+        }
+        a:focus:not(:focus-visible), button:focus:not(:focus-visible), input:focus:not(:focus-visible), textarea:focus:not(:focus-visible), select:focus:not(:focus-visible) {
+            outline: none;
+        }
+
     </style>
 </head>
 <body>
