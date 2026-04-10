@@ -48,9 +48,22 @@ def generate_wellplate_placement(recipe_df, n = REPLICATES, starting_row = 0) ->
     elif (k>max_k):
         return placement_list
     
-    # else: #assuming all samples will fit in plate
-    #     sample_placement = []
+    rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    current_row_idx = starting_row
+    current_col = 1
     
+    for i in range(k):
+        if current_col + n - 1 > 12:
+            current_row_idx += 1
+            current_col = 1
+
+        locations = []
+        for j in range(n):
+            locations.append(f"{rows[current_row_idx]}{current_col}")
+            current_col += 1
+
+        placement_list.append(", ".join(locations))
+
     return placement_list
 
 def convert_wp_placement_to_num(coordinate: str) -> int:
