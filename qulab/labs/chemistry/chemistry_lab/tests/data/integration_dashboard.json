@@ -1,0 +1,141 @@
+{
+  "seed": 42,
+  "experiments": 100,
+  "reactions": {
+    "suzuki_coupling_biphenyl": 13,
+    "amide_coupling_peptide": 13,
+    "aldol_condensation": 10,
+    "benzene_hydrogenation": 10,
+    "esterification": 5,
+    "hydroformylation_propene": 7,
+    "diels_alder": 12,
+    "oxidative_coupling_aniline": 12,
+    "photoredox_perfluoroalkylation": 6,
+    "propene_hydroformylation": 6,
+    "ammoxidation": 6
+  },
+  "reactions_top5": [
+    [
+      "suzuki_coupling_biphenyl",
+      13
+    ],
+    [
+      "amide_coupling_peptide",
+      13
+    ],
+    [
+      "diels_alder",
+      12
+    ],
+    [
+      "oxidative_coupling_aniline",
+      12
+    ],
+    [
+      "aldol_condensation",
+      10
+    ]
+  ],
+  "corrosion": {
+    "Biphenyl": {
+      "occurrences": 13,
+      "avg_multiplier": 1.0,
+      "max_multiplier": 1.0,
+      "avg_exposure_hours": 4.0
+    },
+    "Peptide": {
+      "occurrences": 13,
+      "avg_multiplier": 1.0,
+      "max_multiplier": 1.0,
+      "avg_exposure_hours": 1.0
+    },
+    "3-Hydroxybutanal": {
+      "occurrences": 10,
+      "avg_multiplier": 1.0,
+      "max_multiplier": 1.0,
+      "avg_exposure_hours": 1.0
+    },
+    "Ethyl Acetate": {
+      "occurrences": 5,
+      "avg_multiplier": 1.0,
+      "max_multiplier": 1.0,
+      "avg_exposure_hours": 1.0
+    },
+    "Carbon Steel": {
+      "occurrences": 19,
+      "avg_multiplier": 1.2131578947368422,
+      "max_multiplier": 1.25,
+      "avg_exposure_hours": 2.6315789473684212
+    },
+    "Azobenzene": {
+      "occurrences": 12,
+      "avg_multiplier": 1.0,
+      "max_multiplier": 1.0,
+      "avg_exposure_hours": 1.0
+    },
+    "Stainless Steel 304": {
+      "occurrences": 6,
+      "avg_multiplier": 1.5999999999999999,
+      "max_multiplier": 1.6,
+      "avg_exposure_hours": 1.5
+    },
+    "n-Butanal": {
+      "occurrences": 6,
+      "avg_multiplier": 1.1500000000000001,
+      "max_multiplier": 1.15,
+      "avg_exposure_hours": 4.0
+    },
+    "Acrylonitrile": {
+      "occurrences": 6,
+      "avg_multiplier": 1.05,
+      "max_multiplier": 1.05,
+      "avg_exposure_hours": 2.0
+    }
+  },
+  "emissions": {
+    "entries": {
+      "Potassium Bromide": 13,
+      "HOBt": 13,
+      "Water": 33,
+      "Benzene": 10,
+      "CO2": 7,
+      "Nitrogen Oxide Gas": 12,
+      "Hydrogen Iodide Vapor": 6,
+      "Water Vapor": 6,
+      "Carbon Monoxide": 6
+    },
+    "max_peaks": {
+      "Potassium Bromide": 0.017931127642551663,
+      "HOBt": 0.010258128120159178,
+      "Water": 0.0019130454625480913,
+      "Benzene": 0.0,
+      "CO2": 0.005226471122489193,
+      "Nitrogen Oxide Gas": 0.0003062487046084347,
+      "Hydrogen Iodide Vapor": 0.5153913261423699,
+      "Water Vapor": 3.320190242684865e-07,
+      "Carbon Monoxide": 1.24098761505723e-08
+    },
+    "top5": [
+      [
+        "Water",
+        33
+      ],
+      [
+        "Potassium Bromide",
+        13
+      ],
+      [
+        "HOBt",
+        13
+      ],
+      [
+        "Nitrogen Oxide Gas",
+        12
+      ],
+      [
+        "Benzene",
+        10
+      ]
+    ]
+  }
+}

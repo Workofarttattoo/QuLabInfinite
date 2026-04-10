@@ -1,0 +1,36 @@
+{
+  "id": "thermal_rod_transient_v1",
+  "version": "1.0.0",
+  "domain": "thermal",
+  "description": "1D transient heat conduction in a rod with Dirichlet boundaries and analytic solution.",
+  "tags": ["thermal", "transient", "1D"],
+  "problem": {
+    "type": "heat_conduction_1d",
+    "length_m": 1.0,
+    "alpha_m2s": 1.0e-5,
+    "T_left_K": 300.0,
+    "T_right_K": 300.0,
+    "T_init_K": 400.0,
+    "t_final_s": 10.0
+  },
+  "discretization": {
+    "nx": 201,
+    "dt_s": 0.01
+  },
+  "tolerances": {
+    "temp_L2": { "type": "absolute", "value": 0.01 }
+  },
+  "references": {
+    "solution": "analytic_series"
+  },
+  "metrics": [
+    {
+      "name": "temp_L2",
+      "reducer": "L2",
+      "pass_if": "<=",
+      "unit": "K"
+    }
+  ]
+}
+
+

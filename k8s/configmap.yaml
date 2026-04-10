@@ -1,0 +1,125 @@
+---
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# QuLab AI ConfigMap - Application Configuration
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qulab-config
+  namespace: qulab
+  labels:
+    app: qulab-api
+data:
+  # Application configuration
+  app.env: "production"
+  log.level: "INFO"
+  log.format: "json"
+
+  # API configuration
+  api.title: "QuLab AI Secure Production API"
+  api.version: "2.0.0"
+  api.docs_url: "/api/docs"
+  api.redoc_url: "/api/redoc"
+
+  # Authentication
+  auth.token_expire_minutes: "30"
+  auth.refresh_token_expire_days: "7"
+
+  # Rate limiting
+  rate_limit.requests_per_minute: "100"
+  rate_limit.burst_size: "20"
+
+  # CORS
+  cors.allowed_origins: "https://qulab.ai,https://api.qulab.ai"
+  cors.allowed_methods: "GET,POST,PUT,DELETE,OPTIONS"
+  cors.allow_credentials: "true"
+
+  # Workers
+  uvicorn.workers: "4"
+  uvicorn.host: "0.0.0.0"
+  uvicorn.port: "8000"
+  uvicorn.log_level: "info"
+
+  # Health check
+  health.check_interval_seconds: "30"
+  health.timeout_seconds: "5"
+
+  # Performance
+  performance.max_request_size_mb: "10"
+  performance.timeout_seconds: "60"
+
+  # Database (if needed)
+  # database.host: "qulab-postgres"
+  # database.port: "5432"
+  # database.name: "qulab"
+
+  # Redis (if needed)
+  # redis.host: "qulab-redis"
+  # redis.port: "6379"
+
+---
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: qulab
+  labels:
+    name: qulab
+    environment: production
+
+---
+# Resource Quota
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: qulab-quota
+  namespace: qulab
+spec:
+  hard:
+    requests.cpu: "20"
+    requests.memory: "40Gi"
+    limits.cpu: "40"
+    limits.memory: "80Gi"
+    persistentvolumeclaims: "10"
+    services.loadbalancers: "2"
+
+---
+# Limit Range
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: qulab-limits
+  namespace: qulab
+spec:
+  limits:
+  # Pod limits
+  - type: Pod
+    max:
+      cpu: "4"
+      memory: "8Gi"
+    min:
+      cpu: "100m"
+      memory: "128Mi"
+
+  # Container limits
+  - type: Container
+    max:
+      cpu: "4"
+      memory: "8Gi"
+    min:
+      cpu: "100m"
+      memory: "128Mi"
+    default:
+      cpu: "500m"
+      memory: "1Gi"
+    defaultRequest:
+      cpu: "250m"
+      memory: "512Mi"
+
+  # PVC limits
+  - type: PersistentVolumeClaim
+    max:
+      storage: "100Gi"
+    min:
+      storage: "1Gi"

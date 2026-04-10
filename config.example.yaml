@@ -1,0 +1,40 @@
+# QuLabInfinite Configuration
+# Copy this to config.yaml and customize
+
+app:
+  name: QuLabInfinite
+  version: 1.0.0
+  debug: false
+  log_level: INFO
+
+api:
+  host: 0.0.0.0
+  port: 8000
+  workers: 4
+  cors_origins:
+    - "*"
+
+labs:
+  auto_discover: true
+  
+  materials_lab:
+    index_on_load: true
+    default_test_strain: 0.15
+  
+  quantum_lab:
+    default_backend: statevector
+    optimize_for_m4: true
+    default_qubits: 5
+  
+  chemistry_lab:
+    enable_md: true
+    enable_reactions: true
+    default_force_field: AMBER
+    default_qm_method: DFT
+
+database:
+  url: sqlite:///qulab.db
+
+monitoring:
+  prometheus_port: 9090
+  enable_metrics: true

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qulab.ai/schemas/simtest/v1/result_record.schema.json",
+  "title": "SIMTEST v1 Result Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "test_id",
+    "test_version",
+    "engine",
+    "run_config",
+    "metrics",
+    "status",
+    "provenance"
+  ],
+  "properties": {
+    "test_id": { "type": "string" },
+    "test_version": { "type": "string" },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" }
+      }
+    },
+    "run_config": { "type": "object", "additionalProperties": true },
+    "outputs": { "type": "object", "additionalProperties": true },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["metric", "observed", "pass"],
+        "properties": {
+          "metric": { "type": "string" },
+          "observed": { "type": "number" },
+          "threshold": {
+            "oneOf": [
+              { "type": "number" },
+              { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } }
+            ]
+          },
+          "pass": { "type": "boolean" }
+        }
+      }
+    },
+    "status": { "type": "string", "enum": ["pass", "fail", "error"] },
+    "duration_s": { "type": "number", "minimum": 0 },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "uri"],
+        "properties": {
+          "name": { "type": "string" },
+          "uri": { "type": "string" },
+          "type": { "type": "string" }
+        }
+      }
+    },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "provenance": { "$ref": "./provenance.schema.json" }
+  }
+}
+
+

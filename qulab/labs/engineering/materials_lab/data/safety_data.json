@@ -1,0 +1,106 @@
+{
+  "SS 304": {
+    "hazards": [],
+    "signal_word": "None",
+    "pictograms": [],
+    "ppe": ["Safety glasses", "Gloves when machining"],
+    "storage": "Store in a dry environment to avoid surface corrosion.",
+    "first_aid": {
+      "inhalation": "Provide fresh air if fumes from welding or grinding are inhaled.",
+      "skin": "Wash with soap and water to remove metal fines.",
+      "eyes": "Flush with water for 15 minutes if particles enter eyes."
+    },
+    "notes": "Non-hazardous in solid form. Welding fumes may contain hexavalent chromium."
+  },
+  "Airloy X103": {
+    "hazards": ["Combustible dust"],
+    "signal_word": "Warning",
+    "pictograms": ["GHS07"],
+    "ppe": ["Dust mask", "Safety glasses"],
+    "storage": "Keep sealed away from moisture; avoid high-energy ignition sources.",
+    "first_aid": {
+      "inhalation": "Move person to fresh air.",
+      "skin": "Wash exposed skin with soap and water.",
+      "eyes": "Flush with water if dust contacts eyes."
+    },
+    "notes": "Highly porous aerogel; handle gently to avoid dust generation."
+  },
+  "Hastelloy X": {
+    "hazards": ["Metal fumes when welding", "Dust irritant"],
+    "signal_word": "Warning",
+    "pictograms": ["GHS07"],
+    "ppe": ["Respirator for welding", "Gloves", "Protective clothing"],
+    "storage": "Store away from strong oxidizers; ensure good ventilation during hot work.",
+    "first_aid": {
+      "inhalation": "Remove to fresh air and monitor breathing.",
+      "skin": "Wash with soap and water.",
+      "eyes": "Flush with water for 15 minutes."
+    },
+    "notes": "Fumes may contain nickel and cobalt oxides. Follow standard welding hygiene."
+  },
+  "Magnesium AZ31B": {
+    "hazards": ["Flammable dust", "Reacts with water when molten"],
+    "signal_word": "Danger",
+    "pictograms": ["GHS02", "GHS07"],
+    "ppe": ["Flame-resistant clothing", "Face shield", "Respirator when grinding"],
+    "storage": "Store away from oxidizers and moisture. Keep machining chips in closed metal containers.",
+    "first_aid": {
+      "inhalation": "Move to fresh air; seek medical attention if symptoms persist.",
+      "skin": "Brush off dry material, then rinse with water.",
+      "eyes": "Flush with water and obtain medical attention."
+    },
+    "notes": "Do not use water on burning magnesium. Use Class D extinguishing agents."
+  },
+  "PEEK 450G": {
+    "hazards": ["Decomposition fumes at high temperature"],
+    "signal_word": "Warning",
+    "pictograms": ["GHS07"],
+    "ppe": ["Safety glasses", "Thermal gloves when processing"],
+    "storage": "Store in sealed containers to prevent moisture uptake.",
+    "first_aid": {
+      "inhalation": "Move to fresh air if fumes are generated.",
+      "skin": "Wash with soap and water.",
+      "eyes": "Flush with water if molten material contacts eyes and seek medical attention."
+    },
+    "notes": "Processing above 400°C can release irritating fumes; ensure local exhaust."
+  },
+  "Tungsten Carbide WC-Co K20": {
+    "hazards": ["Cobalt sensitizer", "Machining dust"],
+    "signal_word": "Warning",
+    "pictograms": ["GHS07", "GHS08"],
+    "ppe": ["Respirator for dust", "Gloves", "Protective clothing"],
+    "storage": "Keep sealed; avoid generating dust.",
+    "first_aid": {
+      "inhalation": "Move to fresh air and seek medical attention if symptoms persist.",
+      "skin": "Wash thoroughly with soap and water.",
+      "eyes": "Flush with water for 15 minutes."
+    },
+    "notes": "Chronic exposure to cobalt dust may cause asthma-like symptoms."
+  },
+  "Lithium Hexafluorophosphate Electrolyte": {
+    "hazards": ["Flammable solvent", "Releases HF with moisture"],
+    "signal_word": "Danger",
+    "pictograms": ["GHS02", "GHS05", "GHS07"],
+    "ppe": ["Splash goggles", "Nitrile gloves", "Lab coat", "Respirator in poorly ventilated areas"],
+    "storage": "Store under dry inert atmosphere. Keep away from heat and ignition sources.",
+    "first_aid": {
+      "inhalation": "Move to fresh air. Seek medical attention immediately.",
+      "skin": "Remove contaminated clothing. Rinse skin with water for 15 minutes.",
+      "eyes": "Flush with water for 15 minutes and obtain immediate medical attention."
+    },
+    "notes": "Contact with water can produce hydrofluoric acid. Maintain spill neutralization materials (CaCO3)."
+  },
+  "YBCO Superconductor": {
+    "hazards": ["Dust irritant"],
+    "signal_word": "Warning",
+    "pictograms": ["GHS07"],
+    "ppe": ["Dust mask", "Safety glasses"],
+    "storage": "Store in sealed container away from moisture.",
+    "first_aid": {
+      "inhalation": "Move to fresh air.",
+      "skin": "Wash with soap and water.",
+      "eyes": "Flush with water for 15 minutes."
+    },
+    "notes": "Avoid inhalation of ceramic dust; contains copper and yttrium oxides."
+  }
+}

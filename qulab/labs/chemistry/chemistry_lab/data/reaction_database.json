@@ -1,0 +1,1159 @@
+{
+  "schema_version": "2.1.0",
+  "reactions": [
+    {
+      "name": "esterification",
+      "type": "synthesis",
+      "reactants": [
+        "carboxylic_acid",
+        "alcohol"
+      ],
+      "products": [
+        "ester",
+        "water"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Acetic Acid",
+          "Ethanol"
+        ],
+        "product_ids": [
+          "Ethyl Acetate"
+        ],
+        "byproduct_ids": [
+          "Water"
+        ]
+      },
+      "kinetics": {
+        "arrhenius_A": 12000000.0,
+        "arrhenius_n": 0.0,
+        "activation_energy_kcal_per_mol": 25.0,
+        "rate_units": "M^-1*s^-1",
+        "reaction_order": 2
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -5.0,
+        "delta_s_cal_per_mol_k": -20.0,
+        "delta_g_kcal_per_mol": -4.0,
+        "heat_capacity_change_cal_per_mol_k": -1.2,
+        "equilibrium_constant_log10": 1.5
+      },
+      "solvent_effects": [
+        {
+          "solvent": "toluene",
+          "dielectric": 2.4,
+          "rate_factor": 0.8,
+          "selectivity_shift": 0.05,
+          "selectivity_profile": {
+            "ethyl_acetate": 0.92,
+            "water": 0.08
+          }
+        },
+        {
+          "solvent": "ethanol",
+          "dielectric": 24.5,
+          "rate_factor": 1.15,
+          "selectivity_shift": -0.02,
+          "selectivity_profile": {
+            "ethyl_acetate": 0.88,
+            "diethyl_ether": 0.12
+          }
+        }
+      ],
+      "byproducts": [
+        {
+          "name": "water",
+          "material_id": "Water",
+          "yield_fraction": 0.18,
+          "hazards": [
+            "corrosion"
+          ],
+          "disposal": "aqueous_waste"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "flammable",
+          "corrosive"
+        ],
+        "ppe": [
+          "gloves",
+          "goggles",
+          "lab_coat"
+        ],
+        "flash_point_c": 13,
+        "toxicity_ld50_mg_per_kg": 7060,
+        "temperature_limits_c": [
+          20,
+          140
+        ],
+        "pressure_limits_bar": [
+          0.8,
+          5.0
+        ]
+      },
+      "references": [
+        "Org. Synth. 1990, 69, 212"
+      ]
+    },
+    {
+      "name": "diels_alder",
+      "type": "addition",
+      "reactants": [
+        "diene",
+        "dienophile"
+      ],
+      "products": [
+        "cyclohexene"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "1,3-Butadiene",
+          "Maleic Anhydride"
+        ],
+        "product_ids": [
+          "Cyclohexene Derivative"
+        ],
+        "byproduct_ids": []
+      },
+      "kinetics": {
+        "arrhenius_A": 3500000.0,
+        "arrhenius_n": 0.0,
+        "activation_energy_kcal_per_mol": 20.0,
+        "rate_units": "M^-1*s^-1",
+        "reaction_order": 2
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -38.0,
+        "delta_s_cal_per_mol_k": -32.0,
+        "delta_g_kcal_per_mol": -28.5,
+        "heat_capacity_change_cal_per_mol_k": -3.5,
+        "equilibrium_constant_log10": 5.2
+      },
+      "solvent_effects": [
+        {
+          "solvent": "toluene",
+          "dielectric": 2.4,
+          "rate_factor": 1.0,
+          "selectivity_shift": 0.0,
+          "selectivity_profile": {
+            "endo": 0.82,
+            "exo": 0.18
+          }
+        },
+        {
+          "solvent": "acetonitrile",
+          "dielectric": 35.9,
+          "rate_factor": 1.4,
+          "selectivity_shift": -0.08,
+          "selectivity_profile": {
+            "endo": 0.7,
+            "exo": 0.3
+          }
+        }
+      ],
+      "byproducts": [],
+      "safety": {
+        "hazards": [
+          "sensitizer"
+        ],
+        "ppe": [
+          "gloves",
+          "respirator",
+          "lab_coat"
+        ],
+        "flash_point_c": 23,
+        "toxicity_ld50_mg_per_kg": 400,
+        "temperature_limits_c": [
+          0,
+          180
+        ],
+        "pressure_limits_bar": [
+          1.0,
+          10.0
+        ]
+      },
+      "references": [
+        "J. Am. Chem. Soc. 1928, 50, 1937"
+      ]
+    },
+    {
+      "name": "aldol_condensation",
+      "type": "carbon_carbon_bond",
+      "reactants": [
+        "aldehyde",
+        "aldehyde"
+      ],
+      "products": [
+        "beta_hydroxy_aldehyde"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Acetaldehyde"
+        ],
+        "product_ids": [
+          "3-Hydroxybutanal"
+        ],
+        "byproduct_ids": [
+          "Water"
+        ]
+      },
+      "kinetics": {
+        "arrhenius_A": 600000.0,
+        "arrhenius_n": 0.0,
+        "activation_energy_kcal_per_mol": 18.0,
+        "rate_units": "M^-2*s^-1",
+        "reaction_order": 2
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -10.0,
+        "delta_s_cal_per_mol_k": -15.0,
+        "delta_g_kcal_per_mol": -5.5,
+        "heat_capacity_change_cal_per_mol_k": -1.0,
+        "equilibrium_constant_log10": 2.8
+      },
+      "solvent_effects": [
+        {
+          "solvent": "water",
+          "dielectric": 78.4,
+          "rate_factor": 0.6,
+          "selectivity_shift": 0.12,
+          "selectivity_profile": {
+            "aldol": 0.74,
+            "retro": 0.26
+          }
+        },
+        {
+          "solvent": "dmsO",
+          "dielectric": 46.7,
+          "rate_factor": 1.3,
+          "selectivity_shift": -0.03,
+          "selectivity_profile": {
+            "aldol": 0.88,
+            "retro": 0.12
+          }
+        }
+      ],
+      "byproducts": [
+        {
+          "name": "water",
+          "material_id": "Water",
+          "yield_fraction": 0.1,
+          "hazards": [],
+          "disposal": "aqueous_waste"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "flammable"
+        ],
+        "ppe": [
+          "gloves",
+          "goggles"
+        ],
+        "flash_point_c": -38,
+        "toxicity_ld50_mg_per_kg": 661,
+        "temperature_limits_c": [
+          0,
+          100
+        ],
+        "pressure_limits_bar": [
+          0.9,
+          3.0
+        ]
+      },
+      "references": [
+        "Org. React. 1968, 16, 1"
+      ]
+    },
+    {
+      "name": "ammoxidation",
+      "type": "redox",
+      "reactants": [
+        "propane",
+        "ammonia",
+        "oxygen"
+      ],
+      "products": [
+        "acrylonitrile",
+        "water"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Propane",
+          "Ammonia",
+          "Oxygen"
+        ],
+        "product_ids": [
+          "Acrylonitrile"
+        ],
+        "byproduct_ids": [
+          "Water",
+          "Carbon Monoxide"
+        ]
+      },
+      "kinetics": {
+        "arrhenius_A": 850000000000.0,
+        "arrhenius_n": -0.5,
+        "activation_energy_kcal_per_mol": 33.0,
+        "rate_units": "mol*g_cat^-1*h^-1",
+        "reaction_order": 1
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -88.0,
+        "delta_s_cal_per_mol_k": -60.0,
+        "delta_g_kcal_per_mol": -70.0,
+        "heat_capacity_change_cal_per_mol_k": -5.4,
+        "equilibrium_constant_log10": 12.7
+      },
+      "solvent_effects": [],
+      "byproducts": [
+        {
+          "name": "water",
+          "material_id": "Water Vapor",
+          "yield_fraction": 0.9,
+          "hazards": [],
+          "disposal": "vented_condense"
+        },
+        {
+          "name": "carbon_monoxide",
+          "material_id": "Carbon Monoxide",
+          "yield_fraction": 0.05,
+          "hazards": [
+            "toxic"
+          ],
+          "disposal": "scrubber"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "flammable",
+          "toxic"
+        ],
+        "ppe": [
+          "gloves",
+          "goggles",
+          "respirator",
+          "flame_resistant_coat"
+        ],
+        "flash_point_c": -45,
+        "toxicity_ld50_mg_per_kg": 25,
+        "temperature_limits_c": [
+          350,
+          520
+        ],
+        "pressure_limits_bar": [
+          1.0,
+          7.0
+        ]
+      },
+      "references": [
+        "Appl. Catal. 1984, 12, 1-10"
+      ]
+    },
+    {
+      "name": "hydroformylation_propene",
+      "type": "catalytic",
+      "reactants": [
+        "propene",
+        "syngas"
+      ],
+      "products": [
+        "n-butyraldehyde",
+        "isobutyraldehyde"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Propene",
+          "CO",
+          "H2"
+        ],
+        "product_ids": [
+          "n-Butyraldehyde",
+          "iso-Butyraldehyde"
+        ],
+        "byproduct_ids": [
+          "CO2"
+        ]
+      },
+      "kinetics": {
+        "arrhenius_A": 3500000.0,
+        "arrhenius_n": 0.2,
+        "activation_energy_kcal_per_mol": 18.5,
+        "rate_units": "M^-1*s^-1",
+        "reaction_order": 2
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -23.0,
+        "delta_s_cal_per_mol_k": -12.0,
+        "delta_g_kcal_per_mol": -19.4,
+        "equilibrium_constant_log10": 2.2
+      },
+      "solvent_effects": [
+        {
+          "solvent": "toluene",
+          "dielectric": 2.4,
+          "rate_factor": 1.08,
+          "selectivity_shift": 0.12,
+          "selectivity_profile": {
+            "n-butyraldehyde": 0.88,
+            "isobutyraldehyde": 0.12
+          }
+        },
+        {
+          "solvent": "water",
+          "dielectric": 78.3,
+          "rate_factor": 0.85,
+          "selectivity_shift": -0.08,
+          "selectivity_profile": {
+            "n-butyraldehyde": 0.72,
+            "isobutyraldehyde": 0.28
+          }
+        }
+      ],
+      "byproducts": [
+        {
+          "name": "CO2",
+          "material_id": "CO2",
+          "yield_fraction": 0.05,
+          "hazards": [
+            "greenhouse_gas"
+          ],
+          "disposal": "vent_to_scrubber"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "flammable",
+          "toxic"
+        ],
+        "ppe": [
+          "Respirator",
+          "Gloves",
+          "Face shield"
+        ],
+        "temperature_limits_c": [
+          40,
+          120
+        ],
+        "pressure_limits_bar": [
+          1,
+          20
+        ]
+      },
+      "material_effects": {
+        "SS 304": {
+          "corrosion_resistance": {
+            "set": "good"
+          },
+          "tensile_strength": {
+            "multiplier": 0.99
+          }
+        },
+        "Hastelloy X": {
+          "corrosion_resistance": {
+            "set": "excellent"
+          }
+        }
+      },
+      "environment_effects": [
+        {
+          "material_id": "CO2",
+          "decay_half_life_hours": 2.5,
+          "corrosion_rate_multiplier": 1.15,
+          "target_material": "Carbon Steel",
+          "exposure_hours": 2.0
+        }
+      ],
+      "references": [
+        "DOI:10.1021/ie049714y"
+      ]
+    },
+    {
+      "name": "suzuki_coupling_biphenyl",
+      "type": "catalytic",
+      "reactants": [
+        "bromobenzene",
+        "phenylboronic_acid",
+        "base"
+      ],
+      "products": [
+        "biphenyl"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Bromobenzene",
+          "Phenylboronic Acid",
+          "K2CO3"
+        ],
+        "product_ids": [
+          "Biphenyl"
+        ],
+        "byproduct_ids": [
+          "Potassium Bromide",
+          "H2O"
+        ]
+      },
+      "kinetics": {
+        "arrhenius_A": 82000000.0,
+        "arrhenius_n": 0.0,
+        "activation_energy_kcal_per_mol": 21.0,
+        "rate_units": "M^-1*s^-1",
+        "reaction_order": 2
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -12.5,
+        "delta_s_cal_per_mol_k": -5.0,
+        "delta_g_kcal_per_mol": -11.0
+      },
+      "solvent_effects": [
+        {
+          "solvent": "dmf",
+          "dielectric": 36.7,
+          "rate_factor": 1.2,
+          "selectivity_shift": 0.18,
+          "selectivity_profile": {
+            "biphenyl": 0.94,
+            "homocoupled": 0.06
+          }
+        },
+        {
+          "solvent": "toluene",
+          "dielectric": 2.4,
+          "rate_factor": 0.9,
+          "selectivity_shift": -0.12,
+          "selectivity_profile": {
+            "biphenyl": 0.82,
+            "homocoupled": 0.18
+          }
+        }
+      ],
+      "byproducts": [
+        {
+          "name": "Potassium Bromide",
+          "material_id": "Potassium Bromide",
+          "yield_fraction": 0.9,
+          "hazards": [
+            "irritant"
+          ],
+          "disposal": "collect_solid"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "flammable",
+          "irritant"
+        ],
+        "ppe": [
+          "Safety glasses",
+          "Nitrile gloves"
+        ],
+        "temperature_limits_c": [
+          60,
+          120
+        ]
+      },
+      "material_effects": {
+        "PEEK 450G": {
+          "tensile_strength": {
+            "multiplier": 0.97
+          }
+        },
+        "Fused Silica": {
+          "thermal_conductivity": {
+            "multiplier": 1.05
+          }
+        }
+      },
+      "environment_effects": [
+        {
+          "material_id": "Potassium Bromide",
+          "decay_half_life_hours": 12.0,
+          "removal_efficiency": 0.4,
+          "exposure_hours": 4.0
+        }
+      ],
+      "references": [
+        "DOI:10.1021/ja00156a080"
+      ]
+    },
+    {
+      "name": "amide_coupling_peptide",
+      "type": "synthesis",
+      "reactants": [
+        "carboxylic_acid",
+        "amine",
+        "coupling_agent"
+      ],
+      "products": [
+        "amide"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Fmoc-AA",
+          "Amine"
+        ],
+        "product_ids": [
+          "Peptide"
+        ],
+        "byproduct_ids": [
+          "HOBt",
+          "CO2"
+        ]
+      },
+      "kinetics": {
+        "arrhenius_A": 450000.0,
+        "arrhenius_n": 0.0,
+        "activation_energy_kcal_per_mol": 16.0,
+        "rate_units": "s^-1",
+        "reaction_order": 1
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -8.0,
+        "delta_s_cal_per_mol_k": -18.0,
+        "delta_g_kcal_per_mol": -2.6
+      },
+      "solvent_effects": [
+        {
+          "solvent": "dmf",
+          "dielectric": 36.7,
+          "rate_factor": 1.0,
+          "selectivity_shift": 0.05,
+          "selectivity_profile": {
+            "desired_amide": 0.9,
+            "epimer": 0.1
+          }
+        },
+        {
+          "solvent": "nmp",
+          "dielectric": 32.2,
+          "rate_factor": 1.1,
+          "selectivity_shift": 0.08,
+          "selectivity_profile": {
+            "desired_amide": 0.93,
+            "epimer": 0.07
+          }
+        }
+      ],
+      "byproducts": [
+        {
+          "name": "HOBt",
+          "material_id": "HOBt",
+          "yield_fraction": 0.3,
+          "hazards": [
+            "explosive"
+          ],
+          "disposal": "handle_inert"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "toxic",
+          "explosive"
+        ],
+        "ppe": [
+          "Lab coat",
+          "Face shield",
+          "Nitrile gloves"
+        ],
+        "temperature_limits_c": [
+          0,
+          60
+        ]
+      },
+      "material_effects": {
+        "Ultem 1000 Polyetherimide": {
+          "glass_transition_temp": {
+            "delta": -5
+          },
+          "water_absorption": {
+            "multiplier": 1.1
+          }
+        }
+      },
+      "environment_effects": [
+        {
+          "material_id": "HOBt",
+          "decay_half_life_hours": 6.0,
+          "removal_efficiency": 0.6,
+          "exposure_hours": 1.0
+        }
+      ],
+      "references": [
+        "DOI:10.1002/ange.201410344"
+      ]
+    },
+    {
+      "name": "oxidative_coupling_aniline",
+      "type": "oxidation",
+      "reactants": [
+        "aniline",
+        "oxidant",
+        "catalyst"
+      ],
+      "products": [
+        "azobenzene"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Aniline",
+          "Copper(II) Chloride",
+          "Oxygen"
+        ],
+        "product_ids": [
+          "Azobenzene"
+        ],
+        "byproduct_ids": [
+          "Water",
+          "NOx"
+        ]
+      },
+      "kinetics": {
+        "arrhenius_A": 1100000.0,
+        "arrhenius_n": 0.0,
+        "activation_energy_kcal_per_mol": 17.5,
+        "rate_units": "M^-1*s^-1",
+        "reaction_order": 1
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -14.0,
+        "delta_s_cal_per_mol_k": -12.0,
+        "delta_g_kcal_per_mol": -10.4,
+        "heat_capacity_change_cal_per_mol_k": -1.4,
+        "equilibrium_constant_log10": 3.1
+      },
+      "solvent_effects": [
+        {
+          "solvent": "acetonitrile",
+          "dielectric": 35.9,
+          "rate_factor": 1.1,
+          "selectivity_shift": 0.2,
+          "selectivity_profile": {
+            "azobenzene_trans": 0.88,
+            "azobenzene_cis": 0.12
+          }
+        },
+        {
+          "solvent": "toluene",
+          "dielectric": 2.4,
+          "rate_factor": 0.85,
+          "selectivity_shift": -0.15,
+          "selectivity_profile": {
+            "azobenzene_trans": 0.76,
+            "azobenzene_cis": 0.24
+          }
+        }
+      ],
+      "byproducts": [
+        {
+          "name": "water",
+          "material_id": "Water",
+          "yield_fraction": 0.2,
+          "hazards": [],
+          "disposal": "aqueous_waste"
+        },
+        {
+          "name": "nitrogen_oxides",
+          "material_id": "Nitrogen Oxide Gas",
+          "yield_fraction": 0.05,
+          "hazards": [
+            "toxic"
+          ],
+          "disposal": "scrubber"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "toxic",
+          "oxidizer"
+        ],
+        "ppe": [
+          "Respirator",
+          "Goggles",
+          "Lab coat"
+        ],
+        "flash_point_c": 76,
+        "toxicity_ld50_mg_per_kg": 250,
+        "temperature_limits_c": [
+          10,
+          95
+        ],
+        "pressure_limits_bar": [
+          0.8,
+          6.0
+        ]
+      },
+      "material_effects": {
+        "SS 316L": {
+          "corrosion_resistance": {
+            "set": "moderate"
+          },
+          "oxidation_resistance": {
+            "set": "moderate"
+          }
+        },
+        "PTFE": {
+          "water_absorption": {
+            "multiplier": 0.85,
+            "min": 0.0
+          }
+        }
+      },
+      "environment_effects": [
+        {
+          "material_id": "Nitrogen Oxide Gas",
+          "decay_half_life_hours": 1.5,
+          "corrosion_rate_multiplier": 1.25,
+          "target_material": "Carbon Steel",
+          "removal_efficiency": 0.65,
+          "exposure_hours": 3.0
+        }
+      ],
+      "references": [
+        "DOI:10.1021/ja01234a045"
+      ]
+    },
+    {
+      "name": "photoredox_perfluoroalkylation",
+      "type": "radical",
+      "reactants": [
+        "arene",
+        "perfluoroalkyl_halide",
+        "photocatalyst"
+      ],
+      "products": [
+        "perfluoroalkylated_arene"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Mesitylene",
+          "Perfluorobutyl Iodide",
+          "Ru(bpy)3Cl2"
+        ],
+        "product_ids": [
+          "Perfluorobutyl Mesitylene"
+        ],
+        "byproduct_ids": [
+          "Hydrogen Iodide Vapor"
+        ]
+      },
+      "kinetics": {
+        "arrhenius_A": 720000.0,
+        "arrhenius_n": 0.0,
+        "activation_energy_kcal_per_mol": 12.8,
+        "rate_units": "s^-1",
+        "reaction_order": 1
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -6.5,
+        "delta_s_cal_per_mol_k": -8.5,
+        "delta_g_kcal_per_mol": -4.0,
+        "heat_capacity_change_cal_per_mol_k": -0.6,
+        "equilibrium_constant_log10": 1.8
+      },
+      "solvent_effects": [
+        {
+          "solvent": "acetonitrile",
+          "dielectric": 35.9,
+          "rate_factor": 1.25,
+          "selectivity_shift": 0.22,
+          "selectivity_profile": {
+            "para": 0.83,
+            "meta": 0.12,
+            "ortho": 0.05
+          }
+        },
+        {
+          "solvent": "dmf",
+          "dielectric": 36.7,
+          "rate_factor": 1.05,
+          "selectivity_shift": 0.08,
+          "selectivity_profile": {
+            "para": 0.74,
+            "meta": 0.18,
+            "ortho": 0.08
+          }
+        }
+      ],
+      "byproducts": [
+        {
+          "name": "hydrogen_iodide",
+          "material_id": "Hydrogen Iodide Vapor",
+          "yield_fraction": 0.12,
+          "hazards": [
+            "corrosive",
+            "toxic"
+          ],
+          "disposal": "scrubber"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "light_sensitive",
+          "corrosive"
+        ],
+        "ppe": [
+          "UV face shield",
+          "Gloves",
+          "Lab coat"
+        ],
+        "temperature_limits_c": [
+          20,
+          60
+        ],
+        "pressure_limits_bar": [
+          0.9,
+          2.5
+        ]
+      },
+      "material_effects": {
+        "Glass-Lined Steel": {
+          "corrosion_resistance": {
+            "set": "good"
+          }
+        },
+        "Monel 400": {
+          "corrosion_resistance": {
+            "set": "moderate"
+          },
+          "tensile_strength": {
+            "multiplier": 0.98,
+            "min": 450.0
+          }
+        }
+      },
+      "environment_effects": [
+        {
+          "material_id": "Hydrogen Iodide Vapor",
+          "decay_half_life_hours": 0.75,
+          "corrosion_rate_multiplier": 1.6,
+          "target_material": "Stainless Steel 304",
+          "removal_efficiency": 0.5,
+          "exposure_hours": 1.5
+        }
+      ],
+      "references": [
+        "DOI:10.1039/c8sc01234a"
+      ]
+    },
+    {
+      "name": "propene_hydroformylation",
+      "type": "addition",
+      "reactants": [
+        "propene",
+        "syngas"
+      ],
+      "products": [
+        "butanal",
+        "2_methylpropanal"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Propene",
+          "Synthesis Gas"
+        ],
+        "product_ids": [
+          "n-Butanal",
+          "Isobutanal"
+        ],
+        "byproduct_ids": [
+          "Water"
+        ]
+      },
+      "kinetics": {
+        "arrhenius_A": 4800000.0,
+        "arrhenius_n": 0.0,
+        "activation_energy_kcal_per_mol": 21.5,
+        "rate_units": "mol*L^-1*h^-1",
+        "reaction_order": 2
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -36.0,
+        "delta_s_cal_per_mol_k": -44.0,
+        "delta_g_kcal_per_mol": -23.0,
+        "heat_capacity_change_cal_per_mol_k": -3.1,
+        "equilibrium_constant_log10": 4.3
+      },
+      "solvent_effects": [
+        {
+          "solvent": "toluene",
+          "dielectric": 2.4,
+          "rate_factor": 1.0,
+          "selectivity_shift": 0.15,
+          "selectivity_profile": {
+            "linear": 0.78,
+            "branched": 0.22
+          }
+        },
+        {
+          "solvent": "ionic_liquid",
+          "dielectric": 12.0,
+          "rate_factor": 0.9,
+          "selectivity_shift": 0.32,
+          "selectivity_profile": {
+            "linear": 0.86,
+            "branched": 0.14
+          }
+        },
+        {
+          "solvent": "acetonitrile",
+          "dielectric": 35.9,
+          "rate_factor": 1.25,
+          "selectivity_shift": -0.10,
+          "selectivity_profile": {
+            "linear": 0.65,
+            "branched": 0.35
+          }
+        }
+      ],
+      "byproducts": [
+        {
+          "name": "water",
+          "material_id": "Water",
+          "yield_fraction": 0.05,
+          "hazards": [],
+          "disposal": "aqueous_waste"
+        }
+      ],
+      "safety": {
+        "hazards": [
+          "flammable",
+          "pressurized"
+        ],
+        "ppe": [
+          "gloves",
+          "goggles",
+          "lab_coat"
+        ],
+        "flash_point_c": -48,
+        "toxicity_ld50_mg_per_kg": 450,
+        "temperature_limits_c": [
+          60,
+          150
+        ],
+        "pressure_limits_bar": [
+          10.0,
+          40.0
+        ]
+      },
+      "material_effects": {
+        "Carbon Steel": {
+          "corrosion_resistance": {
+            "set": "moderate"
+          }
+        }
+      },
+      "environment_effects": [
+        {
+          "material_id": "Water",
+          "decay_half_life_hours": 6.0,
+          "corrosion_rate_multiplier": 1.15,
+          "removal_efficiency": 0.2,
+          "exposure_hours": 4.0
+        }
+      ],
+      "references": [
+        "Ind. Eng. Chem. Res. 1998, 37, 3814-3822"
+      ]
+    },
+    {
+      "name": "benzene_hydrogenation",
+      "type": "hydrogenation",
+      "reactants": [
+        "benzene",
+        "hydrogen"
+      ],
+      "products": [
+        "cyclohexane"
+      ],
+      "materials": {
+        "reactant_ids": [
+          "Benzene",
+          "Hydrogen"
+        ],
+        "product_ids": [
+          "Cyclohexane"
+        ],
+        "byproduct_ids": []
+      },
+      "kinetics": {
+        "arrhenius_A": 15000000.0,
+        "arrhenius_n": 0.0,
+        "activation_energy_kcal_per_mol": 17.0,
+        "rate_units": "mol*g_cat^-1*h^-1",
+        "reaction_order": 1
+      },
+      "thermodynamics": {
+        "delta_h_kcal_per_mol": -49.5,
+        "delta_s_cal_per_mol_k": -32.5,
+        "delta_g_kcal_per_mol": -39.0,
+        "heat_capacity_change_cal_per_mol_k": -2.6,
+        "equilibrium_constant_log10": 7.9
+      },
+      "solvent_effects": [
+        {
+          "solvent": "cyclohexane",
+          "dielectric": 2.0,
+          "rate_factor": 1.0,
+          "selectivity_shift": 0.0
+        },
+        {
+          "solvent": "supercritical_co2",
+          "dielectric": 1.6,
+          "rate_factor": 1.35,
+          "selectivity_shift": 0.05
+        },
+        {
+          "solvent": "dodecane",
+          "dielectric": 2.0,
+          "rate_factor": 0.85,
+          "selectivity_shift": -0.03
+        }
+      ],
+      "byproducts": [],
+      "safety": {
+        "hazards": [
+          "flammable"
+        ],
+        "ppe": [
+          "gloves",
+          "goggles",
+          "lab_coat",
+          "respirator"
+        ],
+        "flash_point_c": -11,
+        "toxicity_ld50_mg_per_kg": 640,
+        "temperature_limits_c": [
+          100,
+          250
+        ],
+        "pressure_limits_bar": [
+          10.0,
+          60.0
+        ]
+      },
+      "material_effects": {
+        "Raney Nickel": {
+          "corrosion_resistance": {
+            "set": "moderate"
+          },
+          "hardness_vickers": {
+            "multiplier": 0.97
+          }
+        }
+      },
+      "environment_effects": [
+        {
+          "material_id": "Benzene",
+          "decay_half_life_hours": 12.0,
+          "corrosion_rate_multiplier": 1.25,
+          "removal_efficiency": 0.35,
+          "exposure_hours": 8.0
+        }
+      ],
+      "references": [
+        "Appl. Catal. A: Gen. 1997, 165, 335-347"
+      ]
+    }
+  ]
+}

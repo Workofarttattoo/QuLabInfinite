@@ -1,0 +1,417 @@
+{
+  "_metadata": {
+    "description": "Piezoelectric Materials Expansion - 30 materials for sensors, actuators, energy harvesting, transducers",
+    "date": "2025-10-30",
+    "version": "1.0",
+    "categories": ["PZT_ceramic", "lead_free_piezo", "piezo_polymer", "piezo_crystal"]
+  },
+
+  "PZT_4": {
+    "name": "Lead Zirconate Titanate PZT-4",
+    "category": "piezoelectric_material",
+    "subcategory": "PZT_ceramic",
+    "cas_number": "12626-81-2",
+    "density": 7600.0,
+    "curie_temperature": 601.0,
+    "piezo_d33_pC_N": 289.0,
+    "piezo_g33_mV_m_N": 26.1,
+    "dielectric_constant": 1300.0,
+    "notes": "High sensitivity, underwater transducers, hydrophones, low cost",
+    "cost_per_kg": 85.0,
+    "confidence": 0.97
+  },
+
+  "PZT_5A": {
+    "name": "Lead Zirconate Titanate PZT-5A",
+    "category": "piezoelectric_material",
+    "subcategory": "PZT_ceramic",
+    "cas_number": "12626-81-2",
+    "density": 7750.0,
+    "curie_temperature": 638.0,
+    "piezo_d33_pC_N": 374.0,
+    "piezo_g33_mV_m_N": 24.8,
+    "dielectric_constant": 1700.0,
+    "notes": "High charge sensitivity, actuators, speakers, most common PZT",
+    "cost_per_kg": 75.0,
+    "confidence": 0.98
+  },
+
+  "PZT_5H": {
+    "name": "Lead Zirconate Titanate PZT-5H",
+    "category": "piezoelectric_material",
+    "subcategory": "PZT_ceramic",
+    "cas_number": "12626-81-2",
+    "density": 7500.0,
+    "curie_temperature": 466.0,
+    "piezo_d33_pC_N": 593.0,
+    "piezo_g33_mV_m_N": 19.7,
+    "dielectric_constant": 3400.0,
+    "notes": "Highest d33, ultrasonic cleaning, medical imaging, soft PZT",
+    "cost_per_kg": 95.0,
+    "confidence": 0.97
+  },
+
+  "PZT_8": {
+    "name": "Lead Zirconate Titanate PZT-8",
+    "category": "piezoelectric_material",
+    "subcategory": "PZT_ceramic",
+    "cas_number": "12626-81-2",
+    "density": 7600.0,
+    "curie_temperature": 573.0,
+    "piezo_d33_pC_N": 225.0,
+    "piezo_g33_mV_m_N": 25.4,
+    "dielectric_constant": 1000.0,
+    "notes": "High power, hard PZT, sonar projectors, ultrasonic motors",
+    "cost_per_kg": 120.0,
+    "confidence": 0.96
+  },
+
+  "Navy_Type_I": {
+    "name": "Navy Type I (PZT-4 equivalent)",
+    "category": "piezoelectric_material",
+    "subcategory": "PZT_ceramic",
+    "density": 7600.0,
+    "curie_temperature": 601.0,
+    "piezo_d33_pC_N": 289.0,
+    "dielectric_constant": 1300.0,
+    "notes": "Military spec, underwater acoustics, stable",
+    "cost_per_kg": 150.0,
+    "confidence": 0.95
+  },
+
+  "Navy_Type_II": {
+    "name": "Navy Type II (PZT-5A equivalent)",
+    "category": "piezoelectric_material",
+    "subcategory": "PZT_ceramic",
+    "density": 7750.0,
+    "curie_temperature": 638.0,
+    "piezo_d33_pC_N": 374.0,
+    "dielectric_constant": 1700.0,
+    "notes": "Military spec, general purpose, high coupling",
+    "cost_per_kg": 160.0,
+    "confidence": 0.95
+  },
+
+  "Navy_Type_VI": {
+    "name": "Navy Type VI (PZT-5H equivalent)",
+    "category": "piezoelectric_material",
+    "subcategory": "PZT_ceramic",
+    "density": 7500.0,
+    "curie_temperature": 466.0,
+    "piezo_d33_pC_N": 593.0,
+    "dielectric_constant": 3400.0,
+    "notes": "Military spec, high sensitivity, receivers",
+    "cost_per_kg": 180.0,
+    "confidence": 0.94
+  },
+
+  "PMN_PT": {
+    "name": "Lead Magnesium Niobate - Lead Titanate",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "density": 8100.0,
+    "curie_temperature": 423.0,
+    "piezo_d33_pC_N": 2500.0,
+    "dielectric_constant": 5000.0,
+    "notes": "PMN-PT 70/30, single crystal, highest d33, medical ultrasound, actuators",
+    "cost_per_kg": 25000.0,
+    "confidence": 0.96
+  },
+
+  "PZN_PT": {
+    "name": "Lead Zinc Niobate - Lead Titanate",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "density": 8050.0,
+    "curie_temperature": 443.0,
+    "piezo_d33_pC_N": 2200.0,
+    "dielectric_constant": 4500.0,
+    "notes": "PZN-PT 91/9, single crystal, high performance, medical imaging",
+    "cost_per_kg": 28000.0,
+    "confidence": 0.94
+  },
+
+  "BaTiO3": {
+    "name": "Barium Titanate",
+    "category": "piezoelectric_material",
+    "subcategory": "lead_free_piezo",
+    "cas_number": "12047-27-7",
+    "density": 6020.0,
+    "curie_temperature": 393.0,
+    "piezo_d33_pC_N": 190.0,
+    "dielectric_constant": 1700.0,
+    "notes": "Lead-free, first discovered ferroelectric, capacitors, sensors",
+    "cost_per_kg": 45.0,
+    "confidence": 0.98
+  },
+
+  "KNN": {
+    "name": "Potassium Sodium Niobate",
+    "category": "piezoelectric_material",
+    "subcategory": "lead_free_piezo",
+    "cas_number": "12056-45-8",
+    "density": 4510.0,
+    "curie_temperature": 683.0,
+    "piezo_d33_pC_N": 416.0,
+    "dielectric_constant": 1200.0,
+    "notes": "(K,Na)NbO3, lead-free alternative, high Tc, textured ceramics",
+    "cost_per_kg": 850.0,
+    "confidence": 0.93
+  },
+
+  "NBT_BT": {
+    "name": "Sodium Bismuth Titanate - Barium Titanate",
+    "category": "piezoelectric_material",
+    "subcategory": "lead_free_piezo",
+    "density": 5900.0,
+    "curie_temperature": 593.0,
+    "piezo_d33_pC_N": 191.0,
+    "dielectric_constant": 580.0,
+    "notes": "NBT-6BT, lead-free, high Tc, actuators, electrocaloric effect",
+    "cost_per_kg": 650.0,
+    "confidence": 0.92
+  },
+
+  "BNT_BKT_BT": {
+    "name": "Bismuth Sodium Titanate - Bismuth Potassium Titanate - Barium Titanate",
+    "category": "piezoelectric_material",
+    "subcategory": "lead_free_piezo",
+    "density": 5850.0,
+    "curie_temperature": 573.0,
+    "piezo_d33_pC_N": 250.0,
+    "dielectric_constant": 750.0,
+    "notes": "BNT-BKT-BT ternary, lead-free, high strain, energy harvesting",
+    "cost_per_kg": 750.0,
+    "confidence": 0.90
+  },
+
+  "BiFeO3": {
+    "name": "Bismuth Ferrite",
+    "category": "piezoelectric_material",
+    "subcategory": "lead_free_piezo",
+    "cas_number": "12010-77-4",
+    "density": 8380.0,
+    "curie_temperature": 1103.0,
+    "piezo_d33_pC_N": 60.0,
+    "notes": "Multiferroic, room-temp ferroelectric/ferromagnetic, thin films",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.89
+  },
+
+  "AlN_Piezo": {
+    "name": "Aluminum Nitride (Piezoelectric)",
+    "category": "piezoelectric_material",
+    "subcategory": "lead_free_piezo",
+    "cas_number": "24304-00-5",
+    "density": 3260.0,
+    "melting_point": 2473.0,
+    "piezo_d33_pC_N": 5.5,
+    "dielectric_constant": 9.5,
+    "thermal_conductivity": 170.0,
+    "notes": "Thin film, RF filters, FBAR, 5G, high thermal conductivity",
+    "cost_per_kg": 450.0,
+    "confidence": 0.96
+  },
+
+  "ZnO_Piezo": {
+    "name": "Zinc Oxide (Piezoelectric)",
+    "category": "piezoelectric_material",
+    "subcategory": "lead_free_piezo",
+    "cas_number": "1314-13-2",
+    "density": 5606.0,
+    "melting_point": 2248.0,
+    "piezo_d33_pC_N": 12.4,
+    "dielectric_constant": 8.5,
+    "bandgap": 3.37,
+    "notes": "Thin film, SAW devices, nanogenerators, low cost",
+    "cost_per_kg": 35.0,
+    "confidence": 0.97
+  },
+
+  "GaN_Piezo": {
+    "name": "Gallium Nitride (Piezoelectric)",
+    "category": "piezoelectric_material",
+    "subcategory": "lead_free_piezo",
+    "cas_number": "25617-97-4",
+    "density": 6150.0,
+    "melting_point": 2791.0,
+    "piezo_d33_pC_N": 3.7,
+    "dielectric_constant": 9.5,
+    "bandgap": 3.4,
+    "notes": "Thin film, HEMT, high-power RF, LED strain engineering",
+    "cost_per_kg": 850.0,
+    "confidence": 0.95
+  },
+
+  "Quartz_Crystal": {
+    "name": "Quartz Crystal (Piezoelectric)",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "cas_number": "14808-60-7",
+    "density": 2650.0,
+    "melting_point": 1986.0,
+    "piezo_d11_pC_N": 2.3,
+    "dielectric_constant": 4.5,
+    "notes": "SiO2, resonators, 32.768 kHz watches, frequency standards, ultra-stable",
+    "cost_per_kg": 85.0,
+    "confidence": 0.98
+  },
+
+  "LiNbO3_Piezo": {
+    "name": "Lithium Niobate (Piezoelectric)",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "cas_number": "12031-63-9",
+    "density": 4640.0,
+    "melting_point": 1528.0,
+    "piezo_d33_pC_N": 6.0,
+    "dielectric_constant": 30.0,
+    "notes": "SAW devices, optical modulators, Q-switches, telecom",
+    "cost_per_kg": 1800.0,
+    "confidence": 0.97
+  },
+
+  "LiTaO3_Piezo": {
+    "name": "Lithium Tantalate (Piezoelectric)",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "cas_number": "12031-66-2",
+    "density": 7450.0,
+    "melting_point": 1923.0,
+    "piezo_d33_pC_N": 6.0,
+    "dielectric_constant": 43.0,
+    "notes": "SAW filters, pyroelectric IR detectors, higher Tc than LiNbO3",
+    "cost_per_kg": 2200.0,
+    "confidence": 0.95
+  },
+
+  "Rochelle_Salt": {
+    "name": "Rochelle Salt (Sodium Potassium Tartrate)",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "cas_number": "304-59-6",
+    "density": 1790.0,
+    "melting_point": 348.0,
+    "piezo_d33_pC_N": 350.0,
+    "notes": "First discovered piezoelectric material (1880), historical, water soluble",
+    "cost_per_kg": 45.0,
+    "confidence": 0.94
+  },
+
+  "PVDF": {
+    "name": "Polyvinylidene Fluoride",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_polymer",
+    "cas_number": "24937-79-9",
+    "density": 1780.0,
+    "glass_transition_temp": 233.0,
+    "melting_point": 450.0,
+    "piezo_d33_pC_N": -33.0,
+    "dielectric_constant": 12.0,
+    "notes": "Flexible piezoelectric polymer, sensors, energy harvesting, poled β-phase",
+    "cost_per_kg": 85.0,
+    "confidence": 0.97
+  },
+
+  "P_VDF_TrFE": {
+    "name": "Polyvinylidene Fluoride-Trifluoroethylene",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_polymer",
+    "cas_number": "28960-88-5",
+    "density": 1880.0,
+    "glass_transition_temp": 253.0,
+    "melting_point": 428.0,
+    "piezo_d33_pC_N": -38.0,
+    "dielectric_constant": 15.0,
+    "notes": "P(VDF-TrFE), copolymer, higher d33 than PVDF, ferroelectric memory",
+    "cost_per_kg": 450.0,
+    "confidence": 0.94
+  },
+
+  "PVDF_HFP": {
+    "name": "Polyvinylidene Fluoride-Hexafluoropropylene",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_polymer",
+    "density": 1800.0,
+    "glass_transition_temp": 233.0,
+    "piezo_d33_pC_N": -28.0,
+    "notes": "P(VDF-HFP), gel polymer electrolyte (Li-ion), actuators",
+    "cost_per_kg": 120.0,
+    "confidence": 0.92
+  },
+
+  "PU_Piezo": {
+    "name": "Piezoelectric Polyurethane",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_polymer",
+    "density": 1200.0,
+    "piezo_d33_pC_N": -10.0,
+    "notes": "Flexible, biocompatible, wearable sensors, energy harvesting",
+    "cost_per_kg": 250.0,
+    "confidence": 0.88
+  },
+
+  "BCT": {
+    "name": "Barium Calcium Titanate",
+    "category": "piezoelectric_material",
+    "subcategory": "lead_free_piezo",
+    "density": 5850.0,
+    "curie_temperature": 393.0,
+    "piezo_d33_pC_N": 620.0,
+    "dielectric_constant": 3200.0,
+    "notes": "Ba(Zr,Ti)O3-(Ba,Ca)TiO3, lead-free, giant d33, actuators",
+    "cost_per_kg": 750.0,
+    "confidence": 0.91
+  },
+
+  "Tourmaline": {
+    "name": "Tourmaline (Natural Piezoelectric)",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "cas_number": "1317-93-7",
+    "density": 3060.0,
+    "melting_point": 1273.0,
+    "piezo_d33_pC_N": 2.5,
+    "notes": "Natural borosilicate, pyroelectric, first piezoelectric application (pressure gauges)",
+    "cost_per_kg": 450.0,
+    "confidence": 0.90
+  },
+
+  "Langasite": {
+    "name": "Langasite (La3Ga5SiO14)",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "density": 5750.0,
+    "melting_point": 1743.0,
+    "piezo_d11_pC_N": 6.2,
+    "dielectric_constant": 19.0,
+    "notes": "High-temp SAW sensors (up to 1000°C), wireless sensors",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.91
+  },
+
+  "PIN_PMN_PT": {
+    "name": "PIN-PMN-PT Ternary Crystal",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "density": 8050.0,
+    "curie_temperature": 473.0,
+    "piezo_d33_pC_N": 1500.0,
+    "dielectric_constant": 4000.0,
+    "notes": "Pb(In1/2Nb1/2)O3-PMN-PT, higher Tc than PMN-PT, medical ultrasound",
+    "cost_per_kg": 32000.0,
+    "confidence": 0.89
+  },
+
+  "Ca3TaGa3Si2O14": {
+    "name": "CTGS Crystal",
+    "category": "piezoelectric_material",
+    "subcategory": "piezo_crystal",
+    "density": 5400.0,
+    "melting_point": 1773.0,
+    "piezo_d11_pC_N": 5.0,
+    "notes": "Ca3TaGa3Si2O14, high-temp SAW, wireless sensors",
+    "cost_per_kg": 9500.0,
+    "confidence": 0.88
+  }
+}

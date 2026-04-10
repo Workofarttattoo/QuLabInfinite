@@ -1,0 +1,36 @@
+{
+  "quantity": "true_stress",
+  "units": "MPa",
+  "conditions": {
+    "T_K": 298.15,
+    "strain_rate": 0.001,
+    "P_Pa": 101325
+  },
+  "material": {
+    "name": "AISI 304",
+    "grain_size_um": 12,
+    "heat_treatment": "annealed"
+  },
+  "method": "ASTM E8 tensile, extensometer 50 mm",
+  "points": [
+    {"strain": 0.0000, "stress": 0.0},
+    {"strain": 0.0010, "stress": 195.0},
+    {"strain": 0.0020, "stress": 280.0},
+    {"strain": 0.0050, "stress": 320.0},
+    {"strain": 0.0100, "stress": 350.0},
+    {"strain": 0.0200, "stress": 380.0},
+    {"strain": 0.0500, "stress": 400.0},
+    {"strain": 0.1000, "stress": 410.0}
+  ],
+  "uncertainty": {
+    "sigma": 6.1,
+    "n": 5
+  },
+  "citation": {
+    "doi": "10.1000/example-304-298K",
+    "year": 2019,
+    "source": "Journal of Stainless Research"
+  },
+  "provenance_hash": "sha256:PLACEHOLDER",
+  "ingested_at": "2025-10-29T00:00:00Z"
+}

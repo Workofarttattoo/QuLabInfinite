@@ -1,0 +1,36 @@
+{
+  "quantity": "true_stress",
+  "units": "MPa",
+  "conditions": {
+    "T_K": 673.15,
+    "strain_rate": 0.001,
+    "P_Pa": 101325
+  },
+  "material": {
+    "name": "AISI 304",
+    "grain_size_um": 12,
+    "heat_treatment": "annealed"
+  },
+  "method": "ASTM E21 high-temperature tensile",
+  "points": [
+    {"strain": 0.0000, "stress": 0.0},
+    {"strain": 0.0010, "stress": 145.0},
+    {"strain": 0.0020, "stress": 210.0},
+    {"strain": 0.0050, "stress": 240.0},
+    {"strain": 0.0100, "stress": 260.0},
+    {"strain": 0.0200, "stress": 275.0},
+    {"strain": 0.0500, "stress": 285.0},
+    {"strain": 0.1000, "stress": 288.0}
+  ],
+  "uncertainty": {
+    "sigma": 8.4,
+    "n": 4
+  },
+  "citation": {
+    "doi": "10.1000/example-304-673K",
+    "year": 2018,
+    "source": "High Temp Materials"
+  },
+  "provenance_hash": "sha256:PLACEHOLDER",
+  "ingested_at": "2025-10-29T00:00:00Z"
+}

@@ -1,0 +1,131 @@
+---
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
+#
+# QuLab AI Horizontal Pod Autoscaler (HPA)
+# Auto-scaling based on CPU/memory/custom metrics
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: qulab-api-hpa
+  namespace: qulab
+  labels:
+    app: qulab-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: qulab-api
+
+  # Scaling limits
+  minReplicas: 3
+  maxReplicas: 20
+
+  # Scaling behavior
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300  # 5 minutes
+      policies:
+      - type: Percent
+        value: 50  # Scale down by 50% at a time
+        periodSeconds: 60
+      - type: Pods
+        value: 2  # Or remove 2 pods at a time
+        periodSeconds: 60
+      selectPolicy: Min  # Use the most conservative policy
+
+    scaleUp:
+      stabilizationWindowSeconds: 0  # Immediate scale up
+      policies:
+      - type: Percent
+        value: 100  # Double the pods
+        periodSeconds: 30
+      - type: Pods
+        value: 4  # Or add 4 pods at a time
+        periodSeconds: 30
+      selectPolicy: Max  # Use the most aggressive policy
+
+  # Metrics for scaling decisions
+  metrics:
+  # CPU-based scaling
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70  # Scale up when CPU > 70%
+
+  # Memory-based scaling
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80  # Scale up when memory > 80%
+
+  # Custom metrics (requires Prometheus adapter)
+  - type: Pods
+    pods:
+      metric:
+        name: http_requests_per_second
+      target:
+        type: AverageValue
+        averageValue: "1000"  # Scale when > 1000 req/s per pod
+
+  - type: Pods
+    pods:
+      metric:
+        name: http_request_duration_p99
+      target:
+        type: AverageValue
+        averageValue: "500m"  # Scale when p99 latency > 500ms
+
+---
+# Pod Disruption Budget (PDB)
+# Ensures minimum availability during voluntary disruptions
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: qulab-api-pdb
+  namespace: qulab
+  labels:
+    app: qulab-api
+spec:
+  minAvailable: 2  # Always keep at least 2 pods running
+  selector:
+    matchLabels:
+      app: qulab-api
+
+---
+# Vertical Pod Autoscaler (VPA) - Optional
+# Recommends CPU/memory resource adjustments
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: qulab-api-vpa
+  namespace: qulab
+  labels:
+    app: qulab-api
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: qulab-api
+
+  # Update mode
+  updatePolicy:
+    updateMode: "Off"  # Only recommend, don't auto-apply (safer)
+
+  # Resource policy
+  resourcePolicy:
+    containerPolicies:
+    - containerName: qulab-api
+      minAllowed:
+        cpu: 250m
+        memory: 512Mi
+      maxAllowed:
+        cpu: 4000m
+        memory: 8Gi
+      controlledResources:
+      - cpu
+      - memory

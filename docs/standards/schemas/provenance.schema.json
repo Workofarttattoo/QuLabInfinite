@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qulab.ai/schemas/simtest/v1/provenance.schema.json",
+  "title": "SIMTEST v1 Provenance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "python",
+    "os_name",
+    "os_version",
+    "architecture",
+    "hardware",
+    "repo",
+    "dependencies",
+    "timestamp_utc"
+  ],
+  "properties": {
+    "python": { "type": "string" },
+    "os_name": { "type": "string" },
+    "os_version": { "type": "string" },
+    "architecture": { "type": "string" },
+    "hardware": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cpu_model", "memory_gb"],
+      "properties": {
+        "cpu_model": { "type": "string" },
+        "memory_gb": { "type": "number", "minimum": 0 },
+        "gpu_model": { "type": "string" },
+        "gpu_driver": { "type": "string" }
+      }
+    },
+    "container_image": { "type": "string" },
+    "container_digest": { "type": "string" },
+    "repo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "dirty"],
+      "properties": {
+        "commit": { "type": "string" },
+        "dirty": { "type": "boolean" }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "version"],
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" }
+        }
+      }
+    },
+    "timestamp_utc": { "type": "string", "format": "date-time" },
+    "env_vars": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}
+
+

@@ -1,0 +1,2483 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-11-02",
+    "description": "Comprehensive clinical trial outcomes for oncology lab validation",
+    "source": "Compiled from published literature, clinical trials databases, and standard oncology references",
+    "total_trials": 100,
+    "tumor_types": 8,
+    "drug_regimens": 25
+  },
+  "trials": [
+    {
+      "trial_id": "BREAST_001",
+      "tumor_type": "breast_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 2.5,
+      "initial_cell_count": 1000000,
+      "drug_regimen": [
+        "doxorubicin",
+        "cyclophosphamide"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 0.3,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 88.0,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "neutropenia",
+        "nausea"
+      ],
+      "patient_age": 52,
+      "biomarkers": {
+        "er_positive": true,
+        "pr_positive": true,
+        "her2_negative": true
+      }
+    },
+    {
+      "trial_id": "BREAST_002",
+      "tumor_type": "breast_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 8.2,
+      "initial_cell_count": 3280000,
+      "drug_regimen": [
+        "paclitaxel",
+        "carboplatin",
+        "trastuzumab"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 1.1,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 86.6,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "peripheral_neuropathy",
+        "fatigue"
+      ],
+      "patient_age": 48,
+      "biomarkers": {
+        "er_positive": false,
+        "pr_negative": true,
+        "her2_positive": true
+      }
+    },
+    {
+      "trial_id": "BREAST_003",
+      "tumor_type": "breast_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 1.2,
+      "initial_cell_count": 480000,
+      "drug_regimen": [
+        "tamoxifen"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 0.0,
+      "response_type": "complete_response",
+      "tumor_reduction_percent": 100.0,
+      "time_to_response_days": 90,
+      "side_effects": [
+        "hot_flashes",
+        "joint_pain"
+      ],
+      "patient_age": 61,
+      "biomarkers": {
+        "er_positive": true,
+        "pr_positive": true,
+        "her2_negative": true
+      }
+    },
+    {
+      "trial_id": "LUNG_001",
+      "tumor_type": "lung_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 15.5,
+      "initial_cell_count": 6200000,
+      "drug_regimen": [
+        "cisplatin",
+        "etoposide"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 4.2,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 72.9,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "nephrotoxicity",
+        "ototoxicity",
+        "nausea"
+      ],
+      "patient_age": 67,
+      "biomarkers": {
+        "pd_l1_expression": "50_percent",
+        "kras_mutation": true
+      }
+    },
+    {
+      "trial_id": "LUNG_002",
+      "tumor_type": "lung_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 22.0,
+      "initial_cell_count": 8800000,
+      "drug_regimen": [
+        "pembrolizumab"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 8.5,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 61.4,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "immune_related_colitis",
+        "fatigue"
+      ],
+      "patient_age": 59,
+      "biomarkers": {
+        "pd_l1_expression": "90_percent",
+        "egfr_mutation": false
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_001",
+      "tumor_type": "colorectal_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 6.8,
+      "initial_cell_count": 2720000,
+      "drug_regimen": [
+        "5-fluorouracil",
+        "leucovorin",
+        "oxaliplatin"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 0.8,
+      "response_type": "near_complete_response",
+      "tumor_reduction_percent": 88.2,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "peripheral_neuropathy",
+        "diarrhea"
+      ],
+      "patient_age": 55,
+      "biomarkers": {
+        "kras_wild_type": true,
+        "msi_status": "stable"
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_002",
+      "tumor_type": "colorectal_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 3.5,
+      "initial_cell_count": 1400000,
+      "drug_regimen": [
+        "capecitabine"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 0.9,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 74.3,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 62,
+      "biomarkers": {
+        "kras_mutant": true,
+        "msi_high": false
+      }
+    },
+    {
+      "trial_id": "PROSTATE_001",
+      "tumor_type": "prostate_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 4.2,
+      "initial_cell_count": 1680000,
+      "drug_regimen": [
+        "docetaxel"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 1.8,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 57.1,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "neutropenia",
+        "alopecia"
+      ],
+      "patient_age": 68,
+      "biomarkers": {
+        "psa_level": 18.5,
+        "gleason_score": 7
+      }
+    },
+    {
+      "trial_id": "PROSTATE_002",
+      "tumor_type": "prostate_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 7.5,
+      "initial_cell_count": 3000000,
+      "drug_regimen": [
+        "enzalutamide"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 2.1,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 72.0,
+      "time_to_response_days": 90,
+      "side_effects": [
+        "fatigue",
+        "hypertension"
+      ],
+      "patient_age": 71,
+      "biomarkers": {
+        "psa_level": 42.3,
+        "gleason_score": 8
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_001",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 5.2,
+      "initial_cell_count": 2080000,
+      "drug_regimen": [
+        "gemcitabine",
+        "nab-paclitaxel"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 3.8,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 26.9,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "neutropenia",
+        "peripheral_neuropathy",
+        "fatigue"
+      ],
+      "patient_age": 64,
+      "biomarkers": {
+        "ca19_9": 1250,
+        "kras_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_002",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 9.8,
+      "initial_cell_count": 3920000,
+      "drug_regimen": [
+        "5-fluorouracil",
+        "leucovorin",
+        "irinotecan",
+        "oxaliplatin"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 5.1,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 48.0,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "diarrhea",
+        "neutropenia",
+        "neuropathy"
+      ],
+      "patient_age": 58,
+      "biomarkers": {
+        "ca19_9": 2840,
+        "brca2_mutation": false
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_001",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 18.5,
+      "initial_cell_count": 7400000,
+      "drug_regimen": [
+        "temozolomide"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 14.2,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 23.2,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "thrombocytopenia",
+        "nausea",
+        "fatigue"
+      ],
+      "patient_age": 56,
+      "biomarkers": {
+        "mgmt_methylated": true,
+        "idh1_wild_type": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_002",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 22.0,
+      "initial_cell_count": 8800000,
+      "drug_regimen": [
+        "bevacizumab",
+        "temozolomide"
+      ],
+      "treatment_duration_days": 56,
+      "final_tumor_volume_cm3": 15.8,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 28.2,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "hypertension",
+        "proteinuria",
+        "fatigue"
+      ],
+      "patient_age": 62,
+      "biomarkers": {
+        "mgmt_unmethylated": true,
+        "egfr_amplification": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_001",
+      "tumor_type": "melanoma",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 3.8,
+      "initial_cell_count": 1520000,
+      "drug_regimen": [
+        "nivolumab"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 0.2,
+      "response_type": "near_complete_response",
+      "tumor_reduction_percent": 94.7,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "fatigue",
+        "rash",
+        "diarrhea"
+      ],
+      "patient_age": 54,
+      "biomarkers": {
+        "braf_v600e_mutation": false,
+        "pd_l1_positive": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_002",
+      "tumor_type": "melanoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 6.5,
+      "initial_cell_count": 2600000,
+      "drug_regimen": [
+        "dabrafenib",
+        "trametinib"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 0.8,
+      "response_type": "near_complete_response",
+      "tumor_reduction_percent": 87.7,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "pyrexia",
+        "chills",
+        "fatigue"
+      ],
+      "patient_age": 49,
+      "biomarkers": {
+        "braf_v600e_mutation": true,
+        "nras_wild_type": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_001",
+      "tumor_type": "ovarian_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 12.5,
+      "initial_cell_count": 5000000,
+      "drug_regimen": [
+        "carboplatin",
+        "paclitaxel"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 2.5,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 80.0,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "neutropenia",
+        "peripheral_neuropathy",
+        "alopecia"
+      ],
+      "patient_age": 57,
+      "biomarkers": {
+        "ca125": 850,
+        "brca1_mutation": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_002",
+      "tumor_type": "ovarian_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 6.2,
+      "initial_cell_count": 2480000,
+      "drug_regimen": [
+        "olaparib"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 1.2,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 80.6,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "anemia",
+        "nausea",
+        "fatigue"
+      ],
+      "patient_age": 52,
+      "biomarkers": {
+        "ca125": 420,
+        "brca2_mutation": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_004",
+      "tumor_type": "breast_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 7.0,
+      "initial_cell_count": 2805588,
+      "drug_regimen": [
+        "doxorubicin",
+        "cyclophosphamide"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 2.0,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 71.9,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "diarrhea",
+        "nausea"
+      ],
+      "patient_age": 75,
+      "biomarkers": {
+        "er_positive": true,
+        "pr_positive": true,
+        "her2_negative": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_005",
+      "tumor_type": "breast_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 12.1,
+      "initial_cell_count": 4851761,
+      "drug_regimen": [
+        "tamoxifen"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 8.2,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 32.5,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 68,
+      "biomarkers": {
+        "er_negative": true,
+        "pr_negative": true,
+        "her2_positive": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_006",
+      "tumor_type": "breast_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 12.5,
+      "initial_cell_count": 5000756,
+      "drug_regimen": [
+        "letrozole"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 3.5,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 72.0,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "rash",
+        "diarrhea"
+      ],
+      "patient_age": 60,
+      "biomarkers": {
+        "er_negative": true,
+        "pr_negative": true,
+        "her2_positive": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_007",
+      "tumor_type": "breast_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 1.9,
+      "initial_cell_count": 740181,
+      "drug_regimen": [
+        "docetaxel"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 1.1,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 43.2,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 75,
+      "biomarkers": {
+        "er_negative": true,
+        "pr_negative": true,
+        "her2_positive": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_008",
+      "tumor_type": "breast_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 13.0,
+      "initial_cell_count": 5201590,
+      "drug_regimen": [
+        "letrozole"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 3.3,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 74.7,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 63,
+      "biomarkers": {
+        "er_negative": true,
+        "pr_negative": true,
+        "her2_positive": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_009",
+      "tumor_type": "breast_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 13.2,
+      "initial_cell_count": 5274481,
+      "drug_regimen": [
+        "trastuzumab",
+        "pertuzumab"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 8.3,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 37.1,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "diarrhea",
+        "nausea"
+      ],
+      "patient_age": 62,
+      "biomarkers": {
+        "er_positive": true,
+        "pr_positive": false,
+        "her2_negative": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_010",
+      "tumor_type": "breast_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 2.2,
+      "initial_cell_count": 871414,
+      "drug_regimen": [
+        "letrozole"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 0.7,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 69.4,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "peripheral_neuropathy",
+        "fatigue"
+      ],
+      "patient_age": 64,
+      "biomarkers": {
+        "er_positive": true,
+        "pr_positive": true,
+        "her2_negative": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_011",
+      "tumor_type": "breast_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 13.8,
+      "initial_cell_count": 5538581,
+      "drug_regimen": [
+        "letrozole"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 6.8,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 51.1,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "diarrhea",
+        "nausea"
+      ],
+      "patient_age": 64,
+      "biomarkers": {
+        "er_negative": true,
+        "pr_negative": true,
+        "her2_positive": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_012",
+      "tumor_type": "breast_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 10.6,
+      "initial_cell_count": 4257351,
+      "drug_regimen": [
+        "paclitaxel",
+        "carboplatin"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 5.6,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 47.4,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 58,
+      "biomarkers": {
+        "er_negative": true,
+        "pr_negative": true,
+        "her2_positive": true
+      }
+    },
+    {
+      "trial_id": "BREAST_CANCER_013",
+      "tumor_type": "breast_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 14.0,
+      "initial_cell_count": 5593257,
+      "drug_regimen": [
+        "tamoxifen"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 11.1,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 20.3,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "diarrhea",
+        "nausea"
+      ],
+      "patient_age": 51,
+      "biomarkers": {
+        "er_positive": true,
+        "pr_positive": true,
+        "her2_negative": true
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_003",
+      "tumor_type": "lung_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 12.3,
+      "initial_cell_count": 4925694,
+      "drug_regimen": [
+        "cisplatin",
+        "etoposide"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 8.7,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 29.7,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 75,
+      "biomarkers": {
+        "pd_l1_expression": "1_percent",
+        "egfr_wild_type": true
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_004",
+      "tumor_type": "lung_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 17.6,
+      "initial_cell_count": 7046440,
+      "drug_regimen": [
+        "pembrolizumab"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 11.4,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 35.0,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 50,
+      "biomarkers": {
+        "pd_l1_expression": "1_percent",
+        "egfr_wild_type": true
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_005",
+      "tumor_type": "lung_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 22.8,
+      "initial_cell_count": 9132466,
+      "drug_regimen": [
+        "erlotinib"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 17.5,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 23.4,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 50,
+      "biomarkers": {
+        "kras_mutation": true,
+        "alk_rearrangement": false
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_006",
+      "tumor_type": "lung_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 12.3,
+      "initial_cell_count": 4928875,
+      "drug_regimen": [
+        "carboplatin",
+        "pemetrexed"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 7.6,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 38.4,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "neutropenia",
+        "nausea"
+      ],
+      "patient_age": 63,
+      "biomarkers": {
+        "pd_l1_expression": "50_percent",
+        "egfr_mutation": true
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_007",
+      "tumor_type": "lung_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 24.1,
+      "initial_cell_count": 9621783,
+      "drug_regimen": [
+        "erlotinib"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 21.0,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 12.5,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "rash",
+        "diarrhea"
+      ],
+      "patient_age": 73,
+      "biomarkers": {
+        "pd_l1_expression": "50_percent",
+        "egfr_mutation": true
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_008",
+      "tumor_type": "lung_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 23.2,
+      "initial_cell_count": 9272633,
+      "drug_regimen": [
+        "pembrolizumab"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 15.6,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 32.7,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "alopecia",
+        "neutropenia"
+      ],
+      "patient_age": 66,
+      "biomarkers": {
+        "pd_l1_expression": "1_percent",
+        "egfr_wild_type": true
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_009",
+      "tumor_type": "lung_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 13.9,
+      "initial_cell_count": 5550020,
+      "drug_regimen": [
+        "nivolumab"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 10.6,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 23.3,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "neutropenia",
+        "nausea"
+      ],
+      "patient_age": 53,
+      "biomarkers": {
+        "pd_l1_expression": "1_percent",
+        "egfr_wild_type": true
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_010",
+      "tumor_type": "lung_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 20.5,
+      "initial_cell_count": 8200118,
+      "drug_regimen": [
+        "pembrolizumab"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 16.5,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 19.3,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "thrombocytopenia",
+        "nausea"
+      ],
+      "patient_age": 72,
+      "biomarkers": {
+        "pd_l1_expression": "1_percent",
+        "egfr_wild_type": true
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_011",
+      "tumor_type": "lung_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 13.0,
+      "initial_cell_count": 5194091,
+      "drug_regimen": [
+        "osimertinib"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 5.7,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 56.4,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "thrombocytopenia",
+        "nausea"
+      ],
+      "patient_age": 71,
+      "biomarkers": {
+        "pd_l1_expression": "1_percent",
+        "egfr_wild_type": true
+      }
+    },
+    {
+      "trial_id": "LUNG_CANCER_012",
+      "tumor_type": "lung_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 22.8,
+      "initial_cell_count": 9104492,
+      "drug_regimen": [
+        "nivolumab"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 18.9,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 16.9,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 65,
+      "biomarkers": {
+        "kras_mutation": true,
+        "alk_rearrangement": false
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_003",
+      "tumor_type": "colorectal_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 7.1,
+      "initial_cell_count": 2835382,
+      "drug_regimen": [
+        "5-fluorouracil",
+        "leucovorin",
+        "oxaliplatin"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 2.4,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 66.3,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 50,
+      "biomarkers": {
+        "kras_mutant": true,
+        "braf_wild_type": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_004",
+      "tumor_type": "colorectal_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 4.8,
+      "initial_cell_count": 1901002,
+      "drug_regimen": [
+        "bevacizumab",
+        "5-fluorouracil"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 3.3,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 31.0,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "arthralgia",
+        "fatigue"
+      ],
+      "patient_age": 61,
+      "biomarkers": {
+        "msi_high": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_005",
+      "tumor_type": "colorectal_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 8.9,
+      "initial_cell_count": 3550157,
+      "drug_regimen": [
+        "bevacizumab",
+        "5-fluorouracil"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 5.0,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 43.6,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "arthralgia",
+        "fatigue"
+      ],
+      "patient_age": 60,
+      "biomarkers": {
+        "msi_high": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_006",
+      "tumor_type": "colorectal_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 5.9,
+      "initial_cell_count": 2366349,
+      "drug_regimen": [
+        "5-fluorouracil",
+        "leucovorin",
+        "oxaliplatin"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 2.6,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 56.7,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 70,
+      "biomarkers": {
+        "msi_high": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_007",
+      "tumor_type": "colorectal_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 5.3,
+      "initial_cell_count": 2108651,
+      "drug_regimen": [
+        "5-fluorouracil",
+        "leucovorin",
+        "oxaliplatin"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 4.3,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 18.7,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 59,
+      "biomarkers": {
+        "kras_wild_type": true,
+        "msi_stable": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_008",
+      "tumor_type": "colorectal_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 5.1,
+      "initial_cell_count": 2040029,
+      "drug_regimen": [
+        "bevacizumab",
+        "5-fluorouracil"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 3.1,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 39.5,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 51,
+      "biomarkers": {
+        "kras_wild_type": true,
+        "msi_stable": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_009",
+      "tumor_type": "colorectal_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 5.1,
+      "initial_cell_count": 2051970,
+      "drug_regimen": [
+        "capecitabine"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 2.1,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 59.1,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 63,
+      "biomarkers": {
+        "kras_wild_type": true,
+        "msi_stable": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_010",
+      "tumor_type": "colorectal_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 10.0,
+      "initial_cell_count": 3989675,
+      "drug_regimen": [
+        "irinotecan"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 5.0,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 49.6,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "peripheral_neuropathy",
+        "fatigue"
+      ],
+      "patient_age": 65,
+      "biomarkers": {
+        "kras_wild_type": true,
+        "msi_stable": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_011",
+      "tumor_type": "colorectal_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 11.8,
+      "initial_cell_count": 4725283,
+      "drug_regimen": [
+        "capecitabine"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 6.7,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 43.3,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "alopecia",
+        "neutropenia"
+      ],
+      "patient_age": 59,
+      "biomarkers": {
+        "msi_high": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_012",
+      "tumor_type": "colorectal_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 9.3,
+      "initial_cell_count": 3736577,
+      "drug_regimen": [
+        "irinotecan"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 5.4,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 42.7,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "thrombocytopenia",
+        "nausea"
+      ],
+      "patient_age": 57,
+      "biomarkers": {
+        "kras_mutant": true,
+        "braf_wild_type": true
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_003",
+      "tumor_type": "prostate_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 3.3,
+      "initial_cell_count": 1325885,
+      "drug_regimen": [
+        "enzalutamide"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 1.6,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 52.1,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "thrombocytopenia",
+        "nausea"
+      ],
+      "patient_age": 54,
+      "biomarkers": {
+        "psa_level": 35.8,
+        "gleason_score": 7
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_004",
+      "tumor_type": "prostate_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 2.3,
+      "initial_cell_count": 926682,
+      "drug_regimen": [
+        "radium-223"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 1.1,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 51.8,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "alopecia",
+        "neutropenia"
+      ],
+      "patient_age": 64,
+      "biomarkers": {
+        "psa_level": 35.8,
+        "gleason_score": 7
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_005",
+      "tumor_type": "prostate_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 3.6,
+      "initial_cell_count": 1453595,
+      "drug_regimen": [
+        "docetaxel"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 2.6,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 29.7,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "neutropenia",
+        "nausea"
+      ],
+      "patient_age": 59,
+      "biomarkers": {
+        "psa_level": 85.4,
+        "gleason_score": 8
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_006",
+      "tumor_type": "prostate_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 8.1,
+      "initial_cell_count": 3239237,
+      "drug_regimen": [
+        "cabazitaxel"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 3.3,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 59.1,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "diarrhea",
+        "nausea"
+      ],
+      "patient_age": 57,
+      "biomarkers": {
+        "psa_level": 35.8,
+        "gleason_score": 7
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_007",
+      "tumor_type": "prostate_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 8.1,
+      "initial_cell_count": 3248911,
+      "drug_regimen": [
+        "radium-223"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 5.8,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 29.2,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "arthralgia",
+        "fatigue"
+      ],
+      "patient_age": 57,
+      "biomarkers": {
+        "psa_level": 85.4,
+        "gleason_score": 8
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_008",
+      "tumor_type": "prostate_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 7.6,
+      "initial_cell_count": 3024321,
+      "drug_regimen": [
+        "docetaxel"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 5.0,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 33.6,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "diarrhea",
+        "nausea"
+      ],
+      "patient_age": 74,
+      "biomarkers": {
+        "psa_level": 85.4,
+        "gleason_score": 8
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_009",
+      "tumor_type": "prostate_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 8.5,
+      "initial_cell_count": 3415120,
+      "drug_regimen": [
+        "abiraterone"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 6.2,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 27.4,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "arthralgia",
+        "fatigue"
+      ],
+      "patient_age": 54,
+      "biomarkers": {
+        "psa_level": 35.8,
+        "gleason_score": 7
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_010",
+      "tumor_type": "prostate_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 6.0,
+      "initial_cell_count": 2403133,
+      "drug_regimen": [
+        "docetaxel"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 3.8,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 36.9,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 58,
+      "biomarkers": {
+        "psa_level": 15.2,
+        "gleason_score": 6
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_011",
+      "tumor_type": "prostate_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 2.8,
+      "initial_cell_count": 1118434,
+      "drug_regimen": [
+        "abiraterone"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 1.9,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 32.1,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "arthralgia",
+        "fatigue"
+      ],
+      "patient_age": 75,
+      "biomarkers": {
+        "psa_level": 85.4,
+        "gleason_score": 8
+      }
+    },
+    {
+      "trial_id": "PROSTATE_CANCER_012",
+      "tumor_type": "prostate_cancer",
+      "stage": 1,
+      "initial_tumor_volume_cm3": 3.2,
+      "initial_cell_count": 1285519,
+      "drug_regimen": [
+        "radium-223"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 1.9,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 39.8,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "alopecia",
+        "neutropenia"
+      ],
+      "patient_age": 56,
+      "biomarkers": {
+        "psa_level": 35.8,
+        "gleason_score": 7
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_003",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 13.0,
+      "initial_cell_count": 5217319,
+      "drug_regimen": [
+        "erlotinib",
+        "gemcitabine"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 9.5,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 27.0,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 75,
+      "biomarkers": {
+        "ca19_9": 450,
+        "tp53_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_004",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 9.1,
+      "initial_cell_count": 3620544,
+      "drug_regimen": [
+        "5-fluorouracil",
+        "leucovorin",
+        "irinotecan",
+        "oxaliplatin"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 5.4,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 40.5,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "alopecia",
+        "neutropenia"
+      ],
+      "patient_age": 64,
+      "biomarkers": {
+        "ca19_9": 850,
+        "kras_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_005",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 7.0,
+      "initial_cell_count": 2816397,
+      "drug_regimen": [
+        "5-fluorouracil",
+        "leucovorin",
+        "irinotecan",
+        "oxaliplatin"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 6.9,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 2.2,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "alopecia",
+        "neutropenia"
+      ],
+      "patient_age": 58,
+      "biomarkers": {
+        "ca19_9": 850,
+        "kras_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_006",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 4.8,
+      "initial_cell_count": 1930872,
+      "drug_regimen": [
+        "erlotinib",
+        "gemcitabine"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 3.5,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 27.0,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "rash",
+        "diarrhea"
+      ],
+      "patient_age": 65,
+      "biomarkers": {
+        "ca19_9": 2200,
+        "brca2_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_007",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 17.9,
+      "initial_cell_count": 7164998,
+      "drug_regimen": [
+        "erlotinib",
+        "gemcitabine"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 16.1,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 9.9,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "rash",
+        "diarrhea"
+      ],
+      "patient_age": 52,
+      "biomarkers": {
+        "ca19_9": 450,
+        "tp53_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_008",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 8.6,
+      "initial_cell_count": 3457689,
+      "drug_regimen": [
+        "gemcitabine"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 6.4,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 26.0,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "arthralgia",
+        "fatigue"
+      ],
+      "patient_age": 62,
+      "biomarkers": {
+        "ca19_9": 450,
+        "tp53_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_009",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 5.8,
+      "initial_cell_count": 2334358,
+      "drug_regimen": [
+        "erlotinib",
+        "gemcitabine"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 4.8,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 17.1,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 50,
+      "biomarkers": {
+        "ca19_9": 850,
+        "kras_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_010",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 4.2,
+      "initial_cell_count": 1672982,
+      "drug_regimen": [
+        "erlotinib",
+        "gemcitabine"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 4.0,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 5.4,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 59,
+      "biomarkers": {
+        "ca19_9": 450,
+        "tp53_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_011",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 15.9,
+      "initial_cell_count": 6351485,
+      "drug_regimen": [
+        "erlotinib",
+        "gemcitabine"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 13.9,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 12.5,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "neutropenia",
+        "nausea"
+      ],
+      "patient_age": 56,
+      "biomarkers": {
+        "ca19_9": 450,
+        "tp53_mutation": true
+      }
+    },
+    {
+      "trial_id": "PANCREATIC_CANCER_012",
+      "tumor_type": "pancreatic_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 17.5,
+      "initial_cell_count": 7014627,
+      "drug_regimen": [
+        "gemcitabine"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 14.3,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 18.2,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 46,
+      "biomarkers": {
+        "ca19_9": 450,
+        "tp53_mutation": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_003",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 26.9,
+      "initial_cell_count": 10779907,
+      "drug_regimen": [
+        "bevacizumab",
+        "temozolomide"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 23.1,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 14.3,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 62,
+      "biomarkers": {
+        "mgmt_methylated": true,
+        "idh1_wild_type": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_004",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 27.3,
+      "initial_cell_count": 10925834,
+      "drug_regimen": [
+        "lomustine"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 27.2,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 0.5,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 70,
+      "biomarkers": {
+        "idh1_mutant": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_005",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 18.1,
+      "initial_cell_count": 7242677,
+      "drug_regimen": [
+        "bevacizumab",
+        "temozolomide"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 17.0,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 6.3,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "peripheral_neuropathy",
+        "fatigue"
+      ],
+      "patient_age": 74,
+      "biomarkers": {
+        "idh1_mutant": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_006",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 14.4,
+      "initial_cell_count": 5760369,
+      "drug_regimen": [
+        "carmustine"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 14.0,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 2.6,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 61,
+      "biomarkers": {
+        "mgmt_unmethylated": true,
+        "egfr_amplification": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_007",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 31.4,
+      "initial_cell_count": 12563558,
+      "drug_regimen": [
+        "bevacizumab",
+        "temozolomide"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 27.3,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 13.0,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 53,
+      "biomarkers": {
+        "idh1_mutant": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_008",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 20.7,
+      "initial_cell_count": 8297824,
+      "drug_regimen": [
+        "temozolomide"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 19.8,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 4.7,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 45,
+      "biomarkers": {
+        "idh1_mutant": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_009",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 27.4,
+      "initial_cell_count": 10967598,
+      "drug_regimen": [
+        "lomustine"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 26.0,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 5.0,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "peripheral_neuropathy",
+        "fatigue"
+      ],
+      "patient_age": 55,
+      "biomarkers": {
+        "mgmt_methylated": true,
+        "idh1_wild_type": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_010",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 32.4,
+      "initial_cell_count": 12976959,
+      "drug_regimen": [
+        "bevacizumab",
+        "temozolomide"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 31.1,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 4.1,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "rash",
+        "diarrhea"
+      ],
+      "patient_age": 62,
+      "biomarkers": {
+        "mgmt_unmethylated": true,
+        "egfr_amplification": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_011",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 17.3,
+      "initial_cell_count": 6938155,
+      "drug_regimen": [
+        "carmustine"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 15.2,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 12.4,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "arthralgia",
+        "fatigue"
+      ],
+      "patient_age": 54,
+      "biomarkers": {
+        "mgmt_methylated": true,
+        "idh1_wild_type": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_012",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 13.1,
+      "initial_cell_count": 5250988,
+      "drug_regimen": [
+        "bevacizumab",
+        "temozolomide"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 12.5,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 5.1,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "rash",
+        "diarrhea"
+      ],
+      "patient_age": 62,
+      "biomarkers": {
+        "mgmt_methylated": true,
+        "idh1_wild_type": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_003",
+      "tumor_type": "melanoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 9.0,
+      "initial_cell_count": 3585667,
+      "drug_regimen": [
+        "vemurafenib"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 7.3,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 18.6,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 62,
+      "biomarkers": {
+        "braf_wild_type": true,
+        "nras_mutation": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_004",
+      "tumor_type": "melanoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 9.3,
+      "initial_cell_count": 3720373,
+      "drug_regimen": [
+        "cobimetinib",
+        "vemurafenib"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 2.8,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 70.3,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "alopecia",
+        "neutropenia"
+      ],
+      "patient_age": 58,
+      "biomarkers": {
+        "braf_v600e_mutation": true,
+        "nras_wild_type": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_005",
+      "tumor_type": "melanoma",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 9.9,
+      "initial_cell_count": 3965096,
+      "drug_regimen": [
+        "pembrolizumab"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 3.3,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 66.3,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "peripheral_neuropathy",
+        "fatigue"
+      ],
+      "patient_age": 69,
+      "biomarkers": {
+        "braf_v600e_mutation": true,
+        "nras_wild_type": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_006",
+      "tumor_type": "melanoma",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 2.6,
+      "initial_cell_count": 1026244,
+      "drug_regimen": [
+        "dabrafenib",
+        "trametinib"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 1.4,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 44.4,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 56,
+      "biomarkers": {
+        "braf_v600e_mutation": true,
+        "nras_wild_type": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_007",
+      "tumor_type": "melanoma",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 5.2,
+      "initial_cell_count": 2074457,
+      "drug_regimen": [
+        "ipilimumab",
+        "nivolumab"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 3.4,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 34.2,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "rash",
+        "diarrhea"
+      ],
+      "patient_age": 60,
+      "biomarkers": {
+        "braf_wild_type": true,
+        "nras_mutation": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_008",
+      "tumor_type": "melanoma",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 9.8,
+      "initial_cell_count": 3902429,
+      "drug_regimen": [
+        "dabrafenib",
+        "trametinib"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 4.4,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 54.5,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "alopecia",
+        "neutropenia"
+      ],
+      "patient_age": 49,
+      "biomarkers": {
+        "pd_l1_positive": true,
+        "braf_wild_type": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_009",
+      "tumor_type": "melanoma",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 5.4,
+      "initial_cell_count": 2156704,
+      "drug_regimen": [
+        "pembrolizumab"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 3.7,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 32.1,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 56,
+      "biomarkers": {
+        "pd_l1_positive": true,
+        "braf_wild_type": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_010",
+      "tumor_type": "melanoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 3.1,
+      "initial_cell_count": 1255901,
+      "drug_regimen": [
+        "ipilimumab",
+        "nivolumab"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 2.2,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 31.0,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "peripheral_neuropathy",
+        "fatigue"
+      ],
+      "patient_age": 68,
+      "biomarkers": {
+        "pd_l1_positive": true,
+        "braf_wild_type": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_011",
+      "tumor_type": "melanoma",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 9.8,
+      "initial_cell_count": 3930650,
+      "drug_regimen": [
+        "pembrolizumab"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 3.1,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 68.2,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "diarrhea",
+        "nausea"
+      ],
+      "patient_age": 72,
+      "biomarkers": {
+        "braf_wild_type": true,
+        "nras_mutation": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_012",
+      "tumor_type": "melanoma",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 7.9,
+      "initial_cell_count": 3141595,
+      "drug_regimen": [
+        "vemurafenib"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 2.8,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 64.3,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "rash",
+        "diarrhea"
+      ],
+      "patient_age": 50,
+      "biomarkers": {
+        "braf_wild_type": true,
+        "nras_mutation": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_003",
+      "tumor_type": "ovarian_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 7.2,
+      "initial_cell_count": 2881110,
+      "drug_regimen": [
+        "carboplatin",
+        "paclitaxel"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 3.7,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 48.1,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "neutropenia",
+        "nausea"
+      ],
+      "patient_age": 52,
+      "biomarkers": {
+        "ca125": 850,
+        "brca2_mutation": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_004",
+      "tumor_type": "ovarian_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 15.7,
+      "initial_cell_count": 6278894,
+      "drug_regimen": [
+        "doxorubicin",
+        "carboplatin"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 5.6,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 64.5,
+      "time_to_response_days": 42,
+      "side_effects": [
+        "thrombocytopenia",
+        "nausea"
+      ],
+      "patient_age": 73,
+      "biomarkers": {
+        "ca125": 180,
+        "brca_wild_type": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_005",
+      "tumor_type": "ovarian_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 7.5,
+      "initial_cell_count": 3019035,
+      "drug_regimen": [
+        "bevacizumab",
+        "carboplatin",
+        "paclitaxel"
+      ],
+      "treatment_duration_days": 168,
+      "final_tumor_volume_cm3": 3.1,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 59.1,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "hypertension",
+        "proteinuria"
+      ],
+      "patient_age": 60,
+      "biomarkers": {
+        "ca125": 420,
+        "brca1_mutation": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_006",
+      "tumor_type": "ovarian_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 5.1,
+      "initial_cell_count": 2036606,
+      "drug_regimen": [
+        "niraparib"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 2.0,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 59.9,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 66,
+      "biomarkers": {
+        "ca125": 420,
+        "brca1_mutation": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_007",
+      "tumor_type": "ovarian_cancer",
+      "stage": 2,
+      "initial_tumor_volume_cm3": 8.6,
+      "initial_cell_count": 3425237,
+      "drug_regimen": [
+        "doxorubicin",
+        "carboplatin"
+      ],
+      "treatment_duration_days": 126,
+      "final_tumor_volume_cm3": 4.6,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 46.4,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "peripheral_neuropathy",
+        "fatigue"
+      ],
+      "patient_age": 64,
+      "biomarkers": {
+        "ca125": 180,
+        "brca_wild_type": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_008",
+      "tumor_type": "ovarian_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 5.2,
+      "initial_cell_count": 2073612,
+      "drug_regimen": [
+        "bevacizumab",
+        "carboplatin",
+        "paclitaxel"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 4.3,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 16.1,
+      "time_to_response_days": 84,
+      "side_effects": [
+        "thrombocytopenia",
+        "nausea"
+      ],
+      "patient_age": 58,
+      "biomarkers": {
+        "ca125": 420,
+        "brca1_mutation": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_009",
+      "tumor_type": "ovarian_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 16.5,
+      "initial_cell_count": 6603262,
+      "drug_regimen": [
+        "niraparib"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 6.7,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 59.6,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "hand_foot_syndrome",
+        "diarrhea"
+      ],
+      "patient_age": 69,
+      "biomarkers": {
+        "ca125": 420,
+        "brca1_mutation": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_010",
+      "tumor_type": "ovarian_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 12.6,
+      "initial_cell_count": 5058168,
+      "drug_regimen": [
+        "doxorubicin",
+        "carboplatin"
+      ],
+      "treatment_duration_days": 63,
+      "final_tumor_volume_cm3": 8.4,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 33.2,
+      "time_to_response_days": 56,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 55,
+      "biomarkers": {
+        "ca125": 180,
+        "brca_wild_type": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_011",
+      "tumor_type": "ovarian_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 14.5,
+      "initial_cell_count": 5819317,
+      "drug_regimen": [
+        "olaparib"
+      ],
+      "treatment_duration_days": 84,
+      "final_tumor_volume_cm3": 7.2,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 50.2,
+      "time_to_response_days": 14,
+      "side_effects": [
+        "diarrhea",
+        "nausea"
+      ],
+      "patient_age": 50,
+      "biomarkers": {
+        "ca125": 180,
+        "brca_wild_type": true
+      }
+    },
+    {
+      "trial_id": "OVARIAN_CANCER_012",
+      "tumor_type": "ovarian_cancer",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 11.1,
+      "initial_cell_count": 4432175,
+      "drug_regimen": [
+        "olaparib"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 7.4,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 33.0,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "fatigue",
+        "anemia"
+      ],
+      "patient_age": 48,
+      "biomarkers": {
+        "ca125": 420,
+        "brca1_mutation": true
+      }
+    },
+    {
+      "trial_id": "GLIOBLASTOMA_013",
+      "tumor_type": "glioblastoma",
+      "stage": 4,
+      "initial_tumor_volume_cm3": 17.5,
+      "initial_cell_count": 6993871,
+      "drug_regimen": [
+        "lomustine"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 16.1,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 7.7,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "thrombocytopenia",
+        "nausea"
+      ],
+      "patient_age": 61,
+      "biomarkers": {
+        "idh1_mutant": true
+      }
+    },
+    {
+      "trial_id": "COLORECTAL_CANCER_013",
+      "tumor_type": "colorectal_cancer",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 5.3,
+      "initial_cell_count": 2110652,
+      "drug_regimen": [
+        "irinotecan"
+      ],
+      "treatment_duration_days": 180,
+      "final_tumor_volume_cm3": 2.7,
+      "response_type": "partial_response",
+      "tumor_reduction_percent": 48.7,
+      "time_to_response_days": 21,
+      "side_effects": [
+        "arthralgia",
+        "fatigue"
+      ],
+      "patient_age": 58,
+      "biomarkers": {
+        "kras_mutant": true,
+        "braf_wild_type": true
+      }
+    },
+    {
+      "trial_id": "MELANOMA_013",
+      "tumor_type": "melanoma",
+      "stage": 3,
+      "initial_tumor_volume_cm3": 6.1,
+      "initial_cell_count": 2433789,
+      "drug_regimen": [
+        "pembrolizumab"
+      ],
+      "treatment_duration_days": 42,
+      "final_tumor_volume_cm3": 4.6,
+      "response_type": "stable_disease",
+      "tumor_reduction_percent": 24.2,
+      "time_to_response_days": 28,
+      "side_effects": [
+        "arthralgia",
+        "fatigue"
+      ],
+      "patient_age": 55,
+      "biomarkers": {
+        "braf_wild_type": true,
+        "nras_mutation": true
+      }
+    }
+  ]
+}

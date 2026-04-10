@@ -1,0 +1,60 @@
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved.
+
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - QULAB_CONFIG=/app/config.yaml
+      - QULAB_API_KEY=${QULAB_API_KEY:-}
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///qulab.db}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - qulab-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=qulab
+      - POSTGRES_USER=qulab
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-qulab_dev}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    profiles:
+      - full
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./qulab/monitoring/prometheus-config.yaml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    profiles:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    profiles:
+      - monitoring
+
+volumes:
+  qulab-data:
+  postgres-data:
+  prometheus-data:
+  grafana-data:

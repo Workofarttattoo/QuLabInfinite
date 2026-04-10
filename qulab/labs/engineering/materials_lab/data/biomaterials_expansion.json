@@ -1,0 +1,667 @@
+{
+  "_metadata": {
+    "description": "Biomaterials Expansion - 50 materials for medical research, tissue engineering, drug delivery",
+    "date": "2025-10-30",
+    "version": "1.0",
+    "categories": ["biodegradable_polymer", "natural_polymer", "bioceramic", "hydrogel", "medical_grade_polymer"]
+  },
+
+  "PLGA_50-50": {
+    "name": "PLGA 50:50",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "cas_number": "26780-50-7",
+    "density": 1340.0,
+    "glass_transition_temp": 45.0,
+    "melting_point": 155.0,
+    "degradation_time_months": 2,
+    "tensile_strength": 45.0,
+    "notes": "50:50 lactide:glycolide ratio, fastest degradation, FDA approved for drug delivery and sutures",
+    "cost_per_kg": 850.0,
+    "confidence": 0.95
+  },
+
+  "PLGA_75-25": {
+    "name": "PLGA 75:25",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "cas_number": "26780-50-7",
+    "density": 1280.0,
+    "glass_transition_temp": 50.0,
+    "melting_point": 165.0,
+    "degradation_time_months": 4,
+    "tensile_strength": 60.0,
+    "notes": "75:25 lactide:glycolide ratio, slower degradation, tissue engineering scaffolds",
+    "cost_per_kg": 820.0,
+    "confidence": 0.95
+  },
+
+  "PLGA_85-15": {
+    "name": "PLGA 85:15",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "cas_number": "26780-50-7",
+    "density": 1260.0,
+    "glass_transition_temp": 55.0,
+    "melting_point": 172.0,
+    "degradation_time_months": 6,
+    "tensile_strength": 70.0,
+    "notes": "85:15 lactide:glycolide ratio, slowest degradation, long-term implants",
+    "cost_per_kg": 800.0,
+    "confidence": 0.95
+  },
+
+  "PCL": {
+    "name": "Polycaprolactone",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "cas_number": "24980-41-4",
+    "density": 1145.0,
+    "glass_transition_temp": -60.0,
+    "melting_point": 60.0,
+    "degradation_time_months": 24,
+    "tensile_strength": 23.0,
+    "youngs_modulus": 0.4,
+    "notes": "Very slow degradation (2+ years), 3D printing, FDA approved",
+    "cost_per_kg": 350.0,
+    "confidence": 0.96
+  },
+
+  "PLA": {
+    "name": "Polylactic Acid",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "cas_number": "9051-89-2",
+    "density": 1250.0,
+    "glass_transition_temp": 60.0,
+    "melting_point": 175.0,
+    "degradation_time_months": 12,
+    "tensile_strength": 65.0,
+    "youngs_modulus": 3.5,
+    "notes": "Derived from corn starch, 3D printing, orthopedic screws, FDA approved",
+    "cost_per_kg": 180.0,
+    "confidence": 0.97
+  },
+
+  "PGA": {
+    "name": "Polyglycolic Acid",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "cas_number": "26124-68-5",
+    "density": 1530.0,
+    "glass_transition_temp": 35.0,
+    "melting_point": 225.0,
+    "degradation_time_months": 1,
+    "tensile_strength": 90.0,
+    "youngs_modulus": 7.0,
+    "notes": "Fastest degrading FDA-approved polymer, absorbable sutures (Dexon)",
+    "cost_per_kg": 950.0,
+    "confidence": 0.94
+  },
+
+  "Collagen_Type_I": {
+    "name": "Collagen Type I",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9007-34-5",
+    "density": 1410.0,
+    "degradation_time_months": 3,
+    "tensile_strength": 50.0,
+    "youngs_modulus": 1.2,
+    "notes": "Most abundant ECM protein, from bovine/porcine sources, tissue scaffolds",
+    "cost_per_kg": 2500.0,
+    "confidence": 0.92
+  },
+
+  "Collagen_Type_II": {
+    "name": "Collagen Type II",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9007-34-5",
+    "density": 1390.0,
+    "degradation_time_months": 4,
+    "tensile_strength": 30.0,
+    "notes": "Cartilage-specific collagen, joint repair, from chicken/shark",
+    "cost_per_kg": 4800.0,
+    "confidence": 0.90
+  },
+
+  "Gelatin": {
+    "name": "Gelatin",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9000-70-8",
+    "density": 1270.0,
+    "melting_point": 35.0,
+    "degradation_time_months": 1,
+    "tensile_strength": 8.0,
+    "notes": "Denatured collagen, drug delivery, wound dressings, edible films",
+    "cost_per_kg": 120.0,
+    "confidence": 0.96
+  },
+
+  "Chitosan": {
+    "name": "Chitosan",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9012-76-4",
+    "density": 1350.0,
+    "glass_transition_temp": 203.0,
+    "degradation_time_months": 6,
+    "tensile_strength": 100.0,
+    "youngs_modulus": 3.0,
+    "notes": "From chitin (shrimp shells), antimicrobial, wound healing, drug delivery",
+    "cost_per_kg": 350.0,
+    "confidence": 0.93
+  },
+
+  "Alginate_Sodium": {
+    "name": "Sodium Alginate",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9005-38-3",
+    "density": 1601.0,
+    "degradation_time_months": 2,
+    "tensile_strength": 30.0,
+    "notes": "From brown seaweed, hydrogel formation with Ca2+, cell encapsulation",
+    "cost_per_kg": 180.0,
+    "confidence": 0.94
+  },
+
+  "Hyaluronic_Acid": {
+    "name": "Hyaluronic Acid",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9067-32-7",
+    "density": 1500.0,
+    "degradation_time_months": 1,
+    "notes": "ECM glycosaminoglycan, joint lubrication, dermal fillers, wound healing",
+    "cost_per_kg": 25000.0,
+    "confidence": 0.91
+  },
+
+  "Fibrin": {
+    "name": "Fibrin",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9001-32-5",
+    "density": 1380.0,
+    "degradation_time_months": 2,
+    "tensile_strength": 2.5,
+    "notes": "Blood clotting protein, fibrin glue, tissue sealant, cell delivery",
+    "cost_per_kg": 8500.0,
+    "confidence": 0.89
+  },
+
+  "Silk_Fibroin": {
+    "name": "Silk Fibroin",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9007-76-5",
+    "density": 1340.0,
+    "degradation_time_months": 12,
+    "tensile_strength": 500.0,
+    "youngs_modulus": 15.0,
+    "notes": "From silkworm cocoons, high strength, sutures, tissue scaffolds",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.90
+  },
+
+  "Hydroxyapatite": {
+    "name": "Hydroxyapatite",
+    "category": "biomaterial",
+    "subcategory": "bioceramic",
+    "cas_number": "1306-06-5",
+    "density": 3160.0,
+    "melting_point": 1670.0,
+    "compressive_strength": 500.0,
+    "youngs_modulus": 80.0,
+    "notes": "Ca10(PO4)6(OH)2, bone mineral component, bone grafts, dental implants",
+    "cost_per_kg": 850.0,
+    "confidence": 0.97
+  },
+
+  "Tricalcium_Phosphate": {
+    "name": "β-Tricalcium Phosphate",
+    "category": "biomaterial",
+    "subcategory": "bioceramic",
+    "cas_number": "7758-87-4",
+    "density": 3140.0,
+    "melting_point": 1670.0,
+    "compressive_strength": 480.0,
+    "youngs_modulus": 75.0,
+    "degradation_time_months": 6,
+    "notes": "Ca3(PO4)2, faster resorption than HA, bone cements, scaffolds",
+    "cost_per_kg": 750.0,
+    "confidence": 0.95
+  },
+
+  "Bioglass_45S5": {
+    "name": "Bioglass 45S5",
+    "category": "biomaterial",
+    "subcategory": "bioceramic",
+    "cas_number": "65997-17-3",
+    "density": 2700.0,
+    "glass_transition_temp": 550.0,
+    "compressive_strength": 500.0,
+    "youngs_modulus": 35.0,
+    "notes": "45% SiO2, 24.5% Na2O, 24.5% CaO, 6% P2O5, bone bonding, periodontal repair",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.93
+  },
+
+  "Calcium_Sulfate": {
+    "name": "Calcium Sulfate",
+    "category": "biomaterial",
+    "subcategory": "bioceramic",
+    "cas_number": "7778-18-9",
+    "density": 2960.0,
+    "compressive_strength": 12.0,
+    "degradation_time_months": 3,
+    "notes": "CaSO4·2H2O (gypsum), bone void filler, fast resorption",
+    "cost_per_kg": 250.0,
+    "confidence": 0.94
+  },
+
+  "PEG_Hydrogel": {
+    "name": "Polyethylene Glycol Diacrylate",
+    "category": "biomaterial",
+    "subcategory": "hydrogel",
+    "cas_number": "26570-48-9",
+    "density": 1120.0,
+    "water_content_percent": 90.0,
+    "youngs_modulus": 0.01,
+    "notes": "PEGDA, photo-crosslinkable, drug delivery, 3D bioprinting",
+    "cost_per_kg": 450.0,
+    "confidence": 0.94
+  },
+
+  "PVA_Hydrogel": {
+    "name": "Polyvinyl Alcohol",
+    "category": "biomaterial",
+    "subcategory": "hydrogel",
+    "cas_number": "9002-89-5",
+    "density": 1190.0,
+    "glass_transition_temp": 85.0,
+    "water_content_percent": 85.0,
+    "tensile_strength": 25.0,
+    "notes": "Freeze-thaw crosslinking, cartilage replacement, contact lenses",
+    "cost_per_kg": 180.0,
+    "confidence": 0.96
+  },
+
+  "GelMA": {
+    "name": "Gelatin Methacrylate",
+    "category": "biomaterial",
+    "subcategory": "hydrogel",
+    "cas_number": "55295-39-9",
+    "density": 1310.0,
+    "water_content_percent": 95.0,
+    "youngs_modulus": 0.005,
+    "notes": "Photo-crosslinkable gelatin, 3D bioprinting, cell encapsulation",
+    "cost_per_kg": 2800.0,
+    "confidence": 0.91
+  },
+
+  "Agarose": {
+    "name": "Agarose",
+    "category": "biomaterial",
+    "subcategory": "hydrogel",
+    "cas_number": "9012-36-6",
+    "density": 1640.0,
+    "melting_point": 85.0,
+    "water_content_percent": 98.0,
+    "youngs_modulus": 0.02,
+    "notes": "From seaweed, gel electrophoresis, cell culture, non-adhesive",
+    "cost_per_kg": 850.0,
+    "confidence": 0.96
+  },
+
+  "PDMS": {
+    "name": "Polydimethylsiloxane",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "9016-00-6",
+    "density": 970.0,
+    "glass_transition_temp": -125.0,
+    "tensile_strength": 7.0,
+    "youngs_modulus": 0.0025,
+    "notes": "Silicone elastomer, microfluidics, implants, oxygen permeable",
+    "cost_per_kg": 320.0,
+    "confidence": 0.97
+  },
+
+  "PEEK": {
+    "name": "Polyetheretherketone",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "31694-16-3",
+    "density": 1320.0,
+    "glass_transition_temp": 143.0,
+    "melting_point": 343.0,
+    "tensile_strength": 100.0,
+    "youngs_modulus": 3.6,
+    "notes": "High strength, radiolucent, spinal implants, bone modulus matching",
+    "cost_per_kg": 450.0,
+    "confidence": 0.96
+  },
+
+  "UHMWPE": {
+    "name": "Ultra-High Molecular Weight Polyethylene",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "9002-88-4",
+    "density": 930.0,
+    "melting_point": 135.0,
+    "tensile_strength": 45.0,
+    "youngs_modulus": 0.8,
+    "notes": "Ultra-low friction, joint replacements (knee, hip), wear resistant",
+    "cost_per_kg": 280.0,
+    "confidence": 0.97
+  },
+
+  "PU_Medical": {
+    "name": "Medical-Grade Polyurethane",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "9009-54-5",
+    "density": 1150.0,
+    "glass_transition_temp": -30.0,
+    "tensile_strength": 50.0,
+    "youngs_modulus": 0.05,
+    "notes": "Biostable, catheters, vascular grafts, pacemaker leads",
+    "cost_per_kg": 650.0,
+    "confidence": 0.93
+  },
+
+  "PMMA_Bone_Cement": {
+    "name": "PMMA Bone Cement",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "9011-14-7",
+    "density": 1180.0,
+    "glass_transition_temp": 105.0,
+    "compressive_strength": 90.0,
+    "youngs_modulus": 2.4,
+    "notes": "Polymethyl methacrylate, orthopedic cement, hip/knee fixation",
+    "cost_per_kg": 380.0,
+    "confidence": 0.96
+  },
+
+  "Decellularized_ECM": {
+    "name": "Decellularized Extracellular Matrix",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "density": 1100.0,
+    "degradation_time_months": 4,
+    "notes": "From porcine tissues, retains native ECM structure, tissue engineering",
+    "cost_per_kg": 15000.0,
+    "confidence": 0.85
+  },
+
+  "Elastin": {
+    "name": "Elastin",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9007-58-3",
+    "density": 1300.0,
+    "degradation_time_months": 8,
+    "tensile_strength": 2.0,
+    "notes": "ECM protein, vascular grafts, skin tissue engineering",
+    "cost_per_kg": 12000.0,
+    "confidence": 0.87
+  },
+
+  "Cellulose_Nanocrystals": {
+    "name": "Cellulose Nanocrystals",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9004-34-6",
+    "density": 1600.0,
+    "tensile_strength": 7500.0,
+    "youngs_modulus": 130.0,
+    "notes": "From wood pulp, high strength, drug delivery, tissue scaffolds",
+    "cost_per_kg": 450.0,
+    "confidence": 0.90
+  },
+
+  "Pectin": {
+    "name": "Pectin",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9000-69-5",
+    "density": 1540.0,
+    "degradation_time_months": 2,
+    "notes": "From citrus peels, hydrogel, oral drug delivery, colon targeting",
+    "cost_per_kg": 220.0,
+    "confidence": 0.92
+  },
+
+  "Dextran": {
+    "name": "Dextran",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9004-54-0",
+    "density": 1550.0,
+    "degradation_time_months": 3,
+    "notes": "Bacterial polysaccharide, blood plasma expander, nanoparticle coating",
+    "cost_per_kg": 850.0,
+    "confidence": 0.93
+  },
+
+  "Carbon_Fiber_Medical": {
+    "name": "Carbon Fiber (Medical Grade)",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "density": 1750.0,
+    "tensile_strength": 3500.0,
+    "youngs_modulus": 230.0,
+    "notes": "Radiolucent, high strength, orthopedic plates, external fixation",
+    "cost_per_kg": 1800.0,
+    "confidence": 0.94
+  },
+
+  "Zirconia_Medical": {
+    "name": "Yttria-Stabilized Zirconia",
+    "category": "biomaterial",
+    "subcategory": "bioceramic",
+    "cas_number": "1314-23-4",
+    "density": 6050.0,
+    "melting_point": 2715.0,
+    "compressive_strength": 2000.0,
+    "youngs_modulus": 210.0,
+    "notes": "ZrO2 with 3% Y2O3, dental crowns, hip implants, high strength",
+    "cost_per_kg": 950.0,
+    "confidence": 0.96
+  },
+
+  "Alumina_Medical": {
+    "name": "Medical-Grade Alumina",
+    "category": "biomaterial",
+    "subcategory": "bioceramic",
+    "cas_number": "1344-28-1",
+    "density": 3980.0,
+    "melting_point": 2072.0,
+    "compressive_strength": 4000.0,
+    "youngs_modulus": 380.0,
+    "notes": "Al2O3 99.9%, hip ball heads, dental implants, wear resistant",
+    "cost_per_kg": 650.0,
+    "confidence": 0.97
+  },
+
+  "Titanium_Medical": {
+    "name": "Titanium (Grade 4 Medical)",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "7440-32-6",
+    "density": 4510.0,
+    "melting_point": 1668.0,
+    "tensile_strength": 550.0,
+    "youngs_modulus": 110.0,
+    "notes": "CP Ti, dental implants, bone plates, osseointegration",
+    "cost_per_kg": 180.0,
+    "confidence": 0.98
+  },
+
+  "Ti6Al4V_ELI": {
+    "name": "Ti-6Al-4V ELI",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "12626-81-2",
+    "density": 4430.0,
+    "melting_point": 1660.0,
+    "tensile_strength": 860.0,
+    "youngs_modulus": 113.0,
+    "notes": "Extra Low Interstitials, hip/knee implants, high strength, biocompatible",
+    "cost_per_kg": 280.0,
+    "confidence": 0.97
+  },
+
+  "Nitinol": {
+    "name": "Nitinol",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "12035-60-8",
+    "density": 6450.0,
+    "melting_point": 1310.0,
+    "tensile_strength": 900.0,
+    "youngs_modulus": 83.0,
+    "notes": "NiTi shape memory alloy, stents, orthodontic wires, superelastic",
+    "cost_per_kg": 850.0,
+    "confidence": 0.96
+  },
+
+  "CoCrMo_Medical": {
+    "name": "Cobalt-Chromium-Molybdenum Alloy",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "11114-92-4",
+    "density": 8300.0,
+    "melting_point": 1400.0,
+    "tensile_strength": 900.0,
+    "youngs_modulus": 220.0,
+    "notes": "ASTM F75, hip/knee implants, dental prosthetics, wear resistant",
+    "cost_per_kg": 450.0,
+    "confidence": 0.96
+  },
+
+  "Stainless_316L": {
+    "name": "Stainless Steel 316L",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "12597-68-1",
+    "density": 8000.0,
+    "melting_point": 1400.0,
+    "tensile_strength": 540.0,
+    "youngs_modulus": 193.0,
+    "notes": "Low carbon, orthopedic plates/screws, cardiovascular stents",
+    "cost_per_kg": 85.0,
+    "confidence": 0.98
+  },
+
+  "Magnesium_Alloy_AZ31": {
+    "name": "Magnesium Alloy AZ31",
+    "category": "biomaterial",
+    "subcategory": "medical_grade_polymer",
+    "cas_number": "37251-69-7",
+    "density": 1780.0,
+    "melting_point": 630.0,
+    "tensile_strength": 260.0,
+    "youngs_modulus": 45.0,
+    "degradation_time_months": 12,
+    "notes": "Biodegradable metal, bone screws, stents, Mg-3%Al-1%Zn",
+    "cost_per_kg": 320.0,
+    "confidence": 0.91
+  },
+
+  "Calcium_Phosphate_Cement": {
+    "name": "Calcium Phosphate Cement",
+    "category": "biomaterial",
+    "subcategory": "bioceramic",
+    "density": 2500.0,
+    "compressive_strength": 60.0,
+    "degradation_time_months": 12,
+    "notes": "Injectable, self-setting, bone defects, vertebroplasty",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.93
+  },
+
+  "Bacterial_Cellulose": {
+    "name": "Bacterial Cellulose",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "cas_number": "9004-34-6",
+    "density": 1600.0,
+    "tensile_strength": 200.0,
+    "youngs_modulus": 15.0,
+    "water_content_percent": 99.0,
+    "notes": "From bacteria, high purity, wound dressings, artificial blood vessels",
+    "cost_per_kg": 1500.0,
+    "confidence": 0.89
+  },
+
+  "Polydioxanone": {
+    "name": "Polydioxanone",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "cas_number": "31621-87-1",
+    "density": 1340.0,
+    "glass_transition_temp": -10.0,
+    "melting_point": 115.0,
+    "degradation_time_months": 6,
+    "tensile_strength": 450.0,
+    "notes": "PDS sutures, monofilament, slower degradation, flexible",
+    "cost_per_kg": 1200.0,
+    "confidence": 0.94
+  },
+
+  "Polyhydroxybutyrate": {
+    "name": "Polyhydroxybutyrate",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "cas_number": "29435-48-1",
+    "density": 1250.0,
+    "glass_transition_temp": 5.0,
+    "melting_point": 175.0,
+    "degradation_time_months": 8,
+    "tensile_strength": 40.0,
+    "notes": "PHB, bacterial polyester, sutures, drug delivery, brittle",
+    "cost_per_kg": 650.0,
+    "confidence": 0.90
+  },
+
+  "Polyanhydride": {
+    "name": "Polyanhydride",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "density": 1200.0,
+    "glass_transition_temp": 60.0,
+    "degradation_time_months": 1,
+    "notes": "Surface-eroding degradation, controlled drug release, Gliadel wafers",
+    "cost_per_kg": 2500.0,
+    "confidence": 0.88
+  },
+
+  "Polyorthoester": {
+    "name": "Polyorthoester",
+    "category": "biomaterial",
+    "subcategory": "biodegradable_polymer",
+    "density": 1180.0,
+    "glass_transition_temp": 45.0,
+    "degradation_time_months": 3,
+    "notes": "pH-sensitive degradation, controlled drug delivery, hydrophobic",
+    "cost_per_kg": 3200.0,
+    "confidence": 0.86
+  },
+
+  "Matrigel": {
+    "name": "Matrigel",
+    "category": "biomaterial",
+    "subcategory": "natural_polymer",
+    "density": 1050.0,
+    "degradation_time_months": 2,
+    "notes": "ECM extract from mouse sarcoma, 3D cell culture, organoids, tumor models",
+    "cost_per_kg": 125000.0,
+    "confidence": 0.90
+  }
+}
