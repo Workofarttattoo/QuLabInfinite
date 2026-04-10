@@ -6,6 +6,6 @@
 **Learning:** Found a critical bug (immutable sparse matrix assignment) in `thermodynamics_grid.py` only because I wrote a benchmark script. The existing test suite did not cover this module.
 **Action:** When optimizing, if no specific test exists for the target module, write a reproduction/benchmark script first to verify it works at all.
 
-## 2025-05-22 - Floyd-Warshall Vectorization Optimization
-**Learning:** The floyd_warshall method in algorithm_design_lab.py is bottlenecked by O(V^3) nested Python loops. This can be optimized drastically by replacing the inner two loops with a vectorized NumPy broadcasting approach (np.minimum(dist, dist[:, k:k+1] + dist[k:k+1, :])), reducing execution time for graph path calculations by orders of magnitude.
-**Action:** When implementing algorithms over large adjacency matrices, always replace explicit nested loops with vectorized operations where possible, as pure Python loops impose severe overhead compared to NumPy's compiled backend.
+## 2025-03-05 - [Optimize edit distance string assignment]
+**Learning:** Initializing 2D NumPy arrays using `np.zeros` for string distance comparisons incurs a heavy performance penalty in standard Python loops due to extensive element-by-element scalar assignment overhead. Since `edit_distance` returns just an integer and operations only ever rely on row values of `prev_row` and `curr_row`, the O(M*N) memory layout can be completely bypassed for performance.
+**Action:** When performing dynamic programming that does not require saving every state vector or array across iterations, downgrade 2D structures to 1D when the result relies only on immediate adjacent bounds. In pure python `for` loops with scalar updates, consider native Python list elements over NumPy matrices.
