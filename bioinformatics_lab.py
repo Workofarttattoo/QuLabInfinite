@@ -287,63 +287,60 @@ class BioinformaticsLab:
         return tree
 
     def _neighbor_joining(self, dist_matrix: np.ndarray) -> np.ndarray:
-        """Implementation of neighbor-joining algorithm."""
+        """
+        Implementation of neighbor-joining algorithm.
+        Optimized by Bolt ⚡ to use pure NumPy vectorization instead of O(N^2) loops.
+        """
         n = dist_matrix.shape[0]
 
         if n <= 2:
             return dist_matrix
 
-        # Calculate Q matrix
-        q_matrix = np.zeros((n, n))
-        for i in range(n):
-            for j in range(n):
-                if i != j:
-                    row_sum = np.sum(dist_matrix[i, :])
-                    col_sum = np.sum(dist_matrix[:, j])
-                    q_matrix[i, j] = (n - 2) * dist_matrix[i, j] - row_sum - col_sum
+        # Vectorized Q matrix calculation
+        row_sums = np.sum(dist_matrix, axis=1) # Shape: (N,)
+        col_sums = np.sum(dist_matrix, axis=0) # Shape: (N,)
 
-        # Find minimum Q value
-        min_val = float('inf')
-        min_pair = (0, 1)
-        for i in range(n):
-            for j in range(i + 1, n):
-                if q_matrix[i, j] < min_val:
-                    min_val = q_matrix[i, j]
-                    min_pair = (i, j)
+        # Broadcasting to calculate Q-matrix in O(1) NumPy operations instead of nested loops
+        q_matrix = (n - 2) * dist_matrix - row_sums[:, np.newaxis] - col_sums[np.newaxis, :]
 
-        # Join the pair with minimum Q value
-        i, j = min_pair
+        # Ignore diagonal elements
+        np.fill_diagonal(q_matrix, np.inf)
+
+        # Find minimum Q value efficiently using argmin
+        min_idx = np.argmin(q_matrix)
+        i, j = np.unravel_index(min_idx, q_matrix.shape)
+
+        # Ensure i < j
+        if i > j:
+            i, j = j, i
 
         # Calculate branch lengths
-        sum_i = np.sum(dist_matrix[i, :])
-        sum_j = np.sum(dist_matrix[j, :])
+        sum_i = row_sums[i]
+        sum_j = row_sums[j]
 
         branch_i = 0.5 * dist_matrix[i, j] + (sum_i - sum_j) / (2 * (n - 2))
         branch_j = dist_matrix[i, j] - branch_i
 
-        # Create new distance matrix
+        # Create new distance matrix using advanced numpy indexing
         new_n = n - 1
         new_dist = np.zeros((new_n, new_n))
 
-        # Copy unchanged distances
-        row_idx = 0
-        for r in range(n):
-            if r in min_pair:
-                continue
-            col_idx = 0
-            for c in range(n):
-                if c in min_pair:
-                    continue
-                new_dist[row_idx, col_idx] = dist_matrix[r, c]
-                col_idx += 1
-            row_idx += 1
+        # Mask to keep all rows except i and j
+        keep = np.ones(n, dtype=bool)
+        keep[i] = False
+        keep[j] = False
 
-        # Calculate distances to new node
-        for k in range(n):
-            if k not in min_pair:
-                new_dist_val = 0.5 * (dist_matrix[i, k] + dist_matrix[j, k] - dist_matrix[i, j])
-                idx = sum(1 for x in range(k) if x not in min_pair)
-                new_dist[new_n-1, idx] = new_dist[idx, new_n-1] = new_dist_val
+        # Copy distances between untouched nodes in one operation
+        sub_dist = dist_matrix[keep][:, keep]
+        new_dist[:new_n-1, :new_n-1] = sub_dist
+
+        # Vectorized calculation of distances to new node
+        k_indices = np.where(keep)[0]
+        new_dists = 0.5 * (dist_matrix[i, k_indices] + dist_matrix[j, k_indices] - dist_matrix[i, j])
+
+        # Assign new distances
+        new_dist[new_n-1, :new_n-1] = new_dists
+        new_dist[:new_n-1, new_n-1] = new_dists
 
         return new_dist
 
