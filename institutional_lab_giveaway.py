@@ -9,6 +9,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, EmailStr
 from typing import Dict, Any, List
 import json
+import asyncio
 from pathlib import Path
 from datetime import datetime
 
@@ -216,8 +217,9 @@ async def apply_for_lab(request: InstitutionRequest):
         )
 
     # Save request
-    if REQUESTS_FILE.exists():
-        requests = json.loads(REQUESTS_FILE.read_text())
+    if await asyncio.to_thread(REQUESTS_FILE.exists):
+        content = await asyncio.to_thread(REQUESTS_FILE.read_text)
+        requests = json.loads(content)
     else:
         requests = []
 
@@ -239,7 +241,7 @@ async def apply_for_lab(request: InstitutionRequest):
     }
 
     requests.append(application)
-    REQUESTS_FILE.write_text(json.dumps(requests, indent=2))
+    await asyncio.to_thread(REQUESTS_FILE.write_text, json.dumps(requests, indent=2))
 
     return {
         "status": "Application received!",
@@ -267,10 +269,11 @@ async def apply_for_lab(request: InstitutionRequest):
 @app.get("/applications")
 async def view_applications():
     """View all pending applications (admin only in production)"""
-    if not REQUESTS_FILE.exists():
+    if not await asyncio.to_thread(REQUESTS_FILE.exists):
         return {"applications": [], "total": 0}
 
-    requests = json.loads(REQUESTS_FILE.read_text())
+    content = await asyncio.to_thread(REQUESTS_FILE.read_text)
+    requests = json.loads(content)
     return {
         "total_applications": len(requests),
         "pending": len([r for r in requests if r["status"] == "pending_review"]),
