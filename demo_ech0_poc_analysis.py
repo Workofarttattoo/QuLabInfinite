@@ -256,7 +256,7 @@ def create_lab_demo_package(materials_list, analysis_results):
     # Save package
     output_path = "/Users/noone/QuLabInfinite/data/ech0_poc_demo_package.json"
     with open(output_path, 'w') as f:
-        json.dump(, default=strdemo_package, f, indent=2)
+        json.dump(demo_package, f, indent=2, default=str)
 
     logging.info("\n" + "="*80)
     logging.info("✅ DEMO PACKAGE CREATED")
