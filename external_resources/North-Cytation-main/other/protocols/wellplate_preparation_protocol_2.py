@@ -176,7 +176,7 @@ def check_next_vial(recipe_df, curr_column, curr_vial_name, curr_step) :
     """
     if curr_step == len(recipe_df)-1: 
         return False, curr_step
-    elif curr_vial_name == recipe_df[curr_column].loc[curr_step+1]: #TODO: check if enough volume (or if check_enough_volume already does)
+    elif curr_vial_name == recipe_df[curr_column].loc[curr_step+1]: # check_enough_volume already validates total required volume for the protocol
         return True, curr_step+1
     else:
         return False, curr_step
