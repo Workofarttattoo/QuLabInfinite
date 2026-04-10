@@ -43,7 +43,13 @@ class QuLabKillerQuestions:
 
     def _build_killer_questions(self) -> Dict[str, KillerQuestion]:
         """Build the 10 killer questions"""
+        questions = {}
+        questions.update(self._build_fundamental_physics_questions())
+        questions.update(self._build_applied_physics_questions())
+        return questions
 
+    def _build_fundamental_physics_questions(self) -> Dict[str, KillerQuestion]:
+        """Build questions related to fundamental physics principles (K1-K5)"""
         return {
             "K1": KillerQuestion(
                 id="K1",
@@ -138,8 +144,12 @@ class QuLabKillerQuestions:
                     "Why do crystals form from melts?",
                     "How does temperature affect entropy?"
                 ]
-            ),
+            )
+        }
 
+    def _build_applied_physics_questions(self) -> Dict[str, KillerQuestion]:
+        """Build questions related to applied physics and materials (K6-K10)"""
+        return {
             "K6": KillerQuestion(
                 id="K6",
                 title="Quantum Tunneling Limits",
