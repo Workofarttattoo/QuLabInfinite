@@ -11,8 +11,13 @@ from typing import Dict, Any, List
 import json
 from pathlib import Path
 from datetime import datetime
+import asyncio
 
 app = FastAPI(title="QuLab Institutional Program", version="1.0.0")
+
+# Lock to ensure atomic read-modify-write for JSON file
+file_lock = asyncio.Lock()
+
 
 class InstitutionRequest(BaseModel):
     institution_name: str
@@ -216,10 +221,14 @@ async def apply_for_lab(request: InstitutionRequest):
         )
 
     # Save request
-    if REQUESTS_FILE.exists():
-        requests = json.loads(REQUESTS_FILE.read_text())
-    else:
-        requests = []
+    # Offload blocking file I/O to a thread to prevent blocking the async event loop
+    def _read_requests():
+        if REQUESTS_FILE.exists():
+            return json.loads(REQUESTS_FILE.read_text())
+        return []
+
+    def _write_requests(data):
+        REQUESTS_FILE.write_text(json.dumps(data, indent=2))
 
     application = {
         "timestamp": datetime.now().isoformat(),
@@ -238,8 +247,10 @@ async def apply_for_lab(request: InstitutionRequest):
         "commercial_value": LAB_CATALOG[request.lab_requested]["value"]
     }
 
-    requests.append(application)
-    REQUESTS_FILE.write_text(json.dumps(requests, indent=2))
+    async with file_lock:
+        requests = await asyncio.to_thread(_read_requests)
+        requests.append(application)
+        await asyncio.to_thread(_write_requests, requests)
 
     return {
         "status": "Application received!",
@@ -267,10 +278,15 @@ async def apply_for_lab(request: InstitutionRequest):
 @app.get("/applications")
 async def view_applications():
     """View all pending applications (admin only in production)"""
-    if not REQUESTS_FILE.exists():
-        return {"applications": [], "total": 0}
+    def _read_requests():
+        if not REQUESTS_FILE.exists():
+            return None
+        return json.loads(REQUESTS_FILE.read_text())
 
-    requests = json.loads(REQUESTS_FILE.read_text())
+    requests = await asyncio.to_thread(_read_requests)
+
+    if requests is None:
+        return {"applications": [], "total": 0}
     return {
         "total_applications": len(requests),
         "pending": len([r for r in requests if r["status"] == "pending_review"]),
