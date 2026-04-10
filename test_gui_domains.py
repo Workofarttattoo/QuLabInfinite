@@ -14,7 +14,7 @@ def test_gui_system():
     # Test 1: Check medical GUI
     print("\n1️⃣ Testing Medical GUI Access...")
     try:
-        from qulab_gui_access import ensure_web_gui_running, show_medical_gui_info
+        from qulab_gui_access import ensure_web_gui_running
         if ensure_web_gui_running():
             print("✅ Medical GUI server is running")
             # Don't actually show the info to avoid spam
