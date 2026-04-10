@@ -17,6 +17,7 @@ import os
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 import logging
+from cachetools import TTLCache, cached
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -29,6 +30,9 @@ app = FastAPI(
 
 # Database connection
 DB_PATH = Path("data/materials_comprehensive.db")
+
+# Cache for expensive stats endpoint
+stats_cache = TTLCache(maxsize=1, ttl=3600)
 
 
 def get_db():
@@ -69,6 +73,11 @@ async def health():
 @app.get("/stats")
 async def get_stats():
     """Get database statistics"""
+    return _compute_stats()
+
+@cached(cache=stats_cache)
+def _compute_stats():
+    """Compute database statistics and cache them"""
     conn = get_db()
     cursor = conn.cursor()
 

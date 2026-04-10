@@ -27,3 +27,4 @@ torch
 huggingface-hub
 google-cloud-storage
 google-cloud-aiplatform
+cachetools==7.0.5
