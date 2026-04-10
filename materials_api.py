@@ -67,7 +67,7 @@ async def health():
 
 
 @app.get("/stats")
-async def get_stats():
+def get_stats():
     """Get database statistics"""
     conn = get_db()
     cursor = conn.cursor()
@@ -115,7 +115,7 @@ async def get_stats():
 
 
 @app.get("/search")
-async def search(
+def search(
     formula: Optional[str] = Query(None, description="Chemical formula (partial match)"),
     category: Optional[str] = Query(None, description="Material category (metal, ceramic, polymer, etc)"),
     min_density: Optional[float] = Query(None, description="Minimum density (g/cm³)"),
@@ -191,7 +191,7 @@ async def search(
 
     conn.close()
 
-    return {
+    return JSONResponse({
         "query": {
             "formula": formula,
             "category": category,
@@ -200,11 +200,11 @@ async def search(
         },
         "results": results,
         "count": len(results)
-    }
+    })
 
 
 @app.get("/material/{material_id}")
-async def get_material(material_id: str):
+def get_material(material_id: str):
     """Get specific material by ID"""
     conn = get_db()
     cursor = conn.cursor()
@@ -226,7 +226,7 @@ async def get_material(material_id: str):
 
 
 @app.get("/categories")
-async def get_categories():
+def get_categories():
     """Get all available material categories"""
     conn = get_db()
     cursor = conn.cursor()
@@ -243,7 +243,7 @@ async def get_categories():
 
 
 @app.get("/recommend")
-async def recommend(
+def recommend(
     use_case: str = Query(..., description="Use case: structural, thermal, electrical, optical"),
     constraint_density_max: Optional[float] = Query(None, description="Max density constraint"),
     constraint_cost_max: Optional[float] = Query(None, description="Max cost constraint"),
