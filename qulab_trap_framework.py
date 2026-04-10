@@ -429,15 +429,9 @@ class QuLabTrapFramework:
         self.test_questions = self._build_test_suite()
         self.results_history = []
 
-    def _build_test_suite(self) -> List[TestQuestion]:
-        """Build the comprehensive test suite with all four branches"""
-
-        questions = []
-
-        # ===== BRANCH A: Rediscovery Tests (weight ≈ 0.40) =====
-        # Ask QuLab to rediscover materials that already exist but don't tell it they exist
-
-        questions.extend([
+    def _build_rediscovery_tests(self) -> List[TestQuestion]:
+        """Build Branch A: Rediscovery Tests (weight ≈ 0.40)"""
+        return [
             TestQuestion(
                 id="A1",
                 branch="rediscovery",
@@ -449,7 +443,6 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="medium"
             ),
-
             TestQuestion(
                 id="A2",
                 branch="rediscovery",
@@ -461,7 +454,6 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="hard"
             ),
-
             TestQuestion(
                 id="A3",
                 branch="rediscovery",
@@ -473,12 +465,11 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="expert"
             )
-        ])
+        ]
 
-        # ===== BRANCH B: Physics Sanity Checks (weight ≈ 0.25) =====
-        # Ask questions that force obedience to hard physical limits
-
-        questions.extend([
+    def _build_physics_sanity_tests(self) -> List[TestQuestion]:
+        """Build Branch B: Physics Sanity Checks (weight ≈ 0.25)"""
+        return [
             TestQuestion(
                 id="B1",
                 branch="physics_sanity",
@@ -488,7 +479,6 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="medium"
             ),
-
             TestQuestion(
                 id="B2",
                 branch="physics_sanity",
@@ -498,7 +488,6 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="hard"
             ),
-
             TestQuestion(
                 id="B3",
                 branch="physics_sanity",
@@ -508,12 +497,11 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="expert"
             )
-        ])
+        ]
 
-        # ===== BRANCH C: Database Cross-Matching (weight ≈ 0.20) =====
-        # Ask QuLab to predict materials with specific measurable properties, then check against known datasets
-
-        questions.extend([
+    def _build_database_matching_tests(self) -> List[TestQuestion]:
+        """Build Branch C: Database Cross-Matching (weight ≈ 0.20)"""
+        return [
             TestQuestion(
                 id="C1",
                 branch="database_matching",
@@ -525,7 +513,6 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="hard"
             ),
-
             TestQuestion(
                 id="C2",
                 branch="database_matching",
@@ -537,12 +524,11 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="expert"
             )
-        ])
+        ]
 
-        # ===== BRANCH D: Impossible Material Trap (weight ≈ 0.15) =====
-        # Give deliberately impossible targets
-
-        questions.extend([
+    def _build_impossible_trap_tests(self) -> List[TestQuestion]:
+        """Build Branch D: Impossible Material Trap (weight ≈ 0.15)"""
+        return [
             TestQuestion(
                 id="D1",
                 branch="impossible_trap",
@@ -552,7 +538,6 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="medium"
             ),
-
             TestQuestion(
                 id="D2",
                 branch="impossible_trap",
@@ -562,7 +547,6 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="hard"
             ),
-
             TestQuestion(
                 id="D3",
                 branch="impossible_trap",
@@ -572,8 +556,15 @@ class QuLabTrapFramework:
                 weight=1.0,
                 difficulty="expert"
             )
-        ])
+        ]
 
+    def _build_test_suite(self) -> List[TestQuestion]:
+        """Build the comprehensive test suite with all four branches"""
+        questions = []
+        questions.extend(self._build_rediscovery_tests())
+        questions.extend(self._build_physics_sanity_tests())
+        questions.extend(self._build_database_matching_tests())
+        questions.extend(self._build_impossible_trap_tests())
         return questions
 
     def run_test_question(self, question_id: str) -> TestResult:
@@ -784,55 +775,56 @@ class QuLabTrapFramework:
                 'confidence': 0.0
             }
 
+    def _validate_conductivity_realistic(self, materials: List[Dict[str, Any]]) -> bool:
+        """Check if predicted conductivity is physically reasonable"""
+        for material in materials:
+            conductivity = material.get('properties', {}).get('conductivity', 0)
+            if conductivity > 1e8:  # Unrealistically high conductivity
+                return False
+        return True
+
+    def _validate_conductivity_limit_copper(self, materials: List[Dict[str, Any]]) -> bool:
+        """Check against copper conductivity limit"""
+        copper_conductivity = 5.96e7  # S/m
+        for material in materials:
+            conductivity = material.get('properties', {}).get('conductivity', 0)
+            if conductivity > copper_conductivity * 1.1:  # More than 10% better than copper
+                return False
+        return True
+
+    def _validate_noble_gas_chemistry(self, materials: List[Dict[str, Any]]) -> bool:
+        """Check that noble gases don't form stable compounds"""
+        for material in materials:
+            formula = material.get('formula', '')
+            if 'He' in formula or 'Ar' in formula:
+                return False
+        return True
+
+    def _validate_bandgap_conductivity_contradiction(self, materials: List[Dict[str, Any]]) -> bool:
+        """Check that high bandgap does not have high conductivity"""
+        for material in materials:
+            props = material.get('properties', {})
+            band_gap = props.get('band_gap', 0)
+            conductivity = props.get('conductivity', 0)
+            if band_gap > 5 and conductivity > 1e3:
+                return False
+        return True
+
     def _validate_physics_constraints(self, question: TestQuestion, response: Dict[str, Any]) -> Dict[str, bool]:
         """Validate physics constraints for the question"""
 
         validation_results = {}
+        materials = response.get('materials', [])
 
         for constraint in question.physics_constraints:
             if constraint == "conductivity_realistic":
-                # Check if predicted conductivity is physically reasonable
-                materials = response.get('materials', [])
-                for material in materials:
-                    conductivity = material.get('properties', {}).get('conductivity', 0)
-                    if conductivity > 1e8:  # Unrealistically high conductivity
-                        validation_results[constraint] = False
-                    else:
-                        validation_results[constraint] = True
-
+                validation_results[constraint] = self._validate_conductivity_realistic(materials)
             elif constraint == "conductivity_limit_copper":
-                # Copper conductivity limit check
-                materials = response.get('materials', [])
-                copper_conductivity = 5.96e7  # S/m
-                for material in materials:
-                    conductivity = material.get('properties', {}).get('conductivity', 0)
-                    if conductivity > copper_conductivity * 1.1:  # More than 10% better than copper
-                        validation_results[constraint] = False
-                    else:
-                        validation_results[constraint] = True
-
+                validation_results[constraint] = self._validate_conductivity_limit_copper(materials)
             elif constraint == "noble_gas_chemistry":
-                # Noble gases don't form stable compounds
-                materials = response.get('materials', [])
-                for material in materials:
-                    formula = material.get('formula', '')
-                    if 'He' in formula or 'Ar' in formula:
-                        validation_results[constraint] = False
-                    else:
-                        validation_results[constraint] = True
-
+                validation_results[constraint] = self._validate_noble_gas_chemistry(materials)
             elif constraint == "bandgap_conductivity_contradiction":
-                # High bandgap can't have high conductivity
-                materials = response.get('materials', [])
-                for material in materials:
-                    props = material.get('properties', {})
-                    band_gap = props.get('band_gap', 0)
-                    conductivity = props.get('conductivity', 0)
-                    if band_gap > 5 and conductivity > 1e3:
-                        validation_results[constraint] = False
-                    else:
-                        validation_results[constraint] = True
-
+                validation_results[constraint] = self._validate_bandgap_conductivity_contradiction(materials)
             else:
                 validation_results[constraint] = True  # Default pass
 
