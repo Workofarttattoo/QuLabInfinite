@@ -1,0 +1,404 @@
+{
+  "BREAST_CANCER": {
+    "STAGE_I": {
+      "carrying_capacity": 510000000.0,
+      "drug_sensitivity": 1.2075,
+      "gompertz_retardation": 0.0015999999999999999,
+      "growth_rate": 0.02025,
+      "microenvironment": {
+        "glucose_mm": 11.0,
+        "lactate_mm": 7.5,
+        "oxygen_percent": 8.0,
+        "ros_um": 4.0
+      }
+    },
+    "STAGE_II": {
+      "carrying_capacity": 850000000.0,
+      "drug_sensitivity": 1.05,
+      "gompertz_retardation": 0.0012,
+      "growth_rate": 0.027,
+      "microenvironment": {
+        "glucose_mm": 11.0,
+        "lactate_mm": 7.5,
+        "oxygen_percent": 8.0,
+        "ros_um": 4.0
+      }
+    },
+    "STAGE_III": {
+      "carrying_capacity": 1020000000.0,
+      "drug_sensitivity": 0.8400000000000001,
+      "gompertz_retardation": 0.0009599999999999999,
+      "growth_rate": 0.03375,
+      "microenvironment": {
+        "glucose_mm": 11.0,
+        "lactate_mm": 10.5,
+        "oxygen_percent": 8.0,
+        "ph_level": 6.6,
+        "ros_um": 4.0
+      }
+    },
+    "STAGE_IV": {
+      "carrying_capacity": 1147500000.0,
+      "drug_sensitivity": 0.6825000000000001,
+      "gompertz_retardation": 0.0008275862068965517,
+      "growth_rate": 0.03915,
+      "microenvironment": {
+        "cytokine_pg_ml": 80.0,
+        "glucose_mm": 17.0,
+        "lactate_mm": 12.5,
+        "oxygen_percent": 0.5,
+        "ph_level": 6.4,
+        "ros_um": 4.0
+      }
+    }
+  },
+  "COLORECTAL_CANCER": {
+    "STAGE_I": {
+      "carrying_capacity": 540000000.0,
+      "drug_sensitivity": 1.035,
+      "gompertz_retardation": 0.0014666666666666667,
+      "growth_rate": 0.02325,
+      "microenvironment": {
+        "glucose_mm": 14.0,
+        "glutamine_mm": 2.2,
+        "lactate_mm": 8.5
+      }
+    },
+    "STAGE_II": {
+      "carrying_capacity": 900000000.0,
+      "drug_sensitivity": 0.9,
+      "gompertz_retardation": 0.0011,
+      "growth_rate": 0.031,
+      "microenvironment": {
+        "glucose_mm": 14.0,
+        "glutamine_mm": 2.2,
+        "lactate_mm": 8.5
+      }
+    },
+    "STAGE_III": {
+      "carrying_capacity": 1080000000.0,
+      "drug_sensitivity": 0.7200000000000001,
+      "gompertz_retardation": 0.00088,
+      "growth_rate": 0.03875,
+      "microenvironment": {
+        "glucose_mm": 14.0,
+        "glutamine_mm": 2.2,
+        "lactate_mm": 10.5,
+        "ph_level": 6.6
+      }
+    },
+    "STAGE_IV": {
+      "carrying_capacity": 1215000000.0,
+      "drug_sensitivity": 0.5850000000000001,
+      "gompertz_retardation": 0.0007586206896551725,
+      "growth_rate": 0.04495,
+      "microenvironment": {
+        "cytokine_pg_ml": 80.0,
+        "glucose_mm": 17.0,
+        "glutamine_mm": 2.2,
+        "lactate_mm": 12.5,
+        "oxygen_percent": 0.5,
+        "ph_level": 6.4
+      }
+    }
+  },
+  "GLIOBLASTOMA": {
+    "STAGE_I": {
+      "carrying_capacity": 720000000.0,
+      "drug_sensitivity": 0.8049999999999999,
+      "gompertz_retardation": 0.0011333333333333332,
+      "growth_rate": 0.028499999999999998,
+      "microenvironment": {
+        "calcium_um": 650.0,
+        "glucose_mm": 12.5,
+        "oxygen_percent": 2.0
+      }
+    },
+    "STAGE_II": {
+      "carrying_capacity": 1200000000.0,
+      "drug_sensitivity": 0.7,
+      "gompertz_retardation": 0.00085,
+      "growth_rate": 0.038,
+      "microenvironment": {
+        "calcium_um": 650.0,
+        "glucose_mm": 12.5,
+        "oxygen_percent": 2.0
+      }
+    },
+    "STAGE_III": {
+      "carrying_capacity": 1440000000.0,
+      "drug_sensitivity": 0.5599999999999999,
+      "gompertz_retardation": 0.0006799999999999999,
+      "growth_rate": 0.0475,
+      "microenvironment": {
+        "calcium_um": 650.0,
+        "glucose_mm": 12.5,
+        "lactate_mm": 10.5,
+        "oxygen_percent": 2.0,
+        "ph_level": 6.6
+      }
+    },
+    "STAGE_IV": {
+      "carrying_capacity": 1620000000.0,
+      "drug_sensitivity": 0.45499999999999996,
+      "gompertz_retardation": 0.0005862068965517242,
+      "growth_rate": 0.055099999999999996,
+      "microenvironment": {
+        "calcium_um": 650.0,
+        "cytokine_pg_ml": 80.0,
+        "glucose_mm": 17.0,
+        "lactate_mm": 12.5,
+        "oxygen_percent": 0.5,
+        "ph_level": 6.4
+      }
+    }
+  },
+  "LUNG_CANCER": {
+    "STAGE_I": {
+      "carrying_capacity": 570000000.0,
+      "drug_sensitivity": 1.0924999999999998,
+      "gompertz_retardation": 0.0012,
+      "growth_rate": 0.025500000000000002,
+      "microenvironment": {
+        "glucose_mm": 13.0,
+        "oxygen_percent": 5.0,
+        "ros_um": 5.5
+      }
+    },
+    "STAGE_II": {
+      "carrying_capacity": 950000000.0,
+      "drug_sensitivity": 0.95,
+      "gompertz_retardation": 0.0009,
+      "growth_rate": 0.034,
+      "microenvironment": {
+        "glucose_mm": 13.0,
+        "oxygen_percent": 5.0,
+        "ros_um": 5.5
+      }
+    },
+    "STAGE_III": {
+      "carrying_capacity": 1140000000.0,
+      "drug_sensitivity": 0.76,
+      "gompertz_retardation": 0.0007199999999999999,
+      "growth_rate": 0.0425,
+      "microenvironment": {
+        "glucose_mm": 13.0,
+        "lactate_mm": 10.5,
+        "oxygen_percent": 5.0,
+        "ph_level": 6.6,
+        "ros_um": 5.5
+      }
+    },
+    "STAGE_IV": {
+      "carrying_capacity": 1282500000.0,
+      "drug_sensitivity": 0.6174999999999999,
+      "gompertz_retardation": 0.0006206896551724138,
+      "growth_rate": 0.049300000000000004,
+      "microenvironment": {
+        "cytokine_pg_ml": 80.0,
+        "glucose_mm": 17.0,
+        "lactate_mm": 12.5,
+        "oxygen_percent": 0.5,
+        "ph_level": 6.4,
+        "ros_um": 5.5
+      }
+    }
+  },
+  "MELANOMA": {
+    "STAGE_I": {
+      "carrying_capacity": 480000000.0,
+      "drug_sensitivity": 1.265,
+      "gompertz_retardation": 0.0013333333333333333,
+      "growth_rate": 0.021750000000000002,
+      "microenvironment": {
+        "oxygen_percent": 6.0,
+        "ros_um": 6.0
+      }
+    },
+    "STAGE_II": {
+      "carrying_capacity": 800000000.0,
+      "drug_sensitivity": 1.1,
+      "gompertz_retardation": 0.001,
+      "growth_rate": 0.029,
+      "microenvironment": {
+        "oxygen_percent": 6.0,
+        "ros_um": 6.0
+      }
+    },
+    "STAGE_III": {
+      "carrying_capacity": 960000000.0,
+      "drug_sensitivity": 0.8800000000000001,
+      "gompertz_retardation": 0.0008,
+      "growth_rate": 0.036250000000000004,
+      "microenvironment": {
+        "lactate_mm": 10.5,
+        "oxygen_percent": 6.0,
+        "ph_level": 6.6,
+        "ros_um": 6.0
+      }
+    },
+    "STAGE_IV": {
+      "carrying_capacity": 1080000000.0,
+      "drug_sensitivity": 0.7150000000000001,
+      "gompertz_retardation": 0.0006896551724137932,
+      "growth_rate": 0.042050000000000004,
+      "microenvironment": {
+        "cytokine_pg_ml": 80.0,
+        "glucose_mm": 17.0,
+        "lactate_mm": 12.5,
+        "oxygen_percent": 0.5,
+        "ph_level": 6.4,
+        "ros_um": 6.0
+      }
+    }
+  },
+  "OVARIAN_CANCER": {
+    "STAGE_I": {
+      "carrying_capacity": 552000000.0,
+      "drug_sensitivity": 0.9774999999999999,
+      "gompertz_retardation": 0.0013333333333333333,
+      "growth_rate": 0.024,
+      "microenvironment": {
+        "cytokine_pg_ml": 60.0,
+        "glucose_mm": 12.5,
+        "oxygen_percent": 4.0
+      }
+    },
+    "STAGE_II": {
+      "carrying_capacity": 920000000.0,
+      "drug_sensitivity": 0.85,
+      "gompertz_retardation": 0.001,
+      "growth_rate": 0.032,
+      "microenvironment": {
+        "cytokine_pg_ml": 60.0,
+        "glucose_mm": 12.5,
+        "oxygen_percent": 4.0
+      }
+    },
+    "STAGE_III": {
+      "carrying_capacity": 1104000000.0,
+      "drug_sensitivity": 0.68,
+      "gompertz_retardation": 0.0008,
+      "growth_rate": 0.04,
+      "microenvironment": {
+        "cytokine_pg_ml": 60.0,
+        "glucose_mm": 12.5,
+        "lactate_mm": 10.5,
+        "oxygen_percent": 4.0,
+        "ph_level": 6.6
+      }
+    },
+    "STAGE_IV": {
+      "carrying_capacity": 1242000000.0,
+      "drug_sensitivity": 0.5525,
+      "gompertz_retardation": 0.0006896551724137932,
+      "growth_rate": 0.0464,
+      "microenvironment": {
+        "cytokine_pg_ml": 80.0,
+        "glucose_mm": 17.0,
+        "lactate_mm": 12.5,
+        "oxygen_percent": 0.5,
+        "ph_level": 6.4
+      }
+    }
+  },
+  "PANCREATIC_CANCER": {
+    "STAGE_I": {
+      "carrying_capacity": 660000000.0,
+      "drug_sensitivity": 0.8624999999999999,
+      "gompertz_retardation": 0.0010666666666666667,
+      "growth_rate": 0.026999999999999996,
+      "microenvironment": {
+        "glucose_mm": 16.0,
+        "lactate_mm": 11.5,
+        "oxygen_percent": 0.8,
+        "ph_level": 6.5
+      }
+    },
+    "STAGE_II": {
+      "carrying_capacity": 1100000000.0,
+      "drug_sensitivity": 0.75,
+      "gompertz_retardation": 0.0008,
+      "growth_rate": 0.036,
+      "microenvironment": {
+        "glucose_mm": 16.0,
+        "lactate_mm": 11.5,
+        "oxygen_percent": 0.8,
+        "ph_level": 6.5
+      }
+    },
+    "STAGE_III": {
+      "carrying_capacity": 1320000000.0,
+      "drug_sensitivity": 0.6000000000000001,
+      "gompertz_retardation": 0.00064,
+      "growth_rate": 0.045,
+      "microenvironment": {
+        "glucose_mm": 16.0,
+        "lactate_mm": 10.5,
+        "oxygen_percent": 0.8,
+        "ph_level": 6.6
+      }
+    },
+    "STAGE_IV": {
+      "carrying_capacity": 1485000000.0,
+      "drug_sensitivity": 0.48750000000000004,
+      "gompertz_retardation": 0.0005517241379310345,
+      "growth_rate": 0.052199999999999996,
+      "microenvironment": {
+        "cytokine_pg_ml": 80.0,
+        "glucose_mm": 17.0,
+        "lactate_mm": 12.5,
+        "oxygen_percent": 0.5,
+        "ph_level": 6.4
+      }
+    }
+  },
+  "PROSTATE_CANCER": {
+    "STAGE_I": {
+      "carrying_capacity": 450000000.0,
+      "drug_sensitivity": 1.15,
+      "gompertz_retardation": 0.0017333333333333333,
+      "growth_rate": 0.018750000000000003,
+      "microenvironment": {
+        "glucose_mm": 9.5,
+        "glutamine_mm": 1.8
+      }
+    },
+    "STAGE_II": {
+      "carrying_capacity": 750000000.0,
+      "drug_sensitivity": 1.0,
+      "gompertz_retardation": 0.0013,
+      "growth_rate": 0.025,
+      "microenvironment": {
+        "glucose_mm": 9.5,
+        "glutamine_mm": 1.8
+      }
+    },
+    "STAGE_III": {
+      "carrying_capacity": 900000000.0,
+      "drug_sensitivity": 0.8,
+      "gompertz_retardation": 0.00104,
+      "growth_rate": 0.03125,
+      "microenvironment": {
+        "glucose_mm": 9.5,
+        "glutamine_mm": 1.8,
+        "lactate_mm": 10.5,
+        "ph_level": 6.6
+      }
+    },
+    "STAGE_IV": {
+      "carrying_capacity": 1012500000.0000001,
+      "drug_sensitivity": 0.65,
+      "gompertz_retardation": 0.000896551724137931,
+      "growth_rate": 0.03625,
+      "microenvironment": {
+        "cytokine_pg_ml": 80.0,
+        "glucose_mm": 17.0,
+        "glutamine_mm": 1.8,
+        "lactate_mm": 12.5,
+        "oxygen_percent": 0.5,
+        "ph_level": 6.4
+      }
+    }
+  }
+}
