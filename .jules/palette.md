@@ -1,3 +1,3 @@
-## 2025-10-30 - Dynamic Content Accessibility
-**Learning:** Screen readers often miss dynamic content updates in custom UI like the lab chat interface. Similarly, custom CSS wrappers around inputs frequently strip or obscure the native focus ring, breaking keyboard navigation cues.
-**Action:** Always add `aria-live="polite"` to dynamic output containers. Ensure input wrappers explicitly use `:focus-within` combined with `:focus-visible` logic to restore accessible focus indicators.
+## 2025-02-28 - Missing Focus Rings on Custom Styled Wrappers and Missing Aria-Live on Dynamic Chat
+**Learning:** Custom-styled input wrappers often strip native browser focus rings. It's critical to implement `:focus-within` and `:focus-visible` to preserve keyboard focus rings. Dynamic output containers like `#labChat` must use `aria-live="polite"` for screen reader support so new messages are announced.
+**Action:** Always add `:focus-within` styles to custom input wrappers and `:focus-visible` with suppressed `:focus:not(:focus-visible)` outlines on buttons. Always ensure dynamic chat containers have `aria-live="polite"`.
