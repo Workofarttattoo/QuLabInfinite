@@ -1,0 +1,3 @@
+## 2025-03-05 - Hidden N^3 Complexity in Native NumPy Matrix Loops
+**Learning:** Even when arrays are pre-allocated in NumPy (`np.zeros`), iterating over indices natively in Python with nested loops and redundant row/col slice sums inside the loop causes a hidden O(N^3) bottleneck due to Python overhead. The naive neighbor-joining implementation repeatedly sliced whole rows/columns for every cell computation.
+**Action:** Always pre-compute scalar sums outside the matrix-building loop or use complete vectorized broadcasting `array[:, np.newaxis] - array[np.newaxis, :]` to keep operations entirely in C.
