@@ -183,6 +183,48 @@ def check_next_vial(recipe_df, curr_column, curr_vial_name, curr_step) :
     
 
 
+
+def validate_recipe_csv(df) -> list:
+    '''
+    Validates the recipe dataframe for common errors.
+    Returns a list of error strings. Empty list if valid.
+    '''
+    errors = []
+
+    # 1. Check required columns
+    required_cols = ['Location', 'Solution 1', 'Amount 1 (mL)', 'Solution Name']
+    missing_cols = [col for col in required_cols if col not in df.columns]
+    if missing_cols:
+        errors.append(f"Missing required columns: {missing_cols}")
+        return errors # Stop checking if basic structure is wrong
+
+    # 2. Check for missing/NaN values in required columns
+    for col in required_cols:
+        if df[col].isnull().any():
+            bad_rows = df[df[col].isnull()].index.tolist()
+            errors.append(f"Missing values in column '{col}' at row indices: {bad_rows}")
+
+    # 3. Check Amounts are positive numerical values
+    try:
+        # Check if there are any non-numeric amounts that aren't NaN
+        amounts = pd.to_numeric(df['Amount 1 (mL)'], errors='coerce')
+
+        # We only check rows that aren't already flagged as NaN in step 2
+        not_null_mask = df['Amount 1 (mL)'].notnull()
+
+        if (amounts[not_null_mask].isnull()).any():
+            bad_rows = df[not_null_mask][amounts[not_null_mask].isnull()].index.tolist()
+            errors.append(f"Non-numeric values in 'Amount 1 (mL)' at row indices: {bad_rows}")
+
+        elif (amounts[not_null_mask] <= 0).any():
+            bad_rows = df[not_null_mask][amounts[not_null_mask] <= 0].index.tolist()
+            errors.append(f"Non-positive values in 'Amount 1 (mL)' at row indices: {bad_rows}")
+
+    except Exception as e:
+        errors.append(f"Error checking 'Amount 1 (mL)': {str(e)}")
+
+    return errors
+
 #Loading data
 vial_df = pd.read_csv(VIAL_FILE, delimiter='\t', index_col='vial index') #Edit this
 vial_df.astype({'vial volume (mL)': 'float'})
@@ -201,10 +243,16 @@ print("vial_df: \n", vial_df)
 print("Samples_df: \n", samples_df)
 
 #Check there is enough solution in the vials to prepare the wellplates...
-if (len(check_enough_volume(vial_df, samples_df))>0): #print error message if insufficient volume of at least one solution (in vial)
-    print("ERROR: Insufficient volume of: ", check_enough_volume(vial_df, samples_df))
+volume_errors = check_enough_volume(vial_df, samples_df)
+csv_errors = validate_recipe_csv(samples_df)
 
-else: #enough solution, TODO: could include more error checks for the csv file...
+if len(volume_errors) > 0:
+    print("ERROR: Insufficient volume of: ", volume_errors)
+elif len(csv_errors) > 0:
+    print("ERROR: Invalid CSV format or values.")
+    for err in csv_errors:
+        print(" -", err)
+else: #enough solution and valid csv
 
     c9 = NorthC9('A', network_serial='AU06CNCF')
 
