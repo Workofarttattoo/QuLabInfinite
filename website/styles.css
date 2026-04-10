@@ -709,3 +709,23 @@ pre {
         font-size: 14px;
     }
 }
+
+/* Accessibility: Keyboard Focus States */
+a:focus-visible,
+button:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.copy-btn:focus-visible,
+.doc-card:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+.btn-primary:focus:not(:focus-visible),
+.btn-secondary:focus:not(:focus-visible),
+.copy-btn:focus:not(:focus-visible),
+.doc-card:focus:not(:focus-visible) {
+    outline: none;
+}
