@@ -1,0 +1,15 @@
+🧪 Add missing error test for negative altitude in Aerospace Engineering Lab
+
+🎯 What: The testing gap addressed
+* Added a new test suite `tests/test_aerospace_engineering_lab.py`.
+* Covered the `standard_atmosphere` method with a `ValueError` case for negative altitudes.
+* Included positive and zero edge cases for `standard_atmosphere`.
+* Also fixed a minor typo `constants.stefan_boltzmann` -> `constants.Stefan_Boltzmann` in `aerospace_engineering_lab.py` which was causing initialization to fail and blocking tests.
+
+📊 Coverage: What scenarios are now tested
+* `standard_atmosphere` with negative altitude.
+* `standard_atmosphere` with exactly 0 altitude (sea level).
+* `standard_atmosphere` with positive altitude.
+
+✨ Result: The improvement in test coverage
+* Ensures the `AerospaceEngineeringLab` correctly handles edge cases and rejects invalid configurations like negative altitude, improving simulation safety and reliability.

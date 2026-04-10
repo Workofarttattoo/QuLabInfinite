@@ -43,7 +43,7 @@ class AerospaceEngineeringLab:
     def __post_init__(self):
         """Initialize derived constants"""
         self.gravitational_constant = constants.G
-        self.stefan_boltzmann = constants.stefan_boltzmann
+        self.stefan_boltzmann = constants.Stefan_Boltzmann
 
     def standard_atmosphere(self, altitude: float) -> Dict[str, float]:
         """
