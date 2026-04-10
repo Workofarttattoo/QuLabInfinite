@@ -88,6 +88,14 @@ body {
     color: var(--primary);
 }
 
+a:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.copy-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
 /* Buttons */
 .btn-primary, .btn-secondary {
     padding: 12px 24px;
@@ -672,22 +680,4 @@ pre {
         gap: 16px;
         font-size: 14px;
     }
-}
-
-/* Accessibility: Keyboard Navigation */
-a:focus-visible,
-button:focus-visible,
-.btn-primary:focus-visible,
-.btn-secondary:focus-visible,
-.copy-btn:focus-visible,
-.doc-card:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 4px;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
-}
-
-/* Remove default outline for elements that have focus-visible styling to prevent double outlines if a browser falls back */
-a:focus:not(:focus-visible),
-button:focus:not(:focus-visible) {
-    outline: none;
 }
