@@ -28,7 +28,7 @@ RECIPE_FILE = "C://Users//Imaging Controller//Desktop//utoronto_demo//recipes//w
 
 #TODO: could implement translating from the recipe kind of file (with columns saying which solutions to add)
 
-def generate_wellplate_placement(recipe_df, n = REPLICATES, starting_row = 0) -> list: #TODO: EDIT & FINISH!!!
+def generate_wellplate_placement(recipe_df, n = REPLICATES, starting_row = 0) -> list:
     """
     Generates a list with the well-plate coordinates for each sample (to be pipetted into).
     Generates an empty list, if there are too many samples.
@@ -40,14 +40,10 @@ def generate_wellplate_placement(recipe_df, n = REPLICATES, starting_row = 0) ->
     """
     k = len(recipe_df) #number of samples
     
-
     placement_list = []
     max_horizontal_groups = math.floor(12/n) #maximum number of replicate groups that will fit in each row 
     
-    
     max_k = max_horizontal_groups*(8-starting_row) #maximum number of samples that can fit in wellplate
-
-
 
     if (k*n>96):
         return placement_list
@@ -55,11 +51,30 @@ def generate_wellplate_placement(recipe_df, n = REPLICATES, starting_row = 0) ->
     elif (k>max_k):
         return placement_list
     
-    # else: #assuming all samples will fit in plate
-    #     sample_placement = []
+    row_chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    current_row_idx = starting_row
+    current_col = 1
     
-    return placement_list
+    for _ in range(k):
+        # Check if we have enough space in the current row
+        if current_col + n - 1 > 12:
+            current_row_idx += 1
+            current_col = 1
 
+            # If we run out of rows
+            if current_row_idx >= 8:
+                return []
+
+        # Generate the placement string for this sample
+        sample_wells = []
+        for i in range(n):
+            well = f"{row_chars[current_row_idx]}{current_col + i}"
+            sample_wells.append(well)
+
+        placement_list.append(", ".join(sample_wells))
+        current_col += n
+
+    return placement_list
 def convert_wp_placement_to_num(coordinate: str) -> int:
     """
     Converts wellplate location (ex. A1, G4) to numerical coordinates 
