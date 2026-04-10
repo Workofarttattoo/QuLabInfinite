@@ -49,7 +49,19 @@ def generate_wellplate_placement(recipe_df, n = REPLICATES, starting_row = 0) ->
         return placement_list
     
     # else: #assuming all samples will fit in plate
-    #     sample_placement = []
+    letters = "ABCDEFGH"
+    for i in range(k):
+        row_offset = i // max_horizontal_groups
+        row_idx = starting_row + row_offset
+        col_group = i % max_horizontal_groups
+        start_col = 1 + col_group * n
+
+        sample_wells = []
+        for j in range(n):
+            col_idx = start_col + j
+            sample_wells.append(f"{letters[row_idx]}{col_idx}")
+
+        placement_list.append(", ".join(sample_wells))
     
     return placement_list
 
