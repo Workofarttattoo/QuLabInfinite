@@ -32,18 +32,18 @@ class TestSecurityConfig(unittest.TestCase):
             self.skipTest("Could not import qulab_ai.production.security due to missing dependencies")
 
     def test_secret_key_from_env(self):
-        """Test that SECRET_KEY is loaded from QULAB_SECRET_KEY environment variable."""
+        """Test that SECRET_KEY is loaded from SECRET_KEY environment variable."""
         test_key = "test_secret_key_12345"
-        with mock.patch.dict(os.environ, {"QULAB_SECRET_KEY": test_key}):
+        with mock.patch.dict(os.environ, {"SECRET_KEY": test_key}):
             importlib.reload(security)
             self.assertEqual(security.SECRET_KEY, test_key)
 
     def test_secret_key_default(self):
-        """Test that SECRET_KEY is generated randomly if QULAB_SECRET_KEY is not set."""
+        """Test that SECRET_KEY is generated randomly if SECRET_KEY is not set."""
         # Ensure the env var is NOT set for this test
         with mock.patch.dict(os.environ):
-            if "QULAB_SECRET_KEY" in os.environ:
-                del os.environ["QULAB_SECRET_KEY"]
+            if "SECRET_KEY" in os.environ:
+                del os.environ["SECRET_KEY"]
 
             importlib.reload(security)
             key1 = security.SECRET_KEY
