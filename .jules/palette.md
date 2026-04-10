@@ -1,3 +1,4 @@
-## 2025-02-28 - Missing Focus Rings on Custom Styled Wrappers and Missing Aria-Live on Dynamic Chat
-**Learning:** Custom-styled input wrappers often strip native browser focus rings. It's critical to implement `:focus-within` and `:focus-visible` to preserve keyboard focus rings. Dynamic output containers like `#labChat` must use `aria-live="polite"` for screen reader support so new messages are announced.
-**Action:** Always add `:focus-within` styles to custom input wrappers and `:focus-visible` with suppressed `:focus:not(:focus-visible)` outlines on buttons. Always ensure dynamic chat containers have `aria-live="polite"`.
+
+## 2025-03-05 - Missing Focus Outlines on Marketing Site Elements
+**Learning:** Default browser focus rings are frequently suppressed by CSS resets or custom button stylings, hindering keyboard accessibility. For the `website/` marketing site, using the CSS `:focus-visible` pseudo-class allows providing clear, custom focus outlines (e.g., using `--primary` brand colors) specifically to keyboard users without degrading the visual experience for mouse users.
+**Action:** When creating or modifying interactive elements (like `a`, `button`, `.btn-primary`, `.doc-card`), always define corresponding `:focus-visible` states. Ensure to suppress the fallback outline on `:focus:not(:focus-visible)` to prevent double outlines.
