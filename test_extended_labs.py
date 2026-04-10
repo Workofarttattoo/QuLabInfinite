@@ -44,7 +44,7 @@ def test_lab_module(name: str, module_path: str) -> dict:
                 try:
                     instance = cls()
                     result['instantiable'] = True
-                except:
+                except Exception:
                     pass
                 break
 
