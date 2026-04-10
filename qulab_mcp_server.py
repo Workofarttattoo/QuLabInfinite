@@ -28,8 +28,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from semantic_lattice_cartographer import (
     SemanticLatticeCartographer,
-    LabNode,
-    LabCapability
+    LabNode
 )
 
 
