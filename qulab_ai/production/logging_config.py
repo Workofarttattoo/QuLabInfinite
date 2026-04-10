@@ -49,7 +49,7 @@ class ProductionLogger:
     def __init__(
         self,
         name: str = "qulab_ai",
-        log_dir: str = "/Users/noone/QuLabInfinite/logs",
+        log_dir: str = str(Path(__file__).resolve().parent.parent.parent / "logs"),
         max_bytes: int = 10 * 1024 * 1024,  # 10MB
         backup_count: int = 10,
         console_output: bool = True,

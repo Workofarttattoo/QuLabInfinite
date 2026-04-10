@@ -4,6 +4,7 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 Production Security Module
 Implements OAuth2/JWT authentication, API keys, and rate limiting
 """
+
 import json
 import os
 import secrets
@@ -62,7 +63,9 @@ class SecurityManager:
         return pwd_context.verify(plain_password, hashed_password)
 
     @staticmethod
-    def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+    def create_access_token(
+        data: dict, expires_delta: Optional[timedelta] = None
+    ) -> str:
         """
         Create JWT access token
 
@@ -74,10 +77,14 @@ class SecurityManager:
             Encoded JWT token
         """
         to_encode = data.copy()
-        expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+        expire = datetime.utcnow() + (
+            expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        )
         to_encode.update({"exp": expire, "type": "access"})
 
-        logger.info("Creating access token", user=data.get("sub"), expires=expire.isoformat())
+        logger.info(
+            "Creating access token", user=data.get("sub"), expires=expire.isoformat()
+        )
         return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
     @staticmethod
@@ -95,7 +102,9 @@ class SecurityManager:
         expire = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
         to_encode.update({"exp": expire, "type": "refresh"})
 
-        logger.info("Creating refresh token", user=data.get("sub"), expires=expire.isoformat())
+        logger.info(
+            "Creating refresh token", user=data.get("sub"), expires=expire.isoformat()
+        )
         return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
     @staticmethod
@@ -129,7 +138,9 @@ class SecurityManager:
         return f"qlab_{secrets.token_urlsafe(32)}"
 
     @staticmethod
-    def create_api_key(name: str, permissions: list = None, tier: str = "standard") -> Dict[str, Any]:
+    def create_api_key(
+        name: str, permissions: list = None, tier: str = "standard"
+    ) -> Dict[str, Any]:
         """
         Create a new API key
 
@@ -176,8 +187,7 @@ class SecurityManager:
         if not key_data or not key_data["active"]:
             logger.warning("Invalid API key used", key_prefix=api_key[:10])
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid API key"
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key"
             )
 
         # Update last used
@@ -200,7 +210,7 @@ class SecurityManager:
         password: str,
         email: str,
         roles: list = None,
-        tier: str = "standard"
+        tier: str = "standard",
     ) -> Dict[str, Any]:
         """
         Create a new user
@@ -218,7 +228,7 @@ class SecurityManager:
         if username in USERS:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Username already exists"
+                detail="Username already exists",
             )
 
         user_data = {
@@ -302,12 +312,14 @@ class RateLimitStore(ABC):
     """Abstract rate limit storage"""
 
     @abstractmethod
-    def record_request(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
-        raise NotImplementedError
+    def record_request(
+        self, identifier: str, window_seconds: int
+    ) -> Tuple[int, datetime]: ...
 
     @abstractmethod
-    def get_request_count(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
-        raise NotImplementedError
+    def get_request_count(
+        self, identifier: str, window_seconds: int
+    ) -> Tuple[int, datetime]: ...
 
 
 class MemoryRateLimitStore(RateLimitStore):
@@ -323,12 +335,13 @@ class MemoryRateLimitStore(RateLimitStore):
     def _prune(self, identifier: str, window_seconds: int) -> datetime:
         cutoff = datetime.utcnow() - timedelta(seconds=window_seconds)
         self._requests[identifier] = [
-            ts for ts in self._requests[identifier]
-            if ts > cutoff
+            ts for ts in self._requests[identifier] if ts > cutoff
         ]
         return cutoff
 
-    def record_request(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
+    def record_request(
+        self, identifier: str, window_seconds: int
+    ) -> Tuple[int, datetime]:
         with self._lock:
             self._prune(identifier, window_seconds)
             now = datetime.utcnow()
@@ -337,7 +350,9 @@ class MemoryRateLimitStore(RateLimitStore):
             reset = earliest + timedelta(seconds=window_seconds)
             return len(self._requests[identifier]), reset
 
-    def get_request_count(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
+    def get_request_count(
+        self, identifier: str, window_seconds: int
+    ) -> Tuple[int, datetime]:
         with self._lock:
             self._prune(identifier, window_seconds)
             if not self._requests[identifier]:
@@ -358,7 +373,9 @@ class RedisRateLimitStore(RateLimitStore):
     def _key(self, identifier: str) -> str:
         return f"{self.prefix}:{identifier}"
 
-    def record_request(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
+    def record_request(
+        self, identifier: str, window_seconds: int
+    ) -> Tuple[int, datetime]:
         key = self._key(identifier)
         now_ms = int(time.time() * 1000)
         window_ms = window_seconds * 1000
@@ -378,7 +395,9 @@ class RedisRateLimitStore(RateLimitStore):
         reset_time = datetime.utcfromtimestamp(reset_ms / 1000.0)
         return int(count), reset_time
 
-    def get_request_count(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
+    def get_request_count(
+        self, identifier: str, window_seconds: int
+    ) -> Tuple[int, datetime]:
         key = self._key(identifier)
         now_ms = int(time.time() * 1000)
         window_ms = window_seconds * 1000
@@ -405,7 +424,7 @@ class RateLimiter:
         requests_per_minute: Optional[int] = 60,
         store: Optional[RateLimitStore] = None,
         tier_limits: Optional[Dict[str, Dict[str, int]]] = None,
-        default_tier: str = "standard"
+        default_tier: str = "standard",
     ):
         """
         Initialize rate limiter
@@ -417,7 +436,9 @@ class RateLimiter:
             default_tier: Default rate limit tier
         """
         self.tier_limits = self._load_tier_limits(tier_limits, requests_per_minute)
-        self.default_tier = default_tier if default_tier in self.tier_limits else "standard"
+        self.default_tier = (
+            default_tier if default_tier in self.tier_limits else "standard"
+        )
         self.store = store or self._init_store()
 
     def _init_store(self) -> RateLimitStore:
@@ -426,15 +447,16 @@ class RateLimiter:
             try:
                 import redis  # type: ignore
 
-                redis_url = os.environ.get("QULAB_REDIS_URL", "redis://localhost:6379/0")
+                redis_url = os.environ.get(
+                    "QULAB_REDIS_URL", "redis://localhost:6379/0"
+                )
                 client = redis.Redis.from_url(redis_url)
                 client.ping()
                 logger.info("Initialized Redis rate limit backend", redis_url=redis_url)
                 return RedisRateLimitStore(client)
             except Exception as exc:  # pragma: no cover - defensive fallback
                 logger.warning(
-                    "Redis backend unavailable, falling back to memory",
-                    error=str(exc)
+                    "Redis backend unavailable, falling back to memory", error=str(exc)
                 )
         logger.info("Initialized in-memory rate limit backend")
         return MemoryRateLimitStore(storage=RATE_LIMITS)
@@ -442,7 +464,7 @@ class RateLimiter:
     def _load_tier_limits(
         self,
         tier_limits: Optional[Dict[str, Dict[str, int]]],
-        requests_per_minute: Optional[int]
+        requests_per_minute: Optional[int],
     ) -> Dict[str, Dict[str, int]]:
         limits = {**DEFAULT_RATE_LIMIT_TIERS}
 
@@ -450,8 +472,12 @@ class RateLimiter:
             for tier, config in tier_limits.items():
                 if not isinstance(config, dict):
                     continue
-                requests = int(config.get("requests", limits.get(tier, {}).get("requests", 60)))
-                window = int(config.get("window", limits.get(tier, {}).get("window", 60)))
+                requests = int(
+                    config.get("requests", limits.get(tier, {}).get("requests", 60))
+                )
+                window = int(
+                    config.get("window", limits.get(tier, {}).get("window", 60))
+                )
                 limits[tier] = {"requests": requests, "window": window}
 
         env_limits = os.environ.get("QULAB_RATE_LIMIT_TIERS")
@@ -459,16 +485,22 @@ class RateLimiter:
             try:
                 parsed = json.loads(env_limits)
                 for tier, config in parsed.items():
-                    requests = int(config.get("requests", limits.get(tier, {}).get("requests", 60)))
-                    window = int(config.get("window", limits.get(tier, {}).get("window", 60)))
+                    requests = int(
+                        config.get("requests", limits.get(tier, {}).get("requests", 60))
+                    )
+                    window = int(
+                        config.get("window", limits.get(tier, {}).get("window", 60))
+                    )
                     limits[tier] = {"requests": requests, "window": window}
             except json.JSONDecodeError as exc:
-                logger.warning("Invalid QULAB_RATE_LIMIT_TIERS override", error=str(exc))
+                logger.warning(
+                    "Invalid QULAB_RATE_LIMIT_TIERS override", error=str(exc)
+                )
 
         if requests_per_minute is not None:
             limits["standard"] = {
                 "requests": requests_per_minute,
-                "window": limits.get("standard", {}).get("window", 60)
+                "window": limits.get("standard", {}).get("window", 60),
             }
 
         return limits
@@ -500,11 +532,13 @@ class RateLimiter:
                 requests=count,
                 limit=config["requests"],
                 tier=tier_name,
-                reset=reset_time.isoformat() + "Z"
+                reset=reset_time.isoformat() + "Z",
             )
         return allowed
 
-    def get_rate_limit_info(self, identifier: str, tier: Optional[str] = None) -> Dict[str, Any]:
+    def get_rate_limit_info(
+        self, identifier: str, tier: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         Get rate limit information for identifier
 
@@ -530,7 +564,7 @@ class RateLimiter:
 
 # Dependencies for FastAPI
 async def get_current_user_token(
-    credentials: HTTPAuthorizationCredentials = Security(bearer_scheme)
+    credentials: HTTPAuthorizationCredentials = Security(bearer_scheme),
 ) -> Dict[str, Any]:
     """
     Dependency to get current user from JWT token
@@ -549,15 +583,14 @@ async def get_current_user_token(
 
     if payload.get("type") != "access":
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token type"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token type"
         )
 
     return payload
 
 
 async def get_current_user_api_key(
-    api_key: Optional[str] = Security(api_key_header)
+    api_key: Optional[str] = Security(api_key_header),
 ) -> Dict[str, Any]:
     """
     Dependency to validate API key
@@ -573,8 +606,7 @@ async def get_current_user_api_key(
     """
     if not api_key:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="API key required"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="API key required"
         )
 
     return SecurityManager.validate_api_key(api_key)
@@ -587,7 +619,7 @@ if __name__ == "__main__":
         username="testuser",
         password="testpass123",
         email="test@example.com",
-        roles=["user", "admin"]
+        roles=["user", "admin"],
     )
     print(f"Created user: {user}")
 
@@ -603,8 +635,7 @@ if __name__ == "__main__":
 
     # Create API key
     api_key_data = SecurityManager.create_api_key(
-        name="Test API Key",
-        permissions=["read", "write"]
+        name="Test API Key", permissions=["read", "write"]
     )
     print(f"API Key: {api_key_data['key']}")
 
