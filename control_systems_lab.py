@@ -58,6 +58,19 @@ class KalmanFilter:
         self.x = np.zeros(n)
         self.P = np.eye(n)
 
+@dataclass
+class ExtendedKalmanFilter:
+    """Extended Kalman filter for nonlinear state estimation"""
+    f: Callable  # Nonlinear state transition function
+    h: Callable  # Nonlinear observation function
+    F_jac: Callable  # Jacobian of state transition function
+    H_jac: Callable  # Jacobian of observation function
+    Q: np.ndarray  # Process noise covariance
+    R: np.ndarray  # Measurement noise covariance
+    x: np.ndarray  # State estimate
+    P: np.ndarray  # Error covariance
+
+
 class ControlSystemsLab:
     """Comprehensive control systems laboratory"""
 
@@ -331,29 +344,26 @@ class ControlSystemsLab:
         n = len(kf.x)
         kf.P = (np.eye(n) - K @ kf.C) @ kf.P
 
-    def extended_kalman_filter(self, f: Callable, h: Callable,
-                             F_jac: Callable, H_jac: Callable,
-                             x: np.ndarray, P: np.ndarray,
-                             u: np.ndarray, y: np.ndarray,
-                             Q: np.ndarray, R: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    def extended_kalman_filter(self, ekf: ExtendedKalmanFilter,
+                             u: np.ndarray, y: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
         Extended Kalman filter for nonlinear systems
         """
         # Prediction
-        x_pred = f(x, u)
-        F = F_jac(x, u)
-        P_pred = F @ P @ F.T + Q
+        x_pred = ekf.f(ekf.x, u)
+        F = ekf.F_jac(ekf.x, u)
+        P_pred = F @ ekf.P @ F.T + ekf.Q
 
         # Update
-        H = H_jac(x_pred)
-        innovation = y - h(x_pred)
-        S = H @ P_pred @ H.T + R
+        H = ekf.H_jac(x_pred)
+        innovation = y - ekf.h(x_pred)
+        S = H @ P_pred @ H.T + ekf.R
         K = P_pred @ H.T @ linalg.inv(S)
 
-        x_new = x_pred + K @ innovation
-        P_new = (np.eye(len(x)) - K @ H) @ P_pred
+        ekf.x = x_pred + K @ innovation
+        ekf.P = (np.eye(len(ekf.x)) - K @ H) @ P_pred
 
-        return x_new, P_new
+        return ekf.x, ekf.P
 
     # ============= ROBUST CONTROL =============
 
