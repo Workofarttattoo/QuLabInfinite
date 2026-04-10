@@ -5,10 +5,7 @@
 ## 2025-05-22 - Test Gaps and Bugs
 **Learning:** Found a critical bug (immutable sparse matrix assignment) in `thermodynamics_grid.py` only because I wrote a benchmark script. The existing test suite did not cover this module.
 **Action:** When optimizing, if no specific test exists for the target module, write a reproduction/benchmark script first to verify it works at all.
-## 2025-03-05 - Avoid Full Array Copies in Iterative Finite Differences
-**Learning:** In nested loops computing numerical derivatives (like gradients or Hessians), full array copies (`x.copy()`) inside the inner loops scale horribly (e.g. O(N^3) memory allocation overhead for Hessians). Even if true NumPy vectorization is impossible due to the black-box scalar nature of the function `f(x)`, massive performance gains can be achieved through simple in-place scalar modification of the array.
-**Action:** When computing multi-variable finite differences element-by-element, modify the specific coordinate `x[i] += epsilon`, call `f(x)`, and immediately restore `x[i] -= epsilon` instead of creating `N` copies of the array.
 
-## 2024-05-24 - Vectorized Beta Diversity Calculation in Ecology Lab
-**Learning:** Using native Python nested loops over NumPy arrays creates hidden O(N^3) bottlenecks due to Python overhead, especially when performing slice sums inside the loop. In the spatial ecology metrics, calculating beta diversity iteratively over N sites was taking ~2.3 seconds for 500 sites.
-**Action:** Always prefer vectorized broadcasting and matrix multiplication (e.g., `presence @ presence.T` and `array[:, np.newaxis] - array[np.newaxis, :]`) to keep operations entirely in C. This reduced the time to ~0.06 seconds.
+## 2025-05-22 - Quantum Gate Vectorization
+**Learning:** Dense matrix allocations (e.g. `np.eye(2**N)`) and string-based index parsing in quantum simulation methods scale terribly in both execution time and memory (O(4^N)). By vectorizing qubit manipulation using NumPy bitwise operations (`(idx >> bit) & 1`) and boolean masking on the O(2^N) state vector directly, execution times for large qubit operations (like QFT) dropped drastically (e.g. ~5s to ~1.1s for 12 qubits) without changing the mathematical outcome.
+**Action:** When implementing quantum logic or large discrete state-space simulations, always replace explicit dense matrix construction and iterative string parsing with vectorized bitwise arithmetic and array masking on the state vector itself.
