@@ -26,11 +26,7 @@ import hashlib
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from semantic_lattice_cartographer import (
-    SemanticLatticeCartographer,
-    LabNode,
-    LabCapability
-)
+from semantic_lattice_cartographer import SemanticLatticeCartographer
 
 
 @dataclass
