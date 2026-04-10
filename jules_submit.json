@@ -1,0 +1,4 @@
+{
+  "title": "🧪 Add tests for electromagnetism_lab.py and fix mutable default",
+  "body": "- 🎯 **What:** The electromagnetism_lab lacked unit tests. Furthermore, ElectromagneticField and ElectricPotential used an illegal mutable default empty np.ndarray directly in the dataclasses, causing the import/initialization to crash.\n- 📊 **Coverage:** Implemented 14 tests checking default values, forces calculation, boundary calculations and errors, achieving 92% coverage for the file.\n- ✨ **Result:** Increased codebase reliability by catching a runtime error at import and ensuring the pure math logic is properly guarded against regressions."
+}

@@ -26,8 +26,8 @@ class ElectromagneticConstants:
 
 @dataclass(frozen=True)
 class ElectromagneticField:
-    electric_field_strength: np.ndarray = field(default=np.zeros((3, 1), dtype=np.float64))
-    magnetic_flux_density: np.ndarray = field(default=np.zeros((3, 1), dtype=np.float64))
+    electric_field_strength: np.ndarray = field(default_factory=lambda: np.zeros((3, 1), dtype=np.float64))
+    magnetic_flux_density: np.ndarray = field(default_factory=lambda: np.zeros((3, 1), dtype=np.float64))
 
     def apply_force_on_charge(self, charge_vector: np.ndarray) -> np.ndarray:
         return self.electric_field_strength * charge_vector
@@ -39,7 +39,7 @@ class ElectromagneticField:
 
 @dataclass(frozen=True)
 class ElectricPotential:
-    potential_gradient: np.ndarray = field(default=np.zeros((3, 1), dtype=np.float64))
+    potential_gradient: np.ndarray = field(default_factory=lambda: np.zeros((3, 1), dtype=np.float64))
     charge_distribution: Callable[[np.ndarray], np.ndarray] = lambda x: np.ones_like(x)
 
     def electric_field_from_potential(self) -> ElectromagneticField:
