@@ -364,24 +364,33 @@ class ComputationalChemistryLab:
         n_atoms = len(molecule.atoms)
         H = np.zeros((n_atoms, n_atoms))
 
-        for i in range(n_atoms):
-            atom_i = molecule.atoms[i].element
-            if atom_i in self.semi_empirical_params:
-                # Diagonal elements
-                H[i, i] = self.semi_empirical_params[atom_i].get('Uss', -50.0)
+        valid_mask = np.zeros(n_atoms, dtype=bool)
+        Uss_arr = np.zeros(n_atoms)
+        beta_arr = np.zeros(n_atoms)
 
-                # Off-diagonal elements (simplified)
-                for j in range(i + 1, n_atoms):
-                    atom_j = molecule.atoms[j].element
-                    if atom_j in self.semi_empirical_params:
-                        beta_i = self.semi_empirical_params[atom_i].get('beta_s', -10.0)
-                        beta_j = self.semi_empirical_params[atom_j].get('beta_s', -10.0)
+        for i, atom in enumerate(molecule.atoms):
+            element = atom.element
+            if element in self.semi_empirical_params:
+                valid_mask[i] = True
+                params = self.semi_empirical_params[element]
+                Uss_arr[i] = params.get('Uss', -50.0)
+                beta_arr[i] = params.get('beta_s', -10.0)
 
-                        r_ij = np.linalg.norm(molecule.atoms[i].position - molecule.atoms[j].position)
+        # Set diagonal elements
+        np.fill_diagonal(H, Uss_arr)
+        H[~valid_mask, ~valid_mask] = 0.0
 
-                        # Simple overlap-based scaling
-                        H[i, j] = 0.5 * (beta_i + beta_j) * np.exp(-r_ij / BOHR_TO_ANGSTROM)
-                        H[j, i] = H[i, j]
+        # Calculate off-diagonal
+        if np.any(valid_mask):
+            dist_mat = molecule.get_distance_matrix()
+
+            beta_sum = beta_arr[:, None] + beta_arr[None, :]
+            off_diag = 0.5 * beta_sum * np.exp(-dist_mat / BOHR_TO_ANGSTROM)
+
+            valid_pair_mask = valid_mask[:, None] & valid_mask[None, :]
+            np.fill_diagonal(valid_pair_mask, False)
+
+            H[valid_pair_mask] = off_diag[valid_pair_mask]
 
         return H / HARTREE_TO_EV  # Convert to Hartree
 
