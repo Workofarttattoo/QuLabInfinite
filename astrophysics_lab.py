@@ -176,14 +176,22 @@ class AstrophysicsLab:
         vel = velocities.copy()
 
         def compute_accelerations(positions, masses):
-            acc = np.zeros_like(positions)
-            for i in range(n):
-                for j in range(n):
-                    if i != j:
-                        r_vec = positions[j] - positions[i]
-                        r_mag = np.linalg.norm(r_vec)
-                        if r_mag > 0:
-                            acc[i] += self.G * masses[j] * r_vec / r_mag**3
+            # Calculate pairwise displacement vectors using broadcasting
+            # shape: (n, n, 3) where element (i, j, :) is positions[j] - positions[i]
+            r_vec = positions[np.newaxis, :, :] - positions[:, np.newaxis, :]
+
+            # Calculate distances (shape: (n, n))
+            r_mag = np.linalg.norm(r_vec, axis=2)
+
+            # Avoid division by zero on the diagonal (self-forces)
+            np.fill_diagonal(r_mag, np.inf)
+
+            # Calculate acceleration magnitudes and components
+            # shape: (n, n, 3)
+            acc_components = self.G * masses[np.newaxis, :, np.newaxis] * r_vec / (r_mag[:, :, np.newaxis]**3)
+
+            # Sum over the j index to get total acceleration for each body i
+            acc = np.sum(acc_components, axis=1)
             return acc
 
         # Verlet integration
