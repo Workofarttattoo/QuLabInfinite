@@ -25,6 +25,71 @@ except ImportError:
     np = None
 
 
+
+import ast
+import operator
+
+def _safe_math_eval(expr: str, variables: Dict[str, float]) -> float:
+    """Safely evaluate mathematical expressions using AST without eval()."""
+    operators = {
+        ast.Add: operator.add,
+        ast.Sub: operator.sub,
+        ast.Mult: operator.mul,
+        ast.Div: operator.truediv,
+        ast.Pow: operator.pow,
+        ast.Mod: operator.mod,
+        ast.USub: operator.neg,
+        ast.UAdd: operator.pos
+    }
+
+    functions = {k: v for k, v in math.__dict__.items() if not k.startswith('_') and callable(v)}
+
+    def evaluate_node(node):
+        if isinstance(node, ast.Expression):
+            return evaluate_node(node.body)
+        elif isinstance(node, ast.Constant):
+            return node.value
+        elif type(node).__name__ == 'Num':  # Fallback for older python safely without warnings
+            return getattr(node, 'n', 0)
+        elif isinstance(node, ast.Name):
+            if node.id in variables:
+                return variables[node.id]
+            elif node.id in functions:
+                return functions[node.id]
+            elif hasattr(math, node.id):
+                return getattr(math, node.id)
+            raise ValueError(f"Unknown variable or function: {node.id}")
+        elif isinstance(node, ast.BinOp):
+            left = evaluate_node(node.left)
+            right = evaluate_node(node.right)
+            if type(node.op) in operators:
+                return operators[type(node.op)](left, right)
+            raise ValueError(f"Unsupported operator: {type(node.op).__name__}")
+        elif isinstance(node, ast.UnaryOp):
+            operand = evaluate_node(node.operand)
+            if type(node.op) in operators:
+                return operators[type(node.op)](operand)
+            raise ValueError(f"Unsupported unary operator: {type(node.op).__name__}")
+        elif isinstance(node, ast.Call):
+            func = evaluate_node(node.func)
+            if not callable(func):
+                raise ValueError(f"Not a function: {node.func}")
+            args = [evaluate_node(arg) for arg in node.args]
+            return func(*args)
+        elif isinstance(node, ast.Attribute):
+            if isinstance(node.value, ast.Name) and node.value.id == 'math':
+                if hasattr(math, node.attr):
+                    return getattr(math, node.attr)
+            raise ValueError(f"Unsupported attribute access: {node.attr}")
+        else:
+            raise ValueError(f"Unsupported syntax: {type(node).__name__}")
+
+    try:
+        tree = ast.parse(str(expr), mode='eval')
+        return float(evaluate_node(tree))
+    except Exception as e:
+        raise ValueError(f"Error evaluating expression '{expr}': {str(e)}")
+
 class OptimizationObjective(Enum):
     """Types of optimization objectives."""
     MINIMIZE = auto()
@@ -92,7 +157,7 @@ class OptimizationConstraint:
         Evaluate constraint and return (violation_amount, is_satisfied).
         """
         try:
-            value = eval(self.expression, {"__builtins__": {}}, variables)
+            value = _safe_math_eval(self.expression, variables)
 
             if self.constraint_type == "<=":
                 violation = max(0, value - self.limit_value)
@@ -214,7 +279,7 @@ class DesignOptimizer:
         results = {}
         for name, obj in self.objectives.items():
             try:
-                value = eval(obj['expression'], {"__builtins__": {}, "math": math}, values)
+                value = _safe_math_eval(obj['expression'], values)
                 results[name] = value
             except Exception:
                 results[name] = float('inf')
