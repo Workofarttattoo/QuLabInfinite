@@ -738,14 +738,8 @@ def generate_demo_sequences(n_sequences: int = 10,
     return sequences
 
 
-def run_demo():
-    """Demonstrate comprehensive evolutionary biology capabilities."""
-    print("=" * 80)
-    print("EVOLUTIONARY BIOLOGY LAB - Production Demo")
-    print("=" * 80)
 
-    lab = EvolutionaryBiologyLab()
-
+def _demo_population_basics(lab):
     print("\n1. POPULATION INITIALIZATION")
     print("-" * 40)
     population = lab.initialize_population(genome_length=100)
@@ -766,9 +760,10 @@ def run_demo():
     print(f"Final allele frequency: {frequencies[-1]:.3f}")
     print(f"Selection coefficient: 0.01")
 
+
+def _demo_phylogenetics(lab, sequences):
     print("\n3. GENETIC DISTANCE CALCULATION")
     print("-" * 40)
-    sequences = generate_demo_sequences(5, 50)
 
     # Jukes-Cantor distance
     jc_dist = lab.jukes_cantor_distance(sequences[0], sequences[1])
@@ -787,6 +782,9 @@ def run_demo():
     print(f"Tree edges: {len(tree['edges'])}")
     print(f"Branch lengths: {len(tree['branch_lengths'])}")
 
+
+def _demo_selection_and_popgen(lab, sequences):
+    import numpy as np
     print("\n5. SELECTION TESTS")
     print("-" * 40)
 
@@ -830,6 +828,7 @@ def run_demo():
     print("\n7. HARDY-WEINBERG EQUILIBRIUM TEST")
     print("-" * 40)
     # Generate genotypes (0=AA, 1=Aa, 2=aa)
+    import numpy as np
     genotypes = np.random.choice([0, 1, 2], 1000, p=[0.25, 0.5, 0.25])
     hw_test = lab.hardy_weinberg_test(genotypes)
 
@@ -841,6 +840,9 @@ def run_demo():
     print(f"P-value: {hw_test['p_value']:.4f}")
     print(f"Inbreeding coefficient: {hw_test['inbreeding_coefficient']:.4f}")
 
+
+def _demo_advanced_simulations(lab, sequences):
+    import numpy as np
     print("\n8. GENETIC DRIFT SIMULATION")
     print("-" * 40)
     drift_freq = lab.simulate_genetic_drift(0.5, Ne=50, generations=100)
@@ -881,6 +883,8 @@ def run_demo():
     print(f"D' = {ld['D_prime']:.4f}")
     print(f"r² = {ld['r_squared']:.4f}")
 
+
+def _demo_comprehensive_analysis(lab, sequences):
     print("\n13. COMPREHENSIVE ANALYSIS")
     print("-" * 40)
     results = lab.run_comprehensive_analysis(sequences)
@@ -890,6 +894,22 @@ def run_demo():
             print(f"  {key}: {value:.4f}")
         else:
             print(f"  {key}: {value}")
+
+
+def run_demo():
+    """Demonstrate comprehensive evolutionary biology capabilities."""
+    print("=" * 80)
+    print("EVOLUTIONARY BIOLOGY LAB - Production Demo")
+    print("=" * 80)
+
+    lab = EvolutionaryBiologyLab()
+    sequences = generate_demo_sequences(5, 50)
+
+    _demo_population_basics(lab)
+    _demo_phylogenetics(lab, sequences)
+    _demo_selection_and_popgen(lab, sequences)
+    _demo_advanced_simulations(lab, sequences)
+    _demo_comprehensive_analysis(lab, sequences)
 
     print("\n" + "=" * 80)
     print("Evolutionary Biology Lab demonstration complete!")
