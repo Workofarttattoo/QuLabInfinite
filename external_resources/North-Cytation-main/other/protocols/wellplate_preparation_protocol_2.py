@@ -180,6 +180,43 @@ def check_next_vial(recipe_df, curr_column, curr_vial_name, curr_step) :
         return True, curr_step+1
     else:
         return False, curr_step
+
+def validate_recipe_csv(df) -> list:
+    """
+    Validates the recipe dataframe for necessary columns and valid data.
+    Returns a list of error messages. If empty, the dataframe is valid.
+    """
+    errors = []
+
+    if df.empty:
+        errors.append("Recipe CSV is empty.")
+        return errors
+
+    required_columns = ["Solution Name", "Solution 1", "Amount 1 (mL)", "Location", "Type"]
+    missing_cols = [col for col in required_columns if col not in df.columns]
+
+    if missing_cols:
+        errors.append(f"Missing required columns: {', '.join(missing_cols)}")
+        return errors # Cannot do further checks easily if columns are missing
+
+    # Check for missing values in required fields
+    for index, row in df.iterrows():
+        if pd.isna(row["Location"]) or str(row["Location"]).strip() == "" or str(row["Location"]).lower() == "nan":
+            errors.append(f"Row {index}: Missing or empty Location.")
+        if pd.isna(row["Solution 1"]) or str(row["Solution 1"]).strip() == "" or str(row["Solution 1"]).lower() == "nan":
+            errors.append(f"Row {index}: Missing or empty Solution 1.")
+
+        try:
+            amount = float(row["Amount 1 (mL)"])
+            if pd.isna(amount):
+                errors.append(f"Row {index}: Amount 1 (mL) is missing.")
+            elif amount < 0:
+                errors.append(f"Row {index}: Amount 1 (mL) cannot be negative ({amount}).")
+        except (ValueError, TypeError):
+            errors.append(f"Row {index}: Amount 1 (mL) must be numeric, got '{row['Amount 1 (mL)']}'.")
+
+    return errors
+
     
 
 
@@ -187,6 +224,14 @@ def check_next_vial(recipe_df, curr_column, curr_vial_name, curr_step) :
 vial_df = pd.read_csv(VIAL_FILE, delimiter='\t', index_col='vial index') #Edit this
 vial_df.astype({'vial volume (mL)': 'float'})
 samples_df = pd.read_csv(RECIPE_FILE, delimiter=',') #assumes all values are valid 
+
+recipe_errors = validate_recipe_csv(samples_df)
+if recipe_errors:
+    print("ERROR: Recipe CSV validation failed with the following errors:")
+    for error in recipe_errors:
+        print("  -", error)
+    sys.exit(1)
+
 samples_df["Wellplate Index"] = samples_df["Location"].apply(get_wp_num_list) #sorts
 
 
@@ -204,7 +249,7 @@ print("Samples_df: \n", samples_df)
 if (len(check_enough_volume(vial_df, samples_df))>0): #print error message if insufficient volume of at least one solution (in vial)
     print("ERROR: Insufficient volume of: ", check_enough_volume(vial_df, samples_df))
 
-else: #enough solution, TODO: could include more error checks for the csv file...
+else: #enough solution
 
     c9 = NorthC9('A', network_serial='AU06CNCF')
 
