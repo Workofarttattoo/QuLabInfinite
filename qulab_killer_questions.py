@@ -299,23 +299,36 @@ class QuLabKillerQuestions:
     def _analyze_killer_response(self, kq: KillerQuestion, response: str) -> Dict[str, Any]:
         """Analyze QuLab's response to a killer question"""
 
-        analysis = {
-            "recognizes_impossibility": False,
-            "mentions_correct_principle": False,
-            "provides_correct_explanation": False,
-            "shows_quantitative_understanding": False,
-            "avoids_common_failures": True,
-            "response_quality": "unknown"
-        }
-
         response_lower = response.lower()
 
-        # Check if response recognizes impossibility
-        impossibility_keywords = ["impossible", "violates", "cannot", "breaks", "fundamental limit", "against physics"]
-        if any(keyword in response_lower for keyword in impossibility_keywords):
-            analysis["recognizes_impossibility"] = True
+        recognizes_impossibility = self._check_impossibility(response_lower)
+        mentions_correct_principle = self._check_principle(kq.physics_principle, response_lower)
+        provides_correct_explanation = recognizes_impossibility and mentions_correct_principle
+        shows_quantitative_understanding = self._check_quantitative(response)
+        avoids_common_failures = self._check_failures(kq.common_ai_failures, response_lower)
 
-        # Check if correct physics principle is mentioned
+        response_quality = self._determine_quality(
+            provides_correct_explanation,
+            shows_quantitative_understanding,
+            recognizes_impossibility
+        )
+
+        return {
+            "recognizes_impossibility": recognizes_impossibility,
+            "mentions_correct_principle": mentions_correct_principle,
+            "provides_correct_explanation": provides_correct_explanation,
+            "shows_quantitative_understanding": shows_quantitative_understanding,
+            "avoids_common_failures": avoids_common_failures,
+            "response_quality": response_quality
+        }
+
+    def _check_impossibility(self, response_lower: str) -> bool:
+        """Check if response recognizes impossibility"""
+        impossibility_keywords = ["impossible", "violates", "cannot", "breaks", "fundamental limit", "against physics"]
+        return any(keyword in response_lower for keyword in impossibility_keywords)
+
+    def _check_principle(self, physics_principle: str, response_lower: str) -> bool:
+        """Check if correct physics principle is mentioned"""
         principle_keywords = {
             "Pauli Exclusion Principle": ["pauli", "exclusion", "quantum state", "identical particles"],
             "First Law of Thermodynamics": ["conservation", "energy", "thermodynamics", "efficiency"],
@@ -329,40 +342,32 @@ class QuLabKillerQuestions:
             "Chemical Bonding Limits": ["valence", "bonds", "electron configuration", "carbon"]
         }
 
-        principle_key = kq.physics_principle
-        if principle_key in principle_keywords:
-            keywords = principle_keywords[principle_key]
-            if any(keyword in response_lower for keyword in keywords):
-                analysis["mentions_correct_principle"] = True
+        if physics_principle in principle_keywords:
+            keywords = principle_keywords[physics_principle]
+            return any(keyword in response_lower for keyword in keywords)
+        return False
 
-        # Check for correct explanation
-        if analysis["recognizes_impossibility"] and analysis["mentions_correct_principle"]:
-            analysis["provides_correct_explanation"] = True
-
-        # Check for quantitative understanding
+    def _check_quantitative(self, response: str) -> bool:
+        """Check for quantitative understanding"""
         quantitative_indicators = ["equation", "formula", "calculate", "limit", "bound", "≥", "≤", "=", "ħ", "kT"]
-        if any(indicator in response for indicator in quantitative_indicators):
-            analysis["shows_quantitative_understanding"] = True
+        return any(indicator in response for indicator in quantitative_indicators)
 
-        # Check for common AI failures
-        for failure in kq.common_ai_failures:
-            failure_lower = failure.lower()
-            if failure_lower in response_lower:
-                analysis["avoids_common_failures"] = False
-                break
+    def _check_failures(self, common_ai_failures: List[str], response_lower: str) -> bool:
+        """Check for common AI failures"""
+        for failure in common_ai_failures:
+            if failure.lower() in response_lower:
+                return False
+        return True
 
-        # Overall response quality
-        if analysis["provides_correct_explanation"] and analysis["shows_quantitative_understanding"]:
-            analysis["response_quality"] = "excellent"
-        elif analysis["provides_correct_explanation"]:
-            analysis["response_quality"] = "good"
-        elif analysis["recognizes_impossibility"]:
-            analysis["response_quality"] = "basic"
-        else:
-            analysis["response_quality"] = "failing"
-
-        return analysis
-
+    def _determine_quality(self, correct_expl: bool, quant_und: bool, rec_imp: bool) -> str:
+        """Determine overall response quality"""
+        if correct_expl and quant_und:
+            return "excellent"
+        elif correct_expl:
+            return "good"
+        elif rec_imp:
+            return "basic"
+        return "failing"
     def _assess_physics_understanding(self, kq: KillerQuestion, analysis: Dict[str, Any]) -> str:
         """Assess whether QuLab shows real physics understanding"""
 
@@ -461,7 +466,7 @@ def main():
         logging.info(f"   Principle: {kq.physics_principle}")
         logging.info(f"   Question: {kq.question}")
         logging.info(f"   Why it kills: {kq.why_it_kills}")
-        logging.info()
+        logging.info('')
 
     # Example test with mock responses
     mock_responses = {
