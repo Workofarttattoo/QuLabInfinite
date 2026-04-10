@@ -495,108 +495,101 @@ class QuLabEvaluationWorkflow:
 
         return opportunities[:10]  # Limit to top 10 opportunities
 
-    def _generate_final_assessment(self) -> Dict[str, Any]:
-        """Generate final assessment from all evaluation steps"""
 
-        # Collect results from all steps
-        assessments = []
-        confidence_levels = []
+    def _get_step_assessment_and_confidence(self, step_name: str, results: Dict[str, Any]) -> Tuple[str, float]:
+        """Extract assessment level and confidence from a specific step's results"""
+        if step_name == "trap_framework":
+            assessment = results.get('assessment', {}).get('level', 'unknown')
+            confidence = 0.8 if results.get('total_score', 0) > 0.6 else 0.4
+            return assessment, confidence
 
-        for step in self.steps:
-            if step.status == "completed":
-                results = step.results
+        elif step_name == "killer_questions":
+            assessment_map = {
+                "genuine_physics_understanding": "excellent",
+                "solid_physics_knowledge": "good",
+                "basic_physics_awareness": "fair",
+                "pattern_matching_without_understanding": "poor",
+                "complete_bluffing": "failing"
+            }
+            assessment = assessment_map.get(results.get('assessment', 'unknown'), 'unknown')
+            confidence = results.get('overall_score', 0)
+            return assessment, confidence
 
-                if step.name == "trap_framework":
-                    assessments.append(results.get('assessment', {}).get('level', 'unknown'))
-                    confidence_levels.append(0.8 if results.get('total_score', 0) > 0.6 else 0.4)
+        elif step_name == "turing_test":
+            percentage = results.get('percentage', 0)
+            if percentage >= 70:
+                assessment = "excellent"
+            elif percentage >= 50:
+                assessment = "good"
+            elif percentage >= 30:
+                assessment = "fair"
+            else:
+                assessment = "failing"
+            confidence = percentage / 100
+            return assessment, confidence
 
-                elif step.name == "killer_questions":
-                    assessment_map = {
-                        "genuine_physics_understanding": "excellent",
-                        "solid_physics_knowledge": "good",
-                        "basic_physics_awareness": "fair",
-                        "pattern_matching_without_understanding": "poor",
-                        "complete_bluffing": "failing"
-                    }
-                    assessments.append(assessment_map.get(results.get('assessment', 'unknown'), 'unknown'))
-                    confidence_levels.append(results.get('overall_score', 0))
+        elif step_name == "digital_twin_testing":
+            # Digital twin testing provides additional validation
+            labs_tested = results.get('labs_tested', 0)
+            if labs_tested > 0:
+                success_rates = [
+                    lab_result.get('success_rate', 0)
+                    for lab_result in results.get('digital_twin_results', {}).values()
+                    if isinstance(lab_result, dict) and 'success_rate' in lab_result
+                ]
+                avg_success = sum(success_rates) / len(success_rates) if success_rates else 0
+                if avg_success >= 0.8:
+                    assessment = "excellent"
+                elif avg_success >= 0.6:
+                    assessment = "good"
+                else:
+                    assessment = "fair"
+                confidence = avg_success
+                return assessment, confidence
 
-                elif step.name == "turing_test":
-                    percentage = results.get('percentage', 0)
-                    if percentage >= 70:
-                        assessments.append("excellent")
-                    elif percentage >= 50:
-                        assessments.append("good")
-                    elif percentage >= 30:
-                        assessments.append("fair")
-                    else:
-                        assessments.append("failing")
-                    confidence_levels.append(percentage / 100)
+        elif step_name == "expanded_lab_testing":
+            # Expanded lab testing provides ecosystem-wide validation
+            avg_success_rate = results.get('average_success_rate', 0)
+            environmentally_sensitive = results.get('environmentally_sensitive_labs', 0)
+            labs_tested = results.get('labs_comprehensively_tested', 0)
 
-                elif step.name == "digital_twin_testing":
-                    # Digital twin testing provides additional validation
-                    labs_tested = results.get('labs_tested', 0)
-                    if labs_tested > 0:
-                        success_rates = [
-                            lab_result.get('success_rate', 0)
-                            for lab_result in results.get('digital_twin_results', {}).values()
-                            if isinstance(lab_result, dict) and 'success_rate' in lab_result
-                        ]
-                        avg_success = sum(success_rates) / len(success_rates) if success_rates else 0
-                        if avg_success >= 0.8:
-                            assessments.append("excellent")
-                        elif avg_success >= 0.6:
-                            assessments.append("good")
-                        else:
-                            assessments.append("fair")
-                        confidence_levels.append(avg_success)
+            if avg_success_rate >= 0.8 and environmentally_sensitive < labs_tested * 0.3:
+                assessment = "excellent"
+            elif avg_success_rate >= 0.6:
+                assessment = "good"
+            elif avg_success_rate >= 0.4:
+                assessment = "fair"
+            else:
+                assessment = "failing"
+            confidence = avg_success_rate
+            return assessment, confidence
 
-                elif step.name == "expanded_lab_testing":
-                    # Expanded lab testing provides ecosystem-wide validation
-                    avg_success_rate = results.get('average_success_rate', 0)
-                    environmentally_sensitive = results.get('environmentally_sensitive_labs', 0)
-                    labs_tested = results.get('labs_comprehensively_tested', 0)
+        elif step_name == "patent_intelligence":
+            # Patent intelligence provides market and competitive validation
+            technologies_analyzed = results.get('technologies_analyzed', 0)
+            patent_analyses = results.get('patent_analyses', {})
 
-                    if avg_success_rate >= 0.8 and environmentally_sensitive < labs_tested * 0.3:
-                        assessments.append("excellent")
-                    elif avg_success_rate >= 0.6:
-                        assessments.append("good")
-                    elif avg_success_rate >= 0.4:
-                        assessments.append("fair")
-                    else:
-                        assessments.append("failing")
-                    confidence_levels.append(avg_success_rate)
+            # Assess patent landscape maturity
+            total_patents = sum(analysis.get('total_patents', 0)
+                              for analysis in patent_analyses.values()
+                              if isinstance(analysis, dict))
 
-                elif step.name == "patent_intelligence":
-                    # Patent intelligence provides market and competitive validation
-                    technologies_analyzed = results.get('technologies_analyzed', 0)
-                    patent_analyses = results.get('patent_analyses', {})
+            if technologies_analyzed > 0 and total_patents > 100:
+                assessment = "excellent"  # Rich patent ecosystem
+            elif total_patents > 50:
+                assessment = "good"  # Moderate patent activity
+            elif total_patents > 10:
+                assessment = "fair"  # Some patent activity
+            else:
+                assessment = "poor"  # Limited patent landscape
+            confidence = min(0.9, total_patents / 200)  # Scale confidence with patent volume
+            return assessment, confidence
 
-                    # Assess patent landscape maturity
-                    total_patents = sum(analysis.get('total_patents', 0)
-                                      for analysis in patent_analyses.values()
-                                      if isinstance(analysis, dict))
+        return 'unknown', 0.0
 
-                    if technologies_analyzed > 0 and total_patents > 100:
-                        assessments.append("excellent")  # Rich patent ecosystem
-                    elif total_patents > 50:
-                        assessments.append("good")  # Moderate patent activity
-                    elif total_patents > 10:
-                        assessments.append("fair")  # Some patent activity
-                    else:
-                        assessments.append("poor")  # Limited patent landscape
-                    confidence_levels.append(min(0.9, total_patents / 200))  # Scale confidence with patent volume
-
-        # Determine overall assessment
-        assessment_priority = {"excellent": 5, "good": 4, "fair": 3, "poor": 2, "failing": 1, "unknown": 0}
-        best_assessment = max(assessments, key=lambda x: assessment_priority.get(x, 0))
-
-        # Calculate confidence
-        avg_confidence = np.mean(confidence_levels) if confidence_levels else 0.5
-
-        # Generate recommendations
+    def _get_base_recommendations(self, best_assessment: str) -> List[str]:
+        """Generate base recommendations based on the overall assessment level"""
         recommendations = []
-
         if best_assessment == "excellent":
             recommendations.extend([
                 "QuLab demonstrates genuine materials AI capabilities",
@@ -625,16 +618,45 @@ class QuLabEvaluationWorkflow:
                 "Do not use for scientific predictions or design",
                 "Complete redesign needed for materials applications"
             ])
+        return recommendations
 
-        # Add patent intelligence insights if available
-        patent_insights = []
-        innovation_opportunities = []
-
+    def _extract_patent_insights(self) -> Tuple[List[str], List[str]]:
+        """Extract patent intelligence insights and innovation opportunities from steps"""
         for step in self.steps:
             if step.name == "patent_intelligence" and step.status == "completed":
-                patent_insights = step.results.get('competitive_insights', [])
-                innovation_opportunities = step.results.get('innovation_opportunities', [])
-                break
+                return step.results.get('competitive_insights', []), step.results.get('innovation_opportunities', [])
+        return [], []
+
+    def _generate_final_assessment(self) -> Dict[str, Any]:
+        """Generate final assessment from all evaluation steps"""
+
+        # Collect results from all steps
+        assessments = []
+        confidence_levels = []
+
+        for step in self.steps:
+            if step.status == "completed":
+                assessment, confidence = self._get_step_assessment_and_confidence(step.name, step.results)
+                if assessment != 'unknown':
+                    assessments.append(assessment)
+                    confidence_levels.append(confidence)
+
+        # Determine overall assessment
+        assessment_priority = {"excellent": 5, "good": 4, "fair": 3, "poor": 2, "failing": 1, "unknown": 0}
+
+        if not assessments:
+            best_assessment = "unknown"
+        else:
+            best_assessment = max(assessments, key=lambda x: assessment_priority.get(x, 0))
+
+        # Calculate confidence
+        avg_confidence = np.mean(confidence_levels) if confidence_levels else 0.5
+
+        # Generate recommendations
+        recommendations = self._get_base_recommendations(best_assessment)
+
+        # Add patent intelligence insights if available
+        patent_insights, innovation_opportunities = self._extract_patent_insights()
 
         if patent_insights:
             recommendations.append("Patent Intelligence Insights:")
@@ -646,7 +668,7 @@ class QuLabEvaluationWorkflow:
 
         return {
             "assessment": best_assessment.upper(),
-            "confidence": avg_confidence,
+            "confidence": float(avg_confidence),
             "recommendations": recommendations,
             "assessment_breakdown": assessments,
             "patent_insights": patent_insights,
