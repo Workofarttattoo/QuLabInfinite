@@ -5,6 +5,7 @@
 ## 2025-05-22 - Test Gaps and Bugs
 **Learning:** Found a critical bug (immutable sparse matrix assignment) in `thermodynamics_grid.py` only because I wrote a benchmark script. The existing test suite did not cover this module.
 **Action:** When optimizing, if no specific test exists for the target module, write a reproduction/benchmark script first to verify it works at all.
-## 2025-05-18 - [Vectorization for Network Motifs]
-**Learning:** The nested Python loops for motif analysis in `analyze_network_motifs` are a huge performance bottleneck.
-**Action:** Replacing O(N³) explicit nested loops with vectorized O(N^ω) NumPy matrix multiplications (`A @ A` and `np.trace`) significantly improves performance.
+
+## 2025-05-22 - Floyd-Warshall Vectorization Optimization
+**Learning:** The floyd_warshall method in algorithm_design_lab.py is bottlenecked by O(V^3) nested Python loops. This can be optimized drastically by replacing the inner two loops with a vectorized NumPy broadcasting approach (np.minimum(dist, dist[:, k:k+1] + dist[k:k+1, :])), reducing execution time for graph path calculations by orders of magnitude.
+**Action:** When implementing algorithms over large adjacency matrices, always replace explicit nested loops with vectorized operations where possible, as pure Python loops impose severe overhead compared to NumPy's compiled backend.
