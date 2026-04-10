@@ -176,7 +176,8 @@ async def search(
         query += " AND melting_point <= ? AND melting_point > 0"
         params.append(max_melting_point)
 
-    query += f" LIMIT {limit}"
+    query += " LIMIT ?"
+    params.append(limit)
 
     cursor.execute(query, params)
 
