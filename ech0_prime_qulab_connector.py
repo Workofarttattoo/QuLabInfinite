@@ -449,11 +449,11 @@ Analyze these results:
         path = Path(filepath)
         path.parent.mkdir(parents=True, exist_ok=True)
         with path.open("w") as f:
-            json.dump(, default=str{
+            json.dump({
                 "experiments": self.experiment_log,
                 "conversation": self.conversation_history,
                 "timestamp": datetime.now().isoformat()
-            }, f, indent=2)
+            }, f, indent=2, default=str)
 
     def build_session_filepath(self, timestamp: Optional[datetime] = None) -> Path:
         ts = (timestamp or datetime.now()).strftime("%Y%m%d_%H%M%S")
