@@ -88,7 +88,7 @@ class FiniteDifferenceThermodynamicsEngine:
         N = self.grid_shape[0]
         
         # Rebuild matrix if dt changes
-        if dt != self.cached_dt or self.cached_matrix is None:
+        if not hasattr(self, 'cached_dt') or dt != self.cached_dt or self.cached_matrix is None:
             self.cached_matrix = self._build_banded_matrix(dt)
             self.cached_dt = dt
 

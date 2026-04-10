@@ -244,25 +244,61 @@ class MechanicsEngine:
     def apply_n_body_gravity(self):
         """Apply N-body gravitational force between all pairs of particles."""
         n = len(self.particles)
-        for i in range(n):
-            for j in range(i + 1, n):
-                p1, p2 = self.particles[i], self.particles[j]
-                if p1.fixed and p2.fixed:
-                    continue
-                
-                delta = p2.position - p1.position
-                dist_sq = np.dot(delta, delta)
-                if dist_sq < 1e-12:  # Avoid singularity
-                    continue
-                
-                dist = np.sqrt(dist_sq)
-                force_mag = G.value * p1.mass * p2.mass / dist_sq
-                force_vec = force_mag * (delta / dist)
-                
-                if not p1.fixed:
-                    p1.force += force_vec
-                if not p2.fixed:
-                    p2.force -= force_vec
+        if n < 2:
+            return
+
+        # For small N, the overhead of array allocation outweighs vectorization benefits
+        if n < 50:
+            for i in range(n):
+                for j in range(i + 1, n):
+                    p1, p2 = self.particles[i], self.particles[j]
+                    if p1.fixed and p2.fixed:
+                        continue
+
+                    delta = p2.position - p1.position
+                    dist_sq = np.dot(delta, delta)
+                    if dist_sq < 1e-12:  # Avoid singularity
+                        continue
+
+                    dist = np.sqrt(dist_sq)
+                    force_mag = G.value * p1.mass * p2.mass / dist_sq
+                    force_vec = force_mag * (delta / dist)
+
+                    if not p1.fixed:
+                        p1.force += force_vec
+                    if not p2.fixed:
+                        p2.force -= force_vec
+            return
+
+        # Extract positions and masses
+        positions = np.array([p.position for p in self.particles])
+        masses = np.array([p.mass for p in self.particles])
+
+        # Calculate pairwise differences in positions: deltas[i, j] = pos[j] - pos[i]
+        deltas = positions[np.newaxis, :, :] - positions[:, np.newaxis, :]
+
+        # Calculate pairwise squared distances
+        dist_sq = np.sum(deltas**2, axis=-1)
+
+        # Avoid division by zero for self-interactions and very close particles
+        np.fill_diagonal(dist_sq, np.inf)
+        dist_sq[dist_sq < 1e-12] = np.inf
+
+        dist = np.sqrt(dist_sq)
+
+        # Calculate magnitude of force between i and j
+        force_mags = G.value * (masses[:, np.newaxis] * masses[np.newaxis, :]) / dist_sq
+
+        # Calculate force vectors: force_vecs[i, j] is the force exerted by j on i
+        force_vecs = force_mags[:, :, np.newaxis] * (deltas / dist[:, :, np.newaxis])
+
+        # Total force on each particle is the sum of forces from all other particles
+        total_forces = np.sum(force_vecs, axis=1)
+
+        # Apply forces to non-fixed particles
+        for i, p in enumerate(self.particles):
+            if not p.fixed:
+                p.force += total_forces[i]
 
     def _derivatives(self, t, y):
         """
