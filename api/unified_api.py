@@ -20,7 +20,9 @@ from datetime import datetime
 from collections import defaultdict
 import numpy as np
 
-from core.security import load_api_keys_from_env
+from core.security import load_api_keys_from_env, get_allowed_origins
+
+ALLOWED_ORIGINS = get_allowed_origins()
 
 # Lab imports
 import sys
@@ -44,9 +46,9 @@ app = FastAPI(
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 

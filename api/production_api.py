@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
+import os
 import time
 import psutil
 from datetime import datetime
@@ -28,6 +29,10 @@ from qulab_ai.production import (
 # Initialize logger
 logger = get_logger("qulab_api")
 
+from core.security import get_allowed_origins
+
+ALLOWED_ORIGINS = get_allowed_origins()
+
 # Initialize FastAPI app
 app = FastAPI(
     title="QuLab AI Production API",
@@ -40,9 +45,9 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure appropriately for production
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
