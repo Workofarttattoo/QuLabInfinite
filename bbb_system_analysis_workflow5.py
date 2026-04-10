@@ -16,7 +16,7 @@ import subprocess
 import json
 import time
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 
 class BBBWorkflow5SystemAnalysis:
