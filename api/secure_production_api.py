@@ -4,13 +4,14 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 Secure Production API with Authentication
 Enhanced version with OAuth2/JWT and API key support
 """
+
 import os
 import time
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Dict, Any, List, Optional, Tuple
 
-from fastapi import Depends, FastAPI, HTTPException, Request, Security, status
+from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -18,18 +19,12 @@ from pydantic import BaseModel, EmailStr, Field
 
 # Import QuLab AI components
 from chemistry_lab.qulab_ai_integration import analyze_molecule_with_provenance
-from frequency_lab.qulab_ai_integration import encode_spectrum_array
-from qulab_ai.production import (
-    get_logger,
-    QuLabException,
-    retry,
-    timed_execution
-)
+from qulab_ai.production import get_logger, retry, timed_execution
 from qulab_ai.production.security import (
     SecurityManager,
     RateLimiter,
     get_current_user_token,
-    get_current_user_api_key
+    get_current_user_api_key,
 )
 
 # Initialize logger
@@ -39,8 +34,7 @@ logger = get_logger("secure_api")
 def get_allowed_origins() -> List[str]:
     """Load allowed origins from environment with sane defaults."""
     raw_origins = os.environ.get(
-        "QULAB_ALLOWED_ORIGINS",
-        "https://qulab.ai,https://api.qulab.ai"
+        "QULAB_ALLOWED_ORIGINS", "https://qulab.ai,https://api.qulab.ai"
     )
     origins = [
         origin.strip()
@@ -58,7 +52,7 @@ app = FastAPI(
     description="Production API with OAuth2/JWT authentication and rate limiting",
     version="2.0.0",
     docs_url="/api/docs",
-    redoc_url="/api/redoc"
+    redoc_url="/api/redoc",
 )
 
 # CORS middleware
@@ -76,6 +70,7 @@ rate_limiter = RateLimiter(requests_per_minute=100, default_tier="standard")
 # OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
+
 # Request/Response Models
 class UserCreate(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
@@ -83,9 +78,11 @@ class UserCreate(BaseModel):
     email: EmailStr
     roles: Optional[List[str]] = ["user"]
 
+
 class UserLogin(BaseModel):
     username: str
     password: str
+
 
 class TokenResponse(BaseModel):
     access_token: str
@@ -93,10 +90,14 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
     expires_in: int
 
+
 class APIKeyCreate(BaseModel):
     name: str = Field(..., min_length=3)
     permissions: List[str] = ["read"]
-    tier: Optional[str] = Field("standard", description="Rate limit tier for the API key")
+    tier: Optional[str] = Field(
+        "standard", description="Rate limit tier for the API key"
+    )
+
 
 class APIKeyResponse(BaseModel):
     key: str
@@ -104,6 +105,7 @@ class APIKeyResponse(BaseModel):
     permissions: List[str]
     created_at: datetime
     tier: str
+
 
 class MoleculeRequest(BaseModel):
     smiles: str = Field(..., description="SMILES notation", example="CCO")
@@ -116,7 +118,9 @@ def resolve_rate_limit_subject(request: Request) -> Tuple[str, str]:
     if api_key:
         key_data = SecurityManager.get_api_key(api_key)
         if key_data:
-            return f"api_key:{api_key}", SecurityManager.get_api_key_rate_limit_tier(api_key)
+            return f"api_key:{api_key}", SecurityManager.get_api_key_rate_limit_tier(
+                api_key
+            )
 
     auth_header = request.headers.get("Authorization")
     if auth_header and auth_header.lower().startswith("bearer "):
@@ -124,13 +128,14 @@ def resolve_rate_limit_subject(request: Request) -> Tuple[str, str]:
         try:
             payload = SecurityManager.decode_token(token)
             username = payload.get("sub")
-            return f"user:{username}", SecurityManager.get_user_rate_limit_tier(username)
+            return f"user:{username}", SecurityManager.get_user_rate_limit_tier(
+                username
+            )
         except HTTPException:
             pass
         except Exception as exc:  # pragma: no cover - defensive logging
             logger.warning(
-                "Failed to decode token for rate limit tier resolution",
-                error=str(exc)
+                "Failed to decode token for rate limit tier resolution", error=str(exc)
             )
 
     client_host = request.client.host if request.client else "unknown"
@@ -152,7 +157,7 @@ async def request_context_middleware(request: Request, call_next):
             request_id=request_id,
             path=request.url.path,
             method=request.method,
-            error=str(exc)
+            error=str(exc),
         )
         raise
 
@@ -164,7 +169,7 @@ async def request_context_middleware(request: Request, call_next):
         path=request.url.path,
         method=request.method,
         status=response.status_code,
-        duration_ms=duration_ms
+        duration_ms=duration_ms,
     )
     return response
 
@@ -187,7 +192,7 @@ async def rate_limit_middleware(request: Request, call_next):
             identifier=identifier[:64],
             limit=rate_info["limit"],
             reset=rate_info["reset"],
-            tier=tier
+            tier=tier,
         )
         return JSONResponse(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
@@ -195,7 +200,7 @@ async def rate_limit_middleware(request: Request, call_next):
                 "error": "rate_limit_exceeded",
                 "message": "Too many requests",
                 "rate_limit": rate_info,
-                "request_id": request_id
+                "request_id": request_id,
             },
             headers={
                 "X-RateLimit-Limit": str(rate_info["limit"]),
@@ -203,7 +208,7 @@ async def rate_limit_middleware(request: Request, call_next):
                 "X-RateLimit-Reset": rate_info["reset"],
                 "X-RateLimit-Tier": tier,
                 "X-Request-ID": request_id,
-            }
+            },
         )
 
     # Add rate limit headers to response
@@ -215,6 +220,7 @@ async def rate_limit_middleware(request: Request, call_next):
     response.headers["X-RateLimit-Tier"] = tier
 
     return response
+
 
 # Authentication endpoints
 @app.post("/auth/register", response_model=Dict[str, Any], tags=["Authentication"])
@@ -230,15 +236,12 @@ async def register_user(user: UserCreate):
             username=user.username,
             password=user.password,
             email=user.email,
-            roles=user.roles
+            roles=user.roles,
         )
 
         logger.info("User registered", username=user.username)
 
-        return {
-            "message": "User created successfully",
-            "user": user_data
-        }
+        return {"message": "User created successfully", "user": user_data}
 
     except HTTPException as e:
         raise e
@@ -246,8 +249,9 @@ async def register_user(user: UserCreate):
         logger.error("Registration failed", error=str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Registration failed"
+            detail="Registration failed",
         )
+
 
 @app.post("/auth/token", response_model=TokenResponse, tags=["Authentication"])
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -275,8 +279,9 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
         "access_token": access_token,
         "refresh_token": refresh_token,
         "token_type": "bearer",
-        "expires_in": 1800  # 30 minutes
+        "expires_in": 1800,  # 30 minutes
     }
+
 
 @app.post("/auth/refresh", response_model=TokenResponse, tags=["Authentication"])
 async def refresh_token(refresh_token: str):
@@ -293,8 +298,7 @@ async def refresh_token(refresh_token: str):
 
     if payload.get("type") != "refresh":
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token type"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token type"
         )
 
     username = payload.get("sub")
@@ -307,14 +311,14 @@ async def refresh_token(refresh_token: str):
         "access_token": new_access_token,
         "refresh_token": new_refresh_token,
         "token_type": "bearer",
-        "expires_in": 1800
+        "expires_in": 1800,
     }
+
 
 # API Key management
 @app.post("/api-keys/create", response_model=APIKeyResponse, tags=["API Keys"])
 async def create_api_key(
-    key_request: APIKeyCreate,
-    current_user: Dict = Depends(get_current_user_token)
+    key_request: APIKeyCreate, current_user: Dict = Depends(get_current_user_token)
 ):
     """
     Create a new API key (requires authentication)
@@ -329,14 +333,14 @@ async def create_api_key(
     key_data = SecurityManager.create_api_key(
         name=key_request.name,
         permissions=key_request.permissions,
-        tier=key_request.tier
+        tier=key_request.tier,
     )
 
     logger.info(
         "API key created",
         user=current_user.get("sub"),
         key_name=key_request.name,
-        tier=key_request.tier
+        tier=key_request.tier,
     )
 
     return {
@@ -347,13 +351,13 @@ async def create_api_key(
         "tier": key_data["tier"],
     }
 
+
 # Protected endpoints - JWT Authentication
 @app.post("/api/v2/parse/molecule", tags=["Chemistry (JWT)"])
 @timed_execution(log_threshold_ms=100.0)
 @retry(max_attempts=2, delay_seconds=0.5)
 async def parse_molecule_jwt(
-    request: MoleculeRequest,
-    current_user: Dict = Depends(get_current_user_token)
+    request: MoleculeRequest, current_user: Dict = Depends(get_current_user_token)
 ):
     """
     Parse molecule (JWT authenticated)
@@ -362,15 +366,14 @@ async def parse_molecule_jwt(
     """
     try:
         result = analyze_molecule_with_provenance(
-            request.smiles,
-            citations=request.citations
+            request.smiles, citations=request.citations
         )
 
         logger.log_operation(
             operation="parse_molecule",
             status="success",
             user=current_user.get("sub"),
-            smiles=request.smiles
+            smiles=request.smiles,
         )
 
         return result
@@ -380,17 +383,17 @@ async def parse_molecule_jwt(
             operation="parse_molecule",
             status="error",
             user=current_user.get("sub"),
-            error=str(e)
+            error=str(e),
         )
         raise
+
 
 # Protected endpoints - API Key Authentication
 @app.post("/api/v2/parse/molecule-key", tags=["Chemistry (API Key)"])
 @timed_execution(log_threshold_ms=100.0)
 @retry(max_attempts=2, delay_seconds=0.5)
 async def parse_molecule_apikey(
-    request: MoleculeRequest,
-    api_key_data: Dict = Depends(get_current_user_api_key)
+    request: MoleculeRequest, api_key_data: Dict = Depends(get_current_user_api_key)
 ):
     """
     Parse molecule (API Key authenticated)
@@ -400,21 +403,19 @@ async def parse_molecule_apikey(
     # Check permissions
     if "read" not in api_key_data["permissions"]:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Insufficient permissions"
+            status_code=status.HTTP_403_FORBIDDEN, detail="Insufficient permissions"
         )
 
     try:
         result = analyze_molecule_with_provenance(
-            request.smiles,
-            citations=request.citations
+            request.smiles, citations=request.citations
         )
 
         logger.log_operation(
             operation="parse_molecule",
             status="success",
             api_key_name=api_key_data["name"],
-            smiles=request.smiles
+            smiles=request.smiles,
         )
 
         return result
@@ -424,9 +425,10 @@ async def parse_molecule_apikey(
             operation="parse_molecule",
             status="error",
             api_key_name=api_key_data["name"],
-            error=str(e)
+            error=str(e),
         )
         raise
+
 
 # Public health endpoint (no auth required)
 @app.get("/health", tags=["Monitoring"])
@@ -436,8 +438,9 @@ async def health_check():
         "status": "healthy",
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "version": "2.0.0",
-        "authentication": "enabled"
+        "authentication": "enabled",
     }
+
 
 # Root endpoint
 @app.get("/", tags=["General"])
@@ -447,36 +450,45 @@ async def root():
         "message": "QuLab AI Secure Production API",
         "version": "2.0.0",
         "docs": "/api/docs",
-        "authentication": {
-            "jwt": "/auth/token",
-            "api_key": "X-API-Key header"
-        }
+        "authentication": {"jwt": "/auth/token", "api_key": "X-API-Key header"},
     }
+
 
 # Startup event
 @app.on_event("startup")
 async def startup_event():
     logger.info("Secure API starting", version="2.0.0")
 
-    # Create default admin user for testing
-    try:
-        SecurityManager.create_user(
-            username="admin",
-            password="admin123",  # Change in production!
-            email="admin@qulab.ai",
-            roles=["admin", "user"]
+    # Create default admin user from environment variables
+    admin_username = os.environ.get("QU_LAB_ADMIN_USERNAME")
+    admin_password = os.environ.get("QU_LAB_ADMIN_PASSWORD")
+    admin_email = os.environ.get("QU_LAB_ADMIN_EMAIL")
+
+    if admin_username and admin_password and admin_email:
+        try:
+            SecurityManager.create_user(
+                username=admin_username,
+                password=admin_password,
+                email=admin_email,
+                roles=["admin", "user"],
+            )
+            logger.info("Default admin user created from environment variables")
+        except Exception as e:
+            logger.info("Admin user already exists or failed to create", error=str(e))
+    else:
+        logger.info(
+            "Skipping default admin user creation (missing environment variables)"
         )
-        logger.info("Default admin user created")
-    except:
-        logger.info("Admin user already exists")
+
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(
         app,
         host="0.0.0.0",
         port=8000,
         log_level="info",
         ssl_keyfile=None,  # Add SSL cert in production
-        ssl_certfile=None
+        ssl_certfile=None,
     )
