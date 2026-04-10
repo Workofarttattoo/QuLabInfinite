@@ -594,13 +594,8 @@ class CatalysisLab:
 
     # ==================== DEMONSTRATION ====================
 
-    def run_comprehensive_demo(self):
-        """Run comprehensive demonstration of catalysis capabilities."""
-        print("=" * 60)
-        print("CATALYSIS LAB - Comprehensive Demonstration")
-        print("=" * 60)
 
-        # 1. Catalyst and Reaction Setup
+    def _demo_catalyst_properties(self) -> Catalyst:
         print("\n1. CATALYST PROPERTIES")
         print("-" * 40)
 
@@ -619,8 +614,9 @@ class CatalysisLab:
         print(f"Catalyst: {catalyst.name}")
         print(f"Surface area: {catalyst.surface_area} m²/g")
         print(f"Active sites: {catalyst.active_sites*1e3} mmol/g")
+        return catalyst
 
-        # 2. Turnover Frequency
+    def _demo_turnover_frequency(self, catalyst: Catalyst):
         print("\n2. TURNOVER FREQUENCY ANALYSIS")
         print("-" * 40)
 
@@ -632,7 +628,7 @@ class CatalysisLab:
         ton = self.turnover_number(0.01, catalyst.active_sites)
         print(f"TON after producing 0.01 mol: {ton:.0f}")
 
-        # 3. Sabatier Principle
+    def _demo_sabatier_volcano(self):
         print("\n3. SABATIER VOLCANO PLOT")
         print("-" * 40)
 
@@ -645,7 +641,7 @@ class CatalysisLab:
         max_rate_idx = np.argmax(log_rates)
         print(f"Maximum rate at BE = {BE[max_rate_idx]:.2f} eV")
 
-        # 4. Microkinetic Modeling
+    def _demo_microkinetic_modeling(self):
         print("\n4. MICROKINETIC MODELING")
         print("-" * 40)
 
@@ -700,7 +696,7 @@ class CatalysisLab:
             if cov > 0.01:
                 print(f"  {sp}: {cov:.3f}")
 
-        # 5. Langmuir-Hinshelwood Kinetics
+    def _demo_langmuir_hinshelwood(self):
         print("\n5. LANGMUIR-HINSHELWOOD KINETICS")
         print("-" * 40)
 
@@ -713,7 +709,7 @@ class CatalysisLab:
                                                 k_rate, 'bimolecular')
         print(f"L-H rate: {rate_LH*1e6:.2f} µmol/s")
 
-        # 6. Catalyst Deactivation
+    def _demo_catalyst_deactivation(self):
         print("\n6. CATALYST DEACTIVATION")
         print("-" * 40)
 
@@ -725,7 +721,7 @@ class CatalysisLab:
         print(f"Activity after 100 h: {activity[10]:.3f}")
         print(f"Activity after 1000 h: {activity[-1]:.3f}")
 
-        # 7. TPD Simulation
+    def _demo_tpd_simulation(self):
         print("\n7. TEMPERATURE-PROGRAMMED DESORPTION")
         print("-" * 40)
 
@@ -744,7 +740,7 @@ class CatalysisLab:
         print(f"TPD peak temperature: {T_peak:.1f} K")
         print(f"Desorption energy: {adsorbate.desorption_energy} kJ/mol")
 
-        # 8. Diffusion Limitations
+    def _demo_diffusion_limitations(self):
         print("\n8. DIFFUSION LIMITATIONS")
         print("-" * 40)
 
@@ -764,6 +760,21 @@ class CatalysisLab:
             print("Diffusion limited")
         else:
             print("Mixed control")
+
+    def run_comprehensive_demo(self):
+        """Run comprehensive demonstration of catalysis capabilities."""
+        print("=" * 60)
+        print("CATALYSIS LAB - Comprehensive Demonstration")
+        print("=" * 60)
+
+        catalyst = self._demo_catalyst_properties()
+        self._demo_turnover_frequency(catalyst)
+        self._demo_sabatier_volcano()
+        self._demo_microkinetic_modeling()
+        self._demo_langmuir_hinshelwood()
+        self._demo_catalyst_deactivation()
+        self._demo_tpd_simulation()
+        self._demo_diffusion_limitations()
 
         print("\n" + "=" * 60)
         print("Demonstration complete!")
