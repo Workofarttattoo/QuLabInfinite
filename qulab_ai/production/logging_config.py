@@ -8,7 +8,7 @@ import logging
 import logging.handlers
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict
 
@@ -21,7 +21,7 @@ class StructuredJsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         """Format log record as JSON"""
         log_data = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).replace(tzinfo=None).isoformat() + "Z",
             "level": record.levelname,
             "logger": record.name,
             "message": record.getMessage(),
@@ -49,7 +49,7 @@ class ProductionLogger:
     def __init__(
         self,
         name: str = "qulab_ai",
-        log_dir: str = "/Users/noone/QuLabInfinite/logs",
+        log_dir: str = "logs",
         max_bytes: int = 10 * 1024 * 1024,  # 10MB
         backup_count: int = 10,
         console_output: bool = True,

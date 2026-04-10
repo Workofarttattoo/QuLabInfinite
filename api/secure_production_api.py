@@ -7,7 +7,7 @@ Enhanced version with OAuth2/JWT and API key support
 import os
 import time
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, List, Optional, Tuple
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Security, status
@@ -434,7 +434,7 @@ async def health_check():
     """Public health check (no authentication required)"""
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).replace(tzinfo=None).isoformat() + "Z",
         "version": "2.0.0",
         "authentication": "enabled"
     }

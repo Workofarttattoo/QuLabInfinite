@@ -9,7 +9,7 @@ import os
 import secrets
 import time
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from threading import Lock
 from typing import Optional, Dict, Any, Tuple
 
@@ -73,7 +73,7 @@ class SecurityManager:
             Encoded JWT token
         """
         to_encode = data.copy()
-        expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+        expire = datetime.now(timezone.utc).replace(tzinfo=None) + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
         to_encode.update({"exp": expire, "type": "access"})
 
         logger.info("Creating access token", user=data.get("sub"), expires=expire.isoformat())
@@ -91,7 +91,7 @@ class SecurityManager:
             Encoded JWT refresh token
         """
         to_encode = data.copy()
-        expire = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+        expire = datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
         to_encode.update({"exp": expire, "type": "refresh"})
 
         logger.info("Creating refresh token", user=data.get("sub"), expires=expire.isoformat())
@@ -145,7 +145,7 @@ class SecurityManager:
             "key": api_key,
             "name": name,
             "permissions": permissions or ["read"],
-            "created_at": datetime.utcnow(),
+            "created_at": datetime.now(timezone.utc).replace(tzinfo=None),
             "last_used": None,
             "active": True,
             "tier": tier or "standard",
@@ -180,7 +180,7 @@ class SecurityManager:
             )
 
         # Update last used
-        key_data["last_used"] = datetime.utcnow()
+        key_data["last_used"] = datetime.now(timezone.utc).replace(tzinfo=None)
         logger.debug("API key validated", name=key_data["name"])
 
         return key_data
@@ -225,7 +225,7 @@ class SecurityManager:
             "email": email,
             "hashed_password": SecurityManager.hash_password(password),
             "roles": roles or ["user"],
-            "created_at": datetime.utcnow(),
+            "created_at": datetime.now(timezone.utc).replace(tzinfo=None),
             "active": True,
             "tier": tier or "standard",
         }
@@ -318,7 +318,7 @@ class MemoryRateLimitStore(RateLimitStore):
             self._requests = defaultdict(list, storage)
 
     def _prune(self, identifier: str, window_seconds: int) -> datetime:
-        cutoff = datetime.utcnow() - timedelta(seconds=window_seconds)
+        cutoff = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(seconds=window_seconds)
         self._requests[identifier] = [
             ts for ts in self._requests[identifier]
             if ts > cutoff
@@ -328,7 +328,7 @@ class MemoryRateLimitStore(RateLimitStore):
     def record_request(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
         with self._lock:
             self._prune(identifier, window_seconds)
-            now = datetime.utcnow()
+            now = datetime.now(timezone.utc).replace(tzinfo=None)
             self._requests[identifier].append(now)
             earliest = self._requests[identifier][0]
             reset = earliest + timedelta(seconds=window_seconds)
@@ -338,7 +338,7 @@ class MemoryRateLimitStore(RateLimitStore):
         with self._lock:
             self._prune(identifier, window_seconds)
             if not self._requests[identifier]:
-                now = datetime.utcnow()
+                now = datetime.now(timezone.utc).replace(tzinfo=None)
                 return 0, now + timedelta(seconds=window_seconds)
             earliest = self._requests[identifier][0]
             reset = earliest + timedelta(seconds=window_seconds)
@@ -372,7 +372,7 @@ class RedisRateLimitStore(RateLimitStore):
         else:
             reset_ms = now_ms + window_ms
 
-        reset_time = datetime.utcfromtimestamp(reset_ms / 1000.0)
+        reset_time = datetime.fromtimestamp(reset_ms / 1000.0, timezone.utc).replace(tzinfo=None)
         return int(count), reset_time
 
     def get_request_count(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
@@ -390,7 +390,7 @@ class RedisRateLimitStore(RateLimitStore):
         else:
             reset_ms = now_ms + window_ms
 
-        reset_time = datetime.utcfromtimestamp(reset_ms / 1000.0)
+        reset_time = datetime.fromtimestamp(reset_ms / 1000.0, timezone.utc).replace(tzinfo=None)
         return int(count), reset_time
 
 
