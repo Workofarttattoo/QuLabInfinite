@@ -328,8 +328,11 @@ def print_market_analysis(candidates: List[DrugCandidate]):
     total_traditional_cost = len(candidates) * 2_000_000_000
     our_cost = len(candidates) * 50_000
     savings = total_traditional_cost - our_cost
-    print(f"   TOTAL SAVINGS (5 drugs): ${savings / 1_000_000_000:.2f}B")
-    print(f"   ROI: {(savings / our_cost):.0f}x return on investment")
+    print(f"   TOTAL SAVINGS ({len(candidates)} drugs): ${savings / 1_000_000_000:.2f}B")
+    if our_cost > 0:
+        print(f"   ROI: {(savings / our_cost):.0f}x return on investment")
+    else:
+        print(f"   ROI: N/A (no candidates)")
 
     # Time to market advantage
     print(f"\n⚡ TIME-TO-MARKET ADVANTAGE:")
@@ -635,5 +638,5 @@ if __name__ == "__main__":
     import json
     output_file = "/Users/noone/QuLabInfinite/quantum_drug_results.json"
     with open(output_file, 'w') as f:
-        json.dump(, default=strresults, f, indent=2)
+        json.dump(results, f, indent=2, default=str)
     print(f"\n💾 Results saved to: {output_file}")
