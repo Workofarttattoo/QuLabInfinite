@@ -9,6 +9,7 @@
             color-scheme: dark;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        :focus:not(:focus-visible) { outline: none; }
         body {
             font-family: 'Roboto Mono', 'Courier New', monospace;
             background: #0d1117;
@@ -112,16 +113,16 @@
             transition: all 0.25s ease;
         }
         .lab-button:hover,
-        .lab-button:focus-visible,
-        .lab-button.active {
+        .lab-button.active,
+        .lab-button:focus-visible {
             border-color: rgba(0, 255, 136, 0.8);
             background: rgba(0, 255, 136, 0.15);
             box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
             transform: translateY(-1px);
-            outline: none;
         }
-        .lab-button:focus:not(:focus-visible) {
-            outline: none;
+        .lab-button:focus-visible {
+            outline: 2px solid rgba(0, 255, 136, 0.8);
+            outline-offset: 2px;
         }
         .lab-button small {
             display: block;
