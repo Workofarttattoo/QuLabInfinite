@@ -5,7 +5,10 @@
 ## 2025-05-22 - Test Gaps and Bugs
 **Learning:** Found a critical bug (immutable sparse matrix assignment) in `thermodynamics_grid.py` only because I wrote a benchmark script. The existing test suite did not cover this module.
 **Action:** When optimizing, if no specific test exists for the target module, write a reproduction/benchmark script first to verify it works at all.
+## 2025-03-05 - Avoid Full Array Copies in Iterative Finite Differences
+**Learning:** In nested loops computing numerical derivatives (like gradients or Hessians), full array copies (`x.copy()`) inside the inner loops scale horribly (e.g. O(N^3) memory allocation overhead for Hessians). Even if true NumPy vectorization is impossible due to the black-box scalar nature of the function `f(x)`, massive performance gains can be achieved through simple in-place scalar modification of the array.
+**Action:** When computing multi-variable finite differences element-by-element, modify the specific coordinate `x[i] += epsilon`, call `f(x)`, and immediately restore `x[i] -= epsilon` instead of creating `N` copies of the array.
 
-## 2025-05-22 - PK Model ODE Solver Optimization
-**Learning:** Standard linear compartmental PK models (like the 2-compartment model in `pharmacology_lab.py`) have exact analytical mathematical solutions based on their characteristic equation roots. Using `scipy.integrate.odeint` for these models introduces unnecessary O(N) numerical integration overhead, whereas the analytical solution requires only O(1) vectorized operations (e.g., `np.exp`), offering massive speedups while maintaining absolute precision.
-**Action:** Always identify if standard linear differential equations have well-known closed-form exact solutions before relying on generic numerical solvers like `odeint`.
+## 2025-05-22 - Vectorize sliding-window operations with sliding_window_view
+**Learning:** Explicit Python nested loops over spatial dimensions in images are massive hidden bottlenecks causing O(N^3) execution delays.
+**Action:** Always prefer `np.lib.stride_tricks.sliding_window_view` or `as_strided` for fast, vectorized windowing combined with `tensordot` or axis-aggregations like `.max()`.
