@@ -824,8 +824,8 @@
     </p>
 
     <form class="waitlist-form" id="waitlistForm" onsubmit="handleSubmit(event)">
-        <input type="email" id="emailInput" placeholder="you@company.com" required>
-        <button type="submit" id="submitButton" class="btn btn-primary btn-large">Request Access</button>
+        <input type="email" id="emailInput" placeholder="you@company.com" aria-label="Email address" required>
+        <button type="submit" class="btn btn-primary btn-large">Request Access</button>
     </form>
 
     <p class="waitlist-count">
@@ -845,7 +845,7 @@
     <p style="margin-top: 4px;">QuLab Infinite &mdash; The Operating System for Scientific R&D</p>
 </footer>
 
-<div class="toast" id="toast" role="status" aria-live="polite">Added to the waitlist. We'll be in touch soon.</div>
+<div class="toast" id="toast">Added to the waitlist. We'll be in touch soon.</div>
 
 <script>
     // Scroll reveal
@@ -862,35 +862,17 @@
     // Waitlist form
     function handleSubmit(e) {
         e.preventDefault();
-        const emailInput = document.getElementById('emailInput');
-        const submitButton = document.getElementById('submitButton');
+        const email = document.getElementById('emailInput').value;
         const toast = document.getElementById('toast');
-        const email = emailInput.value;
 
-        // Show loading state
-        submitButton.disabled = true;
-        submitButton.textContent = 'Requesting...';
-        submitButton.style.opacity = '0.7';
-        submitButton.style.cursor = 'not-allowed';
+        // Store locally (replace with real backend endpoint)
+        const waitlist = JSON.parse(localStorage.getItem('qulab_waitlist') || '[]');
+        waitlist.push({ email, timestamp: new Date().toISOString() });
+        localStorage.setItem('qulab_waitlist', JSON.stringify(waitlist));
 
-        // Artificial delay to improve perceived reliability
-        setTimeout(() => {
-            // Store locally (replace with real backend endpoint)
-            const waitlist = JSON.parse(localStorage.getItem('qulab_waitlist') || '[]');
-            waitlist.push({ email, timestamp: new Date().toISOString() });
-            localStorage.setItem('qulab_waitlist', JSON.stringify(waitlist));
-
-            emailInput.value = '';
-
-            // Revert loading state
-            submitButton.disabled = false;
-            submitButton.textContent = 'Request Access';
-            submitButton.style.opacity = '1';
-            submitButton.style.cursor = 'pointer';
-
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }, 600);
+        document.getElementById('emailInput').value = '';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
     }
 </script>
 
