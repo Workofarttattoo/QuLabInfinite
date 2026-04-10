@@ -110,6 +110,60 @@ def get_vial_indices(name, vial_df) -> list:
     return vial_df[vial_df['vial name']==name].index
 
 
+
+
+def validate_recipe_csv(recipe_df) -> list:
+    '''
+    Validates the recipe CSV dataframe for common errors.
+    Returns a list of error messages. If empty, the CSV is valid.
+    '''
+    errors = []
+
+    # 1. Check for required columns
+    required_cols = ["Location", "Solution Name", "Solution 1", "Amount 1 (mL)"]
+    for col in required_cols:
+        if col not in recipe_df.columns:
+            errors.append(f"Missing required column: {col}")
+
+    if errors:
+        return errors # Stop further checks if critical columns are missing
+
+    # 2. Check for duplicate/overlapping wellplate locations
+    all_locations = set()
+
+    for i, row in recipe_df.iterrows():
+        # Check locations
+        loc_str = str(row["Location"])
+        if loc_str != "nan":
+            loc_list = loc_str.split(",")
+            for loc in loc_list:
+                loc = loc.strip()
+                if not loc: continue
+                # Check valid format (Letter A-H, Number 1-12)
+                import re
+                if not re.match(r'^[A-H]([1-9]|1[0-2])$', loc):
+                    errors.append(f"Row {i}: Invalid location format '{loc}'. Must be A-H followed by 1-12.")
+
+                # Check duplicates
+                if loc in all_locations:
+                    errors.append(f"Row {i}: Duplicate wellplate location '{loc}'.")
+                all_locations.add(loc)
+
+        # 3. Check for valid amounts
+        for j in range(MAX_SOLUTIONS):
+            amount_column = "Amount " + str(j+1) + " (mL)"
+            if amount_column in recipe_df.columns:
+                amount_val = str(row[amount_column])
+                if amount_val != "nan":
+                    try:
+                        amt = float(amount_val)
+                        if amt < 0:
+                            errors.append(f"Row {i}: Negative amount in {amount_column}: {amt}")
+                    except ValueError:
+                        errors.append(f"Row {i}: Invalid non-numeric amount in {amount_column}: {amount_val}")
+
+    return errors
+
 def check_enough_volume(vial_df, recipe_df) -> list:
     """
     Checks if enough solution to prepare samples indicated
@@ -147,8 +201,8 @@ def check_enough_volume(vial_df, recipe_df) -> list:
         required_vol = 0
 
         for j in range(MAX_SOLUTIONS):
-            # sol_column = "Solution " + str(j+1) #naming starts at 1 -- column name
-            # amount_column = "Amount " + str(j+1) + " (mL)" #column name for the amount column
+            sol_column = "Solution " + str(j+1) #naming starts at 1 -- column name
+            amount_column = "Amount " + str(j+1) + " (mL)" #column name for the amount column
 
             solutions_needed = recipe_df[recipe_df[sol_column]==curr_sol_name] #df with rows in which the solution needed is the same as the vial sol.
 
@@ -197,8 +251,14 @@ samples_df.to_csv('samples_df.csv', index=False)
 print("vial_df: \n", vial_df)
 print("Samples_df: \n", samples_df)
 
+# Validate the recipe CSV first
+csv_errors = validate_recipe_csv(samples_df)
+if csv_errors:
+    print("ERROR: Invalid Recipe CSV:")
+    for err in csv_errors:
+        print(f"  - {err}")
 #Check there is enough solution in the vials to prepare the wellplates...
-if (len(check_enough_volume(vial_df, samples_df))>0): #print error message if insufficient volume of at least one solution (in vial)
+elif (len(check_enough_volume(vial_df, samples_df))>0): #print error message if insufficient volume of at least one solution (in vial)
     print("ERROR: Insufficient volume of: ", check_enough_volume(vial_df, samples_df))
 
 else: #enough solution, TODO: could include more error checks for the csv file...
