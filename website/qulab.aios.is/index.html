@@ -3,888 +3,627 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuLab Infinite — The Operating System for Scientific R&D</title>
-    <meta name="description" content="6.6 million simulation-ready materials. 220+ virtual labs. One API. QuLab Infinite is the infrastructure layer for AI-driven science.">
+    <title>QuLab Infinite - Active Labs Console</title>
     <style>
         :root {
-            --bg: #0a0a0f;
-            --bg-card: #12121a;
-            --bg-elevated: #1a1a26;
-            --border: #2a2a3a;
-            --text: #e4e4ed;
-            --text-dim: #8888a0;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.15);
-            --accent-bright: #818cf8;
-            --green: #34d399;
-            --orange: #fb923c;
-            --cyan: #22d3ee;
-            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', monospace;
+            color-scheme: dark;
         }
-
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
-
         body {
-            font-family: var(--font);
-            background: var(--bg);
-            color: var(--text);
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            background: #0d1117;
+            color: #e6f1ff;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
         }
-
-        /* Accessibility */
-        :focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
-
-        :focus:not(:focus-visible) {
-            outline: none;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
-            padding: 16px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .logo span { color: var(--accent-bright); }
-
-        nav a {
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        nav a:hover { color: var(--text); }
-
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            text-decoration: none;
-            transition: all 0.2s;
-            cursor: pointer;
-            border: none;
-            font-family: var(--font);
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-bright);
-            box-shadow: 0 0 30px var(--accent-glow);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .btn-ghost:hover {
-            border-color: var(--accent);
-            background: var(--accent-glow);
-        }
-
-        .btn-large {
-            padding: 14px 32px;
-            font-size: 1rem;
-        }
-
-        /* Sections */
-        section {
-            max-width: 1200px;
+        .page {
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 120px 24px;
+            padding: 32px 28px 60px;
         }
-
-        /* Hero */
-        .hero {
-            padding-top: 180px;
-            padding-bottom: 100px;
-            text-align: center;
-            position: relative;
+        header {
+            padding: 40px 36px;
+            border-radius: 24px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(88, 166, 255, 0.4);
+            background: radial-gradient(circle at top left, rgba(0, 255, 136, 0.18), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(88, 166, 255, 0.22), transparent 45%),
+                rgba(13, 17, 23, 0.9);
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-dim);
-            margin-bottom: 32px;
-            background: var(--bg-card);
-        }
-
-        .hero-badge .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--green);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -2px;
-            margin-bottom: 24px;
-        }
-
-        h1 .gradient {
-            background: linear-gradient(135deg, var(--accent-bright), var(--cyan));
+        .hero-title {
+            font-size: clamp(2.4rem, 3vw, 3.8rem);
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+            background: linear-gradient(120deg, #00ff88, #58a6ff, #9d7bff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-
-        .hero-sub {
-            font-size: 1.25rem;
-            color: var(--text-dim);
-            max-width: 640px;
-            margin: 0 auto 40px;
-            line-height: 1.7;
+        .hero-subtitle {
+            color: #9dc1ff;
+            font-size: 1.05rem;
+            max-width: 860px;
         }
-
-        .hero-actions {
+        .hero-meta {
+            margin-top: 18px;
             display: flex;
-            gap: 16px;
-            justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 64px;
+            gap: 12px 20px;
+            color: #8b949e;
+            font-size: 0.95rem;
         }
-
-        /* Stats bar */
-        .stats-bar {
+        .hero-pill {
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.08);
+        }
+        .workspace {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            background: var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            max-width: 900px;
-            margin: 0 auto;
+            grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
+            gap: 26px;
+            align-items: start;
         }
-
-        .stat-item {
-            background: var(--bg-card);
-            padding: 32px 24px;
-            text-align: center;
+        .lab-sidebar {
+            background: rgba(13, 17, 23, 0.92);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            position: sticky;
+            top: 20px;
         }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            font-family: var(--mono);
-            color: var(--accent-bright);
-            letter-spacing: -1px;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            margin-top: 4px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-
-        /* Section headings */
-        .section-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent-bright);
-            font-weight: 600;
+        .lab-sidebar h2 {
+            font-size: 1.2rem;
             margin-bottom: 12px;
+            color: #58a6ff;
         }
-
-        h2 {
-            font-size: clamp(1.75rem, 4vw, 2.75rem);
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-            line-height: 1.15;
-        }
-
-        .section-desc {
-            font-size: 1.1rem;
-            color: var(--text-dim);
-            max-width: 600px;
-            line-height: 1.7;
-            margin-bottom: 48px;
-        }
-
-        /* Problem section */
-        .problem-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-top: 48px;
-        }
-
-        .problem-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 28px;
-        }
-
-        .problem-card h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--orange);
-        }
-
-        .problem-card p {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            line-height: 1.6;
-        }
-
-        /* Solution / Features */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 32px;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 40px var(--accent-glow);
-        }
-
-        .feature-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+        .lab-search {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            margin-bottom: 16px;
-            background: var(--accent-glow);
-        }
-
-        .feature-card h3 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .feature-card p {
-            font-size: 0.875rem;
-            color: var(--text-dim);
-            line-height: 1.6;
-        }
-
-        /* Comparison table */
-        .comparison-section { text-align: center; }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 32px;
-            background: var(--bg-card);
+            gap: 10px;
+            padding: 10px 12px;
             border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            background: rgba(8, 12, 20, 0.9);
+            margin-bottom: 16px;
+            color: #9dc1ff;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-
-        .comparison-table th,
-        .comparison-table td {
-            padding: 16px 20px;
+        .lab-search:focus-within {
+            border-color: rgba(88, 166, 255, 0.8);
+            box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+        }
+        .lab-search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #e6f1ff;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+        .lab-list {
+            display: grid;
+            gap: 10px;
+        }
+        .lab-button {
             text-align: left;
-            font-size: 0.9rem;
-            border-bottom: 1px solid var(--border);
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            background: rgba(0, 255, 136, 0.05);
+            color: #e6f1ff;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.25s ease;
         }
-
-        .comparison-table th {
-            background: var(--bg-elevated);
-            font-weight: 600;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
+        .lab-button:hover,
+        .lab-button.active,
+        .lab-button:focus-visible {
+            border-color: rgba(0, 255, 136, 0.8);
+            background: rgba(0, 255, 136, 0.15);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
+            transform: translateY(-1px);
+            outline: none;
         }
-
-        .comparison-table td:first-child { font-weight: 500; }
-
-        .comparison-table tr:last-child td { border-bottom: none; }
-
-        .comparison-table .ql-col {
-            color: var(--accent-bright);
-            font-weight: 700;
-            font-family: var(--mono);
+        .lab-button small {
+            display: block;
+            margin-top: 6px;
+            color: #8b949e;
             font-size: 0.85rem;
         }
-
-        .check { color: var(--green); }
-        .cross { color: #ef4444; }
-
-        /* Use cases */
-        .use-cases-grid {
+        .lab-panel {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+            gap: 18px;
         }
-
-        .use-case-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 32px;
+        .lab-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px 24px;
+            align-items: center;
         }
-
-        .use-case-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 12px;
+        .lab-header h3 {
+            font-size: 1.5rem;
+            color: #00ff88;
         }
-
-        .use-case-card p {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            line-height: 1.6;
+        .lab-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
         }
-
-        .use-case-tag {
-            display: inline-block;
+        .lab-tag {
             padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 600;
+            border-radius: 999px;
+            border: 1px solid rgba(88, 166, 255, 0.5);
+            color: #9dc1ff;
+            font-size: 0.85rem;
+        }
+        .lab-frame {
+            --frame-gradient: linear-gradient(120deg, #00ff88, #58a6ff);
+            --frame-shadow: rgba(0, 255, 136, 0.25);
+            background: rgba(10, 16, 26, 0.95);
+            border-radius: 26px;
+            padding: 22px;
+            border: 2px solid transparent;
+            background-image: var(--frame-gradient), linear-gradient(#0a101a, #0a101a);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            box-shadow: 0 25px 60px var(--frame-shadow);
+        }
+        .lab-chat {
+            background: rgba(8, 12, 20, 0.9);
+            border-radius: 20px;
+            padding: 18px 18px 22px;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+        }
+        .chat-row {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .chat-label {
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            background: var(--accent-glow);
-            color: var(--accent-bright);
+            color: #8b949e;
+            letter-spacing: 0.08em;
         }
-
-        /* Waitlist CTA */
-        .waitlist-section {
-            text-align: center;
-            padding: 100px 24px;
-            position: relative;
+        .chat-bubble {
+            padding: 12px 14px;
+            border-radius: 14px;
+            font-size: 0.95rem;
         }
-
-        .waitlist-section::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            pointer-events: none;
+        .chat-bubble.user {
+            background: rgba(88, 166, 255, 0.2);
+            border: 1px solid rgba(88, 166, 255, 0.5);
+            color: #dbeafe;
         }
-
-        .waitlist-form {
+        .chat-bubble.lab {
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            color: #d6ffe9;
+        }
+        .chat-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+        .metric-card {
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid rgba(88, 166, 255, 0.25);
+        }
+        .metric-card span {
+            display: block;
+            color: #9dc1ff;
+            font-size: 0.82rem;
+            margin-bottom: 6px;
+        }
+        .metric-card strong {
+            color: #e6f1ff;
+            font-size: 0.95rem;
+        }
+        .prompt-bar {
+            margin-top: 18px;
             display: flex;
             gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 32px;
-            max-width: 520px;
-            margin-left: auto;
-            margin-right: auto;
+            align-items: center;
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            background: rgba(9, 14, 24, 0.9);
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-
-        .waitlist-form input {
+        .prompt-bar:focus-within {
+            border-color: rgba(88, 166, 255, 0.8);
+            box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+        }
+        .prompt-bar input {
             flex: 1;
-            min-width: 250px;
-            padding: 14px 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            color: var(--text);
-            font-size: 0.95rem;
-            font-family: var(--font);
+            background: transparent;
+            border: none;
             outline: none;
-            transition: border-color 0.2s;
+            color: #e6f1ff;
+            font-family: inherit;
         }
-
-        .waitlist-form input:focus { border-color: var(--accent); }
-
-        .waitlist-form input::placeholder { color: var(--text-dim); }
-
-        .waitlist-count {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            margin-top: 16px;
+        .prompt-bar button {
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(120deg, #00ff88, #58a6ff);
+            color: #0d1117;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
-
-        .waitlist-count span {
-            color: var(--green);
-            font-weight: 600;
+        .prompt-bar button:hover,
+        .prompt-bar button:focus-visible {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+            outline: none;
         }
-
-        /* Code preview */
-        .code-block {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 28px;
-            font-family: var(--mono);
-            font-size: 0.85rem;
-            line-height: 1.8;
-            overflow-x: auto;
-            max-width: 700px;
-            margin: 48px auto 0;
-            text-align: left;
+        .lab-story {
+            padding: 18px;
+            border-radius: 18px;
+            background: rgba(13, 17, 23, 0.85);
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            color: #9dc1ff;
         }
-
-        .code-block .comment { color: #6b7280; }
-        .code-block .keyword { color: var(--accent-bright); }
-        .code-block .string { color: var(--green); }
-        .code-block .number { color: var(--orange); }
-        .code-block .func { color: var(--cyan); }
-
-        /* Footer */
+        .lab-story strong {
+            color: #00ff88;
+        }
         footer {
-            border-top: 1px solid var(--border);
-            padding: 40px 24px;
+            margin-top: 40px;
             text-align: center;
-            max-width: 1200px;
-            margin: 0 auto;
+            color: #8b949e;
         }
-
-        footer p {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            margin-bottom: 16px;
-        }
-
-        .footer-links a {
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover { color: var(--text); }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .stats-bar { grid-template-columns: repeat(2, 1fr); }
-            .features-grid,
-            .use-cases-grid { grid-template-columns: 1fr; }
-            .problem-grid { grid-template-columns: 1fr; }
-            .nav-links a:not(.btn) { display: none; }
-            section { padding: 80px 20px; }
-            .hero { padding-top: 140px; }
-        }
-
-        /* Smooth reveal animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Toast notification */
-        .toast {
-            position: fixed;
-            bottom: 32px;
-            right: 32px;
-            background: var(--bg-elevated);
-            border: 1px solid var(--green);
-            border-radius: 12px;
-            padding: 16px 24px;
-            font-size: 0.9rem;
-            color: var(--green);
-            font-weight: 500;
-            z-index: 200;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
+        @media (max-width: 980px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+            .lab-sidebar {
+                position: static;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="page">
+        <header>
+            <h1 class="hero-title">⚛️ QuLab Infinite Active Labs Console</h1>
+            <p class="hero-subtitle">
+                Explore the live lab roster powering GAVL and the QuLab Infinite platform. Every lab keeps a
+                natural-language interface so teams can ask for novel material combinations and get grounded,
+                actionable outputs without waiting for a full 40GB download.
+            </p>
+            <div class="hero-meta">
+                <span class="hero-pill">GAVL • Patent Pending</span>
+                <span>Quantum connectors + materials intelligence</span>
+                <span>Natural language labs • Continuous exploration</span>
+            </div>
+        </header>
 
-<nav>
-    <div class="logo">QuLab <span>Infinite</span></div>
-    <div class="nav-links">
-        <a href="#problem">Problem</a>
-        <a href="#solution">Platform</a>
-        <a href="#comparison">Data</a>
-        <a href="#use-cases">Use Cases</a>
-        <a href="#waitlist" class="btn btn-primary">Get Early Access</a>
-    </div>
-</nav>
+        <section class="workspace">
+            <aside class="lab-sidebar">
+                <h2>Active Labs</h2>
+                <label class="lab-search">
+                    🔎
+                    <input id="labSearch" type="text" placeholder="Search labs or domains" aria-label="Search labs">
+                </label>
+                <div id="labList" class="lab-list"></div>
+            </aside>
 
-<!-- Hero -->
-<section class="hero">
-    <div class="hero-badge">
-        <div class="dot"></div>
-        Patent Pending &middot; Raising Pre-Seed
-    </div>
+            <main class="lab-panel">
+                <div class="lab-header">
+                    <div>
+                        <h3 id="labTitle">Materials Forge Lab</h3>
+                        <p id="labSubtitle" class="hero-subtitle">Materials fusion, synthesis guidance, and novel combo validation.</p>
+                    </div>
+                    <div id="labTags" class="lab-tags"></div>
+                </div>
 
-    <h1>
-        The operating system<br>
-        for <span class="gradient">scientific R&D</span>
-    </h1>
+                <div id="labFrame" class="lab-frame">
+                    <div class="lab-chat" id="labChat" aria-live="polite"></div>
+                    <div class="prompt-bar">
+                        <input type="text" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’">
+                        <button type="button">Send</button>
+                    </div>
+                </div>
 
-    <p class="hero-sub">
-        6.6 million simulation-ready materials. 220+ virtual labs.
-        One API. Replace months of physical experiments with a single call.
-    </p>
+                <div class="lab-story" id="labStory"></div>
+            </main>
+        </section>
 
-    <div class="hero-actions">
-        <a href="#waitlist" class="btn btn-primary btn-large">Request Early Access</a>
-        <a href="#solution" class="btn btn-ghost btn-large">See the Platform</a>
-    </div>
-
-    <div class="stats-bar reveal">
-        <div class="stat-item">
-            <div class="stat-number">6.6M</div>
-            <div class="stat-label">Materials</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">220+</div>
-            <div class="stat-label">Virtual Labs</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">&lt;10ms</div>
-            <div class="stat-label">API Latency</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">386x</div>
-            <div class="stat-label">vs COMSOL</div>
-        </div>
-    </div>
-</section>
-
-<!-- Problem -->
-<section id="problem">
-    <div class="section-label">The Problem</div>
-    <h2>Physical R&D is slow, expensive,<br>and locked out of the AI era</h2>
-    <p class="section-desc">
-        Research teams spend months and hundreds of thousands of dollars on experiments
-        that could be simulated in seconds. Meanwhile, AI agents have zero access
-        to validated scientific tools.
-    </p>
-
-    <div class="problem-grid reveal">
-        <div class="problem-card">
-            <h3>Tiny databases, enterprise prices</h3>
-            <p>COMSOL has 17K materials and charges $10K+/year. ANSYS Granta has 10K materials at $15K+/year. Researchers hit walls constantly.</p>
-        </div>
-        <div class="problem-card">
-            <h3>Reference data, not simulation data</h3>
-            <p>MatWeb has 120K materials but they're reference-only. You can't feed them into a simulation. Researchers waste days reformatting.</p>
-        </div>
-        <div class="problem-card">
-            <h3>No AI integration path</h3>
-            <p>GPT, Claude, and autonomous research agents are exploding. None of them can run a validated simulation. The tools don't have APIs.</p>
-        </div>
-        <div class="problem-card">
-            <h3>Fragmented across domains</h3>
-            <p>Physics in one tool, chemistry in another, biology in a third. No unified platform means no cross-domain discovery.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Solution -->
-<section id="solution">
-    <div class="section-label">The Platform</div>
-    <h2>One API for all of science</h2>
-    <p class="section-desc">
-        QuLab Infinite gives researchers and AI agents instant access to the world's
-        largest simulation-ready materials database and 220+ validated virtual labs.
-    </p>
-
-    <div class="features-grid reveal">
-        <div class="feature-card">
-            <div class="feature-icon">&#9878;</div>
-            <h3>6.6M Materials Engine</h3>
-            <p>241K alloys, 6.26M composites, 17K temperature variants from 4K to 1473K. Every material has complete thermal, mechanical, and electrical properties.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#9883;</div>
-            <h3>220+ Virtual Labs</h3>
-            <p>Physics, chemistry, biology, medicine, engineering, earth science, materials science, computer science. Each with validated simulation models.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#10697;</div>
-            <h3>AI-Native Interface</h3>
-            <p>MCP protocol support so any LLM or autonomous agent can run experiments directly. First science platform built for the agent era.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#9889;</div>
-            <h3>Quantum-Enhanced Search</h3>
-            <p>30-qubit quantum simulator with VQE optimization delivers 12.54x faster design-space exploration across millions of materials.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#128300;</div>
-            <h3>Clinical-Grade Diagnostics</h3>
-            <p>10 medical diagnostic labs validated against peer-reviewed standards including NIA-AA, Sepsis-3, CKD-EPI 2021, and MDS-UPDRS.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">&#9881;</div>
-            <h3>Full-Stack Deployment</h3>
-            <p>REST API, 93 lab GUIs, CLI tools, Docker containers, MCP server. On-prem or cloud. Production-ready today.</p>
-        </div>
+        <footer>
+            <p>© 2025 QuLab Infinite. Built for the future of science.</p>
+        </footer>
     </div>
 
-    <div class="code-block reveal">
-        <span class="comment"># Find lightweight, high-strength materials for aerospace</span><br>
-        <span class="keyword">import</span> requests<br><br>
-        response = requests.<span class="func">get</span>(<br>
-        &nbsp;&nbsp;<span class="string">"https://api.qulabinfinite.com/v1/materials/search"</span>,<br>
-        &nbsp;&nbsp;headers={<span class="string">"Authorization"</span>: <span class="string">f"Bearer {API_KEY}"</span>},<br>
-        &nbsp;&nbsp;params={<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"min_tensile_strength"</span>: <span class="number">800</span>,<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"max_density"</span>: <span class="number">4.5</span>,<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"temperature"</span>: <span class="string">"773K"</span>,<br>
-        &nbsp;&nbsp;}<br>
-        )<br><br>
-        <span class="comment"># Returns 2,847 matching materials in 8ms</span><br>
-        <span class="comment"># COMSOL would return 12.</span>
-    </div>
-</section>
-
-<!-- Comparison -->
-<section id="comparison" class="comparison-section">
-    <div class="section-label">The Data Advantage</div>
-    <h2>386x more materials than the industry leader</h2>
-
-    <table class="comparison-table reveal">
-        <thead>
-            <tr>
-                <th>Capability</th>
-                <th>QuLab Infinite</th>
-                <th>COMSOL</th>
-                <th>ANSYS Granta</th>
-                <th>MatWeb</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Total Materials</td>
-                <td class="ql-col">6,609,495</td>
-                <td>17,131</td>
-                <td>~10,000</td>
-                <td>120,000</td>
-            </tr>
-            <tr>
-                <td>Simulation-Ready</td>
-                <td class="ql-col"><span class="check">&#10003;</span> 100%</td>
-                <td><span class="check">&#10003;</span></td>
-                <td><span class="check">&#10003;</span></td>
-                <td><span class="cross">&#10007;</span> Reference only</td>
-            </tr>
-            <tr>
-                <td>Composite Materials</td>
-                <td class="ql-col">6,260,680</td>
-                <td>~500</td>
-                <td>~300</td>
-                <td>~1,000</td>
-            </tr>
-            <tr>
-                <td>API Access</td>
-                <td class="ql-col"><span class="check">&#10003;</span> Full REST</td>
-                <td><span class="cross">&#10007;</span></td>
-                <td>Enterprise only</td>
-                <td><span class="cross">&#10007;</span></td>
-            </tr>
-            <tr>
-                <td>AI / LLM Integration</td>
-                <td class="ql-col"><span class="check">&#10003;</span> MCP Native</td>
-                <td><span class="cross">&#10007;</span></td>
-                <td><span class="cross">&#10007;</span></td>
-                <td><span class="cross">&#10007;</span></td>
-            </tr>
-            <tr>
-                <td>Quantum Enhancement</td>
-                <td class="ql-col"><span class="check">&#10003;</span> 12.54x speedup</td>
-                <td><span class="cross">&#10007;</span></td>
-                <td><span class="cross">&#10007;</span></td>
-                <td><span class="cross">&#10007;</span></td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td class="ql-col">$99&ndash;$499/mo</td>
-                <td>$10K+/yr</td>
-                <td>$15K+/yr</td>
-                <td>Free (limited)</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-<!-- Use Cases -->
-<section id="use-cases">
-    <div class="section-label">Who It's For</div>
-    <h2>Built for researchers, engineers, and AI agents</h2>
-    <p class="section-desc">
-        Whether you're optimizing battery cathodes, screening drug candidates,
-        or building autonomous research systems.
-    </p>
-
-    <div class="use-cases-grid reveal">
-        <div class="use-case-card">
-            <div class="use-case-tag">Materials Science</div>
-            <h3>Battery &amp; Semiconductor R&D</h3>
-            <p>Screen millions of material combinations for optimal electrochemical properties. Replace 6-month experimental cycles with hours of simulation.</p>
-        </div>
-        <div class="use-case-card">
-            <div class="use-case-tag">Pharma &amp; Biotech</div>
-            <h3>Drug Discovery &amp; Interaction</h3>
-            <p>Simulate molecular interactions, run clinical trial models, and screen compounds across validated pharmacological engines.</p>
-        </div>
-        <div class="use-case-card">
-            <div class="use-case-tag">AI &amp; Agents</div>
-            <h3>Autonomous Research Systems</h3>
-            <p>Give your AI agents the ability to actually do science. MCP-native integration means any LLM can run validated experiments through a single API.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Waitlist -->
-<section id="waitlist" class="waitlist-section">
-    <div class="section-label">Early Access</div>
-    <h2>Be first in line</h2>
-    <p class="section-desc" style="margin-left:auto; margin-right:auto;">
-        We're onboarding design partners now. Request access to get
-        API credentials and a dedicated onboarding session.
-    </p>
-
-    <form class="waitlist-form" id="waitlistForm" onsubmit="handleSubmit(event)">
-        <input type="email" id="emailInput" placeholder="you@company.com" required>
-        <button type="submit" class="btn btn-primary btn-large">Request Access</button>
-    </form>
-
-    <p class="waitlist-count">
-        Researchers from <span>MIT</span>, <span>Stanford</span>, and <span>Fortune 500 R&D teams</span> are already on the list.
-    </p>
-</section>
-
-<!-- Footer -->
-<footer>
-    <div class="footer-links">
-        <a href="mailto:josh@corporationoflight.com">Contact</a>
-        <a href="#">API Docs</a>
-        <a href="#">GitHub</a>
-        <a href="#">Privacy</a>
-    </div>
-    <p>&copy; 2026 Corporation of Light. Patent Pending. All Rights Reserved.</p>
-    <p style="margin-top: 4px;">QuLab Infinite &mdash; The Operating System for Scientific R&D</p>
-</footer>
-
-<div class="toast" id="toast">Added to the waitlist. We'll be in touch soon.</div>
-
-<script>
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+    <script>
+        const labs = [
+            {
+                id: "materials-forge",
+                name: "Materials Forge Lab",
+                subtitle: "Materials fusion, synthesis guidance, and novel combo validation.",
+                tags: ["Materials", "Synthesis", "Validated Blends"],
+                frame: {
+                    gradient: "linear-gradient(135deg, #00ff88, #58a6ff)",
+                    shadow: "rgba(0, 255, 136, 0.3)"
+                },
+                chat: [
+                    {
+                        role: "user",
+                        text: "Blend silica aerogel with graphene and boron nitride to get thermal stealth without weight."
+                    },
+                    {
+                        role: "lab",
+                        text: "Confirmed: aerogel + graphene lattice + BN nanosheets yields high IR suppression with low density. Target mix: 62% aerogel, 25% graphene, 13% BN. Suggested binder: fluorinated epoxy for stability."
+                    }
+                ],
+                metrics: [
+                    { label: "Validated combos", value: "1,059 materials indexed" },
+                    { label: "Turnaround", value: "Sub-120s synthesis plan" },
+                    { label: "Confidence", value: "0.91 composite viability" }
+                ],
+                story: "Materials Forge keeps the sense of exploration alive — it checks compatibility, predicts conductivity, and outlines lab steps so your natural-language experiments can actually pan out."
+            },
+            {
+                id: "quantum-connectors",
+                name: "Quantum Connectors Lab",
+                subtitle: "GAVL connector design with quantum-safe interlocks and signal integrity.",
+                tags: ["GAVL", "Quantum", "Connector Design"],
+                frame: {
+                    gradient: "linear-gradient(135deg, #9d7bff, #58a6ff)",
+                    shadow: "rgba(157, 123, 255, 0.35)"
+                },
+                chat: [
+                    {
+                        role: "user",
+                        text: "Design a connector stack for 18 GHz with zero cross-talk in wet lab conditions."
+                    },
+                    {
+                        role: "lab",
+                        text: "Proposed stack: ceramic core, graphene shielding, niobium-titanium ring. Add hydrophobic sealant for humidity. Crosstalk estimate: -64 dB with impedance matched at 50Ω."
+                    }
+                ],
+                metrics: [
+                    { label: "Signal fidelity", value: "18 GHz target range" },
+                    { label: "Isolation", value: "-64 dB predicted" },
+                    { label: "Seal rating", value: "IP68 wet lab ready" }
+                ],
+                story: "This lab keeps GAVL’s quantum connectors front and center — ask for stackups, shielding, or field-ready prototypes."
+            },
+            {
+                id: "bio-fabrication",
+                name: "BioFab Lab",
+                subtitle: "Biomaterials, scaffolds, and living interfaces for regenerative design.",
+                tags: ["Bioengineering", "Scaffolds", "Regenerative"],
+                frame: {
+                    gradient: "linear-gradient(135deg, #00ff88, #2dd4bf)",
+                    shadow: "rgba(45, 212, 191, 0.35)"
+                },
+                chat: [
+                    {
+                        role: "user",
+                        text: "Need a bioresorbable scaffold that supports neural growth and handles 3% strain."
+                    },
+                    {
+                        role: "lab",
+                        text: "Use PLLA + collagen matrix with aligned electrospun fibers. Add laminin coating for neurite adhesion. Estimated strain tolerance: 3.4% before yield."
+                    }
+                ],
+                metrics: [
+                    { label: "Material families", value: "Hydrogels + bioresorbables" },
+                    { label: "Strain target", value: "3% tuned" },
+                    { label: "Cell support", value: "Neural adhesion enabled" }
+                ],
+                story: "BioFab brings living material design into the chat — ask for composite gels, scaffold architectures, or healing timelines."
+            },
+            {
+                id: "quantum-sim",
+                name: "Quantum Sim Lab",
+                subtitle: "Quantum materials and energy-state simulations in natural language.",
+                tags: ["Quantum", "Simulation", "Energy States"],
+                frame: {
+                    gradient: "linear-gradient(135deg, #58a6ff, #00d4ff)",
+                    shadow: "rgba(0, 212, 255, 0.3)"
+                },
+                chat: [
+                    {
+                        role: "user",
+                        text: "Model a 30-qubit lattice with a metallic dopant."
+                    },
+                    {
+                        role: "lab",
+                        text: "Simulation queued: dopant ratio 0.03 shifts bandgap by 0.19 eV. Recommend anneal schedule at 820°C for 40 min."
+                    }
+                ],
+                metrics: [
+                    { label: "Qubit range", value: "30-qubit native" },
+                    { label: "Bandgap shift", value: "+0.19 eV" },
+                    { label: "Compute mode", value: "Optimized NumPy" }
+                ],
+                story: "Quantum Sim keeps the conversation fluid while still returning measurable parameters you can take to fabrication."
+            },
+            {
+                id: "nano-structures",
+                name: "Nano-Structures Lab",
+                subtitle: "Micro-lattice and metamaterial structures for strength-to-weight control.",
+                tags: ["Nanotech", "Metamaterials", "Strength"],
+                frame: {
+                    gradient: "linear-gradient(135deg, #00ff88, #fbbf24)",
+                    shadow: "rgba(251, 191, 36, 0.3)"
+                },
+                chat: [
+                    {
+                        role: "user",
+                        text: "Need a micro-lattice that stays rigid while keeping density under 0.3 g/cc."
+                    },
+                    {
+                        role: "lab",
+                        text: "Recommend octet truss lattice with TiAlN coating. Density: 0.28 g/cc. Compression modulus: 2.1 GPa."
+                    }
+                ],
+                metrics: [
+                    { label: "Density", value: "0.28 g/cc" },
+                    { label: "Modulus", value: "2.1 GPa" },
+                    { label: "Fabrication", value: "Multi-photon lithography" }
+                ],
+                story: "Nano-Structures translates geometry requests into build-ready lattice specs."
+            },
+            {
+                id: "bio-signal",
+                name: "BioSignal Lab",
+                subtitle: "Signal sensing, biosensors, and adaptive readouts.",
+                tags: ["Sensors", "Signal", "Diagnostics"],
+                frame: {
+                    gradient: "linear-gradient(135deg, #38bdf8, #a855f7)",
+                    shadow: "rgba(168, 85, 247, 0.35)"
+                },
+                chat: [
+                    {
+                        role: "user",
+                        text: "Build a biosensor stack for detecting low-frequency electrical changes in tissue."
+                    },
+                    {
+                        role: "lab",
+                        text: "Stack: gold nanoelectrode + hydrogel interface + graphene amplifier. Sensitivity target: 12 µV with 0.8 noise ratio."
+                    }
+                ],
+                metrics: [
+                    { label: "Sensitivity", value: "12 µV detection" },
+                    { label: "Noise ratio", value: "0.8 tuned" },
+                    { label: "Interface", value: "Hydrogel + graphene" }
+                ],
+                story: "BioSignal keeps diagnostics conversational while grounding the stack in viable sensor architectures."
+            },
+            {
+                id: "aero-structures",
+                name: "Aero Structures Lab",
+                subtitle: "Ultra-light composites and aerogel assemblies for extreme environments.",
+                tags: ["Aerospace", "Aerogels", "Composites"],
+                frame: {
+                    gradient: "linear-gradient(135deg, #94a3b8, #22d3ee)",
+                    shadow: "rgba(34, 211, 238, 0.25)"
+                },
+                chat: [
+                    {
+                        role: "user",
+                        text: "I need a wing skin that handles -50°C with high UV exposure."
+                    },
+                    {
+                        role: "lab",
+                        text: "Suggested stack: silica aerogel + carbon fiber weave + UV-stable resin. Estimated thermal drift <1.8% across -50°C to 30°C."
+                    }
+                ],
+                metrics: [
+                    { label: "Thermal drift", value: "<1.8%" },
+                    { label: "UV tolerance", value: "UV-stable resin" },
+                    { label: "Mass reduction", value: "22% vs. CFRP" }
+                ],
+                story: "Aero Structures brings high-performance composites into the same natural-language workflow."
+            },
+            {
+                id: "materials-inventory",
+                name: "Materials Inventory Lab",
+                subtitle: "Inventory of verified materials and compatibility map for rapid exploration.",
+                tags: ["Inventory", "Compatibility", "Sourcing"],
+                frame: {
+                    gradient: "linear-gradient(135deg, #22c55e, #14b8a6)",
+                    shadow: "rgba(20, 184, 166, 0.3)"
+                },
+                chat: [
+                    {
+                        role: "user",
+                        text: "Show me new combinations that can survive 900°C with low thermal expansion."
+                    },
+                    {
+                        role: "lab",
+                        text: "Flagged: zirconia + silicon carbide + alumina mesh. Expansion coefficient 6.4×10⁻⁶ /K. Confirmed sourcing for all three."
+                    }
+                ],
+                metrics: [
+                    { label: "Inventory size", value: "1,059 verified materials" },
+                    { label: "Compatibility map", value: "Real-time screening" },
+                    { label: "Sourcing", value: "Multi-vendor ready" }
+                ],
+                story: "Materials Inventory keeps your exploration grounded in what is actually available."
             }
-        });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
+        ];
 
-    // Waitlist form
-    function handleSubmit(e) {
-        e.preventDefault();
-        const email = document.getElementById('emailInput').value;
-        const toast = document.getElementById('toast');
+        const labList = document.getElementById("labList");
+        const labSearch = document.getElementById("labSearch");
+        const labTitle = document.getElementById("labTitle");
+        const labSubtitle = document.getElementById("labSubtitle");
+        const labTags = document.getElementById("labTags");
+        const labChat = document.getElementById("labChat");
+        const labFrame = document.getElementById("labFrame");
+        const labStory = document.getElementById("labStory");
 
-        // Store locally (replace with real backend endpoint)
-        const waitlist = JSON.parse(localStorage.getItem('qulab_waitlist') || '[]');
-        waitlist.push({ email, timestamp: new Date().toISOString() });
-        localStorage.setItem('qulab_waitlist', JSON.stringify(waitlist));
+        const renderLabs = (filter = "") => {
+            labList.innerHTML = "";
+            const filtered = labs.filter((lab) => {
+                const haystack = `${lab.name} ${lab.subtitle} ${lab.tags.join(" ")}`.toLowerCase();
+                return haystack.includes(filter.toLowerCase());
+            });
+            filtered.forEach((lab, index) => {
+                const button = document.createElement("button");
+                button.className = "lab-button";
+                button.type = "button";
+                button.dataset.labId = lab.id;
+                button.innerHTML = `${lab.name}<small>${lab.subtitle}</small>`;
+                button.addEventListener("click", () => setActiveLab(lab.id));
+                if (index === 0 && !document.querySelector(".lab-button.active")) {
+                    button.classList.add("active");
+                    setActiveLab(lab.id);
+                }
+                labList.appendChild(button);
+            });
+        };
 
-        document.getElementById('emailInput').value = '';
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-</script>
+        const setActiveLab = (labId) => {
+            const lab = labs.find((item) => item.id === labId);
+            if (!lab) return;
+            document.querySelectorAll(".lab-button").forEach((button) => {
+                button.classList.toggle("active", button.dataset.labId === labId);
+            });
+            labTitle.textContent = lab.name;
+            labSubtitle.textContent = lab.subtitle;
+            labTags.innerHTML = "";
+            lab.tags.forEach((tag) => {
+                const span = document.createElement("span");
+                span.className = "lab-tag";
+                span.textContent = tag;
+                labTags.appendChild(span);
+            });
+            labFrame.style.setProperty("--frame-gradient", lab.frame.gradient);
+            labFrame.style.setProperty("--frame-shadow", lab.frame.shadow);
+            labChat.innerHTML = "";
+            lab.chat.forEach((message) => {
+                const row = document.createElement("div");
+                row.className = "chat-row";
+                row.innerHTML = `
+                    <span class="chat-label">${message.role === "user" ? "You" : "Lab"}</span>
+                    <div class="chat-bubble ${message.role === "user" ? "user" : "lab"}">${message.text}</div>
+                `;
+                labChat.appendChild(row);
+            });
+            const metrics = document.createElement("div");
+            metrics.className = "chat-metrics";
+            lab.metrics.forEach((metric) => {
+                const card = document.createElement("div");
+                card.className = "metric-card";
+                card.innerHTML = `<span>${metric.label}</span><strong>${metric.value}</strong>`;
+                metrics.appendChild(card);
+            });
+            labChat.appendChild(metrics);
+            labStory.innerHTML = `<strong>Lab continuity:</strong> ${lab.story}`;
+        };
 
+        labSearch.addEventListener("input", (event) => renderLabs(event.target.value));
+        renderLabs();
+    </script>
 </body>
 </html>
