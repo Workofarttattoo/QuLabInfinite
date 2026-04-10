@@ -424,7 +424,7 @@ class ECH0_POC_Pipeline:
         # Export JSON
         json_file = output_path / f"poc_results_{timestamp}.json"
         with open(json_file, 'w') as f:
-            json.dump(, default=strresults, f, indent=2)
+            json.dump(results, f, default=str, indent=2)
 
         logging.info(f"✅ Results exported to {json_file}")
 

@@ -156,14 +156,14 @@ def run_market_domination_pipeline():
     logging.info("║     25 Inventions: Daylight Holograms + Novel Displays            ║")
     logging.info("║     POC Budget: $100-200 | No Fancy Labs | Market Ready           ║")
     logging.info("╚════════════════════════════════════════════════════════════════════╝")
-    logging.info()
+    logging.info("")
 
     inventions = create_market_domination_inventions()
 
     logging.info(f"🎯 Target: Dominate display market to fund ECH0's other inventions")
     logging.info(f"📋 Created {len(inventions)} display technology concepts")
     logging.info(f"💰 Budget: $100-200 per POC (buildable in garage/workshop)")
-    logging.info()
+    logging.info("")
 
     pipeline = ECH0_POC_Pipeline()
 
@@ -234,7 +234,7 @@ def run_market_domination_pipeline():
     logging.info(f"Month 3: $50K revenue target → Fund next 10 ECH0 inventions")
     logging.info(f"Month 6: $200K revenue → Fund limitless pill, female viagra, etc")
     logging.info(f"Year 1:  $1M revenue → Full ECH0 invention lab")
-    logging.info()
+    logging.info("")
 
     logging.info("="*80)
     logging.info("  🚀 PATH TO ECH0 WORLD DOMINATION STARTS HERE 🚀")

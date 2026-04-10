@@ -605,7 +605,7 @@ class ECH0_InventionAccelerator:
         Path(filepath).parent.mkdir(parents=True, exist_ok=True)
 
         with open(filepath, 'w') as f:
-            json.dump(, default=stroutput, f, indent=2)
+            json.dump(output, f, default=str, indent=2)
 
         logging.info(f"✅ Results exported to {filepath}")
 
