@@ -102,7 +102,8 @@ def get_non_empty_vial_num(name, vial_df) -> int:
     vial_indices = vial_df.index[vial_df['vial name']==name].tolist() #list of indices with same name
     print(vial_indices)
     i = 0
-    while (vial_df["vial volume (mL)"][vial_indices[i]]==0 and i < len(vial_indices)): #looping through indices to find non-empty vial
+    # ensure vial has more than 0.5 mL (buffer amount)
+    while (vial_df["vial volume (mL)"][vial_indices[i]] <= 0.5 and i < len(vial_indices) - 1):
         i = i+1
     return vial_indices[i]
 
@@ -147,8 +148,8 @@ def check_enough_volume(vial_df, recipe_df) -> list:
         required_vol = 0
 
         for j in range(MAX_SOLUTIONS):
-            # sol_column = "Solution " + str(j+1) #naming starts at 1 -- column name
-            # amount_column = "Amount " + str(j+1) + " (mL)" #column name for the amount column
+            sol_column = "Solution " + str(j+1) #naming starts at 1 -- column name
+            amount_column = "Amount " + str(j+1) + " (mL)" #column name for the amount column
 
             solutions_needed = recipe_df[recipe_df[sol_column]==curr_sol_name] #df with rows in which the solution needed is the same as the vial sol.
 
@@ -168,12 +169,24 @@ def check_enough_volume(vial_df, recipe_df) -> list:
     
     return insufficient_volume_list
 
-def check_next_vial(recipe_df, curr_column, curr_vial_name, curr_step) :
-    """ Checks if next step in recipe is pipeted from the same vial. If so, no capping nor change of pipettes (returns true & i++).
+def check_next_vial(recipe_df, curr_column, curr_vial_name, curr_step, vial_df=None, curr_vial_num=None, amount_column=None) :
+    """ Checks if next step in recipe is pipeted from the same vial AND if the current vial has enough volume.
+    If so, no capping nor change of pipettes (returns true & i++).
     """
     if curr_step == len(recipe_df)-1: 
         return False, curr_step
-    elif curr_vial_name == recipe_df[curr_column].loc[curr_step+1]: #TODO: check if enough volume (or if check_enough_volume already does)
+    elif curr_vial_name == recipe_df[curr_column].loc[curr_step+1]:
+        # Check if enough volume in the current vial for the next step
+        if vial_df is not None and curr_vial_num is not None and amount_column is not None:
+            next_amount = float(recipe_df[amount_column].loc[curr_step+1])
+            next_replicates = len(recipe_df["Wellplate Index"].loc[curr_step+1])
+            required_vol = next_amount * next_replicates
+
+            # Use 0.5 mL buffer as in check_enough_volume
+            if vial_df.at[curr_vial_num, "vial volume (mL)"] - required_vol >= 0.5:
+                return True, curr_step+1
+            else:
+                return False, curr_step
         return True, curr_step+1
     else:
         return False, curr_step
@@ -217,7 +230,7 @@ else: #enough solution, TODO: could include more error checks for the csv file..
     i = 0
     while i < len(samples_df): #for each sample in samples_df
         print("**--------------------------------------------------**")
-        print("Preparing Sample", i, ":", samples_df['Solution Name'][i])
+        print("Preparing Sample", i, ":", samples_df['Solution 1'][i])
         
 
 
@@ -271,11 +284,14 @@ else: #enough solution, TODO: could include more error checks for the csv file..
 #                     height_track = False #aspirate from bottom of vial (more precipitate?)
 
 
-                nr.aspirate_from_vial(curr_vial_num, curr_amount*num_replicates, track_height=height_track)
+                vol_to_aspirate = curr_amount * num_replicates
+                nr.aspirate_from_vial(curr_vial_num, vol_to_aspirate, track_height=height_track)
                 nr.dispense_into_wellplate(samples_df["Wellplate Index"][i], curr_amount,num_replicates, dispense_type = curr_dispense_type)
-        
                 
-                check_next_vial_bool, i = check_next_vial(samples_df, sol_column, curr_vial_name, curr_step=i) #returns next i value
+                # update the vial dataframe volume
+                vial_df.at[curr_vial_num, "vial volume (mL)"] -= vol_to_aspirate
+
+                check_next_vial_bool, i = check_next_vial(samples_df, sol_column, curr_vial_name, curr_step=i, vial_df=vial_df, curr_vial_num=curr_vial_num, amount_column=amount_column) #returns next i value
                 
                 #update values for next run with new i
                 if check_next_vial_bool: #not changing pipette tips for next step in protocol, update num_duplicates, amount & dispense_type
