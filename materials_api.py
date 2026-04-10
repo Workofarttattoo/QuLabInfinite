@@ -243,7 +243,7 @@ async def get_categories():
 
 
 @app.get("/recommend")
-async def recommend(
+def recommend(
     use_case: str = Query(..., description="Use case: structural, thermal, electrical, optical"),
     constraint_density_max: Optional[float] = Query(None, description="Max density constraint"),
     constraint_cost_max: Optional[float] = Query(None, description="Max cost constraint"),
