@@ -3,7 +3,8 @@ import sqlite3
 from typing import Iterable
 from pydantic import BaseModel
 import json
-from ingest.pipeline import IngestionPipeline, PydanticValidator, DataValidator
+from ingest.pipeline import IngestionPipeline, PydanticValidator
+from ingest.processors import ValidationProcessor as DataValidator
 from ingest.schemas import RecordChem
 from ingest.sources import nist_thermo
 
@@ -30,22 +31,25 @@ def load_to_db(records: Iterable[BaseModel], db_path: str):
     """Load records into the SQLite database."""
     with sqlite3.connect(db_path) as conn:
         cursor = conn.cursor()
-        for record in records:
-            if isinstance(record, RecordChem):
-                cursor.execute("""
-                INSERT OR REPLACE INTO records (id, substance, phase, temperature_k, pressure_pa, enthalpy_j_per_mol, entropy_j_per_mol_k, provenance, tags)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """, (
-                    str(hash(record.model_dump_json())),
-                    record.substance,
-                    record.phase,
-                    record.temperature_k,
-                    record.pressure_pa,
-                    record.enthalpy_j_per_mol,
-                    record.entropy_j_per_mol_k,
-                    json.dumps(record.provenance.model_dump()),
-                    ",".join(record.tags or [])
-                ))
+        params = (
+            (
+                str(hash(record.model_dump_json())),
+                record.substance,
+                record.phase,
+                record.temperature_k,
+                record.pressure_pa,
+                record.enthalpy_j_per_mol,
+                record.entropy_j_per_mol_k,
+                json.dumps(record.provenance.model_dump(), default=str),
+                ",".join(record.tags or [])
+            )
+            for record in records if isinstance(record, RecordChem)
+        )
+
+        cursor.executemany("""
+        INSERT OR REPLACE INTO records (id, substance, phase, temperature_k, pressure_pa, enthalpy_j_per_mol, entropy_j_per_mol_k, provenance, tags)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, params)
         conn.commit()
     print(f"Loaded records into {db_path}")
 
