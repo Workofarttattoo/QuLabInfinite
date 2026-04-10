@@ -7,6 +7,12 @@
     box-sizing: border-box;
 }
 
+/* Global focus visibility for accessibility */
+*:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
 :root {
     --primary: #6366f1;
     --primary-dark: #4f46e5;
@@ -307,6 +313,15 @@ body {
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+    background: var(--primary-dark);
+}
+
+.copy-btn:active {
+    transform: scale(0.95);
 }
 
 code {
