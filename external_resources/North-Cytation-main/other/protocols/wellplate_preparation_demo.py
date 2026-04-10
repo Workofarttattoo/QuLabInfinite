@@ -235,7 +235,6 @@ while i < len(samples_df): #for each sample in samples_df
 
 
         if "nan" in curr_vial_name.lower():
-            print('break!') #TODO: Remove later
             break
         
         curr_vial_num = get_non_empty_vial_num(curr_vial_name, vial_df) #see how to fix up for multiple vials...
