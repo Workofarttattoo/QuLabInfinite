@@ -1,4 +1,3 @@
-# TODO: Refactor long functions identified in code quality analysis
 import logging
 """
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
@@ -152,6 +151,58 @@ websocket_connections = []
 # LAB EXECUTION ENGINE
 # =============================================================================
 
+def _generate_lab_result(category: str) -> Dict[str, Any]:
+    """Generate realistic mock results based on lab category."""
+    if category == "oncology":
+        return {
+            "tumor_volume": np.random.exponential(100),
+            "growth_rate": np.random.uniform(0.1, 0.5),
+            "treatment_efficacy": np.random.uniform(0.3, 0.9),
+            "survival_probability": np.random.uniform(0.4, 0.95),
+            "confidence": np.random.uniform(0.7, 0.95)
+        }
+    elif category == "drug":
+        return {
+            "binding_affinity": np.random.uniform(-12, -6),
+            "selectivity": np.random.uniform(10, 1000),
+            "bioavailability": np.random.uniform(0.1, 0.9),
+            "half_life_hours": np.random.uniform(1, 24),
+            "toxicity_score": np.random.uniform(0, 1)
+        }
+    elif category == "protein":
+        return {
+            "folding_energy": np.random.uniform(-500, -100),
+            "stability_score": np.random.uniform(0.5, 1.0),
+            "rmsd": np.random.uniform(0.5, 3.0),
+            "secondary_structure": {
+                "alpha_helix": np.random.uniform(0.2, 0.4),
+                "beta_sheet": np.random.uniform(0.2, 0.3),
+                "coil": np.random.uniform(0.3, 0.5)
+            }
+        }
+    elif category == "genomics":
+        return {
+            "variant_count": np.random.randint(10, 1000),
+            "pathogenic_variants": np.random.randint(0, 10),
+            "coverage_depth": np.random.uniform(30, 100),
+            "quality_score": np.random.uniform(20, 40),
+            "mutation_rate": np.random.uniform(1e-8, 1e-6)
+        }
+    elif category == "clinical":
+        return {
+            "patient_count": np.random.randint(100, 10000),
+            "response_rate": np.random.uniform(0.2, 0.8),
+            "median_survival_months": np.random.uniform(6, 60),
+            "hazard_ratio": np.random.uniform(0.3, 0.9),
+            "p_value": np.random.uniform(0.001, 0.05)
+        }
+    else:
+        return {
+            "value": np.random.randn(),
+            "score": np.random.uniform(0, 1),
+            "data": [np.random.randn() for _ in range(10)]
+        }
+
 async def execute_lab(lab_name: str, parameters: Dict[str, Any]) -> Dict[str, Any]:
     """
     Execute a single lab with given parameters.
@@ -168,55 +219,7 @@ async def execute_lab(lab_name: str, parameters: Dict[str, Any]) -> Dict[str, An
     # Generate realistic results based on lab type
     category = LAB_REGISTRY.get(lab_name, {}).get("category", "unknown")
 
-    if category == "oncology":
-        result = {
-            "tumor_volume": np.random.exponential(100),
-            "growth_rate": np.random.uniform(0.1, 0.5),
-            "treatment_efficacy": np.random.uniform(0.3, 0.9),
-            "survival_probability": np.random.uniform(0.4, 0.95),
-            "confidence": np.random.uniform(0.7, 0.95)
-        }
-    elif category == "drug":
-        result = {
-            "binding_affinity": np.random.uniform(-12, -6),
-            "selectivity": np.random.uniform(10, 1000),
-            "bioavailability": np.random.uniform(0.1, 0.9),
-            "half_life_hours": np.random.uniform(1, 24),
-            "toxicity_score": np.random.uniform(0, 1)
-        }
-    elif category == "protein":
-        result = {
-            "folding_energy": np.random.uniform(-500, -100),
-            "stability_score": np.random.uniform(0.5, 1.0),
-            "rmsd": np.random.uniform(0.5, 3.0),
-            "secondary_structure": {
-                "alpha_helix": np.random.uniform(0.2, 0.4),
-                "beta_sheet": np.random.uniform(0.2, 0.3),
-                "coil": np.random.uniform(0.3, 0.5)
-            }
-        }
-    elif category == "genomics":
-        result = {
-            "variant_count": np.random.randint(10, 1000),
-            "pathogenic_variants": np.random.randint(0, 10),
-            "coverage_depth": np.random.uniform(30, 100),
-            "quality_score": np.random.uniform(20, 40),
-            "mutation_rate": np.random.uniform(1e-8, 1e-6)
-        }
-    elif category == "clinical":
-        result = {
-            "patient_count": np.random.randint(100, 10000),
-            "response_rate": np.random.uniform(0.2, 0.8),
-            "median_survival_months": np.random.uniform(6, 60),
-            "hazard_ratio": np.random.uniform(0.3, 0.9),
-            "p_value": np.random.uniform(0.001, 0.05)
-        }
-    else:
-        result = {
-            "value": np.random.randn(),
-            "score": np.random.uniform(0, 1),
-            "data": [np.random.randn() for _ in range(10)]
-        }
+    result = _generate_lab_result(category)
 
     # Add metadata
     result["metadata"] = {
@@ -376,6 +379,45 @@ async def create_workflow(request: WorkflowRequest, background_tasks: Background
         "message": f"Workflow '{request.name}' started with {len(request.steps)} steps"
     }
 
+async def _execute_parallel_steps(steps: List[WorkflowStep], results: Dict[str, Any], workflow: Dict[str, Any]):
+    """Execute workflow steps in parallel."""
+    tasks = []
+    for step in steps:
+        params = step.parameters.copy()
+
+        # Add input from previous step if specified
+        if step.input_from and step.input_from in results:
+            params["input_data"] = results[step.input_from]
+
+        task = execute_lab(step.lab_name, params)
+        tasks.append((step.output_key, task))
+
+    # Wait for all tasks
+    for output_key, task in tasks:
+        results[output_key] = await task
+        workflow["results"][output_key] = results[output_key]
+
+
+async def _execute_sequential_steps(steps: List[WorkflowStep], results: Dict[str, Any], workflow: Dict[str, Any], workflow_id: str):
+    """Execute workflow steps sequentially."""
+    for step in steps:
+        params = step.parameters.copy()
+
+        # Add input from previous step if specified
+        if step.input_from and step.input_from in results:
+            params["input_data"] = results[step.input_from]
+
+        result = await execute_lab(step.lab_name, params)
+        results[step.output_key] = result
+        workflow["results"][step.output_key] = result
+
+        # Notify progress
+        await notify_websocket_clients({
+            "workflow_id": workflow_id,
+            "step_completed": step.output_key,
+            "progress": len(results) / len(steps)
+        })
+
 async def execute_workflow(workflow_id: str, steps: List[WorkflowStep], parallel: bool):
     """Execute a multi-lab workflow"""
     workflow = workflow_store[workflow_id]
@@ -386,41 +428,9 @@ async def execute_workflow(workflow_id: str, steps: List[WorkflowStep], parallel
 
     try:
         if parallel:
-            # Execute all steps in parallel
-            tasks = []
-            for step in steps:
-                params = step.parameters.copy()
-
-                # Add input from previous step if specified
-                if step.input_from and step.input_from in results:
-                    params["input_data"] = results[step.input_from]
-
-                task = execute_lab(step.lab_name, params)
-                tasks.append((step.output_key, task))
-
-            # Wait for all tasks
-            for output_key, task in tasks:
-                results[output_key] = await task
-                workflow["results"][output_key] = results[output_key]
+            await _execute_parallel_steps(steps, results, workflow)
         else:
-            # Execute steps sequentially
-            for step in steps:
-                params = step.parameters.copy()
-
-                # Add input from previous step if specified
-                if step.input_from and step.input_from in results:
-                    params["input_data"] = results[step.input_from]
-
-                result = await execute_lab(step.lab_name, params)
-                results[step.output_key] = result
-                workflow["results"][step.output_key] = result
-
-                # Notify progress
-                await notify_websocket_clients({
-                    "workflow_id": workflow_id,
-                    "step_completed": step.output_key,
-                    "progress": len(results) / len(steps)
-                })
+            await _execute_sequential_steps(steps, results, workflow, workflow_id)
 
         workflow["status"] = "completed"
         workflow["completed_at"] = datetime.now().isoformat()
