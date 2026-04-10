@@ -303,11 +303,11 @@ class RateLimitStore(ABC):
 
     @abstractmethod
     def record_request(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
-        raise NotImplementedError
+        pass
 
     @abstractmethod
     def get_request_count(self, identifier: str, window_seconds: int) -> Tuple[int, datetime]:
-        raise NotImplementedError
+        pass
 
 
 class MemoryRateLimitStore(RateLimitStore):
