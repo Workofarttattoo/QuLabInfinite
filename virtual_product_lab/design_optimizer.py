@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Callable, Tuple
 from enum import Enum, auto
 import math
+import ast
 import random
 from datetime import datetime
 
@@ -23,6 +24,96 @@ try:
 except ImportError:
     HAS_NUMPY = False
     np = None
+
+
+import ast
+import math
+from typing import Dict, Any
+
+class SafeMathEvaluator(ast.NodeVisitor):
+    def __init__(self, variables=None, allow_math=True):
+        self.variables = variables or {}
+        self.allowed_names = dict(self.variables)
+
+        if allow_math:
+            for name in dir(math):
+                if not name.startswith("_"):
+                    self.allowed_names[name] = getattr(math, name)
+                    self.allowed_names[f"math.{name}"] = getattr(math, name)
+
+            # also add max, min, abs
+            self.allowed_names["max"] = max
+            self.allowed_names["min"] = min
+            self.allowed_names["abs"] = abs
+
+    def visit_Constant(self, node):
+        return node.value
+
+    def visit_Name(self, node):
+        if node.id in self.allowed_names:
+            return self.allowed_names[node.id]
+        raise ValueError(f"Unknown variable: {node.id}")
+
+    def visit_Attribute(self, node):
+        if isinstance(node.value, ast.Name) and node.value.id == 'math':
+            attr_name = f"math.{node.attr}"
+            if attr_name in self.allowed_names:
+                return self.allowed_names[attr_name]
+        raise ValueError(f"Unsupported attribute access: {node.attr}")
+
+    def visit_BinOp(self, node):
+        left = self.visit(node.left)
+        right = self.visit(node.right)
+        op = node.op
+        if isinstance(op, ast.Add): return left + right
+        if isinstance(op, ast.Sub): return left - right
+        if isinstance(op, ast.Mult): return left * right
+        if isinstance(op, ast.Div): return left / right
+        if isinstance(op, ast.Pow): return left ** right
+        if isinstance(op, ast.Mod): return left % right
+        if isinstance(op, ast.FloorDiv): return left // right
+        raise ValueError(f"Unsupported operator: {type(op).__name__}")
+
+    def visit_UnaryOp(self, node):
+        operand = self.visit(node.operand)
+        op = node.op
+        if isinstance(op, ast.USub): return -operand
+        if isinstance(op, ast.UAdd): return +operand
+        raise ValueError(f"Unsupported unary operator: {type(op).__name__}")
+
+    def visit_Compare(self, node):
+        left = self.visit(node.left)
+        for op, right_node in zip(node.ops, node.comparators):
+            right = self.visit(right_node)
+            if isinstance(op, ast.Eq): result = left == right
+            elif isinstance(op, ast.NotEq): result = left != right
+            elif isinstance(op, ast.Lt): result = left < right
+            elif isinstance(op, ast.LtE): result = left <= right
+            elif isinstance(op, ast.Gt): result = left > right
+            elif isinstance(op, ast.GtE): result = left >= right
+            else: raise ValueError(f"Unsupported comparison: {type(op).__name__}")
+            if not result:
+                return False
+            left = right
+        return True
+
+    def visit_Call(self, node):
+        func = self.visit(node.func)
+        if not callable(func):
+            raise ValueError(f"Not callable: {func}")
+        args = [self.visit(arg) for arg in node.args]
+        return func(*args)
+
+    def visit_Expression(self, node):
+        return self.visit(node.body)
+
+    def generic_visit(self, node):
+        raise ValueError(f"Unsupported expression node: {type(node).__name__}")
+
+def safe_eval(expr: str, variables: Dict[str, float] = None, allow_math: bool = True) -> float:
+    tree = ast.parse(expr, mode='eval')
+    evaluator = SafeMathEvaluator(variables, allow_math)
+    return evaluator.visit(tree)
 
 
 class OptimizationObjective(Enum):
@@ -92,7 +183,7 @@ class OptimizationConstraint:
         Evaluate constraint and return (violation_amount, is_satisfied).
         """
         try:
-            value = eval(self.expression, {"__builtins__": {}}, variables)
+            value = safe_eval(self.expression, variables)
 
             if self.constraint_type == "<=":
                 violation = max(0, value - self.limit_value)
@@ -214,7 +305,7 @@ class DesignOptimizer:
         results = {}
         for name, obj in self.objectives.items():
             try:
-                value = eval(obj['expression'], {"__builtins__": {}, "math": math}, values)
+                value = safe_eval(obj['expression'], values)
                 results[name] = value
             except Exception:
                 results[name] = float('inf')
