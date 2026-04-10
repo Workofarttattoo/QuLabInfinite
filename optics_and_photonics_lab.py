@@ -540,6 +540,45 @@ class OpticsPhotonicsLab:
         print("Demonstration complete. All systems operational.")
 
 
+    def calculate_interference_pattern(self, num_sources: int, distance_between_sources: float,
+                                       screen_distance: float, screen_size: float, num_points: int = 1000) -> Tuple[np.ndarray, np.ndarray]:
+        """Calculate the interference pattern on a screen from multiple point sources."""
+        y = np.linspace(-screen_size / 2, screen_size / 2, num_points)
+        intensity = np.zeros_like(y)
+
+        source_positions = np.linspace(-distance_between_sources * (num_sources - 1) / 2,
+                                       distance_between_sources * (num_sources - 1) / 2, num_sources)
+
+        # Calculate wavenumber for a default wavelength (e.g. He-Ne laser 632.8 nm)
+        # Or using the first available if not set
+        k_wave = 2 * np.pi / 632.8e-9
+        if hasattr(self, 'k'):
+            k_wave = self.k
+
+        for pos in source_positions:
+            r = np.sqrt(screen_distance**2 + (y - pos)**2)
+            phase = k_wave * r
+            intensity += np.cos(phase)
+
+        intensity = intensity**2 / num_sources**2 # Normalize
+        return y, intensity
+
+    def calculate_diffraction_pattern(self, slit_width: float, screen_distance: float,
+                                      screen_size: float, num_points: int = 1000) -> Tuple[np.ndarray, np.ndarray]:
+        """Calculate the Fraunhofer diffraction pattern from a single slit."""
+        y = np.linspace(-screen_size / 2, screen_size / 2, num_points)
+        theta = np.arctan2(y, screen_distance)
+
+        k_wave = 2 * np.pi / 632.8e-9
+        if hasattr(self, 'k'):
+            k_wave = self.k
+
+        # Avoid division by zero at theta = 0
+        beta = 0.5 * k_wave * slit_width * np.sin(theta)
+        intensity = np.sinc(beta / np.pi)**2  # np.sinc(x) is sin(pi*x)/(pi*x)
+
+        return y, intensity
+
 if __name__ == "__main__":
     lab = OpticsPhotonicsLab()
     lab.demonstrate()
