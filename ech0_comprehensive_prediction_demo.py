@@ -61,35 +61,8 @@ def create_demo_digital_twins(predictor):
 
     return twin_ids
 
-def demonstrate_all_prediction_capabilities():
-    """Demonstrate all 10 advanced prediction capabilities"""
 
-    logging.info("🎯 ECH0 COMPREHENSIVE PREDICTION CAPABILITIES DEMONSTRATION")
-    logging.info("=" * 80)
-    logging.info("Demonstrating ALL 10 advanced prediction capabilities:")
-    logging.info("1. ✅ Basic Characterization (27 stress factors)")
-    logging.info("2. ✅ Lifecycle Performance Prediction")
-    logging.info("3. ✅ Scalability Performance Analysis")
-    logging.info("4. ✅ Market Adoption Forecasting")
-    logging.info("5. ✅ System Integration Performance")
-    logging.info("6. 🔄 Environmental Impact Modeling")
-    logging.info("7. 🔄 Supply Chain Risk Analysis")
-    logging.info("8. 🔄 Human Factors Integration")
-    logging.info("9. 🔄 Failure Propagation Modeling")
-    logging.info("10. 🔄 Economic Optimization Modeling")
-    logging.info()
-
-    predictor = ECH0_AdvancedDigitalTwinPredictor()
-    twin_ids = create_demo_digital_twins(predictor)
-
-    demo_results = {
-        'timestamp': datetime.now().isoformat(),
-        'demonstration_material': 'QCA-2026 (Quantum Carbon Aerogel)',
-        'capabilities_demonstrated': [],
-        'results_summary': {}
-    }
-
-    # 1. Basic Characterization (Already demonstrated)
+def demonstrate_basic_characterization(demo_results):
     logging.info("1. ✅ BASIC CHARACTERIZATION (27 Stress Factors)")
     logging.info("   - Temperature: -269°C to 1000°C")
     logging.info("   - Pressure: 10^-9 Torr to 10 GPa")
@@ -106,17 +79,17 @@ def demonstrate_all_prediction_capabilities():
         'description': '27 comprehensive environmental stress factors',
         'key_output': 'Performance under extreme conditions'
     })
-    logging.info()
+    logging.info("")
 
-    # 2. Lifecycle Performance Prediction (Implemented)
+def demonstrate_lifecycle_performance(predictor, twin_ids, demo_results):
     logging.info("2. ✅ LIFECYCLE PERFORMANCE PREDICTION")
     try:
         lifecycle_pred = predictor.predict_lifecycle_performance(twin_ids[0], time_horizon=10)
         logging.info(f"   - 10-year degradation profile: {len(lifecycle_pred.degradation_profile['performance'])} data points")
         logging.info(f"   - Maintenance schedule: {len(lifecycle_pred.maintenance_schedule)} events")
         logging.info(f"   - End-of-life scenarios: {len(lifecycle_pred.end_of_life_scenarios)} options")
-        logging.info(".2f")
-        logging.info(".2f")
+        # logging.info(".2f")
+        # logging.info(".2f")
         demo_results['capabilities_demonstrated'].append({
             'capability': 'Lifecycle Performance Prediction',
             'status': 'completed',
@@ -130,13 +103,13 @@ def demonstrate_all_prediction_capabilities():
             'status': 'error',
             'description': str(e)
         })
-    logging.info()
+    logging.info("")
 
-    # 3. Scalability Performance Analysis (Implemented)
+def demonstrate_scalability_performance(predictor, twin_ids, demo_results):
     logging.info("3. ✅ SCALABILITY PERFORMANCE ANALYSIS")
     try:
         scalability_pred = predictor.predict_scalability_performance(twin_ids[0])
-        logging.info(".2f")
+        # logging.info(".2f")
         logging.info(f"   - Risk level: {scalability_pred.risk_assessment.get('risk_level', 'unknown')}")
         logging.info(f"   - Recommendations: {len(scalability_pred.recommendations)} strategies")
         logging.info("   - Key challenges: Lab-to-pilot yield loss, quality control at scale")
@@ -153,9 +126,9 @@ def demonstrate_all_prediction_capabilities():
             'status': 'error',
             'description': str(e)
         })
-    logging.info()
+    logging.info("")
 
-    # 4. Market Adoption Forecasting (Implemented)
+def demonstrate_market_adoption(predictor, twin_ids, demo_results):
     logging.info("4. ✅ MARKET ADOPTION FORECASTING")
     try:
         market_pred = predictor.predict_market_adoption(twin_ids[0])
@@ -178,9 +151,9 @@ def demonstrate_all_prediction_capabilities():
             'status': 'error',
             'description': str(e)
         })
-    logging.info()
+    logging.info("")
 
-    # 5. System Integration Performance (Implemented)
+def demonstrate_system_integration(predictor, twin_ids, demo_results):
     logging.info("5. ✅ SYSTEM INTEGRATION PERFORMANCE")
     try:
         integration_pred = predictor.predict_system_integration(twin_ids)
@@ -204,9 +177,9 @@ def demonstrate_all_prediction_capabilities():
             'status': 'error',
             'description': str(e)
         })
-    logging.info()
+    logging.info("")
 
-    # 6. Environmental Impact Modeling (Newly Implemented)
+def demonstrate_environmental_impact(predictor, twin_ids, demo_results):
     logging.info("6. 🔄 ENVIRONMENTAL IMPACT MODELING")
     try:
         env_pred = predictor.predict_environmental_impact(twin_ids[0])
@@ -232,9 +205,9 @@ def demonstrate_all_prediction_capabilities():
             'status': 'error',
             'description': str(e)
         })
-    logging.info()
+    logging.info("")
 
-    # 7. Supply Chain Risk Analysis (Newly Implemented)
+def demonstrate_supply_chain_risks(predictor, twin_ids, demo_results):
     logging.info("7. 🔄 SUPPLY CHAIN RISK ANALYSIS")
     try:
         supply_pred = predictor.predict_supply_chain_risks(twin_ids[0])
@@ -262,9 +235,9 @@ def demonstrate_all_prediction_capabilities():
             'status': 'error',
             'description': str(e)
         })
-    logging.info()
+    logging.info("")
 
-    # 8. Human Factors Integration (Newly Implemented)
+def demonstrate_human_factors(predictor, twin_ids, demo_results):
     logging.info("8. 🔄 HUMAN FACTORS INTEGRATION")
     try:
         human_pred = predictor.predict_human_factors(twin_ids[0])
@@ -292,9 +265,9 @@ def demonstrate_all_prediction_capabilities():
             'status': 'error',
             'description': str(e)
         })
-    logging.info()
+    logging.info("")
 
-    # 9. Failure Propagation Modeling (Newly Implemented)
+def demonstrate_failure_propagation(predictor, twin_ids, demo_results):
     logging.info("9. 🔄 FAILURE PROPAGATION MODELING")
     try:
         failure_pred = predictor.predict_failure_propagation(twin_ids[0])
@@ -322,9 +295,9 @@ def demonstrate_all_prediction_capabilities():
             'status': 'error',
             'description': str(e)
         })
-    logging.info()
+    logging.info("")
 
-    # 10. Economic Optimization Modeling (Newly Implemented)
+def demonstrate_economic_optimization(predictor, twin_ids, demo_results):
     logging.info("10. 🔄 ECONOMIC OPTIMIZATION MODELING")
     try:
         economic_pred = predictor.predict_economic_optimization(twin_ids[0])
@@ -352,7 +325,47 @@ def demonstrate_all_prediction_capabilities():
             'status': 'error',
             'description': str(e)
         })
-    logging.info()
+    logging.info("")
+
+def demonstrate_all_prediction_capabilities():
+    """Demonstrate all 10 advanced prediction capabilities"""
+
+    logging.info("🎯 ECH0 COMPREHENSIVE PREDICTION CAPABILITIES DEMONSTRATION")
+    logging.info("=" * 80)
+    logging.info("Demonstrating ALL 10 advanced prediction capabilities:")
+    logging.info("1. ✅ Basic Characterization (27 stress factors)")
+    logging.info("2. ✅ Lifecycle Performance Prediction")
+    logging.info("3. ✅ Scalability Performance Analysis")
+    logging.info("4. ✅ Market Adoption Forecasting")
+    logging.info("5. ✅ System Integration Performance")
+    logging.info("6. 🔄 Environmental Impact Modeling")
+    logging.info("7. 🔄 Supply Chain Risk Analysis")
+    logging.info("8. 🔄 Human Factors Integration")
+    logging.info("9. 🔄 Failure Propagation Modeling")
+    logging.info("10. 🔄 Economic Optimization Modeling")
+    logging.info("")
+
+    predictor = ECH0_AdvancedDigitalTwinPredictor()
+    twin_ids = create_demo_digital_twins(predictor)
+
+    demo_results = {
+        'timestamp': datetime.now().isoformat(),
+        'demonstration_material': 'QCA-2026 (Quantum Carbon Aerogel)',
+        'capabilities_demonstrated': [],
+        'results_summary': {}
+    }
+
+
+    demonstrate_basic_characterization(demo_results)
+    demonstrate_lifecycle_performance(predictor, twin_ids, demo_results)
+    demonstrate_scalability_performance(predictor, twin_ids, demo_results)
+    demonstrate_market_adoption(predictor, twin_ids, demo_results)
+    demonstrate_system_integration(predictor, twin_ids, demo_results)
+    demonstrate_environmental_impact(predictor, twin_ids, demo_results)
+    demonstrate_supply_chain_risks(predictor, twin_ids, demo_results)
+    demonstrate_human_factors(predictor, twin_ids, demo_results)
+    demonstrate_failure_propagation(predictor, twin_ids, demo_results)
+    demonstrate_economic_optimization(predictor, twin_ids, demo_results)
 
     # Generate comprehensive summary
     demo_results['results_summary'] = generate_demonstration_summary(demo_results)
