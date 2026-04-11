@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - Inner Loops in ODE Solvers
+**Learning:** Inner python loops within functions passed to `scipy.integrate.odeint` are called thousands of times by the solver. The O(N^2) inner `for` loop in `lotka_volterra_dynamics` was a major bottleneck.
+**Action:** Always replace inner python loops inside ODE derivative functions with precomputed arrays and NumPy vectorized matrix multiplications.

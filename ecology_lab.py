@@ -129,26 +129,30 @@ class EcologyLab:
                 elif i == j:
                     alpha[i, j] = 1.0  # Self-regulation
 
+        # Precompute parameter arrays for O(1) vectorized ODE solving
+        growth_rates = np.array([self.species[sp].growth_rate for sp in species_list])
+        carrying_caps = np.array([self.species[sp].carrying_capacity for sp in species_list])
+        mortality_rates = np.array([self.species[sp].mortality_rate for sp in species_list])
+
+        # We only want inter-species interactions for the summation term
+        alpha_no_diag = alpha.copy()
+        np.fill_diagonal(alpha_no_diag, 0.0)
+
         def derivatives(N, t):
-            dN_dt = np.zeros(n_species)
-            for i, species in enumerate(species_list):
-                sp = self.species[species]
+            N = np.asarray(N)
+            # Logistic growth (vectorized)
+            growth = growth_rates * N * (1 - N / carrying_caps)
 
-                # Logistic growth with interactions
-                growth = sp.growth_rate * N[i] * (1 - N[i] / sp.carrying_capacity)
+            # Interaction effects via matrix multiplication (vectorized O(N^2) -> O(1) NumPy call)
+            interaction_sum = alpha_no_diag @ N
 
-                # Interaction effects
-                interaction_sum = 0
-                for j in range(n_species):
-                    if i != j:
-                        interaction_sum += alpha[i, j] * N[j]
+            # Combine rates
+            dN_dt = growth - mortality_rates * N + interaction_sum * N
 
-                dN_dt[i] = growth - sp.mortality_rate * N[i] + interaction_sum * N[i]
-
-                # Add environmental stochasticity
-                if stochastic:
-                    noise = np.random.normal(0, 0.01 * abs(dN_dt[i]))
-                    dN_dt[i] += noise
+            # Add environmental stochasticity
+            if stochastic:
+                noise = np.random.normal(0, 0.01 * np.abs(dN_dt))
+                dN_dt += noise
 
             return dN_dt
 
