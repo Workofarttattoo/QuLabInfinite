@@ -435,25 +435,26 @@ class EcologyLab:
         initial_patches = np.random.choice(patches, initial_occupied, replace=False)
         occupancy[0, initial_patches] = 1
 
+        # Vectorized optimization of stochastic simulation
+        # Expected impact: Reduces computation time for 500 patches by ~20x
         for t_idx in range(1, len(time_points)):
             dt = time_points[t_idx] - time_points[t_idx - 1]
+            prev = occupancy[t_idx - 1]
 
-            for patch in range(patches):
-                if occupancy[t_idx - 1, patch] == 0:  # Empty
-                    # Colonization probability
-                    colonization_pressure = np.sum(connectivity_matrix[patch] * occupancy[t_idx - 1])
-                    prob_col = 1 - np.exp(-colonization_rate * colonization_pressure * dt)
-                    if np.random.random() < prob_col:
-                        occupancy[t_idx, patch] = 1
-                    else:
-                        occupancy[t_idx, patch] = 0
-                else:  # Occupied
-                    # Extinction probability
-                    prob_ext = 1 - np.exp(-extinction_rate * dt)
-                    if np.random.random() < prob_ext:
-                        occupancy[t_idx, patch] = 0
-                    else:
-                        occupancy[t_idx, patch] = 1
+            # Empty patches
+            empty_mask = (prev == 0)
+            colonization_pressure = connectivity_matrix @ prev
+            prob_col = 1 - np.exp(-colonization_rate * colonization_pressure * dt)
+            rand_col = np.random.random(patches)
+            new_colonized = empty_mask & (rand_col < prob_col)
+
+            # Occupied patches
+            occupied_mask = (prev == 1)
+            prob_ext = 1 - np.exp(-extinction_rate * dt)
+            rand_ext = np.random.random(patches)
+            survived = occupied_mask & (rand_ext >= prob_ext)
+
+            occupancy[t_idx] = new_colonized | survived
 
         # Calculate summary statistics
         proportion_occupied = np.mean(occupancy, axis=1)
