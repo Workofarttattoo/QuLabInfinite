@@ -700,6 +700,42 @@
             }
         };
 
+
+        const renderLabs = (filter = "") => {
+            labList.innerHTML = '';
+            const filtered = labs.filter(lab => lab.name.toLowerCase().includes(filter.toLowerCase()));
+
+            if (filtered.length === 0) {
+                const empty = document.createElement('div');
+                empty.style.color = 'var(--muted)';
+                empty.style.padding = '20px 12px';
+                empty.style.textAlign = 'center';
+                empty.style.fontSize = '0.9rem';
+                empty.setAttribute('role', 'status');
+                empty.setAttribute('aria-live', 'polite');
+                empty.textContent = 'No labs match your search.';
+                labList.appendChild(empty);
+                return;
+            }
+
+            filtered.forEach((lab, index) => {
+                const button = document.createElement('button');
+                button.className = 'lab-item';
+                button.type = 'button';
+                button.innerHTML = `<span>${lab.name}</span><small>Explore domain</small>`;
+                button.setAttribute('aria-label', `Open ${lab.name}`);
+
+                // Keyboard accessibility - already handled by using a <button> tag
+                button.addEventListener('click', () => selectLab(lab, index));
+                labList.appendChild(button);
+            });
+
+            // Re-apply active state to first item if it's a new search
+            if (filtered.length > 0) {
+                selectLab(filtered[0], 0);
+            }
+        };
+
         renderLabs();
 
         labSearch.addEventListener('input', (e) => {
