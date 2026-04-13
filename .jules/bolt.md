@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2024-05-18 - Vectorizing spatial landscape component analysis
+**Learning:** Sequential Python `for` loops evaluating metrics for individual objects (e.g. `np.sum(labeled_patches == patch_id)`) perform extremely poorly and linearly bottleneck habitat simulations for even modest matrix sizes (200x200). Applying per-patch boolean comparisons scale quadratically with patch count.
+**Action:** When calculating properties like area, perimeter, or centroids for large numbers of connected components, ALWAYS use global vectorized operations over the entire matrix—specifically using `np.bincount` to group labels simultaneously, `ndimage.binary_erosion` uniformly applied globally, and `ndimage.center_of_mass`—to achieve orders of magnitude (~4-5x) speedup.
