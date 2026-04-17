@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2026-04-17 - [Vectorized spatial operations]
+**Learning:** When vectorizing O(N^2) calculations (like distance_matrix) or repeated patch-level operations using NumPy in scientific contexts, replace sequential Python loops with matrix multiplication, boolean array masking, single-call vectorized random generation, and bitwise logical operations to achieve significant performance gains.
+**Action:** Replace `scipy.spatial.distance_matrix(x, x)` with `scipy.spatial.cKDTree(x).query_pairs()` and use `np.bincount()` and `ndimage.center_of_mass` globally over the entire matrix instead of iterating per patch with `np.where`.
