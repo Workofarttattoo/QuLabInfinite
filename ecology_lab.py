@@ -698,22 +698,28 @@ class EcologyLab:
         from scipy import ndimage
         labeled_patches, n_patches = ndimage.label(landscape_matrix == 1)
 
-        # Patch metrics
-        patch_sizes = []
-        patch_perimeters = []
+        # Vectorized patch metrics
+        if n_patches == 0:
+            return {
+                'habitat_proportion': habitat_proportion,
+                'number_of_patches': n_patches,
+                'mean_patch_size': 0,
+                'largest_patch_index': 0,
+                'edge_density': 0,
+                'total_edge_length': 0,
+                'mean_shape_index': 1,
+                'connectivity': 0
+            }
 
-        for patch_id in range(1, n_patches + 1):
-            patch_mask = labeled_patches == patch_id
-            patch_size = np.sum(patch_mask)
-            patch_sizes.append(patch_size)
+        sizes = np.bincount(labeled_patches.ravel())[1:]
+        patch_sizes = sizes * cell_size ** 2
 
-            # Calculate perimeter (edge cells)
-            eroded = ndimage.binary_erosion(patch_mask)
-            perimeter = np.sum(patch_mask) - np.sum(eroded)
-            patch_perimeters.append(perimeter)
-
-        patch_sizes = np.array(patch_sizes) * cell_size ** 2  # Convert to area
-        patch_perimeters = np.array(patch_perimeters) * cell_size
+        # Vectorized perimeters
+        habitat_mask = landscape_matrix == 1
+        eroded_global = ndimage.binary_erosion(habitat_mask)
+        edge_mask = habitat_mask & ~eroded_global
+        edge_pixels_per_patch = np.bincount(labeled_patches[edge_mask].ravel(), minlength=n_patches+1)[1:]
+        patch_perimeters = edge_pixels_per_patch * cell_size
 
         # Fragmentation metrics
         mean_patch_size = np.mean(patch_sizes) if len(patch_sizes) > 0 else 0
@@ -723,30 +729,31 @@ class EcologyLab:
         total_edge = np.sum(patch_perimeters)
         edge_density = total_edge / (total_cells * cell_size ** 2) if total_cells > 0 else 0
 
-        # Mean shape index (circle = 1, complex shape > 1)
-        shape_indices = []
-        for size, perimeter in zip(patch_sizes, patch_perimeters):
-            if size > 0:
-                # Shape index = perimeter / (2 * sqrt(pi * area))
-                expected_perimeter = 2 * np.sqrt(np.pi * size)
-                shape_index = perimeter / expected_perimeter if expected_perimeter > 0 else 1
-                shape_indices.append(shape_index)
+        # Vectorized shape indices
+        valid = patch_sizes > 0
+        expected_perimeters = np.zeros_like(patch_sizes, dtype=float)
+        expected_perimeters[valid] = 2 * np.sqrt(np.pi * patch_sizes[valid])
 
-        mean_shape_index = np.mean(shape_indices) if shape_indices else 1
+        shape_indices = np.ones_like(patch_sizes, dtype=float)
+        valid_perim = expected_perimeters > 0
+        shape_indices[valid_perim] = patch_perimeters[valid_perim] / expected_perimeters[valid_perim]
+
+        mean_shape_index = float(np.mean(shape_indices)) if len(shape_indices) > 0 else 1.0
 
         # Connectivity (proportion of habitat within distance threshold)
         distance_threshold = 3  # cells
         connectivity = 0
         if n_patches > 1:
-            # Calculate distances between patch centroids
-            centroids = []
-            for patch_id in range(1, n_patches + 1):
-                y, x = np.where(labeled_patches == patch_id)
-                centroids.append([np.mean(y), np.mean(x)])
-
+            from scipy import spatial
+            # Fast vectorized centroids
+            centroids = ndimage.center_of_mass(habitat_mask, labeled_patches, index=np.arange(1, n_patches+1))
             centroids = np.array(centroids)
-            distances = spatial.distance_matrix(centroids, centroids)
-            connected_pairs = np.sum(distances < distance_threshold) - n_patches
+
+            # Fast KDTree instead of distance matrix
+            tree = spatial.cKDTree(centroids)
+            pairs = tree.query_pairs(distance_threshold - 1e-9)
+            connected_pairs = len(pairs) * 2
+
             possible_pairs = n_patches * (n_patches - 1)
             connectivity = connected_pairs / possible_pairs if possible_pairs > 0 else 0
 
