@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2024-04-20 - Global Vectorization for Connected Component Spatial Metrics
+**Learning:** Sequential per-patch property calculations (such as patch area, perimeter, and centroids via `np.where`) and $O(N^2)$ cross-patch distance calculations (`scipy.spatial.distance_matrix`) severely bottleneck processing of spatial grid maps (like habitat layouts) when the number of connected components is high. Iterating through patches explicitly scales terribly.
+**Action:** Replace $O(N)$ patch-iterative loops with $O(1)$ global map operations. Use `np.bincount` to instantly find all patch sizes, apply global morphological operators like `ndimage.binary_erosion(mask)` combined with `bincount` on edge pixels for perimeters, use `ndimage.center_of_mass(mask, labels, index)` for global centroids, and deploy `scipy.spatial.cKDTree` for thresholded spatial distance queries instead of dense distance matrices.
