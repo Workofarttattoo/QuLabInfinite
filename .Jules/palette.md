@@ -5,3 +5,7 @@
 ## 2026-02-23 - Duplicate ID issue
 **Learning:** Having duplicate element IDs (`labSearch` was used twice in `index.html`) can cause the `getElementById` API to retrieve only the first match, resulting in bugs such as a secondary search bar not functioning properly. This violates basic HTML and accessibility rules regarding duplicate IDs.
 **Action:** Always verify that input elements have unique IDs and ensure that event listeners are correctly assigned to each instance.
+
+## 2026-04-20 - Missing ARIA Labels on Navigation and Form Elements
+**Learning:** Found multiple instances where interactive elements (inputs and generated buttons) lack proper accessibility labels (`aria-label`, `aria-current`), which prevents screen readers from understanding their purpose or state.
+**Action:** Always ensure custom generated elements and new inputs have complete ARIA attributes out of the box, especially when dealing with client-side templated buttons and specific focus states.
