@@ -1,6 +1,12 @@
 /* Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING. */
 
 /* Reset & Base Styles */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -680,4 +686,31 @@ pre {
         gap: 16px;
         font-size: 14px;
     }
+}
+
+
+/* Accessibility - Skip Link */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 0 0 8px 8px;
+    z-index: 9999;
+    font-weight: 600;
+    text-decoration: none;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: none;
+}
+
+/* Suppress fallback outline */
+*:focus:not(:focus-visible) {
+    outline: none;
 }
