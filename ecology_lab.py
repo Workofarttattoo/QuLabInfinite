@@ -691,76 +691,90 @@ class EcologyLab:
         """
         # Basic metrics
         total_cells = landscape_matrix.size
-        habitat_cells = np.sum(landscape_matrix == 1)
+        habitat_mask = landscape_matrix == 1
+        habitat_cells = np.sum(habitat_mask)
         habitat_proportion = habitat_cells / total_cells if total_cells > 0 else 0
 
         # Find patches using connected components
         from scipy import ndimage
-        labeled_patches, n_patches = ndimage.label(landscape_matrix == 1)
+        from scipy.spatial import cKDTree
+        labeled_patches, n_patches = ndimage.label(habitat_mask)
 
-        # Patch metrics
-        patch_sizes = []
-        patch_perimeters = []
+        if n_patches == 0:
+            return {
+                'habitat_proportion': float(habitat_proportion),
+                'number_of_patches': 0,
+                'mean_patch_size': 0.0,
+                'largest_patch_index': 0.0,
+                'edge_density': 0.0,
+                'total_edge_length': 0.0,
+                'mean_shape_index': 1.0,
+                'connectivity': 0.0,
+                'fragmentation_index': 1.0,
+                'patch_density': 0.0
+            }
 
-        for patch_id in range(1, n_patches + 1):
-            patch_mask = labeled_patches == patch_id
-            patch_size = np.sum(patch_mask)
-            patch_sizes.append(patch_size)
+        # Vectorized patch metrics computation
+        patch_sizes_raw = np.bincount(labeled_patches.ravel())[1:]
+        eroded = ndimage.binary_erosion(habitat_mask)
+        edge_mask = habitat_mask & ~eroded
+        edge_counts = np.bincount(labeled_patches[edge_mask])
 
-            # Calculate perimeter (edge cells)
-            eroded = ndimage.binary_erosion(patch_mask)
-            perimeter = np.sum(patch_mask) - np.sum(eroded)
-            patch_perimeters.append(perimeter)
+        if len(edge_counts) < n_patches + 1:
+            patch_perimeters_raw = np.zeros(n_patches + 1)
+            patch_perimeters_raw[:len(edge_counts)] = edge_counts
+            patch_perimeters_raw = patch_perimeters_raw[1:]
+        else:
+            patch_perimeters_raw = edge_counts[1:]
 
-        patch_sizes = np.array(patch_sizes) * cell_size ** 2  # Convert to area
-        patch_perimeters = np.array(patch_perimeters) * cell_size
+        patch_sizes = patch_sizes_raw * cell_size ** 2
+        patch_perimeters = patch_perimeters_raw * cell_size
 
-        # Fragmentation metrics
-        mean_patch_size = np.mean(patch_sizes) if len(patch_sizes) > 0 else 0
-        largest_patch_index = np.max(patch_sizes) / (habitat_cells * cell_size ** 2) if habitat_cells > 0 else 0
+        mean_patch_size = float(np.mean(patch_sizes)) if len(patch_sizes) > 0 else 0.0
+        largest_patch_index = float(np.max(patch_sizes) / (habitat_cells * cell_size ** 2)) if habitat_cells > 0 else 0.0
 
-        # Edge density
-        total_edge = np.sum(patch_perimeters)
-        edge_density = total_edge / (total_cells * cell_size ** 2) if total_cells > 0 else 0
+        total_edge = float(np.sum(patch_perimeters))
+        edge_density = float(total_edge / (total_cells * cell_size ** 2)) if total_cells > 0 else 0.0
 
-        # Mean shape index (circle = 1, complex shape > 1)
-        shape_indices = []
-        for size, perimeter in zip(patch_sizes, patch_perimeters):
-            if size > 0:
-                # Shape index = perimeter / (2 * sqrt(pi * area))
-                expected_perimeter = 2 * np.sqrt(np.pi * size)
-                shape_index = perimeter / expected_perimeter if expected_perimeter > 0 else 1
-                shape_indices.append(shape_index)
+        if len(patch_sizes) > 0:
+            expected_perimeters = 2 * np.sqrt(np.pi * patch_sizes)
+            valid = expected_perimeters > 0
+            shape_idx = np.ones_like(patch_sizes, dtype=float)
+            shape_idx[valid] = patch_perimeters[valid] / expected_perimeters[valid]
+            mean_shape_index = float(np.mean(shape_idx))
+        else:
+            mean_shape_index = 1.0
 
-        mean_shape_index = np.mean(shape_indices) if shape_indices else 1
-
-        # Connectivity (proportion of habitat within distance threshold)
         distance_threshold = 3  # cells
-        connectivity = 0
+        connectivity = 0.0
         if n_patches > 1:
-            # Calculate distances between patch centroids
-            centroids = []
-            for patch_id in range(1, n_patches + 1):
-                y, x = np.where(labeled_patches == patch_id)
-                centroids.append([np.mean(y), np.mean(x)])
-
+            # Replace O(N^2) loops/masks with cKDTree & center_of_mass
+            centroids = ndimage.center_of_mass(habitat_mask, labeled_patches, index=np.arange(1, n_patches + 1))
             centroids = np.array(centroids)
-            distances = spatial.distance_matrix(centroids, centroids)
-            connected_pairs = np.sum(distances < distance_threshold) - n_patches
-            possible_pairs = n_patches * (n_patches - 1)
-            connectivity = connected_pairs / possible_pairs if possible_pairs > 0 else 0
+
+            tree = cKDTree(centroids)
+            pairs = tree.query_pairs(distance_threshold)
+            if pairs:
+                pairs_arr = np.array(list(pairs))
+                dists = np.linalg.norm(centroids[pairs_arr[:, 0]] - centroids[pairs_arr[:, 1]], axis=1)
+                connected_pairs = float(np.sum(dists < distance_threshold) * 2)
+            else:
+                connected_pairs = 0.0
+
+            possible_pairs = float(n_patches * (n_patches - 1))
+            connectivity = connected_pairs / possible_pairs if possible_pairs > 0 else 0.0
 
         return {
-            'habitat_proportion': habitat_proportion,
-            'number_of_patches': n_patches,
+            'habitat_proportion': float(habitat_proportion),
+            'number_of_patches': int(n_patches),
             'mean_patch_size': mean_patch_size,
             'largest_patch_index': largest_patch_index,
             'edge_density': edge_density,
             'total_edge_length': total_edge,
             'mean_shape_index': mean_shape_index,
             'connectivity': connectivity,
-            'fragmentation_index': 1 - largest_patch_index,  # Higher = more fragmented
-            'patch_density': n_patches / (total_cells * cell_size ** 2) if total_cells > 0 else 0
+            'fragmentation_index': 1.0 - largest_patch_index,
+            'patch_density': float(n_patches / (total_cells * cell_size ** 2)) if total_cells > 0 else 0.0
         }
 
     def carbon_cycle_model(self,
