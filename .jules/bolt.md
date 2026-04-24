@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-24 - Optimizing All-Pairs Shortest Paths in Graphs
+**Learning:** Implementing all-pairs shortest paths using a double nested loop in Python over BFS takes O(V^3) time and causes major bottlenecks (~34s for 500 nodes). Switching to SciPy's optimized `shortest_path` over sparse graphs takes this down to ~0.3s (100x speedup).
+**Action:** Replace slow manual Python BFS graph algorithms with `scipy.sparse.csgraph` methods wherever graph distances are computed in batch.
