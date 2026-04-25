@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-24 - Fast Spatial Patch Metrics
+**Learning:** Calculating area, perimeters, and centroids for many spatial patches (using `ndimage.label`) via individual boolean masks in a loop is extremely slow (O(N) where N is number of patches). Replacing loops with `np.bincount` on the entire labeled array globally resolves sizes instantly. Using `ndimage.center_of_mass` is vastly faster for finding centroids. Furthermore, using `cKDTree` for distance queries avoids the O(N^2) memory and computation of `distance_matrix`.
+**Action:** Always compute metrics for labeled spatial patches using vectorized global functions like `np.bincount` and `cKDTree` instead of iterating patch by patch.
