@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - Ecology Grid Fragmentation Performance
+**Learning:** In geographic modeling like habitat fragmentation arrays, O(N^2) pairwise distance matrices fail terribly when patches fragment into thousands of tiny islands. Furthermore, looping over unique connected components to process sizes using python for loops is extremely slow.
+**Action:** Always replace per-patch boolean mask loops with `np.bincount`, and replace N^2 pairwise geographic distance grids with `spatial.cKDTree` for massive scaling improvements.
