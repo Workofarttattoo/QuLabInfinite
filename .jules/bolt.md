@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - Scipy ndimage per-patch optimizations
+**Learning:** When computing metrics for multiple spatial patches (e.g., using `ndimage.label`), replace per-patch loops and individual boolean masks with global vectorization using `np.bincount` to compute patch sizes, and apply spatial filters like `ndimage.binary_erosion` globally over the entire matrix to massively improve performance.
+**Action:** Always use vectorized operations instead of iterating over patch labels.
