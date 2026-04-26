@@ -572,7 +572,9 @@
             const lab = labs.find((item) => item.id === labId);
             if (!lab) return;
             document.querySelectorAll(".lab-button").forEach((button) => {
-                button.classList.toggle("active", button.dataset.labId === labId);
+                const isActive = button.dataset.labId === labId;
+                button.classList.toggle("active", isActive);
+                button.setAttribute("aria-current", isActive ? "true" : "false");
             });
             labTitle.textContent = lab.name;
             labSubtitle.textContent = lab.subtitle;
