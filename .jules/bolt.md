@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2024-05-18 - Ecology Lab matrix operations vectorization and spatial lookup optimization
+**Learning:** Naive loops over image matrix patches using boolean subsets (e.g., `labeled_patches == patch_id`) combined with sequential `ndimage.binary_erosion` cause severe performance bottlenecks and O(M*N) operations. In addition, computing patch pairwise distances with $O(P^2)$ `distance_matrix` calculations can cause OOM errors for landscapes with thousands of small patches.
+**Action:** Use global vectorized operations whenever processing many patches: compute area and perimeters at once using `np.bincount` combined with a single matrix-wide boolean erosion filter. Replace $O(P^2)$ `distance_matrix` calls with $O(P \log P)$ `scipy.spatial.cKDTree` radial distance threshold lookups (`query_pairs`), being mindful to subtract a small epsilon (`threshold - 1e-9`) to maintain exact $< threshold$ parity.
