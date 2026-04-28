@@ -6,28 +6,26 @@ Exposes all 100+ labs as callable functions with REAL scientific computations
 NO fake visualizations, NO placeholder demos - ONLY real science
 """
 
+import asyncio
+import functools
+import hashlib
+import importlib
+import json
 import os
 import sys
-import json
-import asyncio
-import importlib
-import inspect
+import time
 import traceback
-from typing import Dict, List, Optional, Any, Callable
-from dataclasses import dataclass, asdict
-from pathlib import Path
-import numpy as np
+from dataclasses import dataclass
 from datetime import datetime
-import hashlib
+from pathlib import Path
+from typing import Any
+
+import numpy as np
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from semantic_lattice_cartographer import (
-    SemanticLatticeCartographer,
-    LabNode,
-    LabCapability
-)
+from semantic_lattice_cartographer import SemanticLatticeCartographer
 
 
 @dataclass
@@ -35,8 +33,8 @@ class MCPToolDefinition:
     """Definition of an MCP-compatible tool"""
     name: str
     description: str
-    parameters: Dict[str, Any]
-    returns: Dict[str, str]
+    parameters: dict[str, Any]
+    returns: dict[str, str]
     lab_source: str
     is_real_algorithm: bool
 
@@ -45,7 +43,7 @@ class MCPToolDefinition:
 class MCPRequest:
     """MCP request structure"""
     tool: str
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
     request_id: str
     streaming: bool = False
 
@@ -57,8 +55,8 @@ class MCPResponse:
     tool: str
     status: str  # 'success', 'error', 'streaming'
     result: Any
-    error: Optional[str] = None
-    metadata: Optional[Dict] = None
+    error: str | None = None
+    metadata: dict | None = None
 
 
 class QuLabMCPServer:
@@ -72,9 +70,9 @@ class QuLabMCPServer:
         self.lab_directory = Path(lab_directory or os.path.dirname(__file__))
         self.port = port
         self.cartographer = SemanticLatticeCartographer(str(self.lab_directory))
-        self.tools: Dict[str, MCPToolDefinition] = {}
-        self.lab_instances: Dict[str, Any] = {}
-        self.execution_cache: Dict[str, Any] = {}  # Cache recent results
+        self.tools: dict[str, MCPToolDefinition] = {}
+        self.lab_instances: dict[str, Any] = {}
+        self.execution_cache: dict[str, Any] = {}  # Cache recent results
         self.max_cache_size = 100
 
     def initialize(self):
@@ -238,12 +236,15 @@ class QuLabMCPServer:
                 raise AttributeError(f"Function {func_name} not found in {lab_name}")
 
             # Execute the function
+            start_time = time.perf_counter()
             if asyncio.iscoroutinefunction(func):
                 result = await func(**request.parameters)
             else:
                 # Run sync function in executor to not block
                 loop = asyncio.get_event_loop()
-                result = await loop.run_in_executor(None, func, **request.parameters)
+                result = await loop.run_in_executor(None, functools.partial(func, **request.parameters))
+            end_time = time.perf_counter()
+            exec_time_ms = (end_time - start_time) * 1000.0
 
             # Convert numpy arrays to lists for JSON serialization
             result = self._serialize_result(result)
@@ -260,7 +261,7 @@ class QuLabMCPServer:
                     'lab': lab_name,
                     'function': func_name,
                     'is_real_algorithm': tool_def.is_real_algorithm,
-                    'execution_time_ms': 0  # TODO: measure actual time
+                    'execution_time_ms': exec_time_ms
                 }
             )
 
@@ -314,7 +315,7 @@ class QuLabMCPServer:
             'timestamp': datetime.now().isoformat()
         }
 
-    async def chain_tools(self, workflow: List[Dict]) -> List[MCPResponse]:
+    async def chain_tools(self, workflow: list[dict]) -> list[MCPResponse]:
         """Execute a chain of tools in sequence, passing results between them"""
         responses = []
         previous_result = None
@@ -345,7 +346,7 @@ class QuLabMCPServer:
 
         return responses
 
-    def query_semantic_lattice(self, query: str, top_k: int = 10) -> Dict[str, Any]:
+    def query_semantic_lattice(self, query: str, top_k: int = 10) -> dict[str, Any]:
         """Query the semantic lattice to find relevant tools"""
         results = self.cartographer.search_capabilities(query, top_k=top_k)
 
@@ -371,7 +372,7 @@ class QuLabMCPServer:
             'total_tools_available': len(self.tools)
         }
 
-    def get_lab_capabilities(self, domain: str = None) -> Dict[str, Any]:
+    def get_lab_capabilities(self, domain: str = None) -> dict[str, Any]:
         """Get capabilities organized by domain"""
         capabilities = {
             'domains': {},
@@ -407,7 +408,7 @@ class QuLabMCPServer:
 
         return capabilities
 
-    def compute_molecular_property(self, molecule: str, property_type: str = 'energy') -> Dict[str, Any]:
+    def compute_molecular_property(self, molecule: str, property_type: str = 'energy') -> dict[str, Any]:
         """Compute molecular properties using quantum chemistry tools"""
         # This would call into actual quantum chemistry labs
         tools_to_use = [
@@ -434,7 +435,7 @@ class QuLabMCPServer:
         return results
 
     def simulate_tumor_growth(self, initial_cells: int = 1000, days: int = 30,
-                            treatment: Optional[str] = None) -> Dict[str, Any]:
+                            treatment: str | None = None) -> dict[str, Any]:
         """Simulate tumor growth using real kinetic models"""
         # Use Gompertz model for tumor growth
         # dN/dt = r * N * ln(K/N)
@@ -488,7 +489,7 @@ class QuLabMCPServer:
         }
 
     def design_drug_candidate(self, target_protein: str,
-                            optimization_metric: str = 'binding_affinity') -> Dict[str, Any]:
+                            optimization_metric: str = 'binding_affinity') -> dict[str, Any]:
         """Design drug candidates using real pharmaceutical algorithms"""
         # This would integrate with:
         # - Molecular docking simulations
@@ -555,7 +556,7 @@ class QuLabMCPServer:
         """Start the MCP server (would integrate with actual MCP protocol)"""
         print(f"[MCP Server] Starting on port {self.port}")
         print(f"[MCP Server] {len(self.tools)} tools available")
-        print(f"[MCP Server] Ready to accept requests")
+        print("[MCP Server] Ready to accept requests")
 
         # In production, this would:
         # - Start HTTP/WebSocket server
