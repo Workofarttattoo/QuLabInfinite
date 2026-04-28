@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    gcc g++ make libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY pyproject.toml README.md ./
+RUN pip install --no-cache-dir . 2>/dev/null || \
+    pip install --no-cache-dir numpy scipy pydantic fastapi "uvicorn[standard]" pyyaml python-dotenv fastmcp httpx semantic-router openai
+
+COPY qulab/ qulab/
+COPY mcp_server_entrypoint.py .
+
+EXPOSE 8000
+
+CMD ["python", "mcp_server_entrypoint.py"]
