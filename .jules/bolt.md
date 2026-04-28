@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-03-05 - Ecology Lab Spatial Analysis O(N^2) Bottleneck
+**Learning:** `spatial.distance_matrix` has an $O(N^2)$ memory and time complexity which drastically fails for calculating distances across thousands of fragmented landscape patches. Furthermore, iterating boolean masks for calculating patch sizes per label scales poorly.
+**Action:** Replace `distance_matrix` with `scipy.spatial.cKDTree` and `query_pairs` to filter distance thresholds. Replace iterative loop masking with vectorized `np.bincount` and global `ndimage.binary_erosion` to compute sizes and perimeters natively on the C-backend.
