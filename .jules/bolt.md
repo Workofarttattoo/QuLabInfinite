@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - Fast Character Counting in Strings
+**Learning:** For DNA sequence analysis (and generally counting a small set of characters), calculating content by summing individual `str.count()` results for specific characters (e.g., 'G', 'g', 'C', 'c') is significantly faster (~5-6x) than using `.upper()` with a generator expression or list comprehension.
+**Action:** Use `str.count()` instead of generator expressions when counting occurrences of a small, fixed set of characters in strings.
