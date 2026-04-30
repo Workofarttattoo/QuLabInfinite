@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - String processing overhead in genomic analysis
+**Learning:** For simple counting operations on DNA sequences, generator expressions combined with `.upper()` (e.g. `sum(1 for b in seq.upper() if b in 'GC')`) are significantly slower (~6x) than explicitly summing individual `str.count()` calls for each variant ('G', 'g', 'C', 'c'). The function call overhead and generator iteration dominate execution time compared to C-level string operations.
+**Action:** When performing simple motif or character counting in long genomic sequences, prefer direct string methods (`count`, `find`) combined with explicit variant checks over list/generator comprehensions.
