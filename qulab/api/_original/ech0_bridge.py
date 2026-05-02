@@ -159,7 +159,20 @@ class ECH0Bridge:
         class ECH0ListenerAgent:
             def process_broadcast(self, topic: str, data: Dict[str, Any]):
                 if topic == "hearing_channel":
+                    # Basic callback for ECH0
                     callback(data)
+
+                    # Roof Hunter logic: Detect Critical Hail Alert
+                    if data.get('type') == 'Critical Hail Alert':
+                        print(f"[Roof Hunter] Detected Critical Hail Alert: {data.get('message')}")
+                        location = data.get('location', {})
+                        lat, lon = location.get('lat'), location.get('lon')
+                        if lat is not None and lon is not None:
+                            print(f"[Roof Hunter] Pulling 30-foot damage map for ({lat}, {lon})...")
+                            # Simulate pulling the resource from MCP
+                            # In a real scenario, this would use an MCP client to get hail://damage-map/{lat}/{lon}
+                            resource_uri = f"hail://damage-map/{lat}/{lon}"
+                            print(f"[Roof Hunter] Resource URI: {resource_uri}")
 
         # We register this pseudo-agent so it can receive callbacks.
         # This is a bit of a hack, but it cleanly integrates with the existing system.
