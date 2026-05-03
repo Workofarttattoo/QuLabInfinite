@@ -10,6 +10,7 @@ All Rights Reserved. PATENT PENDING.
 
 from .ensemble import EnsemblePredictor as EnsemblePredictor
 from .ensemble import EnsembleTrainer as EnsembleTrainer
+from .hybrid_predictor import HailForecast, HybridPredictor, HybridTrainer
 from .dual_pol import (
     DualPolObservation,
     HailEstimate,
