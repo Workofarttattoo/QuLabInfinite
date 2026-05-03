@@ -488,6 +488,61 @@ class MaterialsAgent(Level6AgentInterface):
             self.record_knowledge(concept)
 
 
+
+class HailAgent(Level6AgentInterface):
+    """Hail simulation and damage assessment agent"""
+
+    async def execute_task(self, task: Task) -> Dict[str, Any]:
+        """Execute hail simulation task"""
+        LOG.info(f"[info] HailAgent executing: {task.description}")
+
+        task_type = task.task_type
+        params = task.parameters
+
+        if task_type == "hail_simulation":
+            result = await self._run_hail_simulation(params)
+        elif task_type == "damage_assessment":
+            result = await self._evaluate_damage_risk(params)
+        else:
+            result = {"error": f"Unknown task type: {task_type}"}
+
+        self.learn_from_result(task, result)
+        return result
+
+    async def _run_hail_simulation(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Run refined hail simulation"""
+        # Lazy import to avoid tight coupling
+        from qulab.labs.earth_science.hail_lab.simulator import RefinedHailSimulator
+
+        sim = RefinedHailSimulator()
+        return sim.run_experiment(params)
+
+    async def _evaluate_damage_risk(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Evaluate damage risk using Bayesian Impact Function"""
+        from qulab.labs.earth_science.hail_lab.spatial import SpatialValidator
+
+        validator = SpatialValidator()
+        strikes = params.get("strikes", [])
+        sizes = params.get("sizes", [])
+        lat = params.get("lat", 0.0)
+        lon = params.get("lon", 0.0)
+
+        return validator.evaluate_damage_risk(strikes, sizes, lat, lon)
+
+    def learn_from_result(self, task: Task, result: Dict[str, Any]) -> None:
+        """Learn from hail result"""
+        confidence = 0.9 if result.get("status") == "success" else 0.5
+        self.state.performance_history.append(confidence)
+
+        concept = ConceptNode(
+            node_id=f"hail_result_{task.task_id}",
+            concept_type="result",
+            name=f"{task.task_type}_result",
+            properties=result,
+            confidence=confidence
+        )
+        self.record_knowledge(concept)
+
 def create_level6_agent(agent_type: AgentType, agent_id: str, hive_mind: HiveMind = None) -> Level6AgentInterface:
     """Factory function to create Level-6 agents"""
     # Create base agent
@@ -505,6 +560,11 @@ def create_level6_agent(agent_type: AgentType, agent_id: str, hive_mind: HiveMin
         capabilities = ["tensile_test", "thermal_test", "corrosion_test", "fatigue_test"]
         base_agent = Agent(agent_id=agent_id, agent_type=agent_type, capabilities=capabilities)
         return MaterialsAgent(base_agent, hive_mind)
+
+    elif agent_type == AgentType.HAIL:
+        capabilities = ["hail_simulation", "damage_assessment", "3d_trajectory"]
+        base_agent = Agent(agent_id=agent_id, agent_type=agent_type, capabilities=capabilities)
+        return HailAgent(base_agent, hive_mind)
 
     else:
         raise ValueError(f"Unknown agent type: {agent_type}")
