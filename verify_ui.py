@@ -6,7 +6,7 @@ async def main():
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
-        file_path = f"file://{os.path.abspath('website/qulab.aios.is/index.html')}"
+        file_path = f"file://{os.path.abspath('index.html')}"
         await page.goto(file_path)
 
         # Test focus on search bar
@@ -14,7 +14,7 @@ async def main():
         await page.screenshot(path="screenshot_search_focus.png")
 
         # Test focus on prompt bar input
-        await page.focus('.prompt-bar input')
+        await page.focus('#promptInput')
         await page.screenshot(path="screenshot_prompt_focus.png")
 
         # Test focus on send button
