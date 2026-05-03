@@ -8,6 +8,8 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light).
 All Rights Reserved. PATENT PENDING.
 """
 
+from .ensemble import EnsemblePredictor as EnsemblePredictor
+from .ensemble import EnsembleTrainer as EnsembleTrainer
 from .dual_pol import (
     DualPolObservation,
     HailEstimate,
@@ -25,6 +27,8 @@ from .train import HailModelTrainer
 from .validate import validate_model
 
 __all__ = [
+    "EnsemblePredictor",
+    "EnsembleTrainer",
     "DualPolObservation",
     "HailDataPreprocessor",
     "HailEstimate",
