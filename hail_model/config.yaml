@@ -1,0 +1,52 @@
+# XGBoost Hail Prediction Model Configuration
+# Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved.
+
+xgboost:
+  objective: "binary:logistic"
+  eval_metric: "auc"
+  learning_rate: 0.05
+  max_depth: 8
+  min_child_weight: 1
+  subsample: 0.8
+  colsample_bytree: 0.8
+  gamma: 0
+  reg_alpha: 0.1
+  reg_lambda: 1.0
+  scale_pos_weight: 5
+  n_estimators: 500
+  early_stopping_rounds: 50
+
+data:
+  hail_threshold: 1.0
+  test_size: 0.2
+  random_state: 42
+  target_column: "hail_occurred"
+
+  feature_columns:
+    - reflectivity_max
+    - reflectivity_mean
+    - reflectivity_std
+    - differential_reflectivity
+    - correlation_coefficient
+    - specific_differential_phase
+    - velocity_max
+    - velocity_mean
+    - spectrum_width_mean
+    - cape
+    - shear_0_6km
+    - temp_500mb
+    - freezing_level_m
+    - vil
+    - echo_top_km
+    - storm_relative_helicity
+    - hour
+    - month
+    - day_of_year
+    - latitude
+    - longitude
+
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  model_dir: "models"
+  model_name: "xgboost_hail.json"
