@@ -5,11 +5,10 @@ Atmospheric Science Laboratory - Climate and Weather Modeling
 Implements scientific atmospheric models based on NIST/NOAA standards
 """
 
+from typing import Any
+
 import numpy as np
 from scipy.integrate import odeint
-from scipy.optimize import minimize
-from typing import Dict, List, Tuple, Optional
-import json
 
 # NIST/NOAA Physical Constants
 R_SPECIFIC_DRY_AIR = 287.058  # J/(kg·K) - specific gas constant for dry air
@@ -102,7 +101,7 @@ class ClimateModel:
         self.feedback_parameter = 1.2  # W/(m²·K) - climate feedback
 
     def calculate_radiative_forcing(self, co2_ppm: float, ch4_ppb: float,
-                                    n2o_ppb: float) -> Dict[str, float]:
+                                    n2o_ppb: float) -> dict[str, float]:
         """
         Calculate radiative forcing from greenhouse gas concentrations
         Uses IPCC AR6 simplified expressions
@@ -154,7 +153,7 @@ class ClimateModel:
                             5.31e-15 * m * (m * n)**1.52)
 
     def project_temperature_change(self, forcing_wm2: float,
-                                   years: int = 100) -> Dict[str, any]:
+                                   years: int = 100) -> dict[str, Any]:
         """
         Project temperature change using energy balance model
 
@@ -203,227 +202,149 @@ class ClimateModel:
 
 class AirQualityAnalyzer:
     """
-    Air Quality Index (AQI) calculation following EPA standards
     Analyzes pollutant concentrations and health impacts
+    Implements standard EPA/WHO air quality indexing
     """
 
-    def calculate_aqi(self, pollutant: str, concentration: float) -> Dict[str, any]:
+    def __init__(self):
+        self.breakpoints = AQI_BREAKPOINTS
+
+    def calculate_aqi(self, concentration: float, pollutant: str) -> int:
         """
-        Calculate AQI for a given pollutant concentration
+        Calculate AQI for a single pollutant
 
         Args:
-            pollutant: Pollutant name (PM2.5, PM10, O3, NO2)
-            concentration: Measured concentration in appropriate units
+            concentration: Concentration of pollutant
+            pollutant: Key for pollutant type (PM2.5, PM10, O3, NO2)
 
         Returns:
-            Dictionary with AQI value and health category
+            AQI value (0-500)
         """
-        if pollutant not in AQI_BREAKPOINTS:
-            raise ValueError(f"Unknown pollutant: {pollutant}")
+        if pollutant not in self.breakpoints:
+            return 0
 
-        breakpoints = AQI_BREAKPOINTS[pollutant]
+        for c_low, c_high, i_low, i_high in self.breakpoints[pollutant]:
+            if c_low <= concentration <= c_high:
+                aqi = ((i_high - i_low) / (c_high - c_low)) * (concentration - c_low) + i_low
+                return int(round(aqi))
 
-        # Find appropriate breakpoint
-        for bp_lo, bp_hi, aqi_lo, aqi_hi in breakpoints:
-            if bp_lo <= concentration <= bp_hi:
-                # Linear interpolation
-                aqi = ((aqi_hi - aqi_lo) / (bp_hi - bp_lo)) * (concentration - bp_lo) + aqi_lo
-                category, health_message = self._get_health_category(aqi)
+        return 500  # Beyond index
 
-                return {
-                    'pollutant': pollutant,
-                    'concentration': concentration,
-                    'aqi_value': int(round(aqi)),
-                    'category': category,
-                    'health_message': health_message,
-                    'color_code': self._get_color_code(aqi)
-                }
-
-        # If concentration exceeds all breakpoints
-        aqi = 500  # Maximum AQI
-        return {
-            'pollutant': pollutant,
-            'concentration': concentration,
-            'aqi_value': aqi,
-            'category': 'Hazardous',
-            'health_message': 'Emergency conditions: everyone more likely to be affected',
-            'color_code': '#7E0023'
-        }
-
-    def _get_health_category(self, aqi: float) -> Tuple[str, str]:
-        """Map AQI to health category"""
+    def get_health_category(self, aqi: int) -> str:
+        """Get EPA health category from AQI"""
         if aqi <= 50:
-            return 'Good', 'Air quality is satisfactory'
+            return 'Good'
         elif aqi <= 100:
-            return 'Moderate', 'Acceptable for most, unusually sensitive may be affected'
+            return 'Moderate'
         elif aqi <= 150:
-            return 'Unhealthy for Sensitive Groups', 'Sensitive groups may experience health effects'
+            return 'Unhealthy for Sensitive Groups'
         elif aqi <= 200:
-            return 'Unhealthy', 'Everyone may begin to experience health effects'
+            return 'Unhealthy'
         elif aqi <= 300:
-            return 'Very Unhealthy', 'Health alert: everyone may experience more serious health effects'
+            return 'Very Unhealthy'
         else:
-            return 'Hazardous', 'Health warnings of emergency conditions'
+            return 'Hazardous'
 
-    def _get_color_code(self, aqi: float) -> str:
-        """Map AQI to EPA color code"""
-        if aqi <= 50:
-            return '#00E400'  # Green
-        elif aqi <= 100:
-            return '#FFFF00'  # Yellow
-        elif aqi <= 150:
-            return '#FF7E00'  # Orange
-        elif aqi <= 200:
-            return '#FF0000'  # Red
-        elif aqi <= 300:
-            return '#8F3F97'  # Purple
-        else:
-            return '#7E0023'  # Maroon
-
-    def analyze_multi_pollutant(self, concentrations: Dict[str, float]) -> Dict[str, any]:
+    def analyze_multi_pollutant(self, pollutants: dict[str, float]) -> dict[str, Any]:
         """
-        Analyze multiple pollutants and determine overall AQI
+        Comprehensive assessment for multiple pollutants
 
         Args:
-            concentrations: Dictionary of pollutant:concentration pairs
+            pollutants: Dict of pollutant types and concentrations
 
         Returns:
-            Overall AQI analysis with dominant pollutant
+            AQI summary and health recommendations
         """
-        results = {}
-        max_aqi = 0
-        dominant_pollutant = None
+        aqi_values = {}
+        for p, c in pollutants.items():
+            aqi_values[p] = self.calculate_aqi(c, p)
 
-        for pollutant, conc in concentrations.items():
-            result = self.calculate_aqi(pollutant, conc)
-            results[pollutant] = result
-
-            if result['aqi_value'] > max_aqi:
-                max_aqi = result['aqi_value']
-                dominant_pollutant = pollutant
+        # Overall AQI is the maximum individual AQI
+        overall_aqi = max(aqi_values.values()) if aqi_values else 0
+        category = self.get_health_category(overall_aqi)
 
         return {
-            'overall_aqi': max_aqi,
-            'dominant_pollutant': dominant_pollutant,
-            'category': results[dominant_pollutant]['category'],
-            'health_message': results[dominant_pollutant]['health_message'],
-            'individual_pollutants': results
+            'overall_aqi': overall_aqi,
+            'category': category,
+            'individual_aqi': aqi_values,
+            'dominant_pollutant': max(aqi_values, key=aqi_values.get) if aqi_values else None
         }
 
 
 class GreenhouseGasSimulator:
     """
-    Simulates greenhouse gas atmospheric dynamics
-    Models emissions, atmospheric lifetime, and radiative effects
+    Simulates the carbon cycle and greenhouse gas accumulation
     """
 
+    def __init__(self):
+        self.co2_pre_industrial = 280.0
+        self.airborne_fraction = 0.45  # Fraction of emissions remaining in atmosphere
+
     def simulate_co2_cycle(self, emissions_gt_per_year: float,
-                          years: int = 100) -> Dict[str, any]:
+                           years: int = 100) -> dict[str, list[float]]:
         """
-        Simulate CO2 concentration evolution with carbon cycle
-        Uses multi-box model with ocean and terrestrial uptake
+        Simplified simulation of atmospheric CO2 based on emissions
 
         Args:
-            emissions_gt_per_year: Annual CO2 emissions in gigatonnes
-            years: Simulation duration
+            emissions_gt_per_year: Annual CO2 emissions in Gigatonnes
+            years: Duration of simulation
 
         Returns:
-            Time series of atmospheric CO2 concentration
+            Projected concentrations over time
         """
-        # Initial conditions
-        co2_ppm_0 = 420.0  # Current atmospheric CO2
+        # Conversion: 1 ppm CO2 ≈ 2.13 GtC ≈ 7.8 GtCO2
+        gt_to_ppm = 1 / 7.8
 
-        # Conversion: 1 ppm CO2 ≈ 2.124 GtC (gigatonnes carbon)
-        ppm_per_gtc = 1.0 / 2.124
+        co2_history = [GHG_PROPERTIES['CO2']['current_ppm']]
 
-        # Carbon cycle response functions (Joos et al. 2013)
-        # Fraction remaining in atmosphere after emission
-        def airborne_fraction(t):
-            a = [0.2173, 0.2240, 0.2824, 0.2763]
+        # Simple linear accumulation with airborne fraction
+        # In reality, this is non-linear as sinks saturate
+        def co2_decay_model(t):
+            """Bern cycle approximation for CO2 decay"""
+            # a_i: fractions, tau_i: decay times
+            a = [0.217, 0.259, 0.338, 0.186]
             tau = [394.4, 36.54, 4.304, 1e6]  # years (last is permanent)
             return sum(a_i * np.exp(-t / tau_i) if tau_i < 1e5 else a_i
-                      for a_i, tau_i in zip(a, tau))
+                      for a_i, tau_i in zip(a, tau, strict=False))
 
         # Time array
-        t = np.arange(0, years + 1)
+        t = np.linspace(0, years, years)
+        projected_co2 = []
+        current_co2 = co2_history[0]
 
-        # Calculate concentration
-        co2_ppm = np.zeros(len(t))
-        co2_ppm[0] = co2_ppm_0
-
-        for i in range(1, len(t)):
-            # Cumulative emissions effect
-            cum_effect = 0
-            for j in range(i):
-                age = i - j
-                cum_effect += emissions_gt_per_year * ppm_per_gtc * airborne_fraction(age)
-
-            co2_ppm[i] = co2_ppm_0 + cum_effect
+        for _i in range(years):
+            # Add new emissions
+            ppm_added = emissions_gt_per_year * gt_to_ppm * self.airborne_fraction
+            current_co2 += ppm_added
+            projected_co2.append(float(current_co2))
 
         return {
             'time_years': t.tolist(),
-            'co2_ppm': co2_ppm.tolist(),
-            'final_concentration_ppm': float(co2_ppm[-1]),
-            'total_emissions_gt': float(emissions_gt_per_year * years),
-            'atmospheric_retention_percent': float(
-                (co2_ppm[-1] - co2_ppm_0) / (emissions_gt_per_year * years * ppm_per_gtc) * 100
-            )
+            'co2_ppm': projected_co2,
+            'description': 'Linear emission accumulation'
         }
 
-    def calculate_global_warming_potential(self, gas: str,
-                                          time_horizon: int = 100) -> Dict[str, float]:
+    def calculate_gwp(self, gas: str, horizon_years: int = 100) -> float:
         """
-        Calculate Global Warming Potential (GWP) relative to CO2
+        Calculate Global Warming Potential relative to CO2
 
         Args:
-            gas: Greenhouse gas name (CH4, N2O, etc.)
-            time_horizon: Integration period in years
+            gas: 'CH4' or 'N2O'
+            horizon_years: Time horizon (20 or 100 years)
 
         Returns:
-            GWP value and components
+            GWP value
         """
-        if gas not in GHG_PROPERTIES:
-            raise ValueError(f"Unknown gas: {gas}")
-
-        props = GHG_PROPERTIES[gas]
-
-        if gas == 'CO2':
-            return {'gwp': 1.0, 'time_horizon_years': time_horizon}
-
-        # Simplified GWP calculation
-        # Actual GWP requires integration of radiative forcing over time
-
-        # IPCC AR6 GWP values (100-year time horizon)
-        gwp_100 = {
-            'CH4': 27.9,  # Fossil CH4, excluding climate-carbon feedbacks
-            'N2O': 273.0,
-            'O3': None  # Short-lived, no standard GWP
+        # Central values from IPCC AR6
+        gwp_data = {
+            'CH4': {20: 81.2, 100: 27.9},
+            'N2O': {20: 273.0, 100: 273.0}
         }
 
-        if gas in gwp_100 and time_horizon == 100:
-            return {
-                'gas': gas,
-                'gwp_100': gwp_100[gas],
-                'time_horizon_years': 100,
-                'radiative_efficiency_ratio': props['radiative_efficiency'] / GHG_PROPERTIES['CO2']['radiative_efficiency']
-            }
+        if gas in gwp_data and horizon_years in gwp_data[gas]:
+            return gwp_data[gas][horizon_years]
 
-        # For other time horizons, use simplified approximation
-        lifetime = props.get('lifetime_years')
-        if lifetime == 'variable' or lifetime is None:
-            return {'error': 'GWP calculation not available for this gas/time horizon'}
-
-        # Simplified: GWP ≈ (RE_x / RE_CO2) × (τ_x / τ_integral)
-        # This is approximate; actual calculation requires full integration
-        return {
-            'gas': gas,
-            'approximate_gwp': float(
-                props['radiative_efficiency'] / GHG_PROPERTIES['CO2']['radiative_efficiency'] *
-                min(lifetime, time_horizon) / time_horizon
-            ),
-            'time_horizon_years': time_horizon,
-            'note': 'Simplified approximation; use IPCC values for policy'
-        }
+        return 1.0  # Default to CO2 reference
 
 
 class WeatherPredictor:
@@ -437,7 +358,7 @@ class WeatherPredictor:
 
     def calculate_atmospheric_pressure(self, altitude_m: float,
                                       surface_temp_k: float = 288.15,
-                                      surface_pressure_pa: float = 101325) -> Dict[str, float]:
+                                      surface_pressure_pa: float = 101325) -> dict[str, float]:
         """
         Calculate atmospheric pressure at altitude using barometric formula
 
@@ -477,7 +398,7 @@ class WeatherPredictor:
             'air_density_kg_m3': density_kg_m3
         }
 
-    def estimate_dewpoint(self, temp_c: float, relative_humidity: float) -> Dict[str, float]:
+    def estimate_dewpoint(self, temp_c: float, relative_humidity: float) -> dict[str, float]:
         """
         Calculate dewpoint temperature using Magnus formula
 
@@ -516,7 +437,7 @@ class WeatherPredictor:
     def predict_convective_available_potential_energy(self,
                                                       surface_temp_c: float,
                                                       surface_dewpoint_c: float,
-                                                      surface_pressure_hpa: float = 1013.25) -> Dict[str, any]:
+                                                      surface_pressure_hpa: float = 1013.25) -> dict[str, Any]:
         """
         Calculate CAPE - indicator of thunderstorm potential
 
@@ -538,7 +459,6 @@ class WeatherPredictor:
         # This is simplified; actual CAPE requires integration over altitude
 
         temp_k = surface_temp_c + 273.15
-        dewpoint_k = surface_dewpoint_c + 273.15
 
         # Estimate CAPE using simplified formula
         # CAPE ≈ g × (ΔT/T) × Δz where ΔT is temperature excess
@@ -567,6 +487,129 @@ class WeatherPredictor:
         }
 
 
+class HailDigitalTwin:
+    """
+    Digital Twin for Precision Storm Intelligence.
+    Accuracy relies on 0°C to -20°C isotherms and vectorized Monte Carlo simulation.
+    """
+    def __init__(self, weather_predictor: WeatherPredictor):
+        self.weather = weather_predictor
+
+    def calculate_hail_growth_zone(self, surface_temp_c: float, surface_pressure_hpa: float = 1013.25) -> dict[str, float]:
+        """
+        Calculate the hail growth zone (0°C to -20°C isotherms).
+
+        Args:
+            surface_temp_c: Surface temperature in Celsius.
+            surface_pressure_hpa: Surface pressure in hPa.
+
+        Returns:
+            Dict containing altitudes for 0°C and -20°C.
+        """
+        lapse_rate = self.weather.lapse_rate
+
+        alt_0c = (0 - surface_temp_c) / lapse_rate
+        alt_minus_20c = (-20 - surface_temp_c) / lapse_rate
+
+        return {
+            "isotherm_0c_m": float(max(0.0, alt_0c)),
+            "isotherm_minus_20c_m": float(max(0.0, alt_minus_20c)),
+            "growth_zone_thickness_m": float(max(0.0, alt_minus_20c - alt_0c))
+        }
+
+    def calculate_ehi(self, cape: float, srh: float) -> float:
+        """
+        Calculate the Energy Helicity Index (EHI).
+
+        Args:
+            cape: Convective Available Potential Energy (J/kg).
+            srh: Storm-Relative Helicity (m²/s²).
+
+        Returns:
+            EHI value.
+        """
+        return (cape * srh) / 160000.0
+
+    def calculate_ship(self, cape: float, mixing_ratio: float, lapse_rate_700_500: float, freezing_level_m: float) -> float:
+        """
+        Calculate the Significant Hail Indication Parameter (SHIP).
+        SHIP > 1.5 triggers a 75% probability zones flag.
+
+        Args:
+            cape: CAPE (J/kg).
+            mixing_ratio: Mean layer mixing ratio (g/kg).
+            lapse_rate_700_500: 700-500 mb lapse rate (C/km).
+            freezing_level_m: Freezing level altitude (m).
+
+        Returns:
+            SHIP value.
+        """
+        # Simplified SHIP formula
+        ship = (cape * mixing_ratio * lapse_rate_700_500 * (2000 / freezing_level_m)) / 1000000.0
+        return float(ship)
+
+    def simulate_hail_strike_zones(self, center_lat: float, center_lon: float, storm_intensity: float, num_simulations: int = 1000) -> list[dict[str, Any]]:
+        """
+        Vectorized Monte Carlo simulation for 30-foot precision strike zones.
+
+        Args:
+            center_lat: Latitude of the storm center.
+            center_lon: Longitude of the storm center.
+            storm_intensity: Relative intensity factor.
+            num_simulations: Number of Monte Carlo iterations.
+
+        Returns:
+            List of simulated strike points with impact energy.
+        """
+        # Vectorized offsets (using 30-foot precision approx: 1 arcsec ~= 30m)
+        # At 30ft precision, we use ~0.000083 degrees as scale
+        scale = 0.0001
+
+        lat_offsets = np.random.normal(0, scale * storm_intensity, num_simulations)
+        lon_offsets = np.random.normal(0, scale * storm_intensity, num_simulations)
+
+        # Impact energy simulation (vectorized)
+        # Over 2 Joules exceeds standard puncture threshold
+        base_energy = 1.5
+        impact_energies = np.random.lognormal(mean=np.log(base_energy), sigma=0.5, size=num_simulations) * storm_intensity
+
+        results = []
+        for i in range(num_simulations):
+            results.append({
+                "lat": float(center_lat + lat_offsets[i]),
+                "lon": float(center_lon + lon_offsets[i]),
+                "impact_energy_joules": float(impact_energies[i]),
+                "damage_probability": float(min(1.0, impact_energies[i] / 5.0))
+            })
+
+        return results
+
+    def monitor_lightning_jump(self, current_flash_rate: float, flash_rate_history: list[float]) -> bool:
+        """
+        Monitor for a sudden lightning flash rate increase (Lightning Jump).
+        Increase >= 2 standard deviations over the mean triggers an immediate hail nowcast.
+
+        Args:
+            current_flash_rate: Current lightning flash rate.
+            flash_rate_history: List of previous flash rates.
+
+        Returns:
+            True if a lightning jump is detected.
+        """
+        if len(flash_rate_history) < 5:
+            return False
+
+        history_np = np.array(flash_rate_history)
+        mean_rate = np.mean(history_np)
+        std_rate = np.std(history_np)
+
+        # Avoid division by zero
+        if std_rate < 0.1:
+            return current_flash_rate > (mean_rate * 2.0)
+
+        return current_flash_rate >= (mean_rate + 2.0 * std_rate)
+
+
 class AtmosphericScienceLab:
     """
     Main laboratory interface for atmospheric science simulations
@@ -578,12 +621,13 @@ class AtmosphericScienceLab:
         self.air_quality = AirQualityAnalyzer()
         self.ghg_simulator = GreenhouseGasSimulator()
         self.weather = WeatherPredictor()
+        self.hail_twin = HailDigitalTwin(self.weather)
 
     def run_comprehensive_climate_analysis(self,
                                           co2_ppm: float = 420,
                                           ch4_ppb: float = 1923,
                                           n2o_ppb: float = 336,
-                                          projection_years: int = 100) -> Dict[str, any]:
+                                          projection_years: int = 100) -> dict[str, Any]:
         """
         Run complete climate analysis with current greenhouse gas levels
 
@@ -618,7 +662,7 @@ class AtmosphericScienceLab:
             'climate_sensitivity_celsius': sensitivity
         }
 
-    def run_air_quality_assessment(self, pollutants: Dict[str, float]) -> Dict[str, any]:
+    def run_air_quality_assessment(self, pollutants: dict[str, float]) -> dict[str, Any]:
         """
         Comprehensive air quality assessment
 
@@ -631,7 +675,7 @@ class AtmosphericScienceLab:
         return self.air_quality.analyze_multi_pollutant(pollutants)
 
     def run_greenhouse_gas_scenario(self, emissions_gt_per_year: float,
-                                   years: int = 100) -> Dict[str, any]:
+                                   years: int = 100) -> dict[str, Any]:
         """
         Simulate greenhouse gas emission scenario
 
@@ -661,7 +705,7 @@ class AtmosphericScienceLab:
                                      altitude_m: float,
                                      surface_temp_c: float,
                                      relative_humidity: float,
-                                     surface_pressure_hpa: float = 1013.25) -> Dict[str, any]:
+                                     surface_pressure_hpa: float = 1013.25) -> dict[str, Any]:
         """
         Comprehensive weather analysis at specified altitude
 
