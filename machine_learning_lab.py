@@ -6,6 +6,7 @@ Production-ready machine learning algorithms implemented from scratch.
 Free gift to the scientific community from QuLabInfinite.
 """
 
+import itertools
 import numpy as np
 from typing import List, Tuple, Optional, Dict, Any, Callable
 from dataclasses import dataclass, field
@@ -583,21 +584,11 @@ class MachineLearningLab:
         # Generate polynomial features
         idx = 1
         for d in range(1, degree + 1):
-            # Generate all combinations of features for degree d
-            def generate_terms(features, remaining_degree, start_idx=0):
-                if remaining_degree == 0:
-                    return [np.prod([X[:, f] for f in features], axis=0)]
-
-                terms = []
-                for i in range(start_idx, n_features):
-                    new_features = features + [i]
-                    terms.extend(generate_terms(new_features, remaining_degree - 1, i))
-                return terms
-
-            terms = generate_terms([], d)
-            for term in terms:
+            # ⚡ Bolt Optimization: Use itertools.combinations_with_replacement and vectorized column slicing
+            # instead of a custom recursive generator to avoid O(n^d) call-stack overhead and improve performance.
+            for combo in itertools.combinations_with_replacement(range(n_features), d):
                 if idx < X_poly.shape[1]:
-                    X_poly[:, idx] = term
+                    X_poly[:, idx] = np.prod(X[:, combo], axis=1)
                     idx += 1
 
         return X_poly
