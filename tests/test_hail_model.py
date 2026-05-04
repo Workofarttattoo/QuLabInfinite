@@ -246,7 +246,7 @@ class TestHailLabIntegration:
         engine = HailPhysicsEngine()
         v = engine.calculate_terminal_velocity(0.05)
         assert v > 0
-        assert 50 < v < 100
+        assert 30 < v < 40
 
     def test_physics_impact_force(self):
         pytest.importorskip("trimesh")

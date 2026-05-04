@@ -1,30 +1,45 @@
-
 import numpy as np
 import trimesh
-
+from typing import Dict, Any
 
 class HailPhysicsEngine:
     def __init__(self):
         # Constants for hail properties
         self.ice_density = 917  # kg/m^3
         self.g = 9.81  # m/s^2
+        self.rho_air_sea_level = 1.225 # kg/m^3
+        self.drag_coeff = 0.45 # Standard for sphere
 
-    def calculate_terminal_velocity(self, diameter_m: float) -> float:
+    def calculate_terminal_velocity(self, diameter_m: float, rho_air: float = 1.225) -> float:
         """
-        Calculates terminal velocity of a hailstone.
-        Approximate formula: v = 9 * sqrt(diameter_mm)
+        Calculates terminal velocity using the physics-based formula:
+        v_t = sqrt((4 * rho_ice * g * D) / (3 * C_d * rho_air))
         """
-        diameter_mm = diameter_m * 1000
-        return 9.0 * np.sqrt(diameter_mm)
+        v_t = np.sqrt((4 * self.ice_density * self.g * diameter_m) / (3 * self.drag_coeff * rho_air))
+        return float(v_t)
+
+    def calculate_mass_growth_rate(self, diameter_m: float, velocity: float, lwc: float, collection_eff: float = 1.0) -> float:
+        """
+        Implements mass growth budget concept (Kumjian & Lombardo 2020).
+        dm/dt = Area * E * LWC * V_t
+        Where Area is cross-sectional area (pi * R^2)
+        """
+        radius = diameter_m / 2.0
+        area = np.pi * (radius ** 2)
+        # dm/dt in kg/s
+        growth_rate = area * collection_eff * lwc * velocity
+        return float(growth_rate)
 
     def calculate_impact_force(self, mass: float, velocity: float, theta_rad: float, delta_t: float = 0.01) -> float:
         """
         F_impact = (delta_p / delta_t) * cos(theta)
-        Assuming inelastic collision for conservative damage estimate (delta_p = m*v)
+        Where theta is the angle between the hailstone trajectory and the roof normal.
         """
+        # delta_p = m * v (assuming full momentum transfer for conservative estimate)
         delta_p = mass * velocity
+        # Normal force component: F_impact = (delta_p/delta_t) * cos(theta)
         force = (delta_p / delta_t) * np.cos(theta_rad)
-        return max(0.0, force)
+        return float(max(0.0, force))
 
     def simulate_strike_zone(self, glb_path: str, hail_diameter_m: float = 0.05, num_strikes: int = 100) -> dict:
         """
@@ -102,5 +117,13 @@ if __name__ == "__main__":
     engine = HailPhysicsEngine()
     v_val = engine.calculate_terminal_velocity(0.05)
     print(f"Terminal velocity for 50mm hail: {v_val:.2f} m/s")
-    f_val = engine.calculate_impact_force(0.06, v_val, np.radians(30))
+
+    # Mass growth test
+    # Assume LWC = 2.0 g/m^3 = 0.002 kg/m^3
+    growth = engine.calculate_mass_growth_rate(0.05, v_val, 0.002)
+    print(f"Mass growth rate: {growth:.6f} kg/s")
+
+    # Impact force test
+    mass = (4/3) * np.pi * (0.025**3) * 917
+    f_val = engine.calculate_impact_force(mass, v_val, np.radians(30))
     print(f"Impact force at 30 deg: {f_val:.2f} N")
