@@ -30,6 +30,7 @@ class AgentType(Enum):
     VALIDATION = "validation"
     ORCHESTRATION = "orchestration"
     TEMPORAL = "temporal"
+    HAIL = "hail"
 
 
 class TaskPriority(Enum):
@@ -632,6 +633,7 @@ def create_standard_agents(
         (AgentType.CHEMISTRY, "chemistry-001", ["molecular_dynamics", "reaction_simulation"]),
         (AgentType.ENVIRONMENT, "environment-001", ["temperature_control", "pressure_control"]),
         (AgentType.VALIDATION, "validation-001", ["data_validation", "statistical_testing"]),
+        (AgentType.HAIL, "hail-001", ["hail_simulation", "damage_assessment", "3d_trajectory"]),
     ]
     
     agents = []
