@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2024-04-20 - Vectorizing O(N^2) patch distance logic and patch masking with cKDTree
+**Learning:** O(N^2) naive spatial metrics in scipy implementations like `spatial.distance_matrix` become huge memory and CPU bottlenecks as patches or entity counts climb. Using vectorization across components, masking instead of iterating via `where`, and trading `spatial.distance_matrix` for `cKDTree.query_pairs` can dramatically reduce execution time without losing accuracy (O(N^2) vs O(N log N)). Since `cKDTree.query_pairs` computes less-than-or-equal (<=) distances by default compared to strict array masks (which compare via strict less-than), precision can be correctly maintained by subtracting an infinitesimally small value (e.g. `1e-9`) from the query threshold.
+**Action:** Default to vectorized logic (using `np.bincount`, global mask erosion vs per-patch erosion) when determining global structural metrics over segmented 2D arrays, and swap `distance_matrix(x, x)` for `cKDTree.query_pairs(threshold)` to maintain scale when looking for proximity connectedness between entities.
