@@ -9,3 +9,4 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+\n## 2026-04-24 - Metapopulation Spatial Vectorization\n**Learning:** Simulating spatial metapopulation dynamics (colonization and survival events) across multiple patches using sequential iteration over time and patches in Python loops can be a severe bottleneck.\n**Action:** Replace nested loops tracking entity states with vectorized matrix multiplication (e.g., `connectivity_matrix @ prev_occ`) and bulk random number generation (`np.random.random(size)`) to evaluate conditions using bitwise logic, resulting in massive speedups (~28x for 500 patches).
