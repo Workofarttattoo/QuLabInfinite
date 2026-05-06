@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2026-04-16 - Optimize Ecology Lab Fragmentation Analysis
+**Learning:** When analyzing distances between thousands of spatial items, replacing O(N^2) scipy.spatial.distance_matrix with scipy.spatial.cKDTree prevents OOM errors and dramatically speeds up execution. Global vectorization using np.bincount to compute patch sizes over an entire matrix massively improves performance over per-patch loops.
+**Action:** Always look for opportunities to replace individual boolean mask iteration and full-image morphological operations with single-pass matrix vectorization and bincount operations in spatial computation functions.

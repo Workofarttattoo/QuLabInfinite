@@ -699,18 +699,15 @@ class EcologyLab:
         labeled_patches, n_patches = ndimage.label(landscape_matrix == 1)
 
         # Patch metrics
-        patch_sizes = []
-        patch_perimeters = []
-
-        for patch_id in range(1, n_patches + 1):
-            patch_mask = labeled_patches == patch_id
-            patch_size = np.sum(patch_mask)
-            patch_sizes.append(patch_size)
-
-            # Calculate perimeter (edge cells)
-            eroded = ndimage.binary_erosion(patch_mask)
-            perimeter = np.sum(patch_mask) - np.sum(eroded)
-            patch_perimeters.append(perimeter)
+        # Vectorized patch size and perimeter calculations
+        if n_patches > 0:
+            patch_sizes = np.bincount(labeled_patches.ravel())[1:]
+            eroded = ndimage.binary_erosion(landscape_matrix == 1)
+            edges = (landscape_matrix == 1) & ~eroded
+            patch_perimeters = np.bincount(labeled_patches[edges], minlength=n_patches + 1)[1:]
+        else:
+            patch_sizes = np.array([])
+            patch_perimeters = np.array([])
 
         patch_sizes = np.array(patch_sizes) * cell_size ** 2  # Convert to area
         patch_perimeters = np.array(patch_perimeters) * cell_size
@@ -738,15 +735,12 @@ class EcologyLab:
         distance_threshold = 3  # cells
         connectivity = 0
         if n_patches > 1:
-            # Calculate distances between patch centroids
-            centroids = []
-            for patch_id in range(1, n_patches + 1):
-                y, x = np.where(labeled_patches == patch_id)
-                centroids.append([np.mean(y), np.mean(x)])
-
-            centroids = np.array(centroids)
-            distances = spatial.distance_matrix(centroids, centroids)
-            connected_pairs = np.sum(distances < distance_threshold) - n_patches
+            from scipy.spatial import cKDTree
+            # Vectorized centroid calculation and distance computation using cKDTree
+            centroids = np.array(ndimage.center_of_mass(landscape_matrix == 1, labeled_patches, index=np.arange(1, n_patches + 1)))
+            tree = cKDTree(centroids)
+            # Using distance_threshold - 1e-9 to strictly enforce < instead of <=
+            connected_pairs = len(tree.query_pairs(distance_threshold - 1e-9)) * 2
             possible_pairs = n_patches * (n_patches - 1)
             connectivity = connected_pairs / possible_pairs if possible_pairs > 0 else 0
 
