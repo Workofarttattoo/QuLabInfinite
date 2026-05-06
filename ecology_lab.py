@@ -698,22 +698,22 @@ class EcologyLab:
         from scipy import ndimage
         labeled_patches, n_patches = ndimage.label(landscape_matrix == 1)
 
-        # Patch metrics
-        patch_sizes = []
-        patch_perimeters = []
+        # Patch metrics (⚡ Vectorized optimization)
+        if n_patches > 0:
+            patch_sizes = np.bincount(labeled_patches.ravel())[1:] * (cell_size ** 2)
 
-        for patch_id in range(1, n_patches + 1):
-            patch_mask = labeled_patches == patch_id
-            patch_size = np.sum(patch_mask)
-            patch_sizes.append(patch_size)
+            # Calculate perimeter (edge cells) globally
+            global_eroded = ndimage.binary_erosion(landscape_matrix == 1)
+            edge_cells = (landscape_matrix == 1) & ~global_eroded
+            perims = np.bincount(labeled_patches[edge_cells])
 
-            # Calculate perimeter (edge cells)
-            eroded = ndimage.binary_erosion(patch_mask)
-            perimeter = np.sum(patch_mask) - np.sum(eroded)
-            patch_perimeters.append(perimeter)
-
-        patch_sizes = np.array(patch_sizes) * cell_size ** 2  # Convert to area
-        patch_perimeters = np.array(patch_perimeters) * cell_size
+            # Ensure the perims array matches n_patches length (in case some patches have no edge, though unlikely)
+            if len(perims) <= n_patches:
+                perims = np.pad(perims, (0, n_patches + 1 - len(perims)))
+            patch_perimeters = perims[1:] * cell_size
+        else:
+            patch_sizes = np.array([])
+            patch_perimeters = np.array([])
 
         # Fragmentation metrics
         mean_patch_size = np.mean(patch_sizes) if len(patch_sizes) > 0 else 0
@@ -738,15 +738,14 @@ class EcologyLab:
         distance_threshold = 3  # cells
         connectivity = 0
         if n_patches > 1:
-            # Calculate distances between patch centroids
-            centroids = []
-            for patch_id in range(1, n_patches + 1):
-                y, x = np.where(labeled_patches == patch_id)
-                centroids.append([np.mean(y), np.mean(x)])
-
+            # Calculate distances between patch centroids (⚡ Optimized with cKDTree & center_of_mass)
+            centroids = ndimage.center_of_mass(landscape_matrix == 1, labeled_patches, index=np.arange(1, n_patches + 1))
             centroids = np.array(centroids)
-            distances = spatial.distance_matrix(centroids, centroids)
-            connected_pairs = np.sum(distances < distance_threshold) - n_patches
+
+            tree = spatial.cKDTree(centroids)
+            # Subtract small epsilon to match strict `<` comparison from distance_matrix
+            pairs = tree.query_pairs(distance_threshold - 1e-9)
+            connected_pairs = len(pairs) * 2
             possible_pairs = n_patches * (n_patches - 1)
             connectivity = connected_pairs / possible_pairs if possible_pairs > 0 else 0
 
