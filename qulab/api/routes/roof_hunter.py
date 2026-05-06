@@ -82,4 +82,7 @@ def simulate_roof_weather(request: RoofHunterSimulationRequest):
         result = RoofHunterWeatherSimulator().simulate_roof(roof, weather)
         return result.to_dict()
     except Exception as exc:
-        raise HTTPException(status_code=500, detail=f"Roof Hunter simulation failed: {exc}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Roof Hunter simulation failed: {exc}",
+        ) from exc

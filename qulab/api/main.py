@@ -13,15 +13,14 @@ from __future__ import annotations
 import logging
 import time
 from contextlib import asynccontextmanager
-from typing import Any, Dict
+from typing import Any
 
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from qulab.api.auth import get_api_key
 from qulab.core.simulator import UnifiedSimulator
-from qulab.core.config import ConfigManager
-from qulab.api.auth import get_api_key, APIKeyHeader
 
 logger = logging.getLogger(__name__)
 
@@ -82,7 +81,7 @@ app.add_middleware(
 
 class SimulationRequest(BaseModel):
     lab_name: str = Field(..., description="Name of the lab to run the simulation in")
-    experiment_spec: Dict[str, Any] = Field(
+    experiment_spec: dict[str, Any] = Field(
         ..., description="Experiment specification parameters"
     )
 
@@ -91,7 +90,7 @@ class SimulationResponse(BaseModel):
     status: str
     lab: str
     duration_ms: float
-    results: Dict[str, Any]
+    results: dict[str, Any]
 
 
 class HealthResponse(BaseModel):
@@ -156,11 +155,11 @@ def get_lab_info(
     try:
         status = simulator.get_lab_status(lab_name)
         return {"lab": lab_name, "status": status}
-    except KeyError:
+    except KeyError as exc:
         raise HTTPException(
             status_code=404,
             detail=f"Lab '{lab_name}' not found. Use /labs to see available labs.",
-        )
+        ) from exc
 
 
 @app.post(
@@ -184,16 +183,16 @@ def run_simulation(
             duration_ms=round(duration_ms, 2),
             results=results,
         )
-    except KeyError:
+    except KeyError as exc:
         raise HTTPException(
             status_code=404,
             detail=f"Lab '{request.lab_name}' not found.",
-        )
+        ) from exc
     except NotImplementedError as exc:
-        raise HTTPException(status_code=501, detail=str(exc))
+        raise HTTPException(status_code=501, detail=str(exc)) from exc
     except Exception as exc:
         logger.exception("Simulation error in %s", request.lab_name)
-        raise HTTPException(status_code=500, detail=f"Simulation error: {exc}")
+        raise HTTPException(status_code=500, detail=f"Simulation error: {exc}") from exc
 
 
 @app.get("/summary", tags=["info"])
@@ -205,7 +204,7 @@ def summary(simulator: UnifiedSimulator = Depends(get_simulator)):
 # ------------------------------------------------------------------
 # Include sub-routers (for future expansion)
 # ------------------------------------------------------------------
-from qulab.api.routes import labs_router, medical_router, roof_hunter_router
+from qulab.api.routes import labs_router, medical_router, roof_hunter_router  # noqa: E402
 
 app.include_router(labs_router, prefix="/api/v1/labs", tags=["v1"])
 app.include_router(medical_router, prefix="/api/v1/medical", tags=["v1", "medical"])

@@ -8,8 +8,6 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light).
 All Rights Reserved. PATENT PENDING.
 """
 
-from .ensemble import EnsemblePredictor as EnsemblePredictor
-from .ensemble import EnsembleTrainer as EnsembleTrainer
 from .azure_digital_twins import (
     AzureDigitalTwinsPublisher,
     RoofHunterWeatherSimulator,
@@ -27,6 +25,8 @@ from .dual_pol import (
     compute_posh,
     estimate_hail_size,
 )
+from .ensemble import EnsemblePredictor as EnsemblePredictor
+from .ensemble import EnsembleTrainer as EnsembleTrainer
 from .nexrad_fetcher import NEXRADFetcher, RadarObservation, get_radar_features_for_property
 from .predict import HailPredictor
 from .preprocess import HailDataPreprocessor
