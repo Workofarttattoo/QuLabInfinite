@@ -10,6 +10,14 @@ All Rights Reserved. PATENT PENDING.
 
 from .ensemble import EnsemblePredictor as EnsemblePredictor
 from .ensemble import EnsembleTrainer as EnsembleTrainer
+from .azure_digital_twins import (
+    AzureDigitalTwinsPublisher,
+    RoofHunterWeatherSimulator,
+    RoofProfile,
+    TwinModelFactory,
+    WeatherSimulationResult,
+    WeatherSnapshot,
+)
 from .dual_pol import (
     DualPolObservation,
     HailEstimate,
@@ -29,6 +37,7 @@ from .validate import validate_model
 __all__ = [
     "EnsemblePredictor",
     "EnsembleTrainer",
+    "AzureDigitalTwinsPublisher",
     "DualPolObservation",
     "HailDataPreprocessor",
     "HailEstimate",
@@ -39,6 +48,11 @@ __all__ = [
     "NEXRADFetcher",
     "PropertyAssessment",
     "RadarObservation",
+    "RoofHunterWeatherSimulator",
+    "RoofProfile",
+    "TwinModelFactory",
+    "WeatherSimulationResult",
+    "WeatherSnapshot",
     "classify_hydrometeor",
     "compute_mesh",
     "compute_posh",

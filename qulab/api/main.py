@@ -205,10 +205,15 @@ def summary(simulator: UnifiedSimulator = Depends(get_simulator)):
 # ------------------------------------------------------------------
 # Include sub-routers (for future expansion)
 # ------------------------------------------------------------------
-from qulab.api.routes import labs_router, medical_router
+from qulab.api.routes import labs_router, medical_router, roof_hunter_router
 
 app.include_router(labs_router, prefix="/api/v1/labs", tags=["v1"])
 app.include_router(medical_router, prefix="/api/v1/medical", tags=["v1", "medical"])
+app.include_router(
+    roof_hunter_router,
+    prefix="/api/v1/roof-hunter",
+    tags=["v1", "roof-hunter", "climate"],
+)
 
 
 # ------------------------------------------------------------------
