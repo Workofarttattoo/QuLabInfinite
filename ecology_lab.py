@@ -6,14 +6,12 @@ Advanced ecological modeling with population dynamics and ecosystem services.
 Production-ready implementation for ecological research and conservation.
 """
 
-import numpy as np
 from dataclasses import dataclass, field
-from typing import Dict, List, Tuple, Optional, Callable, Set
 from enum import Enum
-import warnings
-from scipy import integrate, optimize, interpolate, spatial
-from scipy.stats import poisson, lognorm, gamma
+
 import networkx as nx
+import numpy as np
+from scipy import integrate, spatial
 
 
 class EcosystemType(Enum):
@@ -39,8 +37,8 @@ class Species:
     carrying_capacity: float  # individuals/km²
     mortality_rate: float  # per day
     dispersal_range: float  # km
-    diet: Dict[str, float] = field(default_factory=dict)  # prey: proportion
-    habitat_requirements: Dict[str, float] = field(default_factory=dict)
+    diet: dict[str, float] = field(default_factory=dict)  # prey: proportion
+    habitat_requirements: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -109,10 +107,10 @@ class EcologyLab:
         }
 
     def lotka_volterra_dynamics(self,
-                               initial_populations: Dict[str, float],
-                               interactions: Dict[Tuple[str, str], float],
+                               initial_populations: dict[str, float],
+                               interactions: dict[tuple[str, str], float],
                                time_years: float = 10,
-                               stochastic: bool = False) -> Dict[str, np.ndarray]:
+                               stochastic: bool = False) -> dict[str, np.ndarray]:
         """
         Generalized Lotka-Volterra population dynamics.
         Can handle predator-prey, competition, and mutualism.
@@ -170,7 +168,7 @@ class EcologyLab:
 
         return result
 
-    def food_web_structure(self, species_list: List[str]) -> Dict[str, any]:
+    def food_web_structure(self, species_list: list[str]) -> dict[str, any]:
         """
         Analyze food web structure and stability.
         Returns network metrics and trophic relationships.
@@ -226,7 +224,7 @@ class EcologyLab:
                                                    target=max(trophic_levels, key=trophic_levels.get)),
                              key=len)
             max_chain_length = len(longest_path)
-        except:
+        except Exception:
             max_chain_length = max(trophic_levels.values()) if trophic_levels else 0
 
         # Modularity (community structure)
@@ -254,7 +252,7 @@ class EcologyLab:
 
     def biodiversity_metrics(self,
                            abundances: np.ndarray,
-                           spatial_distribution: Optional[np.ndarray] = None) -> Dict[str, float]:
+                           spatial_distribution: np.ndarray | None = None) -> dict[str, float]:
         """
         Calculate comprehensive biodiversity metrics.
         Includes alpha, beta, and gamma diversity.
@@ -344,7 +342,7 @@ class EcologyLab:
     def species_area_relationship(self,
                                  min_area: float = 0.1,
                                  max_area: float = 10000,
-                                 n_samples: int = 20) -> Dict[str, any]:
+                                 n_samples: int = 20) -> dict[str, any]:
         """
         Model species-area relationship (SAR).
         S = c * A^z where S is species, A is area.
@@ -400,7 +398,7 @@ class EcologyLab:
                                extinction_rate: float,
                                initial_occupied: int,
                                time_years: float = 50,
-                               connectivity_matrix: Optional[np.ndarray] = None) -> Dict[str, np.ndarray]:
+                               connectivity_matrix: np.ndarray | None = None) -> dict[str, np.ndarray]:
         """
         Levins metapopulation model with spatial structure.
         Tracks patch occupancy over time.
@@ -412,7 +410,7 @@ class EcologyLab:
 
         def derivatives(occupied_vector, t):
             # occupied_vector is binary (0 or 1) for each patch
-            p = np.mean(occupied_vector)  # Proportion occupied
+            np.mean(occupied_vector)  # Proportion occupied
 
             dO_dt = np.zeros(patches)
             for i in range(patches):
@@ -476,7 +474,7 @@ class EcologyLab:
     def island_biogeography(self,
                            island_area: float,
                            distance_to_mainland: float,
-                           mainland_species: int = 1000) -> Dict[str, float]:
+                           mainland_species: int = 1000) -> dict[str, float]:
         """
         MacArthur-Wilson island biogeography theory.
         Predicts species richness based on area and isolation.
@@ -520,7 +518,7 @@ class EcologyLab:
 
     def ecological_succession(self,
                             disturbance_type: str = 'fire',
-                            time_years: float = 100) -> Dict[str, np.ndarray]:
+                            time_years: float = 100) -> dict[str, np.ndarray]:
         """
         Model ecological succession after disturbance.
         Tracks community composition changes over time.
@@ -545,11 +543,10 @@ class EcologyLab:
 
         # Initialize arrays
         time_points = np.linspace(0, time_years, int(time_years * 4))  # Quarterly
-        species_list = list(set(sp for stage in stages.values() for sp in stage.keys()))
+        species_list = list(set(sp for stage in stages.values() for sp in stage))
         composition = np.zeros((len(time_points), len(species_list)))
 
         # Track succession
-        current_time = 0
         for t_idx, t in enumerate(time_points):
             # Determine current stage
             cumulative_time = 0
@@ -591,8 +588,8 @@ class EcologyLab:
         }
 
     def ecosystem_services_valuation(self,
-                                   land_use: Dict[str, float],
-                                   population: int = 10000) -> Dict[str, any]:
+                                   land_use: dict[str, float],
+                                   population: int = 10000) -> dict[str, any]:
         """
         Calculate economic value of ecosystem services.
         Based on land use and ecosystem health.
@@ -684,7 +681,7 @@ class EcologyLab:
 
     def habitat_fragmentation_analysis(self,
                                      landscape_matrix: np.ndarray,
-                                     cell_size: float = 1.0) -> Dict[str, float]:
+                                     cell_size: float = 1.0) -> dict[str, float]:
         """
         Analyze habitat fragmentation metrics.
         1 = habitat, 0 = non-habitat in matrix.
@@ -699,21 +696,23 @@ class EcologyLab:
         labeled_patches, n_patches = ndimage.label(landscape_matrix == 1)
 
         # Patch metrics
-        patch_sizes = []
-        patch_perimeters = []
+        if n_patches > 0:
+            # Vectorize patch size calculation
+            patch_sizes = np.bincount(labeled_patches.ravel())[1:]
 
-        for patch_id in range(1, n_patches + 1):
-            patch_mask = labeled_patches == patch_id
-            patch_size = np.sum(patch_mask)
-            patch_sizes.append(patch_size)
+            # Vectorize perimeter calculation globally instead of per-patch
+            habitat_mask = landscape_matrix == 1
+            eroded_global = ndimage.binary_erosion(habitat_mask)
+            edge_mask = habitat_mask & ~eroded_global
 
-            # Calculate perimeter (edge cells)
-            eroded = ndimage.binary_erosion(patch_mask)
-            perimeter = np.sum(patch_mask) - np.sum(eroded)
-            patch_perimeters.append(perimeter)
+            edge_labels = labeled_patches[edge_mask]
+            patch_perimeters = np.bincount(edge_labels, minlength=n_patches + 1)[1:]
+        else:
+            patch_sizes = np.array([])
+            patch_perimeters = np.array([])
 
-        patch_sizes = np.array(patch_sizes) * cell_size ** 2  # Convert to area
-        patch_perimeters = np.array(patch_perimeters) * cell_size
+        patch_sizes = patch_sizes * cell_size ** 2  # Convert to area
+        patch_perimeters = patch_perimeters * cell_size
 
         # Fragmentation metrics
         mean_patch_size = np.mean(patch_sizes) if len(patch_sizes) > 0 else 0
@@ -725,7 +724,7 @@ class EcologyLab:
 
         # Mean shape index (circle = 1, complex shape > 1)
         shape_indices = []
-        for size, perimeter in zip(patch_sizes, patch_perimeters):
+        for size, perimeter in zip(patch_sizes, patch_perimeters, strict=False):
             if size > 0:
                 # Shape index = perimeter / (2 * sqrt(pi * area))
                 expected_perimeter = 2 * np.sqrt(np.pi * size)
@@ -738,15 +737,17 @@ class EcologyLab:
         distance_threshold = 3  # cells
         connectivity = 0
         if n_patches > 1:
-            # Calculate distances between patch centroids
-            centroids = []
-            for patch_id in range(1, n_patches + 1):
-                y, x = np.where(labeled_patches == patch_id)
-                centroids.append([np.mean(y), np.mean(x)])
+            # Calculate distances between patch centroids (vectorized)
+            centroids = np.array(ndimage.center_of_mass(
+                labeled_patches,
+                labeled_patches,
+                index=np.arange(1, n_patches + 1)
+            ))
 
-            centroids = np.array(centroids)
-            distances = spatial.distance_matrix(centroids, centroids)
-            connected_pairs = np.sum(distances < distance_threshold) - n_patches
+            # Use cKDTree instead of distance_matrix to avoid O(N^2) memory and time complexity
+            tree = spatial.cKDTree(centroids)
+            pairs = tree.query_pairs(distance_threshold - 1e-9)
+            connected_pairs = 2 * len(pairs)
             possible_pairs = n_patches * (n_patches - 1)
             connectivity = connected_pairs / possible_pairs if possible_pairs > 0 else 0
 
@@ -768,7 +769,7 @@ class EcologyLab:
                           soil_carbon: float,
                           temperature: float,
                           precipitation: float,
-                          time_years: float = 50) -> Dict[str, np.ndarray]:
+                          time_years: float = 50) -> dict[str, np.ndarray]:
         """
         Ecosystem carbon cycle model.
         Tracks carbon pools and fluxes.
