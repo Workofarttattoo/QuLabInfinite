@@ -16,6 +16,7 @@ from hail_model.azure_digital_twins import (
     TwinModelFactory,
     WeatherSnapshot,
 )
+from hail_model.backtest import RoofHunterBacktester, record_from_mapping
 from qulab.api.auth import get_api_key
 
 router = APIRouter()
@@ -64,6 +65,12 @@ class RoofHunterSimulationRequest(BaseModel):
     weather: WeatherSnapshotRequest
 
 
+class RoofHunterBacktestRequest(BaseModel):
+    records: list[dict]
+    threshold: float = Field(0.5, ge=0.0, le=1.0)
+    include_records: bool = True
+
+
 @router.get("/digital-twin-models")
 def digital_twin_models():
     """Return the DTDL models needed for an Azure Digital Twins deployment."""
@@ -85,4 +92,22 @@ def simulate_roof_weather(request: RoofHunterSimulationRequest):
         raise HTTPException(
             status_code=500,
             detail=f"Roof Hunter simulation failed: {exc}",
+        ) from exc
+
+
+@router.post("/backtest", dependencies=[Depends(get_api_key)])
+def backtest_roof_hunter(request: RoofHunterBacktestRequest):
+    """Backtest NOAA-only baseline vs enriched radar+NOAA hail predictions."""
+
+    try:
+        records = [
+            record_from_mapping(record, index=index)
+            for index, record in enumerate(request.records, start=1)
+        ]
+        report = RoofHunterBacktester().backtest(records, threshold=request.threshold)
+        return report.to_dict(include_records=request.include_records)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Roof Hunter backtest failed: {exc}",
         ) from exc

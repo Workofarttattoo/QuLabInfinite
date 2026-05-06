@@ -16,6 +16,15 @@ from .azure_digital_twins import (
     WeatherSimulationResult,
     WeatherSnapshot,
 )
+from .backtest import (
+    BacktestMetrics,
+    BacktestRecord,
+    BacktestReport,
+    PredictionComparison,
+    RoofHunterBacktester,
+    load_backtest_records,
+    record_from_mapping,
+)
 from .dual_pol import (
     DualPolObservation,
     HailEstimate,
@@ -38,6 +47,9 @@ __all__ = [
     "EnsemblePredictor",
     "EnsembleTrainer",
     "AzureDigitalTwinsPublisher",
+    "BacktestMetrics",
+    "BacktestRecord",
+    "BacktestReport",
     "DualPolObservation",
     "HailDataPreprocessor",
     "HailEstimate",
@@ -47,7 +59,9 @@ __all__ = [
     "HydrometeorType",
     "NEXRADFetcher",
     "PropertyAssessment",
+    "PredictionComparison",
     "RadarObservation",
+    "RoofHunterBacktester",
     "RoofHunterWeatherSimulator",
     "RoofProfile",
     "TwinModelFactory",
@@ -58,5 +72,7 @@ __all__ = [
     "compute_posh",
     "estimate_hail_size",
     "get_radar_features_for_property",
+    "load_backtest_records",
+    "record_from_mapping",
     "validate_model",
 ]

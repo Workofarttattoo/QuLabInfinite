@@ -18,8 +18,11 @@ simulator is recalibrated against measured roof outcomes.
 - API route:
   - `GET /api/v1/roof-hunter/digital-twin-models`
   - `POST /api/v1/roof-hunter/simulate`
+  - `POST /api/v1/roof-hunter/backtest`
 - Deployment helper:
   - `PYTHONPATH=/workspace python3 scripts/deploy_roof_hunter_digital_twins.py`
+- Backtest helper:
+  - `PYTHONPATH=/workspace python3 scripts/backtest_roof_hunter_hail.py <input.csv>`
 
 ## Local simulation
 
@@ -103,4 +106,41 @@ Use Azure Digital Twins as the state graph and feed it with:
 - Local roof or neighborhood IoT stations.
 - Satellite-derived roof material, tree cover, and solar exposure.
 - Roof inspection or claim outcomes for calibration.
+
+## Backtesting with known hail outcomes
+
+Use the backtest CLI to compare a coarse NOAA/MOAA-only baseline against
+enriched high-quality radar plus NOAA/MOAA inputs:
+
+```bash
+PYTHONPATH=/workspace python3 scripts/backtest_roof_hunter_hail.py \
+  data/samples/roof_hunter_known_hail_backtest.csv \
+  --summary-only
+```
+
+The input can be CSV, JSON, or JSONL. Required fields:
+
+- `latitude`/`longitude` or aliases like `lat`/`lon`
+- known outcome: `hail_occurred`, `observed_hail`, `target`, or `label`
+
+Recommended enriched radar fields:
+
+- `radar_reflectivity_dbz`
+- `radar_differential_reflectivity`
+- `radar_correlation_coefficient`
+- `radar_specific_differential_phase`
+- `cape_j_kg`
+- `shear_0_6km_kt`
+- `freezing_level_m`
+
+Recommended baseline NOAA/MOAA fields:
+
+- `noaa_reflectivity_dbz`
+- `noaa_cape_j_kg`
+- `noaa_wind_speed_mps`
+- `noaa_gust_mps`
+- `noaa_precipitation_rate_mm_hr`
+
+The report includes baseline metrics, enriched metrics, and deltas for
+accuracy, precision, recall, F1, false-positive rate, Brier score, and ROC AUC.
 
