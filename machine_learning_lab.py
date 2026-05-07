@@ -6,10 +6,13 @@ Production-ready machine learning algorithms implemented from scratch.
 Free gift to the scientific community from QuLabInfinite.
 """
 
-import numpy as np
-from typing import List, Tuple, Optional, Dict, Any, Callable
-from dataclasses import dataclass, field
 import warnings
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any
+
+import numpy as np
+
 warnings.filterwarnings('ignore')
 
 @dataclass
@@ -35,7 +38,7 @@ class MachineLearningLab:
         self.metrics_history = []
 
     def gradient_descent(self, X: np.ndarray, y: np.ndarray,
-                         theta_init: Optional[np.ndarray] = None) -> np.ndarray:
+                         theta_init: np.ndarray | None = None) -> np.ndarray:
         """
         Implement gradient descent optimization from scratch.
 
@@ -79,7 +82,7 @@ class MachineLearningLab:
         return theta
 
     def stochastic_gradient_descent(self, X: np.ndarray, y: np.ndarray,
-                                   theta_init: Optional[np.ndarray] = None) -> np.ndarray:
+                                   theta_init: np.ndarray | None = None) -> np.ndarray:
         """
         Implement stochastic gradient descent with mini-batches.
 
@@ -121,7 +124,7 @@ class MachineLearningLab:
 
     def cross_validation(self, X: np.ndarray, y: np.ndarray,
                         k_folds: int = 5,
-                        model_fn: Callable = None) -> Dict[str, float]:
+                        model_fn: Callable = None) -> dict[str, float]:
         """
         Implement k-fold cross-validation from scratch.
 
@@ -424,7 +427,7 @@ class MachineLearningLab:
 
     def gradient_boosting_regressor(self, X: np.ndarray, y: np.ndarray,
                                   n_estimators: int = 10,
-                                  learning_rate: float = 0.1) -> List[np.ndarray]:
+                                  learning_rate: float = 0.1) -> list[np.ndarray]:
         """
         Implement Gradient Boosting regressor from scratch.
 
@@ -460,7 +463,7 @@ class MachineLearningLab:
         return models
 
     def hyperparameter_optimization(self, X: np.ndarray, y: np.ndarray,
-                                  param_grid: Dict[str, List[Any]]) -> Dict[str, Any]:
+                                  param_grid: dict[str, list[Any]]) -> dict[str, Any]:
         """
         Grid search for hyperparameter optimization.
 
@@ -513,7 +516,7 @@ class MachineLearningLab:
             'all_results': results
         }
 
-    def compute_metrics(self, y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
+    def compute_metrics(self, y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, float]:
         """
         Compute comprehensive evaluation metrics.
 
@@ -580,24 +583,15 @@ class MachineLearningLab:
         # Initialize output
         X_poly = np.ones((n_samples, n_output_features + 1))
 
+        import itertools
         # Generate polynomial features
         idx = 1
         for d in range(1, degree + 1):
-            # Generate all combinations of features for degree d
-            def generate_terms(features, remaining_degree, start_idx=0):
-                if remaining_degree == 0:
-                    return [np.prod([X[:, f] for f in features], axis=0)]
-
-                terms = []
-                for i in range(start_idx, n_features):
-                    new_features = features + [i]
-                    terms.extend(generate_terms(new_features, remaining_degree - 1, i))
-                return terms
-
-            terms = generate_terms([], d)
-            for term in terms:
+            # ⚡ BOLT: Replaced custom recursive Python generators with itertools.combinations_with_replacement
+            # and NumPy column slicing with np.prod to avoid O(n^d) call-stack overhead and significantly improve performance.
+            for combo in itertools.combinations_with_replacement(range(n_features), d):
                 if idx < X_poly.shape[1]:
-                    X_poly[:, idx] = term
+                    X_poly[:, idx] = np.prod(X[:, combo], axis=1)
                     idx += 1
 
         return X_poly
