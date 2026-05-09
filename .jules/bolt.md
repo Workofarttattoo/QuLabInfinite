@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-15 - Decorator-based Lab Discovery
+**Learning:** Replacing hardcoded lab mapping in `UnifiedSimulator` with a `@register_lab` decorator pattern reduces complexity and enables seamless runtime extension without modifying the core simulator.
+**Action:** Implemented `LabRegistry` and refactored `mof74_lab.py`, `immune_response.py`, and `carbon_capture.py` to use the decorator pattern.
