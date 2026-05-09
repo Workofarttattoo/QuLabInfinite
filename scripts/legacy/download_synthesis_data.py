@@ -1,15 +1,11 @@
+import json
 import os
 import sys
-from argparse import Namespace
-import json
 
 # Add project root to path to allow absolute imports
 root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(root_path)
 
-from ingest.pipeline import IngestionPipeline, PydanticValidator
-from ingest.plugins import PLUGIN_REGISTRY
-from ingest.schemas import RecordMaterial  # This might need to change for synthesis data
 
 def ingest_synthesis_data(api_key: str, output_path: str):
     """
@@ -20,12 +16,12 @@ def ingest_synthesis_data(api_key: str, output_path: str):
         output_path: The path to the output .jsonl file.
     """
     os.environ["MP_API_KEY"] = api_key
-    
+
     from pymatgen.ext.matproj import MPRester
 
     with MPRester(api_key) as mpr:
         print("Fetching all synthesis data from Materials Project... This may take some time.")
-        
+
         # The synthesis endpoint might return a different structure.
         # We will dump it directly to a file to inspect.
         all_synthesis_docs = mpr.synthesis.search()
@@ -57,7 +53,7 @@ if __name__ == "__main__":
         raise ValueError("Please provide your Materials Project API key.")
 
     OUTPUT_PATH = "downloads/synthesis.jsonl"
-    
+
     # Ensure the output directory exists
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
 

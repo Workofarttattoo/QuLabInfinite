@@ -1,7 +1,5 @@
 import os
 import sys
-from argparse import Namespace
-import json
 
 # Add project root to path to allow absolute imports
 root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -10,6 +8,7 @@ sys.path.append(root_path)
 from ingest.pipeline import IngestionPipeline, PydanticValidator
 from ingest.schemas import RecordMaterial
 from pymatgen.ext.matproj import MPRester
+
 
 def ingest_by_chemsys(api_key: str, chemsys: str, output_path: str):
     """
@@ -24,7 +23,7 @@ def ingest_by_chemsys(api_key: str, chemsys: str, output_path: str):
 
     with MPRester(api_key) as mpr:
         print(f"Fetching all materials for {chemsys} from Materials Project... This may take some time.")
-        
+
         # Search for all materials in the specified chemical system
         docs = mpr.search("summary", chemsys=chemsys)
 
@@ -37,7 +36,7 @@ def ingest_by_chemsys(api_key: str, chemsys: str, output_path: str):
                         "license": "CC-BY-4.0",
                         "notes": f"Data for {doc['formula_pretty']} ({doc['material_id']}).",
                     }
-                    
+
                     record = RecordMaterial(
                         substance=doc['formula_pretty'],
                         material_id=doc['material_id'],
@@ -55,7 +54,7 @@ def ingest_by_chemsys(api_key: str, chemsys: str, output_path: str):
                     continue
 
         pipeline = IngestionPipeline(processors=[PydanticValidator(schemas=[RecordMaterial])])
-        
+
         print(f"Ingesting {len(docs)} materials to {output_path}...")
         path = pipeline.run(record_generator(docs), output_path)
         print(f"Successfully ingested materials to: {path}")
@@ -70,7 +69,7 @@ if __name__ == "__main__":
     # -----------------------------------------
 
     OUTPUT_PATH = f"downloads/{CHEM_SYS}.jsonl"
-    
+
     # Ensure the output directory exists
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
 

@@ -1,6 +1,7 @@
 import json
 import os
 
+
 def convert_jsonl_to_json(jsonl_path: str, json_path: str):
     """
     Converts a .jsonl file from the ingestion pipeline to a 
@@ -11,7 +12,7 @@ def convert_jsonl_to_json(jsonl_path: str, json_path: str):
         json_path: Path to the output .json file.
     """
     materials_dict = {}
-    with open(jsonl_path, 'r') as f_in:
+    with open(jsonl_path) as f_in:
         for line in f_in:
             if line.strip():
                 record = json.loads(line)
@@ -23,7 +24,7 @@ def convert_jsonl_to_json(jsonl_path: str, json_path: str):
                     record['category'] = "element"
                     record['subcategory'] = "semiconductor"
                     materials_dict[material_name] = record
-    
+
     with open(json_path, 'w') as f_out:
         json.dump(materials_dict, f_out, indent=2)
 

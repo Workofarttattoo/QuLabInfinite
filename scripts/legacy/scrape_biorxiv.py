@@ -6,13 +6,14 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light)
 Scrapes cancer metabolism research from bioRxiv for ECH0's research database.
 """
 
-import requests
-from bs4 import BeautifulSoup
 import json
+import re
 import time
 from datetime import datetime, timedelta
-from typing import List, Dict
-import re
+
+import requests
+from bs4 import BeautifulSoup
+
 
 class BioRxivScraper:
     """Scraper for bioRxiv preprints."""
@@ -30,7 +31,7 @@ class BioRxivScraper:
         from_date: str = None,
         to_date: str = None,
         limit: int = 100
-    ) -> List[Dict]:
+    ) -> list[dict]:
         """
         Search bioRxiv for papers matching query.
 
@@ -84,7 +85,7 @@ class BioRxivScraper:
             print(f"[bioRxiv] Error searching: {e}")
             return []
 
-    def _parse_search_result(self, result) -> Dict:
+    def _parse_search_result(self, result) -> dict:
         """Parse a single search result."""
         try:
             # Title
@@ -129,7 +130,7 @@ class BioRxivScraper:
             print(f"[bioRxiv] Error parsing result: {e}")
             return None
 
-    def get_full_paper(self, doi_url: str) -> Dict:
+    def get_full_paper(self, doi_url: str) -> dict:
         """
         Retrieve full paper metadata from bioRxiv.
 
@@ -198,7 +199,7 @@ class BioRxivScraper:
             print(f"[bioRxiv] Error fetching paper: {e}")
             return None
 
-    def search_cancer_metabolism(self, days_back: int = 30, limit: int = 50) -> List[Dict]:
+    def search_cancer_metabolism(self, days_back: int = 30, limit: int = 50) -> list[dict]:
         """
         Search for recent cancer metabolism research.
 

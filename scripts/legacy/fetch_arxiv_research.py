@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import argparse
 import json
-from typing import Dict, List
 from urllib.parse import quote_plus
 
 import feedparser
@@ -37,9 +36,9 @@ def fetch_entries(query: str, limit: int) -> feedparser.FeedParserDict:
     return feedparser.parse(url)
 
 
-def process_entries(feed: feedparser.FeedParserDict) -> List[Dict[str, str]]:
+def process_entries(feed: feedparser.FeedParserDict) -> list[dict[str, str]]:
     """Processes the feed entries into a list of dictionaries."""
-    results: List[Dict[str, str]] = []
+    results: list[dict[str, str]] = []
     for entry in feed.entries:
         authors = ", ".join(author.name for author in entry.authors)
         results.append(

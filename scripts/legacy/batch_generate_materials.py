@@ -9,6 +9,7 @@ Efficient programmatic generation across all R&D categories
 import json
 from pathlib import Path
 
+
 def add_mat(materials, name, cat, subcat, **kw):
     """Add material with standard template"""
     materials[name] = {
