@@ -392,7 +392,11 @@ class AlgorithmDesignLab:
         for i in range(1, n + 1):
             for w in range(capacity + 1):
                 if weights[i-1] <= w:
-                    dp[i][w] = max(dp[i-1][w], dp[i-1][w-weights[i-1]] + values[i-1])
+                    # ⚡ Bolt optimization: using inline ternary logic instead of max()
+                    # avoids function call overhead in this tight nested O(nW) loop.
+                    a = dp[i-1][w]
+                    b = dp[i-1][w-weights[i-1]] + values[i-1]
+                    dp[i][w] = a if a > b else b
                 else:
                     dp[i][w] = dp[i-1][w]
 
