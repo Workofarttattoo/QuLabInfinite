@@ -1,614 +1,245 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuLab Infinite - Active Labs Console</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>QuLabInfinite — Global Lab OS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "lab-green": "#00ff9d",
+                        "lab-amber": "#ffaa00",
+                        "lab-red": "#ff4444",
+                        "echo-purple": "#a855f7",
+                        "war-black": "#050505",
+                        "war-gray": "#1a1a1a",
+                        "war-accent": "#00f2ff",
+                        "code-green": "#00ff41",
+                        "surface-dark": "#182430",
+                        "surface-darker": "#0b1219",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
     <style>
-        :root {
-            color-scheme: dark;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Roboto Mono', 'Courier New', monospace;
-            background: #0d1117;
-            color: #e6f1ff;
-            line-height: 1.6;
-        }
-        .page {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 32px 28px 60px;
-        }
-        header {
-            padding: 40px 36px;
-            border-radius: 24px;
-            margin-bottom: 28px;
-            border: 1px solid rgba(88, 166, 255, 0.4);
-            background: radial-gradient(circle at top left, rgba(0, 255, 136, 0.18), transparent 55%),
-                radial-gradient(circle at bottom right, rgba(88, 166, 255, 0.22), transparent 45%),
-                rgba(13, 17, 23, 0.9);
-        }
-        .hero-title {
-            font-size: clamp(2.4rem, 3vw, 3.8rem);
-            margin-bottom: 12px;
-            letter-spacing: 0.02em;
-            background: linear-gradient(120deg, #00ff88, #58a6ff, #9d7bff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero-subtitle {
-            color: #9dc1ff;
-            font-size: 1.05rem;
-            max-width: 860px;
-        }
-        .hero-meta {
-            margin-top: 18px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px 20px;
-            color: #8b949e;
-            font-size: 0.95rem;
-        }
-        .hero-pill {
-            padding: 6px 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(0, 255, 136, 0.4);
-            color: #00ff88;
-            background: rgba(0, 255, 136, 0.08);
-        }
-        .workspace {
-            display: grid;
-            grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
-            gap: 26px;
-            align-items: start;
-        }
-        .lab-sidebar {
-            background: rgba(13, 17, 23, 0.92);
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            border-radius: 20px;
-            padding: 20px;
-            position: sticky;
-            top: 20px;
-        }
-        .lab-sidebar h2 {
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-            color: #58a6ff;
-        }
-        .lab-search {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 12px;
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            background: rgba(8, 12, 20, 0.9);
-            margin-bottom: 16px;
-            color: #9dc1ff;
-        }
-        .lab-search input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #e6f1ff;
-            font-family: inherit;
-            font-size: 0.95rem;
-        }
-        .lab-list {
-            display: grid;
-            gap: 10px;
-        }
-        .lab-button {
-            text-align: left;
-            padding: 12px 14px;
-            border-radius: 14px;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            background: rgba(0, 255, 136, 0.05);
-            color: #e6f1ff;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-        .lab-button:hover,
-        .lab-button.active {
-            border-color: rgba(0, 255, 136, 0.8);
-            background: rgba(0, 255, 136, 0.15);
-            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
-            transform: translateY(-1px);
-        }
-        .lab-button small {
-            display: block;
-            margin-top: 6px;
-            color: #8b949e;
-            font-size: 0.85rem;
-        }
-        .lab-panel {
-            display: grid;
-            gap: 18px;
-        }
-        .lab-header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 12px 24px;
-            align-items: center;
-        }
-        .lab-header h3 {
-            font-size: 1.5rem;
-            color: #00ff88;
-        }
-        .lab-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .lab-tag {
-            padding: 4px 10px;
-            border-radius: 999px;
-            border: 1px solid rgba(88, 166, 255, 0.5);
-            color: #9dc1ff;
-            font-size: 0.85rem;
-        }
-        .lab-frame {
-            --frame-gradient: linear-gradient(120deg, #00ff88, #58a6ff);
-            --frame-shadow: rgba(0, 255, 136, 0.25);
-            background: rgba(10, 16, 26, 0.95);
-            border-radius: 26px;
-            padding: 22px;
-            border: 2px solid transparent;
-            background-image: var(--frame-gradient), linear-gradient(#0a101a, #0a101a);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            box-shadow: 0 25px 60px var(--frame-shadow);
-        }
-        .lab-chat {
-            background: rgba(8, 12, 20, 0.9);
-            border-radius: 20px;
-            padding: 18px 18px 22px;
-            border: 1px solid rgba(88, 166, 255, 0.2);
-        }
-        .chat-row {
-            display: grid;
-            gap: 6px;
-            margin-bottom: 16px;
-        }
-        .chat-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: #8b949e;
-            letter-spacing: 0.08em;
-        }
-        .chat-bubble {
-            padding: 12px 14px;
-            border-radius: 14px;
-            font-size: 0.95rem;
-        }
-        .chat-bubble.user {
-            background: rgba(88, 166, 255, 0.2);
-            border: 1px solid rgba(88, 166, 255, 0.5);
-            color: #dbeafe;
-        }
-        .chat-bubble.lab {
-            background: rgba(0, 255, 136, 0.15);
-            border: 1px solid rgba(0, 255, 136, 0.4);
-            color: #d6ffe9;
-        }
-        .chat-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            margin-top: 18px;
-        }
-        .metric-card {
-            padding: 12px 14px;
-            border-radius: 14px;
-            background: rgba(13, 17, 23, 0.8);
-            border: 1px solid rgba(88, 166, 255, 0.25);
-        }
-        .metric-card span {
-            display: block;
-            color: #9dc1ff;
-            font-size: 0.82rem;
-            margin-bottom: 6px;
-        }
-        .metric-card strong {
-            color: #e6f1ff;
-            font-size: 0.95rem;
-        }
-        .prompt-bar {
-            margin-top: 18px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            padding: 12px;
-            border-radius: 16px;
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            background: rgba(9, 14, 24, 0.9);
-        }
-        .prompt-bar input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #e6f1ff;
-            font-family: inherit;
-        }
-        .prompt-bar button {
-            padding: 8px 16px;
-            border-radius: 999px;
-            border: none;
-            background: linear-gradient(120deg, #00ff88, #58a6ff);
-            color: #0d1117;
-            font-weight: bold;
-            font-family: inherit;
-            cursor: pointer;
-        }
-        .lab-story {
-            padding: 18px;
-            border-radius: 18px;
-            background: rgba(13, 17, 23, 0.85);
-            border: 1px solid rgba(88, 166, 255, 0.2);
-            color: #9dc1ff;
-        }
-        .lab-story strong {
-            color: #00ff88;
-        }
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #8b949e;
-        }
-        @media (max-width: 980px) {
-            .workspace {
-                grid-template-columns: 1fr;
-            }
-            .lab-sidebar {
-                position: static;
-            }
-        }
-
-        button:focus:not(:focus-visible), a:focus:not(:focus-visible), input:focus:not(:focus-visible) { outline: none; }
-        button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; border-radius: 4px; }
-        .prompt-bar button:focus-visible { border-radius: 999px; }
-</style>
+        body { font-family: 'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+        .glass-panel { background: rgba(16, 25, 34, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(19, 127, 236, 0.2); }
+        .glass-card { background: rgba(19, 127, 236, 0.1); backdrop-filter: blur(12px); border: 1px solid rgba(19, 127, 236, 0.2); }
+        .echo-glass { background: rgba(139, 92, 246, 0.08); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(139, 92, 246, 0.15); }
+        .pulse-glow { box-shadow: 0 0 15px rgba(19, 127, 236, 0.4); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .mask-gradient { mask-image: linear-gradient(to bottom, black 80%, transparent 100%); }
+        .view-content { display: none; height: 100%; width: 100%; overflow-y: auto; padding-bottom: 160px; }
+        .view-content.active { display: flex; flex-direction: column; }
+        .view-content.active.flex-row { flex-direction: row; overflow: hidden; }
+        .micro-grid-bg { background-image: linear-gradient(rgba(19, 127, 236, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(19, 127, 236, 0.1) 1px, transparent 1px); background-size: 8px 8px; }
+        .war-pod { background: #1a1a1a; border: 2px solid rgba(255, 255, 255, 0.05); transition: all 0.3s; }
+        .war-pod:hover { border-color: #00f2ff; box-shadow: 4px 4px 0px 0px #00f2ff; transform: translate(-2px, -2px); }
+        .gantt-grid { background-size: 60px 100%; background-image: linear-gradient(to right, #1f2937 1px, transparent 1px); }
+    </style>
 </head>
-<body>
-    <div class="page">
-        <header>
-            <h1 class="hero-title">⚛️ QuLab Infinite Active Labs Console</h1>
-            <p class="hero-subtitle">
-                Explore the live lab roster powering GAVL and the QuLab Infinite platform. Every lab keeps a
-                natural-language interface so teams can ask for novel material combinations and get grounded,
-                actionable outputs without waiting for a full 40GB download.
-            </p>
-            <div class="hero-meta">
-                <span class="hero-pill">GAVL • Patent Pending</span>
-                <span>Quantum connectors + materials intelligence</span>
-                <span>Natural language labs • Continuous exploration</span>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 h-screen w-full flex flex-col font-display selection:bg-primary/30 overflow-hidden">
+
+<div class="fixed inset-0 z-0 opacity-20 pointer-events-none">
+    <img class="w-full h-full object-cover grayscale" alt="Background Network" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXJFAQX-L59yanyO8F-qePOV5CKPY2Eayk-jsM_sv7AZnBDISvoOmTxZnovoSRrbbVtNrImE5ux9oinQC3WDP-_L6TEbjuzFBnq2Xu5qjbVrPgLv1r9zjqBmywrj5xuKH5FHJdTEEChqwyIdJNhSctw34CC3ghf7kdahyL1JkusCL6haFqzI_vCnJt6DwaJb_O80FJ6nrel9I9r5LfZCmppoxAelNDfXocyYq2EsUK8Qw4fwEh4SmL4wPjjh4pPKEKtiORm7XVn9M"/>
+</div>
+
+<header class="relative z-50 px-6 pt-12 pb-4 flex justify-between items-center bg-gradient-to-b from-background-dark to-transparent">
+    <div class="flex flex-col">
+        <span class="text-[10px] tracking-widest text-primary font-bold uppercase">QulabInfinite</span>
+        <h1 id="view-title" class="text-lg font-bold flex items-center gap-2">
+            Global Lab OS
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+        </h1>
+    </div>
+    <div class="flex gap-3">
+        <div id="nist-badge" class="hidden px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/20 flex items-center gap-1">
+            <span class="text-[10px] text-indigo-300 font-mono uppercase">NIST Traceable</span>
+            <span class="material-icons text-[10px] text-indigo-400">verified</span>
+        </div>
+        <button class="w-10 h-10 rounded-xl glass-panel flex items-center justify-center text-primary">
+            <span class="material-icons text-xl">layers</span>
+        </button>
+    </div>
+</header>
+
+<main class="relative z-10 flex-1 overflow-hidden">
+    <!-- View: Dashboard / Overview -->
+    <div id="view-overview" class="view-content active px-4 space-y-6">
+        <section class="grid grid-cols-2 gap-3 mt-4">
+            <div class="p-4 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 relative overflow-hidden">
+                <h3 class="text-xs text-slate-500 dark:text-slate-400 font-medium">Active Exp.</h3>
+                <div class="text-3xl font-bold font-mono text-slate-800 dark:text-white">142</div>
             </div>
-        </header>
-
-        <section class="workspace">
-            <aside class="lab-sidebar">
-                <h2>Active Labs</h2>
-                <label class="lab-search">
-                    🔎
-                    <input id="labSearch" type="text" placeholder="Search labs or domains" aria-label="Search labs">
-                </label>
-                <div id="labList" class="lab-list"></div>
-            </aside>
-
-            <main class="lab-panel">
-                <div class="lab-header">
-                    <div>
-                        <h3 id="labTitle">Materials Forge Lab</h3>
-                        <p id="labSubtitle" class="hero-subtitle">Materials fusion, synthesis guidance, and novel combo validation.</p>
-                    </div>
-                    <div id="labTags" class="lab-tags"></div>
+            <div class="p-4 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5">
+                <h3 class="text-xs text-slate-500 dark:text-slate-400 font-medium">Robot Eff.</h3>
+                <div class="flex items-end gap-2 mt-1">
+                    <span class="text-3xl font-bold font-mono text-slate-800 dark:text-white">98.4</span>
+                    <span class="text-sm font-medium text-slate-400 mb-1">%</span>
                 </div>
-
-                <div id="labFrame" class="lab-frame">
-                    <div class="lab-chat" id="labChat"></div>
-                    <div class="prompt-bar">
-                        <input type="text" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’">
-                        <button type="button" aria-label="Send message to lab">Send</button>
-                    </div>
-                </div>
-
-                <div class="lab-story" id="labStory"></div>
-            </main>
+            </div>
         </section>
-
-        <footer>
-            <p>© 2025 QuLab Infinite. Built for the future of science.</p>
-        </footer>
+        <section class="glass-panel rounded-2xl border border-white/5 overflow-hidden">
+            <div class="px-4 py-3 border-b border-white/5 flex items-center justify-between">
+                <h2 class="text-sm font-bold uppercase tracking-wider">Lab Matrix</h2>
+                <span class="text-[10px] text-lab-green font-bold">STABLE</span>
+            </div>
+            <div class="p-4">
+                <div id="overview-grid" class="grid grid-cols-10 gap-1.5 auto-rows-[15px]"></div>
+            </div>
+        </section>
     </div>
 
-    <script>
-        const labs = [
-            {
-                id: "materials-forge",
-                name: "Materials Forge Lab",
-                subtitle: "Materials fusion, synthesis guidance, and novel combo validation.",
-                tags: ["Materials", "Synthesis", "Validated Blends"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #00ff88, #58a6ff)",
-                    shadow: "rgba(0, 255, 136, 0.3)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Blend silica aerogel with graphene and boron nitride to get thermal stealth without weight."
-                    },
-                    {
-                        role: "lab",
-                        text: "Confirmed: aerogel + graphene lattice + BN nanosheets yields high IR suppression with low density. Target mix: 62% aerogel, 25% graphene, 13% BN. Suggested binder: fluorinated epoxy for stability."
-                    }
-                ],
-                metrics: [
-                    { label: "Validated combos", value: "1,059 materials indexed" },
-                    { label: "Turnaround", value: "Sub-120s synthesis plan" },
-                    { label: "Confidence", value: "0.91 composite viability" }
-                ],
-                story: "Materials Forge keeps the sense of exploration alive — it checks compatibility, predicts conductivity, and outlines lab steps so your natural-language experiments can actually pan out."
-            },
-            {
-                id: "quantum-connectors",
-                name: "Quantum Connectors Lab",
-                subtitle: "GAVL connector design with quantum-safe interlocks and signal integrity.",
-                tags: ["GAVL", "Quantum", "Connector Design"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #9d7bff, #58a6ff)",
-                    shadow: "rgba(157, 123, 255, 0.35)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Design a connector stack for 18 GHz with zero cross-talk in wet lab conditions."
-                    },
-                    {
-                        role: "lab",
-                        text: "Proposed stack: ceramic core, graphene shielding, niobium-titanium ring. Add hydrophobic sealant for humidity. Crosstalk estimate: -64 dB with impedance matched at 50Ω."
-                    }
-                ],
-                metrics: [
-                    { label: "Signal fidelity", value: "18 GHz target range" },
-                    { label: "Isolation", value: "-64 dB predicted" },
-                    { label: "Seal rating", value: "IP68 wet lab ready" }
-                ],
-                story: "This lab keeps GAVL’s quantum connectors front and center — ask for stackups, shielding, or field-ready prototypes."
-            },
-            {
-                id: "bio-fabrication",
-                name: "BioFab Lab",
-                subtitle: "Biomaterials, scaffolds, and living interfaces for regenerative design.",
-                tags: ["Bioengineering", "Scaffolds", "Regenerative"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #00ff88, #2dd4bf)",
-                    shadow: "rgba(45, 212, 191, 0.35)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Need a bioresorbable scaffold that supports neural growth and handles 3% strain."
-                    },
-                    {
-                        role: "lab",
-                        text: "Use PLLA + collagen matrix with aligned electrospun fibers. Add laminin coating for neurite adhesion. Estimated strain tolerance: 3.4% before yield."
-                    }
-                ],
-                metrics: [
-                    { label: "Material families", value: "Hydrogels + bioresorbables" },
-                    { label: "Strain target", value: "3% tuned" },
-                    { label: "Cell support", value: "Neural adhesion enabled" }
-                ],
-                story: "BioFab brings living material design into the chat — ask for composite gels, scaffold architectures, or healing timelines."
-            },
-            {
-                id: "quantum-sim",
-                name: "Quantum Sim Lab",
-                subtitle: "Quantum materials and energy-state simulations in natural language.",
-                tags: ["Quantum", "Simulation", "Energy States"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #58a6ff, #00d4ff)",
-                    shadow: "rgba(0, 212, 255, 0.3)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Model a 30-qubit lattice with a metallic dopant."
-                    },
-                    {
-                        role: "lab",
-                        text: "Simulation queued: dopant ratio 0.03 shifts bandgap by 0.19 eV. Recommend anneal schedule at 820°C for 40 min."
-                    }
-                ],
-                metrics: [
-                    { label: "Qubit range", value: "30-qubit native" },
-                    { label: "Bandgap shift", value: "+0.19 eV" },
-                    { label: "Compute mode", value: "Optimized NumPy" }
-                ],
-                story: "Quantum Sim keeps the conversation fluid while still returning measurable parameters you can take to fabrication."
-            },
-            {
-                id: "nano-structures",
-                name: "Nano-Structures Lab",
-                subtitle: "Micro-lattice and metamaterial structures for strength-to-weight control.",
-                tags: ["Nanotech", "Metamaterials", "Strength"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #00ff88, #fbbf24)",
-                    shadow: "rgba(251, 191, 36, 0.3)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Need a micro-lattice that stays rigid while keeping density under 0.3 g/cc."
-                    },
-                    {
-                        role: "lab",
-                        text: "Recommend octet truss lattice with TiAlN coating. Density: 0.28 g/cc. Compression modulus: 2.1 GPa."
-                    }
-                ],
-                metrics: [
-                    { label: "Density", value: "0.28 g/cc" },
-                    { label: "Modulus", value: "2.1 GPa" },
-                    { label: "Fabrication", value: "Multi-photon lithography" }
-                ],
-                story: "Nano-Structures translates geometry requests into build-ready lattice specs."
-            },
-            {
-                id: "bio-signal",
-                name: "BioSignal Lab",
-                subtitle: "Signal sensing, biosensors, and adaptive readouts.",
-                tags: ["Sensors", "Signal", "Diagnostics"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #38bdf8, #a855f7)",
-                    shadow: "rgba(168, 85, 247, 0.35)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Build a biosensor stack for detecting low-frequency electrical changes in tissue."
-                    },
-                    {
-                        role: "lab",
-                        text: "Stack: gold nanoelectrode + hydrogel interface + graphene amplifier. Sensitivity target: 12 µV with 0.8 noise ratio."
-                    }
-                ],
-                metrics: [
-                    { label: "Sensitivity", value: "12 µV detection" },
-                    { label: "Noise ratio", value: "0.8 tuned" },
-                    { label: "Interface", value: "Hydrogel + graphene" }
-                ],
-                story: "BioSignal keeps diagnostics conversational while grounding the stack in viable sensor architectures."
-            },
-            {
-                id: "aero-structures",
-                name: "Aero Structures Lab",
-                subtitle: "Ultra-light composites and aerogel assemblies for extreme environments.",
-                tags: ["Aerospace", "Aerogels", "Composites"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #94a3b8, #22d3ee)",
-                    shadow: "rgba(34, 211, 238, 0.25)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "I need a wing skin that handles -50°C with high UV exposure."
-                    },
-                    {
-                        role: "lab",
-                        text: "Suggested stack: silica aerogel + carbon fiber weave + UV-stable resin. Estimated thermal drift <1.8% across -50°C to 30°C."
-                    }
-                ],
-                metrics: [
-                    { label: "Thermal drift", value: "<1.8%" },
-                    { label: "UV tolerance", value: "UV-stable resin" },
-                    { label: "Mass reduction", value: "22% vs. CFRP" }
-                ],
-                story: "Aero Structures brings high-performance composites into the same natural-language workflow."
-            },
-            {
-                id: "materials-inventory",
-                name: "Materials Inventory Lab",
-                subtitle: "Inventory of verified materials and compatibility map for rapid exploration.",
-                tags: ["Inventory", "Compatibility", "Sourcing"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #22c55e, #14b8a6)",
-                    shadow: "rgba(20, 184, 166, 0.3)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Show me new combinations that can survive 900°C with low thermal expansion."
-                    },
-                    {
-                        role: "lab",
-                        text: "Flagged: zirconia + silicon carbide + alumina mesh. Expansion coefficient 6.4×10⁻⁶ /K. Confirmed sourcing for all three."
-                    }
-                ],
-                metrics: [
-                    { label: "Inventory size", value: "1,059 verified materials" },
-                    { label: "Compatibility map", value: "Real-time screening" },
-                    { label: "Sourcing", value: "Multi-vendor ready" }
-                ],
-                story: "Materials Inventory keeps your exploration grounded in what is actually available."
-            }
-        ];
+    <!-- View: MOF-74 Synthesis -->
+    <div id="view-synthesis" class="view-content flex-row">
+        <div class="w-[42%] flex flex-col p-4 space-y-4">
+            <div class="flex-1 relative rounded-2xl overflow-hidden border border-primary/30 group">
+                <img class="w-full h-full object-cover object-top" alt="Echo AI" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8G4VyZ8RI86wblKJAP5xAYUHB1RBcK5f7uT-Usmivy9toRDIUdIiW7anyNX6h3jSHoHgVjTYTU6RgOAJRqs9qly4C5X8exHA8QMzJHU4Bw3bmvV5mWHLtY6YgFSNJ1wXN1EzKA6T35qfsf1MtchojyvGso8tjqjEgV-3Hl3wh6azRGVEm3mgIi0PnVOZ2hPaFDnBzICsfq7LA7qPqsPcW2eCxDollqeIgemA7fSVPY9coMH_vbmnsLsL-DoPxhfWON8D9uwrPa90"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent opacity-60"></div>
+                <div class="absolute bottom-4 left-4 flex items-center gap-2">
+                    <div class="flex space-x-1"><div class="w-1 h-3 bg-primary rounded-full animate-pulse"></div><div class="w-1 h-5 bg-primary rounded-full animate-pulse"></div><div class="w-1 h-2 bg-primary rounded-full animate-pulse"></div></div>
+                    <span class="text-[10px] font-medium tracking-tighter uppercase text-primary/80">Echo Active</span>
+                </div>
+            </div>
+            <div class="glass-panel p-3 rounded-xl min-h-[100px] border-l-4 border-l-primary">
+                <p class="text-[11px] text-slate-400 mb-1 uppercase">User Input</p>
+                <p class="text-xs italic text-slate-200">"Verify the thermal stability of MOF-74."</p>
+            </div>
+        </div>
+        <div class="w-[58%] flex flex-col p-4 pl-0">
+            <div class="flex items-center justify-between mb-3 px-1">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Proposal Board</h2>
+                <span class="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-bold">3 SOURCED</span>
+            </div>
+            <div class="flex-1 overflow-y-auto no-scrollbar space-y-3 pb-24 mask-gradient">
+                <div class="glass-panel rounded-xl p-4 relative">
+                    <h3 class="text-[13px] font-bold text-white mb-2">Magnesium Nodes</h3>
+                    <p class="text-[11px] text-slate-400 mb-4">Utilizing Mg2+ clusters for high bind affinity.</p>
+                    <button onclick="deployProposal('Mg')" class="w-full bg-primary text-white text-[10px] font-bold py-2 rounded-lg uppercase">Deploy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        const labList = document.getElementById("labList");
-        const labSearch = document.getElementById("labSearch");
-        const labTitle = document.getElementById("labTitle");
-        const labSubtitle = document.getElementById("labSubtitle");
-        const labTags = document.getElementById("labTags");
-        const labChat = document.getElementById("labChat");
-        const labFrame = document.getElementById("labFrame");
-        const labStory = document.getElementById("labStory");
+    <!-- View: NIST Compliance -->
+    <div id="view-compliance" class="view-content px-5 py-2 space-y-6">
+        <div class="echo-glass px-5 pt-4 pb-5 mb-2 rounded-xl border border-echo-purple/20">
+            <div class="flex items-start space-x-4">
+                <div class="relative shrink-0"><div class="w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-echo-purple to-primary"><img alt="Echo" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPSmFHBHZUd6_DVQZ1OS-vtsYEMDDay3ORuYUa46m-wO24PGDkpgLDn1j1Q9nBuG9tWjz1iqamzTinbA7cCGgB0Gs8g6mQfYHh_z_qI1r4HSLhPk4G7zpvcJge3o5i4tOL8U6cc9U_LlyTpJW1VLw8x6Xe6szmFoq-pkGvg4KInYyg5Ma5H6ZhYtWkIhS99DuBz5cZ-bI4HONmFep4Kg1eKhjfIZY-ch0eDsgoHUNPORlF_gcc1nJrodJeTJ11Pjg9iz2c3kXNxUY"/></div></div>
+                <div class="flex-1"><h2 class="text-xs font-bold text-echo-purple uppercase mb-1">Grounded Insights</h2><p class="text-[11px] opacity-90">"Verified 220 labs. Confidence: 99.82%."</p></div>
+            </div>
+        </div>
+        <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary/10 to-transparent p-6 border border-primary/30 shadow-lg">
+            <div class="flex justify-between items-start">
+                <div class="space-y-4">
+                    <div class="glass-card px-3 py-1.5 rounded-full text-[10px] font-bold text-primary uppercase">NIST Traceable</div>
+                    <div class="text-5xl font-bold tracking-tighter text-white">99.82%</div>
+                </div>
+                <span class="material-icons text-primary text-4xl">precision_manufacturing</span>
+            </div>
+        </div>
+        <div id="nist-grid" class="grid grid-cols-10 gap-1.5 h-32 overflow-y-auto no-scrollbar"></div>
+    </div>
 
-        const renderLabs = (filter = "") => {
-            labList.innerHTML = "";
-            const filtered = labs.filter((lab) => {
-                const haystack = `${lab.name} ${lab.subtitle} ${lab.tags.join(" ")}`.toLowerCase();
-                return haystack.includes(filter.toLowerCase());
-            });
-            filtered.forEach((lab, index) => {
-                const button = document.createElement("button");
-                button.className = "lab-button";
-                button.type = "button";
-                button.dataset.labId = lab.id;
-                button.innerHTML = `${lab.name}<small>${lab.subtitle}</small>`;
-                button.addEventListener("click", () => setActiveLab(lab.id));
-                if (index === 0 && !document.querySelector(".lab-button.active")) {
-                    button.classList.add("active");
-                    setActiveLab(lab.id);
-                }
-                labList.appendChild(button);
-            });
+    <!-- View: Monitor -->
+    <div id="view-monitor" class="view-content px-4 space-y-4 pt-4">
+        <div class="relative w-full aspect-square rounded-3xl overflow-hidden border border-white/10 bg-black">
+            <img alt="3D" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvQPXmIz3JIdA3ne_cHSyJtdFe4__L9nsvtkVEwUL5sd0QXmpu04zioLarvA5cMJR7ZgTzpbUJIjbtl2CA5HkMrl4vSV_oOsJ2s_AnVmhweW4D3v724mBWoeiQ4vdHjHG-6ERGwxIUniHJqEBhvcozsK-vPMlfttGh1jWKbqP8VLUMlNaJRbzF9qOYH2L2091MASnmssYVV1FQBQ0X_HGmRrY7v_y3-Rxnch9RNh1ROrAgdzKJF7HbFMLrzLeBZJqbUEcKhSBjA2Q"/>
+            <div class="absolute bottom-6 right-4 w-40 glass-panel p-3 rounded-2xl shadow-2xl border-primary/30">
+                <div id="sim-accuracy" class="text-[20px] font-bold text-primary leading-none">--%</div>
+                <p id="sim-insight" class="text-[9px] text-slate-300">Awaiting data...</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+            <div class="glass-panel p-4 rounded-2xl h-24"><span id="metric-1-label" class="text-slate-400 text-[10px] uppercase">Metric 1</span><div id="metric-1-val" class="text-xl font-bold">--</div></div>
+            <div class="glass-panel p-4 rounded-2xl h-24"><span id="metric-2-label" class="text-slate-400 text-[10px] uppercase">Metric 2</span><div id="metric-2-val" class="text-xl font-bold">--</div></div>
+        </div>
+        <div id="log-content" class="rounded-2xl bg-black border border-white/10 p-4 h-40 font-mono text-[10px] overflow-y-auto text-slate-400"></div>
+    </div>
+</main>
+
+<div class="fixed bottom-20 left-0 right-0 p-6 z-20">
+    <div class="max-w-md mx-auto glass-panel rounded-2xl p-4 shadow-2xl flex items-center gap-4 border border-primary/30">
+        <button class="w-12 h-12 bg-primary rounded-full text-white"><span class="material-icons">mic</span></button>
+        <input id="promptInput" type="text" class="flex-1 bg-transparent border-none text-sm text-white" placeholder="Ask Echo..."/>
+        <button id="sendBtn" class="text-primary"><span class="material-icons">send</span></button>
+    </div>
+</div>
+
+<nav class="fixed bottom-0 inset-x-0 h-20 bg-background-dark/90 backdrop-blur-xl border-t border-white/5 flex items-center justify-around px-2 z-30 pb-4">
+    <button onclick="switchView('overview')" class="nav-btn text-primary flex flex-col items-center"><span class="material-icons">grid_view</span><span class="text-[9px]">Dash</span></button>
+    <button onclick="switchView('synthesis')" class="nav-btn text-slate-500 flex flex-col items-center"><span class="material-icons">biotech</span><span class="text-[9px]">Lab</span></button>
+    <button onclick="switchView('compliance')" class="nav-btn text-slate-500 flex flex-col items-center"><span class="material-icons">verified_user</span><span class="text-[9px]">NIST</span></button>
+    <button onclick="switchView('monitor')" class="nav-btn text-slate-500 flex flex-col items-center"><span class="material-icons">analytics</span><span class="text-[9px]">Data</span></button>
+</nav>
+
+<script>
+    function switchView(viewId) {
+        document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
+        document.getElementById('view-' + viewId).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.replace('text-primary', 'text-slate-500'));
+        event.currentTarget.classList.replace('text-slate-500', 'text-primary');
+        const titles = { overview: 'Global Lab OS', synthesis: 'MOF-74 Synthesis', compliance: 'NIST Compliance', monitor: 'Lab Analytics' };
+        document.getElementById('view-title').firstChild.textContent = titles[viewId] + ' ';
+        document.getElementById('nist-badge').classList.toggle('hidden', viewId !== 'compliance');
+    }
+
+    const overviewGrid = document.getElementById('overview-grid');
+    for (let i = 0; i < 60; i++) {
+        const div = document.createElement('div');
+        div.className = 'w-full h-full rounded-sm bg-lab-green opacity-40';
+        if (Math.random() > 0.9) div.className = 'w-full h-full rounded-sm bg-lab-amber animate-pulse';
+        overviewGrid.appendChild(div);
+    }
+    const nistGrid = document.getElementById('nist-grid');
+    for (let i = 0; i < 220; i++) {
+        const div = document.createElement('div');
+        div.className = 'w-full h-full rounded-sm bg-lab-green opacity-40';
+        nistGrid.appendChild(div);
+    }
+
+    async function runSimulation(labId) {
+        switchView('monitor');
+        const feed = document.getElementById('log-content');
+        feed.innerHTML = '<div class="text-primary italic">Initializing...</div>';
+        const data = labId === 'mof74' ? {
+            acc: '99.8%', ins: 'Mg2+ sites confirmed.', m1l: 'Affinity', m1v: '47.0 kJ/mol', m2l: 'Capacity', m2v: '6.5 mol/kg', logs: ['Loading MOF...', 'Solving isotherms...']
+        } : {
+            acc: '94%', ins: 'Strong correlation.', m1l: 'Cytokine', m1v: '142 pg/mL', m2l: 'Antibody', m2v: '2,840 IU/mL', logs: ['CD8 confirmed', 'Analyzing release...']
         };
+        setTimeout(() => {
+            document.getElementById('sim-accuracy').textContent = data.acc;
+            document.getElementById('sim-insight').textContent = data.ins;
+            document.getElementById('metric-1-label').textContent = data.m1l;
+            document.getElementById('metric-1-val').textContent = data.m1v;
+            document.getElementById('metric-2-label').textContent = data.m2l;
+            document.getElementById('metric-2-val').textContent = data.m2v;
+            data.logs.forEach(l => { const d = document.createElement('div'); d.textContent = l; feed.appendChild(d); });
+        }, 800);
+    }
 
-        const setActiveLab = (labId) => {
-            const lab = labs.find((item) => item.id === labId);
-            if (!lab) return;
-            document.querySelectorAll(".lab-button").forEach((button) => {
-                button.classList.toggle("active", button.dataset.labId === labId);
-            });
-            labTitle.textContent = lab.name;
-            labSubtitle.textContent = lab.subtitle;
-            labTags.innerHTML = "";
-            lab.tags.forEach((tag) => {
-                const span = document.createElement("span");
-                span.className = "lab-tag";
-                span.textContent = tag;
-                labTags.appendChild(span);
-            });
-            labFrame.style.setProperty("--frame-gradient", lab.frame.gradient);
-            labFrame.style.setProperty("--frame-shadow", lab.frame.shadow);
-            labChat.innerHTML = "";
-            lab.chat.forEach((message) => {
-                const row = document.createElement("div");
-                row.className = "chat-row";
-                row.innerHTML = `
-                    <span class="chat-label">${message.role === "user" ? "You" : "Lab"}</span>
-                    <div class="chat-bubble ${message.role === "user" ? "user" : "lab"}">${message.text}</div>
-                `;
-                labChat.appendChild(row);
-            });
-            const metrics = document.createElement("div");
-            metrics.className = "chat-metrics";
-            lab.metrics.forEach((metric) => {
-                const card = document.createElement("div");
-                card.className = "metric-card";
-                card.innerHTML = `<span>${metric.label}</span><strong>${metric.value}</strong>`;
-                metrics.appendChild(card);
-            });
-            labChat.appendChild(metrics);
-            labStory.innerHTML = `<strong>Lab continuity:</strong> ${lab.story}`;
-        };
-
-        labSearch.addEventListener("input", (event) => renderLabs(event.target.value));
-        renderLabs();
-    </script>
+    function deployProposal(type) { runSimulation('mof74'); }
+    document.getElementById('sendBtn').addEventListener('click', () => {
+        const input = document.getElementById('promptInput').value.toLowerCase();
+        if (input.includes('mof')) runSimulation('mof74');
+        else if (input.includes('immune')) runSimulation('immune');
+    });
+</script>
 </body>
 </html>

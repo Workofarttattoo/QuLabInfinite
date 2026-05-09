@@ -8,7 +8,8 @@ Free gift to the scientific community from QuLabInfinite.
 import numpy as np
 from dataclasses import dataclass, field
 from scipy.constants import gas_constant
-from typing import List
+from typing import List, Dict, Any, Optional
+from qulab.core.base_lab import BaseLab, register_lab
 
 @dataclass
 class GasMixture:
@@ -55,25 +56,64 @@ class AdsorptionColumn:
         volume = total_mass_co2 / np.array([ad.capacity_co2 * ad.density for ad in self.adsorbents]).sum()
         return volume
 
+@register_lab(
+    name="carbon_capture",
+    category="chemistry",
+    description="Carbon Capture and Adsorption Simulation Lab",
+    version="1.0.0",
+    tags=("carbon-capture", "environment", "adsorption")
+)
+class CarbonCaptureLab(BaseLab):
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        super().__init__(config)
+
+    def run_experiment(self, experiment_spec: Dict[str, Any]) -> Dict[str, Any]:
+        self._track_experiment()
+
+        mixtures_data = experiment_spec.get("gas_mixtures", [])
+        gas_mixtures = [GasMixture(**m) for m in mixtures_data]
+        efficiency = experiment_spec.get("efficiency", 0.9)
+
+        plant = CarbonCapturePlant(gas_mixtures, efficiency=efficiency)
+
+        adsorbent_data = experiment_spec.get("adsorbent", {})
+        adsorbent = AdsorbentMaterial(**adsorbent_data)
+
+        column = AdsorptionColumn(
+            length=experiment_spec.get("column_length", 2.0),
+            diameter=experiment_spec.get("column_diameter", 0.3),
+            adsorbents=[adsorbent]
+        )
+
+        captured_mass = plant.capture_co2()
+        captured_volume = column.calculate_adsorption_volume(captured_mass)
+
+        return {
+            "total_co2_mass_kg": float(plant.total_co2_mass),
+            "captured_co2_mass_kg": float(captured_mass),
+            "captured_volume_m3": float(captured_volume),
+            "efficiency": float(efficiency)
+        }
+
+    def get_status(self) -> Dict[str, Any]:
+        return {
+            "lab": "CarbonCaptureLab",
+            "experiment_count": self._experiment_count,
+            "uptime": self.uptime_seconds
+        }
+
 def run_demo():
-    # Example setup
-    gas_mixture_1 = GasMixture({'CO2': 0.15, 'N2': 0.84}, temperature=300)
-    gas_mixture_2 = GasMixture({'CO2': 0.10, 'O2': 0.89}, temperature=300)
-
-    plant = CarbonCapturePlant([gas_mixture_1, gas_mixture_2])
-    print(f"Total CO2 Mass: {plant.total_co2_mass:.4f} kg")
-
-    # Example adsorbent
-    activated_carbon = AdsorbentMaterial('Activated Carbon', capacity_co2=0.15)
-    
-    column = AdsorptionColumn(length=2, diameter=0.3, adsorbents=[activated_carbon])
-    captured_volume = column.calculate_adsorption_volume(plant.capture_co2())
-    print(f"Captured CO2 volume: {captured_volume:.4f} m^3")
-
-    # Cost example
-    price_per_kg_co2 = 50  # Example market price per kg of CO2 capture cost
-    total_cost = plant.calculate_capture_cost(price_per_kg=price_per_kg_co2)
-    print(f"Total Capture Cost: {total_cost:.4f} €")
+    lab = CarbonCaptureLab()
+    spec = {
+        "gas_mixtures": [
+            {'composition': {'CO2': 0.15, 'N2': 0.84}, 'temperature': 300},
+            {'composition': {'CO2': 0.10, 'O2': 0.89}, 'temperature': 300}
+        ],
+        "adsorbent": {'name': 'Activated Carbon', 'capacity_co2': 0.15},
+        "efficiency": 0.9
+    }
+    results = lab.run_experiment(spec)
+    print(f"Results: {results}")
 
 if __name__ == '__main__':
     run_demo()
