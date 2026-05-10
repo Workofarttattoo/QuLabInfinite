@@ -6,20 +6,21 @@ Advanced sorting, graph algorithms, dynamic programming, and complexity analysis
 Free gift to the scientific community from QuLabInfinite.
 """
 
-import numpy as np
-import time
 import heapq
-from dataclasses import dataclass, field
-from typing import List, Tuple, Dict, Optional, Callable, Any
-from collections import defaultdict, deque
 import random
+import time
+from collections import defaultdict, deque
+from dataclasses import dataclass
+
+import numpy as np
+
 
 # Constants and configuration
 @dataclass
 class AlgorithmConfig:
     max_array_size: int = 10000
     max_graph_nodes: int = 1000
-    random_seed: Optional[int] = None
+    random_seed: int | None = None
     verbose: bool = False
     benchmark_iterations: int = 100
 
@@ -37,16 +38,16 @@ class ComplexityResult:
 class AlgorithmDesignLab:
     """Comprehensive algorithm design laboratory with sorting, graph, and DP algorithms"""
 
-    def __init__(self, config: Optional[AlgorithmConfig] = None):
+    def __init__(self, config: AlgorithmConfig | None = None):
         self.config = config or AlgorithmConfig()
         if self.config.random_seed:
             np.random.seed(self.config.random_seed)
             random.seed(self.config.random_seed)
-        self.performance_history: List[ComplexityResult] = []
+        self.performance_history: list[ComplexityResult] = []
 
     # ============= SORTING ALGORITHMS =============
 
-    def quicksort(self, arr: np.ndarray, track_stats: bool = False) -> Tuple[np.ndarray, int, int]:
+    def quicksort(self, arr: np.ndarray, track_stats: bool = False) -> tuple[np.ndarray, int, int]:
         """
         Implements quicksort algorithm with Lomuto partition scheme.
         Average: O(n log n), Worst: O(n²), Space: O(log n)
@@ -77,7 +78,7 @@ class AlgorithmDesignLab:
         quicksort_recursive(0, len(arr) - 1)
         return arr, comparisons[0], swaps[0]
 
-    def mergesort(self, arr: np.ndarray) -> Tuple[np.ndarray, int]:
+    def mergesort(self, arr: np.ndarray) -> tuple[np.ndarray, int]:
         """
         Implements merge sort algorithm.
         Time: O(n log n) always, Space: O(n)
@@ -164,8 +165,8 @@ class AlgorithmDesignLab:
 
     # ============= GRAPH ALGORITHMS =============
 
-    def dijkstra(self, graph: Dict[int, List[Tuple[int, float]]],
-                 start: int, end: Optional[int] = None) -> Tuple[Dict[int, float], Dict[int, Optional[int]]]:
+    def dijkstra(self, graph: dict[int, list[tuple[int, float]]],
+                 start: int, end: int | None = None) -> tuple[dict[int, float], dict[int, int | None]]:
         """
         Dijkstra's shortest path algorithm using min-heap.
         Time: O((V + E) log V), Space: O(V)
@@ -196,8 +197,8 @@ class AlgorithmDesignLab:
 
         return distances, previous
 
-    def bellman_ford(self, edges: List[Tuple[int, int, float]],
-                     num_vertices: int, start: int) -> Tuple[Dict[int, float], bool]:
+    def bellman_ford(self, edges: list[tuple[int, int, float]],
+                     num_vertices: int, start: int) -> tuple[dict[int, float], bool]:
         """
         Bellman-Ford algorithm for shortest paths with negative weights.
         Time: O(VE), Space: O(V)
@@ -238,8 +239,8 @@ class AlgorithmDesignLab:
 
         return dist
 
-    def kruskal_mst(self, edges: List[Tuple[int, int, float]],
-                    num_vertices: int) -> Tuple[List[Tuple[int, int, float]], float]:
+    def kruskal_mst(self, edges: list[tuple[int, int, float]],
+                    num_vertices: int) -> tuple[list[tuple[int, int, float]], float]:
         """
         Kruskal's minimum spanning tree algorithm using Union-Find.
         Time: O(E log E), Space: O(V)
@@ -279,7 +280,7 @@ class AlgorithmDesignLab:
 
         return mst, total_weight
 
-    def topological_sort(self, graph: Dict[int, List[int]]) -> Optional[List[int]]:
+    def topological_sort(self, graph: dict[int, list[int]]) -> list[int] | None:
         """
         Topological sort using Kahn's algorithm (BFS-based).
         Time: O(V + E), Space: O(V)
@@ -304,7 +305,7 @@ class AlgorithmDesignLab:
 
         return result if len(result) == len(graph) else None
 
-    def strongly_connected_components(self, graph: Dict[int, List[int]]) -> List[List[int]]:
+    def strongly_connected_components(self, graph: dict[int, list[int]]) -> list[list[int]]:
         """
         Kosaraju's algorithm for finding strongly connected components.
         Time: O(V + E), Space: O(V)
@@ -350,7 +351,7 @@ class AlgorithmDesignLab:
 
     # ============= DYNAMIC PROGRAMMING =============
 
-    def longest_common_subsequence(self, seq1: str, seq2: str) -> Tuple[int, str]:
+    def longest_common_subsequence(self, seq1: str, seq2: str) -> tuple[int, str]:
         """
         Finds longest common subsequence using dynamic programming.
         Time: O(mn), Space: O(mn)
@@ -363,7 +364,10 @@ class AlgorithmDesignLab:
                 if seq1[i-1] == seq2[j-1]:
                     dp[i][j] = dp[i-1][j-1] + 1
                 else:
-                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                    # Optimized: Inline ternary operator avoids the Python function call overhead of max() in tight nested loops
+                    a = dp[i-1][j]
+                    b = dp[i][j-1]
+                    dp[i][j] = a if a > b else b
 
         # Reconstruct LCS
         lcs = []
@@ -380,8 +384,8 @@ class AlgorithmDesignLab:
 
         return dp[m][n], ''.join(reversed(lcs))
 
-    def knapsack_01(self, weights: List[int], values: List[int],
-                    capacity: int) -> Tuple[int, List[int]]:
+    def knapsack_01(self, weights: list[int], values: list[int],
+                    capacity: int) -> tuple[int, list[int]]:
         """
         Solves 0/1 knapsack problem using dynamic programming.
         Time: O(nW), Space: O(nW) where W is capacity
@@ -392,7 +396,10 @@ class AlgorithmDesignLab:
         for i in range(1, n + 1):
             for w in range(capacity + 1):
                 if weights[i-1] <= w:
-                    dp[i][w] = max(dp[i-1][w], dp[i-1][w-weights[i-1]] + values[i-1])
+                    # Optimized: Inline ternary operator avoids the Python function call overhead of max() in tight nested loops
+                    a = dp[i-1][w]
+                    b = dp[i-1][w-weights[i-1]] + values[i-1]
+                    dp[i][w] = a if a > b else b
                 else:
                     dp[i][w] = dp[i-1][w]
 
@@ -406,7 +413,7 @@ class AlgorithmDesignLab:
 
         return dp[n][capacity], list(reversed(selected))
 
-    def edit_distance(self, str1: str, str2: str) -> Tuple[int, List[str]]:
+    def edit_distance(self, str1: str, str2: str) -> tuple[int, list[str]]:
         """
         Computes Levenshtein distance and transformation sequence.
         Time: O(mn), Space: O(mn)
@@ -452,7 +459,7 @@ class AlgorithmDesignLab:
 
         return dp[m][n], list(reversed(operations))
 
-    def matrix_chain_multiplication(self, dimensions: List[int]) -> Tuple[int, str]:
+    def matrix_chain_multiplication(self, dimensions: list[int]) -> tuple[int, str]:
         """
         Finds optimal parenthesization for matrix chain multiplication.
         Time: O(n³), Space: O(n²)
@@ -482,7 +489,7 @@ class AlgorithmDesignLab:
 
     # ============= COMPLEXITY ANALYSIS =============
 
-    def analyze_sorting_complexity(self, size: int) -> Dict[str, ComplexityResult]:
+    def analyze_sorting_complexity(self, size: int) -> dict[str, ComplexityResult]:
         """Analyzes complexity of different sorting algorithms"""
         arr = np.random.random(size)
         results = {}
@@ -521,7 +528,7 @@ class AlgorithmDesignLab:
 
         return results
 
-    def benchmark_algorithms(self, input_sizes: List[int]) -> Dict[str, List[float]]:
+    def benchmark_algorithms(self, input_sizes: list[int]) -> dict[str, list[float]]:
         """Benchmarks algorithms across different input sizes"""
         results = defaultdict(list)
 
