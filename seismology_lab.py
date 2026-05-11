@@ -60,6 +60,48 @@ class SeismologyLab:
     Implements real seismic wave propagation and hazard analysis
     """
 
+    # Constant mappings moved from inner loops for performance
+    _VS30_RANGES = {
+        SoilClass.A: 1500,
+        SoilClass.B: 900,
+        SoilClass.C: 500,
+        SoilClass.D: 250,
+        SoilClass.E: 150
+    }
+
+    _SOIL_CLASS_INDICES = {
+        sc: i for i, sc in enumerate(SoilClass)
+    }
+
+    _SITE_FACTORS = {
+        SoilClass.A: 0.8,
+        SoilClass.B: 1.0,
+        SoilClass.C: 1.3,
+        SoilClass.D: 1.6,
+        SoilClass.E: 2.0
+    }
+
+    _LENGTH_PARAMS = {
+        'strike_slip': {'a': -3.55, 'b': 0.74},
+        'reverse': {'a': -2.86, 'b': 0.63},
+        'normal': {'a': -2.01, 'b': 0.50},
+        'all': {'a': -3.22, 'b': 0.69}
+    }
+
+    _AREA_PARAMS = {
+        'strike_slip': {'a': -3.42, 'b': 0.90},
+        'reverse': {'a': -3.99, 'b': 0.98},
+        'normal': {'a': -2.87, 'b': 0.82},
+        'all': {'a': -3.49, 'b': 0.91}
+    }
+
+    _DISP_PARAMS = {
+        'strike_slip': {'a': -7.03, 'b': 1.03},
+        'reverse': {'a': -1.84, 'b': 0.29},
+        'normal': {'a': -4.45, 'b': 0.63},
+        'all': {'a': -4.80, 'b': 0.69}
+    }
+
     def __init__(self):
         # Earth parameters
         self.earth_radius = 6371.0  # km
@@ -277,15 +319,7 @@ class SeismologyLab:
         Based on NEHRP provisions and Vs30
         """
         # Get shear wave velocity for soil class
-        vs30_ranges = {
-            SoilClass.A: 1500,
-            SoilClass.B: 900,
-            SoilClass.C: 500,
-            SoilClass.D: 250,
-            SoilClass.E: 150
-        }
-
-        vs30 = vs30_ranges[soil_class]
+        vs30 = self._VS30_RANGES[soil_class]
 
         # Site amplification factors (simplified NEHRP)
         if soil_class == SoilClass.A:
@@ -332,7 +366,7 @@ class SeismologyLab:
         pgv_amplification = fv
 
         # Duration effects (softer soils extend duration)
-        duration_factor = 1.0 + 0.3 * (5 - list(SoilClass).index(soil_class))
+        duration_factor = 1.0 + 0.3 * (5 - self._SOIL_CLASS_INDICES[soil_class])
 
         return {
             'soil_class': soil_class.value,
@@ -457,14 +491,7 @@ class SeismologyLab:
             c4, c5, c6 = 0.149, -0.0031, 1.0
 
             # Site amplification factor
-            site_factors = {
-                SoilClass.A: 0.8,
-                SoilClass.B: 1.0,
-                SoilClass.C: 1.3,
-                SoilClass.D: 1.6,
-                SoilClass.E: 2.0
-            }
-            fs = site_factors.get(site_class, 1.3)
+            fs = self._SITE_FACTORS.get(site_class, 1.3)
 
             # Calculate median PGA (g)
             log_pga = (c1 + c2 * magnitude + c3 * np.log10(distance) +
@@ -611,37 +638,10 @@ class SeismologyLab:
         Empirical fault rupture scaling relationships
         Wells and Coppersmith (1994) relations
         """
-        # Fault type coefficients for rupture length
-        # log(L) = a + b*M
-        length_params = {
-            'strike_slip': {'a': -3.55, 'b': 0.74},
-            'reverse': {'a': -2.86, 'b': 0.63},
-            'normal': {'a': -2.01, 'b': 0.50},
-            'all': {'a': -3.22, 'b': 0.69}
-        }
-
-        # Fault type coefficients for rupture area
-        # log(A) = a + b*M
-        area_params = {
-            'strike_slip': {'a': -3.42, 'b': 0.90},
-            'reverse': {'a': -3.99, 'b': 0.98},
-            'normal': {'a': -2.87, 'b': 0.82},
-            'all': {'a': -3.49, 'b': 0.91}
-        }
-
-        # Fault type coefficients for displacement
-        # log(D) = a + b*M
-        disp_params = {
-            'strike_slip': {'a': -7.03, 'b': 1.03},
-            'reverse': {'a': -1.84, 'b': 0.29},
-            'normal': {'a': -4.45, 'b': 0.63},
-            'all': {'a': -4.80, 'b': 0.69}
-        }
-
         # Get parameters for fault type
-        l_params = length_params.get(fault_type, length_params['all'])
-        a_params = area_params.get(fault_type, area_params['all'])
-        d_params = disp_params.get(fault_type, disp_params['all'])
+        l_params = self._LENGTH_PARAMS.get(fault_type, self._LENGTH_PARAMS['all'])
+        a_params = self._AREA_PARAMS.get(fault_type, self._AREA_PARAMS['all'])
+        d_params = self._DISP_PARAMS.get(fault_type, self._DISP_PARAMS['all'])
 
         # Calculate rupture dimensions
         log_length = l_params['a'] + l_params['b'] * magnitude

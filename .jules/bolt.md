@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - Enum and Dictionary Overhead in Simulation Inner Loops
+**Learning:** In heavily iterated simulation loops (like probabilistic seismic hazard analysis evaluating millions of combinations), continuously recreating dictionaries inside functions or converting Enums to lists to find their index (e.g. `list(SoilClass).index(soil_class)`) causes massive performance overhead (benchmarked as ~7x slower).
+**Action:** Extract all constant parameter dictionaries into class-level attributes, and precompute indices for Enum mappings at class load.
