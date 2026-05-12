@@ -60,6 +60,7 @@ class RiskLevel(Enum):
     HIGH = "high"
     CRITICAL = "critical"
 
+_RISK_LEVEL_INDICES = {r: i for i, r in enumerate(RiskLevel)}
 
 class CYP450Enzyme(Enum):
     """Major CYP450 enzymes"""
@@ -580,7 +581,7 @@ class DrugInteractionAnalyzer:
 
         # Overall risk assessment
         total_severity = sum(p.severity_score for p in pairwise)
-        max_risk = max([p.risk_level for p in pairwise], key=lambda r: list(RiskLevel).index(r))
+        max_risk = max([p.risk_level for p in pairwise], key=lambda r: _RISK_LEVEL_INDICES[r])
 
         # Generate optimal schedule
         optimal_schedule = self._generate_optimal_schedule(drug_names, pairwise)
