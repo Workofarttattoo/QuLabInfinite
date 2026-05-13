@@ -272,9 +272,12 @@
         button:focus:not(:focus-visible), a:focus:not(:focus-visible), input:focus:not(:focus-visible) { outline: none; }
         button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; border-radius: 4px; }
         .prompt-bar button:focus-visible { border-radius: 999px; }
+        .skip-link { position: absolute; top: -40px; left: 0; background: #58a6ff; color: #0d1117; padding: 8px; z-index: 100; transition: top 0.2s; }
+        .skip-link:focus-visible { top: 0; outline: none; }
 </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="page">
         <header>
             <h1 class="hero-title">⚛️ QuLab Infinite Active Labs Console</h1>
@@ -300,7 +303,7 @@
                 <div id="labList" class="lab-list"></div>
             </aside>
 
-            <main class="lab-panel">
+            <main id="main-content" tabindex="-1" class="lab-panel">
                 <div class="lab-header">
                     <div>
                         <h3 id="labTitle">Materials Forge Lab</h3>
@@ -312,7 +315,7 @@
                 <div id="labFrame" class="lab-frame">
                     <div class="lab-chat" id="labChat"></div>
                     <div class="prompt-bar">
-                        <input type="text" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’">
+                        <input type="text" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’" aria-label="Ask the lab">
                         <button type="button" aria-label="Send message to lab">Send</button>
                     </div>
                 </div>
