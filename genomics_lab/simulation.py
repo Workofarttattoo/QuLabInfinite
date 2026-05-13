@@ -158,15 +158,21 @@ class GenomicsLaboratory:
         error_rate = 0.005
 
         # Generate reads with Poisson-distributed coverage
-        num_reads = int(len(sequence) * coverage / 150)  # 150bp reads
+        seq_len = len(sequence)
+        num_reads = int(seq_len * coverage / 150)  # 150bp reads
 
         reads = []
         quality_scores = []
 
-        for i in range(num_reads):
-            # Random start position
-            start = np.random.randint(0, max(1, len(sequence) - 150))
-            end = min(start + 150, len(sequence))
+        # Pre-generate random start positions
+        val_max = seq_len - 150
+        max_bound = val_max if val_max > 1 else 1
+        starts = np.random.randint(0, max_bound, size=num_reads)
+
+        for start in starts:
+            # Inline min calculation
+            val_end = start + 150
+            end = val_end if val_end < seq_len else seq_len
 
             read = list(sequence[start:end])
 
@@ -185,10 +191,11 @@ class GenomicsLaboratory:
             quality_scores.append(q_scores)
 
         # Calculate coverage statistics
-        coverage_array = np.zeros(len(sequence))
-        for read_start in range(num_reads):
-            start = np.random.randint(0, max(1, len(sequence) - 150))
-            end = min(start + 150, len(sequence))
+        coverage_array = np.zeros(seq_len)
+        coverage_starts = np.random.randint(0, max_bound, size=num_reads)
+        for start in coverage_starts:
+            val_end = start + 150
+            end = val_end if val_end < seq_len else seq_len
             coverage_array[start:end] += 1
 
         return {

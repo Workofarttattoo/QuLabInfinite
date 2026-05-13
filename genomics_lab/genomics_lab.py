@@ -165,11 +165,13 @@ class GenomicsLaboratory:
         quality_scores = []
 
         # Pre-generate random start positions
-        max_start = max(1, seq_len - 150)
-        starts = np.random.randint(0, max_start, size=num_reads)
+        val_max = seq_len - 150
+        max_bound = val_max if val_max > 1 else 1
+        starts = np.random.randint(0, max_bound, size=num_reads)
 
         for start in starts:
-            end = min(start + 150, seq_len)
+            val_end = start + 150
+            end = val_end if val_end < seq_len else seq_len
             read = list(sequence[start:end])
             read_len = len(read)
 
@@ -189,10 +191,11 @@ class GenomicsLaboratory:
             quality_scores.append(q_scores)
 
         # Calculate coverage statistics
-        coverage_array = np.zeros(len(sequence))
-        for read_start in range(num_reads):
-            start = np.random.randint(0, max(1, len(sequence) - 150))
-            end = min(start + 150, len(sequence))
+        coverage_array = np.zeros(seq_len)
+        coverage_starts = np.random.randint(0, max_bound, size=num_reads)
+        for start in coverage_starts:
+            val_end = start + 150
+            end = val_end if val_end < seq_len else seq_len
             coverage_array[start:end] += 1
 
         return {
