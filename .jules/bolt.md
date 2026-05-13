@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2025-05-18 - Avoid Python loop overhead with vectorized NumPy random generation
+**Learning:** In large scale simulations, calling np.random.randint within a Python loop creates massive overhead compared to pre-allocating random values using size=N.
+**Action:** Always vectorize the generation of random indices using NumPy arrays and avoid repeatedly calling min/max in hot loops.
