@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2025-05-23 - Python built-in overhead in tight loops
+**Learning:** Python's built-in `min()` (and `max()`) functions introduce significant call overhead when used inside tight loops or deeply recursive algorithms like pathfinding or BFS.
+**Action:** Replace two-variable `min(a, b)` calls with an inline ternary conditional (`a if a < b else b`) inside critical hot paths for an easy performance boost.
