@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2024-05-24 - Dictionary Creation Overhead in Simulation Loops
+**Learning:** Instantiating dictionaries inside highly-iterated methods (e.g., cell step updates mapping string names to array names) creates massive overhead due to constant memory allocation and dict creation. In a tight loop (e.g., per cell per timestep), this can slow execution dramatically.
+**Action:** Always lift static mappings or dictionaries outside the loop into class-level constant attributes (e.g., `_FIELD_MAP`) to initialize them exactly once.
