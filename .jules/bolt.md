@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - Enum List Indexing in Loops
+**Learning:** Calling `list(Enum).index()` inside a tight loop or comprehension creates massive overhead because it reconstructs the list and performs a linear search on every iteration.
+**Action:** Use a precomputed mapping dictionary and its `__getitem__` method for the key function when finding the maximum Enum value based on its defined order.

@@ -17,14 +17,11 @@ Features:
 - FastAPI REST endpoints
 """
 
-import asyncio
-import json
-import time
-from dataclasses import dataclass, asdict
-from datetime import datetime
-from typing import List, Dict, Set, Tuple, Optional
-from enum import Enum
 import math
+import time
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from enum import Enum
 
 # FastAPI imports
 try:
@@ -61,6 +58,9 @@ class RiskLevel(Enum):
     CRITICAL = "critical"
 
 
+_RISK_ORDER = {r: i for i, r in enumerate(RiskLevel)}
+
+
 class CYP450Enzyme(Enum):
     """Major CYP450 enzymes"""
     CYP3A4 = "CYP3A4"
@@ -83,9 +83,9 @@ class PharmacokineticProfile:
     tmax_hours: float  # Time to peak concentration
 
     # CYP450 interactions
-    cyp_substrates: List[str]  # Which enzymes metabolize this drug
-    cyp_inhibitors: List[str]  # Which enzymes this drug inhibits
-    cyp_inducers: List[str]  # Which enzymes this drug induces
+    cyp_substrates: list[str]  # Which enzymes metabolize this drug
+    cyp_inhibitors: list[str]  # Which enzymes this drug inhibits
+    cyp_inducers: list[str]  # Which enzymes this drug induces
 
     # Mechanism and targets
     mechanism: str
@@ -107,22 +107,22 @@ class InteractionResult:
     recommendation: str
     severity_score: float  # 0-10
     auc_change_percent: float  # Change in drug exposure
-    optimal_spacing_hours: Optional[float] = None
+    optimal_spacing_hours: float | None = None
 
 
 @dataclass
 class NetworkAnalysisResult:
     """Complete network analysis results"""
-    drugs: List[str]
-    pairwise_interactions: List[InteractionResult]
-    higher_order_interactions: List[Dict]
+    drugs: list[str]
+    pairwise_interactions: list[InteractionResult]
+    higher_order_interactions: list[dict]
     overall_risk: RiskLevel
     total_severity_score: float
-    cyp_competition_map: Dict[str, List[str]]
-    timing_recommendations: List[Dict]
-    synergies_detected: List[Dict]
-    dangers_detected: List[Dict]
-    optimal_schedule: List[Dict]
+    cyp_competition_map: dict[str, list[str]]
+    timing_recommendations: list[dict]
+    synergies_detected: list[dict]
+    dangers_detected: list[dict]
+    optimal_schedule: list[dict]
     analysis_timestamp: str
     computation_time_ms: float
 
@@ -131,7 +131,7 @@ class NetworkAnalysisResult:
 # COMPREHENSIVE DRUG DATABASE WITH REAL DATA
 # ============================================================================
 
-DRUG_DATABASE: Dict[str, PharmacokineticProfile] = {
+DRUG_DATABASE: dict[str, PharmacokineticProfile] = {
     # CHEMOTHERAPY AGENTS
     "doxorubicin": PharmacokineticProfile(
         name="doxorubicin",
@@ -393,7 +393,7 @@ class CYP450InteractionEngine:
     }
 
     @staticmethod
-    def detect_cyp_competition(profiles: List[PharmacokineticProfile]) -> Dict[str, List[str]]:
+    def detect_cyp_competition(profiles: list[PharmacokineticProfile]) -> dict[str, list[str]]:
         """Identify drugs competing for same CYP enzymes"""
         competition_map = {}
 
@@ -408,7 +408,7 @@ class CYP450InteractionEngine:
 
     @staticmethod
     def calculate_inhibition_effect(inhibitor: PharmacokineticProfile,
-                                    victim: PharmacokineticProfile) -> Tuple[float, str]:
+                                    victim: PharmacokineticProfile) -> tuple[float, str]:
         """Calculate AUC increase due to CYP inhibition"""
         affected_enzymes = set(inhibitor.cyp_inhibitors) & set(victim.cyp_substrates)
 
@@ -428,7 +428,7 @@ class CYP450InteractionEngine:
 
     @staticmethod
     def calculate_induction_effect(inducer: PharmacokineticProfile,
-                                   victim: PharmacokineticProfile) -> Tuple[float, str]:
+                                   victim: PharmacokineticProfile) -> tuple[float, str]:
         """Calculate AUC decrease due to CYP induction"""
         affected_enzymes = set(inducer.cyp_inducers) & set(victim.cyp_substrates)
 
@@ -537,7 +537,7 @@ class DrugInteractionAnalyzer:
             optimal_spacing_hours=optimal_spacing
         )
 
-    def analyze_network(self, drug_names: List[str]) -> NetworkAnalysisResult:
+    def analyze_network(self, drug_names: list[str]) -> NetworkAnalysisResult:
         """Complete network analysis of multiple drugs"""
         start_time = time.time()
 
@@ -580,7 +580,9 @@ class DrugInteractionAnalyzer:
 
         # Overall risk assessment
         total_severity = sum(p.severity_score for p in pairwise)
-        max_risk = max([p.risk_level for p in pairwise], key=lambda r: list(RiskLevel).index(r))
+        # Using a precomputed dict (_RISK_ORDER) for key lookup avoids the massive overhead
+        # of calling list(RiskLevel).index() inside the loop.
+        max_risk = max((p.risk_level for p in pairwise), key=_RISK_ORDER.__getitem__)
 
         # Generate optimal schedule
         optimal_schedule = self._generate_optimal_schedule(drug_names, pairwise)
@@ -621,8 +623,8 @@ class DrugInteractionAnalyzer:
             computation_time_ms=computation_time
         )
 
-    def _detect_higher_order_interactions(self, drugs: List[str],
-                                         pairwise: List[InteractionResult]) -> List[Dict]:
+    def _detect_higher_order_interactions(self, drugs: list[str],
+                                         pairwise: list[InteractionResult]) -> list[dict]:
         """Detect interactions involving 3+ drugs"""
         higher_order = []
 
@@ -642,8 +644,8 @@ class DrugInteractionAnalyzer:
 
         return higher_order
 
-    def _generate_optimal_schedule(self, drugs: List[str],
-                                   pairwise: List[InteractionResult]) -> List[Dict]:
+    def _generate_optimal_schedule(self, drugs: list[str],
+                                   pairwise: list[InteractionResult]) -> list[dict]:
         """Generate optimal dosing schedule"""
         schedule = []
 
@@ -684,8 +686,8 @@ if FASTAPI_AVAILABLE:
     )
 
     class DrugListRequest(BaseModel):
-        drugs: List[str] = Field(..., example=["doxorubicin", "cisplatin", "paclitaxel"])
-        body_weight_kg: Optional[float] = Field(70.0, example=70.0)
+        drugs: list[str] = Field(..., example=["doxorubicin", "cisplatin", "paclitaxel"])
+        body_weight_kg: float | None = Field(70.0, example=70.0)
 
     class PairwiseRequest(BaseModel):
         drug1: str = Field(..., example="warfarin")
