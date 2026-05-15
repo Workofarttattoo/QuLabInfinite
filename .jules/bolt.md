@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - Dictionary Creation Overhead in Inner Loops (Reiteration)
+**Learning:** Verified again that dynamic dictionary creation inside inner loops (`_get_field_value` in `TumorSimulator`) causes significant overhead when called tens of thousands of times per step.
+**Action:** Consistently refactor dynamic dictionaries mapped to static strings into class-level constants (e.g. `_FIELD_MAP`) in simulation environments.

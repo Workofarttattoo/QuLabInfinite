@@ -344,6 +344,20 @@ class TumorSimulator:
     otherwise from reasonable heuristics.
     """
 
+    # Pre-computed map for faster lookups in tight loops
+    _FIELD_MAP = {
+        'ph_level': 'ph_field',
+        'oxygen_percent': 'oxygen_field',
+        'glucose_mm': 'glucose_field',
+        'lactate_mm': 'lactate_field',
+        'temperature_c': 'temperature_field',
+        'ros_um': 'ros_field',
+        'glutamine_mm': 'glutamine_field',
+        'calcium_um': 'calcium_field',
+        'atp_adp_ratio': 'atp_field',
+        'cytokine_pg_ml': 'cytokine_field',
+    }
+
     def __init__(self,
                  tumor_type: str = "solid_tumor",
                  growth_model: TumorGrowthModel = TumorGrowthModel.GOMPERTZIAN,
@@ -407,20 +421,7 @@ class TumorSimulator:
         if field_name in self.field_overrides:
             return self.field_overrides[field_name]
 
-        field_map = {
-            'ph_level': 'ph_field',
-            'oxygen_percent': 'oxygen_field',
-            'glucose_mm': 'glucose_field',
-            'lactate_mm': 'lactate_field',
-            'temperature_c': 'temperature_field',
-            'ros_um': 'ros_field',
-            'glutamine_mm': 'glutamine_field',
-            'calcium_um': 'calcium_field',
-            'atp_adp_ratio': 'atp_field',
-            'cytokine_pg_ml': 'cytokine_field',
-        }
-
-        lattice_name = field_map.get(field_name)
+        lattice_name = self._FIELD_MAP.get(field_name)
         if lattice_name is None:
             raise KeyError(f"Unknown field '{field_name}'")
 
