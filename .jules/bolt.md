@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - Combinatorial Feature Generation
+**Learning:** Generating combinatorial index structures like polynomial features using deep recursive functions in Python causes massive O(n^d) call-stack overhead and scales extremely poorly. List comprehensions for inner loops also cause significant slowdowns compared to numpy slicing.
+**Action:** Always use C-implemented `itertools.combinations_with_replacement` for complex combinatorics rather than custom python recursive generators, and replace iterated column multiplications with vectorized `np.prod(X[:, combo], axis=1)`.
