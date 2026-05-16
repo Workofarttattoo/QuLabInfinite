@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-08 - Inline Min Function in Tight Loops
+**Learning:** In tight nested loops, calling Python's built-in `min()` with 3 or more elements incurs significant function call overhead. Using inline conditional ternary operators (e.g. `a if a < b and a < c else b if b < c else c`) avoids this overhead and results in a ~50% speedup.
+**Action:** Replace `min()` calls with inline ternary expressions and cache repeated array accesses when calculating edit distances or similar dynamic programming matrices.
