@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-23 - Polynomial Features Generator Overhead
+**Learning:** Custom recursive generators for mathematical combinations create significant O(n^d) call-stack overhead and perform poorly compared to C-optimized libraries.
+**Action:** Replace custom recursive Python generators with `itertools.combinations_with_replacement` and use NumPy column slicing (`np.prod(X[:, combo], axis=1)`) to compute polynomial features.
