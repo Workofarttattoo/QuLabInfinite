@@ -6,8 +6,10 @@ Free gift to the scientific community from QuLabInfinite.
 """
 
 from dataclasses import dataclass, field
+
 import numpy as np
-from scipy.constants import k, Avogadro, g, c, h, e, pi, physical_constants
+from scipy.constants import physical_constants
+
 
 @dataclass
 class BioinformaticsLab:
@@ -39,9 +41,12 @@ class BioinformaticsLab:
             physical_constants["tyrosine mass"][0],
             physical_constants["valine mass"][0]
         ], dtype=np.float64)
-    
+
     def gc_content_calc(self) -> float:
-        gc_count = sum([1 for base in self.sequence if base.upper() == "G" or base.upper() == "C"])
+        # ⚡ Bolt: Fast GC content calculation using built-in C-optimized string counts
+        if not self.sequence:
+            return 0.0
+        gc_count = self.sequence.count('G') + self.sequence.count('g') + self.sequence.count('C') + self.sequence.count('c')
         return gc_count / len(self.sequence)
 
     def molecular_weight_calc(self, sequence: str) -> float:
@@ -50,17 +55,17 @@ class BioinformaticsLab:
             'ATA': 'I', 'ATC': 'I', 'ATT': 'I', 'ATG': 'M',
             'ACA': 'T', 'ACC': 'T', 'ACG': 'T', 'ACT': 'T',
             'AAC': 'N', 'AAT': 'N', 'AAA': 'K', 'AAG': 'K',
-            'AGC': 'S', 'AGT': 'S', 'AGA': 'R', 'AGG': 'R', 
+            'AGC': 'S', 'AGT': 'S', 'AGA': 'R', 'AGG': 'R',
             # ... complete codon table ...
         }
-        
+
         for i in range(0, len(sequence), 3):
             try:
                 amino_acid = codon_table[sequence[i:i+3]]
                 weight_sum += self._amino_acids_weights[list(codon_table.keys()).index(amino_acid)]
             except KeyError:
                 pass
-        
+
         return weight_sum
 
     def analyze_sequence(self, sequence: str) -> None:
