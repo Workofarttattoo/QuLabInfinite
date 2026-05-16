@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-24 - Polynomial Feature Vectorisation
+**Learning:** Generating polynomial features using custom recursive loops or list comprehensions inside `np.prod()` for column combinations (axis=0) adds massive overhead. Vectorised column slicing with `axis=1` (e.g., `np.prod(X[:, combo], axis=1)`) combined with `itertools.combinations_with_replacement` significantly speeds up computation (~10x to 100x improvement).
+**Action:** Always prefer slicing entire Numpy array structures along columns combined with row-wise execution (`axis=1`) over list comprehension wrappers. Replace recursive O(n^d) call-stack methods with generators like `itertools`.

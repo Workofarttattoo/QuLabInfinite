@@ -6,10 +6,14 @@ Production-ready machine learning algorithms implemented from scratch.
 Free gift to the scientific community from QuLabInfinite.
 """
 
-import numpy as np
-from typing import List, Tuple, Optional, Dict, Any, Callable
-from dataclasses import dataclass, field
+import itertools
 import warnings
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any
+
+import numpy as np
+
 warnings.filterwarnings('ignore')
 
 @dataclass
@@ -35,7 +39,7 @@ class MachineLearningLab:
         self.metrics_history = []
 
     def gradient_descent(self, X: np.ndarray, y: np.ndarray,
-                         theta_init: Optional[np.ndarray] = None) -> np.ndarray:
+                         theta_init: np.ndarray | None = None) -> np.ndarray:
         """
         Implement gradient descent optimization from scratch.
 
@@ -79,7 +83,7 @@ class MachineLearningLab:
         return theta
 
     def stochastic_gradient_descent(self, X: np.ndarray, y: np.ndarray,
-                                   theta_init: Optional[np.ndarray] = None) -> np.ndarray:
+                                   theta_init: np.ndarray | None = None) -> np.ndarray:
         """
         Implement stochastic gradient descent with mini-batches.
 
@@ -121,7 +125,7 @@ class MachineLearningLab:
 
     def cross_validation(self, X: np.ndarray, y: np.ndarray,
                         k_folds: int = 5,
-                        model_fn: Callable = None) -> Dict[str, float]:
+                        model_fn: Callable = None) -> dict[str, float]:
         """
         Implement k-fold cross-validation from scratch.
 
@@ -218,7 +222,6 @@ class MachineLearningLab:
         for _ in range(self.config.epochs):
             for j in range(n_features):
                 # Compute residual without feature j
-                theta_j = theta[j]
                 theta[j] = 0
                 residual = y - X.dot(theta)
 
@@ -271,10 +274,9 @@ class MachineLearningLab:
         n_samples, n_features = X.shape
         theta = np.zeros(n_features)
 
-        for epoch in range(self.config.epochs):
+        for _epoch in range(self.config.epochs):
             for j in range(n_features):
                 # Compute residual without feature j
-                theta_j = theta[j]
                 theta[j] = 0
                 residual = y - X.dot(theta)
 
@@ -295,7 +297,7 @@ class MachineLearningLab:
         return theta
 
     def random_forest_regressor(self, X: np.ndarray, y: np.ndarray,
-                              n_trees: int = 10, max_depth: int = 5) -> 'RandomForest':
+                              n_trees: int = 10, max_depth: int = 5) -> Any:
         """
         Implement Random Forest regressor from scratch.
 
@@ -424,7 +426,7 @@ class MachineLearningLab:
 
     def gradient_boosting_regressor(self, X: np.ndarray, y: np.ndarray,
                                   n_estimators: int = 10,
-                                  learning_rate: float = 0.1) -> List[np.ndarray]:
+                                  learning_rate: float = 0.1) -> list[np.ndarray]:
         """
         Implement Gradient Boosting regressor from scratch.
 
@@ -460,7 +462,7 @@ class MachineLearningLab:
         return models
 
     def hyperparameter_optimization(self, X: np.ndarray, y: np.ndarray,
-                                  param_grid: Dict[str, List[Any]]) -> Dict[str, Any]:
+                                  param_grid: dict[str, list[Any]]) -> dict[str, Any]:
         """
         Grid search for hyperparameter optimization.
 
@@ -480,7 +482,9 @@ class MachineLearningLab:
         param_names = list(param_grid.keys())
         param_values = list(param_grid.values())
 
-        def generate_combinations(index=0, current={}):
+        def generate_combinations(index=0, current=None):
+            if current is None:
+                current = {}
             if index == len(param_names):
                 return [current.copy()]
 
@@ -513,7 +517,7 @@ class MachineLearningLab:
             'all_results': results
         }
 
-    def compute_metrics(self, y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
+    def compute_metrics(self, y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, float]:
         """
         Compute comprehensive evaluation metrics.
 
@@ -583,21 +587,11 @@ class MachineLearningLab:
         # Generate polynomial features
         idx = 1
         for d in range(1, degree + 1):
-            # Generate all combinations of features for degree d
-            def generate_terms(features, remaining_degree, start_idx=0):
-                if remaining_degree == 0:
-                    return [np.prod([X[:, f] for f in features], axis=0)]
-
-                terms = []
-                for i in range(start_idx, n_features):
-                    new_features = features + [i]
-                    terms.extend(generate_terms(new_features, remaining_degree - 1, i))
-                return terms
-
-            terms = generate_terms([], d)
-            for term in terms:
+            # Generate all combinations of features for degree d using itertools
+            for combo in itertools.combinations_with_replacement(range(n_features), d):
                 if idx < X_poly.shape[1]:
-                    X_poly[:, idx] = term
+                    # Vectorized product calculation across the feature subset
+                    X_poly[:, idx] = np.prod(X[:, combo], axis=1)
                     idx += 1
 
         return X_poly
