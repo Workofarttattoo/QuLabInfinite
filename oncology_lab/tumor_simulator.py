@@ -2,9 +2,7 @@
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.
 
 tumor_simulator - Part of Oncology Lab
-"""
 
-"""
 Tumor growth and microenvironment simulation primitives.
 
 The implementation provides a simplified, research-oriented approximation of
@@ -14,11 +12,10 @@ Results should be treated as qualitative guidance for experimentation only and
 not as clinically validated predictions.
 """
 
-import numpy as np
-from enum import Enum
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Tuple
-import time
+from enum import Enum
+
+import numpy as np
 
 
 class CellCyclePhase(Enum):
@@ -77,9 +74,9 @@ class CancerCell:
 
     # Genetics
     mutation_count: int = 0
-    resistance_mutations: Dict[str, bool] = field(default_factory=dict)
-    oncogenes_active: List[str] = field(default_factory=lambda: ['MYC', 'RAS'])
-    tumor_suppressors_lost: List[str] = field(default_factory=lambda: ['TP53', 'RB1'])
+    resistance_mutations: dict[str, bool] = field(default_factory=dict)
+    oncogenes_active: list[str] = field(default_factory=lambda: ['MYC', 'RAS'])
+    tumor_suppressors_lost: list[str] = field(default_factory=lambda: ['TP53', 'RB1'])
 
     # Microenvironment
     distance_to_vasculature: float = 100.0  # μm
@@ -87,8 +84,8 @@ class CancerCell:
     waste_accumulation: float = 0.0  # 0-1 scale
 
     # Drug exposure
-    drug_concentrations: Dict[str, float] = field(default_factory=dict)
-    drug_resistance_factors: Dict[str, float] = field(default_factory=dict)
+    drug_concentrations: dict[str, float] = field(default_factory=dict)
+    drug_resistance_factors: dict[str, float] = field(default_factory=dict)
 
     def calculate_proliferation_rate(self) -> float:
         """
@@ -98,10 +95,7 @@ class CancerCell:
         base_rate = 1.0  # 1 division per day
 
         # Oxygen effect (hypoxia slows division)
-        if self.local_oxygen < 5.0:
-            oxygen_factor = self.local_oxygen / 5.0
-        else:
-            oxygen_factor = 1.0
+        oxygen_factor = self.local_oxygen / 5.0 if self.local_oxygen < 5.0 else 1.0
 
         # Glucose effect (Warburg - high glucose increases rate)
         if self.local_glucose > 7.0:
@@ -248,7 +242,7 @@ class TumorMicroenvironment:
     Simulates gradients of nutrients, oxygen, waste
     """
     # Grid dimensions (in micrometers)
-    grid_size: Tuple[int, int, int] = (200, 200, 200)  # 200μm x 200μm x 200μm
+    grid_size: tuple[int, int, int] = (200, 200, 200)  # 200μm x 200μm x 200μm
     resolution: float = 10.0  # μm per grid point
 
     # 3D fields (the 10 fields spatially distributed)
@@ -264,7 +258,7 @@ class TumorMicroenvironment:
     cytokine_field: np.ndarray = None
 
     # Vasculature (blood vessel locations)
-    vessel_locations: List[np.ndarray] = field(default_factory=list)
+    vessel_locations: list[np.ndarray] = field(default_factory=list)
 
     # Diffusion coefficients (μm²/s) - from literature
     oxygen_diffusion: float = 2000.0     # O2 diffuses quickly
@@ -313,7 +307,7 @@ class TumorMicroenvironment:
 
         return new_field
 
-    def update_microenvironment(self, cell_positions: np.ndarray, cell_consumption: Dict[str, np.ndarray], dt: float):
+    def update_microenvironment(self, cell_positions: np.ndarray, cell_consumption: dict[str, np.ndarray], dt: float):
         """Update all fields based on diffusion and cell consumption"""
         # Update oxygen (fast diffusion, high consumption)
         self.oxygen_field = self.diffuse_field(
@@ -367,12 +361,12 @@ class TumorSimulator:
         self.growth_model = growth_model
 
         # Cell population
-        self.cells: List[CancerCell] = []
+        self.cells: list[CancerCell] = []
         self.next_cell_id = 0
 
         # Microenvironment
         self.microenvironment = TumorMicroenvironment()
-        self.field_overrides: Dict[str, float] = {}
+        self.field_overrides: dict[str, float] = {}
         self.dead_cell_retention_hours = 24.0
 
         # Growth parameters (from literature)
@@ -398,7 +392,7 @@ class TumorSimulator:
         # Initialize cells
         self._initialize_tumor(initial_cells)
 
-    def apply_field_overrides(self, field_values: Dict[str, float]):
+    def apply_field_overrides(self, field_values: dict[str, float]):
         """
         Use global field overrides supplied by higher-level controllers (e.g.,
         TenFieldController) so that each cell samples the conditioned
@@ -492,7 +486,7 @@ class TumorSimulator:
 
         return volume_mm3
 
-    def step(self, dt: Optional[float] = None):
+    def step(self, dt: float | None = None):
         """
         Advance simulation by one time step
 
@@ -514,43 +508,58 @@ class TumorSimulator:
         # Optimization: Pre-resolve field sources
         ph_src = self.field_overrides.get('ph_level')
         ph_is_scalar = ph_src is not None
-        if not ph_is_scalar: ph_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['ph_level'])
+        if not ph_is_scalar:
+            ph_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['ph_level'])
 
         ox_src = self.field_overrides.get('oxygen_percent')
         ox_is_scalar = ox_src is not None
-        if not ox_is_scalar: ox_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['oxygen_percent'])
+        if not ox_is_scalar:
+            ox_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['oxygen_percent'])
 
         gl_src = self.field_overrides.get('glucose_mm')
         gl_is_scalar = gl_src is not None
-        if not gl_is_scalar: gl_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['glucose_mm'])
+        if not gl_is_scalar:
+            gl_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['glucose_mm'])
 
         la_src = self.field_overrides.get('lactate_mm')
         la_is_scalar = la_src is not None
-        if not la_is_scalar: la_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['lactate_mm'])
+        if not la_is_scalar:
+            la_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['lactate_mm'])
 
         tp_src = self.field_overrides.get('temperature_c')
         tp_is_scalar = tp_src is not None
-        if not tp_is_scalar: tp_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['temperature_c'])
+        if not tp_is_scalar:
+            tp_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['temperature_c'])
 
         rs_src = self.field_overrides.get('ros_um')
         rs_is_scalar = rs_src is not None
-        if not rs_is_scalar: rs_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['ros_um'])
+        if not rs_is_scalar:
+            rs_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['ros_um'])
 
         gm_src = self.field_overrides.get('glutamine_mm')
         gm_is_scalar = gm_src is not None
-        if not gm_is_scalar: gm_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['glutamine_mm'])
+        if not gm_is_scalar:
+            gm_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['glutamine_mm'])
 
         ca_src = self.field_overrides.get('calcium_um')
         ca_is_scalar = ca_src is not None
-        if not ca_is_scalar: ca_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['calcium_um'])
+        if not ca_is_scalar:
+            ca_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['calcium_um'])
 
         at_src = self.field_overrides.get('atp_adp_ratio')
         at_is_scalar = at_src is not None
-        if not at_is_scalar: at_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['atp_adp_ratio'])
+        if not at_is_scalar:
+            at_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['atp_adp_ratio'])
 
         cy_src = self.field_overrides.get('cytokine_pg_ml')
         cy_is_scalar = cy_src is not None
-        if not cy_is_scalar: cy_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['cytokine_pg_ml'])
+        if not cy_is_scalar:
+            cy_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['cytokine_pg_ml'])
+
+        # Optimization: Pre-convert vessels to numpy array for vectorized distance calculation
+        has_vessels = bool(self.microenvironment.vessel_locations)
+        if has_vessels:
+            vessels_arr = np.array(self.microenvironment.vessel_locations)
 
         for cell in self.cells:
             if not cell.is_alive:
@@ -578,12 +587,9 @@ class TumorSimulator:
             cell.cytokine_exposure = cy_src if cy_is_scalar else cy_src[g_idx]
 
             # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
+            if has_vessels:
+                distances = np.linalg.norm(vessels_arr - cell.position, axis=1)
+                min_distance = np.min(distances)
                 # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
                 cell.nutrient_access = np.exp(-min_distance / 150.0)
 
@@ -649,7 +655,7 @@ class TumorSimulator:
             if progress_callback and i % 10 == 0:
                 progress_callback(self.time, self.get_alive_count())
 
-    def get_statistics(self) -> Dict:
+    def get_statistics(self) -> dict:
         """Get current tumor statistics"""
         alive_cells = [c for c in self.cells if c.is_alive]
 
