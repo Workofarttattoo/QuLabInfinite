@@ -5,6 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuLab Infinite - Active Labs Console</title>
     <style>
+        .gallery-section, .mcp-guide {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            background: rgba(13, 21, 21, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .gallery-caption {
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .code-block {
+            background: #050a0a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .code-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: monospace;
+            font-size: 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-block pre {
+            padding: 1.5rem;
+            margin: 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #00f0ff;
+        }
+
         :root {
             color-scheme: dark;
         }
@@ -321,7 +391,54 @@
             </main>
         </section>
 
-        <footer>
+
+        <section class="gallery-section">
+            <h2 class="hero-title text-center">Tactical GUI Gallery</h2>
+            <p class="hero-subtitle text-center mb-5">High-fidelity interfaces powered by QuLab’s real-world scientific engine.</p>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/aida/ADBb0uhpfPfNU2gUAUjKZCaG3bGgOdna_HAKgQG-FikrDaV7ZBrGvraTR__v-U4w7HPlLeZTrfZrcNjpREvNITejBL8gO4YOLVE86CodRy6kVD7ZUCV05_PfkBr7pZcDOdNzbBbDHolMF3U4qbIePOglbELwxw7gBGM4o5y1J7wmDyKjWh3uPerfw3TNJCuRj3W2jShoEWjoazVQYt7sLHfuJjRx5jeA2aEtBqHwpGNirJZYv2kctMT9QkA35g" alt="Tactical Intelligence Unit">
+                    <div class="gallery-caption">Tactical Intelligence Unit</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/aida/ADBb0uiJxKOJ56hqKB0wWXZ0zqb8o4Gh9HNZcbf6UHkgAq60IKMOzScA4T3ASZmMfUQKNmJbfeg0X7649bhtu83EcGDbWubAhz_aIe-dZHGfFZt_vLIOVCZhZtB5BsYbN7e5rYsKx5D0WubZ-2BodQs9iGjxPtbfUK_SPHpSY4VDT_O3D_HW2jSjyEOfC9MDjp0g-u0UJzIUPw6EUQgg7gRQjl9K7JVy13e55I4U8m5qbPStfemA04TBT2ANbw" alt="Global Lab Dashboard">
+                    <div class="gallery-caption">Global Lab Dashboard</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/aida/ADBb0uib3o1DXeWzHLbLsep_Ks7j2A4OvcPcIFJRcgrZtU5rrgLHK9qORqAtAEHw1GR1-ya1mLUDwr9YXFXSaOzus66ks0Kh0N0WbymWUsaUKiJumSMJLVSwP_K0aVYxttsPWX7XQ5YBRVCudkwWW9Jjcht3atwMCEU7wOSbUSUGyNN84Ner9XwvOURNuwQQdKl7xW_0hGgIKkFEqbuyYQ-Y0ZSW5fhQ7Jh7SA1IpI_jk8LjVzipMhqEkaoNUqY" alt="Genomics Lab Visualizer">
+                    <div class="gallery-caption">Genomics Lab Visualizer</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://lh3.googleusercontent.com/aida/ADBb0ujDCLckfnXi8b_Bn5ML20dXCecy0pppqDW94papjwjQVU0P-sW8gknS9iW0SKKJZ337jkaqgThqvtQblCaWJ_n32QVNxSJD38CDMY4qxC3yi7J30C0HncvigCcBhT3zrttlURBwsPL-_zd7NtOr09J2lM3InECVFMBZ9NvOT-Zgo89CxwASQi6XNk901yXykOX2OYY4RWSB9a73RGCPIaeHtONG9jwM0f3c50KrMxBBXSm1mW5cnRnC2EM" alt="Unified Medical Directory">
+                    <div class="gallery-caption">Unified Medical Directory</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mcp-guide">
+            <h2 class="hero-title text-center">Developer Integration</h2>
+            <p class="hero-subtitle text-center mb-5">Connect to QuLab Infinite via the Model Context Protocol (MCP).</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span>mcp.json</span>
+                </div>
+                <pre><code>{
+  "mcpServers": {
+    "qulab": {
+      "command": "python3",
+      "args": ["unified_mcp_server.py"],
+      "env": {
+        "PORT": "8102"
+      }
+    }
+  }
+}</code></pre>
+            </div>
+            <p class="text-center mt-4">The MCP server provides access to 100+ scientific labs for real-world simulation and research.</p>
+        </section>
+<footer>
             <p>© 2025 QuLab Infinite. Built for the future of science.</p>
         </footer>
     </div>
