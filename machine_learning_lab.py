@@ -581,23 +581,13 @@ class MachineLearningLab:
         X_poly = np.ones((n_samples, n_output_features + 1))
 
         # Generate polynomial features
+        from itertools import combinations_with_replacement
         idx = 1
         for d in range(1, degree + 1):
-            # Generate all combinations of features for degree d
-            def generate_terms(features, remaining_degree, start_idx=0):
-                if remaining_degree == 0:
-                    return [np.prod([X[:, f] for f in features], axis=0)]
-
-                terms = []
-                for i in range(start_idx, n_features):
-                    new_features = features + [i]
-                    terms.extend(generate_terms(new_features, remaining_degree - 1, i))
-                return terms
-
-            terms = generate_terms([], d)
-            for term in terms:
+            # Optimization: Use itertools and vectorized numpy slicing instead of recursive generator
+            for combo in combinations_with_replacement(range(n_features), d):
                 if idx < X_poly.shape[1]:
-                    X_poly[:, idx] = term
+                    X_poly[:, idx] = np.prod(X[:, combo], axis=1)
                     idx += 1
 
         return X_poly
