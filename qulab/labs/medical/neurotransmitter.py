@@ -486,13 +486,15 @@ class NeurotransmitterSimulator:
             degradation = state.degradation_rate * state.concentration * dt
 
             state.concentration += synthesis - reuptake - degradation
-            state.concentration = max(0.0, state.concentration)
+            state.concentration = state.concentration if state.concentration > 0.0 else 0.0  # bolt: ternary min/max to avoid call overhead
 
             # Receptor occupancy (simplified binding model)
             km = 0.5  # Half-maximal concentration
             state.receptor_occupancy = state.concentration / (state.concentration + km)
             state.receptor_occupancy *= state.receptor_sensitivity
-            state.receptor_occupancy = min(1.0, max(0.0, state.receptor_occupancy))
+            occ = state.receptor_occupancy
+            occ = occ if occ > 0.0 else 0.0
+            state.receptor_occupancy = 1.0 if occ > 1.0 else occ  # bolt: ternary min/max to avoid call overhead
 
     def get_symptom_score(self, condition: ClinicalCondition) -> float:
         """Calculate current symptom severity (0-10)."""
@@ -509,14 +511,14 @@ class NeurotransmitterSimulator:
 
             if target_deviation > 0:
                 correction = 1.0 - (current_deviation / target_deviation)
-                total_correction += max(0.0, correction)
+                total_correction += correction if correction > 0.0 else 0.0  # bolt: ternary min/max to avoid call overhead
 
         # Average correction across neurotransmitters
         avg_correction = total_correction / len(condition.neurotransmitter_imbalances)
 
         # Symptom score decreases with correction
         symptom_score = condition.symptom_severity * (1.0 - avg_correction)
-        return max(0.0, symptom_score)
+        return symptom_score if symptom_score > 0.0 else 0.0  # bolt: ternary min/max to avoid call overhead
 
     def get_state_summary(self) -> Dict:
         """Get summary of current neurotransmitter states."""
