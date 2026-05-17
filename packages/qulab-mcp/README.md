@@ -61,25 +61,87 @@ Restart Claude. QuLab tools are now available.
 
 ---
 
-## Available Tools
+## Available Tools (40)
 
-| Tool | Domain | Description |
-|------|--------|-------------|
-| `quantum_bell_state` | Quantum | Prepare maximally entangled Bell states |
-| `quantum_grovers_search` | Quantum | Grover's search on n-qubit space |
-| `quantum_teleportation` | Quantum | Full teleportation protocol with fidelity |
-| `particle_cross_section` | Particle Physics | QED/QCD cross-sections (e⁺e⁻, pp) |
-| `particle_breit_wigner` | Particle Physics | Resonance cross-section (Z peak, Higgs, …) |
-| `particle_decay_rate` | Particle Physics | Partial decay rates and branching ratios |
-| `astro_lane_emden` | Astrophysics | Polytropic stellar structure (Chandrasekhar) |
-| `astro_cepheid_luminosity` | Astrophysics | Leavitt Law period-luminosity relation |
-| `astro_schwarzschild` | Astrophysics | Schwarzschild metric, redshift, escape velocity |
-| `thermo_equilibrium_constant` | Thermodynamics | K from ΔG° at temperature T |
-| `thermo_clausius_clapeyron` | Thermodynamics | Vapour pressure vs temperature |
-| `genomics_align` | Genomics | NW global / SW local sequence alignment |
-| `genomics_call_variants` | Genomics | SNV and indel calling from reads |
-| `pharma_pk_model` | Pharmacology | One-compartment PK with Cmax, AUC, t½ |
-| `pharma_emax_model` | Pharmacology | Hill/Emax PD model |
+### Quantum Computing
+| Tool | Description |
+|------|-------------|
+| `quantum_bell_state` | Prepare maximally entangled Bell states |
+| `quantum_grovers_search` | Grover's search on n-qubit space |
+| `quantum_teleportation` | Full teleportation protocol with fidelity |
+
+### Particle Physics
+| Tool | Description |
+|------|-------------|
+| `particle_cross_section` | QED/QCD cross-sections (e⁺e⁻, pp) |
+| `particle_breit_wigner` | Resonance cross-section (Z peak, Higgs, …) |
+| `particle_decay_rate` | Partial decay rates and branching ratios |
+
+### Astrophysics
+| Tool | Description |
+|------|-------------|
+| `astro_lane_emden` | Polytropic stellar structure (Chandrasekhar) |
+| `astro_cepheid_luminosity` | Leavitt Law period-luminosity relation |
+| `astro_schwarzschild` | Schwarzschild metric, redshift, escape velocity |
+
+### Thermodynamics
+| Tool | Description |
+|------|-------------|
+| `thermo_equilibrium_constant` | K from ΔG° at temperature T |
+| `thermo_clausius_clapeyron` | Vapour pressure vs temperature |
+
+### Genomics
+| Tool | Description |
+|------|-------------|
+| `genomics_align` | NW global / SW local sequence alignment |
+| `genomics_call_variants` | SNV and indel calling from reads |
+
+### Pharmacology
+| Tool | Description |
+|------|-------------|
+| `pharma_pk_model` | One-compartment PK with Cmax, AUC, t½ |
+| `pharma_emax_model` | Hill/Emax PD model |
+
+### Chemistry
+| Tool | Description |
+|------|-------------|
+| `chem_molecular_energy` | MM / AM1 / DFT molecular energy from atom coordinates |
+| `chem_lattice_energy` | Born-Haber lattice energy (Madelung) |
+| `chem_band_gap` | Semiconductor band gap from DFT band edges |
+| `chem_crystal_field` | Crystal field splitting Δ for transition metal complexes |
+| `chem_redox_potential` | Electrochemical cell potential from standard electrode potentials |
+| `chem_activation_energy` | Arrhenius k₂/k₁ ratio from Ea and temperatures |
+| `chem_nernst_potential` | Nernst equation E = E° – (RT/nF) ln(Q) |
+| `chem_kinetic_rms_velocity` | Kinetic theory v_rms = √(3RT/M) |
+| `chem_carnot_efficiency` | Carnot cycle efficiency = 1 – T_cold/T_hot |
+| `chem_catalysis_simulate` | Langmuir-Hinshelwood catalytic reaction dynamics |
+| `chem_polymer_properties` | Random-walk end-to-end distance, dielectric screening |
+
+### Materials Science (1 619-material database)
+| Tool | Description |
+|------|-------------|
+| `materials_lookup` | Look up a material by name |
+| `materials_search` | Filter by category, text, density, strength, modulus |
+| `materials_categories` | List all 18 categories and statistics |
+| `materials_design` | Voigt bulk/shear/Young's modulus from elastic constant matrix |
+
+### Nanotechnology
+| Tool | Description |
+|------|-------------|
+| `nano_quantum_dot_bandgap` | Brus equation: quantum confinement bandgap |
+| `nano_surface_area` | BET specific surface area for nanoparticles |
+| `nano_melting_point_depression` | Gibbs-Thomson melting point depression |
+| `nano_ostwald_ripening` | Nanoparticle coarsening simulation |
+| `nano_drug_release` | Korsmeyer-Peppas controlled drug release |
+
+### Semiconductor Devices
+| Tool | Description |
+|------|-------------|
+| `semi_mosfet_iv` | MOSFET I-V characteristic curves |
+| `semi_threshold_voltage` | Threshold voltage from oxide thickness and doping |
+| `semi_pn_junction` | p-n junction built-in potential and depletion width |
+| `semi_quantum_well` | Quantum well confined energy levels |
+| `semi_diffusion_profile` | Dopant diffusion profile (Fick's law) |
 
 ---
 

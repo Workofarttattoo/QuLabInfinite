@@ -25,6 +25,13 @@ from mcp.types import (
     Tool,
 )
 
+# Chemistry & Materials tools (25 additional tools)
+try:
+    from qulab_mcp.tools.chemistry_materials import TOOLS as _CHEM_TOOLS, HANDLERS as _CHEM_HANDLERS
+except Exception:
+    _CHEM_TOOLS = []
+    _CHEM_HANDLERS = {}
+
 # ---------------------------------------------------------------------------
 # Lab path bootstrap — works whether installed via pip or run from the repo
 # ---------------------------------------------------------------------------
@@ -361,6 +368,9 @@ TOOLS: list[Tool] = [
     ),
 ]
 
+# Extend with chemistry & materials tools
+TOOLS.extend(_CHEM_TOOLS)
+
 
 # ---------------------------------------------------------------------------
 # Handler implementations
@@ -616,7 +626,7 @@ async def _handle_pharma_emax(args: dict) -> CallToolResult:
 # Dispatch table
 # ---------------------------------------------------------------------------
 
-_HANDLERS = {
+_HANDLERS: dict[str, Any] = {
     "quantum_bell_state": _handle_quantum_bell_state,
     "quantum_grovers_search": _handle_quantum_grovers,
     "quantum_teleportation": _handle_quantum_teleportation,
@@ -632,6 +642,7 @@ _HANDLERS = {
     "genomics_call_variants": _handle_genomics_variants,
     "pharma_pk_model": _handle_pharma_pk,
     "pharma_emax_model": _handle_pharma_emax,
+    **_CHEM_HANDLERS,
 }
 
 
