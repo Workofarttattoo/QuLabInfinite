@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-02-23 - Vectorized Distance Calculations in Agent Simulations
+**Learning:** In heavily iterated agent-based simulations (e.g., cell to vessel distances), using Python list comprehensions with sequential `np.linalg.norm` calculations inside the tight loop incurs significant Python iteration and call-stack overhead.
+**Action:** Always pre-convert reference lists (like vessel locations) into a NumPy array outside the main loop and use `np.linalg.norm(array - target_position, axis=1)` to vectorize the distance calculation and eliminate overhead.
