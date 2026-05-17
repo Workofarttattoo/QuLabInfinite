@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import importlib
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -678,3 +679,69 @@ async def run() -> None:
             write_stream,
             server.create_initialization_options(),
         )
+
+
+async def run_http(host: str = "127.0.0.1", port: int = 8000) -> None:
+    """Start an HTTP+SSE server for remote MCP access.
+
+    Set QULAB_API_KEY env var to require a Bearer token on every request.
+    Without it the endpoint is open (suitable for local network / dev use).
+
+    Pay-per-use architecture note:
+      Place a billing proxy in front (e.g. FastAPI + Stripe):
+        1. Validate token → look up account
+        2. Forward request to this server
+        3. On successful tool call response → debit usage (per-tool pricing)
+      This server then only accepts connections from 127.0.0.1 (not exposed
+      directly), and the proxy handles auth + metering.
+    """
+    from mcp.server.fastmcp import FastMCP
+    from starlette.middleware.base import BaseHTTPMiddleware
+    from starlette.requests import Request
+    from starlette.responses import JSONResponse
+
+    api_key = os.environ.get("QULAB_API_KEY")
+
+    fmcp = FastMCP(
+        name="qulab-infinite",
+        host=host,
+        port=port,
+    )
+
+    # Re-register all tools onto the FastMCP instance
+    for tool in TOOLS:
+        handler = _HANDLERS[tool.name]
+        # FastMCP needs a regular async callable; wrap to preserve name
+        def _make_wrapper(h, t):
+            async def _wrapper(**kwargs):
+                result = await h(kwargs)
+                # Return raw text so FastMCP passes it through
+                return result.content[0].text if result.content else "{}"
+            _wrapper.__name__ = t.name
+            return _wrapper
+        fmcp.add_tool(_make_wrapper(handler, tool), name=tool.name,
+                      description=tool.description)
+
+    app = fmcp.streamable_http_app()
+
+    if api_key:
+        class _KeyMiddleware(BaseHTTPMiddleware):
+            async def dispatch(self, request: Request, call_next):
+                auth = request.headers.get("Authorization", "")
+                if not auth.startswith("Bearer ") or auth[7:] != api_key:
+                    return JSONResponse({"error": "Unauthorized"}, status_code=401)
+                return await call_next(request)
+        from starlette.middleware import Middleware
+        import uvicorn
+        from starlette.applications import Starlette
+        wrapped = Starlette(routes=app.routes,
+                            middleware=[Middleware(_KeyMiddleware)])
+        print(f"QuLab MCP server (HTTP+SSE) on http://{host}:{port}/mcp  [API key required]")
+        config = uvicorn.Config(wrapped, host=host, port=port, log_level="info")
+    else:
+        import uvicorn
+        print(f"QuLab MCP server (HTTP+SSE) on http://{host}:{port}/mcp  [no auth]")
+        config = uvicorn.Config(app, host=host, port=port, log_level="info")
+
+    server = uvicorn.Server(config)
+    await server.serve()

@@ -408,6 +408,43 @@ TOOLS: list[Tool] = [
         },
     ),
 
+    Tool(
+        name="materials_recommend",
+        description=(
+            "Design-for-manufacture material selector. Given target performance "
+            "requirements, returns ranked candidate materials with a fitness score. "
+            "All numeric constraints are optional — omit any you don't care about. "
+            "sort_by: property to rank by ('fitness'|'cost_per_kg'|'density'|"
+            "'tensile_strength'|'thermal_conductivity'|'melting_point'). "
+            "Example: find lightweight, high-strength metals for aerospace."
+        ),
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "category": {"type": "string",
+                             "description": "e.g. 'metal', 'ceramic', 'polymer', 'composite'"},
+                "min_tensile_strength_MPa": {"type": "number"},
+                "min_yield_strength_MPa": {"type": "number"},
+                "max_density_kg_m3": {"type": "number"},
+                "min_melting_point_K": {"type": "number"},
+                "max_melting_point_K": {"type": "number"},
+                "min_thermal_conductivity": {"type": "number",
+                                             "description": "W/(m·K)"},
+                "max_electrical_resistivity": {"type": "number",
+                                               "description": "Ω·m"},
+                "min_fracture_toughness": {"type": "number",
+                                           "description": "MPa·√m"},
+                "max_cost_per_kg": {"type": "number"},
+                "corrosion_resistance": {"type": "string",
+                                         "description": "'poor'|'moderate'|'good'|'excellent'"},
+                "availability": {"type": "string",
+                                 "description": "'common'|'moderate'|'rare'"},
+                "sort_by": {"type": "string", "default": "fitness"},
+                "max_results": {"type": "integer", "default": 10},
+            },
+        },
+    ),
+
     # ── Nanotechnology ────────────────────────────────────────────────────────
     Tool(
         name="nano_quantum_dot_bandgap",
@@ -909,6 +946,114 @@ async def _handle_materials_design(args: dict) -> CallToolResult:
     })
 
 
+async def _handle_materials_recommend(args: dict) -> CallToolResult:
+    db = _get_materials_db()
+    if db is None:
+        return _err("Materials database not available.")
+
+    limit = min(args.get("max_results", 10), 50)
+    sort_by = args.get("sort_by", "fitness")
+
+    # Pull all materials (or filter by category first for speed)
+    search_kwargs: dict = {}
+    if args.get("category"):
+        search_kwargs["category"] = args["category"]
+    if args.get("corrosion_resistance"):
+        search_kwargs["corrosion_resistance"] = args["corrosion_resistance"]
+    if args.get("availability"):
+        search_kwargs["availability"] = args["availability"]
+    if args.get("max_cost_per_kg") is not None:
+        search_kwargs["max_cost"] = args["max_cost_per_kg"]
+
+    candidates = db.search_materials(**search_kwargs)
+
+    constraints = {
+        "min_tensile_strength_MPa": ("tensile_strength", "ge"),
+        "min_yield_strength_MPa": ("yield_strength", "ge"),
+        "max_density_kg_m3": ("density", "le"),
+        "min_melting_point_K": ("melting_point", "ge"),
+        "max_melting_point_K": ("melting_point", "le"),
+        "min_thermal_conductivity": ("thermal_conductivity", "ge"),
+        "max_electrical_resistivity": ("electrical_resistivity", "le"),
+        "min_fracture_toughness": ("fracture_toughness", "ge"),
+    }
+
+    def _passes(mat) -> bool:
+        for arg_key, (attr, op) in constraints.items():
+            limit_val = args.get(arg_key)
+            if limit_val is None:
+                continue
+            mat_val = getattr(mat, attr, None)
+            if mat_val is None or mat_val == 0:
+                return False
+            if op == "ge" and mat_val < limit_val:
+                return False
+            if op == "le" and mat_val > limit_val:
+                return False
+        return True
+
+    def _fitness(mat) -> float:
+        score = 0.0
+        n = 0
+        def _norm_ge(val, target):
+            if val and target and target > 0:
+                return min(val / target, 2.0) / 2.0
+            return 0.5
+        if args.get("min_tensile_strength_MPa") and mat.tensile_strength:
+            score += _norm_ge(mat.tensile_strength, args["min_tensile_strength_MPa"]); n += 1
+        if args.get("max_density_kg_m3") and mat.density:
+            score += _norm_ge(args["max_density_kg_m3"], mat.density); n += 1
+        if args.get("min_thermal_conductivity") and mat.thermal_conductivity:
+            score += _norm_ge(mat.thermal_conductivity, args["min_thermal_conductivity"]); n += 1
+        if args.get("max_cost_per_kg") and mat.cost_per_kg:
+            score += _norm_ge(args["max_cost_per_kg"], mat.cost_per_kg); n += 1
+        return score / max(n, 1)
+
+    filtered = [m for m in candidates if _passes(m)]
+
+    if sort_by == "fitness":
+        filtered.sort(key=_fitness, reverse=True)
+    elif sort_by == "cost_per_kg":
+        filtered.sort(key=lambda m: m.cost_per_kg or 1e9)
+    elif sort_by == "density":
+        filtered.sort(key=lambda m: m.density or 1e9)
+    elif sort_by == "tensile_strength":
+        filtered.sort(key=lambda m: m.tensile_strength or 0, reverse=True)
+    elif sort_by == "thermal_conductivity":
+        filtered.sort(key=lambda m: m.thermal_conductivity or 0, reverse=True)
+    elif sort_by == "melting_point":
+        filtered.sort(key=lambda m: m.melting_point or 0, reverse=True)
+
+    results = filtered[:limit]
+
+    def _mat_summary(m):
+        return {
+            "name": m.name,
+            "category": m.category,
+            "subcategory": m.subcategory,
+            "fitness_score": round(_fitness(m), 3),
+            "density_kg_m3": m.density,
+            "tensile_strength_MPa": m.tensile_strength,
+            "yield_strength_MPa": m.yield_strength,
+            "youngs_modulus_GPa": m.youngs_modulus,
+            "fracture_toughness_MPa_sqrtm": m.fracture_toughness,
+            "melting_point_K": m.melting_point,
+            "thermal_conductivity_W_mK": m.thermal_conductivity,
+            "electrical_resistivity_ohm_m": m.electrical_resistivity,
+            "corrosion_resistance": m.corrosion_resistance,
+            "cost_per_kg_USD": m.cost_per_kg,
+            "availability": m.availability,
+        }
+
+    return _ok({
+        "candidates_evaluated": len(candidates),
+        "passing_constraints": len(filtered),
+        "returned": len(results),
+        "sort_by": sort_by,
+        "materials": [_mat_summary(m) for m in results],
+    })
+
+
 # ── Nanotech handlers ─────────────────────────────────────────────────────────
 
 async def _handle_nano_qd_bandgap(args: dict) -> CallToolResult:
@@ -1086,6 +1231,7 @@ HANDLERS: dict[str, object] = {
     "materials_search":          _handle_materials_search,
     "materials_categories":      _handle_materials_categories,
     "materials_design":          _handle_materials_design,
+    "materials_recommend":       _handle_materials_recommend,
     "nano_quantum_dot_bandgap":  _handle_nano_qd_bandgap,
     "nano_surface_area":         _handle_nano_surface_area,
     "nano_melting_point_depression": _handle_nano_melting,

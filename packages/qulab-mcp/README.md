@@ -61,7 +61,57 @@ Restart Claude. QuLab tools are now available.
 
 ---
 
-## Available Tools (40)
+## Remote Access (HTTP+SSE)
+
+Run the server over HTTP so any MCP-compatible client can reach it across a
+network — no local install required on the client side.
+
+```bash
+# Install with HTTP extras
+pip install "qulab-mcp[http]"
+
+# Local network only (safe default)
+qulab-mcp --http
+
+# Exposed on all interfaces (put behind a reverse proxy in production)
+qulab-mcp --http --host 0.0.0.0 --port 8000
+
+# With API key authentication
+QULAB_API_KEY=your-secret-key qulab-mcp --http --host 0.0.0.0
+```
+
+Connect any MCP client to: `http://<host>:8000/mcp`
+
+### Adding to Claude Desktop via HTTP
+
+```json
+{
+  "mcpServers": {
+    "qulab-remote": {
+      "url": "http://your-server:8000/mcp"
+    }
+  }
+}
+```
+
+### Pay-per-Use Architecture
+
+The HTTP mode is designed to sit behind a billing proxy:
+
+```
+Client ──► Billing Proxy (FastAPI + Stripe/Paddle)
+              ├── validate API token → look up account
+              ├── forward to qulab-mcp on 127.0.0.1:8000
+              └── on success response → debit usage (per-tool pricing)
+```
+
+Run `qulab-mcp --http --host 127.0.0.1` (not exposed publicly) and let the
+proxy handle auth + metering. Each tool call is independently billed and
+can have per-tool pricing (e.g. nano/quantum tools cost more than lookups).
+
+---
+
+## Available Tools (41)
 
 ### Quantum Computing
 | Tool | Description |
@@ -120,10 +170,11 @@ Restart Claude. QuLab tools are now available.
 ### Materials Science (1 619-material database)
 | Tool | Description |
 |------|-------------|
-| `materials_lookup` | Look up a material by name |
+| `materials_lookup` | Look up a material by name (60+ properties returned) |
 | `materials_search` | Filter by category, text, density, strength, modulus |
 | `materials_categories` | List all 18 categories and statistics |
 | `materials_design` | Voigt bulk/shear/Young's modulus from elastic constant matrix |
+| `materials_recommend` | **Design-for-manufacture selector** — rank materials by strength, weight, cost, operating temp, corrosion resistance |
 
 ### Nanotechnology
 | Tool | Description |
