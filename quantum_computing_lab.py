@@ -130,7 +130,10 @@ class QuantumComputingLab:
             Full operator matrix
         """
         dim = 2**n_total
-        op = np.eye(dim, dtype=complex)
+        # Must start from zeros, not identity. Starting from eye leaves stale
+        # diagonal entries for gates whose diagonal is zero (e.g. X, Y, SWAP),
+        # corrupting the operator and producing wrong results.
+        op = np.zeros((dim, dim), dtype=complex)
 
         # Get all basis states
         for state_idx in range(dim):
@@ -141,17 +144,16 @@ class QuantumComputingLab:
             target_vals = ''.join(state_binary[q] for q in qubits)
             target_idx = int(target_vals, 2)
 
-            # Apply gate to this subspace
+            # Apply gate to this subspace (iterate ALL new_target_idx, not just non-zero,
+            # so zero entries also correctly zero out the operator column)
             for new_target_idx in range(2**len(qubits)):
-                if gate[new_target_idx, target_idx] != 0:
-                    # Build new state
-                    new_binary = list(state_binary)
-                    new_target_binary = format(new_target_idx, f'0{len(qubits)}b')
-                    for i, q in enumerate(qubits):
-                        new_binary[q] = new_target_binary[i]
-                    new_state_idx = int(''.join(new_binary), 2)
-
-                    op[new_state_idx, state_idx] = gate[new_target_idx, target_idx]
+                # Build new state
+                new_binary = list(state_binary)
+                new_target_binary = format(new_target_idx, f'0{len(qubits)}b')
+                for i, q in enumerate(qubits):
+                    new_binary[q] = new_target_binary[i]
+                new_state_idx = int(''.join(new_binary), 2)
+                op[new_state_idx, state_idx] = gate[new_target_idx, target_idx]
 
         return op
 
@@ -504,20 +506,30 @@ class QuantumComputingLab:
 
         return 1 if prob_different > 0.5 else 0
 
-    def calculate_fidelity(self, state1: np.ndarray, state2: np.ndarray) -> float:
+    def calculate_fidelity(self, state1, state2) -> float:
         """
         Calculate fidelity between two quantum states.
 
+        Accepts plain state vectors or the (measurement_str, state_vector) tuple
+        returned by quantum_teleportation.
+
         Args:
-            state1: First quantum state
-            state2: Second quantum state
+            state1: Quantum state vector, or (measurement, vector) tuple
+            state2: Quantum state vector, or (measurement, vector) tuple
 
         Returns:
             Fidelity (0 to 1)
         """
+        # Unwrap teleportation tuples: (measurement_str, state_vector)
+        if isinstance(state1, tuple):
+            state1 = state1[1]
+        if isinstance(state2, tuple):
+            state2 = state2[1]
+        s1 = np.asarray(state1, dtype=complex).ravel()
+        s2 = np.asarray(state2, dtype=complex).ravel()
         # For pure states, fidelity is |<ψ1|ψ2>|²
-        overlap = np.vdot(state1, state2)
-        return abs(overlap)**2
+        overlap = np.vdot(s1, s2)
+        return float(abs(overlap)**2)
 
     def calculate_entanglement_entropy(self, state: np.ndarray,
                                       partition: List[int]) -> float:

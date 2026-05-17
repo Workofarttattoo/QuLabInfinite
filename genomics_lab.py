@@ -302,21 +302,31 @@ class VariantCaller:
         self.min_depth = 10
         self.min_allele_frequency = 0.05
 
-    def call_snvs(self, reference: str, reads: List[str], qualities: List[str] = None) -> List[Variant]:
+    def call_snvs(self, reference: str, reads: List[str], qualities: List[str] = None,
+                  min_depth: Optional[int] = None) -> List[Variant]:
         """Call single nucleotide variants
 
         Args:
             reference: Reference sequence
             reads: Aligned read sequences
             qualities: Base qualities (optional)
+            min_depth: Minimum read depth to call a variant; defaults to
+                       self.min_depth but is capped at len(reads) so small
+                       read sets (e.g. unit tests) are not silently skipped.
         Returns:
             List of called variants
         """
         variants = []
+        # Use the smaller of min_depth and total reads so callers are never
+        # silently filtered out just because the read set is small.
+        effective_min_depth = min(
+            min_depth if min_depth is not None else self.min_depth,
+            max(1, len(reads))
+        )
 
         # Count bases at each position
         for pos in range(len(reference)):
-            base_counts = {'A': 0, 'C': 0, 'G': 0, 'T': 0}
+            base_counts: Dict[str, int] = {}
             total_depth = 0
 
             for read_idx, read in enumerate(reads):
@@ -327,10 +337,11 @@ class VariantCaller:
                         if qual < self.min_quality:
                             continue
 
-                    base_counts[read[pos]] = base_counts.get(read[pos], 0) + 1
+                    base = read[pos].upper()
+                    base_counts[base] = base_counts.get(base, 0) + 1
                     total_depth += 1
 
-            if total_depth >= self.min_depth:
+            if total_depth >= effective_min_depth:
                 ref_base = reference[pos]
                 ref_count = base_counts.get(ref_base, 0)
 

@@ -83,7 +83,13 @@ class FourVector:
     def invariant_mass(self) -> float:
         """Calculate invariant mass."""
         m2 = self.dot(self)
-        return np.sqrt(max(0, m2))
+        if m2 < 0:
+            raise ValueError(
+                f"Tachyonic four-vector: invariant mass² = {m2:.4f} GeV² < 0 "
+                "(E² < |p|²). This violates special relativity — check your "
+                "energy and momentum values."
+            )
+        return np.sqrt(m2)
 
     def boost(self, beta_x: float, beta_y: float, beta_z: float) -> 'FourVector':
         """Lorentz boost transformation."""
@@ -651,6 +657,34 @@ class ParticlePhysicsLab:
         """
         L = n1 * n2 * f / A
         return L * 1e-4  # Convert to cm⁻²s⁻¹
+
+    def breit_wigner_cross_section(self, E_cm: float, M: float, Gamma: float,
+                                    J_resonance: float, J1: float, J2: float,
+                                    partial_width_in: float,
+                                    partial_width_out: float) -> float:
+        """
+        Non-relativistic Breit-Wigner resonance cross-section.
+
+        σ(E) = π/k² · (2J+1)/((2J₁+1)(2J₂+1)) · Γ_in·Γ_out / ((E-M)²+(Γ/2)²)
+
+        Args:
+            E_cm:             Center-of-mass energy (GeV)
+            M:                Resonance mass (GeV)
+            Gamma:            Total decay width (GeV)
+            J_resonance:      Spin of the resonance
+            J1, J2:           Spins of initial-state particles
+            partial_width_in: Partial width into the initial channel (GeV)
+            partial_width_out:Partial width into the final channel (GeV)
+
+        Returns:
+            Cross-section in GeV⁻² (multiply by 0.3894 to get mb,
+            or by 3.894e5 to get pb, or by 3.894e8 to get fb)
+        """
+        k2 = (E_cm / 2) ** 2  # k² ≈ (E_cm/2)² for massless/light beam particles
+        spin_factor = (2 * J_resonance + 1) / ((2 * J1 + 1) * (2 * J2 + 1))
+        denominator = (E_cm - M) ** 2 + (Gamma / 2) ** 2
+        sigma_GeV2 = (np.pi / k2) * spin_factor * (partial_width_in * partial_width_out) / denominator
+        return sigma_GeV2
 
 
 def run_demo():

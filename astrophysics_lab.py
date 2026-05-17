@@ -47,11 +47,12 @@ class AstrophysicsLab:
         Returns:
             Dictionary with xi, theta, and derivatives
         """
+        # scipy.solve_ivp uses func(t, y); odeint uses func(y, t) — use solve_ivp
         def lane_emden_ode(xi, y):
             theta, dtheta = y
             if xi < 1e-10:  # Handle singularity at origin
                 return [dtheta, -theta**n / 3.0]
-            return [dtheta, -(2.0/xi) * dtheta - theta**n]
+            return [dtheta, -(2.0/xi) * dtheta - max(theta, 0)**n]
 
         # Initial conditions: θ(0) = 1, θ'(0) = 0
         xi = np.linspace(1e-10, xi_max, 1000)
@@ -59,7 +60,11 @@ class AstrophysicsLab:
 
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore")
-            solution = integrate.odeint(lane_emden_ode, y0, xi)
+            sol = integrate.solve_ivp(
+                lane_emden_ode, [xi[0], xi[-1]], y0,
+                t_eval=xi, method='RK45', rtol=1e-8, atol=1e-10
+            )
+        solution = sol.y.T  # shape (1000, 2)
 
         # Find stellar surface (where θ = 0)
         surface_idx = np.where(solution[:, 0] <= 0)[0]
@@ -412,19 +417,23 @@ class AstrophysicsLab:
 
     def cepheid_period_luminosity(self, period_days: float, metallicity: float = 0.02) -> float:
         """
-        Cepheid variable period-luminosity relation for distance measurement
+        Cepheid variable period-luminosity relation (Leavitt Law) for distance measurement.
 
         Args:
             period_days: Pulsation period in days
-            metallicity: Metallicity (Z)
+            metallicity: Metallicity (Z), default solar (0.02)
 
         Returns:
-            Absolute magnitude
+            Luminosity in watts
         """
-        # Classical relation: M_V = -2.81 * log10(P) - 1.43
-        # With metallicity correction
+        # Classical relation (Madore & Freedman 1991 calibration):
+        # M_V = -2.81 * log10(P) - 1.43, with metallicity correction
         M_V = -2.81 * np.log10(period_days) - 1.43 + 0.2 * np.log10(metallicity / 0.02)
-        return M_V
+        # Convert absolute visual magnitude to luminosity in watts
+        # M_sun_V = 4.83; L = L_sun * 10^((M_sun_V - M_V) / 2.5)
+        M_sun_V = 4.83
+        luminosity_watts = self.L_sun * 10 ** ((M_sun_V - M_V) / 2.5)
+        return luminosity_watts
 
     def type_ia_supernova_luminosity(self, stretch_factor: float = 1.0) -> float:
         """
