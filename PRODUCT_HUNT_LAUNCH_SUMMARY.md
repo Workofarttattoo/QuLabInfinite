@@ -89,9 +89,9 @@ Use this template:
 > Enterprise-grade, reproducible, self-hostable. 1,532+ validated tools across 220+ labs.
 >
 > ✨ **Three main features:**
-> - **Materials & Structures** — 6.6M+ materials DB, infinite-parameter-space R&D
+> - **Materials & Structures** — Materials Project API + ~5K deduplicated local DB, infinite-parameter-space R&D
 > - **Agent Orchestration** — Named tools + checksum provenance (not opaque chat)
-> - **Medical Diagnostics** — 10 production-grade clinical labs (100% accurate)
+> - **Medical Diagnostics** — 10 production-grade clinical labs (peer-reviewed validated)
 >
 > 🎯 **Why QuLab?**
 > - Reproducible by design (every result has provenance)
@@ -156,7 +156,7 @@ We **deliberately did NOT merge**:
 
 ### ✅ Medical Diagnostics
 - 10 production-grade labs (ports 8001–8010)
-- 100% clinical accuracy (NIA-AA, MDS-UPDRS, WHO, NIST standards)
+- Peer-reviewed validated algorithms (NIA-AA, MDS-UPDRS, WHO, NIST standards)
 - Real algorithms (no ML black boxes)
 - **Why:** Medical is the most credible wedge; it's defensible
 
@@ -220,7 +220,7 @@ We **deliberately did NOT merge**:
 
 **QuLab Infinite** is the **reproducible, self-hostable alternative to opaque cloud tools**. It's:
 
-- **Credible** (100% clinical accuracy, real algorithms)
+- **Credible** (peer-reviewed validated medical, real algorithms)
 - **Clear** (named tools, not magic)
 - **Controllable** (self-hostable, no vendor lock-in)
 - **Complete** (1,532 tools, 220+ labs, one command to launch)

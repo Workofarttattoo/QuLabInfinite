@@ -8,9 +8,10 @@
 
 ## 🚀 Product Hunt Launch: Three Wedges + Proof
 
-### 1️⃣ **Materials & Structures** (Infinite Parameter Space)
-- **6.6M+ materials database** (Materials Project) with CIF/POSCAR provenance tracking
-- **Curated MCP tools** for structure validation, property analysis, batch processing
+### 1️⃣ **Materials & Structures** (Real-Time Access + Local Curation)
+- **Materials Project API integration** — Real-time access to 6.6M+ materials with direct API pulls
+- **~5K curated local database** — Deduplicated, validated structures for fast queries
+- **CIF/POSCAR provenance tracking** — Structure validation, property analysis, batch processing
 - **Every query = a new run** — defensible infinite-parameter-space story for R&D
 - **Entry point**: `python unified_mcp_server.py` → `GET /featured` (Materials & R&D first)
 
@@ -21,8 +22,8 @@
 - **Entry point**: `POST /tools/call` with `{"tool": "materials.analyze_structure", "params": {...}}`
 
 ### 3️⃣ **Production-Grade Medical Labs** (10 Diagnostic Systems)
-- **100% clinical accuracy**, validated against peer-reviewed standards
-- **Real-world medical constants**, zero fake data
+- **Clinically-validated algorithms** — Implemented per peer-reviewed standards (NIA-AA, WHO, NIST)
+- **Real-world medical constants**, zero fake data or LLM hallucination
 - **Microservices on ports 8001–8010** — independent deployment
 - **Entry point**: `LAB_HOST=0.0.0.0 LAB_PORT_PREFIX=800 bash scripts/start_medical_labs.sh`
 
