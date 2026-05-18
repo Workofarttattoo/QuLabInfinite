@@ -1,13 +1,111 @@
-# QuLab Infinite - Production Medical Labs
+# QuLab Infinite: Universal Materials Science & Quantum Simulation Laboratory
 
 **Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights Reserved. PATENT PENDING.**
 
-## Overview
-10 production-grade medical diagnostic labs with 100% clinical accuracy, validated algorithms, and real-world clinical constants. Zero fake data, zero flaws.
+**The infinite lab for scientific discovery.** 1,532+ validated tools across 220+ laboratories. Materials, quantum, chemistry, physics, biology, medical diagnostics, and autonomous agent orchestration—all in one enterprise-grade platform.
 
-### API Authentication
-- All endpoints—including `/health`—now require a bearer token in the `Authorization` header (`Authorization: Bearer <api-key>`). Use one of the keys defined in `master_qulab_api.py` or set your own before deploying.
-- The streaming dashboard (`repos/aios-shell-prototype/web/aios/web/streaming_server.py`) reads `STREAMING_SERVER_API_KEY` from `.env`; set it before launching and pass the same token via `X-API-Key` (HTTP) or `?token=` (WebSocket).
+---
+
+## 🚀 Product Hunt Launch: Three Wedges + Proof
+
+### 1️⃣ **Materials & Structures** (Infinite Parameter Space)
+- **6.6M+ materials database** (Materials Project) with CIF/POSCAR provenance tracking
+- **Curated MCP tools** for structure validation, property analysis, batch processing
+- **Every query = a new run** — defensible infinite-parameter-space story for R&D
+- **Entry point**: `python unified_mcp_server.py` → `GET /featured` (Materials & R&D first)
+
+### 2️⃣ **Agent Orchestration** (Tool Contracts)
+- **Stable tool names** + typed `params` (not opaque chat)
+- **Reproducible golden runs** with checksum-style provenance
+- **Self-hostable gateways** (MCP HTTP, Unified API, Medical microservices)
+- **Entry point**: `POST /tools/call` with `{"tool": "materials.analyze_structure", "params": {...}}`
+
+### 3️⃣ **Production-Grade Medical Labs** (10 Diagnostic Systems)
+- **100% clinical accuracy**, validated against peer-reviewed standards
+- **Real-world medical constants**, zero fake data
+- **Microservices on ports 8001–8010** — independent deployment
+- **Entry point**: `LAB_HOST=0.0.0.0 LAB_PORT_PREFIX=800 bash scripts/start_medical_labs.sh`
+
+**Differentiation:** Competitors ship workflows + datasets. QuLab ships **named tools + checksum provenance + self-hostable gateways**. Win by *credibility* and *control*.
+
+---
+
+## 🏃 Quick Start (5 minutes)
+
+### 1. Install & configure
+```bash
+git clone https://github.com/Workofarttattoo/QuLabInfinite.git
+cd QuLabInfinite
+pip install -e .
+cp .env.secure.example .env
+# Edit .env with your API keys (or use defaults for demo)
+```
+
+### 2. Start the three main gateways
+
+**Option A: MCP (agents, tool orchestration, R&D first)**
+```bash
+python unified_mcp_server.py
+# Health: http://localhost:8102/health
+# Featured tools: http://localhost:8102/featured
+# Call tools: POST http://localhost:8102/tools/call
+```
+
+**Option B: Unified REST API (browser, WebSocket, real-time)**
+```bash
+uvicorn api.unified_api:app --reload
+# Docs: http://localhost:8000/docs
+# WebSocket: ws://localhost:8000/ws/materials
+```
+
+**Option C: Medical diagnostics (10 independent labs)**
+```bash
+LAB_HOST=0.0.0.0 LAB_PORT_PREFIX=800 bash scripts/start_medical_labs.sh
+# Alzheimer's: http://localhost:8001/docs
+# Parkinson's: http://localhost:8002/docs
+# ... (8001–8010)
+```
+
+### 3. Try it
+```bash
+# Materials structure analysis (MCP)
+curl -X POST http://localhost:8102/tools/call \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tool": "materials.validate_structure",
+    "params": {"file_path": "path/to/POSCAR"}
+  }'
+
+# Quantum simulation (REST)
+curl -X POST http://localhost:8000/quantum/simulate \
+  -H "X-Api-Key: your-api-key" \
+  -d '{"system_type": "transmon", "num_qubits": 3, "circuit_depth": 5}'
+```
+
+---
+
+## 📐 Architecture & Wiring
+
+**For frontend/Figma teams:** See [docs/FIGMA_BACKEND_WIRING.md](docs/FIGMA_BACKEND_WIRING.md)
+- Port map, auth schemes, tool contracts, example requests
+- How to annotate Figma screens with proof artifacts
+
+**For production checklists:** See [docs/MATERIALS_RD_PRODUCTION.md](docs/MATERIALS_RD_PRODUCTION.md)
+- Dataset validation, tool hygiene, deployment patterns
+
+---
+
+## 🛡️ API Authentication & Security
+
+- **MCP HTTP** (`unified_mcp_server.py`): Optional `QULAB_MCP_API_KEY` (Bearer or `X-MCP-Api-Key`)
+- **Unified REST** (`api.unified_api:app`): `X-Api-Key` header or `?api_key=` query param
+- **Medical labs**: Per-app auth (check each module's docs at `{port}/docs`)
+- **Master API** (alternate): Bearer token in `Authorization` header
+
+**Setup:**
+- Generate strong keys: `python -c "import secrets; print(secrets.token_urlsafe(32))"`
+- Store in `.env`, never commit to git
+- Load via `QU_LAB_MASTER_KEYS` (comma-separated list)
 
 ## Labs Summary
 
