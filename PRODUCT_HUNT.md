@@ -177,21 +177,33 @@ All **implemented per peer-reviewed clinical standards**, real-world constants, 
 
 ---
 
+## GUI & User Interface
+
+**At Launch:**
+- ✅ **Interactive Swagger API docs** — Full OpenAPI exploration for all endpoints
+- ✅ **Figma-designed web UI** — Beautiful, responsive interface for materials/medical/agent workflows
+- ✅ **WebSocket real-time updates** — Live streaming for long-running simulations
+
+**Figma Design File (Live):**
+[QuLab Infinite — Lab Console v1](https://www.figma.com/design/N9joP1YMYdWU1kWWIZbTBm)
+
+---
+
 ## Roadmap (First 6 Months Post-Launch)
 
 ### Phase 1 (Month 1)
-- [ ] Figma GUI (design → prototype live Figma → Stitch)
+- [ ] Mobile-responsive GUI (tablet + phone optimization)
 - [ ] Community labs (users can contribute Python modules)
 - [ ] API versioning & backward compatibility
 
 ### Phase 2 (Months 2–3)
-- [ ] Multi-user workspaces (team labs)
-- [ ] Experiment tracking & versioning
-- [ ] Export to Jupyter, benchmarking suite
+- [ ] Multi-user workspaces (team labs, saved experiments)
+- [ ] Experiment tracking & versioning (git-like history)
+- [ ] Export to Jupyter notebooks, benchmarking suite
 
 ### Phase 3 (Months 4–6)
 - [ ] Commercial tier (dedicated GPU clusters)
-- [ ] Integrations (Slack, Discord, VS Code)
+- [ ] Integrations (Slack, Discord, VS Code extensions)
 - [ ] Custom training for enterprise customers
 
 ---

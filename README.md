@@ -96,6 +96,30 @@ curl -X POST http://localhost:8000/quantum/simulate \
 
 ---
 
+## 🎨 User Interface
+
+### Web GUI (Figma-Designed)
+**Beautiful, responsive interface for Materials, Medical, and Agent workflows**
+
+- **Design File:** [QuLab Infinite — Lab Console v1](https://www.figma.com/design/N9joP1YMYdWU1kWWIZbTBm) (Live Figma)
+- **Access:** `http://localhost:3000` (included in `bash LAUNCH_PRODUCT_HUNT.sh`)
+- **Features:**
+  - 🧪 **Materials explorer** — Search 5K DB + live Materials Project API
+  - 🏥 **Medical diagnostics** — 10 clinical labs with input forms
+  - 🤖 **Agent playground** — Pick tools, set parameters, execute
+  - 📊 **Results visualization** — Charts, tables, 3D structures
+  - ⚙️ **API key management** — Built-in settings
+
+### API Documentation (Swagger)
+- **Unified REST:** `http://localhost:8000/docs` — Interactive API explorer
+- **Medical Labs:** `http://localhost:8001-8010/docs` — Per-lab documentation
+
+### MCP Tool Discovery
+- **Featured Tools:** `http://localhost:8102/featured` — Curated materials & R&D tools
+- **Full Catalog:** `http://localhost:8102/tools` — Complete tool listing
+
+---
+
 ## 🛡️ API Authentication & Security
 
 - **MCP HTTP** (`unified_mcp_server.py`): Optional `QULAB_MCP_API_KEY` (Bearer or `X-MCP-Api-Key`)

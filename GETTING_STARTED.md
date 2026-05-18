@@ -58,15 +58,18 @@ QU_LAB_MCP_PORT=8102
 
 ## Step 3: Launch (Choose One)
 
-### Option A: Full Stack (All three gateways)
+### Option A: Full Stack (All three gateways + GUI) ⭐ **Recommended**
 ```bash
 bash LAUNCH_PRODUCT_HUNT.sh
 ```
 
 This starts:
 - 🔵 **MCP HTTP** on `localhost:8102` (agents, tool orchestration)
-- 🟢 **Unified REST API** on `localhost:8000` (browser, WebSocket)
+- 🟢 **Unified REST API** on `localhost:8000` (REST, WebSocket)
 - 🟡 **Medical Labs** on `localhost:8001-8010` (10 diagnostic systems)
+- 💻 **Web GUI** on `localhost:3000` (beautiful Figma-designed interface)
+
+Then opens: **http://localhost:3000** automatically
 
 ### Option B: MCP Only (Recommended for first demo)
 ```bash
