@@ -5,14 +5,14 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from oncology_lab import (
+from qulab.labs.medical.oncology_lab import (
     OncologyLaboratory,
     OncologyLabConfig,
     TumorType,
     CancerStage,
     TumorGrowthModel
 )
-from oncology_lab.ten_field_controller import create_ech0_three_stage_protocol
+from qulab.labs.medical.oncology_lab.ten_field_controller import create_ech0_three_stage_protocol
 
 print("=" * 80)
 print("QuLabInfinite Oncology Lab - Quick Test")

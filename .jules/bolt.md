@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2026-05-19 - Vectorized Distance Calculations
+**Learning:** In heavily nested loops computing distances (e.g. cell to vessel), sequential np.linalg.norm on lists causes significant Python overhead.
+**Action:** Pre-convert reference lists to NumPy arrays outside the loop and use np.linalg.norm(array - target, axis=1) to vectorize calculations.
