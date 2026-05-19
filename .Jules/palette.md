@@ -5,3 +5,7 @@
 ## 2026-02-23 - Duplicate ID issue
 **Learning:** Having duplicate element IDs (`labSearch` was used twice in `index.html`) can cause the `getElementById` API to retrieve only the first match, resulting in bugs such as a secondary search bar not functioning properly. This violates basic HTML and accessibility rules regarding duplicate IDs.
 **Action:** Always verify that input elements have unique IDs and ensure that event listeners are correctly assigned to each instance.
+
+## 2026-05-19 - Screen Reader State Synchronization
+**Learning:** Relying solely on visual active classes hides state from screen readers. Input fields that depend on placeholder text must also have an explicit aria-label.
+**Action:** Synchronize visual active states with aria-current="true" and always add aria-label to inputs that lack visible labels.
