@@ -248,6 +248,124 @@ class FastMaterialsScreener:
             'materials_count': len(df),
         }
 
+    def export_csv(self, results: pl.DataFrame, filename: str) -> str:
+        """
+        Export screening results to CSV
+
+        Args:
+            results: DataFrame to export
+            filename: Output CSV filename
+
+        Returns:
+            Path to exported file
+        """
+        output_path = Path(filename)
+        results.write_csv(output_path)
+        print(f"✅ Exported {len(results)} materials to {output_path}")
+        return str(output_path)
+
+    def export_json(self, results: pl.DataFrame, filename: str) -> str:
+        """
+        Export screening results to JSON
+
+        Args:
+            results: DataFrame to export
+            filename: Output JSON filename
+
+        Returns:
+            Path to exported file
+        """
+        output_path = Path(filename)
+        results.write_json(output_path)
+        print(f"✅ Exported {len(results)} materials to {output_path}")
+        return str(output_path)
+
+    def to_dict(self, results: pl.DataFrame) -> List[Dict]:
+        """
+        Convert results to list of dictionaries
+
+        Args:
+            results: DataFrame to convert
+
+        Returns:
+            List of material dictionaries
+        """
+        return results.to_dicts()
+
+    def search_by_composition(self, element: str, limit: int = 100) -> pl.DataFrame:
+        """
+        Search materials containing a specific element
+
+        Args:
+            element: Chemical element symbol (e.g., 'Fe', 'Al', 'Ti')
+            limit: Maximum results
+
+        Returns:
+            Materials containing the element
+
+        Example:
+            screener.search_by_composition('Fe')  # All iron-containing materials
+        """
+        df = self.load_database()
+
+        # Search in id, name, or formula fields
+        results = df.filter(
+            pl.col("id").str.contains(element, literal=False) |
+            pl.col("name").str.contains(element, literal=False)
+        ).head(limit)
+
+        return results
+
+    def search_by_name(self, pattern: str, fuzzy: bool = False, limit: int = 100) -> pl.DataFrame:
+        """
+        Search materials by name (case-insensitive)
+
+        Args:
+            pattern: Name pattern to search
+            fuzzy: If True, use fuzzy matching
+            limit: Maximum results
+
+        Returns:
+            Matching materials
+
+        Example:
+            screener.search_by_name('aluminum')  # Case-insensitive
+            screener.search_by_name('steel', fuzzy=True)  # Fuzzy matching
+        """
+        df = self.load_database()
+
+        if fuzzy:
+            # Fuzzy matching using lowercase contains
+            results = df.filter(
+                pl.col("name").str.to_lowercase().str.contains(pattern.lower())
+            ).head(limit)
+        else:
+            # Exact case-insensitive match
+            results = df.filter(
+                pl.col("name").str.to_lowercase() == pattern.lower()
+            ).head(limit)
+
+        return results
+
+    def search_by_category(self, category: str, limit: int = 1000) -> pl.DataFrame:
+        """
+        Search materials by category
+
+        Args:
+            category: Material category (e.g., 'metal', 'ceramic', 'polymer')
+            limit: Maximum results
+
+        Returns:
+            All materials in category
+        """
+        df = self.load_database()
+
+        results = df.filter(
+            pl.col("category") == category
+        ).head(limit)
+
+        return results
+
 
 def main():
     """Demo: Fast materials screening"""

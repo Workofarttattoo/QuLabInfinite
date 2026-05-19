@@ -110,7 +110,21 @@ class MaterialsSQL:
             result = self.con.execute(sql).df()
             return result
         except Exception as e:
-            print(f"❌ Query error: {e}")
+            error_msg = str(e)
+
+            # Provide helpful error messages
+            if "syntax error" in error_msg.lower():
+                print(f"❌ SQL Syntax Error")
+                print(f"   Your query: {sql[:100]}...")
+                print(f"   Error: {error_msg}")
+                print(f"   💡 Tip: Check SQL syntax, table name is 'materials'")
+            elif "not found" in error_msg.lower() or "binder error" in error_msg.lower():
+                print(f"❌ Column Not Found")
+                print(f"   Error: {error_msg}")
+                print(f"   💡 Available columns: id, name, category, density_kg_m3,")
+                print(f"      tensile_strength, youngs_modulus, thermal_conductivity, melting_point")
+            else:
+                print(f"❌ Query error: {e}")
             raise
 
     def lightweight_strong(self, density_max: float = 500, strength_min: float = 50) -> pd.DataFrame:
@@ -261,6 +275,78 @@ class MaterialsSQL:
             WHERE LOWER(name) LIKE LOWER('{name_pattern}')
             LIMIT 100
         """)
+
+    def search_by_composition(self, element: str) -> pd.DataFrame:
+        """
+        Search materials containing a specific element
+
+        Args:
+            element: Chemical element symbol (e.g., 'Fe', 'Al', 'Ti')
+
+        Returns:
+            Materials containing the element
+
+        Example:
+            db.search_by_composition('Fe')  # All iron-containing materials
+        """
+        return self.query(f"""
+            SELECT *
+            FROM materials
+            WHERE id LIKE '%{element}%'
+               OR name LIKE '%{element}%'
+            LIMIT 100
+        """)
+
+    def search_by_category(self, category: str) -> pd.DataFrame:
+        """
+        Search materials by category
+
+        Args:
+            category: Material category (e.g., 'metal', 'ceramic', 'polymer')
+
+        Returns:
+            All materials in category
+        """
+        return self.query(f"""
+            SELECT *
+            FROM materials
+            WHERE category = '{category}'
+            LIMIT 1000
+        """)
+
+    def export_csv(self, results: pd.DataFrame, filename: str) -> str:
+        """
+        Export query results to CSV
+
+        Args:
+            results: DataFrame to export
+            filename: Output CSV filename
+
+        Returns:
+            Path to exported file
+        """
+        from pathlib import Path
+        output_path = Path(filename)
+        results.to_csv(output_path, index=False)
+        print(f"✅ Exported {len(results)} materials to {output_path}")
+        return str(output_path)
+
+    def export_json(self, results: pd.DataFrame, filename: str) -> str:
+        """
+        Export query results to JSON
+
+        Args:
+            results: DataFrame to export
+            filename: Output JSON filename
+
+        Returns:
+            Path to exported file
+        """
+        from pathlib import Path
+        output_path = Path(filename)
+        results.to_json(output_path, orient='records', indent=2)
+        print(f"✅ Exported {len(results)} materials to {output_path}")
+        return str(output_path)
 
     def benchmark(self) -> Dict:
         """
