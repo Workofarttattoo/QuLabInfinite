@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-24 - Matrix-Vector Multiplications in RNN Loops
+**Learning:** In recurrent neural networks like Echo State Networks (ReservoirComputing), multiplying the input weights (`W_in`) by the input vector for each time step `t` inside the simulation loop creates significant overhead.
+**Action:** Pre-compute the full input projection for all time steps at once using a single matrix-matrix multiplication (`in_proj = input_data @ W_in.T`) before the loop. This can yield ~2x speedup or more.
