@@ -336,6 +336,18 @@ class TumorMicroenvironment:
 
 
 class TumorSimulator:
+    _FIELD_MAP = {
+        'ph_level': 'ph_field',
+        'oxygen_percent': 'oxygen_field',
+        'glucose_mm': 'glucose_field',
+        'lactate_mm': 'lactate_field',
+        'temperature_c': 'temperature_field',
+        'ros_um': 'ros_field',
+        'glutamine_mm': 'glutamine_field',
+        'calcium_um': 'calcium_field',
+        'atp_adp_ratio': 'atp_field',
+        'cytokine_pg_ml': 'cytokine_field',
+    }
     """
     Main tumour simulator built on well-studied growth models.
 
@@ -407,20 +419,7 @@ class TumorSimulator:
         if field_name in self.field_overrides:
             return self.field_overrides[field_name]
 
-        field_map = {
-            'ph_level': 'ph_field',
-            'oxygen_percent': 'oxygen_field',
-            'glucose_mm': 'glucose_field',
-            'lactate_mm': 'lactate_field',
-            'temperature_c': 'temperature_field',
-            'ros_um': 'ros_field',
-            'glutamine_mm': 'glutamine_field',
-            'calcium_um': 'calcium_field',
-            'atp_adp_ratio': 'atp_field',
-            'cytokine_pg_ml': 'cytokine_field',
-        }
-
-        lattice_name = field_map.get(field_name)
+        lattice_name = self._FIELD_MAP.get(field_name)
         if lattice_name is None:
             raise KeyError(f"Unknown field '{field_name}'")
 
@@ -500,6 +499,7 @@ class TumorSimulator:
         apoptotic_count = 0
         necrotic_count = 0
 
+        vessels_array = np.array(self.microenvironment.vessel_locations) if self.microenvironment.vessel_locations else None
         for cell in self.cells:
             if not cell.is_alive:
                 cell.time_since_death += dt
@@ -525,12 +525,9 @@ class TumorSimulator:
             cell.cytokine_exposure = self._get_field_value('cytokine_pg_ml', grid_pos)
 
             # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
+            if vessels_array is not None and len(vessels_array) > 0:
+                distances_to_vessels = np.linalg.norm(vessels_array - cell.position, axis=1)
+                min_distance = np.min(distances_to_vessels)
                 # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
                 cell.nutrient_access = np.exp(-min_distance / 150.0)
 
