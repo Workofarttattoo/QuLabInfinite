@@ -103,15 +103,49 @@ Map NL-first controls to **`POST /tools/call`** (primary) or Unified **`POST`** 
 
 ---
 
-## Product screens in Figma (Lab Console v1)
+## Product UI (canonical): Figma Make
 
-A first-pass **desktop flow** (boot → command center → grouped lab bundles → **Materials + R&D synergy unlock**) lives here:
+**Primary file for Product Hunt UI + React:**
+
+**[Connect Frontend to Backend](https://www.figma.com/make/j9P7lJtC6OdLpVY0neIaRt/Connect-Frontend-to-Backend)** (`j9P7lJtC6OdLpVY0neIaRt`)
+
+Local copy: **`qulab-gui/`** (synced from Make). See **`docs/FIGMA_MAKE.md`**.
+
+Boot → Mission Control → dashboards / medical directory / per-lab screens. Backend wiring lives in **`src/lib/api-client.ts`** (MCP `POST /tools/call`, Unified API, medical ports).
+
+---
+
+## Legacy Design wireframes (optional)
+
+Early desktop wireframes only (not the shipping Make app):
 
 **[QuLab Infinite — Lab Console UX v1](https://www.figma.com/design/N9joP1YMYdWU1kWWIZbTBm)**
 
 In the same file, frame **`00 BACKEND_TOOL_CONTRACTS`** lists **`POST /tools/call`** example bodies (materials, chemistry, Echo) and reminds medical tiles to use **per-port `/docs`**. Shared plugin data: namespace `qulab.io`, keys `mcp_contract_version`, `docs_path`.
 
-Use **Stitch / Prototype** to link: `01 Boot` → `02 Command center` → `03 Materials` / `04 Chemistry` / `05 R&D orchestration` → `06 Unlock synergy` when both bundles are active. Swap in your existing Stitch assets by pasting into these frames or replacing placeholders.
+**Prototype (wired in file):** `01 Boot` **Continue** → `02 Command center`; quick chips → `03` / `04` / `05`; screen titles → back to `02`. Add a conditional path to `06 Unlock synergy` when you demo both Materials + R&D enabled.
+
+**Publish glitch (fixed):** Body copy was collapsed to **1px height** (`textAutoResize` / auto-layout). If labels look missing again, select all text → set **Auto width** or **Auto height**. Frame `05 R&D orchestration` was a **Section** (oversized canvas); it is now a **1240×780** frame aligned with the other screens.
+
+**Tactical Glass tokens (Figma):** background `#131313`, panel `#1c1c1e`, accent `#00dbe9`, muted labels ~`#a6a9b0`, Inter + JetBrains Mono for MCP lines.
+
+**React implementation (shipping):** `qulab-gui/` — Vite + React + Tailwind, Tactical Glass theme, live **`POST /tools/call`** via dev proxy `/mcp` → `:8102`.
+
+| Figma frame | React route |
+|-------------|-------------|
+| `01 Boot` | `/` |
+| `02 Command center` / `07 Global dashboard` | `/command` |
+| `03 Materials bundle` | `/materials` |
+| `04 Chemistry bundle` | `/chemistry` |
+| `05 R&D orchestration` | `/rd` |
+| `08 Medical directory` | `/medical` |
+| `06 Unlock synergy` | `/unlock` |
+
+```bash
+python unified_mcp_server.py          # :8102
+cd qulab-gui && npm run dev           # :3000
+# or: bash LAUNCH_PRODUCT_HUNT.sh
+```
 
 ---
 

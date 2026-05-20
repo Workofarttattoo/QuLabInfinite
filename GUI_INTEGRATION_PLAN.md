@@ -20,9 +20,13 @@ The GUI provides a beautiful, user-friendly interface for the three main gateway
 
 ## Current State
 
-### Figma Design
-- **File:** [QuLab Infinite — Lab Console v1](https://www.figma.com/design/N9joP1YMYdWU1kWWIZbTBm)
-- **Status:** Overhaul in progress
+### Figma Make (canonical)
+- **File:** [Connect Frontend to Backend](https://www.figma.com/make/j9P7lJtC6OdLpVY0neIaRt/Connect-Frontend-to-Backend)
+- **Local:** `qulab-gui/` (synced React app, 40+ routes)
+- **Docs:** `docs/FIGMA_MAKE.md`
+
+### Legacy Figma Design (wireframes only)
+- **File:** [QuLab Infinite — Lab Console UX v1](https://www.figma.com/design/N9joP1YMYdWU1kWWIZbTBm)
 - **Frames:**
   - `00 BACKEND_TOOL_CONTRACTS` — POST /tools/call examples
   - `01 Boot` — Landing screen
@@ -41,32 +45,35 @@ The GUI provides a beautiful, user-friendly interface for the three main gateway
 ## Integration Checklist (Before Product Hunt)
 
 ### Design Phase (In Progress)
-- [ ] Figma overhaul complete (all frames, components, states)
-- [ ] Handoff notes for engineering (colors, fonts, spacing)
-- [ ] Interactive prototype/Stitch export if needed
+- [x] Core Lab Console frames + backend contract frame (`00 BACKEND_TOOL_CONTRACTS`)
+- [x] Collapsed-text publish glitch fixed (auto-resize + R&D section → frame)
+- [x] Tactical Glass pass (dark `#131313`, cyan accent, panel chrome)
+- [x] Basic prototype links (Boot → Command center → bundles)
+- [x] Figma frames `07 Global dashboard`, `08 Medical directory` (aligned to React routes)
+- [ ] Stitch HTML paste for pixel-perfect tactical layouts (optional polish)
+- [x] Handoff: `docs/FIGMA_BACKEND_WIRING.md` + `qulab-gui/README.md`
 - [ ] Accessibility review (WCAG 2.1 AA)
 
 ### Frontend Build
-- [ ] Framework decision: React, Vue, Svelte, or vanilla?
-- [ ] Build tool setup (Vite recommended)
-- [ ] Integrate with API gateways:
-  - MCP HTTP gateway (ws://localhost:8102)
-  - Unified REST API (http://localhost:8000)
-  - Medical microservices (http://localhost:8001-8010)
+- [x] React 18 + TypeScript + Vite + Tailwind (`qulab-gui/`)
+- [x] MCP HTTP gateway integration (`/mcp` proxy → :8102)
+- [x] Medical directory links (8001–8010 `/docs`)
+- [ ] Unified REST :8000 screens (optional; MCP is primary for PH)
 
 ### Implementation
-- [ ] Home/boot screen with 3 wedge cards
-- [ ] Materials explorer (search 5K DB, live MP API)
-- [ ] Medical diagnostics interface (form → POST /assess)
-- [ ] Agent playground (tool picker → POST /tools/call)
-- [ ] Results visualization (charts, tables, 3D)
-- [ ] Settings & API key management
+- [x] Boot screen (`/`)
+- [x] Command center + NL → `POST /tools/call`
+- [x] Materials / Chemistry / R&D bundle pages
+- [x] Medical directory tiles
+- [x] Synergy unlock (`/unlock`)
+- [x] Tool trace panel
+- [ ] 3D structure viewer (Mol*)
+- [ ] Settings & API key UI
 
 ### Integration with Startup Scripts
-- [ ] Update LAUNCH_PRODUCT_HUNT.sh to start GUI
-- [ ] GUI runs on http://localhost:3000 (or custom port)
-- [ ] Auto-open GUI after all services start
-- [ ] Graceful fallback if GUI build fails
+- [x] `LAUNCH_PRODUCT_HUNT.sh` builds/serves GUI on :3000
+- [x] Auto-open browser when `open` is available
+- [x] Graceful fallback if GUI build fails
 
 ### Testing
 - [ ] Test all 3 gateways through GUI

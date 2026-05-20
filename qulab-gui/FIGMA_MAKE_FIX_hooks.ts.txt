@@ -1,0 +1,20 @@
+# Fix for Figma Make preview error:
+# "The requested module '/src/lib/hooks.ts' does not provide an export named 'apiClient'"
+
+In Figma Make, open: src/lib/hooks.ts
+
+After the import line:
+  import { apiClient, LABS } from './api-client';
+
+Add this line (if missing):
+  export { apiClient, LABS } from './api-client';
+
+Save and refresh the Make preview.
+
+Alternatively, change any file that says:
+  import { ..., apiClient } from '../../lib/hooks';
+to:
+  import { apiClient } from '../../lib/api-client';
+  import { ... } from '../../lib/hooks';
+
+The repo copy in qulab-gui/ already has both fixes applied.

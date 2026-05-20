@@ -6,6 +6,13 @@
 
 QuLabInfinite is a Python (FastAPI) scientific simulation platform with 100+ virtual laboratories. The XGBoost hail prediction model lives in `hail_model/`.
 
+### Lab Console GUI
+
+```bash
+bash scripts/start-qulab-gui.sh   # http://127.0.0.1:5173 (not :3000 — Grafana uses 3000 in docker-compose)
+PYTHONPATH=. python3 unified_mcp_server.py   # MCP :8102
+```
+
 ### Running the hail model
 
 ```bash

@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from core.runtime import ArtifactWriter, Tool, ToolRegistry
@@ -38,7 +39,14 @@ class MaterialsDataset:
     """Load the freshest Materials Project expansion dataset (mp-*) records."""
 
     def __init__(self, dataset_path: Optional[Path] = None):
-        self.dataset_path = dataset_path or Path("materials_lab/data/materials_project_expansion.jsonl")
+        if dataset_path is not None:
+            self.dataset_path = dataset_path
+        else:
+            candidates = [
+                Path("materials_lab/data/materials_project_expansion.jsonl"),
+                Path("qulab/labs/engineering/materials_lab/data/materials_project_expansion.jsonl"),
+            ]
+            self.dataset_path = next((p for p in candidates if p.exists()), candidates[0])
         self.records: Dict[str, Dict[str, Any]] = {}
         self.latest_timestamp: Optional[str] = None
         self._load()
@@ -119,6 +127,26 @@ EXPERIMENTS: List[ExperimentRecord] = [
 
 
 app = FastAPI(title="QuLabInfinite Runtime", version="3.0.0")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+FEATURED_TOOLS = [
+    "materials.get_mp_material",
+    "materials.analyze_structure",
+    "materials.database_info",
+    "chemistry.analyze_molecule",
+    "chemistry.validate_smiles",
+    "physics.get_element_properties",
+    "ech0.analyze_material",
+    "ech0.quick_invention",
+    "ai.calc",
+]
+
 materials_dataset = MaterialsDataset()
 registry = build_registry(materials_dataset)
 
@@ -130,6 +158,30 @@ def health() -> Dict[str, Any]:
         "materials_dataset": materials_dataset.summary(),
         "tool_count": len(registry.list_tools()),
         "experiment_count": len(EXPERIMENTS),
+    }
+
+
+@app.get("/featured")
+def featured(department: str = "materials_rd") -> Dict[str, Any]:
+    """Curated tools for Product Hunt / Lab Console UI."""
+    tools = registry.list_tools()
+    if department == "materials_rd":
+        filtered = [
+            t
+            for t in tools
+            if t.get("module") in ("materials", "chemistry", "physics", "ech0", "ai")
+        ]
+    else:
+        filtered = tools
+    quick = [t for t in filtered if t.get("name") in FEATURED_TOOLS]
+    if not quick:
+        quick = filtered[:12]
+    return {
+        "department": department,
+        "gateway": "POST /tools/call",
+        "quick_start_tools": [t.get("name") for t in quick],
+        "tools": quick,
+        "tool_count": len(filtered),
     }
 
 

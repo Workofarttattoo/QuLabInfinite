@@ -67,7 +67,8 @@ start_gateway() {
 # Option 1: Start just the primary MCP server
 if [ "$1" = "mcp-only" ]; then
     print_header "MCP Server (Materials & R&D)"
-    start_gateway "MCP-Server" "python unified_mcp_server.py" 8102
+    PY="${PYTHON:-python3}"
+start_gateway "MCP-Server" "$PY unified_mcp_server.py" 8102
     echo ""
     echo "${GREEN}MCP Server running on http://localhost:8102${NC}"
     echo "  - Featured tools: http://localhost:8102/featured"
@@ -80,7 +81,7 @@ fi
 # Option 2: Start REST API only
 if [ "$1" = "rest-only" ]; then
     print_header "Unified REST API"
-    start_gateway "Unified-API" "uvicorn api.unified_api:app --host 0.0.0.0 --port 8000" 8000
+    start_gateway "Unified-API" "uvicorn qulab.api.main:app --host 0.0.0.0 --port 8000" 8000
     echo ""
     echo "${GREEN}Unified REST API running on http://localhost:8000${NC}"
     echo "  - Docs: http://localhost:8000/docs"
@@ -105,13 +106,14 @@ fi
 
 # Default: Start all three gateways
 print_header "Gateway 1: MCP HTTP (Materials & R&D / Agents)"
-start_gateway "MCP-Server" "python unified_mcp_server.py" 8102
+PY="${PYTHON:-python3}"
+start_gateway "MCP-Server" "$PY unified_mcp_server.py" 8102
 echo "  ℹ️  Featured tools: GET http://localhost:8102/featured"
 echo "  ℹ️  Call tools: POST http://localhost:8102/tools/call"
 echo ""
 
 print_header "Gateway 2: Unified REST API (Browser / WebSocket)"
-start_gateway "Unified-API" "uvicorn api.unified_api:app --host 0.0.0.0 --port 8000 --reload" 8000
+start_gateway "Unified-API" "uvicorn qulab.api.main:app --host 0.0.0.0 --port 8000 --reload" 8000
 echo "  ℹ️  Interactive docs: http://localhost:8000/docs"
 echo "  ℹ️  ReDoc: http://localhost:8000/redoc"
 echo ""
@@ -127,11 +129,40 @@ echo "  Sepsis (8004), Wound Healing (8005), Bone Density (8006),"
 echo "  Kidney (8007), Liver (8008), Lung (8009), Pain Mgmt (8010)"
 echo ""
 
+print_header "Lab Console GUI (React)"
+GUI_DIR="qulab-gui"
+if [ -d "$GUI_DIR" ]; then
+    export PATH="${HOME}/.nvm/versions/node/v22.19.0/bin:${PATH}"
+    if command -v npm >/dev/null 2>&1; then
+        if [ ! -d "$GUI_DIR/node_modules" ]; then
+            echo "${GREEN}Installing GUI dependencies...${NC}"
+            (cd "$GUI_DIR" && npm install) >> logs/gui-install.log 2>&1 || true
+        fi
+        if [ -d "$GUI_DIR/dist" ] || (cd "$GUI_DIR" && npm run build >> ../logs/gui-build.log 2>&1); then
+            echo "${GREEN}Starting Lab Console on http://localhost:5173${NC}"
+            (cd "$GUI_DIR" && npm run preview -- --host 0.0.0.0 --port 5173) >> logs/gui.log 2>&1 &
+            echo $! > logs/gui.pid
+            sleep 2
+            if command -v open >/dev/null 2>&1; then
+                open "http://localhost:5173" 2>/dev/null || true
+            fi
+        else
+            echo "${YELLOW}GUI build failed — see logs/gui-build.log. MCP/API still running.${NC}"
+        fi
+    else
+        echo "${YELLOW}npm not found — skip GUI. Install Node 20+ or use: cd qulab-gui && npm run dev${NC}"
+    fi
+else
+    echo "${YELLOW}qulab-gui/ not found — skip GUI${NC}"
+fi
+echo ""
+
 print_header "🎉 All gateways running!"
 echo ""
 echo "${GREEN}✓ MCP Server${NC}            http://localhost:8102       (agents, tools)"
 echo "${GREEN}✓ Unified API${NC}          http://localhost:8000       (REST, WebSocket)"
 echo "${GREEN}✓ Medical Labs${NC}         http://localhost:8001-8010  (diagnostics)"
+echo "${GREEN}✓ Lab Console GUI${NC}      http://localhost:5173       (Product Hunt UI)"
 echo ""
 echo "${YELLOW}📚 Documentation:${NC}"
 echo "  - Frontend wiring: docs/FIGMA_BACKEND_WIRING.md"
