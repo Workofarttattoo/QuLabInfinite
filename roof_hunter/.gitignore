@@ -1,0 +1,12 @@
+.claude/
+__pycache__/
+*.py[cod]
+.DS_Store
+.cache/
+.lightning_cache/
+.roof_hunter_grib_cache/
+*.grib2
+output/
+.pytest_cache/
+.venv/
+venv/

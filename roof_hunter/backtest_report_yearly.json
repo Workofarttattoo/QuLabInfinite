@@ -1,0 +1,161 @@
+{
+  "location": {
+    "lat": 35.3394,
+    "lon": -97.4867
+  },
+  "period": {
+    "start": "2025-05-03",
+    "end": "2026-05-03"
+  },
+  "batches": [
+    {
+      "report_count": 71,
+      "matched_report_count": 69,
+      "hail_predictions": 491,
+      "tornado_predictions": 151,
+      "match_rate": 0.972,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 14,
+      "matched_report_count": 14,
+      "hail_predictions": 433,
+      "tornado_predictions": 144,
+      "match_rate": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 1,
+      "matched_report_count": 1,
+      "hail_predictions": 550,
+      "tornado_predictions": 193,
+      "match_rate": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 3,
+      "matched_report_count": 3,
+      "hail_predictions": 501,
+      "tornado_predictions": 146,
+      "match_rate": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 0,
+      "matched_report_count": 0,
+      "hail_predictions": 615,
+      "tornado_predictions": 122,
+      "match_rate": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 21,
+      "matched_report_count": 21,
+      "hail_predictions": 541,
+      "tornado_predictions": 165,
+      "match_rate": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 3,
+      "matched_report_count": 3,
+      "hail_predictions": 553,
+      "tornado_predictions": 163,
+      "match_rate": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 0,
+      "matched_report_count": 0,
+      "hail_predictions": 580,
+      "tornado_predictions": 205,
+      "match_rate": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 3,
+      "matched_report_count": 3,
+      "hail_predictions": 560,
+      "tornado_predictions": 199,
+      "match_rate": 1.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 2,
+      "matched_report_count": 2,
+      "hail_predictions": 612,
+      "tornado_predictions": 205,
+      "match_rate": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 29,
+      "matched_report_count": 25,
+      "hail_predictions": 665,
+      "tornado_predictions": 246,
+      "match_rate": 0.862,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    },
+    {
+      "report_count": 6,
+      "matched_report_count": 4,
+      "hail_predictions": 421,
+      "tornado_predictions": 159,
+      "match_rate": 0.667,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "report_time_window_hours": 1.5,
+      "report_match_radius_km": 40.0
+    }
+  ],
+  "aggregate": {
+    "avg_precision": 0.75,
+    "avg_recall": 0.75,
+    "total_matches": 145
+  }
+}

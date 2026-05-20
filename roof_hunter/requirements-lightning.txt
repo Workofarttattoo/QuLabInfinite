@@ -1,0 +1,2 @@
+# Optional: GOES GLM L2-LCFA ingestion (roof_hunter/lightning_feeds.py)
+netCDF4>=1.6.0
