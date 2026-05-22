@@ -26,6 +26,8 @@ class Tokenizer:
     def _get_or_create_token(self, token):
         if token not in self.token_to_id:
             next_idx = max(self.token_to_id.values()) + 1
+            if next_idx >= self.config.vocab_size:
+                next_idx = 0 # simple fallback for OOV in this demo
             self.token_to_id[token] = next_idx
             self.id_to_token[next_idx] = token
         return self.token_to_id[token]
@@ -33,10 +35,11 @@ class Tokenizer:
 class EmbeddingLayer:
     def __init__(self, config: NLPConfig):
         self.config = config
+        # Initialize the embedding matrix once to prevent massive random generation overhead in forward passes
+        self.embedding_matrix = np.random.uniform(low=-1.0, high=1.0, size=(self.config.vocab_size, self.config.embedding_dim)).astype(np.float64)
 
     def forward(self, x: np.ndarray) -> np.ndarray:
-        embedding_matrix = np.random.uniform(low=-1.0, high=1.0, size=(self.config.vocab_size, self.config.embedding_dim))
-        return embedding_matrix[x].astype(np.float64)
+        return self.embedding_matrix[x.astype(int)]
 
 class NLPModel:
     def __init__(self):
