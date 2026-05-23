@@ -33,10 +33,18 @@ class Tokenizer:
 class EmbeddingLayer:
     def __init__(self, config: NLPConfig):
         self.config = config
+        # ⚡ Bolt: Initialize embedding matrix exactly once to save massive overhead on forward pass
+        self.embedding_matrix = np.random.uniform(low=-1.0, high=1.0, size=(self.config.vocab_size, self.config.embedding_dim))
 
     def forward(self, x: np.ndarray) -> np.ndarray:
-        embedding_matrix = np.random.uniform(low=-1.0, high=1.0, size=(self.config.vocab_size, self.config.embedding_dim))
-        return embedding_matrix[x].astype(np.float64)
+        x_int = x.astype(int)
+        if x_int.size > 0:
+            max_idx = np.max(x_int)
+            if max_idx >= self.embedding_matrix.shape[0]:
+                pad_size = max_idx - self.embedding_matrix.shape[0] + 1
+                new_embeddings = np.random.uniform(low=-1.0, high=1.0, size=(pad_size, self.config.embedding_dim))
+                self.embedding_matrix = np.vstack([self.embedding_matrix, new_embeddings])
+        return self.embedding_matrix[x_int].astype(np.float64)
 
 class NLPModel:
     def __init__(self):
