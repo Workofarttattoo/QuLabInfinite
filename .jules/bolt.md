@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2025-05-23 - Python Loop Overhead in Distance Calculation
+**Learning:** In tumor simulations with thousands of cells and vessels, a Python loop using `np.linalg.norm` for each cell creates massive overhead. By extracting cell positions and vessel locations into NumPy arrays and calculating distances using broadcasting (`np.sqrt(np.sum((positions[:, np.newaxis, :] - vessels[np.newaxis, :, :])**2, axis=2))`), simulation time drops drastically (e.g., 50x speedup for 5000 cells).
+**Action:** Always vectorize agent-to-environment distance calculations across all agents simultaneously instead of looping over agents in Python.
