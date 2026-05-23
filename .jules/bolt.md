@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2026-05-23 - EmbeddingLayer Weight Initialization Overhead
+**Learning:** Re-creating massive random embedding matrices on every single forward pass (like `np.random.uniform` in `EmbeddingLayer.forward`) introduces severe CPU overhead. Also observed that OOV tokens can cause `IndexError` if the array is statically sized without dynamic padding during generation.
+**Action:** Always verify that layer weights and large static matrices are initialized exactly once in the `__init__` method and reused. Ensure indices are explicitly cast to integers and dynamically pad the matrix if tokens exceed vocabulary bounds.
