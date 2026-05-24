@@ -259,28 +259,31 @@ class NaturalLanguageProcessingLab:
 
                 # Negative sampling
                 neg_indices = np.random.randint(0, vocab_size, self.config.negative_samples)
-                neg_loss = 0
 
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(-np.dot(center_vec, neg_vec))
-                        neg_loss -= np.log(neg_score + 1e-10)
+                # Filter out context index
+                valid_mask = neg_indices != context_idx
+                valid_neg_indices = neg_indices[valid_mask]
 
-                total_loss += pos_loss + neg_loss
+                if len(valid_neg_indices) > 0:
+                    # Vectorized negative sampling loss
+                    neg_vecs = context_embeddings[valid_neg_indices]
+                    neg_scores = self._sigmoid(-np.dot(neg_vecs, center_vec))
+                    neg_loss = -np.sum(np.log(neg_scores + 1e-10))
 
-                # Gradient updates (simplified)
-                # Positive gradient
-                pos_grad = (pos_score - 1) * context_vec
-                self.embeddings[center_idx] -= lr * pos_grad
+                    total_loss += pos_loss + neg_loss
 
-                # Negative gradients
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(np.dot(center_vec, neg_vec))
-                        neg_grad = neg_score * neg_vec
-                        self.embeddings[center_idx] -= lr * neg_grad
+                    # Vectorized gradient computation
+                    neg_scores_grad = self._sigmoid(np.dot(neg_vecs, center_vec))
+                    # Reshape for broadcasting multiplication, then sum over negative samples
+                    neg_grad = np.dot(neg_scores_grad, neg_vecs)
+
+                    # Update gradients
+                    pos_grad = (pos_score - 1) * context_vec
+                    self.embeddings[center_idx] -= lr * (pos_grad + neg_grad)
+                else:
+                    total_loss += pos_loss
+                    pos_grad = (pos_score - 1) * context_vec
+                    self.embeddings[center_idx] -= lr * pos_grad
 
             # Decay learning rate
             lr = max(self.config.min_learning_rate,
