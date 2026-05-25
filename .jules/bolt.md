@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-25 - Static Matrix Initialization in Neural Net Layers
+**Learning:** In custom neural network layers (e.g., `EmbeddingLayer` in `nlp.py`), generating large weight matrices (like `np.random.uniform` embeddings) dynamically inside the `forward` pass causes massive per-pass execution overhead.
+**Action:** Always initialize static weight matrices exactly once in the `__init__` method and reuse them.
