@@ -111,7 +111,7 @@ can have per-tool pricing (e.g. nano/quantum tools cost more than lookups).
 
 ---
 
-## Available Tools (41)
+## Available Tools (46)
 
 ### Quantum Computing
 | Tool | Description |
@@ -193,6 +193,17 @@ can have per-tool pricing (e.g. nano/quantum tools cost more than lookups).
 | `semi_pn_junction` | p-n junction built-in potential and depletion width |
 | `semi_quantum_well` | Quantum well confined energy levels |
 | `semi_diffusion_profile` | Dopant diffusion profile (Fick's law) |
+
+### Medical & Clinical Sciences
+| Tool | Description |
+|------|-------------|
+| `medical_alzheimers_risk` | NIA-AA ATN framework — CSF biomarkers, PET, APOE ε4, cognitive scores → 5/10-yr progression risk |
+| `medical_kidney_function` | CKD-EPI 2021 (race-free) eGFR, KDIGO G1-G5 staging, albuminuria categories |
+| `medical_lung_function` | GLI-2012 spirometry — FEV1/FVC predicted, ATS/ERS obstruction/restriction severity, DLCO |
+| `medical_drug_interaction` | CYP450 kinetics for 11 drugs — interaction type, risk level (SAFE→CRITICAL), AUC Δ% |
+| `medical_cancer_metabolic` | 10-field metabolic model for 8 cancer types — therapeutic index, tumor kill fraction, safety score |
+
+> **Disclaimer:** All medical tools are for research and educational use only. Not a substitute for professional medical advice or clinical diagnosis.
 
 ---
 

@@ -33,6 +33,13 @@ except Exception:
     _CHEM_TOOLS = []
     _CHEM_HANDLERS = {}
 
+# Medical / clinical tools (5 tools)
+try:
+    from qulab_mcp.tools.medical import TOOLS as _MED_TOOLS, HANDLERS as _MED_HANDLERS
+except Exception:
+    _MED_TOOLS = []
+    _MED_HANDLERS = {}
+
 # ---------------------------------------------------------------------------
 # Lab path bootstrap — works whether installed via pip or run from the repo
 # ---------------------------------------------------------------------------
@@ -372,6 +379,9 @@ TOOLS: list[Tool] = [
 # Extend with chemistry & materials tools
 TOOLS.extend(_CHEM_TOOLS)
 
+# Extend with medical / clinical tools
+TOOLS.extend(_MED_TOOLS)
+
 
 # ---------------------------------------------------------------------------
 # Handler implementations
@@ -644,6 +654,7 @@ _HANDLERS: dict[str, Any] = {
     "pharma_pk_model": _handle_pharma_pk,
     "pharma_emax_model": _handle_pharma_emax,
     **_CHEM_HANDLERS,
+    **_MED_HANDLERS,
 }
 
 
