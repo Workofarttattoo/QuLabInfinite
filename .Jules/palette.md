@@ -5,3 +5,6 @@
 ## 2026-02-23 - Duplicate ID issue
 **Learning:** Having duplicate element IDs (`labSearch` was used twice in `index.html`) can cause the `getElementById` API to retrieve only the first match, resulting in bugs such as a secondary search bar not functioning properly. This violates basic HTML and accessibility rules regarding duplicate IDs.
 **Action:** Always verify that input elements have unique IDs and ensure that event listeners are correctly assigned to each instance.
+## 2026-05-26 - DOM ordering affects a11y attribute application
+**Learning:** When generating interactive UI components like lab selection buttons, appending them to the DOM *before* applying active states via JS functions ensures that querySelectorAll successfully finds the elements to apply accessibility attributes like aria-current.
+**Action:** Always append newly created elements to the document body or container before invoking state-management functions that apply visual classes and ARIA attributes.
