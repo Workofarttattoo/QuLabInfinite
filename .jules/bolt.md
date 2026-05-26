@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2026-05-26 - [Vectorized DNA Sequencing Error Generation]
+**Learning:** Generating sequencing errors and Phred quality scores on a per-base or per-read basis inside a Python loop creates massive overhead when using `np.random`.
+**Action:** Always pre-calculate the total length of all reads, generate a single flat array of random values for the entire batch, and use boolean masks to identify error indices to completely eliminate per-base Python loop execution.
