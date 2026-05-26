@@ -164,36 +164,45 @@ class GenomicsLaboratory:
         reads = []
         quality_scores = []
 
-        # Pre-generate random start positions
-        max_start = max(1, seq_len - 150)
-        starts = np.random.randint(0, max_start, size=num_reads)
+        if num_reads > 0:
+            # Pre-generate random start positions
+            max_start = max(1, seq_len - 150)
+            starts = np.random.randint(0, max_start, size=num_reads)
 
-        for start in starts:
-            end = min(start + 150, seq_len)
-            read = list(sequence[start:end])
-            read_len = len(read)
+            # Pre-compute length of all reads for vectorized operations
+            all_read_lens = [min(start + 150, seq_len) - start for start in starts]
+            total_len = sum(all_read_lens)
 
-            # Introduce sequencing errors
-            error_mask = np.random.random(read_len) < error_rate
-            if error_mask.any():
-                for idx in np.where(error_mask)[0]:
-                    bases = ['A', 'T', 'C', 'G']
-                    bases.remove(read[idx])
-                    read[idx] = np.random.choice(bases)
+            # Vectorize generation of all random values and quality scores across all reads
+            # This completely avoids Python loop overhead for np.random calls
+            all_q_scores = np.clip(np.random.normal(35, 5, total_len), 10, 40)
+            all_randoms = np.random.random(total_len)
 
-            # Generate Phred quality scores (Q30 = 99.9% accuracy)
-            q_scores = np.random.normal(35, 5, read_len)
-            q_scores = np.clip(q_scores, 10, 40)
+            idx = 0
+            for i, start in enumerate(starts):
+                read_len = all_read_lens[i]
+                end = start + read_len
+                read = list(sequence[start:end])
 
-            reads.append(''.join(read))
-            quality_scores.append(q_scores)
+                # Introduce sequencing errors using boolean mask
+                error_mask = all_randoms[idx:idx+read_len] < error_rate
+                if error_mask.any():
+                    for j in np.where(error_mask)[0]:
+                        bases = ['A', 'T', 'C', 'G']
+                        bases.remove(read[j])
+                        read[j] = np.random.choice(bases)
 
-        # Calculate coverage statistics
-        coverage_array = np.zeros(len(sequence))
-        for read_start in range(num_reads):
-            start = np.random.randint(0, max(1, len(sequence) - 150))
-            end = min(start + 150, len(sequence))
-            coverage_array[start:end] += 1
+                reads.append(''.join(read))
+                quality_scores.append(all_q_scores[idx:idx+read_len])
+                idx += read_len
+
+        # Calculate coverage statistics using pre-generated randoms
+        coverage_array = np.zeros(seq_len)
+        if num_reads > 0:
+            cov_starts = np.random.randint(0, max_start, size=num_reads)
+            for start in cov_starts:
+                end = min(start + 150, seq_len)
+                coverage_array[start:end] += 1
 
         return {
             'reads': reads,
