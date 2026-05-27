@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2026-05-27 - [Correction: Tumor Simulator Nutrient Access Vectorization]
+**Learning:** While broadcasting (cell_positions[:, np.newaxis, :] - vessels_array[np.newaxis, :, :]) vectorizes the loop, it creates a massive (N, M, 3) intermediate array which can cause Out-Of-Memory (OOM) errors for large N and M. Using `scipy.spatial.distance.cdist` achieves the same C-level performance while strictly managing memory, calculating the (N, M) distance matrix directly.
+**Action:** For pairwise distance calculations between two sets of large entity lists, prioritize `scipy.spatial.distance.cdist` over naive multidimensional numpy broadcasting to avoid OOM memory explosions.

@@ -399,6 +399,19 @@ class TumorSimulator:
         """
         self.field_overrides = field_values.copy()
 
+    _FIELD_MAP = {
+        'ph_level': 'ph_field',
+        'oxygen_percent': 'oxygen_field',
+        'glucose_mm': 'glucose_field',
+        'lactate_mm': 'lactate_field',
+        'temperature_c': 'temperature_field',
+        'ros_um': 'ros_field',
+        'glutamine_mm': 'glutamine_field',
+        'calcium_um': 'calcium_field',
+        'atp_adp_ratio': 'atp_field',
+        'cytokine_pg_ml': 'cytokine_field',
+    }
+
     def _get_field_value(self, field_name: str, grid_pos: np.ndarray) -> float:
         """
         Retrieve a microenvironment value for the given lattice position,
@@ -407,25 +420,9 @@ class TumorSimulator:
         if field_name in self.field_overrides:
             return self.field_overrides[field_name]
 
-        field_map = {
-            'ph_level': 'ph_field',
-            'oxygen_percent': 'oxygen_field',
-            'glucose_mm': 'glucose_field',
-            'lactate_mm': 'lactate_field',
-            'temperature_c': 'temperature_field',
-            'ros_um': 'ros_field',
-            'glutamine_mm': 'glutamine_field',
-            'calcium_um': 'calcium_field',
-            'atp_adp_ratio': 'atp_field',
-            'cytokine_pg_ml': 'cytokine_field',
-        }
-
-        lattice_name = field_map.get(field_name)
-        if lattice_name is None:
-            raise KeyError(f"Unknown field '{field_name}'")
-
+        lattice_name = self._FIELD_MAP[field_name]
         lattice = getattr(self.microenvironment, lattice_name)
-        return lattice[tuple(grid_pos)]
+        return lattice[grid_pos[0], grid_pos[1], grid_pos[2]]
 
     def _initialize_tumor(self, n_cells: int):
         """Initialize tumor with n_cells in a spherical cluster"""
@@ -500,18 +497,45 @@ class TumorSimulator:
         apoptotic_count = 0
         necrotic_count = 0
 
-        for cell in self.cells:
-            if not cell.is_alive:
-                cell.time_since_death += dt
-                if cell.phase == CellCyclePhase.APOPTOSIS:
-                    apoptotic_count += 1
-                elif cell.phase == CellCyclePhase.NECROSIS:
-                    necrotic_count += 1
-                continue
+        # Precompute vessels array for the whole step
+        vessels_array = np.array(self.microenvironment.vessel_locations) if self.microenvironment.vessel_locations else None
 
+        # Get alive cells
+        alive_cells = [c for c in self.cells if c.is_alive]
+        dead_cells = [c for c in self.cells if not c.is_alive]
+
+        for cell in dead_cells:
+            cell.time_since_death += dt
+            if cell.phase == CellCyclePhase.APOPTOSIS:
+                apoptotic_count += 1
+            elif cell.phase == CellCyclePhase.NECROSIS:
+                necrotic_count += 1
+
+        # Vectorized nutrient access computation without massive broadcasting
+        if vessels_array is not None and alive_cells:
+            cell_positions = np.array([c.position for c in alive_cells])
+
+            # Use scipy.spatial.distance.cdist to compute (N, M) distance matrix
+            # without materializing a massive (N, M, 3) intermediate broadcasting array.
+            from scipy.spatial.distance import cdist
+            # cdist returns Euclidean distances directly
+            distances = cdist(cell_positions, vessels_array, metric='euclidean')
+
+            min_distances = np.min(distances, axis=1)
+            nutrient_accesses = np.exp(-min_distances / 150.0)
+            for i, cell in enumerate(alive_cells):
+                cell.nutrient_access = nutrient_accesses[i]
+
+        grid_size = np.array(self.microenvironment.grid_size) - 1
+        resolution = self.microenvironment.resolution
+
+        for cell in alive_cells:
             # Update local microenvironment for this cell
-            grid_pos = (cell.position / self.microenvironment.resolution).astype(int)
-            grid_pos = np.clip(grid_pos, 0, np.array(self.microenvironment.grid_size) - 1)
+            grid_pos = (cell.position / resolution).astype(int)
+            # Avoid np.clip overhead
+            grid_pos[0] = max(0, min(grid_pos[0], grid_size[0]))
+            grid_pos[1] = max(0, min(grid_pos[1], grid_size[1]))
+            grid_pos[2] = max(0, min(grid_pos[2], grid_size[2]))
 
             cell.local_ph = self._get_field_value('ph_level', grid_pos)
             cell.local_oxygen = self._get_field_value('oxygen_percent', grid_pos)
@@ -523,16 +547,6 @@ class TumorSimulator:
             cell.local_calcium = self._get_field_value('calcium_um', grid_pos)
             cell.atp_adp_ratio = self._get_field_value('atp_adp_ratio', grid_pos)
             cell.cytokine_exposure = self._get_field_value('cytokine_pg_ml', grid_pos)
-
-            # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
-                # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
-                cell.nutrient_access = np.exp(-min_distance / 150.0)
 
             # Update viability
             cell.update_viability(dt)
