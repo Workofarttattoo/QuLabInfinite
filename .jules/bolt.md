@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2026-05-28 - Optimize NumPy simulation loops
+**Learning:** The codebase contains multiple identical implementations of mathematical simulations (like `sequence_dna`) and calling `np.random.randint` within a Python loop creates massive overhead, especially when duplicate loops iterate over the same sets. Replacing per-element rolls with vectorized NumPy calls on flattened arrays and combining duplicate iteration loops drastically improves simulation performance.
+**Action:** Always vectorize the generation of random indices using NumPy arrays (e.g., `np.random.randint(0, bound, size=num_reads)`) outside loops, eliminate duplicate iterations over identically-sized collections, and ensure optimizations are replicated across all identical implementations in the codebase.
