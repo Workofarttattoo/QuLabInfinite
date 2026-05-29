@@ -158,43 +158,40 @@ class GenomicsLaboratory:
         error_rate = 0.005
 
         # Generate reads with Poisson-distributed coverage
-        num_reads = int(len(sequence) * coverage / 150)  # 150bp reads
+        seq_len = len(sequence)
+        num_reads = int(seq_len * coverage / 150)  # 150bp reads
+        max_start = max(1, seq_len - 150)
 
+        # Vectorize random starts and quality scores
+        starts = np.random.randint(0, max_start, size=num_reads)
+        quality_scores = np.random.normal(35, 5, (num_reads, 150))
+        np.clip(quality_scores, 10, 40, out=quality_scores)
+
+        coverage_array = np.zeros(seq_len)
         reads = []
-        quality_scores = []
 
         for i in range(num_reads):
-            # Random start position
-            start = np.random.randint(0, max(1, len(sequence) - 150))
-            end = min(start + 150, len(sequence))
-
+            start = starts[i]
+            end = min(start + 150, seq_len)
             read = list(sequence[start:end])
 
-            # Introduce sequencing errors
-            for j in range(len(read)):
-                if np.random.random() < error_rate:
-                    bases = ['A', 'T', 'C', 'G']
-                    bases.remove(read[j])
-                    read[j] = np.random.choice(bases)
-
-            # Generate Phred quality scores (Q30 = 99.9% accuracy)
-            q_scores = np.random.normal(35, 5, len(read))
-            q_scores = np.clip(q_scores, 10, 40)
+            # Introduce sequencing errors using binomial to avoid per-base loop
+            num_errors = np.random.binomial(len(read), error_rate)
+            if num_errors > 0:
+                error_indices = np.random.choice(len(read), min(num_errors, len(read)), replace=False)
+                bases = ['A', 'T', 'C', 'G']
+                for j in error_indices:
+                    valid_bases = bases.copy()
+                    valid_bases.remove(read[j])
+                    read[j] = valid_bases[np.random.randint(0, 3)]
 
             reads.append(''.join(read))
-            quality_scores.append(q_scores)
-
-        # Calculate coverage statistics
-        coverage_array = np.zeros(len(sequence))
-        for read_start in range(num_reads):
-            start = np.random.randint(0, max(1, len(sequence) - 150))
-            end = min(start + 150, len(sequence))
             coverage_array[start:end] += 1
 
         return {
             'reads': reads,
             'num_reads': len(reads),
-            'average_quality': float(np.mean([np.mean(q) for q in quality_scores])),
+            'average_quality': float(np.mean(quality_scores)),
             'coverage_mean': float(np.mean(coverage_array)),
             'coverage_std': float(np.std(coverage_array)),
             'error_rate': error_rate,
