@@ -259,13 +259,17 @@ class NaturalLanguageProcessingLab:
 
                 # Negative sampling
                 neg_indices = np.random.randint(0, vocab_size, self.config.negative_samples)
-                neg_loss = 0
 
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(-np.dot(center_vec, neg_vec))
-                        neg_loss -= np.log(neg_score + 1e-10)
+                # Vectorized negative sampling filtering and operations
+                valid_mask = neg_indices != context_idx
+                valid_neg_indices = neg_indices[valid_mask]
+
+                if valid_neg_indices.size > 0:
+                    neg_vecs = context_embeddings[valid_neg_indices]
+                    neg_scores = self._sigmoid(-np.dot(neg_vecs, center_vec))
+                    neg_loss = -np.sum(np.log(neg_scores + 1e-10))
+                else:
+                    neg_loss = 0
 
                 total_loss += pos_loss + neg_loss
 
@@ -274,13 +278,13 @@ class NaturalLanguageProcessingLab:
                 pos_grad = (pos_score - 1) * context_vec
                 self.embeddings[center_idx] -= lr * pos_grad
 
-                # Negative gradients
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(np.dot(center_vec, neg_vec))
-                        neg_grad = neg_score * neg_vec
-                        self.embeddings[center_idx] -= lr * neg_grad
+                if valid_neg_indices.size > 0:
+                    # Negative gradients
+                    # Note: center_vec is a view, so it reflects the positive gradient update,
+                    # closely mirroring the original sequential update behavior but vectorized.
+                    neg_scores_grad = self._sigmoid(np.dot(neg_vecs, center_vec))
+                    neg_grads = np.dot(neg_scores_grad, neg_vecs)
+                    self.embeddings[center_idx] -= lr * neg_grads
 
             # Decay learning rate
             lr = max(self.config.min_learning_rate,
