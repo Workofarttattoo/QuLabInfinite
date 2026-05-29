@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-24 - Genomics Simulation Error Overhead
+**Learning:** Heavily nested Python loops evaluating probability (e.g., `np.random.random() < error_rate`) for every base pair in millions of reads cause excessive overhead.
+**Action:** Replace per-element probability rolls with `np.random.binomial(len, rate)` to determine exact error counts in bulk, which optimizes simulation speed by up to 5x.
