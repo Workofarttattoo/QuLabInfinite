@@ -13,6 +13,7 @@ from enum import Enum
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple
 import time
+from scipy.spatial.distance import cdist
 
 
 class CellCyclePhase(Enum):
@@ -495,12 +496,21 @@ class TumorSimulator:
         if dt is None:
             dt = self.dt
 
+        # Precompute min distance to vessels for all cells using cdist
+        cell_min_distances = []
+        if self.cells and self.microenvironment.vessel_locations:
+            cell_positions = np.array([c.position for c in self.cells])
+            vessel_positions = np.array(self.microenvironment.vessel_locations)
+            # Calculate distance from each cell to each vessel
+            dists = cdist(cell_positions, vessel_positions)
+            cell_min_distances = np.min(dists, axis=1)
+
         # Update each cell
         new_cells = []
         apoptotic_count = 0
         necrotic_count = 0
 
-        for cell in self.cells:
+        for i, cell in enumerate(self.cells):
             if not cell.is_alive:
                 cell.time_since_death += dt
                 if cell.phase == CellCyclePhase.APOPTOSIS:
@@ -525,12 +535,8 @@ class TumorSimulator:
             cell.cytokine_exposure = self._get_field_value('cytokine_pg_ml', grid_pos)
 
             # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
+            if self.microenvironment.vessel_locations:
+                min_distance = cell_min_distances[i]
                 # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
                 cell.nutrient_access = np.exp(-min_distance / 150.0)
 
