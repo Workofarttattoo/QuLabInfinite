@@ -13,6 +13,7 @@ from enum import Enum
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple
 import time
+from scipy.spatial.distance import cdist
 
 
 class CellCyclePhase(Enum):
@@ -500,6 +501,22 @@ class TumorSimulator:
         apoptotic_count = 0
         necrotic_count = 0
 
+        # Vectorized nearest vessel distance calculation using scipy.spatial.distance.cdist
+        if self.cells and self.microenvironment.vessel_locations:
+            alive_cells = [c for c in self.cells if c.is_alive]
+            if alive_cells:
+                cell_positions = np.array([c.position for c in alive_cells])
+                vessel_positions = np.array(self.microenvironment.vessel_locations)
+
+                # Highly optimized C-level C-distance matrix calculation
+                min_distances = cdist(cell_positions, vessel_positions).min(axis=1)
+
+                # Apply exponential decay
+                nutrient_accesses = np.exp(-min_distances / 150.0)
+
+                for cell, access in zip(alive_cells, nutrient_accesses):
+                    cell.nutrient_access = access
+
         for cell in self.cells:
             if not cell.is_alive:
                 cell.time_since_death += dt
@@ -523,16 +540,6 @@ class TumorSimulator:
             cell.local_calcium = self._get_field_value('calcium_um', grid_pos)
             cell.atp_adp_ratio = self._get_field_value('atp_adp_ratio', grid_pos)
             cell.cytokine_exposure = self._get_field_value('cytokine_pg_ml', grid_pos)
-
-            # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
-                # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
-                cell.nutrient_access = np.exp(-min_distance / 150.0)
 
             # Update viability
             cell.update_viability(dt)
