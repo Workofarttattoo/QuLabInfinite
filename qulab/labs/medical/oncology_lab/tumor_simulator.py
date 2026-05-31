@@ -9,6 +9,7 @@ not as clinically validated predictions.
 """
 
 import numpy as np
+from scipy.spatial.distance import cdist
 from enum import Enum
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple
@@ -500,6 +501,21 @@ class TumorSimulator:
         apoptotic_count = 0
         necrotic_count = 0
 
+        # Precompute nutrient access to avoid O(N*M) Python loops with np.linalg.norm
+        vessel_locs = self.microenvironment.vessel_locations
+        if vessel_locs:
+            # Gather all alive cells to vectorize distance computation
+            # To avoid dictionary lookups which can be slow, we'll store distance in a parallel array or set it directly
+            alive_cells = [c for c in self.cells if c.is_alive]
+            if alive_cells:
+                cell_positions = np.array([c.position for c in alive_cells])
+                vessels_arr = np.array(vessel_locs)
+                distances = cdist(cell_positions, vessels_arr)
+                min_distances = np.min(distances, axis=1)
+                # Setting attribute directly here is faster than dictionary lookup in the loop
+                for c, min_dist in zip(alive_cells, min_distances):
+                    c.nutrient_access = np.exp(-min_dist / 150.0)
+
         for cell in self.cells:
             if not cell.is_alive:
                 cell.time_since_death += dt
@@ -524,15 +540,7 @@ class TumorSimulator:
             cell.atp_adp_ratio = self._get_field_value('atp_adp_ratio', grid_pos)
             cell.cytokine_exposure = self._get_field_value('cytokine_pg_ml', grid_pos)
 
-            # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
-                # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
-                cell.nutrient_access = np.exp(-min_distance / 150.0)
+            # Nutrient access has been precomputed directly on the object to save time
 
             # Update viability
             cell.update_viability(dt)
