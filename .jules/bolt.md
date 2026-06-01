@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2026-06-01 - Vectorizing Distances Inside High-Frequency Simulation Loops
+**Learning:** Computing distances between agents and environment features (like cells and vessels) inside the main simulation loop using `np.linalg.norm` creates an O(N * M) overhead in Python. Using list comprehensions exacerbates this.
+**Action:** Pre-compute bulk distances outside the loop using `scipy.spatial.distance.cdist` for C-level performance, then assign the computed values inside the loop.
