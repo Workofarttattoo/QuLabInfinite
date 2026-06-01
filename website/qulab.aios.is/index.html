@@ -553,6 +553,18 @@
                 const haystack = `${lab.name} ${lab.subtitle} ${lab.tags.join(" ")}`.toLowerCase();
                 return haystack.includes(filter.toLowerCase());
             });
+
+            if (filtered.length === 0) {
+                const emptyState = document.createElement("div");
+                emptyState.style.color = "#8b949e";
+                emptyState.style.padding = "10px";
+                emptyState.style.textAlign = "center";
+                emptyState.style.fontStyle = "italic";
+                emptyState.textContent = "No labs match your search.";
+                labList.appendChild(emptyState);
+                return;
+            }
+
             filtered.forEach((lab, index) => {
                 const button = document.createElement("button");
                 button.className = "lab-button";
@@ -560,11 +572,13 @@
                 button.dataset.labId = lab.id;
                 button.innerHTML = `${lab.name}<small>${lab.subtitle}</small>`;
                 button.addEventListener("click", () => setActiveLab(lab.id));
+
+                // Append before calling setActiveLab to ensure document.querySelectorAll finds it
+                labList.appendChild(button);
+
                 if (index === 0 && !document.querySelector(".lab-button.active")) {
-                    button.classList.add("active");
                     setActiveLab(lab.id);
                 }
-                labList.appendChild(button);
             });
         };
 
@@ -572,7 +586,13 @@
             const lab = labs.find((item) => item.id === labId);
             if (!lab) return;
             document.querySelectorAll(".lab-button").forEach((button) => {
-                button.classList.toggle("active", button.dataset.labId === labId);
+                const isActive = button.dataset.labId === labId;
+                button.classList.toggle("active", isActive);
+                if (isActive) {
+                    button.setAttribute("aria-current", "true");
+                } else {
+                    button.removeAttribute("aria-current");
+                }
             });
             labTitle.textContent = lab.name;
             labSubtitle.textContent = lab.subtitle;
