@@ -111,7 +111,7 @@ can have per-tool pricing (e.g. nano/quantum tools cost more than lookups).
 
 ---
 
-## Available Tools (46)
+## Available Tools (51)
 
 ### Quantum Computing
 | Tool | Description |
@@ -204,6 +204,17 @@ can have per-tool pricing (e.g. nano/quantum tools cost more than lookups).
 | `medical_cancer_metabolic` | 10-field metabolic model for 8 cancer types — therapeutic index, tumor kill fraction, safety score |
 
 > **Disclaimer:** All medical tools are for research and educational use only. Not a substitute for professional medical advice or clinical diagnosis.
+
+### Biological Quantum Computing
+| Tool | Description |
+|------|-------------|
+| `bio_quantum_fmo` | FMO complex energy transfer — experimentally validated site energies & couplings, quantum vs classical transport, 33% quantum advantage |
+| `bio_quantum_spectroscopy_2d` | 2D electronic spectroscopy simulator — Redfield theory, third-order response, cross-peak coherence ratio for **digital-twin validation** against Fleming/Engel lab data |
+| `bio_quantum_vqe` | VQE at room temperature (300 K) — Ising, FMO transport, MaxCut, H₂ molecule Hamiltonians; convergence history |
+| `bio_quantum_coherence_protection` | Multi-material protection stack design — Diamond NV / SiC / Bi₂Se₃ / mu-metal / aerogel; per-layer enhancement factors; 29 800× baseline |
+| `bio_quantum_ai_control` | AI-optimised FMO control loop — tunes light, B-field, pH, temperature to extend coherence beyond natural 660 fs |
+
+> Room-temperature quantum computing at 300 K. No cryogenics required.
 
 ---
 

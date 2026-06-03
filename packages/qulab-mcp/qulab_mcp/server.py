@@ -40,6 +40,13 @@ except Exception:
     _MED_TOOLS = []
     _MED_HANDLERS = {}
 
+# Biological quantum computing tools (5 tools)
+try:
+    from qulab_mcp.tools.bio_quantum import TOOLS as _BQ_TOOLS, HANDLERS as _BQ_HANDLERS
+except Exception:
+    _BQ_TOOLS = []
+    _BQ_HANDLERS = {}
+
 # ---------------------------------------------------------------------------
 # Lab path bootstrap — works whether installed via pip or run from the repo
 # ---------------------------------------------------------------------------
@@ -382,6 +389,9 @@ TOOLS.extend(_CHEM_TOOLS)
 # Extend with medical / clinical tools
 TOOLS.extend(_MED_TOOLS)
 
+# Extend with biological quantum tools
+TOOLS.extend(_BQ_TOOLS)
+
 
 # ---------------------------------------------------------------------------
 # Handler implementations
@@ -655,6 +665,7 @@ _HANDLERS: dict[str, Any] = {
     "pharma_emax_model": _handle_pharma_emax,
     **_CHEM_HANDLERS,
     **_MED_HANDLERS,
+    **_BQ_HANDLERS,
 }
 
 
