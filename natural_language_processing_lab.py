@@ -261,11 +261,16 @@ class NaturalLanguageProcessingLab:
                 neg_indices = np.random.randint(0, vocab_size, self.config.negative_samples)
                 neg_loss = 0
 
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(-np.dot(center_vec, neg_vec))
-                        neg_loss -= np.log(neg_score + 1e-10)
+                # Vectorized negative sampling filtering and score computation
+                valid_neg_mask = neg_indices != context_idx
+                valid_neg_indices = neg_indices[valid_neg_mask]
+
+                if valid_neg_indices.size > 0:
+                    neg_vecs = context_embeddings[valid_neg_indices]
+
+                    # Compute negative scores vector-wise
+                    neg_scores = self._sigmoid(-np.dot(neg_vecs, center_vec))
+                    neg_loss = -np.sum(np.log(neg_scores + 1e-10))
 
                 total_loss += pos_loss + neg_loss
 
@@ -274,13 +279,12 @@ class NaturalLanguageProcessingLab:
                 pos_grad = (pos_score - 1) * context_vec
                 self.embeddings[center_idx] -= lr * pos_grad
 
-                # Negative gradients
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(np.dot(center_vec, neg_vec))
-                        neg_grad = neg_score * neg_vec
-                        self.embeddings[center_idx] -= lr * neg_grad
+                # Negative gradients (vectorized)
+                if valid_neg_indices.size > 0:
+                    neg_scores_grad = self._sigmoid(np.dot(neg_vecs, center_vec))
+                    # Reshape neg_scores_grad for broadcasting: (N, 1) * (N, D)
+                    neg_grad = np.sum(neg_scores_grad[:, np.newaxis] * neg_vecs, axis=0)
+                    self.embeddings[center_idx] -= lr * neg_grad
 
             # Decay learning rate
             lr = max(self.config.min_learning_rate,
@@ -288,7 +292,7 @@ class NaturalLanguageProcessingLab:
 
         return self.embeddings
 
-    def _sigmoid(self, x: float) -> float:
+    def _sigmoid(self, x: Any) -> Any:
         """Sigmoid activation function."""
         return 1 / (1 + np.exp(-np.clip(x, -500, 500)))
 
