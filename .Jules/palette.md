@@ -5,3 +5,6 @@
 ## 2026-02-23 - Duplicate ID issue
 **Learning:** Having duplicate element IDs (`labSearch` was used twice in `index.html`) can cause the `getElementById` API to retrieve only the first match, resulting in bugs such as a secondary search bar not functioning properly. This violates basic HTML and accessibility rules regarding duplicate IDs.
 **Action:** Always verify that input elements have unique IDs and ensure that event listeners are correctly assigned to each instance.
+## 2026-06-05 - [Accessibility] Fix initial DOM state for ARIA attributes
+**Learning:** When dynamically generating elements that rely on document-wide querySelectors for state management (like adding active classes or aria-current), elements must be appended to the DOM *before* invoking state-setting functions to avoid missing initial states.
+**Action:** Always append dynamic DOM nodes before running initialization functions that query the document.
