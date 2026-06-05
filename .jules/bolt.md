@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2026-06-05 - Vectorized Array Distances in Python Loops
+**Learning:** In NumPy-heavy loops calculating distances between two sets of entities (e.g., cell to vessel distances), using Python list comprehensions and sequential np.linalg.norm operations inside the loop is a massive bottleneck. While broadcasting (e.g., positions[:, np.newaxis, :] - vessels[np.newaxis, :, :]) vectorizes the calculation, it can cause Out-Of-Memory (OOM) errors. scipy.spatial.distance.cdist achieves C-level performance while strictly managing memory and eliminating Python O(N*M) iteration overhead.
+**Action:** Pre-compute pairwise distances using cdist outside of hot iteration loops to instantly eliminate iteration overhead.
