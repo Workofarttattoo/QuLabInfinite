@@ -9,6 +9,7 @@ not as clinically validated predictions.
 """
 
 import numpy as np
+from scipy.spatial.distance import cdist
 from enum import Enum
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple
@@ -500,6 +501,16 @@ class TumorSimulator:
         apoptotic_count = 0
         necrotic_count = 0
 
+        # Vectorized nutrient access calculation
+        if self.cells and self.microenvironment.vessel_locations:
+            positions_arr = np.array([cell.position for cell in self.cells])
+            vessel_arr = np.array(self.microenvironment.vessel_locations)
+            distances = cdist(positions_arr, vessel_arr)
+            min_distances = distances.min(axis=1)
+            access_values = np.exp(-min_distances / 150.0)
+            for i, cell in enumerate(self.cells):
+                cell.nutrient_access = access_values[i]
+
         for cell in self.cells:
             if not cell.is_alive:
                 cell.time_since_death += dt
@@ -524,15 +535,7 @@ class TumorSimulator:
             cell.atp_adp_ratio = self._get_field_value('atp_adp_ratio', grid_pos)
             cell.cytokine_exposure = self._get_field_value('cytokine_pg_ml', grid_pos)
 
-            # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
-                # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
-                cell.nutrient_access = np.exp(-min_distance / 150.0)
+            pass  # Nutrient access calculation vectorized outside the loop
 
             # Update viability
             cell.update_viability(dt)
