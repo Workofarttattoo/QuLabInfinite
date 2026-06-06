@@ -33,10 +33,14 @@ class Tokenizer:
 class EmbeddingLayer:
     def __init__(self, config: NLPConfig):
         self.config = config
+        # ⚡ Bolt Optimization: Initialize the embedding matrix once to prevent massive
+        # O(V*D) random number generation overhead on every forward pass.
+        self.embedding_matrix = np.random.uniform(low=-1.0, high=1.0, size=(self.config.vocab_size, self.config.embedding_dim))
 
     def forward(self, x: np.ndarray) -> np.ndarray:
-        embedding_matrix = np.random.uniform(low=-1.0, high=1.0, size=(self.config.vocab_size, self.config.embedding_dim))
-        return embedding_matrix[x].astype(np.float64)
+        # Cast inputs to integers and safely clip OOV indices to the vocabulary range
+        x_int = np.clip(x.astype(int), 0, self.config.vocab_size - 1)
+        return self.embedding_matrix[x_int].astype(np.float64)
 
 class NLPModel:
     def __init__(self):
