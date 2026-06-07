@@ -257,30 +257,31 @@ class NaturalLanguageProcessingLab:
                 pos_score = self._sigmoid(np.dot(center_vec, context_vec))
                 pos_loss = -np.log(pos_score + 1e-10)
 
-                # Negative sampling
+                # Negative sampling (Vectorized)
                 neg_indices = np.random.randint(0, vocab_size, self.config.negative_samples)
-                neg_loss = 0
 
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(-np.dot(center_vec, neg_vec))
-                        neg_loss -= np.log(neg_score + 1e-10)
+                # Avoid context word in negative samples
+                mask = neg_indices == context_idx
+                if np.any(mask):
+                    neg_indices[mask] = (neg_indices[mask] + 1) % vocab_size
+
+                neg_vecs = context_embeddings[neg_indices]
+
+                # Compute negative scores
+                neg_scores = self._sigmoid(-np.dot(neg_vecs, center_vec))
+                neg_loss = -np.sum(np.log(neg_scores + 1e-10))
 
                 total_loss += pos_loss + neg_loss
 
                 # Gradient updates (simplified)
                 # Positive gradient
                 pos_grad = (pos_score - 1) * context_vec
-                self.embeddings[center_idx] -= lr * pos_grad
 
                 # Negative gradients
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(np.dot(center_vec, neg_vec))
-                        neg_grad = neg_score * neg_vec
-                        self.embeddings[center_idx] -= lr * neg_grad
+                neg_scores_pos = self._sigmoid(np.dot(neg_vecs, center_vec))
+                neg_grad = np.dot(neg_scores_pos, neg_vecs)
+
+                self.embeddings[center_idx] -= lr * (pos_grad + neg_grad)
 
             # Decay learning rate
             lr = max(self.config.min_learning_rate,
