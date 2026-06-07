@@ -259,13 +259,14 @@ class NaturalLanguageProcessingLab:
 
                 # Negative sampling
                 neg_indices = np.random.randint(0, vocab_size, self.config.negative_samples)
-                neg_loss = 0
+                neg_indices = neg_indices[neg_indices != context_idx]
 
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(-np.dot(center_vec, neg_vec))
-                        neg_loss -= np.log(neg_score + 1e-10)
+                if neg_indices.size > 0:
+                    neg_vecs = context_embeddings[neg_indices]
+                    neg_scores = self._sigmoid(-np.dot(neg_vecs, center_vec))
+                    neg_loss = -np.sum(np.log(neg_scores + 1e-10))
+                else:
+                    neg_loss = 0
 
                 total_loss += pos_loss + neg_loss
 
@@ -275,12 +276,10 @@ class NaturalLanguageProcessingLab:
                 self.embeddings[center_idx] -= lr * pos_grad
 
                 # Negative gradients
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(np.dot(center_vec, neg_vec))
-                        neg_grad = neg_score * neg_vec
-                        self.embeddings[center_idx] -= lr * neg_grad
+                if neg_indices.size > 0:
+                    neg_scores_pos = self._sigmoid(np.dot(neg_vecs, center_vec))
+                    neg_grads = neg_scores_pos[:, np.newaxis] * neg_vecs
+                    self.embeddings[center_idx] -= lr * np.sum(neg_grads, axis=0)
 
             # Decay learning rate
             lr = max(self.config.min_learning_rate,
