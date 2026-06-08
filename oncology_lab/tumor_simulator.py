@@ -552,6 +552,24 @@ class TumorSimulator:
         cy_is_scalar = cy_src is not None
         if not cy_is_scalar: cy_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['cytokine_pg_ml'])
 
+        # ⚡ Bolt Optimization: Vectorize distance calculation to vessels
+        # cdist is massively faster than doing np.linalg.norm in a list comprehension
+        # inside the cell loop. It brings O(N*M) python operations to C level.
+        vessels_arr = np.array(self.microenvironment.vessel_locations) if self.microenvironment.vessel_locations else np.empty((0, 3))
+        has_vessels = len(vessels_arr) > 0
+
+        if has_vessels and len(self.cells) > 0:
+            alive_cells = [c for c in self.cells if c.is_alive]
+            if alive_cells:
+                alive_positions = np.array([c.position for c in alive_cells])
+                from scipy.spatial.distance import cdist
+                vessel_distances = cdist(alive_positions, vessels_arr)
+                min_vessel_distances = np.min(vessel_distances, axis=1)
+
+                # Assign back to cells
+                for i, cell in enumerate(alive_cells):
+                    cell.nutrient_access = np.exp(-min_vessel_distances[i] / 150.0)
+
         for cell in self.cells:
             if not cell.is_alive:
                 cell.time_since_death += dt
@@ -578,14 +596,7 @@ class TumorSimulator:
             cell.cytokine_exposure = cy_src if cy_is_scalar else cy_src[g_idx]
 
             # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
-                # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
-                cell.nutrient_access = np.exp(-min_distance / 150.0)
+            # (Already pre-calculated in vectorized form above for alive cells)
 
             # Update viability
             cell.update_viability(dt)
