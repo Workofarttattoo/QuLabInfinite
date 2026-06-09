@@ -157,21 +157,24 @@ class GenomicsLaboratory:
         # Illumina NextSeq error rate: ~0.1-1%
         error_rate = 0.005
 
-        # Generate reads with Poisson-distributed coverage
         seq_len = len(sequence)
+        # Generate reads with Poisson-distributed coverage
         num_reads = int(seq_len * coverage / 150)  # 150bp reads
 
         reads = []
         quality_scores = []
 
-        # Pre-generate random start positions
+        # Pre-generate random start positions and track coverage
         max_start = max(1, seq_len - 150)
         starts = np.random.randint(0, max_start, size=num_reads)
+        coverage_array = np.zeros(seq_len)
 
         for start in starts:
             end = min(start + 150, seq_len)
             read = list(sequence[start:end])
             read_len = len(read)
+
+            coverage_array[start:end] += 1
 
             # Introduce sequencing errors
             error_mask = np.random.random(read_len) < error_rate
@@ -187,13 +190,6 @@ class GenomicsLaboratory:
 
             reads.append(''.join(read))
             quality_scores.append(q_scores)
-
-        # Calculate coverage statistics
-        coverage_array = np.zeros(len(sequence))
-        for read_start in range(num_reads):
-            start = np.random.randint(0, max(1, len(sequence) - 150))
-            end = min(start + 150, len(sequence))
-            coverage_array[start:end] += 1
 
         return {
             'reads': reads,
