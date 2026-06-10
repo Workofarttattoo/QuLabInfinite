@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2024-05-18 - [Vectorize sequence_dna for performance]
+**Learning:** Heavily nested Python loops calling probability distributions (e.g., `np.random.normal`, `np.random.random`, `np.clip`) per list element incur huge overhead.
+**Action:** Optimize by replacing per-element rolls with a single vectorized NumPy call on a flattened array, or by using `np.random.binomial` to determine exact error counts/indices in bulk.
