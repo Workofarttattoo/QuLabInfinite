@@ -452,6 +452,7 @@ class DrugInteractionAnalyzer:
     def __init__(self):
         self.pk_engine = PharmacokineticEngine()
         self.cyp_engine = CYP450InteractionEngine()
+        self._RISK_ORDER = {r: i for i, r in enumerate(RiskLevel)}
 
     def analyze_pairwise_interaction(self, drug1: str, drug2: str) -> InteractionResult:
         """Analyze interaction between two drugs"""
@@ -580,7 +581,7 @@ class DrugInteractionAnalyzer:
 
         # Overall risk assessment
         total_severity = sum(p.severity_score for p in pairwise)
-        max_risk = max([p.risk_level for p in pairwise], key=lambda r: list(RiskLevel).index(r))
+        max_risk = max([p.risk_level for p in pairwise], key=lambda r: self._RISK_ORDER[r])
 
         # Generate optimal schedule
         optimal_schedule = self._generate_optimal_schedule(drug_names, pairwise)
