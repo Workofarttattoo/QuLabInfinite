@@ -163,38 +163,49 @@ class GenomicsLaboratory:
         reads = []
         quality_scores = []
 
+        seq_len = len(sequence)
+        max_start = max(1, seq_len - 150)
+
+        # ⚡ Bolt: Vectorize random start position generation to reduce loop overhead
+        starts = np.random.randint(0, max_start, size=num_reads)
+
         for i in range(num_reads):
             # Random start position
-            start = np.random.randint(0, max(1, len(sequence) - 150))
-            end = min(start + 150, len(sequence))
+            start = starts[i]
+            end = start + 150 if start + 150 < seq_len else seq_len
 
             read = list(sequence[start:end])
 
-            # Introduce sequencing errors
-            for j in range(len(read)):
-                if np.random.random() < error_rate:
+            # ⚡ Bolt: Use binomial distribution to jump straight to errors instead of checking every base
+            num_errs = np.random.binomial(len(read), error_rate)
+            if num_errs > 0:
+                err_indices = np.random.choice(len(read), num_errs, replace=False)
+                for j in err_indices:
                     bases = ['A', 'T', 'C', 'G']
                     bases.remove(read[j])
                     read[j] = np.random.choice(bases)
 
-            # Generate Phred quality scores (Q30 = 99.9% accuracy)
-            q_scores = np.random.normal(35, 5, len(read))
-            q_scores = np.clip(q_scores, 10, 40)
-
             reads.append(''.join(read))
-            quality_scores.append(q_scores)
+
+        # ⚡ Bolt: Vectorize quality score generation over a flattened array representing all bases
+        total_bases = sum(len(r) for r in reads)
+        q_scores_flat = np.random.normal(35, 5, total_bases)
+        q_scores_flat = np.clip(q_scores_flat, 10, 40)
+        avg_quality = float(np.mean(q_scores_flat))
 
         # Calculate coverage statistics
-        coverage_array = np.zeros(len(sequence))
-        for read_start in range(num_reads):
-            start = np.random.randint(0, max(1, len(sequence) - 150))
-            end = min(start + 150, len(sequence))
+        coverage_array = np.zeros(seq_len)
+        # ⚡ Bolt: Vectorize coverage start positions
+        cov_starts = np.random.randint(0, max_start, size=num_reads)
+        for i in range(num_reads):
+            start = cov_starts[i]
+            end = start + 150 if start + 150 < seq_len else seq_len
             coverage_array[start:end] += 1
 
         return {
             'reads': reads,
             'num_reads': len(reads),
-            'average_quality': float(np.mean([np.mean(q) for q in quality_scores])),
+            'average_quality': avg_quality,
             'coverage_mean': float(np.mean(coverage_array)),
             'coverage_std': float(np.std(coverage_array)),
             'error_rate': error_rate,
