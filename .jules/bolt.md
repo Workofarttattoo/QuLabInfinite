@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2024-06-10 - Vectorizing recurrent network input projections
+**Learning:** In recurrent loops (like Echo State Networks), repeating `W_in @ input_data[t]` inside the loop creates massive overhead due to repeated matrix-vector multiplications.
+**Action:** Always pre-compute the full input projection for all time steps using matrix-matrix multiplication (`in_proj = input_data @ W_in.T`) outside the recurrent loop.
