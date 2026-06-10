@@ -33,10 +33,23 @@ class Tokenizer:
 class EmbeddingLayer:
     def __init__(self, config: NLPConfig):
         self.config = config
+        # Pre-initialize embedding matrix exactly once in __init__
+        self.embedding_matrix = np.random.uniform(
+            low=-1.0, high=1.0,
+            size=(self.config.vocab_size, self.config.embedding_dim)
+        )
 
     def forward(self, x: np.ndarray) -> np.ndarray:
-        embedding_matrix = np.random.uniform(low=-1.0, high=1.0, size=(self.config.vocab_size, self.config.embedding_dim))
-        return embedding_matrix[x].astype(np.float64)
+        # Avoid unnecessary copy if already int
+        if x.dtype.kind not in 'iu':
+            x = x.astype(int)
+
+        # Map out-of-bounds indices to an UNK token (e.g., index 0)
+        # This mirrors standard ML practices without throwing an IndexError
+        # if the tokenizer creates IDs slightly out of initial bounds.
+        x_safe = np.where(x >= self.config.vocab_size, 0, x)
+
+        return self.embedding_matrix[x_safe].astype(np.float64)
 
 class NLPModel:
     def __init__(self):
