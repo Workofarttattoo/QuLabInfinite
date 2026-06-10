@@ -9,3 +9,7 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+
+## 2025-05-24 - TumorSimulator Dictionary and Distance Loop Overhead
+**Learning:** Instantiating dictionaries dynamically and running `np.linalg.norm` loops inside heavily repeated 3D simulation loops causes massive overhead. Profiling showed 5 steps of 5,000 cells taking ~2.5s.
+**Action:** Replaced dynamic dictionaries with class-level attributes (`_FIELD_MAP`) and refactored N*M distance calculations to use single vectorized broadcasting operations before the loop, cutting execution time to ~1.4s.

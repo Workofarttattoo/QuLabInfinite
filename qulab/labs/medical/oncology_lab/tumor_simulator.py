@@ -336,6 +336,18 @@ class TumorMicroenvironment:
 
 
 class TumorSimulator:
+    _FIELD_MAP = {
+        'ph_level': 'ph_field',
+        'oxygen_percent': 'oxygen_field',
+        'glucose_mm': 'glucose_field',
+        'lactate_mm': 'lactate_field',
+        'temperature_c': 'temperature_field',
+        'ros_um': 'ros_field',
+        'glutamine_mm': 'glutamine_field',
+        'calcium_um': 'calcium_field',
+        'atp_adp_ratio': 'atp_field',
+        'cytokine_pg_ml': 'cytokine_field',
+    }
     """
     Main tumour simulator built on well-studied growth models.
 
@@ -407,20 +419,7 @@ class TumorSimulator:
         if field_name in self.field_overrides:
             return self.field_overrides[field_name]
 
-        field_map = {
-            'ph_level': 'ph_field',
-            'oxygen_percent': 'oxygen_field',
-            'glucose_mm': 'glucose_field',
-            'lactate_mm': 'lactate_field',
-            'temperature_c': 'temperature_field',
-            'ros_um': 'ros_field',
-            'glutamine_mm': 'glutamine_field',
-            'calcium_um': 'calcium_field',
-            'atp_adp_ratio': 'atp_field',
-            'cytokine_pg_ml': 'cytokine_field',
-        }
-
-        lattice_name = field_map.get(field_name)
+        lattice_name = self._FIELD_MAP.get(field_name)
         if lattice_name is None:
             raise KeyError(f"Unknown field '{field_name}'")
 
@@ -500,6 +499,20 @@ class TumorSimulator:
         apoptotic_count = 0
         necrotic_count = 0
 
+        # Vectorize nutrient access calculation for all living cells
+        living_cells = [c for c in self.cells if c.is_alive]
+        if living_cells and len(self.microenvironment.vessel_locations) > 0:
+            positions = np.array([c.position for c in living_cells])
+            vessels = np.array(self.microenvironment.vessel_locations)
+            # positions shape: (N, 3), vessels shape: (V, 3)
+            # dists shape: (N, V) -> min along axis 1 -> shape: (N,)
+            diffs = positions[:, np.newaxis, :] - vessels[np.newaxis, :, :]
+            min_dists = np.min(np.sqrt(np.sum(diffs**2, axis=2)), axis=1)
+            nutrient_access = np.exp(-min_dists / 150.0)
+
+            for i, c in enumerate(living_cells):
+                c.nutrient_access = nutrient_access[i]
+
         for cell in self.cells:
             if not cell.is_alive:
                 cell.time_since_death += dt
@@ -524,15 +537,8 @@ class TumorSimulator:
             cell.atp_adp_ratio = self._get_field_value('atp_adp_ratio', grid_pos)
             cell.cytokine_exposure = self._get_field_value('cytokine_pg_ml', grid_pos)
 
-            # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
-                # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
-                cell.nutrient_access = np.exp(-min_distance / 150.0)
+            # Nutrient access is pre-calculated vectorized above
+            pass
 
             # Update viability
             cell.update_viability(dt)
