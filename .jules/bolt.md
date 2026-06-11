@@ -9,3 +9,6 @@
 ## 2025-05-23 - Dictionary Creation Overhead in Inner Loops
 **Learning:** Creating a dictionary (e.g., `field_map`) inside a function called repeatedly in a tight loop (20,000+ times) can dominate execution time, even more than complex math like `np.linalg.norm`.
 **Action:** Always verify if constant mappings are being reconstructed inside loops. Move them to class attributes or constants.
+## 2025-05-18 - Vectorize Negative Sampling in Word2Vec
+**Learning:** O(K) Python loops for calculating negative sampling scores and gradients in Word2Vec create a massive bottleneck for natural language processing performance, since this block is run heavily in the inner loop.
+**Action:** Vectorize negative context retrieval and use NumPy dot products (`np.dot` with matrices) to eliminate iteration overhead, drastically speeding up the skip-gram algorithm.

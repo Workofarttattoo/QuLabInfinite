@@ -259,13 +259,18 @@ class NaturalLanguageProcessingLab:
 
                 # Negative sampling
                 neg_indices = np.random.randint(0, vocab_size, self.config.negative_samples)
-                neg_loss = 0
+                # Filter out context_idx
+                neg_indices = neg_indices[neg_indices != context_idx]
 
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(-np.dot(center_vec, neg_vec))
-                        neg_loss -= np.log(neg_score + 1e-10)
+                if len(neg_indices) > 0:
+                    neg_vecs = context_embeddings[neg_indices]
+
+                    # Vectorized negative score and loss
+                    # center_vec is (dim,), neg_vecs is (k, dim)
+                    neg_scores = self._sigmoid(-np.dot(neg_vecs, center_vec))
+                    neg_loss = -np.sum(np.log(neg_scores + 1e-10))
+                else:
+                    neg_loss = 0
 
                 total_loss += pos_loss + neg_loss
 
@@ -275,12 +280,12 @@ class NaturalLanguageProcessingLab:
                 self.embeddings[center_idx] -= lr * pos_grad
 
                 # Negative gradients
-                for neg_idx in neg_indices:
-                    if neg_idx != context_idx:
-                        neg_vec = context_embeddings[neg_idx]
-                        neg_score = self._sigmoid(np.dot(center_vec, neg_vec))
-                        neg_grad = neg_score * neg_vec
-                        self.embeddings[center_idx] -= lr * neg_grad
+                if len(neg_indices) > 0:
+                    # neg_scores_grad is the score for positive dot product
+                    neg_scores_grad = self._sigmoid(np.dot(neg_vecs, center_vec))
+                    # sum over negative samples: sum(neg_score * neg_vec)
+                    neg_grad = np.dot(neg_scores_grad, neg_vecs)
+                    self.embeddings[center_idx] -= lr * neg_grad
 
             # Decay learning rate
             lr = max(self.config.min_learning_rate,
