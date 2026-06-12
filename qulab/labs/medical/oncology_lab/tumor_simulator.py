@@ -500,7 +500,15 @@ class TumorSimulator:
         apoptotic_count = 0
         necrotic_count = 0
 
-        for cell in self.cells:
+        import scipy.spatial.distance
+        if self.microenvironment.vessel_locations and self.cells:
+            positions = np.array([cell.position for cell in self.cells])
+            vessels = np.array(self.microenvironment.vessel_locations)
+            min_distances = np.min(scipy.spatial.distance.cdist(positions, vessels), axis=1)
+        else:
+            min_distances = None
+
+        for i, cell in enumerate(self.cells):
             if not cell.is_alive:
                 cell.time_since_death += dt
                 if cell.phase == CellCyclePhase.APOPTOSIS:
@@ -525,14 +533,9 @@ class TumorSimulator:
             cell.cytokine_exposure = self._get_field_value('cytokine_pg_ml', grid_pos)
 
             # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
+            if min_distances is not None:
                 # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
-                cell.nutrient_access = np.exp(-min_distance / 150.0)
+                cell.nutrient_access = np.exp(-min_distances[i] / 150.0)
 
             # Update viability
             cell.update_viability(dt)
