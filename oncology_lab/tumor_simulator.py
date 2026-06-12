@@ -552,7 +552,15 @@ class TumorSimulator:
         cy_is_scalar = cy_src is not None
         if not cy_is_scalar: cy_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['cytokine_pg_ml'])
 
-        for cell in self.cells:
+        import scipy.spatial.distance
+        if self.microenvironment.vessel_locations and self.cells:
+            positions = np.array([cell.position for cell in self.cells])
+            vessels = np.array(self.microenvironment.vessel_locations)
+            min_distances = np.min(scipy.spatial.distance.cdist(positions, vessels), axis=1)
+        else:
+            min_distances = None
+
+        for i, cell in enumerate(self.cells):
             if not cell.is_alive:
                 cell.time_since_death += dt
                 if cell.phase == CellCyclePhase.APOPTOSIS:
@@ -578,14 +586,9 @@ class TumorSimulator:
             cell.cytokine_exposure = cy_src if cy_is_scalar else cy_src[g_idx]
 
             # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
+            if min_distances is not None:
                 # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
-                cell.nutrient_access = np.exp(-min_distance / 150.0)
+                cell.nutrient_access = np.exp(-min_distances[i] / 150.0)
 
             # Update viability
             cell.update_viability(dt)
