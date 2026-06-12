@@ -33,10 +33,13 @@ class Tokenizer:
 class EmbeddingLayer:
     def __init__(self, config: NLPConfig):
         self.config = config
+        # Pre-initialize embedding matrix once to prevent massive per-pass overhead
+        self.embedding_matrix = np.random.uniform(low=-1.0, high=1.0, size=(self.config.vocab_size, self.config.embedding_dim))
 
     def forward(self, x: np.ndarray) -> np.ndarray:
-        embedding_matrix = np.random.uniform(low=-1.0, high=1.0, size=(self.config.vocab_size, self.config.embedding_dim))
-        return embedding_matrix[x].astype(np.float64)
+        # Cast to int to prevent IndexError and safely map out-of-bounds indices
+        x_safe = np.clip(x.astype(int), 0, self.config.vocab_size - 1)
+        return self.embedding_matrix[x_safe].astype(np.float64)
 
 class NLPModel:
     def __init__(self):
