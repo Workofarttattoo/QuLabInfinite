@@ -500,12 +500,12 @@
                         <div class="frame-title" id="frameTitle">Live Lab Chat</div>
                         <div class="status-pill">Active session</div>
                     </div>
-                    <div class="chat-window" id="chatWindow">
+                    <div class="chat-window" id="chatWindow" aria-live="polite" aria-relevant="additions" aria-label="Chat messages">
                         <div class="message assistant">Welcome back. Describe the material system or clinical scenario you want to explore. I will keep the analysis continuous and grounded in the active lab.</div>
                         <div class="message user">Show me a lightweight, high-strength composite with thermal stability above 900°C.</div>
                         <div class="message assistant">Drafting a carbon-ceramic laminate with aerogel cores and graphene-reinforced seams. I can tune density, weave pattern, and catalyst routes. Want a manufacturing path or performance sweep?</div>
                         <div class="prompt-bar">
-                            <span class="prompt-input" id="promptInput" role="textbox" aria-placeholder="Type a new request">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
+                            <span class="prompt-input" id="promptInput" role="textbox" aria-placeholder="Type a new request" aria-label="Prompt input text" aria-multiline="true">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
                             <button class="prompt-send" id="promptSend" type="button" aria-label="Send request">Send</button>
                         </div>
                     </div>
