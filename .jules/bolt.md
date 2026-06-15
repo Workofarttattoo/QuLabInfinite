@@ -12,3 +12,7 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+
+## 2024-05-23 - Inner Loop Euclidean Distances
+**Learning:** Computing Euclidean distances using `np.linalg.norm(cell.position - vessel)` within list comprehensions over nested iteration logic inside step loops is incredibly slow when calculating distances from hundreds of items to fixed arrays.
+**Action:** Pre-convert constant lists (like vessels) into numpy arrays outside of the iteration loops. Manually computing squared differences `diff = cell.position - vessels_array; distances_sq = np.sum(diff * diff, axis=1); min_distance = np.sqrt(np.min(distances_sq))` avoids `np.linalg.norm` and native list iteration overheads, accelerating specific iterations massively.
