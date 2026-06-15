@@ -312,7 +312,7 @@
                 <div id="labFrame" class="lab-frame">
                     <div class="lab-chat" id="labChat"></div>
                     <div class="prompt-bar">
-                        <input type="text" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’">
+                        <input type="text" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’" aria-label="Prompt the lab">
                         <button type="button" aria-label="Send message to lab">Send</button>
                     </div>
                 </div>
@@ -572,7 +572,13 @@
             const lab = labs.find((item) => item.id === labId);
             if (!lab) return;
             document.querySelectorAll(".lab-button").forEach((button) => {
-                button.classList.toggle("active", button.dataset.labId === labId);
+                const isActive = button.dataset.labId === labId;
+                button.classList.toggle("active", isActive);
+                if (isActive) {
+                    button.setAttribute("aria-current", "true");
+                } else {
+                    button.removeAttribute("aria-current");
+                }
             });
             labTitle.textContent = lab.name;
             labSubtitle.textContent = lab.subtitle;
