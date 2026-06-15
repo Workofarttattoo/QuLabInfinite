@@ -47,6 +47,22 @@ class CancerCell:
     Individual cancer cell with realistic biological parameters
     Based on average human cell: ~10-20 μm diameter, 1-2 pg mass
     """
+    _phase_durations = {
+        CellCyclePhase.G0: float('inf'),
+        CellCyclePhase.G1: 10.0,
+        CellCyclePhase.S: 8.0,
+        CellCyclePhase.G2: 4.0,
+        CellCyclePhase.M: 1.0,
+    }
+
+    _transitions = {
+        CellCyclePhase.G0: CellCyclePhase.G1,
+        CellCyclePhase.G1: CellCyclePhase.S,
+        CellCyclePhase.S: CellCyclePhase.G2,
+        CellCyclePhase.G2: CellCyclePhase.M,
+        CellCyclePhase.M: CellCyclePhase.G1,
+    }
+
     # Identity
     cell_id: int
     position: np.ndarray  # 3D position in tumor (μm)
@@ -235,7 +251,7 @@ class CancerCell:
                 self.phase_time = 0.0
                 return "DIVIDE"
             else:
-                self.phase = transitions.get(self.phase, self.phase)
+                self.phase = CancerCell._transitions.get(self.phase, self.phase)
                 self.phase_time = 0.0
 
         return None
@@ -552,6 +568,21 @@ class TumorSimulator:
         cy_is_scalar = cy_src is not None
         if not cy_is_scalar: cy_src = getattr(self.microenvironment, self.FIELD_TO_LATTICE['cytokine_pg_ml'])
 
+        # Vectorized nutrient access optimization
+        vessels_array = np.array(self.microenvironment.vessel_locations) if self.microenvironment.vessel_locations else np.empty((0, 3))
+        has_vessels = vessels_array.shape[0] > 0
+
+        if has_vessels:
+            alive_cells = [c for c in self.cells if c.is_alive]
+            if alive_cells:
+                positions_array = np.array([c.position for c in alive_cells])
+                diff = positions_array[:, np.newaxis, :] - vessels_array[np.newaxis, :, :]
+                distances_sq = np.sum(diff * diff, axis=-1)
+                min_distances = np.sqrt(np.min(distances_sq, axis=-1))
+                access_values = np.exp(-min_distances / 150.0)
+                for c, access in zip(alive_cells, access_values):
+                    c.nutrient_access = access
+
         for cell in self.cells:
             if not cell.is_alive:
                 cell.time_since_death += dt
@@ -577,15 +608,8 @@ class TumorSimulator:
             cell.atp_adp_ratio = at_src if at_is_scalar else at_src[g_idx]
             cell.cytokine_exposure = cy_src if cy_is_scalar else cy_src[g_idx]
 
-            # Calculate nutrient access based on distance to nearest vessel
-            distances_to_vessels = [
-                np.linalg.norm(cell.position - vessel)
-                for vessel in self.microenvironment.vessel_locations
-            ]
-            if distances_to_vessels:
-                min_distance = min(distances_to_vessels)
-                # Nutrient access decays exponentially with distance (diffusion limit ~150 μm)
-                cell.nutrient_access = np.exp(-min_distance / 150.0)
+            # Nutrient access is now pre-calculated via vectorization outside the loop
+            pass
 
             # Update viability
             cell.update_viability(dt)
