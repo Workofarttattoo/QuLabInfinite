@@ -1,0 +1,9 @@
+record_id,property_id,latitude,longitude,timestamp,hail_occurred,hail_size_inches,roof_material,age_years,drainage_score,noaa_reflectivity_dbz,noaa_cape_j_kg,noaa_wind_speed_mps,noaa_gust_mps,noaa_precipitation_rate_mm_hr,radar_reflectivity_dbz,radar_differential_reflectivity,radar_correlation_coefficient,radar_specific_differential_phase,cape_j_kg,shear_0_6km_kt,freezing_level_m,gust_mps
+okc-hail-001,okc-hail-001,35.47,-97.52,2024-05-19T22:10:00Z,true,1.75,asphalt_shingle,18,0.55,31,2600,9,15,22,66,0.4,0.88,2.2,3300,48,3100,25
+okc-hail-002,okc-hail-002,35.62,-97.41,2024-05-19T22:25:00Z,true,1.25,asphalt_shingle,12,0.70,29,2100,8,13,18,61,0.7,0.91,1.8,2850,42,3300,22
+ict-hail-001,ict-hail-001,37.69,-97.34,2024-06-02T01:40:00Z,true,2.00,wood_shake,24,0.45,33,3000,11,17,28,70,0.3,0.86,2.7,3600,55,2900,29
+dfw-hail-001,dfw-hail-001,32.78,-96.80,2024-04-28T03:15:00Z,true,1.00,asphalt_shingle,16,0.60,30,2400,10,16,20,58,0.8,0.92,1.5,2900,39,3400,21
+okc-rain-001,okc-rain-001,35.40,-97.60,2024-05-20T02:10:00Z,false,0.00,metal,7,0.85,27,900,6,10,12,34,2.6,0.98,0.6,900,18,3900,10
+ict-rain-001,ict-rain-001,37.58,-97.50,2024-06-03T05:30:00Z,false,0.00,asphalt_shingle,9,0.75,25,700,5,9,8,29,1.4,0.99,0.2,700,16,4100,9
+dfw-rain-001,dfw-rain-001,32.90,-96.70,2024-04-29T10:05:00Z,false,0.00,tile,11,0.80,28,1200,7,12,16,42,3.2,0.98,1.8,1200,22,3800,12
+ama-clear-001,ama-clear-001,35.22,-101.83,2024-05-08T19:00:00Z,false,0.00,metal,5,0.90,18,400,5,8,0,18,0.8,0.99,0.1,400,12,4300,8
