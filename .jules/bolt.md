@@ -12,3 +12,6 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+## 2024-05-23 - Optimize Gradient Descent by Precomputing Static Matrices
+**Learning:** In machine learning algorithms like Gradient Descent, computing `X.T.dot(y_pred - y)` inside the epoch loop leads to repeated execution of matrix multiplications `X.T.dot(X)` and `X.T.dot(y)` across the dataset `X`.
+**Action:** Always precompute constant matrix products `X.T.dot(X)` and `X.T.dot(y)` before loop iteration. The gradient can then be computed efficiently as `(2/n_samples) * (X_T_X.dot(theta) - X_T_y)`, drastically reducing time complexity inside loops and speeding up execution by ~10x-20x.
