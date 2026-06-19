@@ -50,12 +50,15 @@ class MachineLearningLab:
         n_samples, n_features = X.shape
         theta = theta_init if theta_init is not None else np.zeros(n_features)
 
-        for epoch in range(self.config.epochs):
-            # Compute predictions
-            y_pred = X.dot(theta)
+        # Bolt: Optimization - Precompute constant matrix multiplications outside the loop
+        # X.T.dot(X) and X.T.dot(y) are constant across epochs. Precomputing them reduces
+        # time complexity in the loop, yielding significant speedups for gradient descent.
+        XtX = X.T.dot(X)
+        Xty = X.T.dot(y)
 
-            # Compute gradient
-            gradient = (2/n_samples) * X.T.dot(y_pred - y)
+        for epoch in range(self.config.epochs):
+            # Compute gradient using precomputed matrices: 2/N * (X^T X theta - X^T y)
+            gradient = (2/n_samples) * (XtX.dot(theta) - Xty)
 
             # Apply regularization
             if self.config.regularization == 'l2':
