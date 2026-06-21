@@ -12,3 +12,6 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+## 2024-06-21 - Coordinate Descent O(n) Optimizations
+**Learning:** In Coordinate Descent algorithms (LASSO, Elastic Net), calculating the full residual from scratch inside the inner loop is an O(N*P) operation that ruins scaling. By precomputing static norms outside the loop and incrementally adjusting the residual (`residual -= X[:, j] * (theta[j] - old_theta_j)`) only when coefficients change, we avoid repeating the full matrix-vector product.
+**Action:** Always check the inner loops of coordinate descent/ascent algorithms to ensure residuals and objective values are maintained dynamically rather than reconstructed.
