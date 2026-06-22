@@ -215,23 +215,39 @@ class MachineLearningLab:
         n_samples, n_features = X.shape
         theta = np.zeros(n_features)
 
+        # Precompute X_j.dot(X_j)
+        z = np.sum(X ** 2, axis=0)
+
+        # Initialize residual
+        residual = y - X.dot(theta)
+
         for _ in range(self.config.epochs):
             for j in range(n_features):
-                # Compute residual without feature j
-                theta_j = theta[j]
-                theta[j] = 0
-                residual = y - X.dot(theta)
+                old_theta_j = theta[j]
 
-                # Compute rho
-                rho = X[:, j].dot(residual)
+                if z[j] == 0:
+                    continue
 
-                # Soft thresholding
+                # The original computes rho as:
+                # theta_j = theta[j]; theta[j] = 0; residual = y - X.dot(theta)
+                # rho = X[:, j].dot(residual)
+                # This is equivalent to X[:, j].dot(residual_current + X[:, j] * old_theta_j)
+                rho = X[:, j].dot(residual) + z[j] * old_theta_j
+
+                # Original updates theta[j] by dividing by (X[:, j].dot(X[:, j]) / n_samples)
+                # which is z[j] / n_samples
+                z_scaled = z[j] / n_samples
+
                 if rho < -alpha/2:
-                    theta[j] = (rho + alpha/2) / (X[:, j].dot(X[:, j]) / n_samples)
+                    theta[j] = (rho + alpha/2) / z_scaled
                 elif rho > alpha/2:
-                    theta[j] = (rho - alpha/2) / (X[:, j].dot(X[:, j]) / n_samples)
+                    theta[j] = (rho - alpha/2) / z_scaled
                 else:
                     theta[j] = 0
+
+                # Update residual incrementally
+                if old_theta_j != theta[j]:
+                    residual -= X[:, j] * (theta[j] - old_theta_j)
 
         return theta
 
@@ -271,26 +287,35 @@ class MachineLearningLab:
         n_samples, n_features = X.shape
         theta = np.zeros(n_features)
 
+        # Precompute denominator terms
+        X_squared = np.sum(X ** 2, axis=0)
+        z_array = X_squared / n_samples + alpha * (1 - l1_ratio)
+        l1_penalty = alpha * l1_ratio * n_samples / 2
+
+        # Initialize residual
+        residual = y - X.dot(theta)
+
         for epoch in range(self.config.epochs):
             for j in range(n_features):
-                # Compute residual without feature j
-                theta_j = theta[j]
-                theta[j] = 0
-                residual = y - X.dot(theta)
+                old_theta_j = theta[j]
 
-                # Compute gradient components
-                rho = X[:, j].dot(residual)
-                z = X[:, j].dot(X[:, j]) / n_samples + alpha * (1 - l1_ratio)
+                if z_array[j] == 0:
+                    continue
+
+                # Compute rho
+                rho = X[:, j].dot(residual) + X_squared[j] * old_theta_j
 
                 # Soft thresholding with elastic net
-                l1_penalty = alpha * l1_ratio * n_samples / 2
-
                 if rho < -l1_penalty:
-                    theta[j] = (rho + l1_penalty) / z
+                    theta[j] = (rho + l1_penalty) / z_array[j]
                 elif rho > l1_penalty:
-                    theta[j] = (rho - l1_penalty) / z
+                    theta[j] = (rho - l1_penalty) / z_array[j]
                 else:
                     theta[j] = 0
+
+                # Update residual incrementally
+                if old_theta_j != theta[j]:
+                    residual -= X[:, j] * (theta[j] - old_theta_j)
 
         return theta
 
