@@ -50,12 +50,14 @@ class MachineLearningLab:
         n_samples, n_features = X.shape
         theta = theta_init if theta_init is not None else np.zeros(n_features)
 
-        for epoch in range(self.config.epochs):
-            # Compute predictions
-            y_pred = X.dot(theta)
+        # Precompute X.T.dot(X) and X.T.dot(y) for performance
+        # This reduces per-epoch time complexity from O(n_samples * n_features) to O(n_features^2)
+        XTX = X.T.dot(X)
+        XTy = X.T.dot(y)
 
-            # Compute gradient
-            gradient = (2/n_samples) * X.T.dot(y_pred - y)
+        for epoch in range(self.config.epochs):
+            # Compute gradient efficiently
+            gradient = (2/n_samples) * (XTX.dot(theta) - XTy)
 
             # Apply regularization
             if self.config.regularization == 'l2':
