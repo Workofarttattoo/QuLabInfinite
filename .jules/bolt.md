@@ -12,3 +12,9 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+## 2025-02-27 - Vectorizing Cell-to-Entity Distance Calculations
+**Learning:** In simulation loops processing thousands of entities iteratively (like cells evaluating distance to blood vessels), using list comprehensions and computing `np.linalg.norm()` separately per element incurs significant Python loop and memory allocation overhead.
+**Action:** Always pre-convert static coordinate lists into a single NumPy array and evaluate distances using completely vectorized array operations (e.g., `np.sum((target - points_array)**2, axis=1)`) to dramatically reduce computation time per cycle.
+## 2025-02-27 - Vectorization Array Caching Mutability
+**Learning:** When vectorizing entity relationships with numpy arrays (e.g., cell to vessel distances), caching the array instance variable permanently (e.g., `self._vessels_array = ...`) is an anti-pattern if the microenvironment is mutable. It creates bugs where simulation entities reference stale environmental features.
+**Action:** Always place the pre-conversion of static coordinates into a fresh numpy array at the start of the simulation tick (outside the entity loop), rather than persistently on the instance. This guarantees the array reflects the current timestep while avoiding the overhead of re-evaluating it for every single entity.
