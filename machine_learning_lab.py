@@ -215,23 +215,29 @@ class MachineLearningLab:
         n_samples, n_features = X.shape
         theta = np.zeros(n_features)
 
+        # Precompute feature norms and initial residual
+        feature_norms = np.sum(X**2, axis=0) / n_samples
+        residual = y - X.dot(theta)
+
         for _ in range(self.config.epochs):
             for j in range(n_features):
-                # Compute residual without feature j
-                theta_j = theta[j]
-                theta[j] = 0
-                residual = y - X.dot(theta)
+                old_theta_j = theta[j]
+                # Add back the effect of feature j on residual
+                residual += X[:, j] * old_theta_j
 
                 # Compute rho
                 rho = X[:, j].dot(residual)
 
                 # Soft thresholding
                 if rho < -alpha/2:
-                    theta[j] = (rho + alpha/2) / (X[:, j].dot(X[:, j]) / n_samples)
+                    theta[j] = (rho + alpha/2) / feature_norms[j]
                 elif rho > alpha/2:
-                    theta[j] = (rho - alpha/2) / (X[:, j].dot(X[:, j]) / n_samples)
+                    theta[j] = (rho - alpha/2) / feature_norms[j]
                 else:
                     theta[j] = 0
+
+                # Remove the new effect of feature j on residual
+                residual -= X[:, j] * theta[j]
 
         return theta
 
