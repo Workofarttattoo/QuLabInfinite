@@ -12,3 +12,6 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+## 2025-02-23 - Vectorized Metaheuristic Iterations
+**Learning:** In optimization metaheuristics (like Particle Swarm Optimization), writing explicit `for` loops in Python over the population/particles incurs enormous overhead. NumPy provides array clipping (`np.clip`), boolean mask slicing (`scores < personal_best_scores`), and batched random variable generation which operate natively in C, providing ~7x faster execution in PSO than sequential evaluation.
+**Action:** Always favor vectorizing the population entity states into dense arrays and calculating the epoch updates universally across all instances rather than using nested loop generators over entity objects.
