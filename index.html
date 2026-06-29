@@ -338,12 +338,19 @@
             padding: 10px 12px;
             border-radius: 12px;
             border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .prompt-bar:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-soft);
         }
 
         .prompt-input {
             flex: 1;
             color: var(--muted);
             font-size: 0.9rem;
+            outline: none;
         }
 
         .prompt-send {
@@ -500,7 +507,7 @@
                         <div class="frame-title" id="frameTitle">Live Lab Chat</div>
                         <div class="status-pill">Active session</div>
                     </div>
-                    <div class="chat-window" id="chatWindow">
+                    <div class="chat-window" id="chatWindow" aria-live="polite" aria-relevant="additions">
                         <div class="message assistant">Welcome back. Describe the material system or clinical scenario you want to explore. I will keep the analysis continuous and grounded in the active lab.</div>
                         <div class="message user">Show me a lightweight, high-strength composite with thermal stability above 900°C.</div>
                         <div class="message assistant">Drafting a carbon-ceramic laminate with aerogel cores and graphene-reinforced seams. I can tune density, weave pattern, and catalyst routes. Want a manufacturing path or performance sweep?</div>
