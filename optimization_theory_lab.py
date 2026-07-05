@@ -543,31 +543,35 @@ class OptimizationTheoryLab:
         global_best_position = personal_best_positions[global_best_idx].copy()
         global_best_score = personal_best_scores[global_best_idx]
 
+        # Vectorized bounds for clipping
+        lows = np.array([b[0] for b in bounds])
+        highs = np.array([b[1] for b in bounds])
+
         for iteration in range(max_iter):
-            # Update velocities and positions
-            for i in range(n_particles):
-                r1, r2 = np.random.random(n_vars), np.random.random(n_vars)
+            # Update velocities and positions (Vectorized)
+            r1 = np.random.random((n_particles, n_vars))
+            r2 = np.random.random((n_particles, n_vars))
 
-                velocities[i] = (w * velocities[i] +
-                               c1 * r1 * (personal_best_positions[i] - particles[i]) +
-                               c2 * r2 * (global_best_position - particles[i]))
+            velocities = (w * velocities +
+                        c1 * r1 * (personal_best_positions - particles) +
+                        c2 * r2 * (global_best_position - particles))
 
-                particles[i] = particles[i] + velocities[i]
+            particles = particles + velocities
 
-                # Enforce bounds
-                for j, (low, high) in enumerate(bounds):
-                    particles[i, j] = np.clip(particles[i, j], low, high)
+            # Enforce bounds (Vectorized)
+            particles = np.clip(particles, lows, highs)
 
-                # Update personal best
-                score = f(particles[i])
-                if score < personal_best_scores[i]:
-                    personal_best_scores[i] = score
-                    personal_best_positions[i] = particles[i].copy()
+            # Evaluate fitness and update bests
+            scores = np.array([f(p) for p in particles])
 
-                    # Update global best
-                    if score < global_best_score:
-                        global_best_score = score
-                        global_best_position = particles[i].copy()
+            better_mask = scores < personal_best_scores
+            personal_best_scores[better_mask] = scores[better_mask]
+            personal_best_positions[better_mask] = particles[better_mask].copy()
+
+            min_score_idx = np.argmin(personal_best_scores)
+            if personal_best_scores[min_score_idx] < global_best_score:
+                global_best_score = personal_best_scores[min_score_idx]
+                global_best_position = personal_best_positions[min_score_idx].copy()
 
             history.append(global_best_score)
 
