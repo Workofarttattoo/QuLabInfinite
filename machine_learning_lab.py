@@ -215,23 +215,31 @@ class MachineLearningLab:
         n_samples, n_features = X.shape
         theta = np.zeros(n_features)
 
+        # Precompute denominator and residual to optimize loop (time complexity O(n_epochs * n_features * n_samples) -> O(n_epochs * n_features))
+        X_norms_sq = np.sum(X**2, axis=0) / n_samples
+        residual = y.astype(float, copy=True)
+
         for _ in range(self.config.epochs):
             for j in range(n_features):
-                # Compute residual without feature j
-                theta_j = theta[j]
-                theta[j] = 0
-                residual = y - X.dot(theta)
+                old_theta_j = theta[j]
+
+                # Compute partial residual without feature j's contribution
+                partial_residual = residual + X[:, j] * old_theta_j
 
                 # Compute rho
-                rho = X[:, j].dot(residual)
+                rho = X[:, j].dot(partial_residual)
 
                 # Soft thresholding
                 if rho < -alpha/2:
-                    theta[j] = (rho + alpha/2) / (X[:, j].dot(X[:, j]) / n_samples)
+                    new_theta_j = (rho + alpha/2) / X_norms_sq[j]
                 elif rho > alpha/2:
-                    theta[j] = (rho - alpha/2) / (X[:, j].dot(X[:, j]) / n_samples)
+                    new_theta_j = (rho - alpha/2) / X_norms_sq[j]
                 else:
-                    theta[j] = 0
+                    new_theta_j = 0
+
+                # Update true residual if theta[j] changed
+                residual -= X[:, j] * (new_theta_j - old_theta_j)
+                theta[j] = new_theta_j
 
         return theta
 
