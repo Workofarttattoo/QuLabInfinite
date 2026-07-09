@@ -346,6 +346,12 @@
             font-size: 0.9rem;
         }
 
+        .prompt-input:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
         .prompt-send {
             background: var(--accent);
             color: #0b0f17;
@@ -365,7 +371,7 @@
             gap: 16px;
         }
 
-        .detail-section h3 {
+        .detail-section h2 {
             font-size: 1rem;
             margin-bottom: 8px;
         }
@@ -471,7 +477,7 @@
 </head>
 <body>
     <div class="shell">
-        <aside class="lab-sidebar">
+        <aside class="lab-sidebar" aria-label="Sidebar">
             <div>
                 <div class="brand">QuLab <span>Infinite</span></div>
                 <p class="sidebar-subtitle">Active labs, ready for natural language exploration.</p>
@@ -481,7 +487,7 @@
             <div style="padding: 12px 0 4px 0;">
                 <input type="text" id="labSearchMobile" class="lab-search" placeholder="Filter labs..." aria-label="Filter labs">
             </div>
-            <div class="lab-list" id="labList" aria-label="Active labs list"></div>
+            <div class="lab-list" id="labList" role="list" aria-label="Active labs list"></div>
             <div class="footer">
                 GAVL-ready simulations • Quantum connectors enabled • Patent pending
             </div>
@@ -505,18 +511,18 @@
                         <div class="message user">Show me a lightweight, high-strength composite with thermal stability above 900°C.</div>
                         <div class="message assistant">Drafting a carbon-ceramic laminate with aerogel cores and graphene-reinforced seams. I can tune density, weave pattern, and catalyst routes. Want a manufacturing path or performance sweep?</div>
                         <div class="prompt-bar">
-                            <span class="prompt-input" id="promptInput" role="textbox" aria-placeholder="Type a new request">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
+                            <span class="prompt-input" id="promptInput" role="textbox" tabindex="0" aria-label="Lab prompt input" aria-placeholder="Type a new request">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
                             <button class="prompt-send" id="promptSend" type="button" aria-label="Send request">Send</button>
                         </div>
                     </div>
                 </div>
-                <aside class="lab-details">
+                <aside class="lab-details" aria-label="Lab Details">
                     <div class="detail-section">
-                        <h3>Continuity Layer</h3>
+                        <h2>Continuity Layer</h2>
                         <p>This interface keeps a single natural language flow across labs. Every selection updates the frame, context window, and technical vocabulary without breaking the chat rhythm.</p>
                     </div>
                     <div class="detail-section">
-                        <h3>What you can ask</h3>
+                        <h2>What you can ask</h2>
                         <ul>
                             <li>Material stacks with verified compatibility and synthesis routes.</li>
                             <li>Simulation sweeps, edge cases, and trade-off maps.</li>
@@ -524,7 +530,7 @@
                         </ul>
                     </div>
                     <div class="detail-section">
-                        <h3>Quick prompts</h3>
+                        <h2>Quick prompts</h2>
                         <div class="chip-group" id="promptChips">
                             <button class="chip" type="button">"Design a bioactive scaffold with tunable porosity."</button>
                             <button class="chip" type="button">"Mix superconductors with nano-ceramics."</button>
@@ -532,7 +538,7 @@
                         </div>
                     </div>
                     <div class="detail-section">
-                        <h3>Lab focus</h3>
+                        <h2>Lab focus</h2>
                         <p id="labFocus">Advanced materials planning, combinatorial synthesis, and validation-ready outputs.</p>
                     </div>
                 </aside>
