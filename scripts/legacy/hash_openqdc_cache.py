@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import pathlib
-from typing import Iterable
+from collections.abc import Iterable
 
 CACHE_ROOT = pathlib.Path.home() / ".cache" / "openqdc"
 OUTPUT = pathlib.Path("data/raw/quantum/openqdc_cache_hashes.txt")

@@ -6,7 +6,6 @@ import argparse
 import csv
 import itertools
 import pathlib
-from typing import Iterable
 
 import numpy as np
 

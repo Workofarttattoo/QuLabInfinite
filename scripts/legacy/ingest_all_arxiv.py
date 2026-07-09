@@ -4,10 +4,14 @@ Complete arXiv Platform Ingestion System
 Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light)
 Ingests from: arXiv, bioRxiv, medRxiv, chemRxiv, PsyArXiv, SocArXiv, EarthArXiv
 """
-import requests, json, time, feedparser
+import json
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import urlencode
+
+import feedparser
+import requests
 
 PLATFORMS = {
     'arxiv': 'http://export.arxiv.org/api/query',
@@ -118,28 +122,28 @@ def main(days=30, historical=False):
     all_papers = []
 
     # arXiv (all queries)
-    print(f"\n[arXiv] Starting ingestion...")
+    print("\n[arXiv] Starting ingestion...")
     for query in QUERIES:
         print(f"  - {query}")
         all_papers.extend(ingest_arxiv(query, days=days, max_results=1000))
         time.sleep(3)
 
     # bioRxiv + medRxiv
-    print(f"\n[bioRxiv/medRxiv] Starting ingestion...")
+    print("\n[bioRxiv/medRxiv] Starting ingestion...")
     all_papers.extend(ingest_biorxiv(days=days))
 
     # chemRxiv
-    print(f"\n[chemRxiv] Starting ingestion...")
+    print("\n[chemRxiv] Starting ingestion...")
     all_papers.extend(ingest_chemrxiv(query='cancer metabolism', max_results=100))
 
     # OSF-based preprints
-    print(f"\n[PsyArXiv] Starting ingestion...")
+    print("\n[PsyArXiv] Starting ingestion...")
     all_papers.extend(ingest_osf_preprints('psyarxiv', query='cancer'))
 
-    print(f"\n[SocArXiv] Starting ingestion...")
+    print("\n[SocArXiv] Starting ingestion...")
     all_papers.extend(ingest_osf_preprints('socarxiv', query='health'))
 
-    print(f"\n[EarthArXiv] Starting ingestion...")
+    print("\n[EarthArXiv] Starting ingestion...")
     all_papers.extend(ingest_osf_preprints('eartharxiv', query='environmental health'))
 
     # Save results

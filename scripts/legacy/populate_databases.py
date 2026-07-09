@@ -1,11 +1,14 @@
 from __future__ import annotations
-import sqlite3
-from typing import Iterable
-from pydantic import BaseModel
+
 import json
-from ingest.pipeline import IngestionPipeline, PydanticValidator, DataValidator
+import sqlite3
+from collections.abc import Iterable
+
+from ingest.pipeline import DataValidator, IngestionPipeline, PydanticValidator
 from ingest.schemas import RecordChem
 from ingest.sources import nist_thermo
+from pydantic import BaseModel
+
 
 def setup_database(db_path: str):
     """Set up the SQLite database and create tables."""
@@ -51,7 +54,7 @@ def load_to_db(records: Iterable[BaseModel], db_path: str):
 
 if __name__ == "__main__":
     DB_PATH = "data/qulab.db"
-    
+
     # Set up the database
     setup_database(DB_PATH)
 

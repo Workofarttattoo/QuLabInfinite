@@ -7,15 +7,16 @@ Target: 900+ new materials for quantum, AI, chemistry, materials science, and en
 """
 
 import json
-from typing import Dict, Any, List, Tuple
+from typing import Any
 
-def create_material(name: str, category: str, subcategory: str, **kwargs) -> Dict[str, Any]:
+
+def create_material(name: str, category: str, subcategory: str, **kwargs) -> dict[str, Any]:
     """Create a material entry with standard fields"""
     default = {
         "name": name,
         "category": category,
         "subcategory": subcategory,
-        "cas_number": kwargs.get("cas", None),
+        "cas_number": kwargs.get("cas"),
         "density": kwargs.get("density", 0.0),
         "youngs_modulus": kwargs.get("youngs", 0.0),
         "shear_modulus": kwargs.get("shear", 0.0),
@@ -26,7 +27,7 @@ def create_material(name: str, category: str, subcategory: str, **kwargs) -> Dic
         "compressive_strength": kwargs.get("compressive", 0.0),
         "fracture_toughness": kwargs.get("toughness", 0.0),
         "hardness_vickers": kwargs.get("hardness", 0.0),
-        "hardness_rockwell": kwargs.get("rockwell", None),
+        "hardness_rockwell": kwargs.get("rockwell"),
         "elongation_at_break": kwargs.get("elongation", 0.0),
         "fatigue_limit": kwargs.get("fatigue", 0.0),
         "melting_point": kwargs.get("melting", 0.0),
@@ -61,7 +62,7 @@ def create_material(name: str, category: str, subcategory: str, **kwargs) -> Dic
     }
     return default
 
-def generate_quantum_materials() -> Dict[str, Any]:
+def generate_quantum_materials() -> dict[str, Any]:
     """Generate 50 quantum computing materials"""
     materials = {}
 
@@ -116,7 +117,7 @@ def generate_quantum_materials() -> Dict[str, Any]:
     print(f"Generated {len(materials)} quantum materials")
     return materials
 
-def generate_semiconductor_materials() -> Dict[str, Any]:
+def generate_semiconductor_materials() -> dict[str, Any]:
     """Generate 100 semiconductor and electronics materials"""
     materials = {}
 

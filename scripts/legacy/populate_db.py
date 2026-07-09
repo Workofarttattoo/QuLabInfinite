@@ -1,9 +1,10 @@
 import argparse
 import json
+import sys
+from pathlib import Path
+
 import psycopg2
 from psycopg2.extras import Json
-from pathlib import Path
-import sys
 
 # Add the project root to the python path to allow for absolute imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -90,7 +91,7 @@ def main():
     create_table(conn)
     print("Table 'records' created or already exists.")
 
-    with open(dataset_path, 'r') as f:
+    with open(dataset_path) as f:
         for line in f:
             record_data = json.loads(line)
             record = RecordChem.model_validate(record_data)

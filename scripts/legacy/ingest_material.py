@@ -10,6 +10,7 @@ from ingest.pipeline import IngestionPipeline, PydanticValidator
 from ingest.plugins import PLUGIN_REGISTRY
 from ingest.schemas import RecordMaterial
 
+
 def ingest_material(api_key: str, material_id: str, output_path: str):
     """
     Programmatically ingests a single material from the Materials Project.
@@ -34,7 +35,7 @@ def ingest_material(api_key: str, material_id: str, output_path: str):
 
     # Set up and run the ingestion pipeline
     pipeline = IngestionPipeline(processors=[PydanticValidator(schemas=[RecordMaterial])])
-    
+
     print(f"Ingesting {material_id} from Materials Project...")
     path = pipeline.run(records, output_path)
     print(f"Successfully ingested material to: {path}")
@@ -46,7 +47,7 @@ if __name__ == "__main__":
 
     MATERIAL_ID = "mp-149"  # Silicon, a common test case
     OUTPUT_PATH = "materials_lab/data/materials_project_expansion.jsonl"
-    
+
     # Ensure the output directory exists
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
 
