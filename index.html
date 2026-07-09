@@ -338,12 +338,21 @@
             padding: 10px 12px;
             border-radius: 12px;
             border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: all 0.2s ease;
+            cursor: text;
+        }
+
+        .prompt-bar:focus-within {
+            border-color: var(--accent);
+            background: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 0 0 2px var(--accent-soft);
         }
 
         .prompt-input {
             flex: 1;
             color: var(--muted);
             font-size: 0.9rem;
+            outline: none;
         }
 
         .prompt-send {
@@ -745,6 +754,13 @@
         };
 
         // Handle Focus/Blur for Placeholder
+        // Make clicking the bar focus the input
+        document.querySelector('.prompt-bar').addEventListener('click', (e) => {
+            if (e.target !== document.querySelector('.prompt-send')) {
+                document.getElementById('promptInput').focus();
+            }
+        });
+
         promptInput.addEventListener('focus', () => {
             if (promptInput.textContent === defaultPlaceholder) {
                 promptInput.textContent = '';
