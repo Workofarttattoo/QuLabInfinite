@@ -112,7 +112,8 @@
             transition: all 0.25s ease;
         }
         .lab-button:hover,
-        .lab-button.active {
+        .lab-button.active,
+        .lab-button:focus-visible {
             border-color: rgba(0, 255, 136, 0.8);
             background: rgba(0, 255, 136, 0.15);
             box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
@@ -572,7 +573,13 @@
             const lab = labs.find((item) => item.id === labId);
             if (!lab) return;
             document.querySelectorAll(".lab-button").forEach((button) => {
-                button.classList.toggle("active", button.dataset.labId === labId);
+                const isActive = button.dataset.labId === labId;
+                button.classList.toggle("active", isActive);
+                if (isActive) {
+                    button.setAttribute("aria-current", "true");
+                } else {
+                    button.removeAttribute("aria-current");
+                }
             });
             labTitle.textContent = lab.name;
             labSubtitle.textContent = lab.subtitle;
