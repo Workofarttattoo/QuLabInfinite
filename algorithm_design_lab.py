@@ -363,7 +363,10 @@ class AlgorithmDesignLab:
                 if seq1[i-1] == seq2[j-1]:
                     dp[i][j] = dp[i-1][j-1] + 1
                 else:
-                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                    # ⚡ Bolt Optimization: Using inline ternary avoids max() function call overhead in tight DP loop
+                    a = dp[i-1][j]
+                    b = dp[i][j-1]
+                    dp[i][j] = a if a > b else b
 
         # Reconstruct LCS
         lcs = []
@@ -392,7 +395,10 @@ class AlgorithmDesignLab:
         for i in range(1, n + 1):
             for w in range(capacity + 1):
                 if weights[i-1] <= w:
-                    dp[i][w] = max(dp[i-1][w], dp[i-1][w-weights[i-1]] + values[i-1])
+                    # ⚡ Bolt Optimization: Using inline ternary avoids max() function call overhead in tight DP loop
+                    a = dp[i-1][w]
+                    b = dp[i-1][w-weights[i-1]] + values[i-1]
+                    dp[i][w] = a if a > b else b
                 else:
                     dp[i][w] = dp[i-1][w]
 
