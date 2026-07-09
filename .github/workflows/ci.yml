@@ -7,17 +7,23 @@ on:
     branches: [main]
 
 jobs:
-  lint:
+  lint-and-type-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install ruff
-        run: pip install ruff
+      - name: Install dependencies
+        run: |
+          pip install ruff flake8 mypy
+          pip install -e ".[dev]"
       - name: Lint with ruff
         run: ruff check qulab/ --output-format=github
+      - name: Lint with flake8
+        run: flake8 qulab/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
+      - name: Type check
+        run: mypy qulab/core/ --ignore-missing-imports
 
   test:
     runs-on: ubuntu-latest
@@ -32,26 +38,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -e ".[dev]"
-      - name: Run tests
+          pip install pytest-cov
+      - name: Run tests with coverage
         run: |
-          pytest tests/ -v --tb=short --co -q 2>/dev/null || echo "Tests collected"
-          pytest tests/unit/ -v --tb=short || true
-
-  type-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Install dependencies
-        run: pip install -e ".[dev]"
-      - name: Type check
-        run: mypy qulab/core/ --ignore-missing-imports || true
+          pytest tests/ -v --cov=qulab --cov-report=xml --tb=short || true
 
   docker:
     runs-on: ubuntu-latest
-    needs: [lint, test]
+    needs: [lint-and-type-check, test]
     steps:
       - uses: actions/checkout@v4
       - name: Build Docker image
@@ -62,3 +56,22 @@ jobs:
           sleep 5
           curl -f http://localhost:8000/health || true
           docker stop qulab-test
+
+  create-pr:
+    needs: [lint-and-type-check, test, docker]
+    if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Auto-create PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --title "Automated PR from CI" \
+            --body "This PR was automatically created by the CI workflow for branch \`${{ github.ref_name }}\`." \
+            --base main \
+            --head ${{ github.ref_name }} || echo "PR already exists or failed to create."
