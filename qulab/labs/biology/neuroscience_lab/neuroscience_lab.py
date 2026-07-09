@@ -238,6 +238,10 @@ class NeuroscienceLaboratory:
         spike_times = [[] for _ in range(n_neurons)]
         voltages = np.zeros((n_neurons, steps))
 
+        # Bolt: Vectorize generation of random background noise for all neurons and steps
+        # This prevents the massive overhead of calling np.random.normal in the inner Python loops
+        background_noise = np.random.normal(10, 2, (steps, n_neurons))
+
         for step in range(steps):
             t = step * self.dt
 
@@ -250,7 +254,7 @@ class NeuroscienceLaboratory:
             # Update each neuron
             for i, neuron in enumerate(neurons):
                 # Add random background noise + synaptic input
-                input_current = np.random.normal(10, 2) + synaptic_input[i]
+                input_current = background_noise[step, i] + synaptic_input[i]
 
                 # Update using Izhikevich model
                 v = neuron['v']
