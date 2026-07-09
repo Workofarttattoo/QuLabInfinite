@@ -5,3 +5,6 @@
 ## 2026-02-23 - Duplicate ID issue
 **Learning:** Having duplicate element IDs (`labSearch` was used twice in `index.html`) can cause the `getElementById` API to retrieve only the first match, resulting in bugs such as a secondary search bar not functioning properly. This violates basic HTML and accessibility rules regarding duplicate IDs.
 **Action:** Always verify that input elements have unique IDs and ensure that event listeners are correctly assigned to each instance.
+## 2024-05-20 - Syncing visual active states with aria-current
+**Learning:** When using custom active classes for sidebar lab selections, screen readers miss the state change. Inputs relying only on placeholder text are also inaccessible.
+**Action:** Always sync .active classes with aria-current='true' and provide explicit aria-label for inputs where placeholders act as labels.
