@@ -560,11 +560,12 @@
                 button.dataset.labId = lab.id;
                 button.innerHTML = `${lab.name}<small>${lab.subtitle}</small>`;
                 button.addEventListener("click", () => setActiveLab(lab.id));
+                labList.appendChild(button);
                 if (index === 0 && !document.querySelector(".lab-button.active")) {
                     button.classList.add("active");
+                    button.setAttribute("aria-current", "true");
                     setActiveLab(lab.id);
                 }
-                labList.appendChild(button);
             });
         };
 
@@ -572,7 +573,13 @@
             const lab = labs.find((item) => item.id === labId);
             if (!lab) return;
             document.querySelectorAll(".lab-button").forEach((button) => {
-                button.classList.toggle("active", button.dataset.labId === labId);
+                const isActive = button.dataset.labId === labId;
+                button.classList.toggle("active", isActive);
+                if (isActive) {
+                    button.setAttribute("aria-current", "true");
+                } else {
+                    button.removeAttribute("aria-current");
+                }
             });
             labTitle.textContent = lab.name;
             labSubtitle.textContent = lab.subtitle;
