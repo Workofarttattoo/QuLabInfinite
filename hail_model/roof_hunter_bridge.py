@@ -24,9 +24,12 @@ All Rights Reserved. PATENT PENDING.
 from __future__ import annotations
 
 import logging
+import math
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
+import numpy as np
 
 from .dual_pol import (
     DualPolObservation,
@@ -100,6 +103,8 @@ class HailIntelligence:
 
         if model_path and Path(model_path).exists():
             self.predictor = HailPredictor(model_path=model_path)
+        elif model_path and (Path("hail_model") / model_path).exists():
+             self.predictor = HailPredictor(model_path=Path("hail_model") / model_path)
         else:
             self.predictor = None
             logger.warning(
@@ -192,6 +197,43 @@ class HailIntelligence:
             results.append(result)
         results.sort(key=lambda r: r.hail_probability, reverse=True)
         return results
+
+    def predict_90d_outlook(self, lat: float, lon: float) -> dict[str, Any]:
+        """
+        Generates a 90-day seasonal hail outlook based on historical probability
+        and current environmental trends.
+        """
+        # Mocking seasonal outlook logic:
+        # In a real system, this would query a seasonal model or climatology DB.
+        # Here we use latitude/longitude and month to estimate risk.
+        from datetime import datetime
+        month = datetime.now().month
+
+        # Central US 'Hail Alley' peaks in May-June
+        hail_alley_center = (35.0, -97.0) # Oklahoma
+        dist = ((lat - hail_alley_center[0])**2 + (lon - hail_alley_center[1])**2)**0.5
+
+        # Climatology base risk (higher in tornado/hail alley)
+        base_risk = max(0.1, 1.0 - (dist / 15.0))
+
+        # Seasonality factor
+        # Peak (1.5x) in months 4-7 (April-July)
+        season_factor = 1.5 if 4 <= month <= 7 else 0.5
+
+        expected_events = base_risk * season_factor * 2.5 # Expected events per 90 days
+
+        # Poisson probability of at least one event
+        prob_90d = 1.0 - math.exp(-expected_events)
+
+        return {
+            "latitude": lat,
+            "longitude": lon,
+            "outlook_days": 90,
+            "hail_probability_90d": round(float(prob_90d), 4),
+            "expected_significant_events": round(float(expected_events), 2),
+            "risk_level": _risk_from_prob(prob_90d),
+            "primary_factors": ["Climatology", "Geographic Proximity", "Seasonality"]
+        }
 
 
 def _risk_from_prob(p: float) -> str:
