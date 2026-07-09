@@ -700,7 +700,24 @@
             }
         };
 
+
+        const renderLabs = (filter = '') => {
+            labList.innerHTML = '';
+            const filtered = labs.filter((lab) => {
+                return lab.name.toLowerCase().includes(filter.toLowerCase());
+            });
+            filtered.forEach((lab, index) => {
+                const button = document.createElement('button');
+                button.className = 'lab-item';
+                button.type = 'button';
+                button.innerHTML = `${lab.name}<small>Explore ${lab.name} tools and analysis.</small>`;
+                button.addEventListener('click', () => selectLab(lab, index));
+                labList.appendChild(button);
+            });
+        };
+
         renderLabs();
+
 
         labSearch.addEventListener('input', (e) => {
             renderLabs(e.target.value);
