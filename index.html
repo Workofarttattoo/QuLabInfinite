@@ -345,6 +345,12 @@
             color: var(--muted);
             font-size: 0.9rem;
         }
+        .prompt-input:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
 
         .prompt-send {
             background: var(--accent);
@@ -505,7 +511,7 @@
                         <div class="message user">Show me a lightweight, high-strength composite with thermal stability above 900°C.</div>
                         <div class="message assistant">Drafting a carbon-ceramic laminate with aerogel cores and graphene-reinforced seams. I can tune density, weave pattern, and catalyst routes. Want a manufacturing path or performance sweep?</div>
                         <div class="prompt-bar">
-                            <span class="prompt-input" id="promptInput" role="textbox" aria-placeholder="Type a new request">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
+                            <span class="prompt-input" id="promptInput" tabindex="0" role="textbox" aria-placeholder="Type a new request">Type a new request, e.g. “Blend magnetics with biocompatible polymers.”</span>
                             <button class="prompt-send" id="promptSend" type="button" aria-label="Send request">Send</button>
                         </div>
                     </div>
