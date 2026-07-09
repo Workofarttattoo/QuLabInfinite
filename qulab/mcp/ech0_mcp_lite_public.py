@@ -5,13 +5,12 @@ Copyright (c) 2025 Joshua Hendricks Cole (DBA: Corporation of Light). All Rights
 Limited but impressive capabilities to showcase ECH0's power.
 Full version available at: https://qulabinfinite.com
 """
+import subprocess
+import time
+
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Dict, Any, List
-import subprocess
-import json
-import time
 
 app = FastAPI(
     title="ECH0 MCP Lite - FREE Public Access",
@@ -73,7 +72,7 @@ def ask_ech0_lite(prompt: str) -> str:
             response = response[:297] + "..."
 
         return response
-    except:
+    except Exception:
         return "ECH0 is thinking... (Upgrade for faster responses)"
 
 @app.get("/")
@@ -328,6 +327,11 @@ async def testimonials():
         "free_for_research": "Academic/research use - contact us",
         "upgrade": "Production use requires license"
     }
+
+
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     import uvicorn
