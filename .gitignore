@@ -56,3 +56,6 @@ docker-compose.override.yml
 # Distribution
 *.tar.gz
 *.whl
+
+# GitHub Pages
+CNAME
