@@ -399,6 +399,19 @@ class TumorSimulator:
         """
         self.field_overrides = field_values.copy()
 
+    _FIELD_MAP = {
+        'ph_level': 'ph_field',
+        'oxygen_percent': 'oxygen_field',
+        'glucose_mm': 'glucose_field',
+        'lactate_mm': 'lactate_field',
+        'temperature_c': 'temperature_field',
+        'ros_um': 'ros_field',
+        'glutamine_mm': 'glutamine_field',
+        'calcium_um': 'calcium_field',
+        'atp_adp_ratio': 'atp_field',
+        'cytokine_pg_ml': 'cytokine_field',
+    }
+
     def _get_field_value(self, field_name: str, grid_pos: np.ndarray) -> float:
         """
         Retrieve a microenvironment value for the given lattice position,
@@ -407,20 +420,8 @@ class TumorSimulator:
         if field_name in self.field_overrides:
             return self.field_overrides[field_name]
 
-        field_map = {
-            'ph_level': 'ph_field',
-            'oxygen_percent': 'oxygen_field',
-            'glucose_mm': 'glucose_field',
-            'lactate_mm': 'lactate_field',
-            'temperature_c': 'temperature_field',
-            'ros_um': 'ros_field',
-            'glutamine_mm': 'glutamine_field',
-            'calcium_um': 'calcium_field',
-            'atp_adp_ratio': 'atp_field',
-            'cytokine_pg_ml': 'cytokine_field',
-        }
-
-        lattice_name = field_map.get(field_name)
+        # Use class-level dictionary to avoid recreation overhead in tight loop
+        lattice_name = self._FIELD_MAP.get(field_name)
         if lattice_name is None:
             raise KeyError(f"Unknown field '{field_name}'")
 
