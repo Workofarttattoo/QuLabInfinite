@@ -56,3 +56,4 @@ docker-compose.override.yml
 # Distribution
 *.tar.gz
 *.whl
+*.png
