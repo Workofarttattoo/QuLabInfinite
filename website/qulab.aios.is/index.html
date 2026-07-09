@@ -3,612 +3,439 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuLab Infinite - Active Labs Console</title>
+    <title>QuLab Infinite | Tactical Intelligence & Scientific Orchestration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            color-scheme: dark;
+            --bg-deep: #0a0e14;
+            --surface: rgba(20, 26, 35, 0.7);
+            --surface-bright: rgba(30, 38, 50, 0.8);
+            --primary: #00f0ff;
+            --primary-glow: rgba(0, 240, 255, 0.3);
+            --secondary: #ff9900;
+            --accent-green: #00ff88;
+            --text-main: #e0e6ed;
+            --text-dim: #94a3b8;
+            --border: rgba(0, 240, 255, 0.15);
+            --glass-blur: 16px;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Roboto Mono', 'Courier New', monospace;
-            background: #0d1117;
-            color: #e6f1ff;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.05), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 153, 0, 0.03), transparent 40%);
+            color: var(--text-main);
             line-height: 1.6;
+            overflow-x: hidden;
         }
-        .page {
-            max-width: 1600px;
+
+        h1, h2, h3, h4, .tactical-font {
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .container {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 32px 28px 60px;
+            padding: 0 40px;
         }
+
+        /* Tactical Header */
         header {
-            padding: 40px 36px;
-            border-radius: 24px;
-            margin-bottom: 28px;
-            border: 1px solid rgba(88, 166, 255, 0.4);
-            background: radial-gradient(circle at top left, rgba(0, 255, 136, 0.18), transparent 55%),
-                radial-gradient(circle at bottom right, rgba(88, 166, 255, 0.22), transparent 45%),
-                rgba(13, 17, 23, 0.9);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+            padding: 80px 0;
         }
-        .hero-title {
-            font-size: clamp(2.4rem, 3vw, 3.8rem);
-            margin-bottom: 12px;
-            letter-spacing: 0.02em;
-            background: linear-gradient(120deg, #00ff88, #58a6ff, #9d7bff);
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .hero-subtitle {
-            color: #9dc1ff;
-            font-size: 1.05rem;
-            max-width: 860px;
-        }
-        .hero-meta {
-            margin-top: 18px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px 20px;
-            color: #8b949e;
-            font-size: 0.95rem;
-        }
-        .hero-pill {
-            padding: 6px 14px;
-            border-radius: 999px;
-            border: 1px solid rgba(0, 255, 136, 0.4);
-            color: #00ff88;
-            background: rgba(0, 255, 136, 0.08);
-        }
-        .workspace {
-            display: grid;
-            grid-template-columns: minmax(250px, 320px) minmax(0, 1fr);
-            gap: 26px;
-            align-items: start;
-        }
-        .lab-sidebar {
-            background: rgba(13, 17, 23, 0.92);
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            border-radius: 20px;
-            padding: 20px;
-            position: sticky;
-            top: 20px;
-        }
-        .lab-sidebar h2 {
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-            color: #58a6ff;
-        }
-        .lab-search {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 12px;
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            background: rgba(8, 12, 20, 0.9);
-            margin-bottom: 16px;
-            color: #9dc1ff;
-        }
-        .lab-search input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #e6f1ff;
-            font-family: inherit;
-            font-size: 0.95rem;
-        }
-        .lab-list {
-            display: grid;
-            gap: 10px;
-        }
-        .lab-button {
-            text-align: left;
-            padding: 12px 14px;
-            border-radius: 14px;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            background: rgba(0, 255, 136, 0.05);
-            color: #e6f1ff;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-        .lab-button:hover,
-        .lab-button.active {
-            border-color: rgba(0, 255, 136, 0.8);
-            background: rgba(0, 255, 136, 0.15);
-            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
-            transform: translateY(-1px);
-        }
-        .lab-button small {
-            display: block;
-            margin-top: 6px;
-            color: #8b949e;
-            font-size: 0.85rem;
-        }
-        .lab-panel {
-            display: grid;
-            gap: 18px;
-        }
-        .lab-header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 12px 24px;
-            align-items: center;
-        }
-        .lab-header h3 {
-            font-size: 1.5rem;
-            color: #00ff88;
-        }
-        .lab-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .lab-tag {
-            padding: 4px 10px;
-            border-radius: 999px;
-            border: 1px solid rgba(88, 166, 255, 0.5);
-            color: #9dc1ff;
-            font-size: 0.85rem;
-        }
-        .lab-frame {
-            --frame-gradient: linear-gradient(120deg, #00ff88, #58a6ff);
-            --frame-shadow: rgba(0, 255, 136, 0.25);
-            background: rgba(10, 16, 26, 0.95);
-            border-radius: 26px;
-            padding: 22px;
-            border: 2px solid transparent;
-            background-image: var(--frame-gradient), linear-gradient(#0a101a, #0a101a);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            box-shadow: 0 25px 60px var(--frame-shadow);
-        }
-        .lab-chat {
-            background: rgba(8, 12, 20, 0.9);
-            border-radius: 20px;
-            padding: 18px 18px 22px;
-            border: 1px solid rgba(88, 166, 255, 0.2);
-        }
-        .chat-row {
-            display: grid;
-            gap: 6px;
-            margin-bottom: 16px;
-        }
-        .chat-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: #8b949e;
-            letter-spacing: 0.08em;
-        }
-        .chat-bubble {
-            padding: 12px 14px;
-            border-radius: 14px;
-            font-size: 0.95rem;
-        }
-        .chat-bubble.user {
-            background: rgba(88, 166, 255, 0.2);
-            border: 1px solid rgba(88, 166, 255, 0.5);
-            color: #dbeafe;
-        }
-        .chat-bubble.lab {
-            background: rgba(0, 255, 136, 0.15);
-            border: 1px solid rgba(0, 255, 136, 0.4);
-            color: #d6ffe9;
-        }
-        .chat-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            margin-top: 18px;
-        }
-        .metric-card {
-            padding: 12px 14px;
-            border-radius: 14px;
-            background: rgba(13, 17, 23, 0.8);
-            border: 1px solid rgba(88, 166, 255, 0.25);
-        }
-        .metric-card span {
-            display: block;
-            color: #9dc1ff;
-            font-size: 0.82rem;
-            margin-bottom: 6px;
-        }
-        .metric-card strong {
-            color: #e6f1ff;
-            font-size: 0.95rem;
-        }
-        .prompt-bar {
-            margin-top: 18px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            padding: 12px;
-            border-radius: 16px;
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            background: rgba(9, 14, 24, 0.9);
-        }
-        .prompt-bar input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #e6f1ff;
-            font-family: inherit;
-        }
-        .prompt-bar button {
-            padding: 8px 16px;
-            border-radius: 999px;
-            border: none;
-            background: linear-gradient(120deg, #00ff88, #58a6ff);
-            color: #0d1117;
-            font-weight: bold;
-            font-family: inherit;
-            cursor: pointer;
-        }
-        .lab-story {
-            padding: 18px;
-            border-radius: 18px;
-            background: rgba(13, 17, 23, 0.85);
-            border: 1px solid rgba(88, 166, 255, 0.2);
-            color: #9dc1ff;
-        }
-        .lab-story strong {
-            color: #00ff88;
-        }
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #8b949e;
-        }
-        @media (max-width: 980px) {
-            .workspace {
-                grid-template-columns: 1fr;
-            }
-            .lab-sidebar {
-                position: static;
-            }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+            max-width: 600px;
         }
 
-        button:focus:not(:focus-visible), a:focus:not(:focus-visible), input:focus:not(:focus-visible) { outline: none; }
-        button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; border-radius: 4px; }
-        .prompt-bar button:focus-visible { border-radius: 999px; }
-</style>
+        .tactical-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Floating GUI Windows */
+        .gui-showcase {
+            position: relative;
+            height: 600px;
+        }
+
+        .gui-window {
+            position: absolute;
+            background: var(--surface);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .gui-window:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(0, 240, 255, 0.4);
+        }
+
+        .gui-window header {
+            height: 32px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            border-bottom: 1px solid var(--border);
+            min-height: auto;
+        }
+
+        .gui-window .controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .gui-window .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+
+        .gui-window img {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0.9;
+        }
+
+        .win-1 { width: 450px; z-index: 3; top: 50px; left: 50px; }
+        .win-2 { width: 400px; z-index: 2; top: 180px; right: 0; }
+        .win-3 { width: 380px; z-index: 1; bottom: 0; left: 0; }
+
+        /* Performance Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 80px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--border);
+            padding: 32px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card .value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .stat-card .label {
+            color: var(--text-dim);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* Intelligence Briefing (Readmes/Papers) */
+        section { padding: 120px 0; }
+
+        .section-header {
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-header h2 { font-size: 2.5rem; }
+
+        .dossier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .dossier-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 4px;
+            position: relative;
+            transition: 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .dossier-card:hover {
+            background: var(--surface-bright);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+        }
+
+        .dossier-card::before {
+            content: 'SECRET';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.65rem;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+            padding: 2px 6px;
+            opacity: 0.5;
+        }
+
+        .dossier-card h3 { margin-bottom: 16px; color: #fff; }
+        .dossier-card p { font-size: 0.95rem; color: var(--text-dim); }
+
+        /* Operational Theatre (Use Cases) */
+        .use-case-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+
+        .use-case-image {
+            background-size: cover;
+            background-position: center;
+            min-height: 400px;
+        }
+
+        .use-case-content { padding: 60px; }
+        .use-case-content h3 { font-size: 2rem; margin-bottom: 24px; color: var(--primary); }
+        .use-case-content ul { list-style: none; }
+        .use-case-content li {
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+            color: var(--text-dim);
+        }
+        .use-case-content li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        footer {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 32px;
+            background: var(--primary);
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--primary-glow);
+        }
+
+        @media (max-width: 1024px) {
+            .hero-grid, .use-case-card { grid-template-columns: 1fr; }
+            .gui-showcase { display: none; }
+            .use-case-card { direction: ltr !important; }
+        }
+    </style>
 </head>
 <body>
-    <div class="page">
+
+    <div class="container">
         <header>
-            <h1 class="hero-title">⚛️ QuLab Infinite Active Labs Console</h1>
-            <p class="hero-subtitle">
-                Explore the live lab roster powering GAVL and the QuLab Infinite platform. Every lab keeps a
-                natural-language interface so teams can ask for novel material combinations and get grounded,
-                actionable outputs without waiting for a full 40GB download.
-            </p>
-            <div class="hero-meta">
-                <span class="hero-pill">GAVL • Patent Pending</span>
-                <span>Quantum connectors + materials intelligence</span>
-                <span>Natural language labs • Continuous exploration</span>
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <span class="tactical-badge">LEVEL 6 AUTONOMY ENGAGED</span>
+                    <h1>QULAB INFINITE</h1>
+                    <p>Strategic orchestration of 20+ world-class laboratories. High-fidelity scientific discovery at the speed of computation.</p>
+                    <div class="hero-btns">
+                        <a href="#intelligence" class="btn">Access Intelligence</a>
+                    </div>
+                </div>
+                <div class="gui-showcase">
+                    <!-- Floating GUI Windows -->
+                    <div class="gui-window win-1">
+                        <header><div class="controls"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></header>
+                        <img src="https://lh3.googleusercontent.com/aida/ADBb0ujTjIBxQMVKq4zE69NUQNvJHoUGXe--fs3_aZvO7CJuWdqvHt8bGyVW16hPkbukYkG7uB-MzOixu9cL5bNjlRfb-U9NDK6ML2OC1Ca1gafCQdWGzT8VVvFRs63FStR1s1jWr5tdlS3lQI6__G7dfw14bw1nSLFMmUSiuKonQBFGDHMIh2mjd-cjCmdwL0AdB-menV4xqddnsNGVGRellTpysqWqio7VpUBk-BJQl8-ybrR74N3t6d0HHw" alt="Global Dashboard">
+                    </div>
+                    <div class="gui-window win-2">
+                        <header><div class="controls"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></header>
+                        <img src="https://lh3.googleusercontent.com/aida/ADBb0ujTYkQeAU1QKADcl4mf8H_aVW7KxYWH7-JeTcc1OUAhBze-dm1Ivim_lMZYGdhTsKMNxMD0aPKImW66LAajZ8lnKj45ICrc0w2i9V9CQAkNKzl3MPYH2DJCwPjfTST9u2pD4izdkO22RLr9orPzK-NVbR0IGtO8Yk3t80Fac0TmMVOn6c41jLuoMUB0oMwOLH80wfDELQOFxgtGyUCzw6L92_T8NRK57TKLMQqrqxjlgW5I604qy0qmbYo" alt="Oncology Suite">
+                    </div>
+                    <div class="gui-window win-3">
+                        <header><div class="controls"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></header>
+                        <img src="https://lh3.googleusercontent.com/aida/ADBb0uiNRajVuekxgWT28RBexhgqFJzWFq02IlqxJjG0HxDAMTW6-2GX7NG3kMklGsBSB6ZRqiwLV2iZz1jbwstAAbmpGgzRUhUEIAxZ_vMbR0psCebnQ7kZ1w5OMw-lamSu5gFhVRe2HAsmW7qd2x2IgPMhpxnSaqYjMzX2xbbn6H-0y7SagXI_e_5Ezh5_E8oZPcs4p7UiArFxbQhaLp_TAvaaWS8uW7l07E0-sgQFQWctTwcMbSKICQmo1o0" alt="Genomics Visualizer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="value">86.4%</span>
+                    <span class="label">Scientific Accuracy</span>
+                </div>
+                <div class="stat-card">
+                    <span class="value">20</span>
+                    <span class="label">Active Laboratories</span>
+                </div>
+                <div class="stat-card">
+                    <span class="value">6.6M</span>
+                    <span class="label">Verified Materials</span>
+                </div>
+                <div class="stat-card">
+                    <span class="value">1,670</span>
+                    <span class="label">Req/Sec Throughput</span>
+                </div>
             </div>
         </header>
 
-        <section class="workspace">
-            <aside class="lab-sidebar">
-                <h2>Active Labs</h2>
-                <label class="lab-search">
-                    🔎
-                    <input id="labSearch" type="text" placeholder="Search labs or domains" aria-label="Search labs">
-                </label>
-                <div id="labList" class="lab-list"></div>
-            </aside>
-
-            <main class="lab-panel">
-                <div class="lab-header">
-                    <div>
-                        <h3 id="labTitle">Materials Forge Lab</h3>
-                        <p id="labSubtitle" class="hero-subtitle">Materials fusion, synthesis guidance, and novel combo validation.</p>
-                    </div>
-                    <div id="labTags" class="lab-tags"></div>
+        <section id="intelligence">
+            <div class="section-header">
+                <div>
+                    <span class="tactical-font" style="color:var(--secondary)">Classification: Alpha</span>
+                    <h2>Strategic Intelligence</h2>
                 </div>
+                <p style="color:var(--text-dim); max-width: 400px;">Internal dossiers and technical white papers covering the scope and validation of the QuLabInfinite ecosystem.</p>
+            </div>
 
-                <div id="labFrame" class="lab-frame">
-                    <div class="lab-chat" id="labChat"></div>
-                    <div class="prompt-bar">
-                        <input type="text" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’">
-                        <button type="button" aria-label="Send message to lab">Send</button>
-                    </div>
-                </div>
-
-                <div class="lab-story" id="labStory"></div>
-            </main>
+            <div class="dossier-grid">
+                <a href="../../README.md" class="dossier-card">
+                    <h3>Master Operations Plan</h3>
+                    <p>The primary architectural blueprint and mission summary for QuLabInfinite.</p>
+                </a>
+                <a href="../../docs/SCIENTIFIC_VALIDATION.md" class="dossier-card">
+                    <h3>Validation Report</h3>
+                    <p>Empirical evidence and benchmark results across 20 specialized laboratories.</p>
+                </a>
+                <a href="../../docs/API_REFERENCE.md" class="dossier-card">
+                    <h3>Nexus API Protocol</h3>
+                    <p>Technical documentation for cross-lab orchestration and data ingestion.</p>
+                </a>
+            </div>
         </section>
 
-        <footer>
-            <p>© 2025 QuLab Infinite. Built for the future of science.</p>
-        </footer>
+        <section id="theatre">
+            <div class="section-header">
+                <div>
+                    <span class="tactical-font" style="color:var(--accent-green)">Status: Operational</span>
+                    <h2>Operational Theatre</h2>
+                </div>
+            </div>
+
+            <div class="use-case-card">
+                <div class="use-case-image" style="background-image: url('https://lh3.googleusercontent.com/aida/ADBb0ujTYkQeAU1QKADcl4mf8H_aVW7KxYWH7-JeTcc1OUAhBze-dm1Ivim_lMZYGdhTsKMNxMD0aPKImW66LAajZ8lnKj45ICrc0w2i9V9CQAkNKzl3MPYH2DJCwPjfTST9u2pD4izdkO22RLr9orPzK-NVbR0IGtO8Yk3t80Fac0TmMVOn6c41jLuoMUB0oMwOLH80wfDELQOFxgtGyUCzw6L92_T8NRK57TKLMQqrqxjlgW5I604qy0qmbYo')"></div>
+                <div class="use-case-content">
+                    <h3>Oncology Optimization</h3>
+                    <p style="margin-bottom: 24px;">Advanced metabolic modeling to identify precision treatment protocols with 82-87% predictive accuracy.</p>
+                    <ul>
+                        <li>Gompertzian growth modeling</li>
+                        <li>Treatment response simulation</li>
+                        <li>Patient-specific protocol design</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="use-case-card" style="direction: rtl;">
+                <div class="use-case-image" style="background-image: url('https://lh3.googleusercontent.com/aida/ADBb0uiNRajVuekxgWT28RBexhgqFJzWFq02IlqxJjG0HxDAMTW6-2GX7NG3kMklGsBSB6ZRqiwLV2iZz1jbwstAAbmpGgzRUhUEIAxZ_vMbR0psCebnQ7kZ1w5OMw-lamSu5gFhVRe2HAsmW7qd2x2IgPMhpxnSaqYjMzX2xbbn6H-0y7SagXI_e_5Ezh5_E8oZPcs4p7UiArFxbQhaLp_TAvaaWS8uW7l07E0-sgQFQWctTwcMbSKICQmo1o0')"></div>
+                <div class="use-case-content" style="direction: ltr;">
+                    <h3>Quantum Material Discovery</h3>
+                    <p style="margin-bottom: 24px;">Accelerated simulation of 6.6M+ materials using hybrid VQE and QAOA algorithms for next-gen energy solutions.</p>
+                    <ul>
+                        <li>Bandgap shift prediction (+0.19 eV precision)</li>
+                        <li>30-qubit native lattice modeling</li>
+                        <li>NIST-verified property prediction</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="use-case-card">
+                <div class="use-case-image" style="background-image: url('https://lh3.googleusercontent.com/aida/ADBb0uhVpPiYsOGWPIyGrX90JO7-1C3Gi0_20aR1ZPlp8cOSlZs5sTZ3sacfYGlQQpDzmo4-ydn6iWyUCdlmmxw0t9QbAmMylvgF137Oi6vC7uKH35wR4wQcYroHKgi3U2H8H4xsfEZdVnl4QXL0hYl95MLpXgMt3ezLrO7nyqObS5yglb1re1aSsdMDjZWsdcTpwCvydcVa_ZsPUB_soGsPDn8p_9wZhIPx0vkwPqEJzGacvJc3E1gg35yEWHU')"></div>
+                <div class="use-case-content">
+                    <h3>Rapid Drug Discovery</h3>
+                    <p style="margin-bottom: 24px;">High-throughput virtual screening and ADMET prediction achieving 73% hit rates vs. industry standard decoys.</p>
+                    <ul>
+                        <li>ChEMBL-validated virtual screening</li>
+                        <li>Predictive ADMET profiling</li>
+                        <li>Multi-target lead optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
     </div>
 
+    <footer>
+        <p>&copy; 2025 Corporation of Light | Tactical R&D Lab | Built with ECH0 Autonomous Intelligence</p>
+    </footer>
+
     <script>
-        const labs = [
-            {
-                id: "materials-forge",
-                name: "Materials Forge Lab",
-                subtitle: "Materials fusion, synthesis guidance, and novel combo validation.",
-                tags: ["Materials", "Synthesis", "Validated Blends"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #00ff88, #58a6ff)",
-                    shadow: "rgba(0, 255, 136, 0.3)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Blend silica aerogel with graphene and boron nitride to get thermal stealth without weight."
-                    },
-                    {
-                        role: "lab",
-                        text: "Confirmed: aerogel + graphene lattice + BN nanosheets yields high IR suppression with low density. Target mix: 62% aerogel, 25% graphene, 13% BN. Suggested binder: fluorinated epoxy for stability."
-                    }
-                ],
-                metrics: [
-                    { label: "Validated combos", value: "1,059 materials indexed" },
-                    { label: "Turnaround", value: "Sub-120s synthesis plan" },
-                    { label: "Confidence", value: "0.91 composite viability" }
-                ],
-                story: "Materials Forge keeps the sense of exploration alive — it checks compatibility, predicts conductivity, and outlines lab steps so your natural-language experiments can actually pan out."
-            },
-            {
-                id: "quantum-connectors",
-                name: "Quantum Connectors Lab",
-                subtitle: "GAVL connector design with quantum-safe interlocks and signal integrity.",
-                tags: ["GAVL", "Quantum", "Connector Design"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #9d7bff, #58a6ff)",
-                    shadow: "rgba(157, 123, 255, 0.35)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Design a connector stack for 18 GHz with zero cross-talk in wet lab conditions."
-                    },
-                    {
-                        role: "lab",
-                        text: "Proposed stack: ceramic core, graphene shielding, niobium-titanium ring. Add hydrophobic sealant for humidity. Crosstalk estimate: -64 dB with impedance matched at 50Ω."
-                    }
-                ],
-                metrics: [
-                    { label: "Signal fidelity", value: "18 GHz target range" },
-                    { label: "Isolation", value: "-64 dB predicted" },
-                    { label: "Seal rating", value: "IP68 wet lab ready" }
-                ],
-                story: "This lab keeps GAVL’s quantum connectors front and center — ask for stackups, shielding, or field-ready prototypes."
-            },
-            {
-                id: "bio-fabrication",
-                name: "BioFab Lab",
-                subtitle: "Biomaterials, scaffolds, and living interfaces for regenerative design.",
-                tags: ["Bioengineering", "Scaffolds", "Regenerative"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #00ff88, #2dd4bf)",
-                    shadow: "rgba(45, 212, 191, 0.35)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Need a bioresorbable scaffold that supports neural growth and handles 3% strain."
-                    },
-                    {
-                        role: "lab",
-                        text: "Use PLLA + collagen matrix with aligned electrospun fibers. Add laminin coating for neurite adhesion. Estimated strain tolerance: 3.4% before yield."
-                    }
-                ],
-                metrics: [
-                    { label: "Material families", value: "Hydrogels + bioresorbables" },
-                    { label: "Strain target", value: "3% tuned" },
-                    { label: "Cell support", value: "Neural adhesion enabled" }
-                ],
-                story: "BioFab brings living material design into the chat — ask for composite gels, scaffold architectures, or healing timelines."
-            },
-            {
-                id: "quantum-sim",
-                name: "Quantum Sim Lab",
-                subtitle: "Quantum materials and energy-state simulations in natural language.",
-                tags: ["Quantum", "Simulation", "Energy States"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #58a6ff, #00d4ff)",
-                    shadow: "rgba(0, 212, 255, 0.3)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Model a 30-qubit lattice with a metallic dopant."
-                    },
-                    {
-                        role: "lab",
-                        text: "Simulation queued: dopant ratio 0.03 shifts bandgap by 0.19 eV. Recommend anneal schedule at 820°C for 40 min."
-                    }
-                ],
-                metrics: [
-                    { label: "Qubit range", value: "30-qubit native" },
-                    { label: "Bandgap shift", value: "+0.19 eV" },
-                    { label: "Compute mode", value: "Optimized NumPy" }
-                ],
-                story: "Quantum Sim keeps the conversation fluid while still returning measurable parameters you can take to fabrication."
-            },
-            {
-                id: "nano-structures",
-                name: "Nano-Structures Lab",
-                subtitle: "Micro-lattice and metamaterial structures for strength-to-weight control.",
-                tags: ["Nanotech", "Metamaterials", "Strength"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #00ff88, #fbbf24)",
-                    shadow: "rgba(251, 191, 36, 0.3)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Need a micro-lattice that stays rigid while keeping density under 0.3 g/cc."
-                    },
-                    {
-                        role: "lab",
-                        text: "Recommend octet truss lattice with TiAlN coating. Density: 0.28 g/cc. Compression modulus: 2.1 GPa."
-                    }
-                ],
-                metrics: [
-                    { label: "Density", value: "0.28 g/cc" },
-                    { label: "Modulus", value: "2.1 GPa" },
-                    { label: "Fabrication", value: "Multi-photon lithography" }
-                ],
-                story: "Nano-Structures translates geometry requests into build-ready lattice specs."
-            },
-            {
-                id: "bio-signal",
-                name: "BioSignal Lab",
-                subtitle: "Signal sensing, biosensors, and adaptive readouts.",
-                tags: ["Sensors", "Signal", "Diagnostics"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #38bdf8, #a855f7)",
-                    shadow: "rgba(168, 85, 247, 0.35)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Build a biosensor stack for detecting low-frequency electrical changes in tissue."
-                    },
-                    {
-                        role: "lab",
-                        text: "Stack: gold nanoelectrode + hydrogel interface + graphene amplifier. Sensitivity target: 12 µV with 0.8 noise ratio."
-                    }
-                ],
-                metrics: [
-                    { label: "Sensitivity", value: "12 µV detection" },
-                    { label: "Noise ratio", value: "0.8 tuned" },
-                    { label: "Interface", value: "Hydrogel + graphene" }
-                ],
-                story: "BioSignal keeps diagnostics conversational while grounding the stack in viable sensor architectures."
-            },
-            {
-                id: "aero-structures",
-                name: "Aero Structures Lab",
-                subtitle: "Ultra-light composites and aerogel assemblies for extreme environments.",
-                tags: ["Aerospace", "Aerogels", "Composites"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #94a3b8, #22d3ee)",
-                    shadow: "rgba(34, 211, 238, 0.25)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "I need a wing skin that handles -50°C with high UV exposure."
-                    },
-                    {
-                        role: "lab",
-                        text: "Suggested stack: silica aerogel + carbon fiber weave + UV-stable resin. Estimated thermal drift <1.8% across -50°C to 30°C."
-                    }
-                ],
-                metrics: [
-                    { label: "Thermal drift", value: "<1.8%" },
-                    { label: "UV tolerance", value: "UV-stable resin" },
-                    { label: "Mass reduction", value: "22% vs. CFRP" }
-                ],
-                story: "Aero Structures brings high-performance composites into the same natural-language workflow."
-            },
-            {
-                id: "materials-inventory",
-                name: "Materials Inventory Lab",
-                subtitle: "Inventory of verified materials and compatibility map for rapid exploration.",
-                tags: ["Inventory", "Compatibility", "Sourcing"],
-                frame: {
-                    gradient: "linear-gradient(135deg, #22c55e, #14b8a6)",
-                    shadow: "rgba(20, 184, 166, 0.3)"
-                },
-                chat: [
-                    {
-                        role: "user",
-                        text: "Show me new combinations that can survive 900°C with low thermal expansion."
-                    },
-                    {
-                        role: "lab",
-                        text: "Flagged: zirconia + silicon carbide + alumina mesh. Expansion coefficient 6.4×10⁻⁶ /K. Confirmed sourcing for all three."
-                    }
-                ],
-                metrics: [
-                    { label: "Inventory size", value: "1,059 verified materials" },
-                    { label: "Compatibility map", value: "Real-time screening" },
-                    { label: "Sourcing", value: "Multi-vendor ready" }
-                ],
-                story: "Materials Inventory keeps your exploration grounded in what is actually available."
-            }
-        ];
+        // Parallax Effect for GUI Windows
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
 
-        const labList = document.getElementById("labList");
-        const labSearch = document.getElementById("labSearch");
-        const labTitle = document.getElementById("labTitle");
-        const labSubtitle = document.getElementById("labSubtitle");
-        const labTags = document.getElementById("labTags");
-        const labChat = document.getElementById("labChat");
-        const labFrame = document.getElementById("labFrame");
-        const labStory = document.getElementById("labStory");
-
-        const renderLabs = (filter = "") => {
-            labList.innerHTML = "";
-            const filtered = labs.filter((lab) => {
-                const haystack = `${lab.name} ${lab.subtitle} ${lab.tags.join(" ")}`.toLowerCase();
-                return haystack.includes(filter.toLowerCase());
-            });
-            filtered.forEach((lab, index) => {
-                const button = document.createElement("button");
-                button.className = "lab-button";
-                button.type = "button";
-                button.dataset.labId = lab.id;
-                button.innerHTML = `${lab.name}<small>${lab.subtitle}</small>`;
-                button.addEventListener("click", () => setActiveLab(lab.id));
-                if (index === 0 && !document.querySelector(".lab-button.active")) {
-                    button.classList.add("active");
-                    setActiveLab(lab.id);
-                }
-                labList.appendChild(button);
-            });
-        };
-
-        const setActiveLab = (labId) => {
-            const lab = labs.find((item) => item.id === labId);
-            if (!lab) return;
-            document.querySelectorAll(".lab-button").forEach((button) => {
-                button.classList.toggle("active", button.dataset.labId === labId);
-            });
-            labTitle.textContent = lab.name;
-            labSubtitle.textContent = lab.subtitle;
-            labTags.innerHTML = "";
-            lab.tags.forEach((tag) => {
-                const span = document.createElement("span");
-                span.className = "lab-tag";
-                span.textContent = tag;
-                labTags.appendChild(span);
-            });
-            labFrame.style.setProperty("--frame-gradient", lab.frame.gradient);
-            labFrame.style.setProperty("--frame-shadow", lab.frame.shadow);
-            labChat.innerHTML = "";
-            lab.chat.forEach((message) => {
-                const row = document.createElement("div");
-                row.className = "chat-row";
-                row.innerHTML = `
-                    <span class="chat-label">${message.role === "user" ? "You" : "Lab"}</span>
-                    <div class="chat-bubble ${message.role === "user" ? "user" : "lab"}">${message.text}</div>
-                `;
-                labChat.appendChild(row);
-            });
-            const metrics = document.createElement("div");
-            metrics.className = "chat-metrics";
-            lab.metrics.forEach((metric) => {
-                const card = document.createElement("div");
-                card.className = "metric-card";
-                card.innerHTML = `<span>${metric.label}</span><strong>${metric.value}</strong>`;
-                metrics.appendChild(card);
-            });
-            labChat.appendChild(metrics);
-            labStory.innerHTML = `<strong>Lab continuity:</strong> ${lab.story}`;
-        };
-
-        labSearch.addEventListener("input", (event) => renderLabs(event.target.value));
-        renderLabs();
+            document.querySelector('.win-1').style.transform = `translate(${moveX * 2}px, ${moveY * 2}px)`;
+            document.querySelector('.win-2').style.transform = `translate(${moveX * -1}px, ${moveY * -1}px)`;
+            document.querySelector('.win-3').style.transform = `translate(${moveX * 0.5}px, ${moveY * 0.5}px)`;
+        });
     </script>
 
     <!-- ElevenLabs Conversational AI Widget -->
