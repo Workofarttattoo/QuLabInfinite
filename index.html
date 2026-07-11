@@ -338,12 +338,20 @@
             padding: 10px 12px;
             border-radius: 12px;
             border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .prompt-bar:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-soft);
+            background: rgba(15, 23, 42, 0.95);
         }
 
         .prompt-input {
             flex: 1;
             color: var(--muted);
             font-size: 0.9rem;
+            outline: none;
         }
 
         .prompt-send {
@@ -677,6 +685,32 @@
             document.documentElement.style.setProperty('--accent', theme.accent);
             document.documentElement.style.setProperty('--accent-soft', theme.soft);
             document.documentElement.style.setProperty('--frame-glow', theme.soft);
+        };
+
+        const renderLabs = (filterText = '') => {
+            labList.innerHTML = '';
+            const filtered = labs.filter(lab => lab.name.toLowerCase().includes(filterText.toLowerCase()));
+
+            if (filtered.length === 0) {
+                labList.innerHTML = '<div style="padding: 12px; color: var(--muted); font-size: 0.9rem; text-align: center;">No labs found matching criteria.</div>';
+                return;
+            }
+
+            filtered.forEach((lab, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'lab-item';
+                btn.type = 'button';
+                btn.innerHTML = `
+                    <div style="font-weight: 600;">${lab.name}</div>
+                    <small>Active simulation • Continuity ready</small>
+                `;
+                btn.addEventListener('click', () => {
+                    // Find original index to maintain themes
+                    const originalIndex = labs.findIndex(l => l.name === lab.name);
+                    selectLab(lab, originalIndex);
+                });
+                labList.appendChild(btn);
+            });
         };
 
         const selectLab = (lab, index) => {
