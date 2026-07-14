@@ -338,12 +338,19 @@
             padding: 10px 12px;
             border-radius: 12px;
             border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .prompt-bar:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-soft);
         }
 
         .prompt-input {
             flex: 1;
             color: var(--muted);
             font-size: 0.9rem;
+            outline: none;
         }
 
         .prompt-send {
@@ -697,6 +704,38 @@
             if (active) {
                 active.classList.add('active');
                 active.setAttribute('aria-current', 'true');
+            }
+        };
+
+        const renderLabs = (filter = '') => {
+            const query = filter.toLowerCase();
+            labList.innerHTML = '';
+            let count = 0;
+            labs.forEach((lab, index) => {
+                if (lab.name.toLowerCase().includes(query)) {
+                    count++;
+                    const btn = document.createElement('button');
+                    btn.className = 'lab-item';
+                    if (labTitle && lab.name === labTitle.textContent) {
+                        btn.classList.add('active');
+                        btn.setAttribute('aria-current', 'true');
+                    }
+                    btn.type = 'button';
+                    btn.innerHTML = `<div>${lab.name}</div><small>QuLab Infinite</small>`;
+                    btn.addEventListener('click', () => selectLab(lab, index));
+                    labList.appendChild(btn);
+                }
+            });
+            labCount.textContent = count;
+
+            if (count === 0 && filter !== '') {
+                const empty = document.createElement('div');
+                empty.style.padding = '20px 10px';
+                empty.style.textAlign = 'center';
+                empty.style.color = 'var(--muted)';
+                empty.style.fontSize = '0.9rem';
+                empty.innerHTML = `No labs found. Try adjusting your search.`;
+                labList.appendChild(empty);
             }
         };
 
