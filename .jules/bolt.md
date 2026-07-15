@@ -12,3 +12,6 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+## 2025-07-15 - Vectorizing BFS Computational Geometry Searches
+**Learning:** Inner-loops calculating 3D distances inside graph-traversal Breadth-First Searches are extreme performance bottlenecks in Python due to O(N^2) complexity with high overhead `np.linalg.norm` operations per node.
+**Action:** When working on geometry models, always pre-allocate the complete numpy coordinates as an Nx3 array outside the traversal loop, replace Python list queues with `collections.deque`, and compute spatial intersections universally using `np.sum(diffs**2, axis=1)` coupled with boolean masks instead of Python-level sets.

@@ -18,6 +18,7 @@ This module provides comprehensive computational chemistry capabilities includin
 """
 
 import numpy as np
+from collections import deque
 from dataclasses import dataclass, field
 from typing import List, Tuple, Dict, Optional, Callable
 from scipy.constants import physical_constants, h, c, e, m_e, epsilon_0, pi, k
@@ -687,6 +688,9 @@ class ComputationalChemistryLab:
         import copy
         new_mol = copy.deepcopy(molecule)
         coords = new_mol.get_coordinates()
+        # Ensure coords is a guaranteed Nx3 numpy array for broadcasting
+        if coords.ndim == 1:
+            coords = np.vstack(coords)
 
         i, j = bond
 
@@ -696,17 +700,30 @@ class ComputationalChemistryLab:
 
         # Find atoms to rotate (connected to j)
         to_rotate = [j]
-        visited = {i, j}
-        queue = [j]
+
+        # Use boolean array for O(1) visited checks across all atoms
+        n_atoms = len(new_mol.atoms)
+        visited_mask = np.zeros(n_atoms, dtype=bool)
+        visited_mask[i] = True
+        visited_mask[j] = True
+
+        queue = deque([j])
 
         while queue:
-            current = queue.pop(0)
-            for k in range(len(coords)):
-                if k not in visited:
-                    if np.linalg.norm(coords[k] - coords[current]) < 1.8:
-                        to_rotate.append(k)
-                        visited.add(k)
-                        queue.append(k)
+            current = queue.popleft()
+
+            # Vectorized distance calculation over native array
+            diffs = coords - coords[current]
+            dists_sq = np.sum(diffs**2, axis=1)
+
+            # Vectorized neighbor finding: unvisited AND within distance
+            neighbors = np.where(~visited_mask & (dists_sq < 3.24))[0]
+
+            for k in neighbors:
+                k_idx = int(k)
+                to_rotate.append(k_idx)
+                visited_mask[k_idx] = True
+                queue.append(k_idx)
 
         # Rotation matrix (Rodrigues' formula)
         angle_rad = angle * pi / 180
