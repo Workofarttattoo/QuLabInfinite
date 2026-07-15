@@ -338,12 +338,24 @@
             padding: 10px 12px;
             border-radius: 12px;
             border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .prompt-bar:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-soft);
         }
 
         .prompt-input {
             flex: 1;
             color: var(--muted);
             font-size: 0.9rem;
+            outline: none;
+        }
+
+        .prompt-input:focus,
+        .prompt-input:focus-visible {
+            outline: none;
         }
 
         .prompt-send {
