@@ -8,6 +8,7 @@ Free gift to the scientific community from QuLabInfinite.
 import numpy as np
 from dataclasses import dataclass, field
 from typing import List, Tuple
+from collections import deque
 from scipy.constants import pi
 
 @dataclass
@@ -60,11 +61,11 @@ class Graph:
     def bfs_traversal(self, start_node: int) -> List[int]:
         if 0 <= start_node < self.nodes:
             visited = np.zeros((self.nodes,), dtype=bool)
-            queue = [start_node]
+            queue = deque([start_node])
             
             traversal_order = []
             while queue:
-                current_node = queue.pop(0)
+                current_node = queue.popleft()
                 if not visited[current_node]:
                     visited[current_node] = True
                     traversal_order.append(current_node)
@@ -102,12 +103,12 @@ class Graph:
             visited = np.zeros((self.nodes,), dtype=bool)
             distances = np.full((self.nodes,), fill_value=np.inf, dtype=float)
             predecessors = [-1] * self.nodes
-            queue = [start_node]
+            queue = deque([start_node])
             
             distances[start_node] = 0.0
             
             while queue:
-                current_node = queue.pop(0)
+                current_node = queue.popleft()
                 
                 if not visited[current_node]:
                     visited[current_node] = True
@@ -140,10 +141,10 @@ class Graph:
             node_distances = {start_node: 0.0}
             
             visited = np.zeros((self.nodes,), dtype=bool)
-            queue = [start_node]
+            queue = deque([start_node])
             
             while queue:
-                current_node = queue.pop(0)
+                current_node = queue.popleft()
                 
                 if not visited[current_node]:
                     visited[current_node] = True
@@ -174,7 +175,7 @@ class Graph:
     def is_bipartite(self) -> bool:
         color_map = {}
         
-        queue = []
+        queue = deque()
         start_nodes = list(range(self.nodes))
         np.random.shuffle(start_nodes)
 
@@ -183,7 +184,7 @@ class Graph:
                 queue.append((start_node, 0)) # (node, color)
                 
                 while queue:
-                    current_node, current_color = queue.pop(0)
+                    current_node, current_color = queue.popleft()
                     
                     if current_node not in color_map:
                         color_map[current_node] = current_color
