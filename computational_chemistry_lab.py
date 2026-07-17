@@ -685,8 +685,9 @@ class ComputationalChemistryLab:
     def _rotate_bond(self, molecule: Molecule, bond: Tuple[int, int], angle: float) -> 'Molecule':
         """Rotate around a bond by given angle."""
         import copy
+        import collections
         new_mol = copy.deepcopy(molecule)
-        coords = new_mol.get_coordinates()
+        coords = np.array(new_mol.get_coordinates(), dtype=float)
 
         i, j = bond
 
@@ -696,17 +697,26 @@ class ComputationalChemistryLab:
 
         # Find atoms to rotate (connected to j)
         to_rotate = [j]
-        visited = {i, j}
-        queue = [j]
+
+        N = len(coords)
+        visited = np.zeros(N, dtype=bool)
+        visited[i] = True
+        visited[j] = True
+
+        queue = collections.deque([j])
+
+        threshold_sq = 1.8**2
 
         while queue:
-            current = queue.pop(0)
-            for k in range(len(coords)):
-                if k not in visited:
-                    if np.linalg.norm(coords[k] - coords[current]) < 1.8:
-                        to_rotate.append(k)
-                        visited.add(k)
-                        queue.append(k)
+            current = queue.popleft()
+
+            dist_sq = np.sum((coords - coords[current])**2, axis=1)
+            neighbors = np.where((dist_sq < threshold_sq) & ~visited)[0]
+
+            for k in neighbors:
+                to_rotate.append(int(k))
+                visited[k] = True
+                queue.append(int(k))
 
         # Rotation matrix (Rodrigues' formula)
         angle_rad = angle * pi / 180
@@ -726,7 +736,7 @@ class ComputationalChemistryLab:
 
         # Update molecule
         for idx, atom in enumerate(new_mol.atoms):
-            atom.position = coords[idx]
+            atom.position = coords[idx].tolist()
 
         return new_mol
 
