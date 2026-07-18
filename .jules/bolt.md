@@ -12,3 +12,7 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+
+## 2025-05-23 - Vectorizing Intersection over Union (IoU) in Non-Maximum Suppression
+**Learning:** Calculating IoU iteratively inside a `while` loop using Python list comprehensions in Non-Maximum Suppression (NMS) creates a severe O(N^2) bottleneck for object detection tasks.
+**Action:** Always replace iterative IoU calculations with the vectorized Malisiewicz et al. method (using `np.maximum` and `np.minimum` to broadcast intersections) for immediate ~10-100x performance gains.

@@ -563,7 +563,7 @@ class ComputerVisionLab:
     def non_max_suppression(self, boxes: np.ndarray, scores: np.ndarray,
                           threshold: Optional[float] = None) -> List[int]:
         """
-        Apply Non-Maximum Suppression to bounding boxes.
+        Apply Non-Maximum Suppression to bounding boxes using vectorized Malisiewicz et al. method.
 
         Args:
             boxes: Array of boxes [N, 4] (x1, y1, x2, y2)
@@ -579,7 +579,13 @@ class ComputerVisionLab:
         if len(boxes) == 0:
             return []
 
-        # Sort by scores
+        boxes = boxes.astype(float)
+        x1 = boxes[:, 0]
+        y1 = boxes[:, 1]
+        x2 = boxes[:, 2]
+        y2 = boxes[:, 3]
+
+        area = (x2 - x1) * (y2 - y1)
         indices = np.argsort(scores)[::-1]
         keep = []
 
@@ -590,11 +596,22 @@ class ComputerVisionLab:
             if len(indices) == 1:
                 break
 
-            # Calculate IoU with remaining boxes
-            ious = np.array([self.intersection_over_union(boxes[current], boxes[idx])
-                           for idx in indices[1:]])
+            xx1 = np.maximum(x1[current], x1[indices[1:]])
+            yy1 = np.maximum(y1[current], y1[indices[1:]])
+            xx2 = np.minimum(x2[current], x2[indices[1:]])
+            yy2 = np.minimum(y2[current], y2[indices[1:]])
 
-            # Keep boxes with IoU below threshold
+            w = np.maximum(0.0, xx2 - xx1)
+            h = np.maximum(0.0, yy2 - yy1)
+
+            intersection = w * h
+            union = area[current] + area[indices[1:]] - intersection
+
+            # Avoid division by zero
+            ious = np.zeros_like(intersection)
+            valid_mask = union > 0
+            ious[valid_mask] = intersection[valid_mask] / union[valid_mask]
+
             indices = indices[1:][ious < threshold]
 
         return keep
