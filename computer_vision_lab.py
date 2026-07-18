@@ -565,6 +565,11 @@ class ComputerVisionLab:
         """
         Apply Non-Maximum Suppression to bounding boxes.
 
+        ⚡ Bolt Optimization:
+        Replaced the O(n²) sequential IoU loop with a fully vectorized NumPy implementation
+        (Malisiewicz et al. method using np.maximum/np.minimum to compute intersections
+        across the array simultaneously), significantly speeding up NMS on large sets of boxes.
+
         Args:
             boxes: Array of boxes [N, 4] (x1, y1, x2, y2)
             scores: Confidence scores [N]
@@ -579,10 +584,19 @@ class ComputerVisionLab:
         if len(boxes) == 0:
             return []
 
+        # Extract coordinates
+        x1 = boxes[:, 0]
+        y1 = boxes[:, 1]
+        x2 = boxes[:, 2]
+        y2 = boxes[:, 3]
+
+        # Compute area of all boxes
+        area = (x2 - x1) * (y2 - y1)
+
         # Sort by scores
         indices = np.argsort(scores)[::-1]
-        keep = []
 
+        keep = []
         while len(indices) > 0:
             current = indices[0]
             keep.append(current)
@@ -590,14 +604,25 @@ class ComputerVisionLab:
             if len(indices) == 1:
                 break
 
-            # Calculate IoU with remaining boxes
-            ious = np.array([self.intersection_over_union(boxes[current], boxes[idx])
-                           for idx in indices[1:]])
+            # Vectorized intersection computation
+            xx1 = np.maximum(x1[current], x1[indices[1:]])
+            yy1 = np.maximum(y1[current], y1[indices[1:]])
+            xx2 = np.minimum(x2[current], x2[indices[1:]])
+            yy2 = np.minimum(y2[current], y2[indices[1:]])
 
-            # Keep boxes with IoU below threshold
-            indices = indices[1:][ious < threshold]
+            w = np.maximum(0.0, xx2 - xx1)
+            h = np.maximum(0.0, yy2 - yy1)
 
-        return keep
+            inter = w * h
+
+            # IoU
+            iou = inter / (area[current] + area[indices[1:]] - inter + 1e-10)
+
+            # Keep boxes with IoU less than threshold
+            indices = indices[1:][iou < threshold]
+
+        # Convert back to regular list of ints for compatibility
+        return [int(k) for k in keep]
 
     def mean_average_precision(self, predictions: List[Dict],
                              ground_truth: List[Dict],
