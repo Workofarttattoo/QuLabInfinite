@@ -685,6 +685,7 @@ class ComputationalChemistryLab:
     def _rotate_bond(self, molecule: Molecule, bond: Tuple[int, int], angle: float) -> 'Molecule':
         """Rotate around a bond by given angle."""
         import copy
+        from collections import deque
         new_mol = copy.deepcopy(molecule)
         coords = new_mol.get_coordinates()
 
@@ -695,18 +696,28 @@ class ComputationalChemistryLab:
         axis = axis / np.linalg.norm(axis)
 
         # Find atoms to rotate (connected to j)
+        N = len(coords)
         to_rotate = [j]
-        visited = {i, j}
-        queue = [j]
+        visited = np.zeros(N, dtype=bool)
+        visited[i] = True
+        visited[j] = True
+        queue = deque([j])
+
+        # Ensure coords is a 2D float array to avoid AxisError
+        coords_arr = np.asarray(coords, dtype=float)
 
         while queue:
-            current = queue.pop(0)
-            for k in range(len(coords)):
-                if k not in visited:
-                    if np.linalg.norm(coords[k] - coords[current]) < 1.8:
-                        to_rotate.append(k)
-                        visited.add(k)
-                        queue.append(k)
+            current = queue.popleft()
+
+            # Vectorized distance calculation
+            dists_sq = np.sum((coords_arr - coords_arr[current])**2, axis=1)
+            # Find unvisited neighbors within 1.8 Angstroms (1.8^2 = 3.24)
+            neighbors = np.where((~visited) & (dists_sq < 3.24))[0].tolist()
+
+            for k in neighbors:
+                to_rotate.append(k)
+                visited[k] = True
+                queue.append(k)
 
         # Rotation matrix (Rodrigues' formula)
         angle_rad = angle * pi / 180
