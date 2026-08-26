@@ -579,7 +579,14 @@ class ComputerVisionLab:
         if len(boxes) == 0:
             return []
 
-        # Sort by scores
+        # Optimization: Pre-calculate bounding box areas for vectorized IoU calculations.
+        x1 = boxes[:, 0]
+        y1 = boxes[:, 1]
+        x2 = boxes[:, 2]
+        y2 = boxes[:, 3]
+        areas = (x2 - x1) * (y2 - y1)
+
+        # Sort by scores in descending order
         indices = np.argsort(scores)[::-1]
         keep = []
 
@@ -590,14 +597,35 @@ class ComputerVisionLab:
             if len(indices) == 1:
                 break
 
-            # Calculate IoU with remaining boxes
-            ious = np.array([self.intersection_over_union(boxes[current], boxes[idx])
-                           for idx in indices[1:]])
+            # Optimization: Vectorized calculation of intersection coordinates
+            # using broadcasting across remaining bounding boxes.
+            xx1 = np.maximum(x1[current], x1[indices[1:]])
+            yy1 = np.maximum(y1[current], y1[indices[1:]])
+            xx2 = np.minimum(x2[current], x2[indices[1:]])
+            yy2 = np.minimum(y2[current], y2[indices[1:]])
+
+            # Calculate intersection area
+            w = np.maximum(0.0, xx2 - xx1)
+            h = np.maximum(0.0, yy2 - yy1)
+            intersection = w * h
+
+            # Calculate IoU in a fully vectorized manner
+            ious = intersection / (areas[current] + areas[indices[1:]] - intersection)
 
             # Keep boxes with IoU below threshold
             indices = indices[1:][ious < threshold]
 
-        return keep
+        return [int(x) for x in keep]
+            yy2 = np.minimum(y2[current], y2[indices[1:]])
+
+            w = np.maximum(0.0, xx2 - xx1)
+            h = np.maximum(0.0, yy2 - yy1)
+            intersection = w * h
+
+            ious = intersection / (areas[current] + areas[indices[1:]] - intersection)
+            indices = indices[1:][ious < threshold]
+
+        return [int(x) for x in keep]
 
     def mean_average_precision(self, predictions: List[Dict],
                              ground_truth: List[Dict],
