@@ -222,29 +222,27 @@ class ComputationalChemistryLab:
         energy = 0.0
         coords = molecule.get_coordinates()
         n_atoms = len(molecule.atoms)
+        if n_atoms < 3:
+            return 0.0
 
-        # Find all angles (i-j-k where both i-j and j-k are bonded)
+        diff = coords[:, np.newaxis, :] - coords[np.newaxis, :, :]
+        dist_sq = np.sum(diff ** 2, axis=-1)
+
         for j in range(n_atoms):
-            neighbors = []
-            for i in range(n_atoms):
-                if i != j:
-                    r = np.linalg.norm(coords[i] - coords[j])
-                    if r < 1.8:  # Bonded
-                        neighbors.append(i)
+            # Find bonded neighbors (distance < 1.8)
+            neighbors = np.where(dist_sq[j] < 1.8**2)[0]
+            neighbors = neighbors[neighbors != j].tolist()
 
-            # Calculate angle energy for all pairs of neighbors
             for idx1 in range(len(neighbors)):
                 for idx2 in range(idx1 + 1, len(neighbors)):
                     i = neighbors[idx1]
                     k = neighbors[idx2]
 
-                    # Calculate angle
                     v1 = coords[i] - coords[j]
                     v2 = coords[k] - coords[j]
-                    cos_angle = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
-                    angle = np.arccos(np.clip(cos_angle, -1, 1)) * 180 / pi
+                    cos_angle = np.dot(v1, v2) / np.sqrt(dist_sq[i, j] * dist_sq[k, j])
+                    angle = np.arccos(np.clip(cos_angle, -1.0, 1.0)) * 180 / pi
 
-                    # Get parameters
                     atom_i = molecule.atoms[i].element
                     atom_j = molecule.atoms[j].element
                     atom_k = molecule.atoms[k].element
@@ -264,50 +262,72 @@ class ComputationalChemistryLab:
 
     def _vdw_energy(self, molecule: Molecule) -> float:
         """Calculate van der Waals energy using Lennard-Jones potential."""
-        energy = 0.0
         coords = molecule.get_coordinates()
         n_atoms = len(molecule.atoms)
+        if n_atoms < 2:
+            return 0.0
 
+        diff = coords[:, np.newaxis, :] - coords[np.newaxis, :, :]
+        dist_sq = np.sum(diff ** 2, axis=-1)
+
+        # Precompute eps and sig arrays
+        eps_arr = np.zeros(n_atoms)
+        sig_arr = np.zeros(n_atoms)
         for i in range(n_atoms):
-            for j in range(i + 1, n_atoms):
-                r = np.linalg.norm(coords[i] - coords[j])
+            el = molecule.atoms[i].element
+            if el in self.force_field.vdw_params:
+                eps_arr[i], sig_arr[i] = self.force_field.vdw_params[el]
 
-                # Skip bonded atoms
-                if r > 1.8:  # Non-bonded
-                    atom1 = molecule.atoms[i].element
-                    atom2 = molecule.atoms[j].element
+        # Upper triangle indices
+        i_idx, j_idx = np.triu_indices(n_atoms, k=1)
 
-                    if atom1 in self.force_field.vdw_params and atom2 in self.force_field.vdw_params:
-                        eps1, sig1 = self.force_field.vdw_params[atom1]
-                        eps2, sig2 = self.force_field.vdw_params[atom2]
+        r_sq = dist_sq[i_idx, j_idx]
+        mask = r_sq > 1.8**2
 
-                        # Lorentz-Berthelot combining rules
-                        epsilon = np.sqrt(eps1 * eps2)
-                        sigma = (sig1 + sig2) / 2
+        # Apply mask for non-bonded
+        i_valid = i_idx[mask]
+        j_valid = j_idx[mask]
+        r_sq_valid = r_sq[mask]
 
-                        # Lennard-Jones potential
-                        sr6 = (sigma / r)**6
-                        energy += 4 * epsilon * (sr6**2 - sr6)
+        # Only compute where both have vdw params (eps > 0)
+        valid_params_mask = (eps_arr[i_valid] > 0) & (eps_arr[j_valid] > 0)
+        i_final = i_valid[valid_params_mask]
+        j_final = j_valid[valid_params_mask]
+        r_sq_final = r_sq_valid[valid_params_mask]
+
+        eps_mix = np.sqrt(eps_arr[i_final] * eps_arr[j_final])
+        sig_mix = 0.5 * (sig_arr[i_final] + sig_arr[j_final])
+
+        r_sq_ratio = (sig_mix**2) / r_sq_final
+        r_ratio_6 = r_sq_ratio**3
+        r_ratio_12 = r_ratio_6**2
+
+        energy = np.sum(4 * eps_mix * (r_ratio_12 - r_ratio_6))
 
         return energy
 
     def _electrostatic_energy(self, molecule: Molecule) -> float:
         """Calculate electrostatic energy: E = k*q1*q2/r"""
-        energy = 0.0
         coords = molecule.get_coordinates()
         n_atoms = len(molecule.atoms)
+        if n_atoms < 2:
+            return 0.0
 
-        # Coulomb constant in kcal*Å/mol/e²
         k_coulomb = 332.0636
+        charges = np.array([atom.charge for atom in molecule.atoms])
 
-        for i in range(n_atoms):
-            for j in range(i + 1, n_atoms):
-                r = np.linalg.norm(coords[i] - coords[j])
-                q1 = molecule.atoms[i].charge
-                q2 = molecule.atoms[j].charge
+        diff = coords[:, np.newaxis, :] - coords[np.newaxis, :, :]
+        dist_sq = np.sum(diff ** 2, axis=-1)
 
-                if r > 1.8:  # Non-bonded
-                    energy += k_coulomb * q1 * q2 / r
+        i_idx, j_idx = np.triu_indices(n_atoms, k=1)
+        r_sq = dist_sq[i_idx, j_idx]
+        mask = r_sq > 1.8**2
+
+        i_valid = i_idx[mask]
+        j_valid = j_idx[mask]
+        r_sq_valid = r_sq[mask]
+
+        energy = np.sum(k_coulomb * charges[i_valid] * charges[j_valid] / np.sqrt(r_sq_valid))
 
         return energy
 
