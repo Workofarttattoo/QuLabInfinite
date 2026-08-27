@@ -695,18 +695,26 @@ class ComputationalChemistryLab:
         axis = axis / np.linalg.norm(axis)
 
         # Find atoms to rotate (connected to j)
+        from collections import deque
         to_rotate = [j]
-        visited = {i, j}
-        queue = [j]
+
+        n_atoms = len(coords)
+        visited = np.zeros(n_atoms, dtype=bool)
+        visited[i] = True
+        visited[j] = True
+
+        queue = deque([j])
 
         while queue:
-            current = queue.pop(0)
-            for k in range(len(coords)):
-                if k not in visited:
-                    if np.linalg.norm(coords[k] - coords[current]) < 1.8:
-                        to_rotate.append(k)
-                        visited.add(k)
-                        queue.append(k)
+            current = queue.popleft()
+
+            dists = np.sum((coords - coords[current])**2, axis=1)
+            neighbors = np.where(~visited & (dists < 3.24))[0]
+
+            for k in neighbors:
+                visited[k] = True
+                to_rotate.append(k)
+                queue.append(k)
 
         # Rotation matrix (Rodrigues' formula)
         angle_rad = angle * pi / 180

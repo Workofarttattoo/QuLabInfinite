@@ -12,3 +12,6 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+## 2024-05-19 - Vectorized BFS for Molecular Coordinates
+**Learning:** Using standard Python lists as queues (`queue.pop(0)`) for BFS traversals is O(N) memory shifting bottlenecks. Also, calculating Euclidean distances in a Python `for` loop over coordinate arrays is O(N) per step, leading to O(N^2) total traversal time.
+**Action:** Replace `list` queues with `collections.deque` and `queue.popleft()`. Replace spatial Python loops with vectorized NumPy broadcasting (`np.sum((coords - coords[current])**2, axis=1)`) and replace visited sets with boolean masks (`np.zeros(N, dtype=bool)`) for O(1) checks.
