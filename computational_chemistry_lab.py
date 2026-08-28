@@ -293,23 +293,30 @@ class ComputationalChemistryLab:
 
     def _electrostatic_energy(self, molecule: Molecule) -> float:
         """Calculate electrostatic energy: E = k*q1*q2/r"""
-        energy = 0.0
         coords = molecule.get_coordinates()
         n_atoms = len(molecule.atoms)
+
+        if n_atoms < 2:
+            return 0.0
 
         # Coulomb constant in kcal*Å/mol/e²
         k_coulomb = 332.0636
 
-        for i in range(n_atoms):
-            for j in range(i + 1, n_atoms):
-                r = np.linalg.norm(coords[i] - coords[j])
-                q1 = molecule.atoms[i].charge
-                q2 = molecule.atoms[j].charge
+        charges = np.array([atom.charge for atom in molecule.atoms])
 
-                if r > 1.8:  # Non-bonded
-                    energy += k_coulomb * q1 * q2 / r
+        # Use vectorized operations for pairwise distances
+        i, j = np.triu_indices(n_atoms, k=1)
+        # Calculate all pairwise distances simultaneously
+        r = np.linalg.norm(coords[i] - coords[j], axis=1)
 
-        return energy
+        # Filter for non-bonded atoms
+        mask = r > 1.8
+
+        if not np.any(mask):
+            return 0.0
+
+        q1_q2 = charges[i[mask]] * charges[j[mask]]
+        return float(np.sum(k_coulomb * q1_q2 / r[mask]))
 
     # ==================== SEMI-EMPIRICAL METHODS ====================
 
