@@ -579,6 +579,13 @@ class ComputerVisionLab:
         if len(boxes) == 0:
             return []
 
+        # Extract coordinates and calculate areas (vectorized)
+        x1 = boxes[:, 0]
+        y1 = boxes[:, 1]
+        x2 = boxes[:, 2]
+        y2 = boxes[:, 3]
+        areas = (x2 - x1) * (y2 - y1)
+
         # Sort by scores
         indices = np.argsort(scores)[::-1]
         keep = []
@@ -590,12 +597,28 @@ class ComputerVisionLab:
             if len(indices) == 1:
                 break
 
-            # Calculate IoU with remaining boxes
-            ious = np.array([self.intersection_over_union(boxes[current], boxes[idx])
-                           for idx in indices[1:]])
+            remaining = indices[1:]
+
+            # Vectorized intersection calculation
+            xx1 = np.maximum(x1[current], x1[remaining])
+            yy1 = np.maximum(y1[current], y1[remaining])
+            xx2 = np.minimum(x2[current], x2[remaining])
+            yy2 = np.minimum(y2[current], y2[remaining])
+
+            w = np.maximum(0.0, xx2 - xx1)
+            h = np.maximum(0.0, yy2 - yy1)
+            inter = w * h
+
+            # Calculate IoU
+            union = areas[current] + areas[remaining] - inter
+
+            # Avoid division by zero
+            ious = np.zeros_like(inter)
+            valid = union > 0
+            ious[valid] = inter[valid] / union[valid]
 
             # Keep boxes with IoU below threshold
-            indices = indices[1:][ious < threshold]
+            indices = remaining[ious < threshold]
 
         return keep
 
