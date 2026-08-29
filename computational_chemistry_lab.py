@@ -293,21 +293,39 @@ class ComputationalChemistryLab:
 
     def _electrostatic_energy(self, molecule: Molecule) -> float:
         """Calculate electrostatic energy: E = k*q1*q2/r"""
-        energy = 0.0
         coords = molecule.get_coordinates()
         n_atoms = len(molecule.atoms)
+
+        if n_atoms < 2:
+            return 0.0
 
         # Coulomb constant in kcal*Å/mol/e²
         k_coulomb = 332.0636
 
-        for i in range(n_atoms):
-            for j in range(i + 1, n_atoms):
-                r = np.linalg.norm(coords[i] - coords[j])
-                q1 = molecule.atoms[i].charge
-                q2 = molecule.atoms[j].charge
+        # Vectorized optimization
+        charges = np.array([atom.charge for atom in molecule.atoms])
 
-                if r > 1.8:  # Non-bonded
-                    energy += k_coulomb * q1 * q2 / r
+        # Pairwise distance matrix
+        diffs = coords[:, np.newaxis, :] - coords[np.newaxis, :, :]
+        dist_matrix = np.linalg.norm(diffs, axis=2)
+
+        # Charge product matrix
+        q_matrix = charges[:, np.newaxis] * charges[np.newaxis, :]
+
+        # Get upper triangle indices (excluding diagonal)
+        i, j = np.triu_indices(n_atoms, k=1)
+
+        # Filter for non-bonded (distance > 1.8 Å)
+        dists = dist_matrix[i, j]
+        valid_mask = dists > 1.8
+
+        if not np.any(valid_mask):
+            return 0.0
+
+        valid_dists = dists[valid_mask]
+        valid_q_prods = q_matrix[i, j][valid_mask]
+
+        energy = np.sum(k_coulomb * valid_q_prods / valid_dists)
 
         return energy
 
