@@ -346,6 +346,13 @@
             font-size: 0.9rem;
         }
 
+
+        .prompt-input:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent);
+            border-radius: 4px;
+        }
+
         .prompt-send {
             background: var(--accent);
             color: #0b0f17;
@@ -698,6 +705,23 @@
                 active.classList.add('active');
                 active.setAttribute('aria-current', 'true');
             }
+        };
+
+        const renderLabs = (filterText = '') => {
+            labList.innerHTML = '';
+            const filtered = labs.filter(lab => lab.name.toLowerCase().includes(filterText.toLowerCase()));
+
+            filtered.forEach((lab, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'lab-item';
+                btn.type = 'button'; // explicit button type for accessibility
+                btn.innerHTML = `
+                    <div style="font-weight:600">${lab.name}</div>
+                    <small>Domain Module</small>
+                `;
+                btn.addEventListener('click', () => selectLab(lab, labs.indexOf(lab)));
+                labList.appendChild(btn);
+            });
         };
 
         renderLabs();
