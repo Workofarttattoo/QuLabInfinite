@@ -20,6 +20,7 @@ This module provides comprehensive computational chemistry capabilities includin
 import numpy as np
 from dataclasses import dataclass, field
 from typing import List, Tuple, Dict, Optional, Callable
+from collections import deque
 from scipy.constants import physical_constants, h, c, e, m_e, epsilon_0, pi, k
 from scipy.optimize import minimize, differential_evolution
 from scipy.spatial.distance import pdist, squareform
@@ -696,17 +697,26 @@ class ComputationalChemistryLab:
 
         # Find atoms to rotate (connected to j)
         to_rotate = [j]
-        visited = {i, j}
-        queue = [j]
+
+        # Optimize by vectorizing the distance calculation and removing O(N) list pop(0)
+        visited = np.zeros(len(coords), dtype=bool)
+        visited[i] = True
+        visited[j] = True
+
+        queue = deque([j])
 
         while queue:
-            current = queue.pop(0)
-            for k in range(len(coords)):
-                if k not in visited:
-                    if np.linalg.norm(coords[k] - coords[current]) < 1.8:
-                        to_rotate.append(k)
-                        visited.add(k)
-                        queue.append(k)
+            current = queue.popleft()
+
+            # Vectorized distance check (squared to avoid sqrt overhead)
+            diffs = coords - coords[current]
+            dist_sq = np.sum(diffs * diffs, axis=1)
+            neighbors = np.where((dist_sq < 3.24) & ~visited)[0] # 1.8**2 = 3.24
+
+            for k in neighbors:
+                to_rotate.append(k)
+                visited[k] = True
+                queue.append(k)
 
         # Rotation matrix (Rodrigues' formula)
         angle_rad = angle * pi / 180
