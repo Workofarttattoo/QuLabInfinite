@@ -272,6 +272,26 @@
         button:focus:not(:focus-visible), a:focus:not(:focus-visible), input:focus:not(:focus-visible) { outline: none; }
         button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; border-radius: 4px; }
         .prompt-bar button:focus-visible { border-radius: 999px; }
+
+        .shortcut-hint {
+            font-family: inherit;
+            background: rgba(88, 166, 255, 0.15);
+            border: 1px solid rgba(88, 166, 255, 0.4);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            color: #9dc1ff;
+            margin-left: 8px;
+        }
+        .empty-state {
+            padding: 24px;
+            text-align: center;
+            color: #8b949e;
+            background: rgba(13, 17, 23, 0.6);
+            border: 1px dashed rgba(88, 166, 255, 0.2);
+            border-radius: 14px;
+            font-size: 0.95rem;
+        }
 </style>
 </head>
 <body>
@@ -294,8 +314,9 @@
             <aside class="lab-sidebar">
                 <h2>Active Labs</h2>
                 <label class="lab-search">
-                    🔎
+                    <span aria-hidden="true">🔎</span>
                     <input id="labSearch" type="text" placeholder="Search labs or domains" aria-label="Search labs">
+                    <kbd class="shortcut-hint">/</kbd>
                 </label>
                 <div id="labList" class="lab-list"></div>
             </aside>
@@ -312,7 +333,7 @@
                 <div id="labFrame" class="lab-frame">
                     <div class="lab-chat" id="labChat"></div>
                     <div class="prompt-bar">
-                        <input type="text" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’">
+                        <input type="text" aria-label="Prompt input" placeholder="Ask for a combo: ‘aerogel + graphene + boron nitride for thermal stealth’">
                         <button type="button" aria-label="Send message to lab">Send</button>
                     </div>
                 </div>
@@ -553,6 +574,10 @@
                 const haystack = `${lab.name} ${lab.subtitle} ${lab.tags.join(" ")}`.toLowerCase();
                 return haystack.includes(filter.toLowerCase());
             });
+            if (filtered.length === 0) {
+                labList.innerHTML = '<div class="empty-state">No matching labs found. Try a different search term.</div>';
+                return;
+            }
             filtered.forEach((lab, index) => {
                 const button = document.createElement("button");
                 button.className = "lab-button";
@@ -609,6 +634,13 @@
 
         labSearch.addEventListener("input", (event) => renderLabs(event.target.value));
         renderLabs();
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                document.getElementById('labSearch').focus();
+            }
+        });
     </script>
 
     <!-- ElevenLabs Conversational AI Widget -->
