@@ -12,3 +12,7 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+
+## 2025-05-23 - Atomic Distance Matrix Optimization
+**Learning:** In computational chemistry algorithms, manually looping through pairs of atoms to calculate pairwise variables (like $1/r$ for electrostatic energy or Lennard-Jones terms for VDW energy) creates a severe $O(N^2)$ bottleneck that dominates execution time.
+**Action:** Always replace nested loops over atomic pairs with vectorized operations. Use broadcasting (e.g. `coords[:, np.newaxis, :] - coords[np.newaxis, :, :]`) to build distance matrices, and filter using `np.triu_indices` to extract the correct upper triangular elements and apply calculations in one vectorized pass.
