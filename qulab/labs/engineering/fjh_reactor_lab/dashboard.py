@@ -8,6 +8,7 @@ from typing import Any
 
 from .atmosphere import AtmosphereState, create_atmosphere_state
 from .config import ReactorConfiguration
+from .capability import machine_capability_verdict
 from .thermal import adiabatic_upper_bound_K
 from .types import SimulationResult, is_unknown
 
@@ -105,6 +106,9 @@ def build_dashboard(
             "sample_prep": config.sample_prep.to_dict(),
         },
         "THERMAL_BOUNDS": adiabatic_upper_bound_K(config),
+        "CAPABILITY": machine_capability_verdict(
+            bank_energy_J=config.initial_stored_energy_J()
+        ),
         "EXPERIMENT": {
             "experiment_id": result.experiment_id,
             "hardware_control_enabled": config.hardware_control_enabled,

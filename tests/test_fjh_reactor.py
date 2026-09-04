@@ -545,3 +545,32 @@ class TestNonFlashSideElectrolytics:
         })
         assert result["do_not_use"] is True
         assert result["sanity_if_used_as_dump"]["status"] == "PHYSICALLY_INVALID"
+
+
+class TestCapabilityVerdict:
+    def test_machine_is_underpowered_for_flash_graphene(self):
+        from qulab.labs.engineering.fjh_reactor_lab.capability import (
+            TOUR_NATURE_BANK_J,
+            machine_capability_verdict,
+        )
+
+        v = machine_capability_verdict()
+        assert v["verdict"] == "UNDERPOWERED"
+        assert v["underpowered_for_this_job"] is True
+        assert v["this_is_not_a_firing_recommendation"] is True
+        assert v["at_1g"]["graphene_relevant"] is False
+        assert v["at_0.5g_planned_test"]["graphene_relevant"] is False
+        assert v["at_1g"]["fraction_of_literature_energy"] < 0.2
+        assert 0.25 < v["at_0.5g_planned_test"]["fraction_of_literature_energy"] < 0.35
+        assert v["machine"]["stored_energy_J"] < TOUR_NATURE_BANK_J / 10
+        budget = v["virtual_energy_budget_only"]
+        assert budget["do_not_treat_as_shopping_list"] is True
+        assert budget["identical_900uF_450V_caps_to_match_7kJ_per_g_at_0.5g"] > 12
+        assert budget["identical_900uF_450V_caps_to_match_7kJ_per_g_at_1g"] > 12
+
+    def test_lab_capability_verdict(self, tmp_path):
+        lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
+        result = lab.run_experiment({"experiment_type": "capability_verdict"})
+        assert result["status"] == "success"
+        assert result["verdict"] == "UNDERPOWERED"
+        assert result["hardware_control_enabled"] is False

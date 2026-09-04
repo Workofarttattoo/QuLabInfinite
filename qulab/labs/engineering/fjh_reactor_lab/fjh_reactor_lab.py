@@ -29,6 +29,7 @@ from .doe import (
 from .electrical import simulate_electrical
 from .energy import compute_energy_accounting
 from .hardware import default_physical_hardware, evaluate_nonflash_side_bank
+from .capability import machine_capability_verdict
 from .test_mass import PLANNED_TEST_MASS_G, evaluate_planned_test_mass
 from .ledger import ExperimentLedger
 from .sample_prep import hypothesis_with_planned_prep
@@ -88,6 +89,7 @@ class FJHReactorLab(BaseLab):
             "evaluate_test_mass": self._evaluate_test_mass,
             "scale_batch": self._scale_batch,
             "evaluate_side_electrolytics": self._evaluate_side_electrolytics,
+            "capability_verdict": self._capability_verdict,
         }
 
         handler = handlers.get(exp_type, self._simulate_pulse)
@@ -425,6 +427,9 @@ class FJHReactorLab(BaseLab):
                 flash_bank_energy_J=cfg.initial_stored_energy_J(),
                 sample_mass_g=1.0,
             ),
+            "capability_verdict": machine_capability_verdict(
+                bank_energy_J=cfg.initial_stored_energy_J()
+            ),
             "simulation": sim,
         }
 
@@ -467,6 +472,9 @@ class FJHReactorLab(BaseLab):
                 masses_g=tuple(float(m) for m in masses),
                 level2_rows=rows,
             ),
+            "capability_verdict": machine_capability_verdict(
+                bank_energy_J=cfg.initial_stored_energy_J()
+            ),
             "note": (
                 "Virtual mass sweep only. 0.5 g is the planned virtual test load. "
                 "1 g was the previously stated loading. This is not a firing plan."
@@ -477,6 +485,12 @@ class FJHReactorLab(BaseLab):
         """Recommend 0.5 g as the virtual test load on this bank."""
         spec = {**spec, "masses_g": spec.get("masses_g", [1.0, 0.5, 0.25])}
         return self._compare_sample_mass(spec)
+
+    def _capability_verdict(self, spec: dict[str, Any]) -> dict[str, Any]:
+        """State whether this bank is sized for the flash-graphene job."""
+        cfg = self._build_config(spec)
+        verdict = machine_capability_verdict(bank_energy_J=cfg.initial_stored_energy_J())
+        return {"status": "success", "simulation_only": True, **verdict}
 
     def _evaluate_side_electrolytics(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Virtual energy-only review of the non-flash JCCON inventory."""
@@ -543,7 +557,7 @@ class FJHReactorLab(BaseLab):
                 "doe_ofat", "compare_atmospheres", "compare_ultrasound",
                 "monte_carlo", "dashboard", "ai_query",
                 "physical_setup_report", "compare_sample_mass", "evaluate_test_mass",
-                "scale_batch", "evaluate_side_electrolytics",
+                "scale_batch", "evaluate_side_electrolytics", "capability_verdict",
             ],
         }
 
