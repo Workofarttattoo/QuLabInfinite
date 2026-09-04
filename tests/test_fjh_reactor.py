@@ -387,6 +387,7 @@ class TestPhysicalLabSetup:
         assert result["hardware"]["planned_test_mass_g"] == 0.5
         assert result["planned_test_mass"]["planned_test_mass_g"] == 0.5
         assert result["planned_test_mass"]["this_is_not_a_firing_recommendation"] is True
+        assert result["capability_verdict"]["verdict"] == "UNDERPOWERED"
         assert dash["HARDWARE"]["igbt"]["manufacturer"] == "Infineon"
         assert dash["HARDWARE"]["igbt"]["voltage_rating_V"] == 600.0
         assert dash["HARDWARE"]["side_electrolytic_bank"]["usable_as_fjh_dump_bank"] is False
