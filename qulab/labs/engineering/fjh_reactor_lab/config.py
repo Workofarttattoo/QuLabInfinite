@@ -80,7 +80,7 @@ class IGBTModel:
             "on_resistance_ohm": _u(self.on_resistance_ohm),
             "switching_energy_J": _u(self.switching_energy_J),
             "voltage_headroom_vs_450V_bank_V": self.voltage_headroom_V(450.0),
-            "voltage_ok_for_450V_bank": 450.0 <= self.voltage_rating_V,
+            "voltage_ok_for_450V_bank": self.voltage_rating_V >= 450.0,
         }
 
 

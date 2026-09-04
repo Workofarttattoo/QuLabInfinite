@@ -66,7 +66,7 @@ def check_igbt_voltage(config: ReactorConfiguration) -> tuple[bool, str]:
     """450 V bank vs Infineon 600 V IGBT: voltage-legal, current still unknown."""
     V = config.initial_voltage_V or config.capacitor_nominal_voltage_V
     v_igbt = config.igbt.voltage_rating_V
-    if V > v_igbt:
+    if v_igbt < V:
         return False, (
             f"Bank voltage {V} V exceeds IGBT rating {v_igbt} V"
         )

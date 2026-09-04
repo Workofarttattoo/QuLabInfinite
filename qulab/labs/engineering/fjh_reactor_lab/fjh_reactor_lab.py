@@ -15,6 +15,7 @@ from qulab.core.base_lab import BaseLab, register_lab
 
 from .ai_tools import FJHAIScientistTools
 from .atmosphere import compare_atmospheres, create_atmosphere_state
+from .batch_scaling import scale_batch_mass
 from .calibration import CalibrationDatabase
 from .config import ReactorConfiguration
 from .dashboard import build_dashboard
@@ -27,9 +28,8 @@ from .doe import (
 )
 from .electrical import simulate_electrical
 from .energy import compute_energy_accounting
-from .ledger import ExperimentLedger
-from .batch_scaling import scale_batch_mass
 from .hardware import default_physical_hardware, evaluate_nonflash_side_bank
+from .ledger import ExperimentLedger
 from .sample_prep import hypothesis_with_planned_prep
 from .sanity import run_sanity_checks
 from .scoring import compute_hypothesis_scores

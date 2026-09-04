@@ -16,21 +16,21 @@ from qulab.labs.engineering.fjh_reactor_lab.electrical import (
 )
 from qulab.labs.engineering.fjh_reactor_lab.energy import compute_energy_accounting
 from qulab.labs.engineering.fjh_reactor_lab.fjh_reactor_lab import FJHReactorLab
-from qulab.labs.engineering.fjh_reactor_lab.sanity import run_sanity_checks
 from qulab.labs.engineering.fjh_reactor_lab.hardware import (
     AWG4_COPPER_RESISTANCE_OHM_PER_M_20C,
     NonFlashElectrolyticBank,
     evaluate_nonflash_side_bank,
 )
+from qulab.labs.engineering.fjh_reactor_lab.sanity import run_sanity_checks
 from qulab.labs.engineering.fjh_reactor_lab.thermal import (
     adiabatic_upper_bound_K,
     simulate_thermal_lumped,
 )
-from qulab.labs.engineering.fjh_reactor_lab.types import UNKNOWN, is_unknown
 from qulab.labs.engineering.fjh_reactor_lab.types import (
     AtmosphereType,
     ModelLevel,
     SanityStatus,
+    is_unknown,
 )
 from qulab.labs.engineering.fjh_reactor_lab.ultrasound import UltrasoundConfig
 from qulab.labs.engineering.fjh_reactor_lab.uncertainty import run_monte_carlo
