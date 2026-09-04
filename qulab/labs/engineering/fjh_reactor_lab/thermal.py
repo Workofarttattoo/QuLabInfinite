@@ -59,14 +59,53 @@ def _effective_cp(props: MaterialThermalProperties) -> float:
 def _effective_mass_kg(config: ReactorConfiguration) -> float:
     if not is_unknown(config.sample_mass_g):
         return float(config.sample_mass_g) / 1000.0
-    return 0.001  # 1 mg placeholder
+    return 0.001  # 1 g placeholder — same mass as the operator sample, not a measurement
+
+
+def adiabatic_upper_bound_K(
+    config: ReactorConfiguration,
+    energy_J: float | None = None,
+    specific_heat_J_kg_K: float = 710.0,
+) -> dict[str, float]:
+    """
+    Hard thermal upper bound: all listed energy deposited in the sample, no sinks.
+
+    T_max = T0 + E / (m * cp)
+    For 1 g and the full 1093.5 J bank: ~1838 K if cp = 710 J/kg/K.
+    """
+    mass_kg = _effective_mass_kg(config)
+    E = energy_J if energy_J is not None else config.initial_stored_energy_J()
+    delta_T = E / (mass_kg * specific_heat_J_kg_K) if mass_kg * specific_heat_J_kg_K > 0 else 0.0
+    T_max = config.initial_sample_temperature_K + delta_T
+    mass_g = mass_kg * 1000.0
+    return {
+        "mass_g": mass_g,
+        "energy_J": E,
+        "energy_density_J_per_g": E / mass_g if mass_g > 0 else 0.0,
+        "specific_heat_J_kg_K": specific_heat_J_kg_K,
+        "adiabatic_peak_temperature_K": T_max,
+        "delta_T_K": delta_T,
+    }
+
+
+def graphite_electrode_coupling_fraction(config: ReactorConfiguration) -> float:
+    """
+    Graphite rods sink heat. Fraction is a hypothesis until rod dimensions
+    and contact area are measured. Default 0.30 vs 0.15 for unknown electrodes.
+    """
+    material = config.electrode_geometry.material
+    if not is_unknown(material) and str(material).lower() == "graphite":
+        return 0.30
+    if config.graphite_electrodes.material == "graphite":
+        return 0.30
+    return 0.15
 
 
 def simulate_thermal_lumped(
     config: ReactorConfiguration,
     P_sample: TimeSeries,
     material: MaterialThermalProperties | None = None,
-    electrode_coupling_fraction: float = 0.15,
+    electrode_coupling_fraction: float | None = None,
     chamber_coupling_fraction: float = 0.05,
     cooling_tau_s: float = 0.5,
 ) -> ThermalResult:
@@ -77,6 +116,8 @@ def simulate_thermal_lumped(
     props = material or VULCAN_XC72_THERMAL
     cp = _effective_cp(props)
     mass = _effective_mass_kg(config)
+    if electrode_coupling_fraction is None:
+        electrode_coupling_fraction = graphite_electrode_coupling_fraction(config)
     T0 = config.initial_sample_temperature_K
 
     t = np.array(P_sample.time_s)
@@ -124,10 +165,9 @@ def simulate_thermal_lumped(
 
     grad = UNKNOWN
     if not is_unknown(props.thermal_conductivity_W_m_K):
-        k_th = float(props.thermal_conductivity_W_m_K)
         peak_dT = float(np.max(T) - T0)
         # crude gradient estimate: delta_T over ~1mm characteristic length
-        grad = peak_dT / 0.001 * 0.5  # scaled estimate
+        grad = peak_dT / 0.001 * 0.5
 
     return ThermalResult(
         T_sample=TimeSeries(list(t), list(T), "K", "T_sample(t)"),

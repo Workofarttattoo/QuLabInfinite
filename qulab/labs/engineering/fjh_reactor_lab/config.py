@@ -12,6 +12,14 @@ import json
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from .hardware import (
+    BleedResistor,
+    GraphiteRodElectrodes,
+    HVWiring,
+    PhysicalLabHardware,
+    default_physical_hardware,
+)
+from .sample_prep import SamplePrepProtocol, planned_vulcan_gold_premix
 from .types import (
     UNKNOWN,
     AtmosphereType,
@@ -122,6 +130,13 @@ class ReactorConfiguration:
     sample_geometry: SampleGeometry = field(default_factory=SampleGeometry)
     electrode_geometry: ElectrodeGeometry = field(default_factory=ElectrodeGeometry)
 
+    # Operator hardware (optional structured description)
+    hv_wiring: HVWiring = field(default_factory=HVWiring)
+    graphite_electrodes: GraphiteRodElectrodes = field(default_factory=GraphiteRodElectrodes)
+    bleed_resistor: BleedResistor = field(default_factory=BleedResistor)
+    sample_prep: SamplePrepProtocol = field(default_factory=planned_vulcan_gold_premix)
+    hardware: PhysicalLabHardware | None = None
+
     # Thermal boundary
     ambient_temperature_K: float = 298.15
     initial_sample_temperature_K: float = 298.15
@@ -177,6 +192,10 @@ class ReactorConfiguration:
             return float(self.sample_resistance_ohm)
         return 0.1  # placeholder for simulation when unknown
 
+    def hv_wiring_resistance_ohm(self) -> float | UnknownValue:
+        """4 AWG wiring resistance if length or measurement is known."""
+        return self.hv_wiring.resistance_ohm()
+
     def config_hash(self) -> str:
         """Deterministic hash for reproducibility."""
         d = self._to_dict_no_hash()
@@ -212,6 +231,10 @@ class ReactorConfiguration:
             "ambient_temperature_K": self.ambient_temperature_K,
             "initial_sample_temperature_K": self.initial_sample_temperature_K,
             "hardware_control_enabled": self.hardware_control_enabled,
+            "hv_wiring_awg": self.hv_wiring.awg,
+            "electrode_material": self.graphite_electrodes.material,
+            "bleed_resistor_present": self.bleed_resistor.present,
+            "sample_prep_status": self.sample_prep.status,
         }
 
     def to_dict(self) -> dict[str, Any]:
@@ -231,3 +254,25 @@ class ReactorConfiguration:
     def default_fjh_bank(cls) -> ReactorConfiguration:
         """Default configuration matching known 12x900uF @ 450V bank."""
         return cls()
+
+    @classmethod
+    def physical_lab_setup(cls) -> ReactorConfiguration:
+        """
+        Operator-described reactor: 1 g sample, graphite rods, 4 AWG HV wire,
+        bleeder resistor, planned Vulcan + liquid-gold premix/dry/load.
+        """
+        hardware = default_physical_hardware()
+        electrodes = GraphiteRodElectrodes()
+        return cls(
+            sample_mass_g=1.0,
+            electrode_geometry=ElectrodeGeometry(
+                material="graphite",
+                contact_area_mm2=UNKNOWN,
+                gap_mm=UNKNOWN,
+            ),
+            hv_wiring=HVWiring(),
+            graphite_electrodes=electrodes,
+            bleed_resistor=BleedResistor(),
+            sample_prep=planned_vulcan_gold_premix(),
+            hardware=hardware,
+        )

@@ -11,6 +11,7 @@ from typing import Any
 import numpy as np
 
 from .config import ReactorConfiguration
+from .types import is_unknown
 
 
 @dataclass
@@ -54,7 +55,12 @@ def default_uncertain_parameters(config: ReactorConfiguration) -> list[Uncertain
         UncertainParameter("contact_resistance_ohm", 0.01, 0.5, "ohm"),
         UncertainParameter("ESR_ohm", config.effective_ESR_ohm(), 0.15, "ohm"),
         UncertainParameter("specific_heat_J_kg_K", 710.0, 0.3, "J/kg/K"),
-        UncertainParameter("sample_mass_g", 0.001 * 1000, 0.2, "g"),
+        UncertainParameter(
+            "sample_mass_g",
+            float(config.sample_mass_g) if not is_unknown(config.sample_mass_g) else 1.0,
+            0.05 if not is_unknown(config.sample_mass_g) else 0.2,
+            "g",
+        ),
         UncertainParameter("precursor_uniformity", 0.5, 0.3, "dimensionless"),
         UncertainParameter("residual_oxygen_fraction", 1e-4, 1.0, "fraction"),
         UncertainParameter("thermal_contact", 0.85, 0.1, "dimensionless"),

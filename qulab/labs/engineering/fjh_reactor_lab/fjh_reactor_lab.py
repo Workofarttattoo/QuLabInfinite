@@ -28,10 +28,11 @@ from .doe import (
 from .electrical import simulate_electrical
 from .energy import compute_energy_accounting
 from .ledger import ExperimentLedger
-from .material import default_fjh_material_hypothesis
+from .hardware import default_physical_hardware
+from .sample_prep import hypothesis_with_planned_prep
 from .sanity import run_sanity_checks
 from .scoring import compute_hypothesis_scores
-from .thermal import simulate_thermal_lumped
+from .thermal import adiabatic_upper_bound_K, simulate_thermal_lumped
 from .types import AtmosphereType, ModelLevel, SimulationResult
 from .ultrasound import UltrasoundConfig, compare_ultrasound_hypothesis
 from .uncertainty import run_monte_carlo
@@ -80,13 +81,20 @@ class FJHReactorLab(BaseLab):
             "monte_carlo": self._run_monte_carlo,
             "dashboard": self._build_dashboard,
             "ai_query": self._ai_query,
+            "physical_setup_report": self._physical_setup_report,
+            "compare_sample_mass": self._compare_sample_mass,
         }
 
         handler = handlers.get(exp_type, self._simulate_pulse)
         return handler(experiment_spec)
 
     def _build_config(self, spec: dict[str, Any]) -> ReactorConfiguration:
-        cfg = ReactorConfiguration.default_fjh_bank()
+        use_physical = spec.get("use_physical_setup", True)
+        cfg = (
+            ReactorConfiguration.physical_lab_setup()
+            if use_physical
+            else ReactorConfiguration.default_fjh_bank()
+        )
         overrides = spec.get("reactor_config", {})
         for key, val in overrides.items():
             if hasattr(cfg, key):
@@ -138,13 +146,18 @@ class FJHReactorLab(BaseLab):
         max_I = max(electrical["current"].values) if electrical["current"].values else 0
         min_V = min(electrical["V_cap"].values) if electrical["V_cap"].values else 0
 
+        peak_T_for_sanity = None
+        if T_sample_ts is not None and T_sample_ts.values:
+            peak_T_for_sanity = max(T_sample_ts.values)
+
         sanity = run_sanity_checks(
             cfg, energy=energy, model_level=ml,
             max_current_A=max_I, min_voltage_V=min_V,
             rectangular_pulse=spec.get("rectangular_pulse"),
+            peak_temperature_K=peak_T_for_sanity,
         )
 
-        material = default_fjh_material_hypothesis()
+        material = hypothesis_with_planned_prep()
         scores = compute_hypothesis_scores(
             thermal=thermal,
             material=material,
@@ -180,6 +193,12 @@ class FJHReactorLab(BaseLab):
             "ESR/ESL use placeholders when unknown",
             "Hypothesis scores are uncalibrated",
             "Hardware control disabled (simulation-only phase)",
+            "Sample mass 1 g is a known operator input",
+            "Graphite rod dimensions are UNKNOWN — electrode heat sink is hypothesized",
+            "4 AWG resistivity is literature-derived; wire length is UNKNOWN",
+            "Bleed resistor resistance is UNKNOWN; not treated as pulse current path",
+            "Vulcan + liquid gold premix/dry is a planned protocol, not a completed run",
+            "Premix-and-dry does not imply atomic Au dispersion",
         ]
 
         self.ledger.record(
@@ -339,6 +358,86 @@ class FJHReactorLab(BaseLab):
             return self.ai_tools.characterization_for_isolated_vs_nanoparticle()
         return {"error": f"Unknown query_type: {query_type}"}
 
+    def _physical_setup_report(self, spec: dict[str, Any]) -> dict[str, Any]:
+        """Document known hardware and run a LEVEL 2 pulse with 1 g sample."""
+        spec = {**spec, "use_physical_setup": True, "model_level": spec.get("model_level", 2)}
+        sim = self._simulate_pulse(spec)
+        cfg = self._build_config(spec)
+        bounds = adiabatic_upper_bound_K(cfg)
+        hardware = default_physical_hardware()
+        return {
+            "status": "success",
+            "simulation_only": True,
+            "hardware": hardware.to_dict(),
+            "thermal_bounds": bounds,
+            "known_inputs": [
+                "sample_mass_g = 1.0",
+                "electrodes = two long thin graphite rods",
+                "HV wiring = 4 AWG welding wire on all HV contacts",
+                "bleed resistor present (long brown, after-charge bleed)",
+                "planned prep = Vulcan + liquid gold, premix, dry, load",
+            ],
+            "still_unknown": [
+                "graphite rod length/diameter/gap/contact area",
+                "4 AWG wire length",
+                "bleed resistor ohms",
+                "sample resistance vs temperature",
+                "contact resistance",
+                "ESR/ESL",
+                "gold loading wt%",
+                "drying completeness / residual water / residual chloride",
+            ],
+            "physics_notes": [
+                (
+                    f"Adiabatic upper bound for 1 g absorbing the full "
+                    f"{bounds['energy_J']:.1f} J bank is "
+                    f"{bounds['adiabatic_peak_temperature_K']:.0f} K "
+                    f"({bounds['energy_density_J_per_g']:.1f} J/g). "
+                    "Graphite rods and electrical losses lower the real peak."
+                ),
+                "4 AWG copper is ~0.8 mΩ/m — electrically small vs sample/contact R.",
+                "Bleeder is a safety path, not a flash-current path unless R is low.",
+            ],
+            "simulation": sim,
+        }
+
+    def _compare_sample_mass(self, spec: dict[str, Any]) -> dict[str, Any]:
+        """Virtual comparison of 1 g vs lighter loadings. Simulation only."""
+        masses = spec.get("masses_g", [1.0, 0.20, 0.10, 0.05])
+        rows = []
+        for mass in masses:
+            run = self._simulate_pulse({
+                **spec,
+                "use_physical_setup": True,
+                "model_level": 2,
+                "reactor_config": {
+                    **(spec.get("reactor_config") or {}),
+                    "sample_mass_g": mass,
+                },
+            })
+            sim = run.get("simulation_result", {})
+            energy = sim.get("energy", {})
+            T = sim.get("T_sample") or {}
+            peak_T = max(T.get("values") or [0.0])
+            delivered = energy.get("sample_energy_J", 0.0)
+            rows.append({
+                "sample_mass_g": mass,
+                "energy_density_J_per_g": delivered / mass if mass else 0.0,
+                "peak_temperature_K": peak_T,
+                "model_domain": "QUESTIONABLE" if peak_T > 3500 else "in_domain",
+                "hypothesis_scores": sim.get("hypothesis_scores"),
+                "experiment_id": run.get("experiment_id"),
+                "sanity_status": run.get("sanity", {}).get("status"),
+            })
+        return {
+            "status": "success",
+            "comparison": rows,
+            "note": (
+                "Virtual mass sweep only. 1 g is the operator's stated loading. "
+                "Lighter masses are simulation alternatives, not a firing plan."
+            ),
+        }
+
     def _params_to_config(self, params: dict[str, Any]) -> dict[str, Any]:
         mapping = {
             "sample_resistance_ohm": "sample_resistance_ohm",
@@ -383,6 +482,7 @@ class FJHReactorLab(BaseLab):
                 "simulate_pulse", "sanity_check", "doe_latin_hypercube",
                 "doe_ofat", "compare_atmospheres", "compare_ultrasound",
                 "monte_carlo", "dashboard", "ai_query",
+                "physical_setup_report", "compare_sample_mass",
             ],
         }
 

@@ -32,6 +32,9 @@ def _total_series_resistance(config: ReactorConfiguration) -> float:
             r += float(val)
     if not is_unknown(config.igbt.on_resistance_ohm):
         r += float(config.igbt.on_resistance_ohm)
+    hv_r = config.hv_wiring_resistance_ohm()
+    if not is_unknown(hv_r):
+        r += float(hv_r)
     return r
 
 

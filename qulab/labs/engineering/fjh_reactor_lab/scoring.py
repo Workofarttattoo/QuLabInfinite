@@ -55,7 +55,11 @@ def compute_hypothesis_scores(
     if atmosphere_type == "vacuum":
         au_loss_risk = min(1.0, au_loss_risk * 1.3)
 
-    carbon_damage = min(1.0, max(0.0, (peak_T - 2000) / 2000 + max_heating / 1e6))
+    # Flash dT/dt is huge; do not let heating rate alone force damage = 1
+    carbon_damage = min(
+        1.0,
+        max(0.0, (peak_T - 2000) / 2000) + min(0.25, max_heating / 1e7),
+    )
 
     # Precursor uniformity modulates scores
     if precursor_uniformity is not None:
@@ -72,5 +76,5 @@ def compute_hypothesis_scores(
         au_cluster_risk=round(au_cluster_risk, 4),
         au_nanoparticle_risk=round(au_nanoparticle_risk, 4),
         au_loss_risk=round(au_loss_risk, 4),
-        carbon_damage_risk=round(carbon_damage, 4),
+        carbon_damage_risk=round(float(carbon_damage), 4),
     )

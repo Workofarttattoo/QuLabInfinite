@@ -107,6 +107,7 @@ def run_sanity_checks(
     max_current_A: float | None = None,
     min_voltage_V: float | None = None,
     rectangular_pulse: dict[str, float] | None = None,
+    peak_temperature_K: float | None = None,
 ) -> SanityCheckResult:
     """
     Run all physics sanity checks before accepting virtual experiment.
@@ -143,6 +144,16 @@ def run_sanity_checks(
         if not ok:
             failed.append("rectangular_pulse_energy")
             status = SanityStatus.PHYSICALLY_INVALID
+
+    if peak_temperature_K is not None and peak_temperature_K > 3500:
+        messages.append(
+            f"model_domain: peak T {peak_temperature_K:.0f} K exceeds carbon "
+            "sublimation-scale (~3900 K) / lumped-model validity. "
+            "Radiation and vaporization are not modeled."
+        )
+        failed.append("thermal_model_domain")
+        if status == SanityStatus.VALID:
+            status = SanityStatus.QUESTIONABLE
 
     if max_current_A is not None and min_voltage_V is not None:
         ok, msg = check_numerical_stability(max_current_A, min_voltage_V)

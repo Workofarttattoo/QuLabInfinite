@@ -17,7 +17,12 @@ from qulab.labs.engineering.fjh_reactor_lab.electrical import (
 from qulab.labs.engineering.fjh_reactor_lab.energy import compute_energy_accounting
 from qulab.labs.engineering.fjh_reactor_lab.fjh_reactor_lab import FJHReactorLab
 from qulab.labs.engineering.fjh_reactor_lab.sanity import run_sanity_checks
-from qulab.labs.engineering.fjh_reactor_lab.thermal import simulate_thermal_lumped
+from qulab.labs.engineering.fjh_reactor_lab.hardware import AWG4_COPPER_RESISTANCE_OHM_PER_M_20C
+from qulab.labs.engineering.fjh_reactor_lab.thermal import (
+    adiabatic_upper_bound_K,
+    simulate_thermal_lumped,
+)
+from qulab.labs.engineering.fjh_reactor_lab.types import UNKNOWN, is_unknown
 from qulab.labs.engineering.fjh_reactor_lab.types import (
     AtmosphereType,
     ModelLevel,
@@ -307,3 +312,83 @@ class TestUnknownValues:
         cfg1 = ReactorConfiguration.default_fjh_bank()
         cfg2 = ReactorConfiguration.default_fjh_bank()
         assert cfg1.config_hash() == cfg2.config_hash()
+
+
+class TestPhysicalLabSetup:
+    def test_sample_mass_is_one_gram(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        assert cfg.sample_mass_g == 1.0
+        assert not is_unknown(cfg.sample_mass_g)
+
+    def test_graphite_rod_electrodes_known_material_unknown_size(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        assert cfg.graphite_electrodes.material == "graphite"
+        assert cfg.graphite_electrodes.count == 2
+        assert is_unknown(cfg.graphite_electrodes.length_mm)
+        assert is_unknown(cfg.graphite_electrodes.diameter_mm)
+        assert is_unknown(cfg.electrode_geometry.contact_area_mm2)
+
+    def test_awg4_hv_wiring_length_unknown(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        assert cfg.hv_wiring.awg == 4
+        assert is_unknown(cfg.hv_wiring.length_m)
+        assert is_unknown(cfg.hv_wiring.resistance_ohm())
+        assert abs(cfg.hv_wiring.estimate_for_length_m(1.0) - AWG4_COPPER_RESISTANCE_OHM_PER_M_20C) < 1e-6
+
+    def test_bleed_resistor_present_resistance_unknown(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        assert cfg.bleed_resistor.present is True
+        assert cfg.bleed_resistor.in_pulse_current_path is False
+        assert is_unknown(cfg.bleed_resistor.resistance_ohm)
+        stolen_100k = cfg.bleed_resistor.energy_stolen_during_pulse_J(450, 0.005, 1e5)
+        assert stolen_100k < 1.0
+
+    def test_premix_dry_is_planned_not_atomic_au(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        prep = cfg.sample_prep.to_dict()
+        assert prep["status"] == "planned"
+        assert "dry" in prep["steps"]
+        assert prep["does_not_imply_atomic_Au"] is True
+        assert prep["precursor_loading_wt_percent"] == "UNKNOWN"
+
+    def test_adiabatic_1g_bound_below_2000K(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        bounds = adiabatic_upper_bound_K(cfg)
+        assert abs(bounds["energy_J"] - 1093.5) < 1.0
+        assert abs(bounds["energy_density_J_per_g"] - 1093.5) < 1.0
+        # 1 g cannot reach typical FJH graphene temps even if ALL bank energy is absorbed
+        assert bounds["adiabatic_peak_temperature_K"] < 2000
+        assert bounds["adiabatic_peak_temperature_K"] > 1500
+
+    def test_lighter_mass_has_higher_adiabatic_T(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        one_g = adiabatic_upper_bound_K(cfg)
+        cfg.sample_mass_g = 0.1
+        light = adiabatic_upper_bound_K(cfg)
+        assert light["adiabatic_peak_temperature_K"] > one_g["adiabatic_peak_temperature_K"]
+
+    def test_lab_physical_setup_report(self, tmp_path):
+        lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
+        result = lab.run_experiment({"experiment_type": "physical_setup_report"})
+        assert result["status"] == "success"
+        assert result["hardware"]["sample_mass_g"] == 1.0
+        assert "graphite rod" in " ".join(result["known_inputs"]).lower() or any(
+            "graphite" in x.lower() for x in result["known_inputs"]
+        )
+        assert result["thermal_bounds"]["mass_g"] == 1.0
+        dash = result["simulation"]["dashboard"]
+        assert "HARDWARE" in dash
+        assert dash["HARDWARE"]["sample_mass_g"] == 1.0
+
+    def test_lab_compare_sample_mass(self, tmp_path):
+        lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
+        result = lab.run_experiment({
+            "experiment_type": "compare_sample_mass",
+            "masses_g": [1.0, 0.1],
+        })
+        assert result["status"] == "success"
+        assert len(result["comparison"]) == 2
+        one_g = result["comparison"][0]
+        light = result["comparison"][1]
+        assert one_g["sample_mass_g"] == 1.0
+        assert light["peak_temperature_K"] > one_g["peak_temperature_K"]

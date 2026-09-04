@@ -8,7 +8,8 @@ from typing import Any
 
 from .atmosphere import AtmosphereState, create_atmosphere_state
 from .config import ReactorConfiguration
-from .types import SimulationResult
+from .thermal import adiabatic_upper_bound_K
+from .types import SimulationResult, is_unknown
 
 
 def build_dashboard(
@@ -88,6 +89,18 @@ def build_dashboard(
             "status": result.sanity_status.value,
             "messages": result.sanity_messages,
         },
+        "HARDWARE": {
+            "sample_mass_g": (
+                float(config.sample_mass_g)
+                if not is_unknown(config.sample_mass_g)
+                else "UNKNOWN"
+            ),
+            "hv_wiring": config.hv_wiring.to_dict(),
+            "electrodes": config.graphite_electrodes.to_dict(),
+            "bleed_resistor": config.bleed_resistor.to_dict(),
+            "sample_prep": config.sample_prep.to_dict(),
+        },
+        "THERMAL_BOUNDS": adiabatic_upper_bound_K(config),
         "EXPERIMENT": {
             "experiment_id": result.experiment_id,
             "hardware_control_enabled": config.hardware_control_enabled,
