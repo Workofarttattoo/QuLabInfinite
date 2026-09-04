@@ -62,6 +62,58 @@ def check_capacitor_rating(config: ReactorConfiguration) -> tuple[bool, str]:
     return True, "Voltage within capacitor rating"
 
 
+def check_igbt_voltage(config: ReactorConfiguration) -> tuple[bool, str]:
+    """450 V bank vs Infineon 600 V IGBT: voltage-legal, current still unknown."""
+    V = config.initial_voltage_V or config.capacitor_nominal_voltage_V
+    v_igbt = config.igbt.voltage_rating_V
+    if V > v_igbt:
+        return False, (
+            f"Bank voltage {V} V exceeds IGBT rating {v_igbt} V"
+        )
+    headroom = v_igbt - V
+    return True, (
+        f"IGBT {config.igbt.manufacturer} {v_igbt:.0f} V rating covers "
+        f"{V:.0f} V bank ({headroom:.0f} V label headroom). "
+        "Pulse current rating UNKNOWN; inductive spikes not modeled."
+    )
+
+
+def check_igbt_current_unknown(
+    config: ReactorConfiguration,
+    peak_current_A: float | None = None,
+) -> tuple[bool, str]:
+    """600 V nameplate is not a current rating. Unknown Ic stays QUESTIONABLE."""
+    current_unknown = is_unknown(config.igbt.current_rating_A) and is_unknown(
+        config.igbt.pulse_current_rating_A
+    )
+    if not current_unknown:
+        return True, "IGBT current rating provided"
+    peak_note = ""
+    if peak_current_A is not None:
+        peak_note = (
+            f" Simulated peak {peak_current_A:.0f} A cannot be compared to an "
+            "UNKNOWN Infineon current rating."
+        )
+    return False, (
+        "Infineon IGBT current and pulse ratings are UNKNOWN. "
+        "600 V vs a 450 V bank is voltage-legal only."
+        f"{peak_note} Do not fire."
+    )
+
+
+def check_nonflash_dump_bank(config: ReactorConfiguration) -> tuple[bool, str]:
+    """Refuse operator-stated non-flash electrolytics as the dump bank."""
+    if config.uses_nonflash_electrolytic_dump:
+        return False, (
+            "JCCON CD136 10×4700 µF / 450 V are operator-stated not flash-rated. "
+            "They must not be used as the FJH dump bank. Do not fire."
+        )
+    return True, (
+        "Dump path is the 12×900 µF flash bank. "
+        "Side JCCON 10×4700 µF inventory is not connected."
+    )
+
+
 def check_parameter_completeness(
     config: ReactorConfiguration,
     model_level: ModelLevel,
@@ -120,6 +172,23 @@ def run_sanity_checks(
     messages.append(f"capacitor_rating: {msg}")
     if not ok:
         failed.append("capacitor_rating")
+        status = SanityStatus.PHYSICALLY_INVALID
+
+    ok, msg = check_igbt_voltage(config)
+    messages.append(f"igbt_voltage: {msg}")
+    if not ok:
+        failed.append("igbt_voltage")
+        status = SanityStatus.PHYSICALLY_INVALID
+
+    ok, msg = check_igbt_current_unknown(config, max_current_A)
+    messages.append(f"igbt_current: {msg}")
+    if not ok and status == SanityStatus.VALID:
+        status = SanityStatus.QUESTIONABLE
+
+    ok, msg = check_nonflash_dump_bank(config)
+    messages.append(f"nonflash_electrolytic_dump: {msg}")
+    if not ok:
+        failed.append("nonflash_electrolytic_dump")
         status = SanityStatus.PHYSICALLY_INVALID
 
     complete, warnings = check_parameter_completeness(config, model_level)

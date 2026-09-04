@@ -17,7 +17,11 @@ from qulab.labs.engineering.fjh_reactor_lab.electrical import (
 from qulab.labs.engineering.fjh_reactor_lab.energy import compute_energy_accounting
 from qulab.labs.engineering.fjh_reactor_lab.fjh_reactor_lab import FJHReactorLab
 from qulab.labs.engineering.fjh_reactor_lab.sanity import run_sanity_checks
-from qulab.labs.engineering.fjh_reactor_lab.hardware import AWG4_COPPER_RESISTANCE_OHM_PER_M_20C
+from qulab.labs.engineering.fjh_reactor_lab.hardware import (
+    AWG4_COPPER_RESISTANCE_OHM_PER_M_20C,
+    NonFlashElectrolyticBank,
+    evaluate_nonflash_side_bank,
+)
 from qulab.labs.engineering.fjh_reactor_lab.thermal import (
     adiabatic_upper_bound_K,
     simulate_thermal_lumped,
@@ -379,6 +383,14 @@ class TestPhysicalLabSetup:
         dash = result["simulation"]["dashboard"]
         assert "HARDWARE" in dash
         assert dash["HARDWARE"]["sample_mass_g"] == 1.0
+        assert dash["HARDWARE"]["igbt"]["manufacturer"] == "Infineon"
+        assert dash["HARDWARE"]["igbt"]["voltage_rating_V"] == 600.0
+        assert dash["HARDWARE"]["side_electrolytic_bank"]["usable_as_fjh_dump_bank"] is False
+        assert any("Infineon" in x for x in result["known_inputs"])
+        assert any("4700" in x for x in result["known_inputs"])
+        side = result["side_electrolytics"]
+        assert side["do_not_use"] is True
+        assert abs(side["side_bank_energy_J"] - 4758.75) < 0.1
 
     def test_lab_compare_sample_mass(self, tmp_path):
         lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
@@ -417,3 +429,84 @@ class TestBatchScaling:
         sink = next(c for c in result["cases"] if c["name"] == "2500K_with_graphite_sink")
         assert sink["capacitor_count"] > 240
         assert result["safety"]["this_is_not_a_firing_recommendation"] is True
+
+
+class TestInfineonIGBT:
+    def test_physical_setup_igbt_is_infineon_600v(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        assert cfg.igbt.manufacturer == "Infineon"
+        assert cfg.igbt.voltage_rating_V == 600.0
+        assert is_unknown(cfg.igbt.part_number)
+        assert is_unknown(cfg.igbt.current_rating_A)
+        assert is_unknown(cfg.igbt.pulse_current_rating_A)
+        assert cfg.igbt.voltage_headroom_V(450.0) == 150.0
+
+    def test_igbt_voltage_legal_current_unknown(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        sanity = run_sanity_checks(cfg, model_level=ModelLevel.LEVEL_1, max_current_A=4000.0)
+        igbt_msgs = [m for m in sanity.messages if m.startswith("igbt_")]
+        assert any("600" in m and "450" in m for m in igbt_msgs)
+        assert any("UNKNOWN" in m and "Do not fire" in m for m in igbt_msgs)
+        assert sanity.status in (
+            SanityStatus.QUESTIONABLE,
+            SanityStatus.INSUFFICIENT_DATA,
+        )
+        assert "igbt_voltage" not in sanity.failed_invariants
+
+    def test_igbt_overvoltage_is_invalid(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        cfg.initial_voltage_V = 700.0
+        sanity = run_sanity_checks(cfg, model_level=ModelLevel.LEVEL_0)
+        assert sanity.status == SanityStatus.PHYSICALLY_INVALID
+        assert "igbt_voltage" in sanity.failed_invariants
+
+
+class TestNonFlashSideElectrolytics:
+    def test_energy_of_ten_4700uF_at_450V(self):
+        bank = NonFlashElectrolyticBank()
+        assert bank.count == 10
+        assert bank.manufacturer == "JCCON"
+        assert bank.capacitance_each_uF == 4700.0
+        assert bank.voltage_rating_V == 450.0
+        assert bank.form_factor == "CD136"
+        assert bank.flash_rated is False
+        assert bank.usable_as_fjh_dump_bank is False
+        assert abs(bank.energy_each_J() - 475.875) < 1e-6
+        assert abs(bank.energy_bank_J() - 4758.75) < 1e-6
+        assert bank.total_capacitance_uF() == 47000.0
+        assert is_unknown(bank.esr_ohm_each)
+        assert is_unknown(bank.pulse_current_A)
+
+    def test_evaluate_refuses_use(self):
+        ev = evaluate_nonflash_side_bank()
+        assert ev["do_not_use"] is True
+        assert ev["usable_as_fjh_dump_bank"] is False
+        assert ev["this_is_not_a_firing_recommendation"] is True
+        assert ev["safety"]["do_not_parallel_onto_flash_bank"] is True
+        assert abs(ev["energy_ratio_vs_flash_bank"] - (4758.75 / 1093.5)) < 1e-6
+        assert ev["virtual_adiabatic_exceeds_carbon_model_domain"] is True
+        assert ev["virtual_adiabatic_1g_side_only_K"] > 3500
+
+    def test_using_as_dump_bank_is_physically_invalid(self):
+        cfg = ReactorConfiguration.physical_lab_setup()
+        cfg.uses_nonflash_electrolytic_dump = True
+        sanity = run_sanity_checks(cfg, model_level=ModelLevel.LEVEL_0)
+        assert sanity.status == SanityStatus.PHYSICALLY_INVALID
+        assert "nonflash_electrolytic_dump" in sanity.failed_invariants
+
+    def test_lab_evaluate_side_electrolytics(self, tmp_path):
+        lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
+        result = lab.run_experiment({"experiment_type": "evaluate_side_electrolytics"})
+        assert result["status"] == "success"
+        assert result["do_not_use"] is True
+        assert abs(result["side_bank_energy_J"] - 4758.75) < 0.1
+        assert result["safety"]["do_not_fire"] is True
+
+    def test_lab_use_as_dump_bank_rejected(self, tmp_path):
+        lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
+        result = lab.run_experiment({
+            "experiment_type": "evaluate_side_electrolytics",
+            "use_as_dump_bank": True,
+        })
+        assert result["do_not_use"] is True
+        assert result["sanity_if_used_as_dump"]["status"] == "PHYSICALLY_INVALID"

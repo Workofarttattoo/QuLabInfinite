@@ -29,12 +29,12 @@ from .electrical import simulate_electrical
 from .energy import compute_energy_accounting
 from .ledger import ExperimentLedger
 from .batch_scaling import scale_batch_mass
-from .hardware import default_physical_hardware
+from .hardware import default_physical_hardware, evaluate_nonflash_side_bank
 from .sample_prep import hypothesis_with_planned_prep
 from .sanity import run_sanity_checks
 from .scoring import compute_hypothesis_scores
 from .thermal import adiabatic_upper_bound_K, simulate_thermal_lumped
-from .types import AtmosphereType, ModelLevel, SimulationResult
+from .types import AtmosphereType, ModelLevel, SimulationResult, is_unknown
 from .ultrasound import UltrasoundConfig, compare_ultrasound_hypothesis
 from .uncertainty import run_monte_carlo
 
@@ -85,6 +85,7 @@ class FJHReactorLab(BaseLab):
             "physical_setup_report": self._physical_setup_report,
             "compare_sample_mass": self._compare_sample_mass,
             "scale_batch": self._scale_batch,
+            "evaluate_side_electrolytics": self._evaluate_side_electrolytics,
         }
 
         handler = handlers.get(exp_type, self._simulate_pulse)
@@ -199,6 +200,9 @@ class FJHReactorLab(BaseLab):
             "Graphite rod dimensions are UNKNOWN — electrode heat sink is hypothesized",
             "4 AWG resistivity is literature-derived; wire length is UNKNOWN",
             "Bleed resistor resistance is UNKNOWN; not treated as pulse current path",
+            "Switch is an Infineon IGBT rated 600 V; part number and current are UNKNOWN",
+            "600 V vs a 450 V bank is voltage-legal; L·di/dt can still overshoot 600 V",
+            "Ten JCCON CD136 4700 µF / 450 V electrolytics are inventory only, not flash-rated",
             "Vulcan + liquid gold premix/dry is a planned protocol, not a completed run",
             "Premix-and-dry does not imply atomic Au dispersion",
         ]
@@ -377,15 +381,19 @@ class FJHReactorLab(BaseLab):
                 "electrodes = two long thin graphite rods",
                 "HV wiring = 4 AWG welding wire on all HV contacts",
                 "bleed resistor present (long brown, after-charge bleed)",
+                "IGBT = Infineon, 600 V (part number and current UNKNOWN)",
+                "side inventory = 10× JCCON CD136 4700 µF / 450 V, CE 105 °C, NOT flash-rated",
                 "planned prep = Vulcan + liquid gold, premix, dry, load",
             ],
             "still_unknown": [
                 "graphite rod length/diameter/gap/contact area",
                 "4 AWG wire length",
                 "bleed resistor ohms",
+                "Infineon IGBT part number / Ic / pulse current / Vce(sat)",
+                "JCCON side-bank ESR / ripple / pulse current / measured can size",
                 "sample resistance vs temperature",
                 "contact resistance",
-                "ESR/ESL",
+                "ESR/ESL of the 12×900 µF flash bank",
                 "gold loading wt%",
                 "drying completeness / residual water / residual chloride",
             ],
@@ -399,7 +407,13 @@ class FJHReactorLab(BaseLab):
                 ),
                 "4 AWG copper is ~0.8 mΩ/m — electrically small vs sample/contact R.",
                 "Bleeder is a safety path, not a flash-current path unless R is low.",
+                "Infineon 600 V covers the 450 V label; current capability is UNKNOWN.",
+                "The 10×4700 µF JCCON cans are not a substitute for the flash bank. Do not fire them.",
             ],
+            "side_electrolytics": evaluate_nonflash_side_bank(
+                flash_bank_energy_J=cfg.initial_stored_energy_J(),
+                sample_mass_g=1.0,
+            ),
             "simulation": sim,
         }
 
@@ -439,6 +453,19 @@ class FJHReactorLab(BaseLab):
                 "Lighter masses are simulation alternatives, not a firing plan."
             ),
         }
+
+    def _evaluate_side_electrolytics(self, spec: dict[str, Any]) -> dict[str, Any]:
+        """Virtual energy-only review of the non-flash JCCON inventory."""
+        cfg = self._build_config(spec)
+        evaluation = evaluate_nonflash_side_bank(
+            flash_bank_energy_J=cfg.initial_stored_energy_J(),
+            sample_mass_g=1.0 if is_unknown(cfg.sample_mass_g) else float(cfg.sample_mass_g),
+        )
+        if spec.get("use_as_dump_bank"):
+            cfg.uses_nonflash_electrolytic_dump = True
+            sanity = run_sanity_checks(cfg, model_level=ModelLevel.LEVEL_0)
+            evaluation["sanity_if_used_as_dump"] = sanity.to_dict()
+        return {"status": "success", "simulation_only": True, **evaluation}
 
     def _scale_batch(self, spec: dict[str, Any]) -> dict[str, Any]:
         mass_g = float(spec.get("mass_g", 20.0))
@@ -492,6 +519,7 @@ class FJHReactorLab(BaseLab):
                 "doe_ofat", "compare_atmospheres", "compare_ultrasound",
                 "monte_carlo", "dashboard", "ai_query",
                 "physical_setup_report", "compare_sample_mass", "scale_batch",
+                "evaluate_side_electrolytics",
             ],
         }
 

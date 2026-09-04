@@ -16,6 +16,7 @@ from .hardware import (
     BleedResistor,
     GraphiteRodElectrodes,
     HVWiring,
+    NonFlashElectrolyticBank,
     PhysicalLabHardware,
     default_physical_hardware,
 )
@@ -51,10 +52,36 @@ class TemperatureResistanceModel:
 class IGBTModel:
     """IGBT conduction and switching loss models."""
 
+    manufacturer: str = "Infineon"
+    voltage_rating_V: float = 600.0
+    part_number: str | UnknownValue = UNKNOWN
+    current_rating_A: float | UnknownValue = UNKNOWN
+    pulse_current_rating_A: float | UnknownValue = UNKNOWN
     conduction_loss_model: str | UnknownValue = UNKNOWN
     switching_loss_model: str | UnknownValue = UNKNOWN
     on_resistance_ohm: float | UnknownValue = UNKNOWN
     switching_energy_J: float | UnknownValue = UNKNOWN
+
+    def voltage_headroom_V(self, bank_voltage_V: float = 450.0) -> float:
+        return self.voltage_rating_V - bank_voltage_V
+
+    def to_dict(self) -> dict[str, Any]:
+        def _u(v: Any) -> Any:
+            return "UNKNOWN" if is_unknown(v) else v
+
+        return {
+            "manufacturer": self.manufacturer,
+            "voltage_rating_V": self.voltage_rating_V,
+            "part_number": _u(self.part_number),
+            "current_rating_A": _u(self.current_rating_A),
+            "pulse_current_rating_A": _u(self.pulse_current_rating_A),
+            "conduction_loss_model": _u(self.conduction_loss_model),
+            "switching_loss_model": _u(self.switching_loss_model),
+            "on_resistance_ohm": _u(self.on_resistance_ohm),
+            "switching_energy_J": _u(self.switching_energy_J),
+            "voltage_headroom_vs_450V_bank_V": self.voltage_headroom_V(450.0),
+            "voltage_ok_for_450V_bank": 450.0 <= self.voltage_rating_V,
+        }
 
 
 @dataclass
@@ -136,6 +163,11 @@ class ReactorConfiguration:
     bleed_resistor: BleedResistor = field(default_factory=BleedResistor)
     sample_prep: SamplePrepProtocol = field(default_factory=planned_vulcan_gold_premix)
     hardware: PhysicalLabHardware | None = None
+    side_electrolytic_bank: NonFlashElectrolyticBank = field(
+        default_factory=NonFlashElectrolyticBank
+    )
+    # Operator inventory only. Must stay False — those cans are not flash-rated.
+    uses_nonflash_electrolytic_dump: bool = False
 
     # Thermal boundary
     ambient_temperature_K: float = 298.15
@@ -235,6 +267,11 @@ class ReactorConfiguration:
             "electrode_material": self.graphite_electrodes.material,
             "bleed_resistor_present": self.bleed_resistor.present,
             "sample_prep_status": self.sample_prep.status,
+            "igbt_manufacturer": self.igbt.manufacturer,
+            "igbt_voltage_rating_V": self.igbt.voltage_rating_V,
+            "uses_nonflash_electrolytic_dump": self.uses_nonflash_electrolytic_dump,
+            "side_electrolytic_count": self.side_electrolytic_bank.count,
+            "side_electrolytic_uF": self.side_electrolytic_bank.capacitance_each_uF,
         }
 
     def to_dict(self) -> dict[str, Any]:

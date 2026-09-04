@@ -49,6 +49,8 @@ class FJHAIScientistTools:
             "precursor_uniformity": "HAADF-STEM or EDX mapping of precursor distribution",
             "residual_oxygen_fraction": "Residual gas analysis (RGA) of chamber",
             "thermal_contact": "IR thermography during discharge",
+            "igbt_current_rating_A": "Read Infineon part number and Ic / Icm from the package, do not fire to discover it",
+            "side_electrolytic_esr": "Do not pulse-test the JCCON cans; they are not flash-rated",
         }
         for param in dominant[:3]:
             if param in mapping:
