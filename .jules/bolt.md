@@ -12,3 +12,7 @@
 ## 2025-05-23 - Massive Dynamic Object Allocation Overhead in NLP Layer
 **Learning:** In the NLP `EmbeddingLayer`, dynamically generating large uniform arrays (e.g. `np.random.uniform(low=-1.0, high=1.0, size=(10000, 50))`) repeatedly on every `forward` pass creates a monumental memory and execution overhead, especially inside high-iteration loops like text embeddings. Generating these constants iteratively takes >95% of processing time.
 **Action:** Always verify that constant matrices (like random embeddings or pre-computed lookup tables) are constructed exactly once in the class `__init__` rather than dynamically during `forward` or `update` passes.
+
+## 2025-03-04 - In-place array modification bugs during LBM boundaries vectorization
+**Learning:** Sequential in-place array modification loops (like bounce-back swaps) can introduce severe state-dependency bugs if values read later depend on values modified earlier. In `qulab/engines/physics/fluid_dynamics.py`, bounce-back boundary assignments were updating values in-place sequentially, inadvertently corrupting velocity arrays. Vectorization fixes this by pulling values out simultaneously, avoiding self-referential explosions in Lattice Boltzmann (LBM) solver methods.
+**Action:** When vectorizing sequential logic, carefully evaluate whether the logic relies on immediate read-after-writes. Prefer pulling target data (e.g. `f_solid = self.f[solid_mask]`) before operating on advanced index slices (`self.f[solid_mask] = f_solid[..., self.opp]`).
