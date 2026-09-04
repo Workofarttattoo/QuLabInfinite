@@ -392,3 +392,28 @@ class TestPhysicalLabSetup:
         light = result["comparison"][1]
         assert one_g["sample_mass_g"] == 1.0
         assert light["peak_temperature_K"] > one_g["peak_temperature_K"]
+
+
+class TestBatchScaling:
+    def test_energy_per_900uF_450V_cap(self):
+        from qulab.labs.engineering.fjh_reactor_lab.batch_scaling import energy_per_capacitor_J
+        e = energy_per_capacitor_J()
+        assert abs(e - 91.125) < 0.01
+
+    def test_20g_on_12_caps_is_not_flash_heating(self, tmp_path):
+        lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
+        result = lab.run_experiment({"experiment_type": "scale_batch", "mass_g": 20.0})
+        assert result["current_bank_count"] == 12
+        assert result["current_energy_density_J_per_g"] < 60
+        assert result["current_estimated_peak_T_K"] < 450
+        keep = next(c for c in result["cases"] if c["name"] == "keep_current_12_caps")
+        assert keep["graphene_relevant"] is False
+
+    def test_20g_match_1g_density_needs_240_caps(self, tmp_path):
+        lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
+        result = lab.run_experiment({"experiment_type": "scale_batch", "mass_g": 20.0})
+        match = next(c for c in result["cases"] if c["name"] == "match_1g_energy_density")
+        assert match["capacitor_count"] == 240
+        sink = next(c for c in result["cases"] if c["name"] == "2500K_with_graphite_sink")
+        assert sink["capacitor_count"] > 240
+        assert result["safety"]["this_is_not_a_firing_recommendation"] is True

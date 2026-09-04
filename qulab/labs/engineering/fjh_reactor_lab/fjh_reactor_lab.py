@@ -28,6 +28,7 @@ from .doe import (
 from .electrical import simulate_electrical
 from .energy import compute_energy_accounting
 from .ledger import ExperimentLedger
+from .batch_scaling import scale_batch_mass
 from .hardware import default_physical_hardware
 from .sample_prep import hypothesis_with_planned_prep
 from .sanity import run_sanity_checks
@@ -83,6 +84,7 @@ class FJHReactorLab(BaseLab):
             "ai_query": self._ai_query,
             "physical_setup_report": self._physical_setup_report,
             "compare_sample_mass": self._compare_sample_mass,
+            "scale_batch": self._scale_batch,
         }
 
         handler = handlers.get(exp_type, self._simulate_pulse)
@@ -438,6 +440,13 @@ class FJHReactorLab(BaseLab):
             ),
         }
 
+    def _scale_batch(self, spec: dict[str, Any]) -> dict[str, Any]:
+        mass_g = float(spec.get("mass_g", 20.0))
+        sink = float(spec.get("electrode_sink_fraction", 0.30))
+        cfg = self._build_config(spec)
+        result = scale_batch_mass(mass_g=mass_g, config=cfg, electrode_sink_fraction=sink)
+        return {"status": "success", "simulation_only": True, **result}
+
     def _params_to_config(self, params: dict[str, Any]) -> dict[str, Any]:
         mapping = {
             "sample_resistance_ohm": "sample_resistance_ohm",
@@ -482,7 +491,7 @@ class FJHReactorLab(BaseLab):
                 "simulate_pulse", "sanity_check", "doe_latin_hypercube",
                 "doe_ofat", "compare_atmospheres", "compare_ultrasound",
                 "monte_carlo", "dashboard", "ai_query",
-                "physical_setup_report", "compare_sample_mass",
+                "physical_setup_report", "compare_sample_mass", "scale_batch",
             ],
         }
 
