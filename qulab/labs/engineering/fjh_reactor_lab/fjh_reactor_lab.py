@@ -29,6 +29,7 @@ from .doe import (
 from .electrical import simulate_electrical
 from .energy import compute_energy_accounting
 from .hardware import default_physical_hardware, evaluate_nonflash_side_bank
+from .test_mass import PLANNED_TEST_MASS_G, evaluate_planned_test_mass
 from .ledger import ExperimentLedger
 from .sample_prep import hypothesis_with_planned_prep
 from .sanity import run_sanity_checks
@@ -84,6 +85,7 @@ class FJHReactorLab(BaseLab):
             "ai_query": self._ai_query,
             "physical_setup_report": self._physical_setup_report,
             "compare_sample_mass": self._compare_sample_mass,
+            "evaluate_test_mass": self._evaluate_test_mass,
             "scale_batch": self._scale_batch,
             "evaluate_side_electrolytics": self._evaluate_side_electrolytics,
         }
@@ -196,7 +198,7 @@ class FJHReactorLab(BaseLab):
             "ESR/ESL use placeholders when unknown",
             "Hypothesis scores are uncalibrated",
             "Hardware control disabled (simulation-only phase)",
-            "Sample mass 1 g is a known operator input",
+            "Sample mass 1 g was the previously stated loading; 0.5 g is the planned virtual test load",
             "Graphite rod dimensions are UNKNOWN — electrode heat sink is hypothesized",
             "4 AWG resistivity is literature-derived; wire length is UNKNOWN",
             "Bleed resistor resistance is UNKNOWN; not treated as pulse current path",
@@ -377,7 +379,8 @@ class FJHReactorLab(BaseLab):
             "hardware": hardware.to_dict(),
             "thermal_bounds": bounds,
             "known_inputs": [
-                "sample_mass_g = 1.0",
+                "sample_mass_g = 1.0 (previously stated)",
+                "planned_test_mass_g = 0.5 (virtual test load, not a firing plan)",
                 "electrodes = two long thin graphite rods",
                 "HV wiring = 4 AWG welding wire on all HV contacts",
                 "bleed resistor present (long brown, after-charge bleed)",
@@ -409,7 +412,15 @@ class FJHReactorLab(BaseLab):
                 "Bleeder is a safety path, not a flash-current path unless R is low.",
                 "Infineon 600 V covers the 450 V label; current capability is UNKNOWN.",
                 "The 10×4700 µF JCCON cans are not a substitute for the flash bank. Do not fire them.",
+                (
+                    "0.5 g is the planned virtual test load: adiabatic ~3378 K / 2187 J/g, "
+                    "LEVEL 2 with hypothesized rod sink ~2100 K. Still short of literature "
+                    "flash-graphene (~7 kJ/g, >3000 K). Not a firing plan."
+                ),
             ],
+            "planned_test_mass": evaluate_planned_test_mass(
+                energy_J=cfg.initial_stored_energy_J()
+            ),
             "side_electrolytics": evaluate_nonflash_side_bank(
                 flash_bank_energy_J=cfg.initial_stored_energy_J(),
                 sample_mass_g=1.0,
@@ -418,8 +429,8 @@ class FJHReactorLab(BaseLab):
         }
 
     def _compare_sample_mass(self, spec: dict[str, Any]) -> dict[str, Any]:
-        """Virtual comparison of 1 g vs lighter loadings. Simulation only."""
-        masses = spec.get("masses_g", [1.0, 0.20, 0.10, 0.05])
+        """Virtual comparison of 1 g vs 0.5 g planned test load. Simulation only."""
+        masses = spec.get("masses_g", [1.0, 0.5, 0.25])
         rows = []
         for mass in masses:
             run = self._simulate_pulse({
@@ -445,14 +456,27 @@ class FJHReactorLab(BaseLab):
                 "experiment_id": run.get("experiment_id"),
                 "sanity_status": run.get("sanity", {}).get("status"),
             })
+        cfg = self._build_config(spec)
         return {
             "status": "success",
+            "simulation_only": True,
+            "planned_test_mass_g": PLANNED_TEST_MASS_G,
             "comparison": rows,
+            "evaluation": evaluate_planned_test_mass(
+                energy_J=cfg.initial_stored_energy_J(),
+                masses_g=tuple(float(m) for m in masses),
+                level2_rows=rows,
+            ),
             "note": (
-                "Virtual mass sweep only. 1 g is the operator's stated loading. "
-                "Lighter masses are simulation alternatives, not a firing plan."
+                "Virtual mass sweep only. 0.5 g is the planned virtual test load. "
+                "1 g was the previously stated loading. This is not a firing plan."
             ),
         }
+
+    def _evaluate_test_mass(self, spec: dict[str, Any]) -> dict[str, Any]:
+        """Recommend 0.5 g as the virtual test load on this bank."""
+        spec = {**spec, "masses_g": spec.get("masses_g", [1.0, 0.5, 0.25])}
+        return self._compare_sample_mass(spec)
 
     def _evaluate_side_electrolytics(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Virtual energy-only review of the non-flash JCCON inventory."""
@@ -518,8 +542,8 @@ class FJHReactorLab(BaseLab):
                 "simulate_pulse", "sanity_check", "doe_latin_hypercube",
                 "doe_ofat", "compare_atmospheres", "compare_ultrasound",
                 "monte_carlo", "dashboard", "ai_query",
-                "physical_setup_report", "compare_sample_mass", "scale_batch",
-                "evaluate_side_electrolytics",
+                "physical_setup_report", "compare_sample_mass", "evaluate_test_mass",
+                "scale_batch", "evaluate_side_electrolytics",
             ],
         }
 

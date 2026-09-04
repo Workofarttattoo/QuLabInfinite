@@ -383,6 +383,10 @@ class TestPhysicalLabSetup:
         dash = result["simulation"]["dashboard"]
         assert "HARDWARE" in dash
         assert dash["HARDWARE"]["sample_mass_g"] == 1.0
+        assert dash["HARDWARE"]["planned_test_mass_g"] == 0.5
+        assert result["hardware"]["planned_test_mass_g"] == 0.5
+        assert result["planned_test_mass"]["planned_test_mass_g"] == 0.5
+        assert result["planned_test_mass"]["this_is_not_a_firing_recommendation"] is True
         assert dash["HARDWARE"]["igbt"]["manufacturer"] == "Infineon"
         assert dash["HARDWARE"]["igbt"]["voltage_rating_V"] == 600.0
         assert dash["HARDWARE"]["side_electrolytic_bank"]["usable_as_fjh_dump_bank"] is False
@@ -404,6 +408,37 @@ class TestPhysicalLabSetup:
         light = result["comparison"][1]
         assert one_g["sample_mass_g"] == 1.0
         assert light["peak_temperature_K"] > one_g["peak_temperature_K"]
+
+
+class TestPlannedHalfGramLoad:
+    def test_adiabatic_half_gram_in_domain(self):
+        from qulab.labs.engineering.fjh_reactor_lab.test_mass import adiabatic_for_mass
+
+        one = adiabatic_for_mass(1.0)
+        half = adiabatic_for_mass(0.5)
+        quarter = adiabatic_for_mass(0.25)
+        assert abs(half["energy_density_J_per_g"] - 2187.0) < 0.1
+        assert 3300 < half["adiabatic_peak_temperature_K"] < 3500
+        assert half["in_lumped_model_domain"] is True
+        assert one["adiabatic_peak_temperature_K"] < 2000
+        assert quarter["in_lumped_model_domain"] is False
+        assert half["energy_density_J_per_g"] == 2 * one["energy_density_J_per_g"]
+
+    def test_level2_half_gram_hotter_than_1g_not_graphene(self, tmp_path):
+        lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
+        result = lab.run_experiment({"experiment_type": "evaluate_test_mass"})
+        assert result["planned_test_mass_g"] == 0.5
+        assert result["evaluation"]["this_is_not_a_firing_recommendation"] is True
+        assert result["evaluation"]["recommendation"]["do_not_fire"] is True
+        by_mass = {r["sample_mass_g"]: r for r in result["comparison"]}
+        assert by_mass[0.5]["peak_temperature_K"] > by_mass[1.0]["peak_temperature_K"]
+        assert 1800 < by_mass[0.5]["peak_temperature_K"] < 2800
+        assert by_mass[0.5]["model_domain"] == "in_domain"
+        assert by_mass[0.25]["model_domain"] == "QUESTIONABLE"
+        # Hypothesis score is a label, not a graphene claim
+        score = by_mass[0.5]["hypothesis_scores"]["graphene_conversion_score"]
+        assert 0 < score < 1
+        assert "HYPOTHESIS" in by_mass[0.5]["hypothesis_scores"]["label"]
 
 
 class TestBatchScaling:

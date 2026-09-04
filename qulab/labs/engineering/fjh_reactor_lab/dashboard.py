@@ -95,6 +95,7 @@ def build_dashboard(
                 if not is_unknown(config.sample_mass_g)
                 else "UNKNOWN"
             ),
+            "planned_test_mass_g": 0.5,
             "hv_wiring": config.hv_wiring.to_dict(),
             "electrodes": config.graphite_electrodes.to_dict(),
             "bleed_resistor": config.bleed_resistor.to_dict(),

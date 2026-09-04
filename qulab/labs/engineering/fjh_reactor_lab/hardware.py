@@ -370,12 +370,19 @@ class PhysicalLabHardware:
     )
     sample_mass_g: float = 1.0
     sample_mass_provenance: str = DataProvenance.KNOWN_INPUT.value
+    planned_test_mass_g: float = 0.5
+    planned_test_mass_note: str = (
+        "0.5 g is the planned virtual test load on the 12×900 µF bank. "
+        "Not a firing authorization."
+    )
     sample_prep: SamplePrepProtocol = field(default_factory=planned_vulcan_gold_premix)
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "sample_mass_g": self.sample_mass_g,
             "sample_mass_provenance": self.sample_mass_provenance,
+            "planned_test_mass_g": self.planned_test_mass_g,
+            "planned_test_mass_note": self.planned_test_mass_note,
             "hv_wiring": self.hv_wiring.to_dict(),
             "electrodes": self.electrodes.to_dict(),
             "bleed_resistor": self.bleed_resistor.to_dict(),
