@@ -175,6 +175,12 @@ class AstrophysicsLab:
         pos = positions.copy()
         vel = velocities.copy()
 
+        # ⚡ Bolt: Pre-calculate constant mass products and interaction indices to avoid O(N^2) re-computations and array allocations every step.
+        masses_col = masses[:, np.newaxis]
+        masses_row = masses[np.newaxis, :]
+        triu_i, triu_j = np.triu_indices(n, k=1)
+        pe_mass_const = -self.G * (masses[triu_i] * masses[triu_j])
+
         def compute_accelerations(positions, masses):
             # Vectorized O(N^2) to O(1) acceleration computation using numpy broadcasting
             # diff shape: (n, n, 3) where diff[i, j] = positions[j] - positions[i]
@@ -182,7 +188,7 @@ class AstrophysicsLab:
             r_sq = np.sum(diff**2, axis=-1)
             np.fill_diagonal(r_sq, np.inf)
             r_cubed = r_sq**1.5
-            F_ij = masses[np.newaxis, :] / r_cubed
+            F_ij = masses_row / r_cubed
             return self.G * np.sum(diff * F_ij[:, :, np.newaxis], axis=1)
 
         # Verlet integration
@@ -199,16 +205,12 @@ class AstrophysicsLab:
             vel_history[step] = vel
 
             # Calculate total energy
-            KE = 0.5 * np.sum(masses[:, np.newaxis] * vel**2)
+            KE = 0.5 * np.sum(masses_col * vel**2)
 
             # Vectorized potential energy calculation
-            diff = pos[:, np.newaxis, :] - pos[np.newaxis, :, :]
-            r = np.sqrt(np.sum(diff**2, axis=-1))
-            np.fill_diagonal(r, np.inf)
-            # Upper triangle mask to avoid double counting and self-interaction
-            mask = np.triu(np.ones((n, n), dtype=bool), k=1)
-            pe_matrix = -self.G * (masses[:, np.newaxis] * masses[np.newaxis, :]) / r
-            PE = np.sum(pe_matrix[mask])
+            diff_triu = pos[triu_i] - pos[triu_j]
+            r_triu = np.sqrt(np.sum(diff_triu**2, axis=-1))
+            PE = np.sum(pe_mass_const / r_triu)
 
             energy_history[step] = KE + PE
 
