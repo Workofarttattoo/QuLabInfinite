@@ -575,3 +575,33 @@ class TestCapabilityVerdict:
         assert result["status"] == "success"
         assert result["verdict"] == "UNDERPOWERED"
         assert result["hardware_control_enabled"] is False
+
+
+class TestEwasteGoldPivot:
+    def test_not_viable_and_cannot_keep_au_vaporize_cu(self):
+        from qulab.labs.engineering.fjh_reactor_lab.ewaste_gold import (
+            LITERATURE_FJH_EWASTE_J_PER_G,
+            evaluate_ewaste_gold_pivot,
+        )
+
+        ev = evaluate_ewaste_gold_pivot()
+        assert ev["viable_on_this_bank"] is False
+        assert ev["verdict"] == "NOT_VIABLE"
+        assert ev["do_not_fire_e_waste"] is True
+        assert ev["energy_to_remove_non_gold"]["cannot_selectively_vaporize_cu_keep_au"] is True
+        plastic_J = ev["energy_to_remove_non_gold"]["pyrolyze_plastics_in_1g_pcb_J"]
+        cu_J = ev["energy_to_remove_non_gold"]["vaporize_copper_in_1g_pcb"]["total_J"]
+        assert plastic_J + cu_J > 1093.5
+        assert cu_J > 800.0
+        match_g = ev["gold_yield_virtual"]["literature_matched_feed_mass_g"]
+        assert abs(match_g - 1093.5 / LITERATURE_FJH_EWASTE_J_PER_G) < 1e-6
+        assert match_g < 0.4
+        assert ev["gold_yield_virtual"]["au_mass_ug_if_300_ppm"] < 200
+        assert ev["gold_yield_virtual"]["shots_to_1g_au_at_300ppm_60pct_recovery"] > 1000
+
+    def test_lab_evaluate_ewaste_gold(self, tmp_path):
+        lab = FJHReactorLab({"ledger_db": str(tmp_path / "ledger.db")})
+        result = lab.run_experiment({"experiment_type": "evaluate_ewaste_gold"})
+        assert result["status"] == "success"
+        assert result["viable_on_this_bank"] is False
+        assert result["safety"]["do_not_fire"] is True

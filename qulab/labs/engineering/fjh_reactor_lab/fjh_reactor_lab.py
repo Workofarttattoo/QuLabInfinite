@@ -30,6 +30,7 @@ from .electrical import simulate_electrical
 from .energy import compute_energy_accounting
 from .hardware import default_physical_hardware, evaluate_nonflash_side_bank
 from .capability import machine_capability_verdict
+from .ewaste_gold import evaluate_ewaste_gold_pivot
 from .test_mass import PLANNED_TEST_MASS_G, evaluate_planned_test_mass
 from .ledger import ExperimentLedger
 from .sample_prep import hypothesis_with_planned_prep
@@ -90,6 +91,7 @@ class FJHReactorLab(BaseLab):
             "scale_batch": self._scale_batch,
             "evaluate_side_electrolytics": self._evaluate_side_electrolytics,
             "capability_verdict": self._capability_verdict,
+            "evaluate_ewaste_gold": self._evaluate_ewaste_gold,
         }
 
         handler = handlers.get(exp_type, self._simulate_pulse)
@@ -492,6 +494,12 @@ class FJHReactorLab(BaseLab):
         verdict = machine_capability_verdict(bank_energy_J=cfg.initial_stored_energy_J())
         return {"status": "success", "simulation_only": True, **verdict}
 
+    def _evaluate_ewaste_gold(self, spec: dict[str, Any]) -> dict[str, Any]:
+        """Virtual verdict: gold from ground computer parts on this bank."""
+        cfg = self._build_config(spec)
+        evaluation = evaluate_ewaste_gold_pivot(bank_energy_J=cfg.initial_stored_energy_J())
+        return {"status": "success", "simulation_only": True, **evaluation}
+
     def _evaluate_side_electrolytics(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Virtual energy-only review of the non-flash JCCON inventory."""
         cfg = self._build_config(spec)
@@ -558,6 +566,7 @@ class FJHReactorLab(BaseLab):
                 "monte_carlo", "dashboard", "ai_query",
                 "physical_setup_report", "compare_sample_mass", "evaluate_test_mass",
                 "scale_batch", "evaluate_side_electrolytics", "capability_verdict",
+                "evaluate_ewaste_gold",
             ],
         }
 
