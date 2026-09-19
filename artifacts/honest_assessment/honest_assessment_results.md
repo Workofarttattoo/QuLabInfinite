@@ -1,0 +1,87 @@
+# QuLabInfinite Honest Experiment Log
+
+Total checks: 81
+Passed: 52
+Failed: 29
+
+- **FAIL** `inventory` 6.6M materials file exists in repo: /workspace/data/materials_db_expanded.json is missing. The 14.25 GB / 6,609,495-material claim is not reproducible from this checkout. Only a 6.4K proof JSON remains.
+- **FAIL** `inventory` 6.6M proof file samples real alloy grades: Proof samples include fabricated names such as 'Steel 8680', 'Al 5250/Steel 1012_40vol%', 'Glass 119/Nickel Alloy 18_80vol%'. These are combinatorial inventions, not handbook materials.
+- **PASS** `materials` Base materials_db.json count: Base JSON contains 1059 named records (not 6.6M).
+- **FAIL** `materials` Critical properties filled in base DB: 2593 zero/missing critical fields across 1059 materials. Worst: [('specific_heat', 1037), ('electrical_resistivity', 1037), ('yield_strength', 256), ('tensile_strength', 151), ('melting_point', 107)]
+- **PASS** `materials` SS 304.density vs handbook: stored=8000, handbook=8000, tol=2.0%. Value matches a typical handbook number.
+- **PASS** `materials` SS 304.youngs_modulus vs handbook: stored=193, handbook=193, tol=3.0%. Value matches a typical handbook number.
+- **PASS** `materials` SS 304.yield_strength vs handbook: stored=300, handbook=215, tol=40.0%. Value matches a typical handbook number.
+- **PASS** `materials` SS 304.tensile_strength vs handbook: stored=600, handbook=515, tol=20.0%. Value matches a typical handbook number.
+- **PASS** `materials` SS 304.thermal_conductivity vs handbook: stored=16, handbook=16.2, tol=10.0%. Value matches a typical handbook number.
+- **FAIL** `materials` SS 304.specific_heat vs handbook: Stored 0; handbook 500. Cannot run FJH/thermal math with a missing specific_heat.
+- **FAIL** `materials` SS 304.electrical_resistivity vs handbook: Stored 0; handbook 7.2e-07. Cannot run FJH/thermal math with a missing electrical_resistivity.
+- **FAIL** `materials` SS 304.elongation_at_break vs handbook: Stored 0; handbook 40.0. Cannot run FJH/thermal math with a missing elongation_at_break.
+- **PASS** `materials` Al 6061-T6.density vs handbook: stored=2700, handbook=2700, tol=2.0%. Value matches a typical handbook number.
+- **PASS** `materials` Al 6061-T6.youngs_modulus vs handbook: stored=68.9, handbook=68.9, tol=3.0%. Value matches a typical handbook number.
+- **PASS** `materials` Al 6061-T6.yield_strength vs handbook: stored=276, handbook=276, tol=10.0%. Value matches a typical handbook number.
+- **PASS** `materials` Al 6061-T6.tensile_strength vs handbook: stored=310, handbook=310, tol=10.0%. Value matches a typical handbook number.
+- **PASS** `materials` Al 6061-T6.thermal_conductivity vs handbook: stored=167, handbook=167, tol=8.0%. Value matches a typical handbook number.
+- **PASS** `materials` Al 6061-T6.specific_heat vs handbook: stored=896, handbook=896, tol=8.0%. Value matches a typical handbook number.
+- **PASS** `materials` Ti-6Al-4V.density vs handbook: stored=4430, handbook=4430, tol=2.0%. Value matches a typical handbook number.
+- **PASS** `materials` Ti-6Al-4V.youngs_modulus vs handbook: stored=113.8, handbook=113.8, tol=5.0%. Value matches a typical handbook number.
+- **PASS** `materials` Ti-6Al-4V.tensile_strength vs handbook: stored=1100, handbook=950, tol=20.0%. Value matches a typical handbook number.
+- **PASS** `materials` Ti-6Al-4V.thermal_conductivity vs handbook: stored=6.7, handbook=6.7, tol=15.0%. Value matches a typical handbook number.
+- **PASS** `materials` Silicon Carbide.density vs handbook: stored=3210, handbook=3210, tol=3.0%. Value matches a typical handbook number.
+- **PASS** `materials` Silicon Carbide.youngs_modulus vs handbook: stored=410, handbook=410, tol=10.0%. Value matches a typical handbook number.
+- **PASS** `materials` Silicon Carbide.thermal_conductivity vs handbook: stored=120, handbook=120, tol=25.0%. Value matches a typical handbook number.
+- **PASS** `materials` Silicon Carbide.melting_point vs handbook: stored=3003, handbook=3003, tol=2.0%. Value matches a typical handbook number.
+- **PASS** `materials` Silicon Carbide.specific_heat vs handbook: stored=750, handbook=670, tol=20.0%. Value matches a typical handbook number.
+- **FAIL** `materials` Copper present in base DB: Material missing from materials_db.json
+- **FAIL** `materials` Self-compare '0.0% error' tables are not validation: docs/materials README reports 0.0% error for SS304 density/E/yield by comparing the database to itself. That is a lookup identity, not a prediction or experimental validation.
+- **PASS** `materials` MaterialsDatabase loader works: Loader assembled 1619 materials from base + expansion files.
+- **FAIL** `mechanics` TensileTest compatible with NumPy 2 (np.trapz): material_testing.py calls np.trapz, removed in NumPy 2.0. Tensile tests crash on the current interpreter unless patched.
+- **PASS** `mechanics` Tensile elastic region follows Hooke's law: Max relative error in elastic region 0.0000%. This is a real constitutive model.
+- **FAIL** `mechanics` Tensile strain_rate actually changes the curve: strain_rate is accepted and written into notes, but the stress-strain curve is identical at 0.001/s and 100/s. Rate-sensitive FJH / impact work cannot use this.
+- **PASS** `physics` CODATA constant c: stored=299792458.0, CODATA2018=299792458.0
+- **PASS** `physics` CODATA constant h: stored=6.62607015e-34, CODATA2018=6.62607015e-34
+- **PASS** `physics` CODATA constant k_B: stored=1.380649e-23, CODATA2018=1.380649e-23
+- **PASS** `physics` CODATA constant e: stored=1.602176634e-19, CODATA2018=1.602176634e-19
+- **PASS** `physics` CODATA constant sigma: stored=5.670374419e-08, CODATA2018=5.670374419e-08
+- **PASS** `physics` Free-fall vs 0.5 g t^2: z_actual=5.0967 m, z_expected=5.0967 m
+- **FAIL** `physics` Thermodynamics conduction_boost is physical: conduction_boost=1.2. Fourier conduction is scaled 20% hot, so heat-flow timescales are not first-principles.
+- **FAIL** `physics` Thermodynamics latent_heat_relaxation is physical: latent_heat_relaxation=0.149. Only ~15% of real latent heat is consumed. Phase-change energy balances are wrong by ~6.7x. This matters for FJH melt/vapor events.
+- **PASS** `physics` Lumped energy balance m cp dT = Q dt: dT=1.000 K, expected=1.000 K, cp=4186.0
+- **PASS** `physics` Coulomb force 1 µC at 1 m: |F|=0.0090 N, expected=0.0090 N
+- **FAIL** `electrical` electrical.py imports: TypeError: non-default argument 'capacity' follows default argument. Battery.capacity is a required field after VoltageSource.internal_resistance default — the module cannot load.
+- **PASS** `electrical` calculate_resistance(12 V, 3 A) == 4 ohm: helper returns 4.0
+- **FAIL** `electrical` simulate_circuit uses Ohm's law correctly: simulate_circuit calls calculate_resistance(R, I) which computes R/I, not I*R. Voltage drop for a 1000 ohm / 2 A resistor is reported as 500 V instead of 2000 V. This lab cannot diagnose FJH wiring.
+- **FAIL** `electrical` Capacitor branch of simulate_circuit runs: Capacitor path computes 1/(2π√(C L)) and reads component.inductance, which Capacitor does not define. Even if the module imported, a capacitor in the netlist would AttributeError. No E=0.5 C V^2 model.
+- **PASS** `electrical` P = I^2 R for 3 A through 4 ohm: helper returns 36.0 W
+- **FAIL** `electrical` section electrical crashed: NameError: name 'cap_crash' is not defined
+- **FAIL** `plasma` Plasma frequency formula vs ω_pe = sqrt(n e^2 / ε0 m_e): code=1.1366e+19, textbook=5.6415e+11. Formula uses sqrt(n * μ0^2 / (ε0 kT)) — not a plasma frequency.
+- **PASS** `clinical` qSOFA classic positive case (RR24, SBP88, GCS13): score=3. Thresholds RR>=22, SBP<=100, GCS<15 match Sepsis-3.
+- **PASS** `clinical` qSOFA classic negative case: score=0
+- **FAIL** `clinical` Kidney function module imports: NameError: name 'Optional' is not defined (Optional used without typing import)
+- **PASS** `clinical` CKD-EPI 2021 equation as written is the NEJM 2021 form: Hand-evaluated from kidney_function.py source: 68.63. The math is right. The file cannot be imported.
+- **FAIL** `clinical` Medical labs are 100% clinically accurate oracles: README claims '10 production-grade medical diagnostic labs with 100% clinical accuracy' and 'zero fake data, zero flaws'. qSOFA/CKD-EPI are correctly coded scoring equations, not diagnostic models. They cannot replace labs, imaging, or a clinician. SOFA uses SpO2 as a PaO2/FiO2 proxy.
+- **PASS** `fjh` FJH energy budget for 1 g Si/C to 2500 C at 150 V: Need ~2800 J. C_needed=249 mF at 150 V. FLASH-CARBIDE lists 150 V / 500 ms but never specifies capacitance, sample mass, or lead resistance. The digital twin is not complete.
+- **PASS** `fjh` Wiring resistance can steal the FJH pulse: 50 mΩ leads: T≈3484 K, 80% in sample. 2 Ω crimp: T≈660 K, 9% in sample. This is exactly the diagnosis you said the platform helped you find. The physics is real. The electrical.py lab cannot compute it.
+- **FAIL** `fjh` SS 304 electrode properties usable for FJH lead-loss calc: SS 304 specific_heat=0, electrical_resistivity=0. Both are 0 in the base DB, so a steel-busbar I²R / thermal-mass calculation cannot be done from a lookup.
+- **PASS** `fjh` SiC product card is handbook-plausible: density=3210, mp=3003 K, k=120, cp=750. Useful as a product-property card. Not a reactor model.
+- **FAIL** `fjh` Dedicated flash-joule reactor module exists: No FJH / capacitor-discharge reactor simulator in QuLabInfinite. Token hits: ['scripts/honest_assessment_experiments.py']. The materials repo FLASH-CARBIDE folder is markdown only — SYNTHESIS.md is a two-line stub.
+- **FAIL** `fjh` FLASH-CARBIDE synthesis protocol is executable: SYNTHESIS.md is 81 chars / 2 lines. Not a lab procedure.
+- **FAIL** `portfolio` 22-material portfolio has executable synthesis procedures: 22/22 SYNTHESIS.md files are stubs. Examples: ['01-TITAN-WEAVE', '02-FLASH-CARBIDE', '03-BONE-SPARK', '04-IRON-GATE', '05-GREEN-FIRE', '06-VOLT-SHIELD', '07-CRYO-SEAL', '08-PHOTO-MESH']. These are pitch decks, not lab notebooks.
+- **FAIL** `portfolio` Portfolio NPV $4.7B–$14B is empirically grounded: INDEX.md assigns $4.7B–$14B NPV and 78–96% 'ECH0 scores' to 22 compositions. ROOM-LOCK is a 185 GPa predicted hydride (not a product). FLASH-CARBIDE Year-10 conservative revenue is $0.4M in the same folder that claims $180–400M NPV. The numbers are not a financial model.
+- **PASS** `imports` import qulab.engines.physics: imports
+- **FAIL** `imports` import qulab.labs.engineering.electrical: TypeError: non-default argument 'capacity' follows default argument
+- **FAIL** `imports` import qulab.labs.engineering.materials_lab.materials_database: ImportError: cannot import name 'MaterialsLab' from 'qulab.labs.engineering.materials_lab.materials_lab' (/workspace/qulab/labs/engineering/materials_lab/materials_lab/__init__.py)
+- **PASS** `imports` import qulab.labs.physics.plasma: imports
+- **PASS** `imports` import qulab.labs.medical.sepsis_warning: imports
+- **FAIL** `imports` import qulab.labs.medical.kidney_function: NameError: name 'Optional' is not defined
+- **PASS** `imports` import qulab.labs.medical.oncology_lab.oncology_lab: imports
+- **PASS** `imports` import qulab.labs.physics.nuclear_physics_lab.nuclear_lab: imports
+- **PASS** `imports` import qulab.labs.engineering.renewable_energy_lab.renewable_core: imports
+- **PASS** `imports` import hail_model.predict: imports
+- **PASS** `imports` import thermodynamics_lab: imports
+- **PASS** `imports` import fluid_dynamics_lab: imports
+- **PASS** `imports` import quantum_computing_lab: imports
+- **PASS** `imports` import pharmacology_lab: imports
+- **PASS** `imports` import genomics_lab: imports
+- **FAIL** `vaporware` AST scan for random/sleep/NotImplemented labs: 36 modules look like demo/placeholder science.
+- **PASS** `hail` Hail XGBoost trains on synthetic data: Trainer returned metrics={'accuracy': 1.0, 'auc': 1.0, 'n_test': 100}. This is a real ML pipeline. It is not evidence of skill on real NEXRAD / storm reports.
+- **FAIL** `hail` Hail model validated on held-out real storms: Training and tests use generate_synthetic_data(). High accuracy on data the generator labeled is circular. No SPC/NEXRAD holdout in-repo.

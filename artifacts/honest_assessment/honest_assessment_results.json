@@ -1,0 +1,1740 @@
+{
+  "sections": {
+    "inventory": {
+      "python_files": 562,
+      "python_loc": 147216,
+      "lab_package_py_files": 336,
+      "root_lab_modules": [
+        "machine_learning_lab.py",
+        "neural_networks_lab.py",
+        "bioinformatics_lab.py",
+        "computer_vision_lab.py",
+        "thermodynamics_lab.py",
+        "genomics_lab.py",
+        "quantum_computing_lab.py",
+        "natural_language_processing_lab.py",
+        "computational_chemistry_lab.py",
+        "pharmacology_lab.py",
+        "algorithm_design_lab.py",
+        "ecology_lab.py",
+        "genetics_lab.py",
+        "test_thermodynamics_lab.py",
+        "seismology_lab.py",
+        "optimization_theory_lab.py",
+        "particle_physics_lab.py",
+        "astrophysics_lab.py",
+        "fluid_dynamics_lab.py",
+        "systems_biology_lab.py",
+        "signal_processing_lab.py"
+      ],
+      "expanded_db_exists": false,
+      "expanded_db_bytes": 0
+    },
+    "materials": {
+      "base_count": 1059,
+      "missing_critical": {
+        "specific_heat": 1037,
+        "electrical_resistivity": 1037,
+        "yield_strength": 256,
+        "melting_point": 107,
+        "tensile_strength": 151,
+        "thermal_conductivity": 5
+      },
+      "comparisons": [
+        {
+          "material": "SS 304",
+          "field": "density",
+          "stored": 8000,
+          "handbook": 8000,
+          "error_pct": 0.0,
+          "tol_pct": 2.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "SS 304",
+          "field": "youngs_modulus",
+          "stored": 193,
+          "handbook": 193,
+          "error_pct": 0.0,
+          "tol_pct": 3.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "SS 304",
+          "field": "yield_strength",
+          "stored": 300,
+          "handbook": 215,
+          "error_pct": 39.53488372093023,
+          "tol_pct": 40.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": false
+        },
+        {
+          "material": "SS 304",
+          "field": "tensile_strength",
+          "stored": 600,
+          "handbook": 515,
+          "error_pct": 16.50485436893204,
+          "tol_pct": 20.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": false
+        },
+        {
+          "material": "SS 304",
+          "field": "thermal_conductivity",
+          "stored": 16,
+          "handbook": 16.2,
+          "error_pct": 1.2345679012345634,
+          "tol_pct": 10.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": false
+        },
+        {
+          "material": "SS 304",
+          "field": "specific_heat",
+          "stored": 0,
+          "handbook": 500,
+          "error_pct": 100.0,
+          "tol_pct": 10.0,
+          "pass": false,
+          "tautological_self_compare_would_be_0": false
+        },
+        {
+          "material": "SS 304",
+          "field": "electrical_resistivity",
+          "stored": 0,
+          "handbook": 7.2e-07,
+          "error_pct": 100.0,
+          "tol_pct": 20.0,
+          "pass": false,
+          "tautological_self_compare_would_be_0": false
+        },
+        {
+          "material": "SS 304",
+          "field": "elongation_at_break",
+          "stored": 0,
+          "handbook": 40.0,
+          "error_pct": 100.0,
+          "tol_pct": 40.0,
+          "pass": false,
+          "tautological_self_compare_would_be_0": false
+        },
+        {
+          "material": "Al 6061-T6",
+          "field": "density",
+          "stored": 2700,
+          "handbook": 2700,
+          "error_pct": 0.0,
+          "tol_pct": 2.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Al 6061-T6",
+          "field": "youngs_modulus",
+          "stored": 68.9,
+          "handbook": 68.9,
+          "error_pct": 0.0,
+          "tol_pct": 3.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Al 6061-T6",
+          "field": "yield_strength",
+          "stored": 276,
+          "handbook": 276,
+          "error_pct": 0.0,
+          "tol_pct": 10.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Al 6061-T6",
+          "field": "tensile_strength",
+          "stored": 310,
+          "handbook": 310,
+          "error_pct": 0.0,
+          "tol_pct": 10.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Al 6061-T6",
+          "field": "thermal_conductivity",
+          "stored": 167,
+          "handbook": 167,
+          "error_pct": 0.0,
+          "tol_pct": 8.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Al 6061-T6",
+          "field": "specific_heat",
+          "stored": 896,
+          "handbook": 896,
+          "error_pct": 0.0,
+          "tol_pct": 8.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Ti-6Al-4V",
+          "field": "density",
+          "stored": 4430,
+          "handbook": 4430,
+          "error_pct": 0.0,
+          "tol_pct": 2.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Ti-6Al-4V",
+          "field": "youngs_modulus",
+          "stored": 113.8,
+          "handbook": 113.8,
+          "error_pct": 0.0,
+          "tol_pct": 5.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Ti-6Al-4V",
+          "field": "tensile_strength",
+          "stored": 1100,
+          "handbook": 950,
+          "error_pct": 15.789473684210526,
+          "tol_pct": 20.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": false
+        },
+        {
+          "material": "Ti-6Al-4V",
+          "field": "thermal_conductivity",
+          "stored": 6.7,
+          "handbook": 6.7,
+          "error_pct": 0.0,
+          "tol_pct": 15.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Silicon Carbide",
+          "field": "density",
+          "stored": 3210,
+          "handbook": 3210,
+          "error_pct": 0.0,
+          "tol_pct": 3.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Silicon Carbide",
+          "field": "youngs_modulus",
+          "stored": 410,
+          "handbook": 410,
+          "error_pct": 0.0,
+          "tol_pct": 10.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Silicon Carbide",
+          "field": "thermal_conductivity",
+          "stored": 120,
+          "handbook": 120,
+          "error_pct": 0.0,
+          "tol_pct": 25.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Silicon Carbide",
+          "field": "melting_point",
+          "stored": 3003,
+          "handbook": 3003,
+          "error_pct": 0.0,
+          "tol_pct": 2.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": true
+        },
+        {
+          "material": "Silicon Carbide",
+          "field": "specific_heat",
+          "stored": 750,
+          "handbook": 670,
+          "error_pct": 11.940298507462686,
+          "tol_pct": 20.0,
+          "pass": true,
+          "tautological_self_compare_would_be_0": false
+        }
+      ],
+      "api_count": 1619,
+      "api_error": null
+    },
+    "tensile": {
+      "hooke_error_pct": 0.0,
+      "strain_rate_ignored": true
+    },
+    "physics": {
+      "free_fall_error_pct": 1.1501572240766433e-12,
+      "energy_error_pct": 1.1885064846454513e-12
+    },
+    "electrical": {
+      "error": "Traceback (most recent call last):\n  File \"/workspace/scripts/honest_assessment_experiments.py\", line 1242, in main\n    ]\n      \n  File \"/workspace/scripts/honest_assessment_experiments.py\", line 690, in electrical_experiments\n    return {\n             \nNameError: name 'cap_crash' is not defined\n"
+    },
+    "plasma": {
+      "textbook_omega_pe": 564146023118.0626,
+      "code": 1.1365638995918047e+19,
+      "error_pct": 2014662510.417708
+    },
+    "clinical": {
+      "qsofa_pos": 3,
+      "qsofa_neg": 0,
+      "kidney_ok": false,
+      "kidney_err": "NameError: name 'Optional' is not defined"
+    },
+    "fjh": {
+      "E_need_J": 2799.689535614525,
+      "C_needed_mF": 248.86129205462444,
+      "wiring": {
+        "tight_contacts_50mohm_leads": {
+          "R_wire_ohm": 0.05,
+          "energy_in_sample_J": 2239.75162849162,
+          "energy_fraction_in_sample": 0.8,
+          "adiabatic_T_K": 3484.0110558971396,
+          "peak_current_A": 600.0,
+          "reaches_2500C": true
+        },
+        "loose_or_long_leads_500mohm": {
+          "R_wire_ohm": 0.5,
+          "energy_in_sample_J": 799.9112958898644,
+          "energy_fraction_in_sample": 0.28571428571428575,
+          "adiabatic_T_K": 1435.8610913918355,
+          "peak_current_A": 214.2857142857143,
+          "reaches_2500C": false
+        },
+        "bad_crimp_2ohm": {
+          "R_wire_ohm": 2.0,
+          "energy_in_sample_J": 254.51723051041137,
+          "energy_fraction_in_sample": 0.09090909090909091,
+          "adiabatic_T_K": 660.0467108974021,
+          "peak_current_A": 68.18181818181817,
+          "reaches_2500C": false
+        }
+      },
+      "fjh_code_hits": [
+        "scripts/honest_assessment_experiments.py"
+      ],
+      "synthesis_chars": 81
+    },
+    "portfolio": {
+      "folders": [
+        "01-TITAN-WEAVE",
+        "02-FLASH-CARBIDE",
+        "03-BONE-SPARK",
+        "04-IRON-GATE",
+        "05-GREEN-FIRE",
+        "06-VOLT-SHIELD",
+        "07-CRYO-SEAL",
+        "08-PHOTO-MESH",
+        "09-NEURO-GEL",
+        "10-HEAT-TRAP",
+        "11-VOLT-SILK",
+        "12-QUANTUM-CAP",
+        "13-AERO-SPINE",
+        "14-FLEX-LATTICE",
+        "15-THERMO-CATCH",
+        "16-NOVA-CELL",
+        "17-BIO-WEAVE",
+        "18-EARTH-WRAP",
+        "19-ROOM-LOCK",
+        "20-MEMORY-X",
+        "21-FORCE-HARVEST",
+        "22-CRYO-WEAVE"
+      ],
+      "empty_synthesis": [
+        "01-TITAN-WEAVE",
+        "02-FLASH-CARBIDE",
+        "03-BONE-SPARK",
+        "04-IRON-GATE",
+        "05-GREEN-FIRE",
+        "06-VOLT-SHIELD",
+        "07-CRYO-SEAL",
+        "08-PHOTO-MESH",
+        "09-NEURO-GEL",
+        "10-HEAT-TRAP",
+        "11-VOLT-SILK",
+        "12-QUANTUM-CAP",
+        "13-AERO-SPINE",
+        "14-FLEX-LATTICE",
+        "15-THERMO-CATCH",
+        "16-NOVA-CELL",
+        "17-BIO-WEAVE",
+        "18-EARTH-WRAP",
+        "19-ROOM-LOCK",
+        "20-MEMORY-X",
+        "21-FORCE-HARVEST",
+        "22-CRYO-WEAVE"
+      ]
+    },
+    "imports": {
+      "rows": [
+        {
+          "module": "qulab.engines.physics",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "qulab.labs.engineering.electrical",
+          "ok": false,
+          "error": "TypeError: non-default argument 'capacity' follows default argument"
+        },
+        {
+          "module": "qulab.labs.engineering.materials_lab.materials_database",
+          "ok": false,
+          "error": "ImportError: cannot import name 'MaterialsLab' from 'qulab.labs.engineering.materials_lab.materials_lab' (/workspace/qulab/labs/engineering/materials_lab/materials_lab/__init__.py)"
+        },
+        {
+          "module": "qulab.labs.physics.plasma",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "qulab.labs.medical.sepsis_warning",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "qulab.labs.medical.kidney_function",
+          "ok": false,
+          "error": "NameError: name 'Optional' is not defined"
+        },
+        {
+          "module": "qulab.labs.medical.oncology_lab.oncology_lab",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "qulab.labs.physics.nuclear_physics_lab.nuclear_lab",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "qulab.labs.engineering.renewable_energy_lab.renewable_core",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "hail_model.predict",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "thermodynamics_lab",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "fluid_dynamics_lab",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "quantum_computing_lab",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "pharmacology_lab",
+          "ok": true,
+          "error": null
+        },
+        {
+          "module": "genomics_lab",
+          "ok": true,
+          "error": null
+        }
+      ],
+      "ok": 12,
+      "n": 15
+    },
+    "ast": {
+      "suspects": [
+        {
+          "file": "neural_networks_lab.py",
+          "np_random_or_random": 90,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "optimization_theory_lab.py",
+          "np_random_or_random": 38,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/medical/stem_cell_predictor.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/medical/tumor_simulation.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/biology/genomics_lab/genomics_lab.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "natural_language_processing_lab.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "genetics_lab.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "computer_vision_lab.py",
+          "np_random_or_random": 20,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "machine_learning_lab.py",
+          "np_random_or_random": 18,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/biology/neuroscience_lab/neuroscience_lab.py",
+          "np_random_or_random": 16,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/medical/oncology_lab/tumor_simulator.py",
+          "np_random_or_random": 16,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "genomics_lab.py",
+          "np_random_or_random": 16,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/biology/structural_biology_lab/structural_biology_engine.py",
+          "np_random_or_random": 14,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/chemistry/chemistry_lab/quantum_chemistry_interface.py",
+          "np_random_or_random": 14,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "computational_chemistry_lab.py",
+          "np_random_or_random": 14,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "benchmark.py",
+          "np_random_or_random": 14,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "pharmacology_lab.py",
+          "np_random_or_random": 14,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "ecology_lab.py",
+          "np_random_or_random": 14,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/biology/evolutionary_biology.py",
+          "np_random_or_random": 12,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/biology/metabolomics.py",
+          "np_random_or_random": 10,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/engineering/materials_lab/material_designer.py",
+          "np_random_or_random": 10,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/medical/cardiology_lab/cardiology_lab.py",
+          "np_random_or_random": 10,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/medical/oncology_lab/expand_trial_data.py",
+          "np_random_or_random": 10,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/cs/computational_neuroscience.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/cs/machine_learning.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/biology/epigenetics.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/physics/signal_processing.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/quantum/biological_quantum/hardware/coherence_protection.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/quantum/biological_quantum/algorithms/thermal_noise_sampling.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "benchmark_gd.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "benchmark_sgd.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "benchmark_rf.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "benchmark_cv.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "test_rf_opt.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "signal_processing_lab.py",
+          "np_random_or_random": 8,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/quantum/biological_quantum/core/quantum_state.py",
+          "np_random_or_random": 4,
+          "sleep": 0,
+          "not_implemented": 3
+        }
+      ],
+      "n": 36
+    },
+    "hail": {
+      "metrics": {
+        "accuracy": 1.0,
+        "auc": 1.0,
+        "n_test": 100
+      },
+      "accuracy": 1.0,
+      "n": 400
+    }
+  },
+  "summary": {
+    "n_checks": 81,
+    "passed": 52,
+    "failed": 29,
+    "by_severity": {
+      "vaporware": 14,
+      "real": 52,
+      "warn": 2,
+      "fail": 13
+    },
+    "by_category": {
+      "clinical": {
+        "n": 5,
+        "passed": 3
+      },
+      "electrical": {
+        "n": 6,
+        "passed": 2
+      },
+      "fjh": {
+        "n": 6,
+        "passed": 3
+      },
+      "hail": {
+        "n": 2,
+        "passed": 1
+      },
+      "imports": {
+        "n": 15,
+        "passed": 12
+      },
+      "inventory": {
+        "n": 2,
+        "passed": 0
+      },
+      "materials": {
+        "n": 28,
+        "passed": 22
+      },
+      "mechanics": {
+        "n": 3,
+        "passed": 1
+      },
+      "physics": {
+        "n": 10,
+        "passed": 8
+      },
+      "plasma": {
+        "n": 1,
+        "passed": 0
+      },
+      "portfolio": {
+        "n": 2,
+        "passed": 0
+      },
+      "vaporware": {
+        "n": 1,
+        "passed": 0
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "6.6M materials file exists in repo",
+      "category": "inventory",
+      "passed": false,
+      "detail": "/workspace/data/materials_db_expanded.json is missing. The 14.25 GB / 6,609,495-material claim is not reproducible from this checkout. Only a 6.4K proof JSON remains.",
+      "expected": "data/materials_db_expanded.json (~14 GB)",
+      "actual": "absent",
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "6.6M proof file samples real alloy grades",
+      "category": "inventory",
+      "passed": false,
+      "detail": "Proof samples include fabricated names such as 'Steel 8680', 'Al 5250/Steel 1012_40vol%', 'Glass 119/Nickel Alloy 18_80vol%'. These are combinatorial inventions, not handbook materials.",
+      "expected": "real alloy designations",
+      "actual": [
+        "Al 1260/Al 5050_20vol%",
+        "Al 5250/Steel 1012_40vol%",
+        "Steel 8680/Al 6240_15vol%",
+        "Nickel Alloy 33/Al 6280_20vol%",
+        "Glass 119/Nickel Alloy 18_80vol%"
+      ],
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "Base materials_db.json count",
+      "category": "materials",
+      "passed": true,
+      "detail": "Base JSON contains 1059 named records (not 6.6M).",
+      "expected": "~1000 well-curated records",
+      "actual": 1059,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "Critical properties filled in base DB",
+      "category": "materials",
+      "passed": false,
+      "detail": "2593 zero/missing critical fields across 1059 materials. Worst: [('specific_heat', 1037), ('electrical_resistivity', 1037), ('yield_strength', 256), ('tensile_strength', 151), ('melting_point', 107)]",
+      "expected": "handbook-complete records for density/E/k/cp/resistivity",
+      "actual": {
+        "specific_heat": 1037,
+        "electrical_resistivity": 1037,
+        "yield_strength": 256,
+        "melting_point": 107,
+        "tensile_strength": 151,
+        "thermal_conductivity": 5
+      },
+      "error_pct": null,
+      "severity": "warn"
+    },
+    {
+      "name": "SS 304.density vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=8000, handbook=8000, tol=2.0%. Value matches a typical handbook number.",
+      "expected": 8000,
+      "actual": 8000,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "SS 304.youngs_modulus vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=193, handbook=193, tol=3.0%. Value matches a typical handbook number.",
+      "expected": 193,
+      "actual": 193,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "SS 304.yield_strength vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=300, handbook=215, tol=40.0%. Value matches a typical handbook number.",
+      "expected": 215,
+      "actual": 300,
+      "error_pct": 39.53488372093023,
+      "severity": "real"
+    },
+    {
+      "name": "SS 304.tensile_strength vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=600, handbook=515, tol=20.0%. Value matches a typical handbook number.",
+      "expected": 515,
+      "actual": 600,
+      "error_pct": 16.50485436893204,
+      "severity": "real"
+    },
+    {
+      "name": "SS 304.thermal_conductivity vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=16, handbook=16.2, tol=10.0%. Value matches a typical handbook number.",
+      "expected": 16.2,
+      "actual": 16,
+      "error_pct": 1.2345679012345634,
+      "severity": "real"
+    },
+    {
+      "name": "SS 304.specific_heat vs handbook",
+      "category": "materials",
+      "passed": false,
+      "detail": "Stored 0; handbook 500. Cannot run FJH/thermal math with a missing specific_heat.",
+      "expected": 500,
+      "actual": 0,
+      "error_pct": 100.0,
+      "severity": "fail"
+    },
+    {
+      "name": "SS 304.electrical_resistivity vs handbook",
+      "category": "materials",
+      "passed": false,
+      "detail": "Stored 0; handbook 7.2e-07. Cannot run FJH/thermal math with a missing electrical_resistivity.",
+      "expected": 7.2e-07,
+      "actual": 0,
+      "error_pct": 100.0,
+      "severity": "fail"
+    },
+    {
+      "name": "SS 304.elongation_at_break vs handbook",
+      "category": "materials",
+      "passed": false,
+      "detail": "Stored 0; handbook 40.0. Cannot run FJH/thermal math with a missing elongation_at_break.",
+      "expected": 40.0,
+      "actual": 0,
+      "error_pct": 100.0,
+      "severity": "fail"
+    },
+    {
+      "name": "Al 6061-T6.density vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=2700, handbook=2700, tol=2.0%. Value matches a typical handbook number.",
+      "expected": 2700,
+      "actual": 2700,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Al 6061-T6.youngs_modulus vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=68.9, handbook=68.9, tol=3.0%. Value matches a typical handbook number.",
+      "expected": 68.9,
+      "actual": 68.9,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Al 6061-T6.yield_strength vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=276, handbook=276, tol=10.0%. Value matches a typical handbook number.",
+      "expected": 276,
+      "actual": 276,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Al 6061-T6.tensile_strength vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=310, handbook=310, tol=10.0%. Value matches a typical handbook number.",
+      "expected": 310,
+      "actual": 310,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Al 6061-T6.thermal_conductivity vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=167, handbook=167, tol=8.0%. Value matches a typical handbook number.",
+      "expected": 167,
+      "actual": 167,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Al 6061-T6.specific_heat vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=896, handbook=896, tol=8.0%. Value matches a typical handbook number.",
+      "expected": 896,
+      "actual": 896,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Ti-6Al-4V.density vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=4430, handbook=4430, tol=2.0%. Value matches a typical handbook number.",
+      "expected": 4430,
+      "actual": 4430,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Ti-6Al-4V.youngs_modulus vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=113.8, handbook=113.8, tol=5.0%. Value matches a typical handbook number.",
+      "expected": 113.8,
+      "actual": 113.8,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Ti-6Al-4V.tensile_strength vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=1100, handbook=950, tol=20.0%. Value matches a typical handbook number.",
+      "expected": 950,
+      "actual": 1100,
+      "error_pct": 15.789473684210526,
+      "severity": "real"
+    },
+    {
+      "name": "Ti-6Al-4V.thermal_conductivity vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=6.7, handbook=6.7, tol=15.0%. Value matches a typical handbook number.",
+      "expected": 6.7,
+      "actual": 6.7,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Silicon Carbide.density vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=3210, handbook=3210, tol=3.0%. Value matches a typical handbook number.",
+      "expected": 3210,
+      "actual": 3210,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Silicon Carbide.youngs_modulus vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=410, handbook=410, tol=10.0%. Value matches a typical handbook number.",
+      "expected": 410,
+      "actual": 410,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Silicon Carbide.thermal_conductivity vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=120, handbook=120, tol=25.0%. Value matches a typical handbook number.",
+      "expected": 120,
+      "actual": 120,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Silicon Carbide.melting_point vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=3003, handbook=3003, tol=2.0%. Value matches a typical handbook number.",
+      "expected": 3003,
+      "actual": 3003,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Silicon Carbide.specific_heat vs handbook",
+      "category": "materials",
+      "passed": true,
+      "detail": "stored=750, handbook=670, tol=20.0%. Value matches a typical handbook number.",
+      "expected": 670,
+      "actual": 750,
+      "error_pct": 11.940298507462686,
+      "severity": "real"
+    },
+    {
+      "name": "Copper present in base DB",
+      "category": "materials",
+      "passed": false,
+      "detail": "Material missing from materials_db.json",
+      "expected": "Copper",
+      "actual": null,
+      "error_pct": null,
+      "severity": "fail"
+    },
+    {
+      "name": "Self-compare '0.0% error' tables are not validation",
+      "category": "materials",
+      "passed": false,
+      "detail": "docs/materials README reports 0.0% error for SS304 density/E/yield by comparing the database to itself. That is a lookup identity, not a prediction or experimental validation.",
+      "expected": "independent experimental or handbook comparison",
+      "actual": "stored == stored",
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "MaterialsDatabase loader works",
+      "category": "materials",
+      "passed": true,
+      "detail": "Loader assembled 1619 materials from base + expansion files.",
+      "expected": ">= 1000",
+      "actual": 1619,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "TensileTest compatible with NumPy 2 (np.trapz)",
+      "category": "mechanics",
+      "passed": false,
+      "detail": "material_testing.py calls np.trapz, removed in NumPy 2.0. Tensile tests crash on the current interpreter unless patched.",
+      "expected": "np.trapezoid or numpy<2",
+      "actual": "np.trapz",
+      "error_pct": null,
+      "severity": "fail"
+    },
+    {
+      "name": "Tensile elastic region follows Hooke's law",
+      "category": "mechanics",
+      "passed": "True",
+      "detail": "Max relative error in elastic region 0.0000%. This is a real constitutive model.",
+      "expected": "<1%",
+      "actual": 0.0,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Tensile strain_rate actually changes the curve",
+      "category": "mechanics",
+      "passed": false,
+      "detail": "strain_rate is accepted and written into notes, but the stress-strain curve is identical at 0.001/s and 100/s. Rate-sensitive FJH / impact work cannot use this.",
+      "expected": "rate-dependent curve",
+      "actual": "identical curves",
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "CODATA constant c",
+      "category": "physics",
+      "passed": true,
+      "detail": "stored=299792458.0, CODATA2018=299792458.0",
+      "expected": 299792458.0,
+      "actual": 299792458.0,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "CODATA constant h",
+      "category": "physics",
+      "passed": true,
+      "detail": "stored=6.62607015e-34, CODATA2018=6.62607015e-34",
+      "expected": 6.62607015e-34,
+      "actual": 6.62607015e-34,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "CODATA constant k_B",
+      "category": "physics",
+      "passed": true,
+      "detail": "stored=1.380649e-23, CODATA2018=1.380649e-23",
+      "expected": 1.380649e-23,
+      "actual": 1.380649e-23,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "CODATA constant e",
+      "category": "physics",
+      "passed": true,
+      "detail": "stored=1.602176634e-19, CODATA2018=1.602176634e-19",
+      "expected": 1.602176634e-19,
+      "actual": 1.602176634e-19,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "CODATA constant sigma",
+      "category": "physics",
+      "passed": true,
+      "detail": "stored=5.670374419e-08, CODATA2018=5.670374419e-08",
+      "expected": 5.670374419e-08,
+      "actual": 5.670374419e-08,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "Free-fall vs 0.5 g t^2",
+      "category": "physics",
+      "passed": true,
+      "detail": "z_actual=5.0967 m, z_expected=5.0967 m",
+      "expected": 5.096675,
+      "actual": 5.096675000000059,
+      "error_pct": 1.1501572240766433e-12,
+      "severity": "real"
+    },
+    {
+      "name": "Thermodynamics conduction_boost is physical",
+      "category": "physics",
+      "passed": false,
+      "detail": "conduction_boost=1.2. Fourier conduction is scaled 20% hot, so heat-flow timescales are not first-principles.",
+      "expected": 1.0,
+      "actual": 1.2,
+      "error_pct": 19.999999999999996,
+      "severity": "warn"
+    },
+    {
+      "name": "Thermodynamics latent_heat_relaxation is physical",
+      "category": "physics",
+      "passed": false,
+      "detail": "latent_heat_relaxation=0.149. Only ~15% of real latent heat is consumed. Phase-change energy balances are wrong by ~6.7x. This matters for FJH melt/vapor events.",
+      "expected": 1.0,
+      "actual": 0.149,
+      "error_pct": 85.1,
+      "severity": "fail"
+    },
+    {
+      "name": "Lumped energy balance m cp dT = Q dt",
+      "category": "physics",
+      "passed": true,
+      "detail": "dT=1.000 K, expected=1.000 K, cp=4186.0",
+      "expected": 0.9995222169135213,
+      "actual": 0.9995222169135332,
+      "error_pct": 1.1885064846454513e-12,
+      "severity": "real"
+    },
+    {
+      "name": "Coulomb force 1 \u00b5C at 1 m",
+      "category": "physics",
+      "passed": true,
+      "detail": "|F|=0.0090 N, expected=0.0090 N",
+      "expected": 0.008987551792299998,
+      "actual": 0.00898755179226117,
+      "error_pct": 4.3202327463697817e-10,
+      "severity": "real"
+    },
+    {
+      "name": "electrical.py imports",
+      "category": "electrical",
+      "passed": false,
+      "detail": "TypeError: non-default argument 'capacity' follows default argument. Battery.capacity is a required field after VoltageSource.internal_resistance default \u2014 the module cannot load.",
+      "expected": "imports",
+      "actual": "non-default argument 'capacity' follows default argument",
+      "error_pct": null,
+      "severity": "fail"
+    },
+    {
+      "name": "calculate_resistance(12 V, 3 A) == 4 ohm",
+      "category": "electrical",
+      "passed": true,
+      "detail": "helper returns 4.0",
+      "expected": 4.0,
+      "actual": 4.0,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "simulate_circuit uses Ohm's law correctly",
+      "category": "electrical",
+      "passed": false,
+      "detail": "simulate_circuit calls calculate_resistance(R, I) which computes R/I, not I*R. Voltage drop for a 1000 ohm / 2 A resistor is reported as 500 V instead of 2000 V. This lab cannot diagnose FJH wiring.",
+      "expected": "V = I*R",
+      "actual": "V = R/I",
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "Capacitor branch of simulate_circuit runs",
+      "category": "electrical",
+      "passed": false,
+      "detail": "Capacitor path computes 1/(2\u03c0\u221a(C L)) and reads component.inductance, which Capacitor does not define. Even if the module imported, a capacitor in the netlist would AttributeError. No E=0.5 C V^2 model.",
+      "expected": "RC energy E=0.5 C V^2",
+      "actual": "reads missing inductance; module also fails to import",
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "P = I^2 R for 3 A through 4 ohm",
+      "category": "electrical",
+      "passed": "True",
+      "detail": "helper returns 36.0 W",
+      "expected": 36.0,
+      "actual": 36.0,
+      "error_pct": 0.0,
+      "severity": "real"
+    },
+    {
+      "name": "section electrical crashed",
+      "category": "electrical",
+      "passed": false,
+      "detail": "NameError: name 'cap_crash' is not defined",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "fail"
+    },
+    {
+      "name": "Plasma frequency formula vs \u03c9_pe = sqrt(n e^2 / \u03b50 m_e)",
+      "category": "plasma",
+      "passed": "False",
+      "detail": "code=1.1366e+19, textbook=5.6415e+11. Formula uses sqrt(n * \u03bc0^2 / (\u03b50 kT)) \u2014 not a plasma frequency.",
+      "expected": 564146023118.0626,
+      "actual": 1.1365638995918047e+19,
+      "error_pct": 2014662510.417708,
+      "severity": "vaporware"
+    },
+    {
+      "name": "qSOFA classic positive case (RR24, SBP88, GCS13)",
+      "category": "clinical",
+      "passed": true,
+      "detail": "score=3. Thresholds RR>=22, SBP<=100, GCS<15 match Sepsis-3.",
+      "expected": 3,
+      "actual": 3,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "qSOFA classic negative case",
+      "category": "clinical",
+      "passed": true,
+      "detail": "score=0",
+      "expected": 0,
+      "actual": 0,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "Kidney function module imports",
+      "category": "clinical",
+      "passed": false,
+      "detail": "NameError: name 'Optional' is not defined (Optional used without typing import)",
+      "expected": "imports",
+      "actual": "NameError: name 'Optional' is not defined",
+      "error_pct": null,
+      "severity": "fail"
+    },
+    {
+      "name": "CKD-EPI 2021 equation as written is the NEJM 2021 form",
+      "category": "clinical",
+      "passed": true,
+      "detail": "Hand-evaluated from kidney_function.py source: 68.63. The math is right. The file cannot be imported.",
+      "expected": "66-70",
+      "actual": 68.63349665880087,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "Medical labs are 100% clinically accurate oracles",
+      "category": "clinical",
+      "passed": false,
+      "detail": "README claims '10 production-grade medical diagnostic labs with 100% clinical accuracy' and 'zero fake data, zero flaws'. qSOFA/CKD-EPI are correctly coded scoring equations, not diagnostic models. They cannot replace labs, imaging, or a clinician. SOFA uses SpO2 as a PaO2/FiO2 proxy.",
+      "expected": "honest 'implements published scores'",
+      "actual": "100% clinical accuracy / zero flaws",
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "FJH energy budget for 1 g Si/C to 2500 C at 150 V",
+      "category": "fjh",
+      "passed": true,
+      "detail": "Need ~2800 J. C_needed=249 mF at 150 V. FLASH-CARBIDE lists 150 V / 500 ms but never specifies capacitance, sample mass, or lead resistance. The digital twin is not complete.",
+      "expected": "protocol with C, m, R_lead",
+      "actual": {
+        "E_need_J": 2799.689535614525,
+        "C_mF": 248.86129205462444,
+        "pulse_s": 0.5
+      },
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "Wiring resistance can steal the FJH pulse",
+      "category": "fjh",
+      "passed": true,
+      "detail": "50 m\u03a9 leads: T\u22483484 K, 80% in sample. 2 \u03a9 crimp: T\u2248660 K, 9% in sample. This is exactly the diagnosis you said the platform helped you find. The physics is real. The electrical.py lab cannot compute it.",
+      "expected": "sample heating sensitive to R_lead",
+      "actual": {
+        "tight_contacts_50mohm_leads": {
+          "R_wire_ohm": 0.05,
+          "energy_in_sample_J": 2239.75162849162,
+          "energy_fraction_in_sample": 0.8,
+          "adiabatic_T_K": 3484.0110558971396,
+          "peak_current_A": 600.0,
+          "reaches_2500C": true
+        },
+        "loose_or_long_leads_500mohm": {
+          "R_wire_ohm": 0.5,
+          "energy_in_sample_J": 799.9112958898644,
+          "energy_fraction_in_sample": 0.28571428571428575,
+          "adiabatic_T_K": 1435.8610913918355,
+          "peak_current_A": 214.2857142857143,
+          "reaches_2500C": false
+        },
+        "bad_crimp_2ohm": {
+          "R_wire_ohm": 2.0,
+          "energy_in_sample_J": 254.51723051041137,
+          "energy_fraction_in_sample": 0.09090909090909091,
+          "adiabatic_T_K": 660.0467108974021,
+          "peak_current_A": 68.18181818181817,
+          "reaches_2500C": false
+        }
+      },
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "SS 304 electrode properties usable for FJH lead-loss calc",
+      "category": "fjh",
+      "passed": false,
+      "detail": "SS 304 specific_heat=0, electrical_resistivity=0. Both are 0 in the base DB, so a steel-busbar I\u00b2R / thermal-mass calculation cannot be done from a lookup.",
+      "expected": {
+        "specific_heat": 500,
+        "electrical_resistivity": 7.2e-07
+      },
+      "actual": {
+        "specific_heat": 0,
+        "electrical_resistivity": 0
+      },
+      "error_pct": null,
+      "severity": "fail"
+    },
+    {
+      "name": "SiC product card is handbook-plausible",
+      "category": "fjh",
+      "passed": true,
+      "detail": "density=3210, mp=3003 K, k=120, cp=750. Useful as a product-property card. Not a reactor model.",
+      "expected": "density~3210, mp~3003 K",
+      "actual": {
+        "density": 3210,
+        "melting_point": 3003
+      },
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "Dedicated flash-joule reactor module exists",
+      "category": "fjh",
+      "passed": false,
+      "detail": "No FJH / capacitor-discharge reactor simulator in QuLabInfinite. Token hits: ['scripts/honest_assessment_experiments.py']. The materials repo FLASH-CARBIDE folder is markdown only \u2014 SYNTHESIS.md is a two-line stub.",
+      "expected": "RC discharge + joule heating + sample R(T) model",
+      "actual": [
+        "scripts/honest_assessment_experiments.py"
+      ],
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "FLASH-CARBIDE synthesis protocol is executable",
+      "category": "fjh",
+      "passed": false,
+      "detail": "SYNTHESIS.md is 81 chars / 2 lines. Not a lab procedure.",
+      "expected": "step-by-step masses, C, PPE, quench",
+      "actual": "# SYNTHESIS PROCEDURE\n## FLASH-CARBIDE \u2014 SiC nanowires via FJH of Si/C precursor",
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "22-material portfolio has executable synthesis procedures",
+      "category": "portfolio",
+      "passed": false,
+      "detail": "22/22 SYNTHESIS.md files are stubs. Examples: ['01-TITAN-WEAVE', '02-FLASH-CARBIDE', '03-BONE-SPARK', '04-IRON-GATE', '05-GREEN-FIRE', '06-VOLT-SHIELD', '07-CRYO-SEAL', '08-PHOTO-MESH']. These are pitch decks, not lab notebooks.",
+      "expected": "0 stub protocols",
+      "actual": [
+        "01-TITAN-WEAVE",
+        "02-FLASH-CARBIDE",
+        "03-BONE-SPARK",
+        "04-IRON-GATE",
+        "05-GREEN-FIRE",
+        "06-VOLT-SHIELD",
+        "07-CRYO-SEAL",
+        "08-PHOTO-MESH",
+        "09-NEURO-GEL",
+        "10-HEAT-TRAP",
+        "11-VOLT-SILK",
+        "12-QUANTUM-CAP",
+        "13-AERO-SPINE",
+        "14-FLEX-LATTICE",
+        "15-THERMO-CATCH",
+        "16-NOVA-CELL",
+        "17-BIO-WEAVE",
+        "18-EARTH-WRAP",
+        "19-ROOM-LOCK",
+        "20-MEMORY-X",
+        "21-FORCE-HARVEST",
+        "22-CRYO-WEAVE"
+      ],
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "Portfolio NPV $4.7B\u2013$14B is empirically grounded",
+      "category": "portfolio",
+      "passed": false,
+      "detail": "INDEX.md assigns $4.7B\u2013$14B NPV and 78\u201396% 'ECH0 scores' to 22 compositions. ROOM-LOCK is a 185 GPa predicted hydride (not a product). FLASH-CARBIDE Year-10 conservative revenue is $0.4M in the same folder that claims $180\u2013400M NPV. The numbers are not a financial model.",
+      "expected": "discounted cash flow from measured data",
+      "actual": "$4.7B\u2013$14B headline",
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "import qulab.engines.physics",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import qulab.labs.engineering.electrical",
+      "category": "imports",
+      "passed": false,
+      "detail": "TypeError: non-default argument 'capacity' follows default argument",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "fail"
+    },
+    {
+      "name": "import qulab.labs.engineering.materials_lab.materials_database",
+      "category": "imports",
+      "passed": false,
+      "detail": "ImportError: cannot import name 'MaterialsLab' from 'qulab.labs.engineering.materials_lab.materials_lab' (/workspace/qulab/labs/engineering/materials_lab/materials_lab/__init__.py)",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "fail"
+    },
+    {
+      "name": "import qulab.labs.physics.plasma",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import qulab.labs.medical.sepsis_warning",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import qulab.labs.medical.kidney_function",
+      "category": "imports",
+      "passed": false,
+      "detail": "NameError: name 'Optional' is not defined",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "fail"
+    },
+    {
+      "name": "import qulab.labs.medical.oncology_lab.oncology_lab",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import qulab.labs.physics.nuclear_physics_lab.nuclear_lab",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import qulab.labs.engineering.renewable_energy_lab.renewable_core",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import hail_model.predict",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import thermodynamics_lab",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import fluid_dynamics_lab",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import quantum_computing_lab",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import pharmacology_lab",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "import genomics_lab",
+      "category": "imports",
+      "passed": true,
+      "detail": "imports",
+      "expected": null,
+      "actual": null,
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "AST scan for random/sleep/NotImplemented labs",
+      "category": "vaporware",
+      "passed": false,
+      "detail": "36 modules look like demo/placeholder science.",
+      "expected": "<5",
+      "actual": [
+        {
+          "file": "neural_networks_lab.py",
+          "np_random_or_random": 90,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "optimization_theory_lab.py",
+          "np_random_or_random": 38,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/medical/stem_cell_predictor.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/medical/tumor_simulation.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/biology/genomics_lab/genomics_lab.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "natural_language_processing_lab.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "genetics_lab.py",
+          "np_random_or_random": 24,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "computer_vision_lab.py",
+          "np_random_or_random": 20,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "machine_learning_lab.py",
+          "np_random_or_random": 18,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/biology/neuroscience_lab/neuroscience_lab.py",
+          "np_random_or_random": 16,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/medical/oncology_lab/tumor_simulator.py",
+          "np_random_or_random": 16,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "genomics_lab.py",
+          "np_random_or_random": 16,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/biology/structural_biology_lab/structural_biology_engine.py",
+          "np_random_or_random": 14,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "qulab/labs/chemistry/chemistry_lab/quantum_chemistry_interface.py",
+          "np_random_or_random": 14,
+          "sleep": 0,
+          "not_implemented": 0
+        },
+        {
+          "file": "computational_chemistry_lab.py",
+          "np_random_or_random": 14,
+          "sleep": 0,
+          "not_implemented": 0
+        }
+      ],
+      "error_pct": null,
+      "severity": "vaporware"
+    },
+    {
+      "name": "Hail XGBoost trains on synthetic data",
+      "category": "hail",
+      "passed": true,
+      "detail": "Trainer returned metrics={'accuracy': 1.0, 'auc': 1.0, 'n_test': 100}. This is a real ML pipeline. It is not evidence of skill on real NEXRAD / storm reports.",
+      "expected": "trained booster + metrics dict",
+      "actual": {
+        "accuracy": 1.0,
+        "auc": 1.0,
+        "n_test": 100
+      },
+      "error_pct": null,
+      "severity": "real"
+    },
+    {
+      "name": "Hail model validated on held-out real storms",
+      "category": "hail",
+      "passed": false,
+      "detail": "Training and tests use generate_synthetic_data(). High accuracy on data the generator labeled is circular. No SPC/NEXRAD holdout in-repo.",
+      "expected": "real storm reports",
+      "actual": "synthetic labels",
+      "error_pct": null,
+      "severity": "vaporware"
+    }
+  ]
+}
