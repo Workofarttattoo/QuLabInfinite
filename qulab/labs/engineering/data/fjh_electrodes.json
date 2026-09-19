@@ -1,0 +1,81 @@
+{
+  "_comment": "Handbook room-temperature cards for FJH electrodes, bus, and typical pellets. Not a 6.6M database. Resistivity and cp are the fields that decide I2R and ΔT. Sources: ASM Handbook / MatWeb typical values.",
+  "Copper": {
+    "name": "Copper",
+    "role": "bus / electrode",
+    "density": 8960.0,
+    "specific_heat": 385.0,
+    "thermal_conductivity": 401.0,
+    "electrical_resistivity": 1.68e-8,
+    "melting_point": 1358.0,
+    "emissivity": 0.03,
+    "source": "ASM / MatWeb C11000 typical, 293 K"
+  },
+  "SS 304": {
+    "name": "SS 304",
+    "role": "electrode / vessel",
+    "density": 8000.0,
+    "specific_heat": 500.0,
+    "thermal_conductivity": 16.2,
+    "electrical_resistivity": 7.2e-7,
+    "melting_point": 1673.0,
+    "emissivity": 0.40,
+    "source": "ASM austenitic 304 typical, 293 K"
+  },
+  "Graphite": {
+    "name": "Graphite",
+    "role": "electrode / felt",
+    "density": 2260.0,
+    "specific_heat": 710.0,
+    "thermal_conductivity": 120.0,
+    "electrical_resistivity": 1.0e-5,
+    "melting_point": 3800.0,
+    "emissivity": 0.80,
+    "source": "Typical polycrystalline graphite; k and ρ vary strongly with grade and T"
+  },
+  "Tungsten": {
+    "name": "Tungsten",
+    "role": "electrode",
+    "density": 19300.0,
+    "specific_heat": 132.0,
+    "thermal_conductivity": 173.0,
+    "electrical_resistivity": 5.6e-8,
+    "melting_point": 3695.0,
+    "emissivity": 0.35,
+    "source": "CRC / ASM W typical, 293 K"
+  },
+  "Silicon": {
+    "name": "Silicon",
+    "role": "FLASH-CARBIDE precursor",
+    "density": 2330.0,
+    "specific_heat": 700.0,
+    "thermal_conductivity": 148.0,
+    "electrical_resistivity": 6.4e2,
+    "melting_point": 1687.0,
+    "latent_heat_fusion": 1.787e6,
+    "emissivity": 0.60,
+    "source": "CRC Si; resistivity is intrinsic-ish and not a pellet R"
+  },
+  "Carbon": {
+    "name": "Carbon (graphite-like)",
+    "role": "FLASH-CARBIDE precursor / carbon black path",
+    "density": 2260.0,
+    "specific_heat": 710.0,
+    "thermal_conductivity": 80.0,
+    "electrical_resistivity": 1.5e-5,
+    "melting_point": 3800.0,
+    "emissivity": 0.85,
+    "source": "Compacted carbon; pellet R is usually contact-dominated, not this bulk ρ"
+  },
+  "Silicon Carbide": {
+    "name": "Silicon Carbide",
+    "role": "FLASH-CARBIDE product card",
+    "density": 3210.0,
+    "specific_heat": 750.0,
+    "thermal_conductivity": 120.0,
+    "electrical_resistivity": 1.0e5,
+    "melting_point": 3003.0,
+    "emissivity": 0.80,
+    "source": "Sintered SiC typical; semiconducting/doped SiC can be much more conductive"
+  }
+}
